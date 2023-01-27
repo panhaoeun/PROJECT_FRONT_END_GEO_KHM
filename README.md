@@ -1,6 +1,6 @@
 # webapp
 
-![Example](example.png)
+![Example](src/assets/logo.png)
 
 ## Project setup
 ```
