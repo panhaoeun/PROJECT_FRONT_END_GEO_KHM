@@ -44,7 +44,6 @@ import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdo
 import "../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css"
 import "../node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css"
 import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css"
-import './assets/tailwind.css'
 
 import routes from "./routes/index.js";
 
