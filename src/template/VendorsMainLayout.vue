@@ -13,8 +13,8 @@
 
         <section class="content">
           <div class="container-fluid">
-           <router-view/>
-           <!-- <ExampleForm/> -->
+            <!-- Routers Views -->
+               <router-view/>
           </div>
         </section>
       </div>
@@ -38,9 +38,7 @@ import ControlSidebar from "../dashboard/ControlSidebar.vue";
 export default {
   name: "MainLayout",
   components: {
-    
     ContentHeader,
-   
     Navbar,
     Sidebar,
     Footer,

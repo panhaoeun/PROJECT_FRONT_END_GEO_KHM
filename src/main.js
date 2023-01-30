@@ -9,7 +9,6 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {faFacebook, faGooglePlus} from '@fortawesome/free-brands-svg-icons';
 
-
 //import adminlte scripts
 import "../node_modules/admin-lte/dist/js/adminlte.min.js"
 import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
@@ -31,8 +30,6 @@ import "../node_modules/admin-lte/plugins/inputmask/jquery.inputmask.min.js"
 import "../node_modules/admin-lte/plugins/bootstrap-switch/js/bootstrap-switch.min.js"
 import "../node_modules/admin-lte/plugins/bs-stepper/js/bs-stepper.min.js"
 import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.js"
-
-
 //import adminlte styles
 import '../node_modules/admin-lte/dist/css/adminlte.min.css'
 import "../node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
@@ -44,14 +41,15 @@ import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdo
 import "../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css"
 import "../node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css"
 import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css"
-import './assets/tailwind.css'
-
-import routes from "./routes/index.js";
-
+/* @Routes */
+import routes from "./routes/routes";
 library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
 dom.watch()
-
-const app = createApp(App)
-app.use(routes)
-app.component("font-awesome-icon", FontAwesomeIcon)
+/* @Prime Vue*/ 
+import PrimeVue from 'primevue/config';
+const app = createApp(App);
+/* @Routers */
+app.use(routes);
+app.use(PrimeVue, {ripple: true});
+app.component("font-awesome-icon", FontAwesomeIcon);
 app.mount('#app')
