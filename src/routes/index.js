@@ -9,6 +9,7 @@ import home from "../views/HomeView.vue";
 
 const routes = [
   {
+    // dashboard
     path: "/",
     name: "mainlayout",
     component: () => import("../layouts/MainLayout.vue"),
@@ -23,24 +24,29 @@ const routes = [
         component: home,
       },
       {
-        path:'/category', 
-        component:()=> import('../views/category/CategoryView.vue'),
+        path: "/category",
+        component: () => import("../views/category/CategoryView.vue"),
       },
       {
         path: "/user",
-        name:'user',
+        name: "user",
         component: () => import("../views/users/UserListView.vue"),
       },
       {
         path: "/product",
-        name:'product',
+        name: "product",
         component: () => import("../views/products/ProductView.vue"),
       },
       {
-        path:'/profile',
-        component:()=> import('../views/setting/ProfileView.vue'),
-      }
+        path: "/profile",
+        component: () => import("../views/setting/ProfileView.vue"),
+      },
     ],
+  },
+  // login
+  {
+    path: "/login",
+    component: () => import("../views/authentication/LoginView.vue"),
   },
 ];
 
