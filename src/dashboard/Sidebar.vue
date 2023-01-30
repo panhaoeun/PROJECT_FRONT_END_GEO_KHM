@@ -1,6 +1,6 @@
 <template>
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4 fixed-top fixed-bottom ">
     <!-- Brand Logo -->
     <a href="/" class="brand-link flex">
       <img

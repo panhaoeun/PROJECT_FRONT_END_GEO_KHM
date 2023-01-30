@@ -5,12 +5,12 @@
        
       <!-- <Preloader></Preloader> -->
       <Navbar></Navbar>
-      <Sidebar></Sidebar>
+      <Sidebar class="fixed-top"></Sidebar>
+      <ContentHeader></ContentHeader>
 
       <div class="content-wrapper">
         
-        <ContentHeader></ContentHeader>
-
+       
         <section class="content">
           <div class="container-fluid">
            <router-view/>
