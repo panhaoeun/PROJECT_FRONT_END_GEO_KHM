@@ -40,16 +40,25 @@ import "../node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.
 import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
 import "../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css"
 import "../node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css"
-import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css"
+import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css";
+// Import Style
+import "./assets/styles/style.css"
 /* @Routes */
 import routes from "./routes/routes";
 library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
 dom.watch()
 /* @Prime Vue*/ 
 import PrimeVue from 'primevue/config';
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
+
+
+
 const app = createApp(App);
 /* @Routers */
 app.use(routes);
-app.use(PrimeVue, {ripple: true});
+app.use(PrimeVue, { ripple: true });
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.component('InputText', InputText);
+app.component('Button', Button);
 app.mount('#app')

@@ -2,7 +2,6 @@
     <!--Header-->
     <Header></Header>
     <!--Navbar-->
-    
 </template>
 
 <!-- Export NavagationBar -->
