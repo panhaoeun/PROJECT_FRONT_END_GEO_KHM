@@ -48,17 +48,19 @@ import routes from "./routes/routes";
 library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
 dom.watch()
 /* @Prime Vue*/ 
-// import PrimeVue from 'primevue/config';
-// import InputText from 'primevue/inputtext';
-// import Button from 'primevue/button';
+import './assets/primeflex.scss';
+import "primevue/resources/themes/saga-blue/theme.css";
+import PrimeVue from 'primevue/config';
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 
 
 
 const app = createApp(App);
 /* @Routers */
 app.use(routes);
-// app.use(PrimeVue, { ripple: true });
+app.use(PrimeVue, { ripple: true });
 app.component("font-awesome-icon", FontAwesomeIcon);
-// app.component('InputText', InputText);
-// app.component('Button', Button);
+app.component('InputText', InputText);
+app.component('Button', Button);
 app.mount('#app')
