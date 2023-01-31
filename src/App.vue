@@ -2,6 +2,9 @@
 <template>
    <CusMainLayout v-if="$route.meta.template == 'website'"/>
    <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
+   <!-- Authencation -->
+   <Login v-if="$route.meta.template == 'authencation-login'"/>
+   <Register v-if="$route.meta.template == 'authencation-register'"/>
 </template>
 
 <!-- Config Style -->
@@ -12,6 +15,9 @@
 <script>
     import VendorsMainLayout from '../src/template/VendorsMainLayout.vue';
     import CusMainLayout from './template/CusMainLayout.vue';
+    // Authencation 
+    import Login from './views/authencation/AuthLogin.vue';
+    import Register from './views/authencation/AuthRegister.vue';
     export default {
         computed:{
             currentTemplate(){
@@ -20,7 +26,9 @@
         },
         components : {
           CusMainLayout,
-          VendorsMainLayout 
+          VendorsMainLayout,
+          Login,
+          Register
         }
   }
 </script>
