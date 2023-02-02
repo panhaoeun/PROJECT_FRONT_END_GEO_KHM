@@ -61,6 +61,9 @@ import TabPanel from "primevue/tabpanel";
 import TabView from "primevue/tabview";
 import Avatar from 'primevue/avatar';
 import Ripple from 'primevue/ripple';
+import Image from 'primevue/image';
+
+
 // Fluent UI
 
 const app = createApp(App);
@@ -78,5 +81,6 @@ app.component('TabMenu', TabMenu);
 app.component('TabPanel',TabPanel);
 app.component('TabView',TabView);
 app.component('Avatar', Avatar);
+app.component('Image',Image);
 app.directive('ripple', Ripple);
 app.mount('#app')

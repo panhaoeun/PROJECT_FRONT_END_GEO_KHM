@@ -1,29 +1,28 @@
 <template>
-   
-<div class="surface-section px-2 py-5 md:px-4 lg:px-4">
-    <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row ">
-        <div>
-            <div class="font-medium text-3xl text-900 font-semibold">Choice Category</div>
-            <div class="flex align-items-center text-700 flex-wrap">
-                <div class="mr-5 white-space-normal flex align-items-center mt-3" v-for="(proCate, i) in producttype" :key="i">
-                    <router-link :to="{path: proCate.url}">
-                        <div class="text-center px-2 py-2 white-space-norma hover:underline">
-                           <div>
-                                <div  v-ripple class="flex align-items-center no-underline hover:underline justify-content-center border-circle"  style="width:5rem;height:5em;background-color: #F9F9F9;">
-                                    <img  alt="logo"  :src="require(`../../../assets/logo/producttype/${proCate.image}`)" class="w-4"/>
-                                </div> 
-                                <div class="text-wrap text-900 pt-3 text-lg text-center hover:outline" style="width: 5rem;">
-                                        {{ proCate.title }}
+    <div class="surface-section px-2 py-5 md:px-4 lg:px-4">
+        <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row ">
+            <div>
+                <div class="font-medium text-3xl text-900 font-semibold">Choice Category</div>
+                <div class="flex align-items-center text-700 flex-wrap">
+                    <div class="mr-5 white-space-normal flex align-items-center mt-3" v-for="(proCate, i) in producttype" :key="i">
+                        <router-link :to="{path: proCate.url}">
+                            <div class="text-center px-2 py-2 white-space-norma hover:underline">
+                                <div>
+                                    <div  v-ripple class="flex align-items-center no-underline hover:underline justify-content-center border-circle"  style="width:5rem;height:5em;background-color: #F9F9F9;">
+                                        <img  alt="logo"  :src="require(`../../../assets/logo/producttype/${proCate.image}`)" class="w-4"/>
+                                    </div> 
+                                    <div class="text-wrap text-900 pt-3 text-lg text-center hover:outline" style="width: 5rem;">
+                                            {{ proCate.title }}
+                                    </div>
                                 </div>
-                           </div>
-                        </div>    
-                        
-                    </router-link>
+                            </div>    
+                            
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
         
 <!-- Product Type -->
