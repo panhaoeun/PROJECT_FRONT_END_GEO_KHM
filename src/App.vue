@@ -1,10 +1,12 @@
 <script setup></script>
 <template>
-   <CusMainLayout v-if="$route.meta.template == 'website'"/>
-   <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
-   <!-- Authencation -->
-   <Login v-if="$route.meta.template == 'authencation-login'"/>
-   <Register v-if="$route.meta.template == 'authencation-register'"/>
+   <div class="bg-white">
+        <CusMainLayout v-if="$route.meta.template == 'website'"/>
+        <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
+        <!-- Authencation -->
+        <Login v-if="$route.meta.template == 'authencation-login'"/>
+        <Register v-if="$route.meta.template == 'authencation-register'"/>
+   </div>
 </template>
 
 <!-- Config Style -->
@@ -30,6 +32,7 @@
           Login,
           Register
         }
-  }
+    }
+
 </script>
 <style scoped></style>

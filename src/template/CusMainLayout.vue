@@ -1,19 +1,19 @@
 
 <template id="customerApp">
-    <!-- Top NavigationBar -->
-    <navigation-bar/>
-    <!-- Hero Section -->
-    <HeroSection/>
-    <!--Group My Products-->
-    <group-my-product/>
-    <!-- Footer -->
-    <Footer></Footer>
+   <div class="container">
+        <!-- Top NavigationBar -->
+        <navigation-bar/>
+        <!-- Hero Section -->
+        <HeroSection/>
+        <!--Group My Products-->
+        <group-my-product/>
+        <!-- Footer -->
+        <Footer></Footer>
+   </div>
 </template>
 
 <!-- @Componet: Control all components for create standard master page  -->
 <script type="text/x-template">
-    // import "/node_modules/primeflex/primeflex.css";
-    // import "/node_modules/primeflex/primeflex.min.css";
     import NavigationBar from "../components/customers/Navigation.vue";
     import HeroSection from "../components/customers/HeroSection.vue";
     import groupMyProduct from "../views/customers/home/homePage.vue";
@@ -23,7 +23,17 @@
             NavigationBar,
             Footer,
             HeroSection,
-            groupMyProduct
+            groupMyProduct,
+        },
+        data(){
+            return {
+                displayBasic: false,
+            }
+        },
+        methods: {
+            openBasic(){
+                this.displayBasic = true;
+            }
         }
     };
 </script>

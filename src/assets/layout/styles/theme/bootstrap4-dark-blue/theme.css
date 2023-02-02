@@ -1198,7 +1198,9 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
 .p-input-icon-left.p-float-label > label {
   left: 2.5rem;
 }
-
+label:not(.form-check-label):not(.custom-file-label){
+    font-weight: 0px;
+}
 .p-input-icon-right > i:last-of-type {
   right: 0.75rem;
   color: rgba(255, 255, 255, 0.6);

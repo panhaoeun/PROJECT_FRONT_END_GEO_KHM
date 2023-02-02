@@ -33,8 +33,6 @@ import Navbar from "../dashboard/Navbar.vue";
 import Sidebar from "../dashboard/Sidebar.vue";
 import Footer from "../dashboard/Footer.vue";
 import ControlSidebar from "../dashboard/ControlSidebar.vue";
-
-
 export default {
   name: "MainLayout",
   components: {
@@ -53,7 +51,7 @@ export default {
       $(".select2bs4").select2({
         theme: "bootstrap4",
       });
-    },
+    }
   },
   mounted() {
     this.initializeSelect2()

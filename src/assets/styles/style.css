@@ -6,22 +6,14 @@
 /*********************************
 2. Body and some general stuff
 *********************************/
-/* 
-*
-{
+
+*{
 	margin: 0;
 	padding: 0;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
 	text-shadow: rgba(0,0,0,.01) 0 0 1px;
-}
-body
-{
-	font-family: 'Rubik', sans-serif;
-	font-size: 14px;
-	font-weight: 400;
-	background: #FFFFFF;
-	color: #000000;
+    
 }
 div
 {
@@ -31,6 +23,14 @@ div
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+html,body
+{
+	font-family: 'Rubik', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	background: #ffffff;
+	color: #000000;
+} 
 ul
 {
 	list-style: none;
@@ -110,10 +110,7 @@ h6::selection
 {
 	
 }
-.form-control
-{
-	color: #db5246;
-}
+
 section
 {
 	display: block;
@@ -234,6 +231,7 @@ section
 	position: relative;
 	width: 100%;
 	z-index: 10;
+    background-color: white;
 }
 
 /*********************************
@@ -460,6 +458,7 @@ section
 .header_main
 {
 	z-index: 1;
+    background-color: white;
 }
 .header.scrolled .header_main
 {
@@ -522,14 +521,16 @@ section
 {
 	display: block;
 	position: relative;
-	width: calc((100% - 50px) * 0.601);
+	width: calc((100% - 300px) * 0.1000);
 	height: 100%;
 	line-height: 50px;
-	border: none !important;
+	border: 1px solid #14630A !important;
 	outline: none !important;
 	padding-left: 26px;
 	color: #7f7f7f;
 	float: left;
+    width: 100% !important;
+   
 }
 .header_search_input::-webkit-input-placeholder
 {
@@ -686,7 +687,7 @@ select:hover
 select option
 {
 	border: 0;
-	border-bottom: 1px solid #555;
+	border-bottom: 1px solid #14630A;
 	padding: 10px;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -698,7 +699,7 @@ select option
 	right: 0;
 	width: 50px;
 	height: 100%;
-	background: #0e8ce4;
+	background: #14630A;
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -745,11 +746,11 @@ select option
 .cart_count
 {
 	position: absolute;
-	bottom: -1px;
-	right: -14px;
+	top: -10px;
+	right: -10px;
 	width: 23px;
 	height: 23px;
-	background: #0e8ce4;
+	background: #14630A;
 	border-radius: 50%;
 	text-align: center;
 }
@@ -803,8 +804,9 @@ select option
 {
 	width: 100%;
 	border-top: solid 1px #f2f2f2;
-	box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+	/* box-shadow: 0px 5px 20px rgba(0,0,0,0.1); */
 	background: #FFFFFF;
+    border-bottom: 1px solid #d8d8d8;
 }
 .header.scrolled .main_nav
 {
@@ -820,13 +822,13 @@ select option
 .main_nav_content
 {
 	width: 100%;
-	height: 60px;
+	height: 20px;
 }
 .cat_menu_container
 {
 	width: 293px;
 	height: 100%;
-	background: #0e8ce4;
+	background: #14630A;
 	padding-left: 35px;
 	cursor: pointer;
 	z-index: 1;
@@ -1205,10 +1207,6 @@ select option
 	{
 		height: 125px;
 	}
-	.main_nav_content
-	{
-		background: #0e8ce4;
-	}
 	.menu_trigger_container
 	{
 		display: block;
@@ -1402,4 +1400,79 @@ select option
 		padding-right: 25px;
 	}
 	
+}
+/* Authencation Social media */
+.bordert {
+    border-top: 1px solid #aaa;
+    display: flex;
+    margin-top: -9px !important;
+}
+
+.bordert:after {
+    content: "or";
+    position: absolute;
+    top: -13px;
+    left: 45%;
+
+    text-align: center;
+    background-color: #fff;
+    padding: 0px 8px
+}
+
+
+.social-medai {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+}
+
+
+/* Search  */
+.search-box {
+    display: inline-block;
+    width: 100%;
+    border-radius: 3px;
+    padding: 4px 55px 4px 15px;
+    position: relative;
+    background: #fff;
+    border: 1px solid #14630A;
+    -webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+  }
+  .search-box.hovered, .search-box:hover, .search-box:active {
+    border: 1px solid #14630A;
+  }
+  .search-box input[type=text] {
+    border: none;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+  }
+  .search-box input[type=text]:hover, .search-box input[type=text]:focus, .search-box input[type=text]:active {
+    box-shadow: none;
+  }
+  .search-box .search-btn {
+    position: absolute;
+    right: -2px;
+    top: -2px;
+    color: #fff;
+    background-color: #14630A;
+    border-radius: 0px 5px 5px 0px;
+    font-size: 21px;
+    -webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+
+.layout-topbar-logos img {
+    height: 6.2rem;
+
+}
+.addtocartPro{
+    right: 30px;
+    margin-right: -20px;
 }

@@ -24,3 +24,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+<!-- Vvue Horizontal -->
+# Link: https://vue-horizontal.fuxing.dev/installation
+<!-- Gutart Scroll Carousel -->
+# Link: https://gitart-scroll-carousel.gitart.org/
