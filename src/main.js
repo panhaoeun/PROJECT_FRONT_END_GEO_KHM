@@ -63,9 +63,6 @@ import Avatar from 'primevue/avatar';
 import Ripple from 'primevue/ripple';
 import Image from 'primevue/image';
 
-
-// Fluent UI
-
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */

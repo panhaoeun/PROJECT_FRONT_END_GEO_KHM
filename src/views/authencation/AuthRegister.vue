@@ -7,7 +7,7 @@
                                 <tr>
                                     <td>
                                         <router-link to="/">
-                                            <img src="../../assets/logo/ecommerce.png" width="200" height="200" />
+                                            <img src="../../assets/logo/ecommerce.png" width="150" height="150" />
                                         </router-link>
                                     </td>
                                 </tr>
@@ -17,6 +17,12 @@
        </div>
        <!-- Create Account -->
         <div class="container py-5">
+            <div class="signInLink flex px-2 py-2 my-2">
+                <span>Already a number?</span>
+                <router-link to="/" class="px-2 hover:underline underline">
+                    Sign In
+                </router-link>
+            </div>
             <!-- For demo purpose -->
             <div class="row mb-4">
                 <div class="col-lg-8 mx-auto text-center">
@@ -60,6 +66,44 @@
                 </div>
             </div>
         </div>
+        <!-- Footer info for register -->
+        <footer class="h-7rem gfooter container-fluid flex justify-content-center" style="font-size: 10px;">
+            <div class="gf-box">
+                <div class="gf-footer" role="presentation">
+                    <table class="gf-tfooter">
+                        <tbody>
+                            <tr valign="top" class="flex flex-column">
+                                <td class="" style="display: inline;">
+                                    Copyright © 1995-2023 PhzarKhmer Inc. All Rights Reserved. 
+                                    <router-link to="/">
+                                        Accessibility
+                                    </router-link>,
+                                    <router-link to="/">
+                                        User Agreement
+                                    </router-link>,
+                                    <router-link to="/">
+                                        Privacy
+                                    </router-link>
+                                    <router-link to="/">
+                                        Payments Terms of Use
+                                    </router-link>
+                                    <router-link to="/">
+                                        Cookies
+                                    </router-link>
+                                    <router-link to="/">
+                                        Your Privacy Choices
+                                    </router-link>
+                                    and
+                                    <router-link to="/">
+                                        AdChoice
+                                    </router-link>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </footer>
 </template>
 <!-- Auth Register -->
 <script>

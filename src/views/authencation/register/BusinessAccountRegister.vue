@@ -6,6 +6,10 @@
                      <div class="col-12 md:col-12">
                         <InputText id="inputtext" type="text" v-model="value1" placeholder="Business name" class="p" style="height: 50px;"/>
                     </div>
+                    <!-- Phone number registers -->
+                    <div>
+                        
+                    </div>
                      <!-- Business Emails -->
                      <div class="col-12 md:col-12">
                         <InputText id="inputtext" type="text" v-model="value1" placeholder="Business email" class="p" style="height: 50px;"/>
@@ -51,7 +55,7 @@
                     <div class="field-checkbox px-3">
                         <Checkbox v-model="checked" :binary="true" />
                         <label for="accept" class="" style="line-height: 17px; margin-bottom: -25px; font-size: 12px;">
-                            While creating a website account: I agree to abide by the PhzarKhmer Membership Agreement- Willing to receive emails from Alibaba.com members and services
+                            While creating a website account: I agree to abide by the PhzarKhmer Membership Agreement- Willing to receive emails from PhzarKhmer.com members and services
                         </label>
                     </div>
                     
@@ -80,14 +84,19 @@
                 <Button type="submit" label="Create account" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
             </div>
         </form>
+        
 </template>
 
 <script>
         export default {
             data(){
                 return {
-                    checked: false
+                    checked: false,
+                    phoneNumber: null
                 }
+            },
+            components:{
+                
             }
         }
 </script>

@@ -1551,10 +1551,10 @@ select option
 }
 .signInLink{
     position: absolute;
-    top: -60px;
+    top: -120px !important;
     right: 16px;
     z-index: 99;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
 }
 .switch-account-type-register{
@@ -1697,3 +1697,17 @@ select option
     width: 100% !important;
     margin-bottom: 16px !important;
 }
+/* Register form info */
+.gfooter{
+    background: #fff;
+    border-top: 1px solid #CCC;
+    margin: 10px 0 0;
+    padding: 20px 10px 40px 10px; 
+}
+.gf-tfooter{
+    width: 100%;
+    margin-top: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+/* Banner of Discount */

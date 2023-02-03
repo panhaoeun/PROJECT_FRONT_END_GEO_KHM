@@ -6,7 +6,11 @@
         <!-- Hero Section -->
         <HeroSection/>
         <!--Group My Products-->
-        <group-my-product/>
+        <group-my-product/>        
+        <!-- Discount products of Banner-->
+        <banner-discount/>
+        <!-- Brand & Category Product -->
+        <brand-category-list/>
         <!-- Footer -->
         <Footer></Footer>
    </div>
@@ -18,12 +22,16 @@
     import HeroSection from "../components/customers/HeroSection.vue";
     import groupMyProduct from "../views/customers/home/homePage.vue";
     import Footer from "../components/customers/Footer.vue";
+    import BannerDiscount from "../components/customers/homepage/bannerDiscount/BannerDiscount.vue";
+    import BrandCategoryList from "../components/customers/homepage/brand_category/brandCategoryList.vue";
     export default {
         components: {
             NavigationBar,
             Footer,
             HeroSection,
             groupMyProduct,
+            BannerDiscount,
+            BrandCategoryList
         },
         data(){
             return {
