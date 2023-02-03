@@ -28,3 +28,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # Link: https://vue-horizontal.fuxing.dev/installation
 <!-- Gutart Scroll Carousel -->
 # Link: https://gitart-scroll-carousel.gitart.org/
+<!-- Vue Telephone Input -->
+# Link: https://vue-tel-input.iamstevendao.com/documentation/

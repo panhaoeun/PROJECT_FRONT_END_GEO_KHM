@@ -52,7 +52,7 @@ p a
 	display: inline;
 	position: relative;
 	color: inherit;
-	border-bottom: solid 1px #ffa07f;
+	border-bottom: solid 1px #0062cc;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
@@ -73,8 +73,8 @@ p a:active
 }
 p a:hover
 {
-	color: #FFFFFF;
-	background: #ffa07f;
+	color: #0654ba;
+	/* background: #ffa07f; */
 }
 p a:hover::after
 {
@@ -1403,17 +1403,16 @@ select option
 }
 /* Authencation Social media */
 .bordert {
-    border-top: 1px solid #aaa;
+    border-top: 1px solid #dddddd;
     display: flex;
     margin-top: -9px !important;
 }
 
 .bordert:after {
-    content: "or";
+    content: "Or";
     position: absolute;
-    top: -13px;
+    top: -10px;
     left: 45%;
-
     text-align: center;
     background-color: #fff;
     padding: 0px 8px
@@ -1535,5 +1534,166 @@ select option
     display: inline-block;
     font-size: 12px;
     color: #767676 !important;
-    
+}
+/* Auth Register */
+.register-header{
+    margin: 6px 32px 16px;
+}
+.account-title{
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+.account-partial{
+    display: inherit;
+    margin: auto;
+    max-width: none !important;
+    max-width: 400px;
+}
+.signInLink{
+    position: absolute;
+    top: -60px;
+    right: 16px;
+    z-index: 99;
+    font-size: 16px;
+    font-weight: 600;
+}
+.switch-account-type-register{
+    text-align: center;
+}
+.switch-account-type-register fieldset{
+    margin: 8px 0 12px 6px;
+}
+.switch-account-type-register .field .option{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+.register{
+    margin-top:0%;
+    margin-left: -9% !important;
+    align-items: center;
+    text-align: center;
+    padding: 0%;
+}
+.register-left{
+    text-align: center;
+    color: #fff;
+    margin-top: 4%;
+}
+.register-left input{
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    width: 60%;
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #383d41;
+    margin-top: 30%;
+    margin-bottom: 3%;
+    cursor: pointer;
+}
+.register-right{
+    border-top-left-radius: 10% 50%;
+    border-bottom-left-radius: 10% 50%;
+    margin: 0%;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+}
+.register-left img{
+    margin-top: 15%;
+    margin-bottom: 5%;
+    width: 25%;
+    -webkit-animation: mover 2s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+}
+@-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+@keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+.register-left p{
+    font-weight: lighter;
+    padding: 12%;
+    margin-top: -9%;
+}
+.register .register-form{
+    padding-top: 10%;
+    margin-top: 10%;
+}
+.btnRegister{
+    float: right;
+    margin-top: 10%;
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: #0062cc;
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+    cursor: pointer;
+}
+.register .nav-tabs{
+    margin-top: 3%;
+    border: none;
+    background: #E22D37;
+    border-radius: 1.5rem;
+    width: 40%;
+    height: 38px;
+    float: right;
+}
+.register .nav-tabs .nav-link{
+    padding: 3%;
+    height: 38px;
+    font-weight: 600;
+    color: #fff;
+    border-top-right-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+}
+.register .nav-tabs .nav-link:hover{
+    border: none;
+}
+.register .nav-tabs .nav-link.active{
+    width: 125x;
+    color: black;
+    border: 1px solid #F857A6;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+}
+.register-heading{
+    text-align: center;
+    margin-top: 8%;
+    margin-bottom: -15%;
+    color: #495057;
+}
+.or-border{
+    width: 100% !important;
+    margin-top: 16px !important;
+    margin-bottom: 16px !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    line-height: 16px !important;
+}
+.border-align{
+    -webkit-box-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    margin: 16px 0px !important;
+}
+.authentication{
+    display: block !important;
+}
+.auth-title{
+    -webkit-box-pack: justify !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+}
+.auth-social-media{
+    width: 100% !important;
+    margin-bottom: 16px !important;
 }

@@ -56,14 +56,13 @@
                                     <a class="font-medium no-underline hover:underline text-right cursor-pointer" style="color: var(--primary-color);font-size: 11px;">Forgot password?</a>
                                 </div>
                                 <!-- Button Submit -->
-                                    <Button type="submit" label="Submit" class="mt-2 p-button-rounded p-button-md" style="font-size: 12px;" />
+                                <Button type="submit" label="Submit" class="mt-2 p-button-rounded p-button-md" style="font-size: 12px;" />
                             </form>
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
                         <div class="bordert py-2 my-4 flex align-items-center justify-content-center">
                             <socailMedia/>
                         </div>
-
                     </div>
                 </div>
             </div>
