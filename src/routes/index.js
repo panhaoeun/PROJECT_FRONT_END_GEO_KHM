@@ -1,11 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-// import Dashboard from "../views/master/DashboardView.vue";
 import home from "../views/HomeView.vue";
-// import profile from "../views/ProfileView.vue";
-// import login from "../views/auth/LoginView.vue";
-// import Main from "../views/MainView.vue";
-// import MainDashboard from "../views/master/MainDashboard.vue";
 
 const routes = [
   {
@@ -38,8 +32,16 @@ const routes = [
         component: () => import("../views/products/ProductView.vue"),
       },
       {
+        path: "/product/addproduct",
+        component: () => import("../views/products/AddProductView.vue"),
+      },
+      {
         path: "/profile",
         component: () => import("../views/setting/ProfileView.vue"),
+      },
+      {
+        path: "/i",
+        component: () => import("../views/users/MyAccount.vue"),
       },
     ],
   },
@@ -47,6 +49,10 @@ const routes = [
   {
     path: "/login",
     component: () => import("../views/authentication/LoginView.vue"),
+  },
+  {
+    path: "/Register",
+    component: () => import("../views/authentication/RegisterView.vue"),
   },
 ];
 

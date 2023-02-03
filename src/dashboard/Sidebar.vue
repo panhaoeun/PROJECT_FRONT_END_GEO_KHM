@@ -14,21 +14,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img
-            src="../assets/img/avatar5.png"
-            class="img-circle elevation-2"
-            alt="User Image"
-          />
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Carlos Carvalho</a>
-        </div>
-      </div> -->
-
-      <!-- SidebarSearch Form -->
       <br />
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
@@ -134,9 +119,40 @@
               </li>
             </ul>
           </li>
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Orders
+                <i class="fas fa-angle-left right"></i>
+                <!-- <span class="badge badge-info right">6</span> -->
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/" class="nav-link">
+                  <i class="fas  nav-icon"></i>
+                  <p>My order</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <router-link to="/home" class="nav-link">
+              <i class="nav-icon fas fa-database"></i>
+              <p>Reports</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/home" class="nav-link">
+              <i class="nav-icon fas fa-database"></i>
+              <p>Reports</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
               <p>
                 settings
                 <i class="fas fa-angle-left right"></i>
@@ -146,13 +162,14 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="/profile" class="nav-link">
-                  <i class="fas fa-user nav-icon"></i>
-                  <p>profile</p>
+                  <i class="fas fa-key nav-icon"></i>
+                  <p>Change password</p>
                 </router-link>
               </li>
             </ul>
           </li>
         </ul>
+        <ul></ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>

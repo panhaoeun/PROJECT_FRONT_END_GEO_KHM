@@ -1,4 +1,73 @@
 <template>
+ 
+  <div class="m-4">
+    <div class="row">
+        <div class="col-4">
+            <div class="card text-white bg-primary mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Primary card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-secondary mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Secondary card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-success mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Success card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-danger mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Danger card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-warning mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Warning card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-info mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Info card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Dark card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Light card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
   <div class="card card-default">
     <div class="card-header">
       <h3 class="card-title">Select2 (Default Theme)</h3>
@@ -147,5 +216,3 @@
 export default {};
 </script>
 
-<style>
-</style>

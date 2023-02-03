@@ -7,7 +7,7 @@
           <div class="card bg-white shadow-lg">
             <div class="card-body p-5">
               <form class="mb-3 mt-md-4">
-                <h2 class="fw-bold mb-2 text-uppercase">Brand</h2>
+                <h2 class="fw-bold mb-2 text-uppercase">Multiple Vendors Online</h2>
                 <p class="mb-5">Please enter your login and password!</p>
                 <div class="mb-3">
                   <label for="email" class="form-label">Email address</label>
@@ -41,7 +41,7 @@
               <div>
                 <p class="mb-0 text-center">
                   Don't have an account?
-                  <router-link to="/login" class="text-primary fw-bold">Sign Up</router-link>
+                  <router-link to="/register" class="text-primary fw-bold">Register</router-link>
                 </p>
               </div>
             </div>

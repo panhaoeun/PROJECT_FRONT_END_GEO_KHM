@@ -48,10 +48,35 @@
           </form>
         </div>
       </li>
-      <router-link to="/login" class="nav-link" data-toggle="dropdown" href="#">
-        <i class="far fa-user"></i>
-        <!-- <span class="badge badge-danger navbar-badge">3</span> -->
-      </router-link>
+      <!-- create account -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+          <router-link to="/i" href="#" class="dropdown-item">
+            <div class="media">
+              <i class="far fa-user mt-1 mr-1"></i>
+              <div class="media-body">
+                <strong>My Account</strong>
+              </div>
+            </div>
+          </router-link>
+          <div class="dropdown-divider"></div>
+          <router-link to="/login" class="dropdown-item">
+            <div class="media">
+              <i class="fas fa-sign-out mt-1 mr-1"></i>
+              <div class="media-body">
+                <strong>Log out</strong>
+              </div>
+            </div>
+          </router-link>
+          <!-- <div class="dropdown-divider"></div> -->
+          <!-- <a href="#" class="dropdown-item dropdown-footer">See All Messages</a> -->
+        </div>
+      </li>
+      <!-- end accout -->
+
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -134,6 +159,7 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
+
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
