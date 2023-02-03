@@ -91,10 +91,11 @@
                             <a tabindex="0" class="text-600 hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Legal Information</a>
                         </li>
                     </ul>
-                    <span class="text-500 block mt-4">© 2022, Peak. Powered by PrimeBlocks.</span>
+                   
                 </div>
             </div>
-        
+            <!-- Copyright -->
+            <span class="text-500 block mt-4">© 2022, Peak. Powered by PrimeBlocks.</span>
         </div>
 </template>
 <!-- Open Shop -->
