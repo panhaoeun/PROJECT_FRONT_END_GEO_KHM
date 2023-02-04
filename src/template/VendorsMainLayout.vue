@@ -5,20 +5,16 @@
       <Sidebar class="fixed-top"></Sidebar>
       <ContentHeader></ContentHeader>
 
-<<<<<<< HEAD:src/layouts/MainLayout.vue
+
       <div class="content-wrapper mt-5">
-        <section class="content">
-          <div class="container-fluid">
-            <router-view />
-=======
-      <div class="content-wrapper">
+      
         
        
         <section class="content">
           <div class="container-fluid">
             <!-- Routers Views -->
                <router-view/>
->>>>>>> ad0942ec675a5821d9642fbdf0ff11ac2d6fafa8:src/template/VendorsMainLayout.vue
+
           </div>
         </section>
       </div>
@@ -37,17 +33,11 @@ import Navbar from "../dashboard/Navbar.vue";
 import Sidebar from "../dashboard/Sidebar.vue";
 import Footer from "../dashboard/Footer.vue";
 import ControlSidebar from "../dashboard/ControlSidebar.vue";
-<<<<<<< HEAD:src/layouts/MainLayout.vue
 
 export default {
   name: "MainLayout",
   components: {
-=======
-export default {
-  name: "MainLayout",
-  components: {
-    ContentHeader,
->>>>>>> ad0942ec675a5821d9642fbdf0ff11ac2d6fafa8:src/template/VendorsMainLayout.vue
+    // ContentHeader,
     Navbar,
     Sidebar,
     Footer,

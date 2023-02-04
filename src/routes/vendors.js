@@ -21,6 +21,11 @@ export default [
         component: () => import("../views/vendors/users/UserListView.vue"),
       },
       {
+        path: "/i",
+        name:'i',
+        component: () => import("../views/vendors/users/MyAccount.vue"),
+      },
+      {
         path: "/product",
         name:'product',
         component: () => import("../views/vendors/products/ProductView.vue"),

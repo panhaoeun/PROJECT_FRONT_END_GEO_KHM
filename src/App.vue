@@ -9,11 +9,10 @@
    </div>
 </template>
 
-<<<<<<< HEAD
 
 =======
 <!-- Config Style -->
->>>>>>> ad0942ec675a5821d9642fbdf0ff11ac2d6fafa8
+
 <style>
   @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback");
 </style>
