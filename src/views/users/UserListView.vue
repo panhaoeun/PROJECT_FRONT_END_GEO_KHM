@@ -22,7 +22,7 @@
           <td>{{ user.name }}</td>
           <td>{{ user.role }}</td>
           <td>
-            <p class="btn btn-outline-info btn-sm">{{ user.status }}</p>
+            <span class="border border-primary rounded  px-2 py-1 ">{{ user.status }}</span>
           </td>
           <td>{{ user.create_at }}</td>
           <td>12-01-2023 : 10:00 pm</td>

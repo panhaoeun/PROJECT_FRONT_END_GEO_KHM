@@ -70,8 +70,8 @@
                 <div class="col-sm-3">
                   <p class="mb-0">Role</p>
                 </div>
-                <div class="col-sm-2 justify-content-center d-flex">
-                  <p class="bg-success p-1 rounded "> Admin</p>
+                <div class="col-sm-9">
+                  <span class="bg-success px-2 py-1 rounded "> Admin</span>
                 </div>
               </div>
               <hr />
@@ -80,7 +80,7 @@
                   <p class="mb-0">Status</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class=" btn-outline-info btn-sm btn"> Active</p>
+                  <span class="border rounded border-success px-2 py-1"> Active</span>
                 </div>
               </div>
               <hr />

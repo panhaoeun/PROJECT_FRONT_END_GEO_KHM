@@ -58,7 +58,8 @@
             <div class="media">
               <i class="far fa-user mt-1 mr-1"></i>
               <div class="media-body">
-                <strong>My Account</strong>
+                <p
+                >My Account</p>
               </div>
             </div>
           </router-link>
@@ -67,7 +68,7 @@
             <div class="media">
               <i class="fas fa-sign-out mt-1 mr-1"></i>
               <div class="media-body">
-                <strong>Log out</strong>
+                <p>Log out</p>
               </div>
             </div>
           </router-link>
