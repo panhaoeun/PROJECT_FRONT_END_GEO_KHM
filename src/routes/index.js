@@ -45,15 +45,15 @@ const routes = [
       },
     ],
   },
-  // login
+
   {
-    path: "/login",
-    component: () => import("../views/authentication/LoginView.vue"),
+    path:'/login',
+    component:()=> import('../views/auth/LoginView.vue'),
   },
   {
-    path: "/Register",
-    component: () => import("../views/authentication/RegisterView.vue"),
-  },
+    path:'/register',
+    component:()=> import('../views/auth/RegisterView.vue'),
+  }
 ];
 
 const router = Router();

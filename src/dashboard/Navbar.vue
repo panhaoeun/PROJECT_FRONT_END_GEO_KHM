@@ -1,6 +1,6 @@
 <template>
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand bg-gray-light fixed-top navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -79,6 +79,9 @@
       <!-- end accout -->
 
       <!-- Messages Dropdown Menu -->
+      <router-link to="/login" class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-user"></i>
+      </router-link>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
@@ -207,7 +210,7 @@
         </a>
       </li>
     </ul>
-  </nav>
+  </nav> <br><br>
   <!-- /.navbar -->
 </template>
 
