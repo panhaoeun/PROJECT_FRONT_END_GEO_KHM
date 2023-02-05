@@ -1,0 +1,102 @@
+<template>
+        <form action="">
+            <div>
+                <div class="p-fluid grid">
+                     <!-- Business Name -->
+                     <div class="col-12 md:col-12">
+                        <InputText id="inputtext" type="text" v-model="value1" placeholder="Business name" class="p" style="height: 50px;"/>
+                    </div>
+                    <!-- Phone number registers -->
+                    <div>
+                        
+                    </div>
+                     <!-- Business Emails -->
+                     <div class="col-12 md:col-12">
+                        <InputText id="inputtext" type="text" v-model="value1" placeholder="Business email" class="p" style="height: 50px;"/>
+                    </div>
+                    <!-- Password -->
+                    <div class="col-12 md:col-12">
+                        <Password id="inputtext" type="password" toggleMask v-model="password" placeholder="Login Password" class="p" style="height: 50px;">
+                                <template #header>
+                                    <h6>Pick a password</h6>
+                                </template>
+                                <template #footer>
+                                    <Divider />
+                                    <p class="mt-2">Suggestions</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>At least one lowercase</li>
+                                        <li>At least one uppercase</li>
+                                        <li>At least one numeric</li>
+                                        <li>Minimum 8 characters</li>
+                                    </ul>
+                                </template>
+                        </Password>
+                    </div>
+                  
+                    <!-- Confirm Password -->
+                    <div class="col-12 md:col-12">
+                        <Password id="inputtext" type="password" toggleMask v-model="password" placeholder="Confirm Password" class="p" style="height: 50px;">
+                                <template #header>
+                                    <h6>Pick a password</h6>
+                                </template>
+                                <template #footer>
+                                    <Divider />
+                                    <p class="mt-2">Suggestions</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>At least one lowercase</li>
+                                        <li>At least one uppercase</li>
+                                        <li>At least one numeric</li>
+                                        <li>Minimum 8 characters</li>
+                                    </ul>
+                                </template>
+                        </Password>
+                    </div>
+                 <!-- Check while create account -->
+                    <div class="field-checkbox px-3">
+                        <Checkbox v-model="checked" :binary="true" />
+                        <label for="accept" class="" style="line-height: 17px; margin-bottom: -25px; font-size: 12px;">
+                            While creating a website account: I agree to abide by the PhzarKhmer Membership Agreement- Willing to receive emails from PhzarKhmer.com members and services
+                        </label>
+                    </div>
+                    
+                    
+                    <!-- Privacy and conditions -->
+                     <!-- Label Privacy -->
+                     <div class="px-4 py-4">
+                        <p  style="font-size:12px; color: #767676; line-height: 1.5; padding: 8px 0;">
+                            By
+                            <b>Creating an account</b>,
+                            , you agree to our 
+                            <router-link to="/">
+                                <span> User Agreement </span>
+                            </router-link>
+                            and acknowledge reading our 
+                            <router-link to="/">
+                                <span> User Privacy Notice </span>
+                            </router-link>
+                            .
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Create business account button -->
+            <div class="flex justify-content-center">
+                <Button type="submit" label="Create account" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
+            </div>
+        </form>
+        
+</template>
+
+<script>
+        export default {
+            data(){
+                return {
+                    checked: false,
+                    phoneNumber: null
+                }
+            },
+            components:{
+                
+            }
+        }
+</script>
