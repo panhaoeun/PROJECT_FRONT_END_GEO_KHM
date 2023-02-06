@@ -11,8 +11,12 @@
         <banner-discount/>
         <!-- Brand & Category Product -->
         <brand-category-list/>
-        <!-- Footer -->
-        <Footer></Footer>
+    
+   </div>
+   <!-- Footer -->
+   <div class="gfoot">
+     <!-- Footer -->
+     <Footer></Footer>
    </div>
 </template>
 
