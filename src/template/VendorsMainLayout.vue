@@ -1,27 +1,22 @@
 <template>
-  <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-      <Navbar></Navbar>
-      <Sidebar class="fixed-top"></Sidebar>
-      <ContentHeader></ContentHeader>
+    <body class="hold-transition sidebar-mini layout-fixed">
+        <div class="wrapper">
+            <Navbar></Navbar>
+            <Sidebar class="fixed-top"></Sidebar>
+            <ContentHeader></ContentHeader>
 
-
-      <div class="content-wrapper mt-5">
-      
-        
-       
-        <section class="content">
-          <div class="container-fluid">
-            <!-- Routers Views -->
-               <router-view/>
-
-          </div>
-        </section>
-      </div>
-      <Footer></Footer>
-      <ControlSidebar></ControlSidebar>
-    </div>
-  </body>
+            <div class="content-wrapper mt-5">
+                <section class="content">
+                    <div class="container-fluid">
+                        <!-- Routers Views -->
+                        <router-view />
+                    </div>
+                </section>
+            </div>
+            <Footer></Footer>
+            <ControlSidebar></ControlSidebar>
+        </div>
+    </body>
 </template>
 
 <script>
@@ -35,26 +30,26 @@ import Footer from "../dashboard/Footer.vue";
 import ControlSidebar from "../dashboard/ControlSidebar.vue";
 
 export default {
-  name: "MainLayout",
-  components: {
-    // ContentHeader,
-    Navbar,
-    Sidebar,
-    Footer,
-    ControlSidebar,
-  },
-  methods: {
-    initializeSelect2() {
-      $(".select2").select2();
+    name: "MainLayout",
+    components: {
+        // ContentHeader,
+        Navbar,
+        Sidebar,
+        Footer,
+        ControlSidebar,
+    },
+    methods: {
+        initializeSelect2() {
+            $(".select2").select2();
 
-      $(".select2bs4").select2({
-        theme: "bootstrap4",
-      });
-    }
-  },
-  mounted() {
-    this.initializeSelect2();
-  },
+            $(".select2bs4").select2({
+                theme: "bootstrap4",
+            });
+        },
+    },
+    mounted() {
+        this.initializeSelect2();
+    },
 };
 </script>
 <style>

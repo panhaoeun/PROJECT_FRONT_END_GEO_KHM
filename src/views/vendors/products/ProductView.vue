@@ -1,70 +1,114 @@
 <template>
-  <div class="card card-default">
-    <div class="card-header">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h5 class="d-inline-block align-middle mb-0">Product</h5>
-        </div>
-        <div class="card-header-actions">
-          <router-link class="btn btn-sm btn-primary" to="/product/addproduct">Create New</router-link> 
-        </div>
+    <div class="container my-5">
+      <h1 class="text-center mb-5">Product Listing</h1>
+      <div class="form-group d-flex justify-content-center mb-5">
+        <label for="category" class="mr-3">Filter by Category:</label>
+        <select id="category" class="form-control" v-model="selectedCategory">
+          <option value="">All</option>
+          <option v-for="category in categories" :value="category" :key="category.id">{{ category }}</option>
+        </select>
       </div>
-    </div>
-    <div class="d-flex justify-content-between align-items-center m-3">
-      <div>
-        <!-- <h5 class="d-inline-block align-middle mb-0">Product</h5> -->
-      </div>
-      <div class="card-header-actions">
-        <div class="input-group mb-3">
-          <!-- <span class="input-group-text" id="basic-addon1">search</span> -->
-          <input
-            type="text"
-            class="form-control"
-            placeholder="search"
-            aria-label="search"
-            aria-describedby="basic-addon1"
-          />
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6" v-for="product in filteredProducts" :key="product.id
+        ">
+          <div class="card h-100">
+            <img :src="product.image" class="card-img-top">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text">{{ product.description }}</p>
+              <p class="card-text align-self-end">Price: {{ product.price }}</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary btn-block">More Info</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="card-body">
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        selectedCategory: '',
+        products: [
+          {
+            name: 'Product 1',
+            category: 'Category A',
+            description: 'This is a description for Product 1',
+            price: '$100',
+            image: 'https://via.placeholder.com/300x200'
+          },
+          {
+            name: 'Product 2',
+            category: 'Category B',
+            description: 'This is a description for Product 2',
+            price: '$200',
+            image: 'https://static.vecteezy.com/packs/media/vectors/term-bg-1-3d6355ab.jpg'
+          },
+          {
+            name: 'Product 3',
+            category: 'Category A',
+            description: 'This is a description for Product 3',
+            price: '$300',
+            image: 'https://via.placeholder.com/300x200'
+          }
+        ]
+      }
+    },
+    computed: {
+      filteredProducts() {
+        return this.selectedCategory
+          ? this.products.filter(product => product.category === this.selectedCategory)
+          : this.products
+      },
+      categories() {
+        return [...new Set(this.products.map(product => product.category))]
+      }
+    }
+  }
+  </script>
+  
+  <style>
+  .card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+   
+}
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 2px 12px 20px rgba(0, 0, 0, 0.1);
+}
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
 
-      <table class="table table-hover text-nowrap">
-        <thead>
-          <th>No</th>
-          <th>Product name</th>
-          <th>Type</th>
-          <th>Quanity</th>
-          <th>Active</th>
-        </thead>
-        <tbody v-for="product in products" :key="product.id">
-          <td>{{ product.id }}</td>
-          <td>{{ product.p_name }}</td>
-          <td>{{ product.type }}</td>
-          <td>{{ product.qty }}</td>
-          <td>
-            <button class="btn btn-sm btn-default mr-2">update</button
-            ><button class="btn btn-sm btn-danger">delete</button>
-          </td>
-        </tbody>
-      </table>
-    </div>
+.btn-primary {
+  background-color: #4285f4;
+  border-color: #4285f4;
+}
 
-  </div>
-</template>
-<script>
-export default {
-  data() {
-    return {
+.btn-primary:hover {
+  background-color: #1e69de;
+  border-color: #1e69de;
+}
+button {
+  background-color: #4285f4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
 
-      products: [
-        { id: 1, p_name: "Phone", type: "Technology", qty: 12 },
-        { id: 2, p_name: "Phone", type: "Technology", qty: 12 },
-        { id: 3, p_name: "Phone", type: "Technology", qty: 12 },
-        { id: 4, p_name: "Phone", type: "Technology", qty: 12 },
+button:hover {
+  background-color: #1e69de;
+}
 
-      ],
-    };
-  },
-};
-</script>
+</style>
+  

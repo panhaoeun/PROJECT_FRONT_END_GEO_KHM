@@ -12,6 +12,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import moduleRouteVendor from  "./vendors";
 import moduleRouteCustomer from "./customers";
 import moduleAuthencation from "./authencation";
+import moduleAdmin from './admin';
 
 /*
     Makes a new VueRouter that we will use to run all of the routes
@@ -22,7 +23,8 @@ const router = new createRouter({
     routes: [
         ...moduleRouteCustomer,
         ...moduleRouteVendor,
-        ...moduleAuthencation
+        ...moduleAuthencation,
+        ...moduleAdmin,
     ]
 });
 export default router;

@@ -63,6 +63,7 @@ import Avatar from 'primevue/avatar';
 import Ripple from 'primevue/ripple';
 import Image from 'primevue/image';
 
+
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */
