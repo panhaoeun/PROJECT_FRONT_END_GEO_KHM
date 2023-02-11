@@ -62,16 +62,35 @@ import TabView from "primevue/tabview";
 import Avatar from 'primevue/avatar';
 import Ripple from 'primevue/ripple';
 import Image from 'primevue/image';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
+import DialogService from 'primevue/dialogservice'
+import Divider from 'primevue/divider';
+import Message from 'primevue/message';
+import InlineMessage from 'primevue/inlinemessage';
 
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
+// Vue Progress
+import 'vue-progress-path/dist/vue-progress-path.css'
+import VueProgress from 'vue-progress-path'
+// Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+
+
+
 
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */
 app.use(routes);
 app.use(PrimeVue, { ripple: true });
+app.use(ToastService);
+app.use(DialogService);
+app.component('InlineMessage', InlineMessage);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.component('Message', Message);
 app.component('InputText', InputText);
 app.component('Button', Button);
 app.component('Checkbox', Checkbox);
@@ -83,4 +102,14 @@ app.component('TabView',TabView);
 app.component('Avatar', Avatar);
 app.component('Image',Image);
 app.directive('ripple', Ripple);
+app.component('Toast', Toast);
+app.component('Divider', Divider);
+app.use(VueProgress);
+app.use(VueAxios, axios);
+app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
+
+
+
 app.mount('#app')
+
+
