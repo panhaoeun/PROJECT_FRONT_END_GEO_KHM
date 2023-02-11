@@ -84,6 +84,12 @@ import VueProgress from 'vue-progress-path'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+import MazBtn from 'maz-ui/components/MazBtn'
+import MazInput from 'maz-ui/components/MazInput'
+import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
+import 'maz-ui/css/main.css';
+
+
 
 
 
@@ -113,8 +119,9 @@ app.component('Divider', Divider);
 app.use(VueProgress);
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
-
-
+app.component('MazBtn', MazBtn)
+app.component('MazInput', MazInput)
+app.component('MazPhoneNumberInput', MazPhoneNumberInput);
 
 app.mount('#app')
 

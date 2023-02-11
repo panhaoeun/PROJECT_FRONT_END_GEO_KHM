@@ -8296,7 +8296,7 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libphonenumber-js@^1.10.12:
+libphonenumber-js@^1.10.12, libphonenumber-js@^1.10.19:
   version "1.10.19"
   resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.19.tgz#e18970c8d566fbfb1f88e688345f0512e126712e"
   integrity sha512-MDZ1zLIkfSDZV5xBta3nuvbEOlsnKCPe4z5r3hyup/AXveevkl9A1eSWmLhd2FX4k7pJDe4MrLeQsux0HI/VWg==
@@ -8588,6 +8588,11 @@ make-dir@^3.0.2, make-dir@^3.1.0:
   dependencies:
     semver "^6.0.0"
     semver "^6.0.0"
+
+maz-ui@^3.6.12:
+  version "3.6.12"
+  resolved "https://registry.yarnpkg.com/maz-ui/-/maz-ui-3.6.12.tgz#a7c28abb8fca36f0f4f3cb527b9a84130f316445"
+  integrity sha512-VPysdhIyvEgWK7dMk5vPj5LaafI6EoLtwc8iBPqC3BOm2eOWhMYUBI+SNTycTPg6rtxj5gafR7wQTaRsX7wurQ==
 
 mdn-data@2.0.14:
   version "2.0.14"
@@ -12284,6 +12289,11 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
+
+vue-input-only-number@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-input-only-number/-/vue-input-only-number-1.1.0.tgz#4a738f3696bc046273ed2af715bb3abc508da0d1"
+  integrity sha512-rtDBxlY0fHwtIbkzVN65W14tdm3LW3oyt7CfkDtJ2tTjicGlu7274MF/jQMk+ze3cSiV9DwLew5NN8a1fML0jQ==
 
 vue-loader@^17.0.0:
   version "17.0.1"

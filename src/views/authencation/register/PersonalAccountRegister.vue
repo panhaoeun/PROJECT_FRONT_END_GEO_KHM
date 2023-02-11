@@ -23,8 +23,27 @@
                     <!-- Phone number registers -->
                     <div class="col-12 md:col-12">
                         <div class="p-float-label">
-                            <InputText id="user_acc_phonenumber" type="text" v-model="v$.user_acc_phonenumber.$model" :class="{'p-invalid p-inputtext-lg':v$.user_acc_phonenumber.$invalid && submitted}"  style="height: 50px;"/>
-                            <label for="last_name" :class="{'p-error font-light':v$.user_acc_phonenumber.$invalid && submitted}" style="font-size: 14px;">Phone Number <span class="p-error">*</span> </label>
+                            <!-- Phone Number Input -->
+                            <MazPhoneNumberInput
+                                id="user_acc_phonenumber" 
+                                v-model="v$.user_acc_phonenumber.$model" 
+                                :error="v$.user_acc_phonenumber.$invalid && submitted" 
+                                color="info"
+                                defaultCountryCode="KH"
+                                size="lg"
+                                :no-example="true"
+                                type="number"
+                                :valid-button-loading="true"	
+                                @update="results = $event"
+                                :success="results?.isValid"
+                                v-on:keypress="inputNumOnly"
+                            />
+                            
+                            <div>
+                                <code>
+                                    {{ results }}
+                                </code>
+                            </div>
                        </div>
                        <small v-if="(v$.user_acc_phonenumber.$invalid && submitted) || v$.user_acc_phonenumber.$pending.$response" class="p-error">{{v$.user_acc_phonenumber.required.$message.replace('Value', 'Phone Number')}}</small>
                     </div>
@@ -103,6 +122,7 @@
         setup: () => ({ v$: useVuelidate() }),
         data() {
             return {
+                results: '',
                 isLoading: false,
                 loading: [false, false, false],
                 user_acc_firstname: '',
@@ -137,39 +157,41 @@
         },
         methods: {
             async handleSubmitPersonalAcc(isFormValid){
-                try{
-                    this.submitted = true;
-                    // Loading Button
-                    this.isLoading = true;
-                    setTimeout(() => (this.isLoading = false), 1000);
-                    // Check validations
-                    if (!isFormValid) {
-                        return;
-                    }
-                    // Data 
-                    const data = {
-                        user_email : this.user_acc_email,
-                        user_password: this.user_acc_password,
-                        user_firstname: this.user_acc_firstname,
-                        user_lastname: this.user_acc_lastname,
-                        user_phonenumber: this.user_acc_phonenumber,
-                        user_type: "Customer"
-                    }
-                    AuthenticationsDataService.create(data).then((response) => {
-                       this.submitted = true;
-                       this.messages_acc_per = [
-                             {severity: 'success', content: response.data.message},
-                        ]
-                    }).catch(e => {
-                        //  Toast Alert 
+                    try{
+                        this.submitted = true;
+                        // Loading Button
+                        this.isLoading = true;
+                        setTimeout(() => (this.isLoading = false), 1000);
+                        // Check validations
+                        if (!isFormValid) {
+                            return;
+                        }
+                        // Data 
+                        const data = {
+                            user_email : this.user_acc_email,
+                            user_password: this.user_acc_password,
+                            user_firstname: this.user_acc_firstname,
+                            user_lastname: this.user_acc_lastname,
+                            user_phonenumber: this.results.nationalNumber,
+                            user_type: "Customer"
+                        }
+                        AuthenticationsDataService.create(data).then((response) => {
+                        this.submitted = true;
                         this.messages_acc_per = [
-                             {severity: 'error', content: e.response.data.error},
-                        ]
+                                {severity: 'success', content: response.data.message},
+                            ]
+                        }).catch(e => {
+                            //  Toast Alert 
+                            this.messages_acc_per = [
+                                {severity: 'error', content: e.response.data.error},
+                            ]
                     })
-                  
-                    
+                                
                 }catch(err){
-                    console.log("sdfds")
+                   // Alert Error 
+                  this.messages_acc_per  [
+                    {severity: 'error' , content: err}
+                  ]
                 }
             },
             //Reset Form Input 
@@ -180,11 +202,18 @@
                 this.user_acc_email,
                 this.user_acc_password,
                 this.submitted = false
+            },
+            // Input number only 
+            inputNumOnly(evt){
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                // Disable input character 
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46 || charCode == 0 ) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
             }
         },
-        mounted() {
-           
-        }
-     
     }
 </script>
