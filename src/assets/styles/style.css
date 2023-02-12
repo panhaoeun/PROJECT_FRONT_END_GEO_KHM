@@ -1711,3 +1711,16 @@ select option
     border-collapse: collapse;
 }
 /* Banner of Discount */
+
+/* Hover navbar */
+.dropdown:hover>.dropdown-menu {
+	display: block;
+}
+
+a {
+	display: block;
+}
+
+a:hover {
+	text-decoration: underline;
+}
