@@ -1540,3 +1540,31 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+
+.dropdown-menu-fashion {
+	left: -200%;
+}
+
+.dropdown-menu-shoes {
+	left: -240%;
+}
+
+.dropdown-menu-gadget {
+	left: -620%;
+}
+
+.dropdown-menu-computer {
+	left: -590%;
+}
+
+.dropdown-menu-laptop {
+	left: -1050%;
+}
+
+.dropdown-menu-flash {
+	left: -800%;
+}
+
+.dropdown-menu-accessories {
+	left: -800%;
+}

@@ -179,8 +179,8 @@
                                             aria-expanded="false"
                                             >Fashion</span
                                         >
-                                        <div class="dropdown-menu px-4" style="width: 90vw;" >
-                                            <div class="row">
+                                        <div class="dropdown-menu px-4 dropdown-menu-fashion">
+                                            <div class="row child" style="width: 90vw;">
                                                 <div class="col-2 dropdown-item">
                                                     <p class="font-bold">Most popular categories</p>
                                                     <hr class="">
@@ -214,35 +214,251 @@
 
                               
                                     <div
-                                        class="mr-5 flex align-items-center mt-3"
+                                        class="mr-5 flex align-items-center mt-3 dropdown"
                                     >
-                                        <span>Shoes Man</span>
+                                        <span
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            >Shoes Man</span
+                                        >
+                                        <div class="dropdown-menu px-4 dropdown-menu-shoes">
+                                            <div class="row child" style="width: 90vw;">
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">Most popular categories</p>
+                                                    <hr class="">
+                                                    <a href="#">Smartphones and accessories</a>
+                                                    <a href="#">Video games and consoles</a>
+                                                    <a href="#">Computers and tablets</a>
+                                                    <a href="#">Cameras and photos</a>
+                                                    <a href="#">Camera drones</a>
+                                                    <a href="#">Refurbished</a>
+                                                    <a href="#">Smart home</a>
+                                                </div>
+
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">More categories</p>
+                                                    <hr>
+                                                    <a href="#">Apple</a>
+                                                    <a href="#">Samsung</a>
+                                                    <a href="#">Portable audio and headphones</a>
+                                                    <a href="#">Emerging brands</a>
+                                                    <a href="#">Smart watches</a>
+                                                    <a href="#">Deals</a>
+                                                    <a href="#">Sell on eBay</a>
+                                                </div>
+                                                
+                                                <div class="col-8 dropdown-item">
+                                                    <img style="width: 58vw;" src="https://ir.ebaystatic.com/cr/v/c01/ROW-19392_Fallback_Electronics_770x270.png" alt="product image">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div
-                                        class="mr-5 flex align-items-center mt-3"
+                                        class="mr-5 flex align-items-center mt-3 dropdown"
                                     >
-                                        <span>Gadget</span>
+                                        <span
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            >Gadget</span
+                                        >
+                                        <div class="dropdown-menu px-4 dropdown-menu-gadget">
+                                            <div class="row child" style="width: 90vw;">
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">Most popular categories</p>
+                                                    <hr class="">
+                                                    <a href="#">Smartphones and accessories</a>
+                                                    <a href="#">Video games and consoles</a>
+                                                    <a href="#">Computers and tablets</a>
+                                                    <a href="#">Cameras and photos</a>
+                                                    <a href="#">Camera drones</a>
+                                                    <a href="#">Refurbished</a>
+                                                    <a href="#">Smart home</a>
+                                                </div>
+
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">More categories</p>
+                                                    <hr>
+                                                    <a href="#">Apple</a>
+                                                    <a href="#">Samsung</a>
+                                                    <a href="#">Portable audio and headphones</a>
+                                                    <a href="#">Emerging brands</a>
+                                                    <a href="#">Smart watches</a>
+                                                    <a href="#">Deals</a>
+                                                    <a href="#">Sell on eBay</a>
+                                                </div>
+                                                
+                                                <div class="col-8 dropdown-item">
+                                                    <img style="width: 58vw;" src="https://ir.ebaystatic.com/cr/v/c01/ROW-19392_Fallback_Electronics_770x270.png" alt="product image">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div
-                                        class="mr-5 flex align-items-center mt-3"
+                                        class="mr-5 flex align-items-center mt-3 dropdown"
                                     >
-                                        <span>Computer</span>
+                                        <span
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            >Computer</span
+                                        >
+                                        <div class="dropdown-menu px-4 dropdown-menu-computer">
+                                            <div class="row child" style="width: 90vw;">
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">Most popular categories</p>
+                                                    <hr class="">
+                                                    <a href="#">Smartphones and accessories</a>
+                                                    <a href="#">Video games and consoles</a>
+                                                    <a href="#">Computers and tablets</a>
+                                                    <a href="#">Cameras and photos</a>
+                                                    <a href="#">Camera drones</a>
+                                                    <a href="#">Refurbished</a>
+                                                    <a href="#">Smart home</a>
+                                                </div>
+
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">More categories</p>
+                                                    <hr>
+                                                    <a href="#">Apple</a>
+                                                    <a href="#">Samsung</a>
+                                                    <a href="#">Portable audio and headphones</a>
+                                                    <a href="#">Emerging brands</a>
+                                                    <a href="#">Smart watches</a>
+                                                    <a href="#">Deals</a>
+                                                    <a href="#">Sell on eBay</a>
+                                                </div>
+                                                
+                                                <div class="col-8 dropdown-item">
+                                                    <img style="width: 58vw;" src="https://ir.ebaystatic.com/cr/v/c01/ROW-19392_Fallback_Electronics_770x270.png" alt="product image">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div
-                                        class="mr-5 flex align-items-center mt-3"
+                                        class="mr-5 flex align-items-center mt-3 dropdown"
                                     >
-                                        <span>Lapttop</span>
+                                        <span
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            >Laptop</span
+                                        >
+                                        <div class="dropdown-menu px-4 dropdown-menu-laptop">
+                                            <div class="row child" style="width: 90vw;">
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">Most popular categories</p>
+                                                    <hr class="">
+                                                    <a href="#">Smartphones and accessories</a>
+                                                    <a href="#">Video games and consoles</a>
+                                                    <a href="#">Computers and tablets</a>
+                                                    <a href="#">Cameras and photos</a>
+                                                    <a href="#">Camera drones</a>
+                                                    <a href="#">Refurbished</a>
+                                                    <a href="#">Smart home</a>
+                                                </div>
+
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">More categories</p>
+                                                    <hr>
+                                                    <a href="#">Apple</a>
+                                                    <a href="#">Samsung</a>
+                                                    <a href="#">Portable audio and headphones</a>
+                                                    <a href="#">Emerging brands</a>
+                                                    <a href="#">Smart watches</a>
+                                                    <a href="#">Deals</a>
+                                                    <a href="#">Sell on eBay</a>
+                                                </div>
+                                                
+                                                <div class="col-8 dropdown-item">
+                                                    <img style="width: 58vw;" src="https://ir.ebaystatic.com/cr/v/c01/ROW-19392_Fallback_Electronics_770x270.png" alt="product image">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div
-                                        class="mr-5 flex align-items-center mt-3"
+                                        class="mr-5 flex align-items-center mt-3 dropdown"
                                     >
-                                        <span>Flash Sale</span>
+                                        <span
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            >Flash Sale</span
+                                        >
+                                        <div class="dropdown-menu px-4 dropdown-menu-flash">
+                                            <div class="row child" style="width: 90vw;">
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">Most popular categories</p>
+                                                    <hr class="">
+                                                    <a href="#">Smartphones and accessories</a>
+                                                    <a href="#">Video games and consoles</a>
+                                                    <a href="#">Computers and tablets</a>
+                                                    <a href="#">Cameras and photos</a>
+                                                    <a href="#">Camera drones</a>
+                                                    <a href="#">Refurbished</a>
+                                                    <a href="#">Smart home</a>
+                                                </div>
+
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">More categories</p>
+                                                    <hr>
+                                                    <a href="#">Apple</a>
+                                                    <a href="#">Samsung</a>
+                                                    <a href="#">Portable audio and headphones</a>
+                                                    <a href="#">Emerging brands</a>
+                                                    <a href="#">Smart watches</a>
+                                                    <a href="#">Deals</a>
+                                                    <a href="#">Sell on eBay</a>
+                                                </div>
+                                                
+                                                <div class="col-8 dropdown-item">
+                                                    <img style="width: 58vw;" src="https://ir.ebaystatic.com/cr/v/c01/ROW-19392_Fallback_Electronics_770x270.png" alt="product image">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div
-                                        class="mr-5 flex align-items-center mt-3"
+                                        class="mr-5 flex align-items-center mt-3 dropdown"
                                     >
-                                        <span>Accessories</span>
+                                        <span
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            >Accessories</span
+                                        >
+                                        <div class="dropdown-menu px-4 dropdown-menu-accessories">
+                                            <div class="row child" style="width: 90vw;">
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">Most popular categories</p>
+                                                    <hr class="">
+                                                    <a href="#">Smartphones and accessories</a>
+                                                    <a href="#">Video games and consoles</a>
+                                                    <a href="#">Computers and tablets</a>
+                                                    <a href="#">Cameras and photos</a>
+                                                    <a href="#">Camera drones</a>
+                                                    <a href="#">Refurbished</a>
+                                                    <a href="#">Smart home</a>
+                                                </div>
+
+                                                <div class="col-2 dropdown-item">
+                                                    <p class="font-bold">More categories</p>
+                                                    <hr>
+                                                    <a href="#">Apple</a>
+                                                    <a href="#">Samsung</a>
+                                                    <a href="#">Portable audio and headphones</a>
+                                                    <a href="#">Emerging brands</a>
+                                                    <a href="#">Smart watches</a>
+                                                    <a href="#">Deals</a>
+                                                    <a href="#">Sell on eBay</a>
+                                                </div>
+                                                
+                                                <div class="col-8 dropdown-item">
+                                                    <img style="width: 58vw;" src="https://ir.ebaystatic.com/cr/v/c01/ROW-19392_Fallback_Electronics_770x270.png" alt="product image">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
 
                             
                                 </div>
