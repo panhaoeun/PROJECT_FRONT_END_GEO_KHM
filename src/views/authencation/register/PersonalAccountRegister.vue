@@ -1,6 +1,16 @@
 <template>
-        <!-- Messages -->
-    <Message v-for="msg of messages_acc_per" :severity="msg.severity" :key="msg.content">{{msg.content}}</Message>
+    <!-- Modal Popup - MazDialogs OPT Verify -->
+    <MazDialog v-model="isOpenMazDialogs" title="Dialog Title">
+        <p>
+        Your content
+        </p>
+        <template #footer>
+        <MazBtn @click="isOpenMazDialogs = false">
+            Confirm
+        </MazBtn>
+        </template>
+    </MazDialog>
+
      <form role="form" @submit.prevent="handleSubmitPersonalAcc(!v$.$invalid)" method="POST" enctype="multipart/form-data">
             <div>
                 <div class="p-fluid grid">
@@ -73,7 +83,7 @@
                                     </ul>
                                 </template>
                             </Password>
-                            <label for="user_acc_password" :class="{'p-error':v$.user_acc_password.$invalid && submitted}" style="font-size: 14px;">Password</label>
+                            <label for="user_acc_password" :class="{'p-error':v$.user_acc_password.$invalid && submitted}" style="font-size: 14px;">Password <span class="p-error">*</span> </label>
                         </div>
                         <small v-if="(v$.user_acc_password.$invalid && submitted) || v$.user_acc_password.$pending.$response" class="p-error">{{v$.user_acc_password.required.$message.replace('Value', 'Password')}}</small>
                     </div>
@@ -101,6 +111,8 @@
                 <Button type="submit" label="Create account" :loading="isLoading" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
             </div>
         </form>
+     <!-- Messages Alert-->
+      <Message v-for="msg of messages_acc_per" :severity="msg.severity" :life="3000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
         <!-- Or Authentication -->
         <div class="or-border">
             <div class="border-align bordert my-4 flex align-items-center justify-content-center"></div>  
@@ -112,16 +124,21 @@
             </div>
         </div>
 </template>
+
+
 <!-- Personal Account Register -->
 <script>
     import {required} from "@vuelidate/validators";
     import { useVuelidate } from "@vuelidate/core";
     import socialRegister from '../socialmedia/socialRegister.vue';
     import AuthenticationsDataService from "../../../services/authencationDataService";
+    import MazDialog from 'maz-ui/components/MazDialog';
+    import MazBtn from 'maz-ui/components/MazBtn';
     export default {
         setup: () => ({ v$: useVuelidate() }),
         data() {
             return {
+                isOpenMazDialogs: false,
                 results: '',
                 isLoading: false,
                 loading: [false, false, false],
@@ -153,7 +170,9 @@
             }
         },  
         components: {
-            socialRegister
+            socialRegister,
+            MazDialog,
+            MazBtn
         },
         methods: {
             async handleSubmitPersonalAcc(isFormValid){
@@ -162,8 +181,9 @@
                         // Loading Button
                         this.isLoading = true;
                         setTimeout(() => (this.isLoading = false), 1000);
+                        console.log(this.$router)
                         // Check validations
-                        if (!isFormValid) {
+                        if (!isFormValid) {      
                             return;
                         }
                         // Data 
@@ -176,10 +196,11 @@
                             user_type: "Customer"
                         }
                         AuthenticationsDataService.create(data).then((response) => {
-                        this.submitted = true;
-                        this.messages_acc_per = [
-                                {severity: 'success', content: response.data.message},
-                            ]
+                            this.submitted = true;
+                            this.messages_acc_per = [
+                                    {severity: 'success', content: response.data.message},
+                            ];
+                           
                         }).catch(e => {
                             //  Toast Alert 
                             this.messages_acc_per = [

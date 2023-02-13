@@ -74,6 +74,9 @@ import DialogService from 'primevue/dialogservice'
 import Divider from 'primevue/divider';
 import Message from 'primevue/message';
 import InlineMessage from 'primevue/inlinemessage';
+import Card from 'primevue/card';
+import InputMask from 'primevue/inputmask';
+
 
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
@@ -122,6 +125,10 @@ app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
 app.component('MazBtn', MazBtn)
 app.component('MazInput', MazInput)
 app.component('MazPhoneNumberInput', MazPhoneNumberInput);
+app.component('Card', Card);
+app.component('InputMask',InputMask);
+
+
 
 app.mount('#app')
 

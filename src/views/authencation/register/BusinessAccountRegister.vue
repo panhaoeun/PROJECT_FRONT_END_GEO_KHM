@@ -1,6 +1,4 @@
 <template>
-    <!-- Messages -->
-    <Message v-for="msg of messages" :severity="msg.severity" :key="msg.content">{{msg.content}}</Message>
 
     <form @submit.prevent="handleSubmitBusinessAcc(!v$.$invalid)" class="p-fluid" method="POST" enctype="multipart/form-data"  role="form">    
             <div>
@@ -24,8 +22,27 @@
                     <!-- Phone number registers -->
                     <div class="col-12 md:col-12">
                         <div class="p-float-label">
-                            <InputText id="user_phoenumber" type="text" v-model="v$.user_phonenumber.$model" :class="{'p-invalid p-inputtext-lg':v$.user_phonenumber.$invalid && submitted}"  style="height: 50px;"/>
-                            <label for="last_name" :class="{'p-error font-light':v$.user_phonenumber.$invalid && submitted}" style="font-size: 14px;">Phone Number <span class="p-error">*</span> </label>
+                            <!-- Phone Number Input -->
+                            <MazPhoneNumberInput
+                                id="user_phonenumber" 
+                                v-model="v$.user_phonenumber.$model" 
+                                :error="v$.user_phonenumber.$invalid && submitted" 
+                                color="info"
+                                defaultCountryCode="KH"
+                                size="lg"
+                                :no-example="true"
+                                type="number"
+                                :valid-button-loading="true"	
+                                @update="results = $event"
+                                :success="results?.isValid"
+                                v-on:keypress="inputNumOnly"
+                            />
+                            
+                            <div>
+                                <code>
+                                    {{ results }}
+                                </code>
+                            </div>
                        </div>
                        <small v-if="(v$.user_phonenumber.$invalid && submitted) || v$.user_phonenumber.$pending.$response" class="p-error">{{v$.user_phonenumber.required.$message.replace('Value', 'Phone Number')}}</small>
                     </div>
@@ -56,7 +73,7 @@
                                     </ul>
                                 </template>
                             </Password>
-                            <label for="user_password" :class="{'p-error':v$.user_password.$invalid && submitted}" style="font-size: 14px;">Password</label>
+                            <label for="user_password" :class="{'p-error':v$.user_password.$invalid && submitted}" style="font-size: 14px;">Password <span class="p-error">*</span> </label>
                         </div>
                         <small v-if="(v$.user_password.$invalid && submitted) || v$.user_password.$pending.$response" class="p-error">{{v$.user_password.required.$message.replace('Value', 'Password')}}</small>
                     </div>
@@ -68,8 +85,6 @@
                             While creating a website account: I agree to abide by the PhzarKhmer Membership Agreement- Willing to receive emails from PhzarKhmer.com members and services
                         </label>
                     </div>
-        
-                    
                     <!-- Privacy and conditions -->
                      <!-- Label Privacy -->
                      <div class="px-4 py-4">
@@ -88,13 +103,17 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Messages MazDialog -->
+                <Message v-for="msg of messages" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
+                    
             </div>
             <!-- Create business account button -->
             <div class="flex justify-content-center">
                 <Button type="submit" label="Create account" class="mt-2 p-button-rounded p-button-md"  :loading="isLoading"  style="font-size: 16px; color: white;width: 250px; height: 50px;"/>
             </div>
         </form>
-        
+    
 </template>
 
 <!-- Business Account Register -->
@@ -134,7 +153,7 @@
                         user_password: this.user_password,
                         user_firstname: this.user_firstname,
                         user_lastname: this.user_lastname,
-                        user_phonenumber: this.user_phonenumber,
+                        user_phonenumber: this.results.nationalNumber,
                         user_type: "Vendor"
                     }
                   
@@ -147,6 +166,8 @@
                        this.messages = [
                              {severity: 'success', content: response.data.message},
                         ]
+                       // After register success push to page verify opt
+                       this.$router.push({path: '/auth/opt-verify/:verify='+encodeURI('phone-5digit')});
                     }).catch(e => {
                         //  Toast Alert 
                         this.messages = [
@@ -168,6 +189,17 @@
                 this.accept = null;
                 this.submitted = false;
             },
+             // Input number only 
+            inputNumOnly(evt){
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                // Disable input character 
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46 || charCode == 0 ) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            }
     
         },
         data(){
@@ -185,6 +217,7 @@
                 messages: [],
                 isLoading: false,
                 loading: [false, false, false],
+                results: ''
             }
         }
     }
