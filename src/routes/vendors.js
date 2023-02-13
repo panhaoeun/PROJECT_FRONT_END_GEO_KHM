@@ -33,7 +33,14 @@ export default [
       {
         path:'/profile',
         component:()=> import('../views/vendors/setting/ProfileView.vue'),
-      }
+      },
+      {
+        path: "/customer/productdetail",
+        name: "",
+        component: () => import("../views/customers/ProductDetail.vue"),
+    },
+     
     ],
   },
+  
 ]
