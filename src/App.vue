@@ -6,6 +6,7 @@
         <!-- Authencation -->
         <Login v-if="$route.meta.template == 'authencation-login'"/>
         <Register v-if="$route.meta.template == 'authencation-register'"/>
+        <OPTVerifyAuth v-if="$route.meta.template == 'opt-verify-authentication'"/>
    </div>
 </template>
 
@@ -20,6 +21,7 @@
     // Authencation 
     import Login from './views/authencation/AuthLogin.vue';
     import Register from './views/authencation/AuthRegister.vue';
+    import OPTVerifyAuth from './views/authencation/opt_verify/OPTVerify.vue';
     export default {
         computed:{
             currentTemplate(){
@@ -30,7 +32,8 @@
           CusMainLayout,
           VendorsMainLayout,
           Login,
-          Register
+          Register,
+          OPTVerifyAuth
         }
     }
 
