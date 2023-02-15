@@ -36,16 +36,15 @@
                         <div class="px-2 py-2">
                             <div class="bg-white pt-4 pb-2 pl-2 pr-2 pb-2">
                                 <!-- Credit card form tabs -->
-                                <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                                <ul role="tablist" class="nav border-500 surface-overlay border-1 nav-pills rounded nav-fill mb-3 px-3 py-3">
                                     <li class="nav-item">
-                                            <a data-toggle="pill" href="#personal-account" class="nav-link active ">
-                                            <i class="fas fa-credit-card mr-2"></i>Personal account 
+                                            <a data-toggle="pill" href="#personal-account" class="nav-link active px-2 py-2">
+                                                   <span class="text-lg"> Personal account </span>
                                             </a>
                                     </li>
                                     <li class="nav-item"> 
-                                            <a data-toggle="pill" href="#business-account" class="nav-link"> 
-                                                <i class="fab fa-paypal mr-2"></i>
-                                                 Business account 
+                                            <a data-toggle="pill" href="#business-account" class="nav-link px-2 py-2"> 
+                                                <span class="text-lg"> Business account </span>
                                             </a> 
                                     </li>
                                 </ul>

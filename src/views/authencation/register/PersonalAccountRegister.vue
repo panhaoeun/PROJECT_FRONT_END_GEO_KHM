@@ -1,25 +1,49 @@
 <template>
-     <form role="form">
+        <!-- Messages -->
+    <Message v-for="msg of messages_acc_per" :severity="msg.severity" :key="msg.content">{{msg.content}}</Message>
+     <form role="form" @submit.prevent="handleSubmitPersonalAcc(!v$.$invalid)" method="POST" enctype="multipart/form-data">
             <div>
                 <div class="p-fluid grid">
                     <!-- Username -->
                     <div class="col-6 md:col-6">
-                        <InputText id="inputtext" type="text" v-model="value1" placeholder="First Name" class="p" style="height: 50px;"/>
+                       <div class="p-float-label">
+                            <InputText id="user_acc_firstname" type="text" v-model="v$.user_acc_firstname.$model" :class="{'p-invalid p-inputtext-lg':v$.user_acc_firstname.$invalid && submitted}"  style="height: 50px;"/>
+                            <label for="user_acc_firstname" :class="{'p-error font-light':v$.user_acc_firstname.$invalid && submitted}" style="font-size: 14px;">First name <span class="p-error">*</span> </label>
+                       </div>
+                       <small v-if="(v$.user_acc_firstname.$invalid && submitted) || v$.user_acc_firstname.$pending.$response" class="p-error">{{v$.user_acc_firstname.required.$message.replace('Value', 'First name')}}</small>
                     </div>
-                    <div class="col-6 md:col-6">
-                        <InputText id="inputtext" type="text" v-model="value1" placeholder="Last Name" class="p" style="height: 50px;" />
+        
+                     <div class="col-6 md:col-6">
+                       <div class="p-float-label">
+                            <InputText id="user_acc_lastname" type="text" v-model="v$.user_acc_lastname.$model" :class="{'p-invalid p-inputtext-lg':v$.user_acc_lastname.$invalid && submitted}"  style="height: 50px;"/>
+                            <label for="user_acc_lastname" :class="{'p-error font-light':v$.user_acc_lastname.$invalid && submitted}" style="font-size: 14px;">Last name <span class="p-error">*</span> </label>
+                       </div>
+                       <small v-if="(v$.user_acc_lastname.$invalid && submitted) || v$.user_acc_lastname.$pending.$response" class="p-error">{{v$.user_acc_lastname.required.$message.replace('Value', 'Last name')}}</small>
                     </div>
-                    <!-- Email -->
+                    <!-- Phone number registers -->
                     <div class="col-12 md:col-12">
-                        <InputText id="inputtext" type="email" v-model="value1" placeholder="Email" class="p" style="height: 50px;"/>
+                        <div class="p-float-label">
+                            <InputText id="user_acc_phonenumber" type="text" v-model="v$.user_acc_phonenumber.$model" :class="{'p-invalid p-inputtext-lg':v$.user_acc_phonenumber.$invalid && submitted}"  style="height: 50px;"/>
+                            <label for="last_name" :class="{'p-error font-light':v$.user_acc_phonenumber.$invalid && submitted}" style="font-size: 14px;">Phone Number <span class="p-error">*</span> </label>
+                       </div>
+                       <small v-if="(v$.user_acc_phonenumber.$invalid && submitted) || v$.user_acc_phonenumber.$pending.$response" class="p-error">{{v$.user_acc_phonenumber.required.$message.replace('Value', 'Phone Number')}}</small>
+                    </div>
+                    <!-- Email Account Personal-->
+                    <div class="col-12 md:col-12">
+                        <div class="p-float-label">
+                            <InputText id="user_acc_email" class="p-inputtext-lg" type="email" style="height: 50px;"/>
+                            <label for="user_acc_email" style="font-size: 14px;">Personal Email</label>
+                       </div>
                     </div>
                     <!-- Password -->
                     <div class="col-12 md:col-12">
-                        <Password id="inputtext" type="password" toggleMask v-model="password" placeholder="Password" class="p" style="height: 50px;">
+                        <div class="p-float-label">
+                            <Password id="password" v-model="v$.user_acc_password.$model" :class="{'p-invalid':v$.user_acc_password.$invalid && submitted}" toggleMask  style="height: 50px;">
                                 <template #header>
                                     <h6>Pick a password</h6>
                                 </template>
-                                <template #footer>
+                                <template #footer="sp">
+                                    {{sp.level}}
                                     <Divider />
                                     <p class="mt-2">Suggestions</p>
                                     <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
@@ -29,8 +53,12 @@
                                         <li>Minimum 8 characters</li>
                                     </ul>
                                 </template>
-                        </Password>
+                            </Password>
+                            <label for="user_acc_password" :class="{'p-error':v$.user_acc_password.$invalid && submitted}" style="font-size: 14px;">Password</label>
+                        </div>
+                        <small v-if="(v$.user_acc_password.$invalid && submitted) || v$.user_acc_password.$pending.$response" class="p-error">{{v$.user_acc_password.required.$message.replace('Value', 'Password')}}</small>
                     </div>
+                  
                     <!-- Label Privacy -->
                     <div class="px-4 py-4">
                         <p  style="font-size:12px; color: #767676; line-height: 1.5; padding: 8px 0;">
@@ -51,7 +79,7 @@
             </div>
             <!-- Create account button -->
             <div class="flex justify-content-center">
-                <Button type="submit" label="Create account" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
+                <Button type="submit" label="Create account" :loading="isLoading" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
             </div>
         </form>
         <!-- Or Authentication -->
@@ -65,11 +93,98 @@
             </div>
         </div>
 </template>
+<!-- Personal Account Register -->
 <script>
-        import socialRegister from '../socialmedia/socialRegister.vue';
-        export default {
-            components: {
-                socialRegister
+    import {required} from "@vuelidate/validators";
+    import { useVuelidate } from "@vuelidate/core";
+    import socialRegister from '../socialmedia/socialRegister.vue';
+    import AuthenticationsDataService from "../../../services/authencationDataService";
+    export default {
+        setup: () => ({ v$: useVuelidate() }),
+        data() {
+            return {
+                isLoading: false,
+                loading: [false, false, false],
+                user_acc_firstname: '',
+                user_acc_lastname: '',
+                user_acc_phonenumber: '',
+                user_acc_email: '',
+                user_acc_password: '',
+                messages_acc_per: [],
+                submitted:false,
+                accept: null,
             }
+        },
+    
+        validations() {
+            return {
+                user_acc_firstname: {
+                    required
+                },
+                user_acc_lastname: {
+                    required
+                },
+                user_acc_phonenumber:{
+                    required
+                },
+                user_acc_password: {
+                    required
+                }
+            }
+        },  
+        components: {
+            socialRegister
+        },
+        methods: {
+            async handleSubmitPersonalAcc(isFormValid){
+                try{
+                    this.submitted = true;
+                    // Loading Button
+                    this.isLoading = true;
+                    setTimeout(() => (this.isLoading = false), 1000);
+                    // Check validations
+                    if (!isFormValid) {
+                        return;
+                    }
+                    // Data 
+                    const data = {
+                        user_email : this.user_acc_email,
+                        user_password: this.user_acc_password,
+                        user_firstname: this.user_acc_firstname,
+                        user_lastname: this.user_acc_lastname,
+                        user_phonenumber: this.user_acc_phonenumber,
+                        user_type: "Customer"
+                    }
+                    AuthenticationsDataService.create(data).then((response) => {
+                       this.submitted = true;
+                       this.messages_acc_per = [
+                             {severity: 'success', content: response.data.message},
+                        ]
+                    }).catch(e => {
+                        //  Toast Alert 
+                        this.messages_acc_per = [
+                             {severity: 'error', content: e.response.data.error},
+                        ]
+                    })
+                  
+                    
+                }catch(err){
+                    console.log("sdfds")
+                }
+            },
+            //Reset Form Input 
+            resetFrom(){
+                this.user_acc_firstname,
+                this.user_acc_lastname,
+                this.user_acc_phonenumber,
+                this.user_acc_email,
+                this.user_acc_password,
+                this.submitted = false
+            }
+        },
+        mounted() {
+           
         }
+     
+    }
 </script>
