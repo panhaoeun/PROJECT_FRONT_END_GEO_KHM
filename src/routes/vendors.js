@@ -3,7 +3,7 @@ import home from "../views/vendors/HomeView.vue";
 export default [
   {
     path: "/vendors/dashboard",
-    name: "customer-index",
+    name: "vendors-index",
     meta: {template: 'panel'},
     children: [
       {
