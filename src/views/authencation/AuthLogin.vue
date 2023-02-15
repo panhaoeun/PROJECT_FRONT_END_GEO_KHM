@@ -51,7 +51,7 @@
                                 <Message v-for="msg of messages" :severity="msg.severity" :life="6000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
                         
                                 <!-- Button Submit -->
-                                <MazBtn type="submit">Sign In</MazBtn>
+                                <MazBtn type="submit" >Sign In</MazBtn>
                             </form>
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
@@ -129,8 +129,6 @@ export default {
             try{
                 this.submitted = true;
                 if(this.password != '' && this.phone != ''){
-
-                 
                     // Client to Serve 
                     const data = {
                         user_phonenumber : this.phone,
