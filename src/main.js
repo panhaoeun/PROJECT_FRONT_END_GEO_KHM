@@ -86,10 +86,6 @@ import MazInput from 'maz-ui/components/MazInput'
 import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
 import 'maz-ui/css/main.css';
 
-
-
-
-
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */
@@ -121,7 +117,6 @@ app.component('MazInput', MazInput)
 app.component('MazPhoneNumberInput', MazPhoneNumberInput);
 app.component('Card', Card);
 app.component('InputMask',InputMask);
-
 
 
 app.mount('#app')
