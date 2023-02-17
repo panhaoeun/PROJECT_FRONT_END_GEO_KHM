@@ -28,6 +28,10 @@ export default [
       {
         path:'/profile',
         component:()=> import('../views/vendors/setting/ProfileView.vue'),
+      },
+      {
+        path:'/shopping_cart',
+        component:()=> import('../components/ShoppingCart.vue'),
       }
     ],
   },
