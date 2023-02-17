@@ -10,7 +10,7 @@
                             <router-link to="/" >
                                 <div class="layout-topbar-logos logo_container">
                                     <img  alt="logo" src="../../assets/logo/ecommerce.png"/>
-                            </div>
+                                </div>
                             </router-link>
                         </div>
                     </div>

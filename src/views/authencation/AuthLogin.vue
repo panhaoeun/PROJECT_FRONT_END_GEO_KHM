@@ -88,7 +88,6 @@ import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
 import AuthenticationsDataService from  "../../services/authencationDataService";
 import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
 
 export default {
     setup: () => ({ v$: useVuelidate() }),

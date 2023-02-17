@@ -72,9 +72,18 @@ import Card from 'primevue/card';
 import InputMask from 'primevue/inputmask';
 import Menubar from 'primevue/menubar';
 
+// Databases
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
+import Row from 'primevue/row';                     //optional for row
+
+
+
 
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
+import 'vue-loading-overlay/dist/css/index.css';
 // Vue Progress
 import 'vue-progress-path/dist/vue-progress-path.css'
 import VueProgress from 'vue-progress-path'
@@ -119,6 +128,10 @@ app.component('MazPhoneNumberInput', MazPhoneNumberInput);
 app.component('Card', Card);
 app.component('InputMask',InputMask);
 app.component('Menubar', Menubar);
+app.component('DataTable',DataTable);
+app.component('Column', Column);
+app.component('ColumnGroup', ColumnGroup);
+app.component('Row', Row);
 
 
 app.mount('#app')

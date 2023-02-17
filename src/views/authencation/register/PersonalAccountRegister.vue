@@ -1,4 +1,11 @@
 <template>
+    <!-- Loading -->
+    <loading 
+        v-model:active="isLoadingPersonal"
+        :can-cancel="true"
+        color='#000000'
+        backgroundColor='#ffffff'
+     />
     <!-- Modal Popup - MazDialogs OPT Verify -->
     <MazDialog v-model="isOpenMazDialogs" title="Dialog Title">
         <p>
@@ -112,7 +119,7 @@
             </div>
         </form>
      <!-- Messages Alert-->
-      <Message v-for="msg of messages_acc_per" :severity="msg.severity" :life="3000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
+      <Message v-for="msg of messages_acc_per" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
         <!-- Or Authentication -->
         <div class="or-border">
             <div class="border-align bordert my-4 flex align-items-center justify-content-center"></div>  
@@ -134,6 +141,8 @@
     import AuthenticationsDataService from "../../../services/authencationDataService";
     import MazDialog from 'maz-ui/components/MazDialog';
     import MazBtn from 'maz-ui/components/MazBtn';
+    import Loading from 'vue-loading-overlay';
+
     export default {
         setup: () => ({ v$: useVuelidate() }),
         data() {
@@ -150,6 +159,7 @@
                 messages_acc_per: [],
                 submitted:false,
                 accept: null,
+                isLoadingPersonal: false
             }
         },
     
@@ -172,7 +182,8 @@
         components: {
             socialRegister,
             MazDialog,
-            MazBtn
+            MazBtn,
+            Loading
         },
         methods: {
             async handleSubmitPersonalAcc(isFormValid){
@@ -181,7 +192,7 @@
                         // Loading Button
                         this.isLoading = true;
                         setTimeout(() => (this.isLoading = false), 1000);
-                        console.log(this.$router)
+                        
                         // Check validations
                         if (!isFormValid) {      
                             return;
@@ -196,11 +207,18 @@
                             user_type: "Customer"
                         }
                         AuthenticationsDataService.create(data).then((response) => {
+                            // Set Loading 
+                            this.isLoadingPersonal = true;
+                            setTimeout(() => {
+                                this.isLoadingPersonal = false
+                            }, 1000);
+
                             this.submitted = true;
                             this.messages_acc_per = [
                                     {severity: 'success', content: response.data.message},
                             ];
-                           
+                            // Push Router
+                            this.$router.push("/auth/login");    
                         }).catch(e => {
                             //  Toast Alert 
                             this.messages_acc_per = [

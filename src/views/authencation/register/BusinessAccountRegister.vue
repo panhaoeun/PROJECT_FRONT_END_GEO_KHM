@@ -1,5 +1,11 @@
 <template>
-
+    <!-- Loading -->
+    <loading 
+        v-model:active="isLoadingBusiness"
+        :can-cancel="true"
+        color='#000000'
+        backgroundColor='#ffffff'
+     />
     <form @submit.prevent="handleSubmitBusinessAcc(!v$.$invalid)" class="p-fluid" method="POST" enctype="multipart/form-data"  role="form">    
             <div>
                 <div class="p-fluid grid">
@@ -50,7 +56,7 @@
                      <!-- Business Emails -->
                      <div class="col-12 md:col-12">
                         <div class="p-float-label">
-                            <InputText id="email_business" type="text" class="p-inputtext-lg"  style="height: 50px;"/>
+                            <InputText id="email_business" type="email" class="p-inputtext-lg"  style="height: 50px;" />
                             <label for="email" style="font-size: 14px;">Business Email</label>
                        </div>
                     </div>
@@ -122,6 +128,7 @@
     import {required} from "@vuelidate/validators";
     import { useVuelidate } from "@vuelidate/core";
     import AuthenticationsDataService from "../../../services/authencationDataService";
+    import Loading from 'vue-loading-overlay';
 
     export default {
         setup: () => ({ v$: useVuelidate() }),
@@ -140,6 +147,9 @@
                     required
                 }
             }
+        },
+        components: {
+            Loading
         },
         methods: {
             // Handle Submit Business Account
@@ -166,8 +176,15 @@
                        this.messages = [
                              {severity: 'success', content: response.data.message},
                         ]
-                       // After register success push to page verify opt
-                       this.$router.push({path: '/auth/opt-verify/:verify='+encodeURI('phone-5digit')});
+                        //After register success push to page verify opt
+                        // Set Loading 
+                        this.isLoadingBusiness = true;
+                            setTimeout(() => {
+                                this.isLoadingBusiness = false
+                        }, 1000);
+                        //this.$router.push({path: '/auth/opt-verify/:verify='+encodeURI('phone-5digit')});
+                        //Push Router
+                        this.$router.push("/auth/login");    
                     }).catch(e => {
                         //  Toast Alert 
                         this.messages = [
@@ -217,7 +234,8 @@
                 messages: [],
                 isLoading: false,
                 loading: [false, false, false],
-                results: ''
+                results: '',
+                isLoadingBusiness: false
             }
         }
     }

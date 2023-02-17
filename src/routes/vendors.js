@@ -35,9 +35,14 @@ export default [
         component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
       },
       {
-        path: "/shopping",
+        path: "/seller-vendor-list",
         name: "",
-        component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
+        component: () => import("../views/vendors/sellers/listSeller.vue"),
+      },
+      {
+        path: "/seller-vendor-add",
+        name: "",
+        component: () => import("../views/vendors/sellers/addSeller.vue"),
       },
     ],
   },
