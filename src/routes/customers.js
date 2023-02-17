@@ -1,3 +1,5 @@
+
+
 export default [
     {
         path:'/',
@@ -8,7 +10,7 @@ export default [
             path: "/customer/product",
             name:'dev',
             component: () => import("../views/vendors/products/ProductView.vue"),
-          },
+          }
         ]
       }
 ]

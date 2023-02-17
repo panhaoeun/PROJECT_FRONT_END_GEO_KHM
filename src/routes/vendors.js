@@ -28,7 +28,17 @@ export default [
       {
         path:'/profile',
         component:()=> import('../views/vendors/setting/ProfileView.vue'),
-      }
+      },
+      {
+        path: "/customer/productdetail",
+        name: "",
+        component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
+      },
+      {
+        path: "/shopping",
+        name: "",
+        component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
+      },
     ],
   },
 ]

@@ -13,6 +13,7 @@ import moduleRouteVendor from  "./vendors";
 import moduleRouteCustomer from "./customers";
 import moduleAuthencation from "./authencation";
 
+
 /*
     Makes a new VueRouter that we will use to run all of the routes
     for the app.
@@ -22,7 +23,8 @@ const router = new createRouter({
     routes: [
         ...moduleRouteCustomer,
         ...moduleRouteVendor,
-        ...moduleAuthencation
+        ...moduleAuthencation,
+        
     ]
 });
 export default router;

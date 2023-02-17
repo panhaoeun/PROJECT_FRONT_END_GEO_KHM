@@ -3,10 +3,13 @@
    <div class="bg-white">
         <CusMainLayout v-if="$route.meta.template == 'website'"/>
         <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
-        <!-- Authencation -->
+        <!-- Authentications -->
         <Login v-if="$route.meta.template == 'authencation-login'"/>
         <Register v-if="$route.meta.template == 'authencation-register'"/>
         <OPTVerifyAuth v-if="$route.meta.template == 'opt-verify-authentication'"/>
+        <!-- Page Error -->
+        <PageError v-if="$route.meta.template == 'error-page'"/>
+        <!-- Page Not Found! -->
    </div>
 </template>
 
@@ -18,10 +21,11 @@
 <script>
     import VendorsMainLayout from '../src/template/VendorsMainLayout.vue';
     import CusMainLayout from './template/CusMainLayout.vue';
-    // Authencation 
+    // Authentications 
     import Login from './views/authencation/AuthLogin.vue';
     import Register from './views/authencation/AuthRegister.vue';
     import OPTVerifyAuth from './views/authencation/opt_verify/OPTVerify.vue';
+    import PageError from './components/error_page/404.vue';
     export default {
         computed:{
             currentTemplate(){
@@ -33,7 +37,8 @@
           VendorsMainLayout,
           Login,
           Register,
-          OPTVerifyAuth
+          OPTVerifyAuth,
+          PageError
         }
     }
 

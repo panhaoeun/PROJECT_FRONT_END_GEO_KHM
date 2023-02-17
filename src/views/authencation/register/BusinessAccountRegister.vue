@@ -40,7 +40,7 @@
                             
                             <div>
                                 <code>
-                                    {{ results }}
+                                    <!-- {{ results }} -->
                                 </code>
                             </div>
                        </div>
