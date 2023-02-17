@@ -1,5 +1,5 @@
 <template>
-    <div class="surface-section px-2 py-6 md:px-2 lg:px-3">
+    <div class="surface-section px-2 py-4 md:px-2 lg:px-3">
         <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row ">
             <div>
                 <div class="font-medium text-3xl text-900 font-semibold">Today's Beast For You</div>
@@ -10,10 +10,10 @@
                                <div class="row">
                                     <!-- Column Products -->
                                      <div class="col-md-2 px-2 py-2 p-ripple" v-for="item in items" :key="item.id" v-ripple>
-                                            <div class="flex flex-wrap border-1 border-round px-2 py-2 hover:border-blue-500 ">
+                                            <div class="flex flex-wrap border-1 border-round px-2 py-2 hover:border-blue-500" style="width:200px">
                                                     <div class="px-2 py-2">
                                                         <div class="card-img-actions surface-overlay font-bold flex align-items-center justify-content-center">                
-                                                                <img :src="item.image" class="card-img img-fluid" width="96" height="350" alt="">
+                                                                <img :src="item.image" class="card-img img-fluid" style="border-width: 0px; width: 100%; overflow: hidden; max-height: 170px; object-fit: cover;">
                                                         </div>
                                                     </div>
                                                     <div class="text-left">
@@ -44,19 +44,19 @@
                 items:[
                     {
                         id: '1',
-                        image: 'https://s.alicdn.com/@sc04/kf/Hce2659e2fb2c418698333044efd1ac68X.jpg_250x250.jpg',
+                        image: 'https://ae01.alicdn.com/kf/Sd0685492abe445e0a34ff7840bd50048L.jpg_220x220.webp_480x480Q90.webp',
                         title: 'Cheap and sophisticated women in lace bikinis cover beach dresses',
                         price: ' $0.76 - $0.85'
                     },
                     {
                         id: '2',
-                        image: 'https://s.alicdn.com/@sc04/kf/H5f30cae43d0144689804016b04edd75cx.png_250x250.jpg',
+                        image: 'https://ae01.alicdn.com/kf/Saea1f8a7a6dc4406837d3a83604bfff6P.jpg_220x220.webp_480x480Q90.webp',
                         title: 'Optional color best quality matte home goods ceramic cup / daily used ceramics mug for sale',
                         price: ' $0.76 - $0.85'
                     },
                     {
                         id: '3',
-                        image: 'https://s.alicdn.com/@sc04/kf/H929b3d62099047cdba38b9636030bcc1n.jpg_250x250.jpg',
+                        image: 'https://ae01.alicdn.com/kf/S29af01543a7d47758a8e91616501a60fI.jpg_220x220.webp_480x480Q90.webp',
                         title: 'Customized Wholesale Simple Wind Sublimation Ceramic Coffee Mug for Dormitory Restaurant',
                         price: ' $0.76 - $0.85'
                     },
