@@ -1,45 +1,49 @@
 <template>
-    <div class="xs:mx-auto md:mx-auto gap-3 row">
-        <div class="col-md-7">
+    <div class="mx-auto md:mx-auto gap-3 row">
+        <!-- SHOPPING CART SECTION -->
+        <div class="col-lg-7">
             <div class="p-5 bg-white rounded">
-                <div class="">
-                    <h1 class="text-black font-weight-bold">Shopping Cart (2)</h1>
+                <div>
+                    <p class="text-black font-weight-bold md:h1 h4 mb-3">
+                        Shopping Cart (2)
+                    </p>
                     <div class="">
                         <label for="select-item">
-                            <input class="mr-3" type="radio" id="select-item" />
+                            <input class="mr-3 my-input-button" type="radio" id="select-item" />
                             Select all items
                         </label>
                     </div>
                     <hr />
                 </div>
             </div>
-            <div class="bg-white mt-3 px-2 py-3 rounded">
-                <p class="text-black">
+            <div class="bg-white mt-3 px-3 py-4 rounded">
+                <p class="text-black font-weight-bold h6">
                     <span class="bg-red rounded p-2">Welcome Deal</span>
                     Applicable on 1 item only
                 </p>
             </div>
 
-            <div class="bg-white mt-3 px-2 py-3 rounded mb-5">
-                <label class="p-3" for="#">
-                    <input type="radio" /> AppleWatch Store
-                </label>
+            <!-- APPLE WATCH STORE SECTION -->
+            <div class="bg-white mt-3 px-3 py-3 rounded mb-5 w-100">
+                <input class="lg:ml-3 my-input-button" type="radio" />
+                <label class="ml-3" for="">AppleWatch Store</label>
+
                 <hr />
 
-                <div class="container row gap-2">
-                    <div class="col-4">
-                        <div class="d-flex">
-                            <input type="radio" />
+                <div class="container-fluid row gap-2">
+                    <div class="lg:col-4">
+                        <div class="d-flex align-items-center">
+                            <input type="radio" class="my-input-button" />
                             <img
                                 src="https://ae04.alicdn.com/kf/S5f2aa25a2a724fc0a2ccb6ec595c5289K.jpg"
                                 alt="logo"
-                                class="w-100 h-auto rounded ml-4"
+                                class="shopping-img rounded ml-4"
                             />
                         </div>
                     </div>
 
-                    <div class="col-7">
-                        <div class="flex">
+                    <div class="lg:col-7">
+                        <div class="flex flex-col">
                             <p class="text-black d-inline">
                                 Original Apple Watch Series 7 Used GPS 41mm 45mm
                                 Sports Smart Watch.
@@ -54,7 +58,9 @@
                             >As picture Show/41MM</a
                         >
                         <div class="flex justify-content-between mt-2">
-                            <p class="text-black font-weight-bold h5">US $427.20</p>
+                            <p class="text-black font-weight-bold h5">
+                                US $427.20
+                            </p>
                             <div class="flex gap-3">
                                 <i class="pi pi-minus-circle"></i>
                                 <span>1</span>
@@ -70,11 +76,13 @@
         </div>
 
         <!-- Payment method sections -->
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <div class="bg-white rounded p-5">
-                <h1 class="text-black font-weight-bold">Summary</h1>
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <p class="text-black font-weight-bold">Total</p>
+                <p class="text-black font-weight-bold h4 md:h1">Summary</p>
+                <div
+                    class="d-flex justify-content-between align-items-center mb-2"
+                >
+                    <p class="text-black font-weight-bold h6">Total</p>
                     <p class="text-black font-weight-bold h3">US $0.00</p>
                 </div>
                 <div
@@ -89,7 +97,9 @@
                 </div>
             </div>
             <div class="bg-white rounded mt-2 px-5 py-5">
-                <h2 class="text-black font-weight-bold">Payment methods</h2>
+                <h2 class="text-black font-weight-bold h4 md:h1">
+                    Payment methods
+                </h2>
                 <div>
                     <ul class="d-flex gap-4 align-items-center">
                         <li>
@@ -124,7 +134,9 @@
                 </div>
                 <hr />
                 <div class="text-black">
-                    <h2 class="text-black font-weight-bold">Buyer Protection</h2>
+                    <h2 class="text-black font-weight-bold h4 md:h1">
+                        Buyer Protection
+                    </h2>
                     <div class="flex gap-3 align-items-center">
                         <img
                             class="protected-img"
