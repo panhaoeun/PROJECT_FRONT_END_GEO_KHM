@@ -30,7 +30,7 @@ export default [
         component:()=> import('../views/vendors/setting/ProfileView.vue'),
       },
       {
-        path:'/shopping_cart',
+        path:'/shopping-cart',
         component:()=> import('../components/ShoppingCart.vue'),
       }
     ],
