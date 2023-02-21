@@ -71,6 +71,8 @@ import InlineMessage from 'primevue/inlinemessage';
 import Card from 'primevue/card';
 import InputMask from 'primevue/inputmask';
 import Menubar from 'primevue/menubar';
+import Toolbar from 'primevue/toolbar';
+import Editor from 'primevue/editor';
 
 // Databases
 import DataTable from 'primevue/datatable';
@@ -132,6 +134,8 @@ app.component('DataTable',DataTable);
 app.component('Column', Column);
 app.component('ColumnGroup', ColumnGroup);
 app.component('Row', Row);
+app.component('Toolbar', Toolbar);
+app.component('Editor', Editor);
 
 
 app.mount('#app')

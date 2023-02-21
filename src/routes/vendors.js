@@ -11,39 +11,23 @@ export default [
         name: "home",
         component: home,
       },
+      //Products
       {
-        path:'/category', 
-        component:()=> import('../views/vendors/category/CategoryView.vue'),
+        path: "/vendor/products",
+        name:'products-list',
+        component: () => import("../views/vendors/products/ProductList.vue"),
       },
       {
-        path: "/user",
-        name:'user',
-        component: () => import("../views/vendors/users/UserListView.vue"),
-      },
-      {
-        path: "/product",
+        path: "/vendor/products/create",
         name:'product',
-        component: () => import("../views/vendors/products/ProductView.vue"),
+        component: () => import("../views/vendors/products/ProductCreate.vue"),
       },
       {
-        path:'/profile',
-        component:()=> import('../views/vendors/setting/ProfileView.vue'),
+        path: "/vendor/products-tabs/eng-tab",
+        name:'products',
+        component: () => import("../views/vendors/products/tabs/ProductTabsEng.vue"),
       },
-      {
-        path: "/customer/productdetail",
-        name: "",
-        component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
-      },
-      {
-        path: "/seller-vendor-list",
-        name: "",
-        component: () => import("../views/vendors/sellers/listSeller.vue"),
-      },
-      {
-        path: "/seller-vendor-add",
-        name: "",
-        component: () => import("../views/vendors/sellers/addSeller.vue"),
-      },
+      
     ],
   },
 ]

@@ -14,22 +14,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img
-            src="../assets/img/avatar5.png"
-            class="img-circle elevation-2"
-            alt="User Image"
-          />
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Carlos Carvalho</a>
-        </div>
-      </div> -->
-
-      <!-- SidebarSearch Form -->
-      <br />
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input
@@ -56,98 +40,22 @@
         >
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <!-- <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a> -->
-            <!-- <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a
-                  href=""
-                  @click="$router.push('/home')"
-                  class="nav-link active"
-                >
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>home</p>
-                </a>
-              </li>
-            </ul> -->
-          </li>
-
           <!-- user management -->
           <li class="nav-item">
+            
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="nav-icon pi pi-shopping-bag"></i>
               <p>
-                User managements
+                 PRODUCT MANAGEMENT
                 <i class="fas fa-angle-left right"></i>
                 <!-- <span class="badge badge-info right">6</span> -->
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="/user" class="nav-link">
-                  <i class="fas fa-user nav-icon"></i>
-                  <p>User List</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-          <!-- user management -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Categories
-                <i class="fas fa-angle-left right"></i>
-                <!-- <span class="badge badge-info right">6</span> -->
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/category" class="nav-link">
-                  <i class="fas fa-user nav-icon"></i>
-                  <p>Category List</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-          <!-- Products -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Products
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/product" class="nav-link">
-                  <i class="fas fa-user nav-icon"></i>
-                  <p>product list</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                settings
-                <i class="fas fa-angle-left right"></i>
-                <!-- <span class="badge badge-info right">6</span> -->
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/profile" class="nav-link">
-                  <i class="fas fa-user nav-icon"></i>
-                  <p>profile</p>
+                <router-link to="/vendor/products" class="nav-link">
+                    <i class="pi pi-chevron-right"></i>
+                     <p class="pl-2">Products</p>
                 </router-link>
               </li>
             </ul>
