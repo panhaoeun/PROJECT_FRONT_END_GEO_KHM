@@ -27,6 +27,10 @@ export default [
         name:'products',
         component: () => import("../views/vendors/products/tabs/ProductTabsEng.vue"),
       },
+      {
+        path:'/shopping-cart',
+        component:()=> import('../views/customers/sopping_cart/ShoppingCart.vue'),
+      }
       
     ],
   },
