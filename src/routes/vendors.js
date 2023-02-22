@@ -28,10 +28,26 @@ export default [
         component: () => import("../views/vendors/products/tabs/ProductTabsEng.vue"),
       },
       {
-        path:'/shopping-cart',
-        component:()=> import('../views/customers/sopping_cart/ShoppingCart.vue'),
+        path: "/vendor/products/category/list",
+        name:'product-category',
+        component: () => import("../views/vendors/category/CategoryView.vue"),
+      },
+      {
+        path: "/vendor/products/type/list",
+        name:'product-types-list',
+        component: () => import("../views/vendors/product_type/ProductTypesView.vue"),
+      },
+      //My Shops
+      {
+        path: "/vendor/shop/list",
+        name:'shop-list',
+        component: () => import("../views/vendors/shops/ShopInfoView.vue"),
+      },
+      {
+        path: "/vendor/shop/create",
+        name:'shop-create',
+        component: () => import("../views/vendors/shops/ShopInfoCreate.vue"),
       }
-      
     ],
   },
 ]

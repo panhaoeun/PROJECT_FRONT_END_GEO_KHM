@@ -73,12 +73,20 @@ import InputMask from 'primevue/inputmask';
 import Menubar from 'primevue/menubar';
 import Toolbar from 'primevue/toolbar';
 import Editor from 'primevue/editor';
+import InputNumber from 'primevue/inputnumber';
+import Dropdown from 'primevue/dropdown';
+import MultiSelect from 'primevue/multiselect';
+
+
+
 
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
-import Row from 'primevue/row';                     //optional for row
+import Row from 'primevue/row';      //optional for row
+import Textarea from 'primevue/textarea';
+
 
 
 
@@ -101,7 +109,15 @@ import 'maz-ui/css/main.css';
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */
+
+import FileUpload from 'primevue/fileupload';
+
+
+
+
+// app.use(VueTabs);
 app.use(routes);
+app.component('FileUpload',FileUpload);
 app.use(PrimeVue, { ripple: true });
 app.use(ToastService);
 app.use(DialogService);
@@ -121,6 +137,7 @@ app.component('Image',Image);
 app.directive('ripple', Ripple);
 app.component('Toast', Toast);
 app.component('Divider', Divider);
+app.component('Textarea',Textarea);
 app.use(VueProgress);
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
@@ -136,6 +153,9 @@ app.component('ColumnGroup', ColumnGroup);
 app.component('Row', Row);
 app.component('Toolbar', Toolbar);
 app.component('Editor', Editor);
+app.component('InputNumber', InputNumber);
+app.component('Dropdown',Dropdown);
+app.component('MultiSelect', MultiSelect);
 
 
 app.mount('#app')

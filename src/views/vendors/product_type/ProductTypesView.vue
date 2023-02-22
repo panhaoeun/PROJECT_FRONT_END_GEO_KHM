@@ -3,7 +3,7 @@
         <div class="gird">
             <div class="col-12">
                 <div class="card">
-                    <h5>Products</h5>
+                    <h5>List Products Type</h5>
                     <!-- Product List -->
                     <DataTable 
                         :paginator="true"
@@ -33,7 +33,7 @@
                                     <InputText v-model="filtersData['global'].value" class="p-inputtext  p-component w-full" placeholder="Keyword Search" />
                                 </span>
                                 <!-- Button Add Products -->
-                                <Button label="Add Category" icon="pi pi-plus-circle" class="p-button-lg p-button p-component p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" iconPos="right" loadingIcon="pi pi-spinner pi-spin" />
+                                <Button label="Add Product Type" icon="pi pi-plus-circle" class="p-button-lg p-button p-component p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" iconPos="right" loadingIcon="pi pi-spinner pi-spin" />
                             </div>
                         </template>
                         <!-- Empty Products -->

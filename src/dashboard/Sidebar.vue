@@ -40,7 +40,7 @@
         >
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <!-- user management -->
+          <!-- PRODUCT MANAGEMENTt -->
           <li class="nav-item">
             
             <a href="#" class="nav-link">
@@ -52,13 +52,44 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/vendor/products" class="nav-link">
-                    <i class="pi pi-chevron-right"></i>
-                     <p class="pl-2">Products</p>
-                </router-link>
-              </li>
+                <li class="nav-item">
+                    <router-link to="/vendor/products" class="nav-link">
+                        <i class="pi pi-chevron-right"></i>
+                        <p class="pl-2">Products</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/vendor/products/category/list" class="nav-link">
+                        <i class="pi pi-chevron-right"></i>
+                        <p class="pl-2">Category</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/vendor/products/type/list" class="nav-link">
+                        <i class="pi pi-chevron-right"></i>
+                        <p class="pl-2">Product Type</p>
+                    </router-link>
+                </li>
             </ul>
+          </li>
+           <!-- SHOP information's -->
+           <li class="nav-item">    
+                <a href="#" class="nav-link">
+                <i class="nav-icon pi pi-home"></i>
+                <p>
+                    SHOP INFORMATIONS
+                    <i class="fas fa-angle-left right"></i>
+                    <!-- <span class="badge badge-info right">6</span> -->
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <router-link to="/vendor/shop/list" class="nav-link">
+                            <i class="pi pi-chevron-right"></i>
+                            <p class="pl-2">Shops</p>
+                        </router-link>
+                    </li>
+                </ul>
           </li>
         </ul>
       </nav>
