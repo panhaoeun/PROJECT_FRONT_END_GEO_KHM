@@ -86,6 +86,7 @@ import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
 import Row from 'primevue/row';      //optional for row
 import Textarea from 'primevue/textarea';
+import OverlayPanel from 'primevue/overlaypanel';
 
 
 
@@ -112,7 +113,13 @@ app.config && (app.config.productionTip = false);
 
 import FileUpload from 'primevue/fileupload';
 
-
+//Google Maps
+import VueGoogleMaps from '@fawmi/vue-google-maps'
+app.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyBOXZ8ExfHJAN7vrX4fMqcL5AQy7TCK3ZE',
+    },
+});
 
 
 // app.use(VueTabs);
@@ -156,6 +163,13 @@ app.component('Editor', Editor);
 app.component('InputNumber', InputNumber);
 app.component('Dropdown',Dropdown);
 app.component('MultiSelect', MultiSelect);
+app.component('OverlayPanel',OverlayPanel);
+
+// File Upload Previews
+import FileUploadWithPreview from 'file-upload-with-preview';
+import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
+app.component('FileUploadWithPreview',FileUploadWithPreview);
+
 
 
 app.mount('#app')

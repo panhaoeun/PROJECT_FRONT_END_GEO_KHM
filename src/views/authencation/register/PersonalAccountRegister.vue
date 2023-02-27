@@ -118,8 +118,8 @@
                 <Button type="submit" label="Create account" :loading="isLoading" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
             </div>
         </form>
-     <!-- Messages Alert-->
-      <Message v-for="msg of messages_acc_per" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
+        <!-- Messages Alert-->
+        <Message v-for="msg of messages_acc_per" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
         <!-- Or Authentication -->
         <div class="or-border">
             <div class="border-align bordert my-4 flex align-items-center justify-content-center"></div>  
@@ -131,7 +131,6 @@
             </div>
         </div>
 </template>
-
 
 <!-- Personal Account Register -->
 <script>

@@ -19,6 +19,11 @@ export default [
             path: "/customer/shopping-cart",
             name:'shopping-cart',
             component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
+          },
+          {
+            path: "/customer/order/account_detail",
+            name:'account-detail',
+            component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"),
           }
         ]
       }

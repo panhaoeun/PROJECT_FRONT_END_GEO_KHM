@@ -27,15 +27,37 @@ export default [
         name:'products',
         component: () => import("../views/vendors/products/tabs/ProductTabsEng.vue"),
       },
+      //Category 
       {
         path: "/vendor/products/category/list",
         name:'product-category',
         component: () => import("../views/vendors/category/CategoryView.vue"),
       },
       {
+        path: "/vendor/products/category/create",
+        name:'product-category-create',
+        component: () => import("../views/vendors/category/CategoryCreate.vue"),
+      },
+      {
+        path: "/vendor/products/category/edit/:id",
+        name:'product-category-edit',
+        component: () => import("../views/vendors/category/UpdatedProductCategory.vue"),
+      },
+      // Product Types
+      {
         path: "/vendor/products/type/list",
         name:'product-types-list',
         component: () => import("../views/vendors/product_type/ProductTypesView.vue"),
+      },
+      {
+        path: "/vendor/products/type/create",
+        name:'product-types-create',
+        component: () => import("../views/vendors/product_type/CreateProductType.vue"),
+      },
+      {
+        path: "/vendor/products/type/edit/:id",
+        name:'product-types-edit',
+        component: () => import("../views/vendors/product_type/UpdatedProductType.vue"),
       },
       //My Shops
       {
@@ -47,7 +69,13 @@ export default [
         path: "/vendor/shop/create",
         name:'shop-create',
         component: () => import("../views/vendors/shops/ShopInfoCreate.vue"),
+      },
+      {
+        path: "/vendor/shop/edit/:id",
+        name:'shop-updated',
+        component: () => import("../views/vendors/shops/ShopInfoUpdated.vue"),
       }
+
     ],
   },
 ]

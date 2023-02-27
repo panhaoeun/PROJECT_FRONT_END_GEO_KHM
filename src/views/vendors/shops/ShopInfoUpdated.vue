@@ -5,7 +5,7 @@
         <!--Create Products-->
         <div class="card card px-6 py-6">
             <!-- Title -->
-            <span class="block text-900 font-bold text-xl mb-4">Add Shop</span>
+            <span class="block text-900 font-bold text-xl mb-4">Edit Shop</span>
                 <!-- Tabs -->
                 <div class="tabs">
                     <a v-on:click="activetab=1" v-bind:class="[ activetab === 1 ? 'active' : '' ]">English(Eng)</a>
@@ -180,6 +180,7 @@
                         return;
                     }
                     if(!this.shopInfoNameEng != "" || this.shopInfoNameEng !== null){
+                        const shopInforId = this.$route.params.id;
                         // Data Response
                         const dataProShopInfo = {
                             shopNameEng : this.shopInfoNameEng,
@@ -189,7 +190,7 @@
                             address03: this.shopInfoAddr03,
                             shopLatlng: this.shopInfoLatlng,
                         };
-                        this.shopManageSer.createShop(dataProShopInfo).then((response) => {
+                        this.shopManageSer.updateShopID(dataProShopInfo,shopInforId).then((response) => {
                             if(response.data.status === true){
                                 this.$toast.add({severity:'success', summary: 'Success Message', detail:response.data.message, life: 3000});
                             }

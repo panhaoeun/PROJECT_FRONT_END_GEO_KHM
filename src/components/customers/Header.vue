@@ -1,5 +1,9 @@
 <template>
     <header class="header">
+        <!-- Top Headers ==> Accounts -->
+        <div class="bg-gray-200 text-gray-100 p-2 flex justify-content-between lg:justify-content-right align-items-center flex-wrap">
+            <TopHeader/>
+        </div>
         <!-- Header Main -->
         <div class="header_main">
             <div class="container">
@@ -36,11 +40,12 @@
                             <!-- Profile -->
                             <div class="cart ">
                                 <div class="cart_container d-flex flex-row align-items-center justify-content-end">
-                                    <a href="">
-                                        <div class="cart_icon">
+                                    <router-link to="">
+                                        <div class="cart_icon" @click="toggleUserAcc">
                                             <img src="https://img.icons8.com/external-thin-kawalan-studio/96/null/external-user-users-thin-kawalan-studio-7.png" class="w-5"/>
                                         </div>
-                                    </a>
+                                    </router-link>
+                                    <!-- Toggle Account -->
                                 </div>
                             </div>
                             <!-- Notification -->
@@ -112,4 +117,18 @@
         </nav>
     </header>
 </template>
-<script setup></script>
+
+<!-- Toggle Header -->
+<script>
+    import TopHeader from "./headers/TopHeader.vue";
+    export default{
+        methods:{
+            toggleUserAcc(event){
+                this.$refs.op.toggleUserAcc(event);
+            }
+        },
+        components: {
+            TopHeader
+        }
+    }
+</script>

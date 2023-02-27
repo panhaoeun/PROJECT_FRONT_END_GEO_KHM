@@ -7,7 +7,7 @@
                     <!-- Product List -->
                     <DataTable 
                         :paginator="true"
-                        :value="products"
+                        :value="shopVal"
                         class="p-datatable-gridlines"
                         :rows="10"
                         dataKey="id"
@@ -33,22 +33,53 @@
                                     <InputText v-model="filtersData['global'].value" class="p-inputtext  p-component w-full" placeholder="Keyword Search" />
                                 </span>
                                 <!-- Button Add Products -->
-                                <Button label="Add Shop Info" icon="pi pi-plus-circle" class="p-button-lg p-button p-component p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" iconPos="right" loadingIcon="pi pi-spinner pi-spin" />
+                                <router-link to="/vendor/shop/create">
+                                      <Button label="Add Shop Info" icon="pi pi-plus-circle" class="p-button-lg p-button p-component p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" iconPos="right" loadingIcon="pi pi-spinner pi-spin" />
+                                </router-link>
                             </div>
                         </template>
                         <!-- Empty Products -->
                         <template #empty> No products found. </template>
                         <!-- Loading Products -->
                         <template #loading> Loading products data. Please wait. </template>
-                        <!-- Columns -->
-                        <Column field="title" header="Name" sortable style="min-width: 12rem" >
-                            <template #body="{ data }">
-                                {{ data.title }}
-                            </template>
-                            <template #filter="{ filterModel }">
-                                <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Search by name" />
-                            </template>
-                        </Column>
+                        <!--------------Columns----------->
+                        <div v-if="shopVal && shopVal.length > 0 && shopVal !='' ">
+                            <Column field="id" header="#" sortable style="min-width: 12rem" >
+                                <template #body="{ data }">
+                                    {{ data.id }}
+                                </template>
+                            </Column>
+                            <Column field="shop_log" header="Image" sortable style="min-width: 12rem" >
+                                <template #body="{ data }">
+                                    {{ data.shop_logo }}
+                                </template>
+                                <template #filter="{ filterModel }">
+                                    <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Search by name" />
+                                </template>
+                            </Column>
+                            <Column field="shop_name" header="Name" sortable style="min-width: 12rem" >
+                                <template #body="{ data }">
+                                    {{ data.shop_eng }}
+                                </template>
+                                <template #filter="{ filterModel }">
+                                    <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Search by name" />
+                                </template>
+                            </Column>
+                            <!-- Actions -->
+                            <Column headerStyle="width: 5rem; text-align: center" header="Actions" bodyStyle="text-align: center; overflow: visible">
+                                <template #body="{data}">
+                                    <div class="px-2 py-2 flex justify-content-center">
+                                        <Button type="button" icon="pi pi-list" class="flex-1 flex align-items-center justify-content-center"></Button>
+                                        <!-- Edit -->
+                                        <router-link :to='"/vendor/shop/edit/" + data.id' >
+                                            <Button type="button" icon="pi pi-file-edit" class="p-button-help flex-1 flex align-items-center justify-content-center"></Button>
+                                        </router-link>
+                                        <Button type="button" icon="pi pi-delete-left" class="p-button-danger flex-1 flex align-items-center justify-content-center"></Button>
+                                    </div>
+                                    
+                                </template>
+                            </Column>
+                        </div>
                     </DataTable>
                     
                 </div>
@@ -62,19 +93,19 @@
 <script setup>
     import { ref, onBeforeMount } from 'vue';
     import { FilterMatchMode, FilterOperator } from 'primevue/api';
-    import ProductService from '../../../services/vedors/products/ProductServices';
+    import ShopManagementsServices from '../../../services/vendors/shop_management/ShopManagementInforServices';
 
     // Product Services
     const loading = ref(null);
-    const products = ref(null);
+    const shopVal = ref(null);
     const filtersData = ref(null);
-    const productService = new ProductService();
+    const shopInforSer = new ShopManagementsServices();
     const selectedProduct = ref();
     onBeforeMount(() => {
-        productService.getDataProducts()
+        shopInforSer.getShops()
             .then((data) => {
                 console.log(data)
-                products.value = data;
+                shopVal.value = data;
                 loading.value = false;
             }    
         );
