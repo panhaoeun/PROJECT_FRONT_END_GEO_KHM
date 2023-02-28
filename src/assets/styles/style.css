@@ -1529,103 +1529,14 @@ select option {
 /* Banner of Discount */
 
 /* Hover navbar */
-.dropdown:hover > .dropdown-menu {
-    display: block;
+.dropdown:hover>.dropdown-menu {
+	display: block;
 }
 
 a {
-    display: block;
+	display: block;
 }
 
 a:hover {
-    text-decoration: underline;
-}
-
-.dropdown-menu-fashion {
-    left: -200%;
-}
-
-.dropdown-menu-shoes {
-    left: -240%;
-}
-
-.dropdown-menu-gadget {
-    left: -620%;
-}
-
-.dropdown-menu-computer {
-    left: -590%;
-}
-
-.dropdown-menu-laptop {
-    left: -1050%;
-}
-
-.dropdown-menu-flash {
-    left: -800%;
-}
-
-.dropdown-menu-accessories {
-    left: -800%;
-}
-
-.my-input-button {
-    width: 1.3rem;
-    height: 1.3rem;
-    accent-color: green;
-}
-
-.payment-img {
-    width: 2rem;
-    height: auto;
-}
-
-.protected-img {
-    width: 1.5rem;
-}
-
-.shopping-img {
-    width: 8rem;
-}
-
-/* ============Style the tabs ===============*/
-.tabs {
-    overflow: hidden;
-    margin-left: 10px;
-    margin-bottom: -2px; 
-    border-bottom: .0625rem solid #e7eaf3;  
-}
-
-.tabs ul {
-    list-style-type: none;
-    margin-left: 10px;
-}
-
-.tabs a{
-    float: left;
-    cursor: pointer;
-    padding: 12px 24px;
-    transition: background-color 0.2s;
-    border-right: none;
-    border-radius: 1px 1px 0 0;
-    font-weight: bold;
-}
-
-/* Change background color of tabs on hover */
-.tabs a:hover {
-    color: #d8204b;
-}
-
-/* Styling for active tab */
-.tabs a.active {
-    background-color: #fff;
-    color: #484848;
-    border-bottom: 2px solid #ff0000;
-    cursor: default;
-}
-
-/* Style the tab content */
-.tabcontent {
-    padding: 10px;
-    border-radius: 10px;
+	text-decoration: underline;
 }
