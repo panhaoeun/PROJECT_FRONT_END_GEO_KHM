@@ -11,6 +11,11 @@ export default [
         name: "home",
         component: home,
       },
+      {
+        path: "/vendor/dashboard",
+        name:'vendor-dashboard',
+        component: () => import("../views/vendors/dashboard/VenDashboard.vue"),
+      },
       //Products
       {
         path: "/vendor/products",
