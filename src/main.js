@@ -45,10 +45,9 @@ import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css";
 //New import
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 
-
-
 // Import Style
-import "./assets/styles/style.css"
+import "./assets/styles/style.css";
+import "./assets/styles/account-tab.css";
 /* @Routes */
 import routes from "./routes/routes";
 library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);

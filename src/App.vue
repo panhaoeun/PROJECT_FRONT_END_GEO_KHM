@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-   <div class="bg-white">
+   <div class="block text-center border-round mb-2 text-red-700">
         <CusMainLayout v-if="$route.meta.template == 'website'"/>
         <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
         <!-- Authentications -->

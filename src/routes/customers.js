@@ -20,11 +20,13 @@ export default [
             name:'shopping-cart',
             component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
           },
+          //Overview Details
           {
             path: "/customer/order/account_detail",
             name:'account-detail',
             component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"),
-          }
+          },
+         
         ]
       }
 ]
