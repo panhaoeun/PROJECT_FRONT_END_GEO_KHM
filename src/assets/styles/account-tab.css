@@ -6,3 +6,18 @@
     display: flex;
     position: relative;
 }
+
+/* Global Standard Color */
+.bg-color-standard-red-gradient{
+    background-image: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21);
+}
+.bg-color-standard-blue-gradient{
+ background-image: linear-gradient(to right top, #2169ce, #1676d5, #1483da, #1e8fde, #2e9be2, #2498e2, #1694e2, #0091e2, #007ddc, #0067d5, #0050ca, #0537bb);
+}
+
+.text-color-standard-red-gradient{
+    background: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21);
+}
+.text-color-standard-blue-gradient{
+ background: linear-gradient(to right top, #2169ce, #1676d5, #1483da, #1e8fde, #2e9be2, #2498e2, #1694e2, #0091e2, #007ddc, #0067d5, #0050ca, #0537bb);
+}

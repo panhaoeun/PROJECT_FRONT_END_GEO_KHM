@@ -6,10 +6,10 @@ export default [
         name:'customers',
         meta: {template: 'website'},
         children:[
-            {
+          {
                 path:'/', 
                 component:()=> import('../views/customers/home/homePage.vue'),
-            },
+          },
           {
             path: "/customer/product-details",
             name:'product-details',
@@ -25,8 +25,8 @@ export default [
             path: "/customer/order/account_detail",
             name:'account-detail',
             component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"),
-          },
-         
+          }
+          
         ]
       }
 ]

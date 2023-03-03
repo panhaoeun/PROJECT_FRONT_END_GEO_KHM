@@ -37,3 +37,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 <!-- Dropdown Menu -->
 # Link: https://innologica.github.io/vue-dropdown-menu/
+<!--Global Colors -->
+# Background colors using class 
+ -- Blue Gradient: bg-color-standard-red-gradient
+ -- Red Gradient: bg-color-standard-blue-gradient
+ 
+# Text colors
+ -- Blue Gradient: text-color-standard-blue-gradient
+ -- Red Gradient: text-color-standard-blue-gradient
