@@ -42,8 +42,7 @@
                                 @update="results = $event"
                                 :success="results?.isValid"
                                 v-on:keypress="inputNumOnly"
-                            />
-                            
+                            /> 
                             <div>
                                 <code>
                                     <!-- {{ results }} -->

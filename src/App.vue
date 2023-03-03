@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-   <div class="bg-white">
+   <div class="block text-center border-round mb-2 text-red-700">
         <CusMainLayout v-if="$route.meta.template == 'website'"/>
         <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
         <!-- Authentications -->
@@ -25,7 +25,7 @@
     import Login from './views/authencation/AuthLogin.vue';
     import Register from './views/authencation/AuthRegister.vue';
     import OPTVerifyAuth from './views/authencation/opt_verify/OPTVerify.vue';
-    import PageError from './components/error_page/404.vue';
+    import PageError from './components/error_page/mainPageError.vue';
     export default {
         computed:{
             currentTemplate(){

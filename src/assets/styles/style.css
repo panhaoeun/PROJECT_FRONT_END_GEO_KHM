@@ -463,12 +463,15 @@ section {
     height: 100%;
 }
 .header_search_input {
+     
     display: block;
     position: relative;
     width: calc((100% - 300px) * 0.1);
     height: 100%;
     line-height: 50px;
-    border: 1px solid #14630a !important;
+    border-image: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21) !important;
+    border-width: 1px;
+    border-style: solid;
     outline: none !important;
     padding-left: 26px;
     color: #7f7f7f;
@@ -622,7 +625,8 @@ select option {
     right: 0;
     width: 50px;
     height: 100%;
-    background: #14630a;
+    /* background: #14630a; */
+    background-image: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21);
     border: none;
     outline: none;
     cursor: pointer;

@@ -12,6 +12,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import moduleRouteVendor from  "./vendors";
 import moduleRouteCustomer from "./customers";
 import moduleAuthencation from "./authencation";
+import moduleErrorPage from "./errorPage";
 
 
 /*
@@ -23,8 +24,8 @@ const router = new createRouter({
     routes: [
         ...moduleRouteCustomer,
         ...moduleRouteVendor,
-        ...moduleAuthencation,
-        
+        ...moduleAuthencation,   
+        ...moduleErrorPage
     ]
 });
 export default router;
