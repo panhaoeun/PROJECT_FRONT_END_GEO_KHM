@@ -1,5 +1,7 @@
-<template>
+<template> 
    <div class="flex justify-content-right">
-        <p>Accounts</p>
+        <p>Top header</p>
    </div>
 </template>
+
+<script></script>
