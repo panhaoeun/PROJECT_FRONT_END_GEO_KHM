@@ -28,7 +28,6 @@
 				require('datatables.net')(root, $);
 			}
 
-
 			return factory( $, root, root.document );
 		};
 	}
@@ -981,8 +980,10 @@ $.extend( KeyTable.prototype, {
 	 * @param {*} action Function to trigger when ready
 	 */
 	_keyAction: function (action) {
-		if (this.c.editor) {
-			this.c.editor.submit(action);
+		var editor = this.c.editor;
+
+		if (editor && editor.mode()) {
+			editor.submit(action);
 		}
 		else {
 			action();
