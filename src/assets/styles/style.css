@@ -1641,3 +1641,11 @@ a:hover {
     height: 17rem;
     /* max-height: auto; */
 }
+/*Page Menus*/
+.page-menu{
+    padding: 12px;
+    display: inline-block;;
+    width:296px;
+    min-height: 300px;
+    margin: 50px 24px 0 0;
+}

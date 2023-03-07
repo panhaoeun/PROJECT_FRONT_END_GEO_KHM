@@ -3,8 +3,6 @@
    <div class="">
         <!-- Routers Views -->
         <router-view/>
-      
-
    </div>
    <!-- Footer -->
    <div class="gfoot">
