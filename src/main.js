@@ -3,7 +3,7 @@ import App from './App.vue'
 window.$ = window.jQuery = require("jquery");
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {dom, library} from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fas, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
@@ -48,9 +48,10 @@ import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 // Import Style
 import "./assets/styles/style.css";
 import "./assets/styles/account-tab.css";
+import "./assets/styles/navbar.css";
 /* @Routes */
 import routes from "./routes/routes";
-library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
+library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus, faShoppingCart);
 dom.watch()
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
@@ -100,6 +101,7 @@ import OverlayPanel from 'primevue/overlaypanel';
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
 import 'vue-loading-overlay/dist/css/index.css';
+
 // Vue Progress
 import 'vue-progress-path/dist/vue-progress-path.css'
 import VueProgress from 'vue-progress-path'
@@ -173,10 +175,13 @@ app.component('OverlayPanel',OverlayPanel);
 // File Upload Previews
 import FileUploadWithPreview from 'file-upload-with-preview';
 import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
+
+/* add icons to the library */
+library.add(faShoppingCart)
+
 app.component('FileUploadWithPreview',FileUploadWithPreview);
+app.component('font-awesome-icon', FontAwesomeIcon);
 
 
 
 app.mount('#app')
-
-
