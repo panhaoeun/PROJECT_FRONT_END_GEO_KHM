@@ -1,13 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 window.$ = window.jQuery = require("jquery");
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import {dom, library} from '@fortawesome/fontawesome-svg-core';
-import { fas, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svcg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
-import {faFacebook, faGooglePlus} from '@fortawesome/free-brands-svg-icons';
 
 //import adminlte styles
 import './assets/styles/adminlte.min.css'
@@ -35,8 +28,6 @@ import "./assets/styles/navbar.css";
 import "./assets/styles/adminkit/css/app.css";
 /* @Routes */
 import routes from "./routes/routes";
-library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus, faShoppingCart);
-dom.watch()
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
 import "primevue/resources/themes/lara-light-indigo/theme.css"
@@ -118,7 +109,6 @@ app.use(PrimeVue, { ripple: true });
 app.use(ToastService);
 app.use(DialogService);
 app.component('InlineMessage', InlineMessage);
-app.component("font-awesome-icon", FontAwesomeIcon);
 app.component('Message', Message);
 app.component('InputText', InputText);
 app.component('Button', Button);
@@ -163,10 +153,7 @@ import FileUploadWithPreview from 'file-upload-with-preview';
 import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
 
 /* add icons to the library */
-library.add(faShoppingCart)
-
 app.component('FileUploadWithPreview',FileUploadWithPreview);
-app.component('font-awesome-icon', FontAwesomeIcon);
 
 // Element Plus
 import 'element-plus/dist/index.css';
