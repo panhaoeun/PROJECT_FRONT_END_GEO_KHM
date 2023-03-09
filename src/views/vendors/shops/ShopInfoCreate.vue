@@ -3,115 +3,73 @@
         <!-- Toast Alert -->
         <Toast />
         <!--Create Products-->
-        <div class="card card px-6 py-6">
+        <div class="card px-6 py-6">
             <!-- Title -->
-            <span class="block text-900 font-bold text-xl mb-4">Add Shop</span>
+            <h3>Create Shop</h3>    
+            <div class="text-xl font-bold">
                 <!-- Tabs -->
-                <div class="tabs">
-                    <a v-on:click="activetab=1" v-bind:class="[ activetab === 1 ? 'active' : '' ]">English(Eng)</a>
-                    <a v-on:click="activetab=2" v-bind:class="[ activetab === 2 ? 'active' : '' ]">Khmer(Kh)</a>
-                </div>
-                <!-- Contents -->
-                <div class="content">
-                    <form @submit.prevent="handleSubmitShopInfo(!v$.$invalid)">
-                            <!-- Khmer -->
-                        <div v-if="activetab === 1" class="tabcontent">
-                            <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
-                                <div class="col-12 lg:col-12">
-                                    <!-- Form Layouts -->
-                                    <div class="grid formgrid">
-                                        <div class="col-12 field">
-                                                <!-- Name Category -->
-                                                <div class="field">
-                                                    <label for="name_en">Shop Name<span class="p-error">*</span> (Eng)</label>
-                                                    <InputText id="product_name" placeholder="Shop Name" type="text" class="py-3" v-model="v$.shopInfoNameEng.$model" :class="{'p-invalid p-error':v$.shopInfoNameEng.$invalid && submitted}"/>
-                                                    <small v-if="(v$.shopInfoNameEng.$invalid && submitted) || v$.shopInfoNameEng.$pending.$response" class="p-error">{{v$.shopInfoNameEng.required.$message.replace('Value', 'Name') || v$.shopInfoNameEng.$params.min}}</small>
+                <form action="" method="POST" @click.prevent="handleSubmitShopInfo(!v$.$invalid)">
+                    <!-- Tabs -->
+                    <el-tabs class="demo-tabs">
+                            <!-- English -->
+                            <el-tab-pane label="English(Eng)">
+                                <div class="grid grid-nogutter flex-wrap gap-3 px-1 p-fluid h-auto">
+                                        <div class="col-12 lg:col-12">
+                                            <!-- Form Layouts -->
+                                            <div class="grid formgrid">
+                                                <div class="col-12 field">
+                                                        <!-- Name Category -->
+                                                        <div class="field">
+                                                            <label for="name_en" class="text-lg">Shop Name<span class="p-error">*</span> (Eng)</label>
+                                                            <InputText id="product_name" placeholder="Shop Name" type="text" class="py-4 border-round-lg text-lg" v-model="v$.shopInfoNameEng.$model" :class="{ 'p-invalid p-error': v$.shopInfoNameEng.$invalid && submitted }"/>
+                                                            <small v-if="(v$.shopInfoNameEng.$invalid && submitted) || v$.shopInfoNameEng.$pending.$response" class="p-error">{{ v$.shopInfoNameEng.required.$message.replace('Value', 'Name') || v$.shopInfoNameEng.$params.min }}</small>
+                                                        </div>
+                                                    <!--Contact-->
+                                                        <div class="field">
+                                                            <label for="name_en" class="text-lg">Contacts</label>
+                                                            <InputText id="product_name" placeholder="Contacts" type="text" class="py-4 border-round-lg text-lg" v-model="shopInfoContact" />
+                                                        </div>
+                                            
                                                 </div>
-                                            <!--Contact-->
-                                                <div class="field">
-                                                    <label for="name_en">Contacts</label>
-                                                    <InputText id="product_name" placeholder="Contacts" type="text" class="py-3" v-model="shopInfoContact" />
-                                                </div>
-                                                <!--Address-->
-                                                <div class="field">
-                                                    <label for="name_en">Address<span class="p-error">*</span></label>
-                                                    <InputText id="shopInfoAddr01" placeholder="Street Address,Billing Address" type="text" class="py-3" v-model="v$.shopInfoAddr01.$model" :class="{'p-invalid p-error':v$.shopInfoAddr01.$invalid && submitted}"/>
-                                                    <small v-if="(v$.shopInfoAddr01.$invalid && submitted) || v$.shopInfoAddr01.$pending.$response" class="p-error">{{v$.shopInfoAddr01.required.$message.replace('Value', 'Street Address,Billing Address') || v$.shopInfoAddr01.$params.min}}</small>
-                                                </div>
-                                                <div class="field">
-                                                    <InputText id="str_addres" placeholder="State/Province" type="text" class="py-3"  v-model="v$.shopInfoAddr02.$model" :class="{'p-invalid p-error':v$.shopInfoAddr02.$invalid && submitted}"/>
-                                                    <small v-if="(v$.shopInfoAddr02.$invalid && submitted) || v$.shopInfoAddr02.$pending.$response" class="p-error">{{v$.shopInfoAddr02.required.$message.replace('Value', 'State/Province') || v$.shopInfoAddr02.$params.min}}</small>
-                                                </div>
-                                                <div class="field">
-                                                    <InputText id="str_addres" placeholder="City" type="text" class="py-3" v-model="v$.shopInfoAddr03.$model" :class="{'p-invalid p-error':v$.shopInfoAddr03.$invalid && submitted}"/>
-                                                    <small v-if="(v$.shopInfoAddr03.$invalid && submitted) || v$.shopInfoAddr03.$pending.$response" class="p-error">{{v$.shopInfoAddr03.required.$message.replace('Value', 'City') || v$.shopInfoAddr03.$params.min}}</small>
-                                                </div>
-                                                <div class="field">
-                                                    <label for="name_en">Shop Lat/Lng<span class="p-error">*</span></label>
-                                                    <InputText id="str_addres" placeholder="Shop Lat/Lng" type="text" class="py-3" v-model="shopInfoLatlng"/>
-                                                </div>
+                                                <!-- Editor -->
+                                                <div class="col-12 field">
+                                                    <Editor v-model="shopDescriptionEng" placeholder="Descriptions *" editorStyle="height: 320px" class="border-round-lg"/>
+                                                </div>             
+                                            </div> 
                                         </div>
-                                        <!-- Editor -->
-                                        <div class="col-12 field">
-                                            <Editor v-model="shopDescriptionEng" placeholder="Descriptions *" editorStyle="height: 320px" />
-                                        </div>
-                                        <!--==========================Google Maps=================-->
-                                        <div class="col-12 field">
-                                                <GMapMap
-                                                    :center="center"
-                                                    :zoom="10"
-                                                    map-type-id="terrain"
-                                                    style="height: 20rem"
-                                                >
-                                                    <GMapCluster :zoomOnClick="true">
-                                                        <GMapMarker
-                                                            :key="index"
-                                                            v-for="(m, index) in markers"
-                                                            :position="m.position"
-                                                            :clickable="true"
-                                                            :draggable="true"
-                                                            @click="center = m.position"
-                                                        />
-                                                    </GMapCluster>
-                                                </GMapMap>
-                                        </div>                           
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
-                        <!-- English -->
-                        <div v-if="activetab === 2" class="tabcontent">
-                            <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
-                                <div class="col-12 lg:col-12">
-                                    <!-- Form Layouts -->
-                                    <div class="grid formgrid">
-                                        <div class="col-12 field">
-                                            <!-- Shop Name -->
-                                            <div class="field">
-                                                <label for="name_en">Shop Name <span class="p-error">*</span> (Kh)</label>
-                                                <InputText id="product_name" placeholder="Shop Name" type="text" class="py-3" v-model="shopInfoNameKh"/>
+                                    </div>
+                            </el-tab-pane>
+                            <!-- Khmer  -->
+                            <el-tab-pane label="Khmer(KH)">
+                                        <div class="grid grid-nogutter flex-wrap gap-3 p-1 p-fluid">
+                                            <div class="col-12 lg:col-12">
+                                                <!-- Form Layouts -->
+                                                <div class="grid formgrid">
+                                                    <div class="col-12 field">
+                                                        <!-- Shop Name -->
+                                                        <div class="field">
+                                                            <label for="name_en" class="text-lg">Shop Name <span class="p-error">*</span> (Kh)</label>
+                                                            <InputText id="product_name" placeholder="Shop Name" type="text" class="py-4 border-round-md" v-model="shopInfoNameKh"/>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Editor -->
+                                                    <div class="col-12 field">
+                                                        <Editor v-model="shopDescriptionKh" placeholder="Descriptions *" editorStyle="height: 320px" class="border-round-lg  text-lg" />
+                                                    </div>
+                                                </div> 
                                             </div>
                                         </div>
-                                        <!-- Editor -->
-                                        <div class="col-12 field">
-                                            <Editor v-model="shopDescriptionKh" placeholder="Descriptions *" editorStyle="height: 320px" />
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Messages Alert-->
-                        <Message v-for="msg of messagesShopInfo" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
-                        <!-- Button Submit -->
-                        <div class="flex justify-content-between gap-3 float-right">
-                                <router-link to="/vendor/products/shop/list">
-                                    <Button label="Cancel" icon="pi pi-times" class="p-button-lg p-button-danger p-component p-button-outlined w-8rem mr-3"></Button>
-                                </router-link>
-                                <Button label="Submit" icon="pi pi-save" class="p-button-lg" type="submit"></Button>
-                        </div>
-                    </form>
-                </div>
+                            </el-tab-pane>
+                    </el-tabs>
+                    <!-- Buttons Submits -->
+                    <div class="col-12 flex justify-content-end mt-4">
+                        <!--Buttons-->
+                        <Button label="Cancel" icon="pi pi-times" class="p-button-lg py-3 p-button-outlined w-10rem mr-3" />
+                        <Button label="Save" icon="pi pi-check" class="p-button-lg py-3 w-10rem" onclick=""/>
+                    </div>
+                </form>
             </div>
+         </div>
       </div>
   </template>
   

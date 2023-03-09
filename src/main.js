@@ -14,49 +14,19 @@ import "../node_modules/admin-lte/dist/js/adminlte.min.js"
 import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
 import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
 import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
-//import "../node_modules/admin-lte/plugins/summernote/summernote-bs4.min.js"
-//import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"
-import "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js"
-//mport "../node_modules/admin-lte/plugins/moment/moment.min.js"
-import "../node_modules/admin-lte/plugins/jquery-knob/jquery.knob.min.js"
-//import "../node_modules/admin-lte/plugins/jqvmap/maps/jquery.vmap.usa.js"
-//import "../node_modules/admin-lte/plugins/jqvmap/jquery.vmap.min.js"
-import "../node_modules/admin-lte/plugins/sparklines/sparkline.js"
-//import "../node_modules/admin-lte/plugins/chart.js/Chart.min.js"
-import "../node_modules/admin-lte/plugins/jquery/jquery.min.js"
-import "../node_modules/admin-lte/plugins/jquery-ui/jquery-ui.min.js"
-import "../node_modules/admin-lte/plugins/inputmask/jquery.inputmask.min.js"
-//import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"
-import "../node_modules/admin-lte/plugins/bootstrap-switch/js/bootstrap-switch.min.js"
-import "../node_modules/admin-lte/plugins/bs-stepper/js/bs-stepper.min.js"
-import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.js"
-//import adminlte styles
-import './assets/styles/adminlte.min.css'
-import "../node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
-import "../node_modules/admin-lte/plugins/summernote/summernote-bs4.min.css"
-import "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css"
-import "../node_modules/admin-lte/plugins/jqvmap/jqvmap.min.css"
-import "../node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css"
-import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
-import "../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css"
-import "../node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css"
-import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css";
-
-import 'element-plus/dist/index.css'
-
-//New import
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 
 // Import Style
 import "./assets/styles/style.css";
 import "./assets/styles/account-tab.css";
+// Admin Kit 
+import "./assets/styles/adminkit/css/app.css";
 /* @Routes */
 import routes from "./routes/routes";
 library.add(fas, fab, far, faLock, faEnvelope, faFacebook, faGooglePlus);
 dom.watch()
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
-import "primevue/resources/themes/saga-blue/theme.css"
+import "primevue/resources/themes/lara-light-indigo/theme.css"
 import PrimeVue from 'primevue/config';
 import InputText from 'primevue/inputtext';
 import Checkbox from 'primevue/checkbox';
@@ -83,8 +53,10 @@ import Editor from 'primevue/editor';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import MultiSelect from 'primevue/multiselect';
+import Chips from 'primevue/chips';
 
-
+// Maz
+import MazInputTags from 'maz-ui/components/MazInputTags'
 
 
 // Databases
@@ -98,12 +70,6 @@ import OverlayPanel from 'primevue/overlaypanel';
 
 
 
-
-// Fabric Icons
-import "./assets/uifabricIcons/css/fabric-icons.css";
-import 'vue-loading-overlay/dist/css/index.css';
-// Vue Progress
-import 'vue-progress-path/dist/vue-progress-path.css'
 import VueProgress from 'vue-progress-path'
 import Breadcrumb from 'primevue/breadcrumb';
 
@@ -120,7 +86,6 @@ import 'maz-ui/css/main.css';
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */
-
 import FileUpload from 'primevue/fileupload';
 
 //Google Maps
@@ -157,10 +122,12 @@ app.component('Divider', Divider);
 app.component('Textarea',Textarea);
 app.use(VueProgress);
 app.use(VueAxios, axios);
+// Maz
 app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
 app.component('MazBtn', MazBtn)
 app.component('MazInput', MazInput)
 app.component('MazPhoneNumberInput', MazPhoneNumberInput);
+app.component('MazInputTags',MazInputTags);
 app.component('Card', Card);
 app.component('InputMask',InputMask);
 app.component('Menubar', Menubar);
@@ -175,6 +142,7 @@ app.component('Dropdown',Dropdown);
 app.component('MultiSelect', MultiSelect);
 app.component('OverlayPanel',OverlayPanel);
 app.use('Breadcrumb',Breadcrumb);
+app.use('Chips',Chips);
 
 // File Upload Previews
 import FileUploadWithPreview from 'file-upload-with-preview';
@@ -182,6 +150,7 @@ import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
 app.component('FileUploadWithPreview',FileUploadWithPreview);
 
 // Element Plus
+import 'element-plus/dist/index.css';
 import ElementPlus from 'element-plus';
 app.use(ElementPlus)
 

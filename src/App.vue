@@ -1,16 +1,14 @@
 <script setup></script>
 <template>
-   <div class="block text-center border-round mb-2 text-red-700">
-        <CusMainLayout v-if="$route.meta.template == 'website'"/>
-        <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
-        <!-- Authentications -->
-        <Login v-if="$route.meta.template == 'authencation-login'"/>
-        <Register v-if="$route.meta.template == 'authencation-register'"/>
-        <OPTVerifyAuth v-if="$route.meta.template == 'opt-verify-authentication'"/>
-        <!-- Page Error -->
-        <PageError v-if="$route.meta.template == 'error-page'"/>
-        <!-- Page Not Found! -->
-   </div>
+     <CusMainLayout v-if="$route.meta.template == 'website'"/>
+    <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
+    <!-- Authentications -->
+    <Login v-if="$route.meta.template == 'authencation-login'"/>
+    <Register v-if="$route.meta.template == 'authencation-register'"/>
+    <OPTVerifyAuth v-if="$route.meta.template == 'opt-verify-authentication'"/>
+    <!-- Page Error -->
+    <PageError v-if="$route.meta.template == 'error-page'"/>
+    <!-- Page Not Found! -->
 </template>
 
 <!-- Config Style -->
