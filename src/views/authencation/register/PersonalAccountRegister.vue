@@ -61,6 +61,27 @@
                                     <!-- {{ results }} -->
                                 </code>
                             </div>
+                            <!-- Phone Number Input -->
+                            <MazPhoneNumberInput
+                                id="user_acc_phonenumber" 
+                                v-model="v$.user_acc_phonenumber.$model" 
+                                :error="v$.user_acc_phonenumber.$invalid && submitted" 
+                                color="info"
+                                defaultCountryCode="KH"
+                                size="lg"
+                                :no-example="true"
+                                type="number"
+                                :valid-button-loading="true"	
+                                @update="results = $event"
+                                :success="results?.isValid"
+                                v-on:keypress="inputNumOnly"
+                            />
+                            
+                            <div>
+                                <code>
+                                    {{ results }}
+                                </code>
+                            </div>
                        </div>
                        <small v-if="(v$.user_acc_phonenumber.$invalid && submitted) || v$.user_acc_phonenumber.$pending.$response" class="p-error">{{v$.user_acc_phonenumber.required.$message.replace('Value', 'Phone Number')}}</small>
                     </div>
@@ -147,6 +168,7 @@
         data() {
             return {
                 isOpenMazDialogs: false,
+                results: '',
                 results: '',
                 isLoading: false,
                 loading: [false, false, false],

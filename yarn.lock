@@ -5208,9 +5208,9 @@ levn@~0.3.0:
     type-check "~0.3.2"
 
 libphonenumber-js@^1.10.12, libphonenumber-js@^1.10.19:
-  version "1.10.20"
-  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.10.20.tgz"
-  integrity sha512-kQovlKNdLcVzerbTPmJ+Fx4R+7/pYXmPDIllHjg7IxL4X6MsMG7jaT5opfYrBok0uqkByVif//JUR8e11l/V7w==
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.19.tgz#e18970c8d566fbfb1f88e688345f0512e126712e"
+  integrity sha512-MDZ1zLIkfSDZV5xBta3nuvbEOlsnKCPe4z5r3hyup/AXveevkl9A1eSWmLhd2FX4k7pJDe4MrLeQsux0HI/VWg==
 
 lie@~3.3.0:
   version "3.3.0"
@@ -5383,6 +5383,15 @@ maz-ui@^3.6.12:
   resolved "https://registry.npmjs.org/maz-ui/-/maz-ui-3.6.12.tgz"
   integrity sha512-VPysdhIyvEgWK7dMk5vPj5LaafI6EoLtwc8iBPqC3BOm2eOWhMYUBI+SNTycTPg6rtxj5gafR7wQTaRsX7wurQ==
 
+maz-ui@^3.6.12:
+  version "3.6.12"
+  resolved "https://registry.yarnpkg.com/maz-ui/-/maz-ui-3.6.12.tgz#a7c28abb8fca36f0f4f3cb527b9a84130f316445"
+  integrity sha512-VPysdhIyvEgWK7dMk5vPj5LaafI6EoLtwc8iBPqC3BOm2eOWhMYUBI+SNTycTPg6rtxj5gafR7wQTaRsX7wurQ==
+
+mdn-data@2.0.14:
+  version "2.0.14"
+  resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.14.tgz"
+  integrity sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==
 mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.14.tgz"
@@ -7540,7 +7549,7 @@ vue-hot-reload-api@^2.3.0:
 
 vue-input-only-number@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.npmjs.org/vue-input-only-number/-/vue-input-only-number-1.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/vue-input-only-number/-/vue-input-only-number-1.1.0.tgz#4a738f3696bc046273ed2af715bb3abc508da0d1"
   integrity sha512-rtDBxlY0fHwtIbkzVN65W14tdm3LW3oyt7CfkDtJ2tTjicGlu7274MF/jQMk+ze3cSiV9DwLew5NN8a1fML0jQ==
 
 vue-loader@^17.0.0:

@@ -4,7 +4,7 @@ window.$ = window.jQuery = require("jquery");
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {dom, library} from '@fortawesome/fontawesome-svg-core';
 import { fas, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fab } from '@fortawesome/free-brands-svcg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {faFacebook, faGooglePlus} from '@fortawesome/free-brands-svg-icons';
@@ -114,6 +114,10 @@ import MazInput from 'maz-ui/components/MazInput'
 import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
 import 'maz-ui/css/main.css';
 
+
+
+
+
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */
@@ -183,5 +187,8 @@ app.component('FileUploadWithPreview',FileUploadWithPreview);
 app.component('font-awesome-icon', FontAwesomeIcon);
 
 
+app.component('MazBtn', MazBtn)
+app.component('MazInput', MazInput)
+app.component('MazPhoneNumberInput', MazPhoneNumberInput);
 
 app.mount('#app')
