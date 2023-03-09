@@ -15,6 +15,7 @@ import moduleAuthencation from "./authencation";
 import moduleErrorPage from "./errorPage";
 
 
+
 /*
     Makes a new VueRouter that we will use to run all of the routes
     for the app.
