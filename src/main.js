@@ -95,13 +95,9 @@ import Textarea from 'primevue/textarea';
 import OverlayPanel from 'primevue/overlaypanel';
 
 
-
-
-
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
 import 'vue-loading-overlay/dist/css/index.css';
-
 // Vue Progress
 import 'vue-progress-path/dist/vue-progress-path.css'
 import VueProgress from 'vue-progress-path'

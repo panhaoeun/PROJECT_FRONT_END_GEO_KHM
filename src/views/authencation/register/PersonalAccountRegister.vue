@@ -118,8 +118,8 @@
                 <Button type="submit" label="Create account" :loading="isLoading" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
             </div>
         </form>
-        <!-- Messages Alert-->
-        <Message v-for="msg of messages_acc_per" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
+     <!-- Messages Alert-->
+      <Message v-for="msg of messages_acc_per" :severity="msg.severity" :life="3000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
         <!-- Or Authentication -->
         <div class="or-border">
             <div class="border-align bordert my-4 flex align-items-center justify-content-center"></div>  
@@ -190,6 +190,7 @@
                         // Loading Button
                         this.isLoading = true;
                         setTimeout(() => (this.isLoading = false), 1000);
+                        console.log(this.$router)
                         // Check validations
                         if (!isFormValid) {
                             return;
@@ -204,10 +205,11 @@
                             user_type: "Customer"
                         }
                         AuthenticationsDataService.create(data).then((response) => {
-                        this.submitted = true;
-                        this.messages_acc_per = [
-                                {severity: 'success', content: response.data.message},
-                            ]
+                            this.submitted = true;
+                            this.messages_acc_per = [
+                                    {severity: 'success', content: response.data.message},
+                            ];
+                           
                         }).catch(e => {
                             //  Toast Alert 
                             this.messages_acc_per = [
