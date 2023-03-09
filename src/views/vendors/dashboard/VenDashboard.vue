@@ -4,31 +4,28 @@
             <!-- Overview chat -->
             <div class="col-md-8">
                 <div class="row">
-                   
-                        <div class="col-md-6 text-start">
-                            <h5>Market Overview</h5>
-                            <p>Lorem ipsum dolor sit amet consectetur?</p>
-                            <br />
-                            <h3>$4444.23333.00 USD</h3>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    This Month
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">This Month</a>
-                                    <a class="dropdown-item" href="#">Last Month</a>
-                                    <a class="dropdown-item" href="#">Next Month</a>
-                                </div>
+                    <div class="col-md-6 text-start">
+                        <h5>Market Overview</h5>
+                        <p>Lorem ipsum dolor sit amet consectetur?</p>
+                        <br />
+                        <h3>$4444.23333.00 USD</h3>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                This Month
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">This Month</a>
+                                <a class="dropdown-item" href="#">Last Month</a>
+                                <a class="dropdown-item" href="#">Next Month</a>
                             </div>
                         </div>
-                    
-                    
+                    </div>
                 </div>
 
-                <ChatView />
+                <ChartView />
 
                 <div class="row">
                     <!-- Top Selling  store-->
@@ -38,7 +35,7 @@
                                 <h4>Top Selling Store</h4>
                                 <ul class="list-group list-group-flush">
                                     <li v-for="(store, index) in stores" :key="index" class="list-group-item">
-                                        <div class="row align-items-center">
+                                        <div class="row text-start">
                                             <div class="col-2">
                                                 <img class="border-round" :src="store.img" width="35" height="40" alt=""
                                                     srcset="" />
@@ -62,7 +59,7 @@
                                 <h4>Top Selling Products</h4>
                                 <ul class="list-group list-group-flush">
                                     <li v-for="(product, index) in products" :key="index" class="list-group-item">
-                                        <div class="row align-items-center">
+                                        <div class="row text-start">
                                             <div class="col-2">
                                                 <img class="border-round" :src="product.img" width="35" height="40" r alt=""
                                                     srcset="" />
@@ -85,9 +82,16 @@
 
             <!-- Top Ratting -->
             <div class="col-md-4">
-                <div class="card shadow-sm p-0">
-                   <CircularPercentIndicatorVue/>
+                <div class="card shadow-sm p-4 m-2">
+                    <TotalScorePercent :progress="total" />
+                    <span>total Score <strong class="text-xl">50%</strong></span>
                 </div>
+                <div class="card shadow-sm p-4 m-2">
+                    <cus-visit-percent :progress="visits" />
+                    <span>Visits Customer <strong class="text-xl">60,040</strong></span>
+                </div>
+
+
                 <!-- Top Customers -->
                 <div class="col-md-12">
                     <div class="card shadow-sm p-0 mb-2">
@@ -95,16 +99,17 @@
                             <h4>Top Customer</h4>
                             <ul class="list-group list-group-flush">
                                 <li v-for="(topCustomer, index) in topCustomers" :key="index" class="list-group-item">
-                                    <div class="row align-items-center">
+                                    <div class="row text-start">
                                         <div class="col-2">
                                             <img class="border-round" :src="topCustomer.img" width="35" height="40" alt=""
                                                 srcset="" />
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 align-items-start">
                                             {{ topCustomer.name }}
+                                            <p>Hello</p>
                                         </div>
                                         <div class="col-4 text-end">
-                                            ${{ topCustomer.sales }}
+                                            Order: {{ topCustomer.sales }}
                                         </div>
                                     </div>
                                 </li>
@@ -119,7 +124,7 @@
                             <h4>Most Popular Stores</h4>
                             <ul class="list-group list-group-flush">
                                 <li v-for="(store, index) in stores" :key="index" class="list-group-item">
-                                    <div class="row align-items-center">
+                                    <div class="row text-start">
                                         <div class="col-2">
                                             <img class="border-round" :src="store.img" width="35" height="40" alt=""
                                                 srcset="" />
@@ -142,15 +147,19 @@
 </template>
 
 <script>
-import ChatView from "./component/ChartView.vue";
-import CircularPercentIndicatorVue from './component/CircularPercentIndicator.vue';
+import ChartView from "../../../components/component/ChartView.vue";
+import TotalScorePercent from "../../../components/component/TotalScorePercent.vue";
+import CusVisitPercent from "../../../components/component/CusVisitPercent.vue";
 export default {
     components: {
-        ChatView,
-        CircularPercentIndicatorVue
+        ChartView,
+        TotalScorePercent,
+        CusVisitPercent,
     },
     data() {
         return {
+            total: 50,
+            visits: 30,
             products: [
                 {
                     name: "Product 1",

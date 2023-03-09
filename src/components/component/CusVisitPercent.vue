@@ -1,0 +1,25 @@
+<template>
+    <div class="progress">
+      <div class="progress-bar bg-success"
+           role="progressbar"
+           aria-valuenow="0"
+           aria-valuemin="0"
+           aria-valuemax="100"
+           :style="{width: `${progress}%`}">
+        <span class="sr-only">{{progress}}% Complete</span>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: 'CircularProgressBar',
+    props: {
+      progress: {
+        type: Number,
+        required: true,
+      },
+    },
+  };
+  </script>
+  
