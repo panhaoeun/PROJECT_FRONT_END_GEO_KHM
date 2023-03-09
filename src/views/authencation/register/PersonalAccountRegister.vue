@@ -58,27 +58,6 @@
                             
                             <div>
                                 <code>
-                                    <!-- {{ results }} -->
-                                </code>
-                            </div>
-                            <!-- Phone Number Input -->
-                            <MazPhoneNumberInput
-                                id="user_acc_phonenumber" 
-                                v-model="v$.user_acc_phonenumber.$model" 
-                                :error="v$.user_acc_phonenumber.$invalid && submitted" 
-                                color="info"
-                                defaultCountryCode="KH"
-                                size="lg"
-                                :no-example="true"
-                                type="number"
-                                :valid-button-loading="true"	
-                                @update="results = $event"
-                                :success="results?.isValid"
-                                v-on:keypress="inputNumOnly"
-                            />
-                            
-                            <div>
-                                <code>
                                     {{ results }}
                                 </code>
                             </div>
@@ -167,8 +146,6 @@
         setup: () => ({ v$: useVuelidate() }),
         data() {
             return {
-                isOpenMazDialogs: false,
-                results: '',
                 results: '',
                 isLoading: false,
                 loading: [false, false, false],
@@ -213,9 +190,8 @@
                         // Loading Button
                         this.isLoading = true;
                         setTimeout(() => (this.isLoading = false), 1000);
-                        
                         // Check validations
-                        if (!isFormValid) {      
+                        if (!isFormValid) {
                             return;
                         }
                         // Data 
@@ -228,18 +204,10 @@
                             user_type: "Customer"
                         }
                         AuthenticationsDataService.create(data).then((response) => {
-                            // Set Loading 
-                            this.isLoadingPersonal = true;
-                            setTimeout(() => {
-                                this.isLoadingPersonal = false
-                            }, 1000);
-
-                            this.submitted = true;
-                            this.messages_acc_per = [
-                                    {severity: 'success', content: response.data.message},
-                            ];
-                            // Push Router
-                            this.$router.push("/auth/login");    
+                        this.submitted = true;
+                        this.messages_acc_per = [
+                                {severity: 'success', content: response.data.message},
+                            ]
                         }).catch(e => {
                             //  Toast Alert 
                             this.messages_acc_per = [
@@ -247,7 +215,12 @@
                             ]
                     })
                                 
+                                
                 }catch(err){
+                   // Alert Error 
+                  this.messages_acc_per  [
+                    {severity: 'error' , content: err}
+                  ]
                    // Alert Error 
                   this.messages_acc_per  [
                     {severity: 'error' , content: err}
@@ -273,7 +246,7 @@
                 } else {
                     return true;
                 }
-            }
+            },
         },
     }
 </script>
