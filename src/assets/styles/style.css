@@ -1653,3 +1653,9 @@ a:hover {
     float: left;
     padding-top: 20px;
 }
+.p-dropdown .p-dropdown-label.p-placeholder{
+    font-size: 16px;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-empty-message{
+    font-size: 16px;
+}
