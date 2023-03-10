@@ -19,6 +19,11 @@ import "../node_modules/admin-lte/dist/js/adminlte.min.js"
 import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
 import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
 import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
+//import adminlte scripts
+import "../node_modules/admin-lte/dist/js/adminlte.min.js"
+import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
+import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
+import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
 
 // Import Style
 import "./assets/styles/style.css";
@@ -30,6 +35,7 @@ import "./assets/styles/adminkit/css/app.css";
 import routes from "./routes/routes";
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
+import "primevue/resources/themes/lara-light-indigo/theme.css"
 import "primevue/resources/themes/lara-light-indigo/theme.css"
 import PrimeVue from 'primevue/config';
 import InputText from 'primevue/inputtext';
@@ -73,7 +79,6 @@ import OverlayPanel from 'primevue/overlaypanel';
 
 import VueProgress from 'vue-progress-path'
 import Breadcrumb from 'primevue/breadcrumb';
-
 
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import axios from 'axios';
@@ -127,10 +132,12 @@ app.component('Textarea',Textarea);
 app.use(VueProgress);
 app.use(VueAxios, axios);
 // Maz
+// Maz
 app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
 app.component('MazBtn', MazBtn)
 app.component('MazInput', MazInput)
 app.component('MazPhoneNumberInput', MazPhoneNumberInput);
+app.component('MazInputTags',MazInputTags);
 app.component('MazInputTags',MazInputTags);
 app.component('Card', Card);
 app.component('InputMask',InputMask);
@@ -145,6 +152,8 @@ app.component('InputNumber', InputNumber);
 app.component('Dropdown',Dropdown);
 app.component('MultiSelect', MultiSelect);
 app.component('OverlayPanel',OverlayPanel);
+app.use('Breadcrumb',Breadcrumb);
+app.use('Chips',Chips);
 app.use('Breadcrumb',Breadcrumb);
 app.use('Chips',Chips);
 

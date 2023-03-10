@@ -20,7 +20,12 @@ export default [
             name:'shopping-cart',
             component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
           },
+          {
+            path: "/customer/more-product",
+            name:'more-product',
+            component: () => import("../views/customers/sopping_cart/MoreProductRecommend.vue"),
           //Overview Details
+          },
           {
             path: "/customer/order/account_detail",
             name:'account-detail',
