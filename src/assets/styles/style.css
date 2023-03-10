@@ -1641,3 +1641,15 @@ a:hover {
     height: 17rem;
     /* max-height: auto; */
 }
+
+/* Header sub menu */
+.main-menu{
+    margin: 20px 0px;
+    float: right;
+}
+.nav-bar {
+    margin-bottom: 0px;
+    margin-right: 10px;
+    float: left;
+    padding-top: 20px;
+}
