@@ -1641,21 +1641,3 @@ a:hover {
     height: 17rem;
     /* max-height: auto; */
 }
-
-/* Header sub menu */
-.main-menu{
-    margin: 20px 0px;
-    float: right;
-}
-.nav-bar {
-    margin-bottom: 0px;
-    margin-right: 10px;
-    float: left;
-    padding-top: 20px;
-}
-.p-dropdown .p-dropdown-label.p-placeholder{
-    font-size: 16px;
-}
-.p-dropdown-panel .p-dropdown-items .p-dropdown-empty-message{
-    font-size: 16px;
-}

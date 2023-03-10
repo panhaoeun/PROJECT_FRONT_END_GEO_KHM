@@ -30,8 +30,11 @@ import "./assets/styles/adminkit/css/app.css";
 import routes from "./routes/routes";
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
-import "primevue/resources/themes/lara-light-indigo/theme.css"
-import "primevue/resources/themes/lara-light-indigo/theme.css"
+import "primevue/resources/themes/lara-light-indigo/theme.css";     
+//icons
+import "primeicons/primeicons.css";
+
+import InputNumber from 'primevue/inputnumber';
 import PrimeVue from 'primevue/config';
 import InputText from 'primevue/inputtext';
 import Checkbox from 'primevue/checkbox';
@@ -55,26 +58,26 @@ import InputMask from 'primevue/inputmask';
 import Menubar from 'primevue/menubar';
 import Toolbar from 'primevue/toolbar';
 import Editor from 'primevue/editor';
-import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
-import MultiSelect from 'primevue/multiselect';
-import Chips from 'primevue/chips';
-
-// Maz
-import MazInputTags from 'maz-ui/components/MazInputTags'
-
 
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
-import Row from 'primevue/row';      //optional for row
-import Textarea from 'primevue/textarea';
-import OverlayPanel from 'primevue/overlaypanel';
+import Row from 'primevue/row';                     //optional for row
 
+
+
+// Element Plus
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
+
+// Fabric Icons
+import "./assets/uifabricIcons/css/fabric-icons.css";
+import 'vue-loading-overlay/dist/css/index.css';
+// Vue Progress
+import 'vue-progress-path/dist/vue-progress-path.css'
 import VueProgress from 'vue-progress-path'
-import Breadcrumb from 'primevue/breadcrumb';
-
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -82,29 +85,13 @@ import VueAxios from 'vue-axios';
 import MazBtn from 'maz-ui/components/MazBtn'
 import MazInput from 'maz-ui/components/MazInput'
 import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
+ import MazInputTags from 'maz-ui/components/MazInputTags';
 import 'maz-ui/css/main.css';
-
-
-
-
 
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 /* @Routers */
-import FileUpload from 'primevue/fileupload';
-
-//Google Maps
-import VueGoogleMaps from '@fawmi/vue-google-maps'
-app.use(VueGoogleMaps, {
-    load: {
-        key: 'AIzaSyBOXZ8ExfHJAN7vrX4fMqcL5AQy7TCK3ZE',
-    },
-});
-
-
-// app.use(VueTabs);
 app.use(routes);
-app.component('FileUpload',FileUpload);
 app.use(PrimeVue, { ripple: true });
 app.use(ToastService);
 app.use(DialogService);
@@ -123,16 +110,12 @@ app.component('Image',Image);
 app.directive('ripple', Ripple);
 app.component('Toast', Toast);
 app.component('Divider', Divider);
-app.component('Textarea',Textarea);
 app.use(VueProgress);
 app.use(VueAxios, axios);
-// Maz
-// Maz
 app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
 app.component('MazBtn', MazBtn)
 app.component('MazInput', MazInput)
 app.component('MazPhoneNumberInput', MazPhoneNumberInput);
-app.component('MazInputTags',MazInputTags);
 app.component('MazInputTags',MazInputTags);
 app.component('Card', Card);
 app.component('InputMask',InputMask);
@@ -143,30 +126,10 @@ app.component('ColumnGroup', ColumnGroup);
 app.component('Row', Row);
 app.component('Toolbar', Toolbar);
 app.component('Editor', Editor);
-app.component('InputNumber', InputNumber);
 app.component('Dropdown',Dropdown);
-app.component('MultiSelect', MultiSelect);
-app.component('OverlayPanel',OverlayPanel);
-app.use('Breadcrumb',Breadcrumb);
-app.use('Chips',Chips);
-app.use('Breadcrumb',Breadcrumb);
-app.use('Chips',Chips);
-
-// File Upload Previews
-import FileUploadWithPreview from 'file-upload-with-preview';
-import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
-
-/* add icons to the library */
-app.component('FileUploadWithPreview',FileUploadWithPreview);
-
+app.component('InputNumber',InputNumber);
 // Element Plus
-import 'element-plus/dist/index.css';
-import ElementPlus from 'element-plus';
-app.use(ElementPlus)
+app.use(ElementPlus);
 
-
-app.component('MazBtn', MazBtn)
-app.component('MazInput', MazInput)
-app.component('MazPhoneNumberInput', MazPhoneNumberInput);
 
 app.mount('#app')

@@ -1,8 +1,8 @@
 <template>
     <nav class="navbar navbar-expand navbar-light navbar-bg">
-        <a class="sidebar-toggle js-sidebar-toggle">
+        <button class="sidebar-toggle js-sidebar-toggle" @click.prevent="openSideBar">
             <i class="hamburger align-self-center"></i>
-        </a>
+        </button>
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav navbar-align">
                 <li class="nav-item dropdown">
@@ -139,12 +139,12 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
-        <i class="align-middle" data-feather="settings"></i>
-        </a>
+                        <i class="align-middle" data-feather="settings"></i>
+                        </a>
 
-                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-        <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">Charles Hall</span>
-        </a>
+                                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                        <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">Charles Hall</span>
+                        </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
                         <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>
@@ -159,3 +159,40 @@
         </div>
     </nav>
 </template>
+
+<!-- Script -->
+<script>
+    export default{
+        methods: {
+            openSideBar() {
+                var JsSidebar = document.getElementsByClassName('js-sidebar')[0],
+                    toggleSidebar = document.getElementsByClassName("js-sidebar-toggle")[0];
+                    JsSidebar && toggleSidebar && toggleSidebar.addEventListener('click', function(){
+                        JsSidebar.classList.toggle('collapsed'), 
+                        JsSidebar.addEventListener('transitionend', (function(){
+                            window.dispatchEvent(new Event("resize"));
+                   }));
+                });
+                function za(e) {
+                    return e && !e.skip
+                }
+                var Na = za;
+                if (document.getElementsByClassName("js-simplebar")[0]) {
+                    var e = new Na(document.getElementsByClassName("js-simplebar")[0]);
+                    document.querySelectorAll(".js-sidebar [data-bs-parent]").forEach((function (t) {
+                        t.addEventListener("shown.bs.collapse", (function () {
+                            e.recalculate()
+                        })), t.addEventListener("hidden.bs.collapse", (function () {
+                            e.recalculate()
+                        }))
+                    }))
+                }
+            }
+        },
+        data() {
+            return {
+                isOpenSideBar: false
+            }
+        },
+    }
+</script>

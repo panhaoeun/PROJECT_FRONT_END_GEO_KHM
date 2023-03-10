@@ -7,17 +7,6 @@
         backgroundColor='#ffffff'
      />
     <!-- Modal Popup - MazDialogs OPT Verify -->
-    <MazDialog v-model="isOpenMazDialogs" title="Dialog Title">
-        <p>
-        Your content
-        </p>
-        <template #footer>
-        <MazBtn @click="isOpenMazDialogs = false">
-            Confirm
-        </MazBtn>
-        </template>
-    </MazDialog>
-
      <form role="form" @submit.prevent="handleSubmitPersonalAcc(!v$.$invalid)" method="POST" enctype="multipart/form-data">
             <div>
                 <div class="p-fluid grid">
@@ -138,8 +127,6 @@
     import { useVuelidate } from "@vuelidate/core";
     import socialRegister from '../socialmedia/socialRegister.vue';
     import AuthenticationsDataService from "../../../services/authencationDataService";
-    import MazDialog from 'maz-ui/components/MazDialog';
-    import MazBtn from 'maz-ui/components/MazBtn';
     import Loading from 'vue-loading-overlay';
 
     export default {
@@ -179,8 +166,6 @@
         },  
         components: {
             socialRegister,
-            MazDialog,
-            MazBtn,
             Loading
         },
         methods: {

@@ -2,10 +2,10 @@
 
     <div class="wrapper">
         <!-- Sidebar -->
-       <Sidebar/>
+       <Sidebar :menu-list-item="menuListItems"/>
         <div class="main">
             <!-- Navbar -->
-            <Navbar :menu-list-item="menuListItems" :message="Hello" />
+            <Navbar />
             <!--Contents-->
             <main class="content">
                 <router-view></router-view>
@@ -28,9 +28,16 @@ export default {
         menuListItems: [
             {
                 id: 0,
+                icon: "pi pi-check",
+                title: "Dashboard",
+                url: "/vendor/products/create",
+                isActive: 'active'
+            },
+            {
+                id: 1,
                 icon: "#c-icon-dashboard",
-                title: "Overview",
-                url: "/"
+                title: "Shops",
+                url: "/vendor/products/create"
             }
         ]
     }

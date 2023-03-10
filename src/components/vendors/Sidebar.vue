@@ -4,13 +4,13 @@
                 <router-link  class="sidebar-brand" to="">
                       <span class="align-middle text-2xl">AdminKit</span>
                 </router-link>
-                {{ message }}
+                <!--Dynamic Sidebar -->
                 <ul class="sidebar-nav">
                    <div v-for="item in menuListItem" :key="item.id">
-                        <li class="sidebar-item active">
-                             <router-link to="/" class="sidebar-link">
-                                <i class="align-middle text-xl pi pi-sliders-v" data-feather="user"></i> 
-                                <span class="align-middle text-xl">Dashboard</span>
+                        <li :class="{'sidebar-item active' : item.isActive }">
+                             <router-link :to="item.url" class="sidebar-link">
+                                <i :class="{'align-middle text-xl pi pi-wallet' : item.icon }" data-feather="user"></i> 
+                                <span class="align-middle text-xl">{{ item.title }}</span>
                             </router-link>
                         </li>    
                    </div>
@@ -26,12 +26,6 @@
         props: {
             name: String,
             menuListItem: Array,
-            message:String
-        },
-          setup(props) {
-        // setup() receives props as the first argument.
-            console.log(props)
-         }
-        
+        }
     }
 </script>

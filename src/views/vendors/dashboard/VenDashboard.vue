@@ -3,29 +3,31 @@
         <div class="row">
             <!-- Overview chat -->
             <div class="col-md-8">
+                
+             <div class="card">
                 <div class="row">
-                    <div class="col-md-6 text-start">
-                        <h5>Market Overview</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur?</p>
-                        <br />
-                        <h3>$4444.23333.00 USD</h3>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                This Month
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">This Month</a>
-                                <a class="dropdown-item" href="#">Last Month</a>
-                                <a class="dropdown-item" href="#">Next Month</a>
+                        <div class="col-md-6 text-start">
+                            <h5>Market Overview</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur?</p>
+                            <br />
+                            <h3>$4444.23333.00 USD</h3>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    This Month
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">This Month</a>
+                                    <a class="dropdown-item" href="#">Last Month</a>
+                                    <a class="dropdown-item" href="#">Next Month</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <ChartView />
+                   <ChartView />
+             </div>
 
                 <div class="row">
                     <!-- Top Selling  store-->
