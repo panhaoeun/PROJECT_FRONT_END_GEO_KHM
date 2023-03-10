@@ -42,6 +42,8 @@ import "../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duall
 import "../node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css"
 import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css";
 
+import 'element-plus/dist/index.css'
+
 //New import
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 
@@ -101,6 +103,9 @@ import 'vue-loading-overlay/dist/css/index.css';
 // Vue Progress
 import 'vue-progress-path/dist/vue-progress-path.css'
 import VueProgress from 'vue-progress-path'
+import Breadcrumb from 'primevue/breadcrumb';
+
+
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -171,6 +176,7 @@ app.component('InputNumber', InputNumber);
 app.component('Dropdown',Dropdown);
 app.component('MultiSelect', MultiSelect);
 app.component('OverlayPanel',OverlayPanel);
+app.use('Breadcrumb',Breadcrumb);
 
 // File Upload Previews
 import FileUploadWithPreview from 'file-upload-with-preview';
@@ -181,6 +187,10 @@ library.add(faShoppingCart)
 
 app.component('FileUploadWithPreview',FileUploadWithPreview);
 app.component('font-awesome-icon', FontAwesomeIcon);
+
+// Element Plus
+import ElementPlus from 'element-plus';
+app.use(ElementPlus)
 
 
 app.component('MazBtn', MazBtn)
