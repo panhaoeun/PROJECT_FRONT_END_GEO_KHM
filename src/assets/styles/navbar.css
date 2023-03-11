@@ -1,3 +1,10 @@
-.testing {
-    font-size: 3rem;
+.cs-rounded {
+    border-radius: 2rem;
+    background-color: #E8E8E8;
+}
+
+.cs-input {
+    background: transparent;
+    border: transparent !important;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
 }
