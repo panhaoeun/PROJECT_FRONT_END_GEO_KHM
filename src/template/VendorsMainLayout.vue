@@ -30,14 +30,27 @@ export default {
                 id: 0,
                 icon: "pi pi-check",
                 title: "Dashboard",
-                url: "/vendor/products/create",
+                url: "/vendor/dashboard",
                 isActive: 'active'
             },
             {
                 id: 1,
+                icon: "pi pi-check",
+                title: "Product",
+                url: "/vendor/products/list",
+      
+            },
+            {
+                id: 2,
+                icon: "#c-icon-dashboard",
+                title: "Categories",
+                url: "/vendor/products/category/list"
+            },
+            {
+                id: 3,
                 icon: "#c-icon-dashboard",
                 title: "Shops",
-                url: "/vendor/products/create"
+                url: "/vendor/shop/list"
             }
         ]
     }

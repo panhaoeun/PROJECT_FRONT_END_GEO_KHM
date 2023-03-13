@@ -11,7 +11,7 @@ export default class ProductCategoriesServices {
             })
             .catch((error) => {
                 console.log(error)
-            });
+        });
     }
    //Create
    async createProCategory(data){

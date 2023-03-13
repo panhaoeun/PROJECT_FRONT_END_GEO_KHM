@@ -73,29 +73,15 @@
                         <tbody>
                             <tr valign="top" class="flex flex-column">
                                 <td class="" style="display: inline;">
-                                    Copyright © 1995-2023 PhzarKhmer Inc. All Rights Reserved. 
-                                    <router-link to="/">
-                                        Accessibility
-                                    </router-link>,
-                                    <router-link to="/">
-                                        User Agreement
-                                    </router-link>,
-                                    <router-link to="/">
-                                        Privacy
-                                    </router-link>
-                                    <router-link to="/">
-                                        Payments Terms of Use
-                                    </router-link>
-                                    <router-link to="/">
-                                        Cookies
-                                    </router-link>
-                                    <router-link to="/">
+                                        Copyright © 1995-2023 PhzarKhmer Inc. All Rights Reserved.,
+                                        Accessibility,
+                                        User Agreement,
+                                        Privacy,
+                                        Payments Terms of Use,
+                                        Cookies,
                                         Your Privacy Choices
-                                    </router-link>
-                                    and
-                                    <router-link to="/">
+                                        and
                                         AdChoice
-                                    </router-link>
                                 </td>
                             </tr>
                         </tbody>

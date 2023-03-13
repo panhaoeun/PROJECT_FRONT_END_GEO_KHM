@@ -2,7 +2,7 @@
     <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
                 <router-link  class="sidebar-brand" to="">
-                      <span class="align-middle text-2xl">AdminKit</span>
+                      <span class="align-middle text-2xl">E-Commerce</span>
                 </router-link>
                 <!--Dynamic Sidebar -->
                 <ul class="sidebar-nav">

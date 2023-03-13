@@ -158,12 +158,12 @@
                     setTimeout(() => (this.isLoading = false), 1000);
                     // Data 
                     const data = {
-                        user_email : this.user_email,
-                        user_password: this.user_password,
-                        user_firstname: this.user_firstname,
-                        user_lastname: this.user_lastname,
-                        user_phonenumber: this.results.nationalNumber,
-                        user_type: "Vendor"
+                        userEmail : this.user_email,
+                        userPassword: this.user_password,
+                        userName: this.user_firstname + this.user_lastname,
+                        userPhone: this.results.nationalNumber,
+                        userType: "Vendor",
+                        userStatus: "Vendor"
                     }
                   
                     this.submitted = true;
@@ -178,12 +178,12 @@
                         //After register success push to page verify opt
                         // Set Loading 
                         this.isLoadingBusiness = true;
-                            setTimeout(() => {
+                        setTimeout(() => {
                                 this.isLoadingBusiness = false
                         }, 1000);
                         //this.$router.push({path: '/auth/opt-verify/:verify='+encodeURI('phone-5digit')});
                         //Push Router
-                        this.$router.push("/auth/login");    
+                        this.$router.push("/vendor/dashboard");    
                     }).catch(e => {
                         //  Toast Alert 
                         this.messages = [

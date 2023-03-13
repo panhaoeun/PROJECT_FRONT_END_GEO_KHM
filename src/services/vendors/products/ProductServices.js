@@ -1,5 +1,4 @@
 import http from "../../../../http-common";
-
 export default class ProductServices{
      // Get 
     async getDataProducts(data){

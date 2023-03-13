@@ -8,6 +8,8 @@
      />
     <!-- Modal Popup - MazDialogs OPT Verify -->
      <form role="form" @submit.prevent="handleSubmitPersonalAcc(!v$.$invalid)" method="POST" enctype="multipart/form-data">
+        <!-- Toast Alert -->
+        <Toast />
             <div>
                 <div class="p-fluid grid">
                     <!-- Username -->
@@ -104,7 +106,7 @@
             </div>
             <!-- Create account button -->
             <div class="flex justify-content-center">
-                <Button type="submit" label="Create account" :loading="isLoading" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
+                <Button type="submit" :label="btnLoading ?  'Loading...' : 'Create Account'" :loading="isLoading" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
             </div>
         </form>
      <!-- Messages Alert-->
@@ -144,7 +146,8 @@
                 messages_acc_per: [],
                 submitted:false,
                 accept: null,
-                isLoadingPersonal: false
+                isLoadingPersonal: false,
+                btnLoading: false
             }
         },
     
@@ -172,38 +175,46 @@
             async handleSubmitPersonalAcc(isFormValid){
                     try{
                         this.submitted = true;
+                        this.btnLoading = false;
                         // Loading Button
-                        this.isLoading = true;
-                        setTimeout(() => (this.isLoading = false), 1000);
-                        console.log(this.$router)
+                        this.isLoadingPersonal = true;
+                        setTimeout(() => {
+                            this.isLoadingPersonal = false
+                        }, 1000);
                         // Check validations
                         if (!isFormValid) {
                             return;
                         }
                         // Data 
                         const data = {
-                            user_email : this.user_acc_email,
-                            user_password: this.user_acc_password,
-                            user_firstname: this.user_acc_firstname,
-                            user_lastname: this.user_acc_lastname,
-                            user_phonenumber: this.results.nationalNumber,
-                            user_type: "Customer"
+                            userEmail : this.user_acc_email,
+                            userPassword: this.user_acc_password,
+                            userName: this.user_acc_firstname + this.user_acc_lastname,
+                            userPhone: this.results.nationalNumber,
+                            userType: "Customer",
+                            userStatus: "Active"
                         }
                         AuthenticationsDataService.create(data).then((response) => {
-                            this.submitted = true;
-                            this.messages_acc_per = [
-                                    {severity: 'success', content: response.data.message},
-                            ];
-                           
+                             this.btnLoading = true;    
+                             this.submitted = true;
+                            this.isLoadingPersonal = true;
+                            setTimeout(() => {
+                                this.isLoadingPersonal = false;
+                                this.$router.push("/");
+                            }, 1000);
+                             //Toast Alert
+                             this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
                         }).catch(e => {
-                            //  Toast Alert 
-                            this.messages_acc_per = [
-                                {severity: 'error', content: e.response.data.error},
-                            ]
-                    })
-                                
-                                
+                                //Toast Alert 
+                                this.messages_acc_per = [
+                                    {severity: 'error', content: e.response.data.error},
+                                ]
+                                this.$toast.add({ severity: 'error', summary: e.response.data.message, detail: e.response.data.data.errors[0].message, life: 3000 });
+                                this.$toast.add({ severity: 'error', summary: e.response.data.data.errors.message, detail: e.response.data.data.errors.userPassword, life: 3000 });
+                                this.$toast.add({ severity: 'error', summary: e.response.data.message, detail: e.response.data.data.errors[0].message, life: 3000 });
+                        });                              
                 }catch(err){
+                    console.log(err)
                    // Alert Error 
                   this.messages_acc_per  [
                     {severity: 'error' , content: err}

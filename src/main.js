@@ -59,6 +59,7 @@ import Menubar from 'primevue/menubar';
 import Toolbar from 'primevue/toolbar';
 import Editor from 'primevue/editor';
 import Dropdown from 'primevue/dropdown';
+import InputSwitch from 'primevue/inputswitch';
 
 // Databases
 import DataTable from 'primevue/datatable';
@@ -128,6 +129,7 @@ app.component('Toolbar', Toolbar);
 app.component('Editor', Editor);
 app.component('Dropdown',Dropdown);
 app.component('InputNumber',InputNumber);
+app.use('InputSwitch',InputSwitch);
 // Element Plus
 app.use(ElementPlus);
 

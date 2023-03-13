@@ -130,8 +130,8 @@ export default {
                 if(this.password != '' && this.phone != ''){
                     // Client to Serve 
                     const data = {
-                        user_phonenumber : this.phone,
-                        user_password: this.password
+                        userPhone : this.phone,
+                        userPassword: this.password
                     }
                     this.isLoading = true;
                      setTimeout(() => {
@@ -148,7 +148,6 @@ export default {
                             this.$router.push("/");
                         }
                     }).catch(error => {
-                        console.log(error.response.data.message)
                         //  Toast Alert 
                         this.messages = [
                              {severity: 'error', content: error.response.data.message},
