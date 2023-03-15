@@ -20,6 +20,9 @@ import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
 import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
 import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
 
+
+// E-Commerce Website
+import "./assets/css/customer_ecommerce_app/style_prefix.css";
 // Import Style
 import "./assets/styles/style.css";
 import "./assets/styles/account-tab.css";
@@ -60,6 +63,7 @@ import Toolbar from 'primevue/toolbar';
 import Editor from 'primevue/editor';
 import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
+import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
 
 // Databases
 import DataTable from 'primevue/datatable';
@@ -130,6 +134,9 @@ app.component('Editor', Editor);
 app.component('Dropdown',Dropdown);
 app.component('InputNumber',InputNumber);
 app.use('InputSwitch',InputSwitch);
+app.use('AvatarGroup', AvatarGroup);
+// Config IONIC
+app.config.ignoredElements = [/^ion-/];
 // Element Plus
 app.use(ElementPlus);
 

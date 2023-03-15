@@ -21,3 +21,11 @@
 .text-color-standard-blue-gradient{
  background: linear-gradient(to right top, #2169ce, #1676d5, #1483da, #1e8fde, #2e9be2, #2498e2, #1694e2, #0091e2, #007ddc, #0067d5, #0050ca, #0537bb);
 }
+
+.bg-color-standard-gray{
+    background: linear-gradient(#F4F4F8, #F4F8F4);
+}
+
+.bg-color-standard-red-gradient-opacity{
+    background-image: linear-gradient(to right torgb(208, 147, 148)a1d, #af2c2e, #dd2326, #cf1c1f, #e11317);
+}

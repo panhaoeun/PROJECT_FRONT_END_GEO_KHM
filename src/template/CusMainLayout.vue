@@ -5,10 +5,7 @@
         <router-view/>
    </div>
    <!-- Footer -->
-   <div class="gfoot">
-     <!-- Footer -->
-     <Footer></Footer>
-   </div>
+    <Footer/>
 </template>
 
 <!-- @Componet: Control all components for create standard master page  -->

@@ -1,121 +1,40 @@
 <template>
-    <div class="d-none d-lg-block">
-        <div class="flex justify-content-center align-item-center">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                id="navbarDropdownMenuLink"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                            >
-                                Sell on our website
-                            </a>
-                            <div
-                                class="dropdown-menu"
-                                aria-labelledby="navbarDropdownMenuLink"
-                            >
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#"
-                                    >Another action</a
-                                >
-                                <a class="dropdown-item" href="#"
-                                    >Something else here</a
-                                >
-                            </div>
-                        </li>
+    <el-menu :default-active="activeIndex" class="el-menu-demo bg-color-standard-gray" mode="horizontal" :ellipsis="false" @select="handleSelect">
+        <!-- Nav Left -->
+            <!--Be a Seller-->
+            <el-menu-item index="be-seller-index">Be as Seller</el-menu-item>
+            <!--Languages-->
+            <el-sub-menu index="eng-menu">
+                <template #title>English</template>
+                <el-menu-item index="eng-menu">English</el-menu-item>
+                <el-menu-item index="khmer-menu">Khmer</el-menu-item>
+            </el-sub-menu>
 
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                id="navbarDropdownMenuLink"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                            >
-                                Help
-                            </a>
-                            <div
-                                class="dropdown-menu"
-                                aria-labelledby="navbarDropdownMenuLink"
-                            >
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#"
-                                    >Another action</a
-                                >
-                                <a class="dropdown-item" href="#"
-                                    >Something else here</a
-                                >
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Buyer Protection</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Wish List</a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                id="navbarDropdownMenuLink"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                            >
-                                English / KHR
-                            </a>
-                            <div
-                                class="dropdown-menu"
-                                aria-labelledby="navbarDropdownMenuLink"
-                            >
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#"
-                                    >Another action</a
-                                >
-                                <a class="dropdown-item" href="#"
-                                    >Something else here</a
-                                >
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                id="navbarDropdownMenuLink"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                            >
-                                Account
-                            </a>
-                            <div
-                                class="dropdown-menu"
-                                aria-labelledby="navbarDropdownMenuLink"
-                            >
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#"
-                                    >Another action</a
-                                >
-                                <a class="dropdown-item" href="#"
-                                    >Something else here</a
-                                >
-                            </div>
-                        </li>
-                       
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
+        <!-- Nav Right -->
+            <div class="flex-grow" />
+            <!-- Track Order -->
+        <el-menu-item index="track-order-index">
+            <el-icon><location/></el-icon>
+            <span>Track Order</span> 
+        </el-menu-item> 
+        <!--Help-->
+        <el-menu-item index="help-index">
+            <el-icon><Headset/></el-icon>
+            <span>Help</span> 
+        </el-menu-item> 
+    </el-menu>
 </template>
 
-<script></script>
+<!-- Script -->
+<script>
+        import {
+        Location,
+        Headset
+    } from '@element-plus/icons-vue';
+    export default{
+        components: {
+            Location,
+            Headset
+        }
+    }
+</script>
