@@ -12,6 +12,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import moduleRouteVendor from  "./vendors";
 import moduleRouteCustomer from "./customers";
 import moduleAuthencation from "./authencation";
+import moduleGlobalStep from "./globaStepper";
 import moduleErrorPage from "./errorPage";
 
 
@@ -26,6 +27,7 @@ const router = new createRouter({
         ...moduleRouteCustomer,
         ...moduleRouteVendor,
         ...moduleAuthencation,   
+        ...moduleGlobalStep,   
         ...moduleErrorPage
     ]
 });

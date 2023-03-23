@@ -1,115 +1,46 @@
 <template>
-     <header class="bg-white px-2 py-2">
-        <!-- Header Top -->
-        <div class="header-top">
-
-          <div class="container">
-
-            <ul class="header-social-container">
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-facebook"></ion-icon>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-twitter"></ion-icon>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-instagram"></ion-icon>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-linkedin"></ion-icon>
-                </a>
-              </li>
-
-            </ul>
-
-            <div class="header-alert-news">
-              <p>
-                <b>Free Shipping</b>
-                This Week Order Over - $55
-              </p>
-            </div>
-
-            <div class="header-top-actions">
-
-              <select name="currency">
-
-                <option value="usd">USD &dollar;</option>
-                <option value="eur">EUR &euro;</option>
-
-              </select>
-
-              <select name="language">
-
-                <option value="en-US">English</option>
-                <option value="es-ES">Espa&ntilde;ol</option>
-                <option value="fr">Fran&ccedil;ais</option>
-
-              </select>
-
-            </div>
-
-          </div>
-
-        </div>
-
+    <!-- Header Top -->
+    <HeaderTop/>
+     <header class="bg-header-standard pb-1">
+        <!-- Headers -->
         <div class="header-main">
-
           <div class="container">
-
+            <!-- Logo -->
             <a href="#" class="header-logo">
-              <img src="../../assets/company_logo/ecommerce_logo.png" alt="Anon's logo" width="100">
+              <img src="../../assets/company_logo/ecommerce_logo.png" alt="Anon's logo" width="100" class="border-round-md shadow-md">
             </a>
-
+            <!-- INput -->
             <div class="header-search-container">
-
-               <el-input
-                v-model="searchProduct"
-                placeholder="Search"
-                :prefix-icon="Search"
-                class="hidden lg:flex lg:w-[400px]"
-              />
-              
-
+                <!-- Input Search Products -->
+              <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
+              <button class="search-btn">
+                <ion-icon name="search-outline" style="color: #fff; font-weight: bold;"></ion-icon>
+              </button>
             </div>
-
+            <!--  -->
             <div class="header-user-actions">
-
               <button class="action-btn">
-                <i class="pi pi-user" style="font-size: 2.5rem"></i>
+                <ion-icon name="person-outline" class="text-white"></ion-icon>
               </button>
-
               <button class="action-btn">
-                <i class="pi pi-heart" style="font-size: 2.5rem"></i>
+                <ion-icon name="heart-outline" class="text-white"></ion-icon>
                 <span class="count">0</span>
               </button>
-
               <button class="action-btn">
-                <i class="pi pi-shopping-bag" style="font-size: 2.5rem"></i>
-                <span class="count">0</span>
+                 <ion-icon name="bag-handle-outline" class="text-white"></ion-icon>
+                <span class="count">40</span>
               </button>
-
             </div>
 
           </div>
 
         </div>
 
-        <nav class="desktop-navigation-menu">
+        <nav class="desktop-navigation-menu text-white">
 
           <div class="container">
 
-            <ul class="desktop-menu-category-list">
+            <ul class="desktop-menu-category-list text-white">
 
               <li class="menu-category">
                 <a href="#" class="menu-title">Home</a>
@@ -369,33 +300,8 @@
           </div>
 
         </nav>
-        <!--=================Mobile Notification==========-->
-        <div class="mobile-bottom-navigation">
-          <button class="action-btn" data-mobile-menu-open-btn>
-            <ion-icon name="menu-outline"></ion-icon>
-          </button>
-
-          <button class="action-btn">
-            <el-icon><Goods /></el-icon>
-            <span class="count">0</span>
-          </button>
-
-          <button class="action-btn">
-            <ion-icon name="home-outline"></ion-icon>
-          </button>
-
-          <button class="action-btn">
-            <ion-icon name="heart-outline"></ion-icon>
-
-            <span class="count">0</span>
-          </button>
-
-          <button class="action-btn" data-mobile-menu-open-btn>
-            <ion-icon name="grid-outline"></ion-icon>
-          </button>
-
-        </div>
-
+        <!--=================Mobile Navigation==========-->
+        <MobileNavigation/>
         <nav class="mobile-navigation-menu  has-scrollbar" data-mobile-menu>
 
           <div class="menu-top">
@@ -639,43 +545,16 @@
 </template>
 
 <!-- Export NavigationBar -->
-<script setup>
-    import { Search, Goods } from '@element-plus/icons-vue';
-    import { ref } from 'vue';
-    const searchProduct = ref('');
-</script>
-<!-- 
 <script>
-    import {
-        Goods,
-        Search
-    } from '@element-plus/icons-vue';
-    export default {
+    import HeaderTop from "../../components/customers/headers/TopHeader.vue";
+    import MobileNavigation from "../../components/customers/headers/MobileNavigation.vue";
+    export default{
         components: {
-            Goods,
-            Search
+            HeaderTop,
+            MobileNavigation
         },
-        data() {
-            return{
-                activeIndex: 1,
-            }
-        },
-        methods: {
-            handleSelect(key, keyPath){
-                console.log(key, keyPath)
-            }
+        mounted(){
+            
         }
     }
-</script> -->
-
-<style scoped>
-.example-showcase .el-dropdown + .el-dropdown {
-  margin-left: 15px;
-}
-.example-showcase .el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
-}
-</style>
+</script>

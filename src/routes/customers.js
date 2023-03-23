@@ -24,14 +24,13 @@ export default [
             path: "/customer/more-product",
             name:'more-product',
             component: () => import("../views/customers/sopping_cart/MoreProductRecommend.vue"),
-          //Overview Details
+            //Overview Details
           },
           {
             path: "/customer/order/account_detail",
             name:'account-detail',
             component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"),
           }
-          
         ]
       }
 ]

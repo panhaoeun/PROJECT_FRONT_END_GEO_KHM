@@ -1,11 +1,9 @@
 <template>
-     <!-- Top NavigationBar -->
-    <navigation-bar/>
+
     <!-- Hero Section -->
     <HeroSection/>
     <!--Group My Products-->
     <group-my-product/>        
-   
     <!-- Best Selling Stores -->
     <best-selling-store/>
     <!-- Today best for you -->
@@ -13,27 +11,25 @@
     <!-- Our Recommendation for you -->
     <our-recommend-for-you/>
      <!-- Discount products of Banner-->
-     <banner-discount/>
+     <!-- <banner-discount/> -->
     <!-- Brand & Category Product -->
-    <brand-category-list/>
+    <!-- <brand-category-list/> -->
 </template>
 
 <script>
-    import NavigationBar from "../../../components/customers/Navigation.vue";
+
     import HeroSection from "../../../components/customers/HeroSection.vue";
-    import groupMyProduct from "../../../views/customers/home/homePage.vue";
-    import BannerDiscount from "../../../components/customers/homepage/bannerDiscount/BannerDiscount.vue";
-    import BrandCategoryList from "../../../components/customers/homepage/brand_category/brandCategoryList.vue";
+    // import BannerDiscount from "../../../components/customers/homepage/bannerDiscount/BannerDiscount.vue";
+    // import BrandCategoryList from "../../../components/customers/homepage/brand_category/brandCategoryList.vue";
     import bestSellingStore from "../../../components/customers/homepage/sellingStore/bestSellingStore.vue";
     import todayBestForYou from "../../../components/customers/homepage/bestforYou/todayBestForYou.vue";
     import ourRecommendForYou from "../../../components/customers/homepage/ourRecommed/ourRecommedPro.vue";
     export default {
         components: {
-            NavigationBar,
+        
             HeroSection,
-            groupMyProduct,
-            BannerDiscount,
-            BrandCategoryList,
+            // BannerDiscount,
+            // BrandCategoryList,
             bestSellingStore,
             todayBestForYou,
             ourRecommendForYou

@@ -3,16 +3,7 @@ import App from './App.vue'
 window.$ = window.jQuery = require("jquery");
 
 //import adminlte styles
-import './assets/styles/adminlte.min.css'
-import "../node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
-import "../node_modules/admin-lte/plugins/summernote/summernote-bs4.min.css"
-import "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css"
-import "../node_modules/admin-lte/plugins/jqvmap/jqvmap.min.css"
-import "../node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css"
-import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
-import "../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css"
-import "../node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css"
-import "../node_modules/admin-lte/plugins/dropzone/min/dropzone.min.css";
+
 
 //import adminlte scripts
 import "../node_modules/admin-lte/dist/js/adminlte.min.js"
@@ -36,6 +27,7 @@ import './assets/primeflex.scss';
 import "primevue/resources/themes/lara-light-indigo/theme.css";     
 //icons
 import "primeicons/primeicons.css";
+
 
 import InputNumber from 'primevue/inputnumber';
 import PrimeVue from 'primevue/config';
@@ -62,8 +54,10 @@ import Menubar from 'primevue/menubar';
 import Toolbar from 'primevue/toolbar';
 import Editor from 'primevue/editor';
 import Dropdown from 'primevue/dropdown';
+import Sidebar from 'primevue/sidebar';
 import InputSwitch from 'primevue/inputswitch';
 import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
+import Steps from "primevue/steps";
 
 // Databases
 import DataTable from 'primevue/datatable';
@@ -135,6 +129,8 @@ app.component('Dropdown',Dropdown);
 app.component('InputNumber',InputNumber);
 app.use('InputSwitch',InputSwitch);
 app.use('AvatarGroup', AvatarGroup);
+app.component('Sidebar',Sidebar);
+app.component('Steps',Steps);
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];
 // Element Plus

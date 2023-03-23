@@ -528,7 +528,7 @@ progress {
     font-size: 80%
 }
 
-.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+/* .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
     --bs-gutter-x: 0.75rem;
     --bs-gutter-y: 0;
     margin-left: auto;
@@ -536,9 +536,9 @@ progress {
     padding-left: calc(var(--bs-gutter-x) * .5);
     padding-right: calc(var(--bs-gutter-x) * .5);
     width: 100%
-}
+} */
 
-@media (min-width: 576px) {
+/* @media (min-width: 576px) {
     .container, .container-sm {
         max-width: 540px
     }
@@ -560,7 +560,7 @@ progress {
     .container, .container-lg, .container-md, .container-sm, .container-xl {
         max-width: 1200px
     }
-}
+} */
 
 .row {
     --bs-gutter-x: 24px;
