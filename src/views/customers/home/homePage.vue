@@ -1,5 +1,5 @@
 <template>
-
+    
     <!-- Hero Section -->
     <HeroSection/>
     <!--Group My Products-->

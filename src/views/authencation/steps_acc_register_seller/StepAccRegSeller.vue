@@ -1,77 +1,25 @@
 <template>
     <!-- Header -->
-    <Header/>
+<Header/>
     <!--Contents -->
     <div class="bg-white">
-      <el-button style="margin-top: 12px" @click="next">Next step</el-button>
       <div class="container bg-white" align-center>
             <div class="px-2 py-2 ">
-                <div v-for="(step, id, i) in stepperAccReg.steps.value" :key="id" class="">
-                    {{ step }} -{{ id}}- {{ i }}
-                </div>
-                <!-- Step Progress Register Acc -->
-                <el-steps :active="stepperAccReg.index.value" align-center status="success">
-                    <el-step v-for="(step, id) in stepperAccReg.steps.value" :key="id"  :title="step.title"/>
-                </el-steps>
               <!-- Form Submit on Stepper Accounts -->
               <!--========Form==============-->
-                <div class="row">
+                <div class="columns">
                     <div class="col-lg-12 mx-auto">
-                      <div class="flex justify-content-center p-fluid px-4 py-4">
-                        <form  @submit.prevent="SubmitStepAccSell()" class="p-fluid" style="width: 1200px;">
-                            <div class="w-full px-4 py-2 rounded border border-main space-y-2 overflow-auto h-full">
-                                <!--==============Business Information============-->
-                                <div v-if="stepperAccReg.isCurrent('business-information')">
-                                    <div class="flex flex-column gap-2 mb-3">
-                                         <label for="business">Business name</label>
-                                         <InputText id="username" v-model="stepperAcc.businessName" aria-describedby="username-help" placeholder="Business Name"/>
-                                     </div>
-                                </div>
-                                <!--==============Business Information============-->
-                                <div v-if="stepperAccReg.isCurrent('seller-information')">
-                                    <div class="flex flex-column gap-2 mb-3">
-                                            <label for="username">Zip/Postal Code</label>
-                                        <InputText id="username" v-model="stepperAcc.ownerName" aria-describedby="username-help" placeholder="Zip/Postal Code"/>
-                                    </div>
-                                </div>
-                                <!--==========Button Actions=====-->
-                               <div>
-                                    <MazBtn 
-                                        v-if="!stepperAccReg.isLast.value"
-                                        :disabled="!stepperAccReg.current.value.isValid"
-                                        style="width: 300px;">
-                                        Next
-                                    </MazBtn>
-                                    <MazBtn 
-                                        v-if="stepperAccReg.isLast.value"
-                                        :disabled="!stepperAccReg.current.value.isValid"
-                                        style="width: 300px;">
-                                         Submit
-                                    </MazBtn>
-                               </div>
-                            </div>
-                        </form>
-                     </div>
-
-
-
-    <div class="flex flex-col gap-4 mt-12">
-          <div class="w-full px-4 py-2 rounded border border-main space-y-2 overflow-auto h-full">
-            <span class="font-bold">Form</span>
-            <pre v-text="stepperAcc" />
-          </div>
-
-          <div class="w-full px-4 py-2 rounded border border-main space-y-2 overflow-auto h-full">
-            <span class="font-bold">Wizard</span>
-            <pre v-text="stepperAccReg" />
-          </div>
-        </div>
-
-
-
-
-
-
+                      <div class="p-fluid px-4 py-4 border shadow">
+                        <!-- MazStepper -->
+                         <horizontal-stepper 
+                            :steps="stepRouter" 
+                            @completed-step="completeStep" 
+                            :top-buttons="true"
+                            @active-step="isStepActive"
+                            @stepper-finished="alert"
+                            >
+                        </horizontal-stepper>
+                    </div>
                 </div>
             </div>
               <!--========Form==============-->
@@ -84,8 +32,12 @@
 
 <!-- Import Files -->
 <script>
-    import { useStepper } from '@vueuse/core';
+    import HorizontalStepper  from '../../../components/vue-stepper/HorizontalStepper.vue';
     import Header from '../../customers/header_of_subpage/HeaderSubPage.vue';
+    //Acc Steps
+    import BusinessInformation from './stepper_acc/BusinessInformation.vue';
+    import SellerInformation from './stepper_acc/SellerInformation.vue';
+    import IdentityVerificationSellAcc from './stepper_acc/IdentityVerificationSellAcc.vue';
     export default {
         data: function() {
             return {
@@ -93,43 +45,93 @@
                 stepperAcc: {
                     ownerName: '',
                     businessName: '',
-                }
+                },
+                stepRouter: [
+                    {
+                        icon: 'mail',
+                        name: 'first',
+                        title: 'Business Information',
+                        subtitle: '',
+                        component: BusinessInformation,
+                        completed: false 
+                    },
+                    {
+                        icon: 'mail',
+                        name: 'second',
+                        title: 'Seller Information',
+                        subtitle: '',
+                        component: SellerInformation,
+                        completed: false
+                    },
+                    {
+                        icon: 'mail',
+                        name: 'four',
+                        title: 'Verification',
+                        subtitle: '',
+                        component: IdentityVerificationSellAcc,
+                        completed: false
+                    },
+                ]
             }
         },
-        setup() {
-            const stepperAccReg = useStepper({
-                  'business-information':{
-                        title: 'Business Information',
-                        isValid:() => this.stepperAcc.businessName,
-                  },
-                'seller-information': {
-                    title: 'Seller Information',
-                    isValid:() => this.stepperAcc.ownerName?.trim() !== '',
-                }
-            });
-            return {stepperAccReg};
+        methods: {
+            completeStep(payload) {
+                this.stepRouter.forEach((step) => {
+                    if (step.name === payload.name) {
+                        step.completed = true;
+                    }
+                });
+            },
+            isStepActive(payload) {
+                this.stepRouter.forEach((step) => {
+                    if (step.name === payload.name) {
+                        if (step.completed === true) {
+                            step.completed = false;
+                        }
+                    }
+                });
+            },
+            alert(payload) {
+                alert(payload)
+            }
         },
         components: {
             Header,
-        },
-        methods: {
-            async SubmitStepAccSell(){ 
-                if(this.stepperAccReg.current.value.isValid){
-                     this.stepperAccReg.goToNext();
-                }
-                console.log("asdas")
-                
-            },
-            async allStepsBeforeAreValid(index){
-                return !Array(index)
-                        .fill(null).some((_, i) => !this.stepperAccReg.at(i)?.isValid);
-            },
-            next(){
-                if(this.currentStep ++ > 2) this.currentStep = 0;
-            }
-        },
-        mounted() {
-            // console.log(this.stepperAccReg.current)
-        },
+            HorizontalStepper,
+        }
     }
 </script>
+
+
+<style scoped>
+#app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+.box.formated .heading {
+    font-size: 1rem;
+    text-transform: capitalize;
+    padding: .8rem 1.5rem;
+    background-color: #fafafa;
+}
+
+.box.formated .content {
+    padding: 1rem 2rem;
+}
+
+i.top-left {
+    position: absolute;
+    left: 1.5rem;
+    top: 0.8rem;
+}
+
+.vertical-separator {
+    display: flex;
+    justify-content: space-around;
+}
+
+.vertical-separator .line {
+    border-right: 1px solid #cccccc;
+}</style>
