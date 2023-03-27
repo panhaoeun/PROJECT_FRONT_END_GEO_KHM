@@ -10,24 +10,28 @@
                     <span>admin@gmail.com</span>
                     <div class="w-100">
                         <div>
-                            <button type="button" class="d-flex align-items-start btn btn-secondary text-white w-100">
-                                <i class="fa fa-user m-1"></i> Profile
-                            </button>
+                            <router-link to="/profile">
+                                <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
+                                    <i class="fa fa-user m-1"></i> Profile
+                                </button></router-link>
                         </div>
                         <br />
                         <div>
                             <router-link to="/login-activities">
-                                <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
+                                <button type="button" class="d-flex align-items-start btn btn-secondary text-white w-100">
                                     <i class="fa fa-list m-1"></i> Login Ativiities
                                 </button>
                             </router-link>
+
                         </div>
                         <br />
                         <div>
+                           <router-link to="/change-password" > 
                             <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
                                 <i class="fa fa-exchange-alt m-1"></i> Change
                                 Password
                             </button>
+                           </router-link>
                         </div>
                         <br />
                         <div>
@@ -40,18 +44,19 @@
                 </div>
             </div>
             <div class="col-md-7 card ml-4">
-                <personal-info></personal-info>
+                <lgoin-activities />
             </div>
         </div>
     </div>
 </template>
 <script>
-import PersonalInfo from "./profileComponents/PersonalInfoVue.vue";
+// import PersonalInfo from "./profileComponents/PersonalInfoVue.vue";
+import LgoinActivities from './profileComponents/LogActivities.vue';
 import LogoutModal from "./profileComponents/LogoutModal.vue";
 export default {
     name: "profile",
     components: {
-        PersonalInfo,
+        LgoinActivities,
         LogoutModal,
     },
 };

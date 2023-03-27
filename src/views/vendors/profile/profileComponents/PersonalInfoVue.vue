@@ -4,7 +4,7 @@
             <h4><strong class="text-gray">Personal Informations</strong></h4>
             <modal></modal>
         </div>
-
+        <br />
         <div class="container bg-gray-200 p-2">
             <strong>Basices</strong>
         </div>
@@ -36,10 +36,10 @@
     </div>
 </template>
 <script>
-import Modal from './Modal.vue';
+import Modal from "./Modal.vue";
 export default {
     components: {
-        Modal
-    }
-}
+        Modal,
+    },
+};
 </script>

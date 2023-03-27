@@ -10,9 +10,11 @@
                     <span>admin@gmail.com</span>
                     <div class="w-100">
                         <div>
-                            <button type="button" class="d-flex align-items-start btn btn-secondary text-white w-100">
-                                <i class="fa fa-user m-1"></i> Profile
-                            </button>
+                            <router-link to="/profile">
+                                <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
+                                    <i class="fa fa-user m-1"></i> Profile
+                                </button>
+                            </router-link>
                         </div>
                         <br />
                         <div>
@@ -24,10 +26,11 @@
                         </div>
                         <br />
                         <div>
-                            <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
-                                <i class="fa fa-exchange-alt m-1"></i> Change
-                                Password
-                            </button>
+                            <router-link to="">
+                                <button type="button" class="d-flex align-items-start btn btn-secondary text-white w-100">
+                                    <i class="fa fa-exchange-alt m-1"></i> Change
+                                    Password
+                                </button> </router-link>
                         </div>
                         <br />
                         <div>
@@ -40,18 +43,18 @@
                 </div>
             </div>
             <div class="col-md-7 card ml-4">
-                <personal-info></personal-info>
+                <change-password></change-password>
             </div>
         </div>
     </div>
 </template>
 <script>
-import PersonalInfo from "./profileComponents/PersonalInfoVue.vue";
+import ChangePassword from "./profileComponents/ChangePassword.vue";
 import LogoutModal from "./profileComponents/LogoutModal.vue";
 export default {
     name: "profile",
     components: {
-        PersonalInfo,
+        ChangePassword,
         LogoutModal,
     },
 };
