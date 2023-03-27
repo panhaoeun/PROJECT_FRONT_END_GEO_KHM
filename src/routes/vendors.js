@@ -32,7 +32,7 @@ export default [
       },
       {
         path:'/profile',
-        component:()=> import('../views/vendors/setting/ProfileView.vue'),
+        component:()=> import('../views/vendors/profile/ProfileVue.vue'),
       },
       {
         path: "/customer/productdetail",
