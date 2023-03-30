@@ -47,6 +47,9 @@
             Position,
             Service,
             Suitcase
+        }, 
+        methods: {
+            handleSelect(){}
         }
     }
 </script>

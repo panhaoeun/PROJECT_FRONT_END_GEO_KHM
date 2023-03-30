@@ -213,11 +213,13 @@
                 </div>
                 <!-- Buttons Submits -->
                 <div class="col-12 flex justify-content-end mt-4">
+                    
                     <!--Buttons-->
-                     <!-- <LoadingButton :loading="true" title="Save"></LoadingButton> -->
-                    <Button  icon="pi pi-check" class="p-button-lg py-4 w-12rem text-xl" 
-                     @click.prevent="submitFormProCreate(!v$.$invalid)"
-                     :disabled="isProcessingSubmit" :label='isProcessingSubmit? "Process..." : "Save"'></Button>
+                    <Button icon="pi pi-times"
+                        @click.prevent="submitFormProCreate(!v$.$invalid)"
+                        :disabled="isProcessingSubmit" :label='isProcessingSubmit ? "Process..." : "Save"'
+                        class="p-button-lg py-3 p-button-outlined w-10rem mr-3" />
+                    <Button label="Save" icon="pi pi-check" class="p-button-lg py-3 w-10rem" onclick=""/>
                 </div>
             </div>
         </form>

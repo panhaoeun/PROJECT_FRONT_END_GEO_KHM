@@ -19,7 +19,7 @@
             </div>
             <!--  -->
             <div class="header-user-actions">
-              <button class="action-btn">
+              <button class="action-btn" @click="showNotAuthentications($event)">
                 <ion-icon name="person-outline" class="text-white"></ion-icon>
               </button>
               <button class="action-btn">
@@ -30,6 +30,64 @@
                  <ion-icon name="bag-handle-outline" class="text-white"></ion-icon>
                 <span class="count">40</span>
               </button>
+
+
+
+            <!-- Toggle Not Register or Not Login -->
+            <OverlayPanel ref="toggleNotAuth">
+                <!-- Toggle My Account -->
+                <div class="px-1 py-1">
+                    <div class="-menu" aria-labelledby="navbarDropdown">
+                        <p>Welcome Phzarkhmer</p>
+                        <div class="flex flex-column align-items-start justify-content-start">
+                            <div class="flex align-items-center justify-content-start  h-4rem ">
+                                  <Button
+                                    label="Register"
+                                    class=" py-2 p-button-outlined w-10rem mr-3" />
+                                <Button label="Login" class=" py-2 w-10rem"/>
+                            </div>
+                        </div>
+                        <!-- Title -->
+                        <div class="flex flex-column align-items-start justify-content-start py-2">
+                            <div class="flex align-items-center justify-content-start  h-2rem">
+                                <router-link to="/">
+                                    <span class="font-bold text-sm text-black">My Account</span>
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </OverlayPanel>
+            <!--Overlay Panel of Toggle My Accounts-->
+            <OverlayPanel ref="toggleMyAccount">
+               <!-- Toggle My Account -->
+               <div class="px-1 py-1">
+                    <div class="-menu" aria-labelledby="navbarDropdown">
+                        <div class="flex align-items-center justify-content-center">
+                            <Avatar image="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="mr-2" size="xlarge" shape="circle" />
+                            <div class="flex flex-column card-container align-content-center">
+                                <div class="flex align-items-start justify-content-start text-lg">
+                                    Phzarkhmer
+                                </div>
+                                  <div class="flex align-items-start justify-content-start text-sm">
+                                    devpanha@gmail.com                                   
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- List -->
+                       <div class="flex flex-column align-items-start justify-content-start">
+                            <div class="flex align-items-center justify-content-start  h-2rem">
+                                <router-link to="/">
+                                    <span class="font-bold text-lg">Sign Out </span>
+                                </router-link>
+                            </div>
+                       </div>
+                    </div>
+               </div>
+            </OverlayPanel>
+
+              
             </div>
 
           </div>
@@ -553,8 +611,26 @@
             HeaderTop,
             MobileNavigation
         },
-        mounted(){
-            
+        data(){
+            return{
+                selectedCity: null,
+                cities: [
+                    { name: 'New York', code: 'NY' },
+                    { name: 'Rome', code: 'RM' },
+                    { name: 'London', code: 'LDN' },
+                    { name: 'Istanbul', code: 'IST' },
+                    { name: 'Paris', code: 'PRS' }
+                ]
+            }
+        },
+        methods: {
+            showMyAccount(event){
+               this.$refs.toggleMyAccount.toggle(event);
+            },
+            // Not Account Authentications
+            showNotAuthentications(event){
+                this.$refs.toggleNotAuth.toggle(event);
+            }
         }
     }
 </script>

@@ -1,81 +1,156 @@
 <template>
     <!-- Tab Menu - Sidebar -->
-    <div class="account-tab">
-        <div class="px-2 py-2 w-full">
-            <!--Nav Crumb-->
-            <div class="p-4 w-full">
-                <div class="p-0 m-0">
-                    <!--Bread Crumbs-->
-                    <div class="px-2 py-2 my-2">
-                        <el-breadcrumb separator="/">
-                            <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
-                            <el-breadcrumb-item
-                            ><a href="/">Account</a></el-breadcrumb-item
-                            >
-                            <el-breadcrumb-item>My Accounts</el-breadcrumb-item>
-                        </el-breadcrumb>
+   <div class="px-4 py-4">
+        <div class="container p-2 text-lg">
+                <!-- Breadcrumbs -->
+              <div class="py-4">
+                  <el-breadcrumb :separator-icon="ArrowRight">
+                    <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
+                    <el-breadcrumb-item>My Account</el-breadcrumb-item>
+                </el-breadcrumb>
+              </div>
+                <div class="row">
+                    <div class="col-md-5 col-xl-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Settings</h5>
+                            </div>
+                            <div class="list-group list-group-flush" role="tablist">
+                                <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account" role="tab">
+                                    <i class="pi pi-user pl-2" style="font-size: 1.5rem"></i>
+                                    Account
+                                </a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href="#password" role="tab">
+                                      <i class="pi pi-lock  pl-2" style="font-size: 1.5rem"></i>
+                                       Password
+                                </a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href="#shipaddress" role="tab">
+                                    <i class="pi pi-lock  pl-2" style="font-size: 1.5rem"></i>
+                                    Shipping Address
+                                </a>
+                              
+                            </div>
+                        </div>
                     </div>
-                    <!--Page Menu-->
-                    <el-row :gutter="10">
-                        <el-col>
-                            <div class="px-2 py-2 page-menu min-vh-100 w-full text-xl">
-                                <!--Tabs-->
-                                <el-tabs :tab-position="this.tabPosition" style="height: 500px" type="border" class="demo-tabs">
-                                    <el-tab-pane label="Accounts">
-                                        <div class="px-2 py-2">
-                                            <div class="flex items-center justify-between mx-auto max-w-full">
-                                                <!-- My Profile -->
-                                              <div class="col-12">
-                                                <div class="border-300 border-1 bg-white px-2 py-2 border-round surface-overlay font-bold m-2 align-items-center">
-                                                    <!-- Aviators -->
-                                                    <div class="flex align-items-center px-3 py-2">
-                                                        <Avatar v-badge.danger="4" class="p-overlay-badge" image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" shape="circle" style="width:80px !important; height: auto;"/>
-                                                        <p class="text-xl pl-4 font-bold text-black">Panha Developer</p>
-                                                    </div>
-                                                    <!-- Grid -->
-                                                    <div class="my-order container">
-                                                        <div class="title text-black text-xl">My Order</div>
-                                                        <el-row :gutter="12">
-                                                            <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-                                                                asdasd
-                                                            </el-col>
-                                                        </el-row>
-                                                    </div>                                                  
+                    <div class="col-md-7 col-xl-8">
+                        <div class="tab-content">
+                                <!-- My Profile Details -->
+                                <div class="tab-pane fade active show" id="account" role="tabpanel" aria-labelledby="account-tab">
+                                   <div class="card">
+                                        <h3 class="mb-4">Account Settings</h3>
+                                        <!-- Account Settings -->
+                                        <div class="p-fluid">
+                                            <!-- User Profile -->
+                                            <div class="field gird">
+                                            <div class="row">
+                                                <div class="col-2 md:col-3 xl:col-2 lg:2 flex align-items-center justify-content-center">
+                                                    <span class="text-500 text-lg">Profile Picture</span>
                                                 </div>
-                                              </div>
+                                                <!-- Upload Image -->
+                                                <div class="col-6">
+                                                    <UploadPreviewAvatar imageData="imageFile"/>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <!-- Name -->
+                                            <div class="field grid">
+                                                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Name</label>
+                                                <div class="col-12 md:col-12">
+                                                    <InputText id="name" v-model="value" />
+                                                </div>
+                                            </div>
+                                            <!--Date Of birth-->
+                                            <div class="field grid">
+                                                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Date of Birth</label>
+                                                <div class="col-12 md:col-12">
+                                                    <Calendar id="name" v-model="value" showIcon showButtonBar/>
+                                                </div>
+                                            </div>
+                                            <!--Gender-->
+                                            <div class="field grid">
+                                                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Gender</label>
+                                                <div class="col-12 md:col-12">
+                                                    <Dropdown v-model="selectGenderCus" :options="genderCus" optionLabel="name" placeholder="Select a Gender" class="w-full" />
+                                                </div>
+                                            </div>
+                                            <!--Gender-->
+                                            <div class="field grid">
+                                                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Email</label>
+                                                <div class="col-12 md:col-12">
+                                                     <InputText id="name" v-model="value" type="email" />
+                                                </div>
+                                            </div>
+                                            <!-- Button Submitted -->
+                                            <div class="gap-3 py-4">
+                                                <Button label="UPDATE" severity="danger" style="width:12rem;" size="large"/>
                                             </div>
                                         </div>
-                                    </el-tab-pane>
-                                </el-tabs>
-                            </div>
-                        </el-col>
-                    </el-row>
+                                   </div>
+                                </div> 
+                                <!-- Change Password -->
+                                <div class="tab-pane fade" id="password" role="tabpanel">
+                                    <ChangePassword/>
+                                </div>    
+                                <!-- Shipping Address -->
+                                <div class="tab-pane fade" id="shipaddress" role="tabpanel">
+                                    <ShippingAddress/>
+                                </div>    
+                        </div>
+                        
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
+        </div> 
+   </div>
 </template>
 
 
-<script>
-    export default{
-        components: {
-        },
-        data(){
-            return{
-                tabPosition: 'left'
-            }
-        }
-    }
+
+<script setup>
+    import UploadPreviewAvatar from "../../../components/component/UploadPreviewAvatar.vue";
+    import ChangePassword from "../../../views/customers/my_profiles/subpage_order_detail/ChangePassword.vue";
+    import ShippingAddress from "../../../views/customers/my_profiles/subpage_order_detail/ShippingAddress.vue";
+    import { ref } from "vue";
+    import { ArrowRight } from '@element-plus/icons-vue';
+    const selectGenderCus = ref();
+    const imageFile = ref(null);
+    console.log(imageFile)
+    const genderCus = ref([
+        { name: 'Male', code: 'male' },
+        { name: 'Female', code: 'female' }
+    ]);
 </script>
 
 <style>
 .el-col {
     border-radius: 4px;
 }
-
-.grid-content {
-    border-radius: 4px;
-    min-height: 36px;
+.card-title{
+    font-size: 23px;
+}
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e5e9f2;
+    border-radius: .2rem;
+}
+.card-header:first-child {
+    border-radius: calc(.2rem - 1px) calc(.2rem - 1px) 0 0;
+}
+.card-header {
+    border-bottom-width: 1px;
+}
+.card-header {
+        padding: .80rem 1.30rem;
+        margin-bottom: 0;
+        color: inherit;
+        background-color: #fff;
+        /* border-bottom: 1px solid #e5e9f2; */
 }
 </style>

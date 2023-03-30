@@ -44,7 +44,6 @@ import Ripple from 'primevue/ripple';
 import Image from 'primevue/image';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
-import DialogService from 'primevue/dialogservice'
 import Divider from 'primevue/divider';
 import Message from 'primevue/message';
 import InlineMessage from 'primevue/inlinemessage';
@@ -58,6 +57,12 @@ import Sidebar from 'primevue/sidebar';
 import InputSwitch from 'primevue/inputswitch';
 import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
 import Steps from "primevue/steps";
+import Calendar from 'primevue/calendar';
+import ConfirmPopup from 'primevue/confirmpopup';
+import ConfirmationService from 'primevue/confirmationservice';
+import DialogService from 'primevue/dialogservice';
+import OverlayPanel from 'primevue/overlaypanel';
+import Listbox from 'primevue/listbox';
 
 // Databases
 import DataTable from 'primevue/datatable';
@@ -70,6 +75,7 @@ import Row from 'primevue/row';                     //optional for row
 // Element Plus
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
+import 'element-plus/theme-chalk/display.css'
 
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
@@ -89,6 +95,24 @@ import 'maz-ui/css/main.css';
 
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
+
+///Form Kit
+import { plugin, defaultConfig } from '@formkit/vue';
+import { createMultiStepPlugin } from '@formkit/addons';
+import { generateClasses } from '@formkit/themes';
+//Multiple Steps
+import '@formkit/addons/css/multistep'
+import genesis from '@formkit/themes/genesis';
+
+//google Map 
+import VueGoogleMaps from '@fawmi/vue-google-maps'
+app.use(VueGoogleMaps, {
+    load: {
+         key:'AIzaSyBOXZ8ExfHJAN7vrX4fMqcL5AQy7TCK3ZE',
+    }
+});
+
+
 /* @Routers */
 app.use(routes);
 app.use(PrimeVue, { ripple: true });
@@ -130,11 +154,26 @@ app.component('InputNumber',InputNumber);
 app.use('InputSwitch',InputSwitch);
 app.use('AvatarGroup', AvatarGroup);
 app.component('Sidebar',Sidebar);
+app.component('Calendar',Calendar);
 app.component('Steps',Steps);
+app.component('ConfirmPopup',ConfirmPopup);
+app.use(ConfirmationService);
+app.component('OverlayPanel',OverlayPanel);
+app.component('Listbox',Listbox);
+
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];
 // Element Plus
 app.use(ElementPlus);
+// Form Kit
+app.use(plugin, defaultConfig({
+   config: {
+    classes: generateClasses(genesis),
+  },
+    plugins: [
+        createMultiStepPlugin()
+    ]
+}));
 
 
 app.mount('#app')

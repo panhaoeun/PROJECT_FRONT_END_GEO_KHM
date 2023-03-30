@@ -24,7 +24,7 @@ export default [
       },
       {
         path: "/vendor/products/create",
-        name:'product',
+        name:'product-create',
         component: () => import("../views/vendors/products/ProductCreate.vue"),
       },
       {
