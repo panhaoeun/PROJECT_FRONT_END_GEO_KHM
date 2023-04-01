@@ -36,9 +36,16 @@ export default {
             {
                 id: 1,
                 icon: "pi pi-check",
+                title: "Customers",
+                url: "/vendor/sellers/customer",
+      
+            },
+            {
+                id: 1,
+                icon: "pi pi-check",
                 title: "Product",
                 url: "/vendor/products/list",
-      
+
             },
             {
                 id: 2,
@@ -48,6 +55,12 @@ export default {
             },
             {
                 id: 3,
+                icon: "#c-icon-dashboard",
+                title: "Seller",
+                url: "/vendor/sellers/list"
+            },
+            {
+                id: 4,
                 icon: "#c-icon-dashboard",
                 title: "Shops",
                 url: "/vendor/shop/list"

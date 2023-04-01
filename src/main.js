@@ -24,7 +24,7 @@ import "./assets/styles/adminkit/css/app.css";
 import routes from "./routes/routes";
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
-import "primevue/resources/themes/lara-light-indigo/theme.css";     
+import "primevue/resources/themes/fluent-light/theme.css";     
 //icons
 import "primeicons/primeicons.css";
 
@@ -63,6 +63,9 @@ import ConfirmationService from 'primevue/confirmationservice';
 import DialogService from 'primevue/dialogservice';
 import OverlayPanel from 'primevue/overlaypanel';
 import Listbox from 'primevue/listbox';
+import RadioButton from 'primevue/radiobutton';
+import Textarea from 'primevue/textarea';
+import FileUpload from 'primevue/fileupload';
 
 // Databases
 import DataTable from 'primevue/datatable';
@@ -160,6 +163,9 @@ app.component('ConfirmPopup',ConfirmPopup);
 app.use(ConfirmationService);
 app.component('OverlayPanel',OverlayPanel);
 app.component('Listbox',Listbox);
+app.component('RadioButton',RadioButton);
+app.component('Textarea',Textarea)
+app.component('FileUpload',FileUpload);
 
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];

@@ -13,21 +13,21 @@
             <div class="header-search-container">
                 <!-- Input Search Products -->
               <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
-              <button class="search-btn">
+            <button class="search-btn">
                 <ion-icon name="search-outline" style="color: #fff; font-weight: bold;"></ion-icon>
               </button>
             </div>
             <!--  -->
             <div class="header-user-actions">
               <button class="action-btn" @click="showNotAuthentications($event)">
-                <ion-icon name="person-outline" class="text-white"></ion-icon>
+                    <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
               </button>
               <button class="action-btn">
-                <ion-icon name="heart-outline" class="text-white"></ion-icon>
+                <img src="https://img.icons8.com/fluency/48/null/filled-like.png"/>
                 <span class="count">0</span>
               </button>
               <button class="action-btn">
-                 <ion-icon name="bag-handle-outline" class="text-white"></ion-icon>
+              <img src="https://img.icons8.com/external-icongeek26-flat-icongeek26/64/null/external-cart-essentials-icongeek26-flat-icongeek26.png"/>
                 <span class="count">40</span>
               </button>
 
@@ -42,6 +42,7 @@
                         <div class="flex flex-column align-items-start justify-content-start">
                             <div class="flex align-items-center justify-content-start  h-4rem ">
                                   <Button
+                                    @click.prevent="$r"
                                     label="Register"
                                     class=" py-2 p-button-outlined w-10rem mr-3" />
                                 <Button label="Login" class=" py-2 w-10rem"/>

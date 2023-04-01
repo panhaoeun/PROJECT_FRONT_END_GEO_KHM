@@ -63,7 +63,38 @@ export default [
         path: "/vendor/shop/edit/:id",
         name:'shop-updated',
         component: () => import("../views/vendors/shops/ShopInfoUpdated.vue"),
-      }
+      },
+      //Sellers
+       {
+        path: "/vendor/sellers/list",
+        name:'seller-list',
+        component: () => import("../views/vendors/sellers/ListsSeller.vue"),
+      },
+      //Customer
+        {
+            path: "/vendor/sellers/customer",
+            name:'customer-list',
+            component: () => import("../views/vendors/customers/ListCustomers.vue"),
+        },
+      //   profile
+        {
+            path:'/profile',
+            component:()=> import('../views/vendors/vendors_profile/ProfileVue.vue'),
+        },
+        {
+            path:'/login-activities',
+            component:()=> import('../views/vendors/vendors_profile/LogInActivityVue'),
+        },
+        {
+            path:'/change-password',
+            component:()=> import('../views/vendors/vendors_profile/ChangePasswordVue.vue'),
+        },
+        
+        {
+            path: "/customer/productdetail",
+            name: "",
+            component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
+        },
 
     ],
   },

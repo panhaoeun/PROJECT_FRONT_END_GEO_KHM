@@ -29,22 +29,42 @@
                                     <!-- Name Product -->
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Name (EN) <span class="p-error">*</span></label>
-                                        <InputText id="product_name" placeholder="New Products"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="py-4 text-xl"/>
+                                        <InputText id="product_name" placeholder="New Products"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="text-xl"/>
                                          <small v-if="(v$.proNameEn.$invalid && submitted) || v$.proNameEn.$pending.$response" class="p-error text-lg">{{ v$.proNameEn.required.$message.replace('Value', 'Name') }}</small>
                                     </div>
                                 </div>
-                                    <!-- Product Code -->
-                                    <div class="col-12 lg:col-6 field">
+                                <!-- Product Code -->
+                                <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Product Code</label>
-                                        <InputText class="p-inputtext p-component py-4 text-xl" type="text" v-model="proCode" placeholder="Product Code" />
+                                        <InputText class="p-inputtext p-component text-xl" type="text" v-model="proCode" placeholder="Product Code" />
+                                    </div>
+                                </div>
+                                <!-- Measure -->
+                                <div class="col-12 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="name_en" class="text-xl font-semibold">Measure</label>
+                                        <InputText class="p-inputtext p-component text-xl" type="text" v-model="measureUnit" placeholder="Measure" />
+                                    </div>
+                                </div>
+                                <!-- Discount Type  and Discount -->
+                                <div class="col-12 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="name_en" class="text-xl font-semibold">Discount</label>
+                                        <InputText class="p-inputtext p-component text-xl" type="text" v-model="discountNum" placeholder="Discount" />
+                                    </div>
+                                </div>
+                                <div class="col-12 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="discountType" class="text-xl font-semibold">Discount Type</label>
+                                        <Dropdown v-model="discountType" placeholder="Select Discount Type" optionLabel="disType"  class="text-xl" :options="disTypesOption" :showClear="true"/>
                                     </div>
                                 </div>
                                 <!-- Product Prices -->
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Unit Price</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="py-4 text-xl"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
+                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
                                          <small v-if="(v$.proUnitPice.$invalid && submitted) || v$.proUnitPice.$pending.$response" class="p-error text-lg">{{ v$.proUnitPice.required.$message.replace('Value', 'Unit Price') }}</small>
                                     </div>
                                 </div>
@@ -52,7 +72,7 @@
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Total Quality</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="py-4 text-xl"  v-model="v$.proQty.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proQty.$invalid && submitted }"/>
+                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="v$.proQty.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proQty.$invalid && submitted }"/>
                                          <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-lg">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
                                     </div>
                                 </div>
@@ -60,21 +80,21 @@
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Discount</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="py-4 text-xl"  v-model="proDiscount"/>
+                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="proDiscount"/>
                                     </div>
                                 </div>
                                 <!-- Product Category -->
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Category</label>
-                                        <Dropdown v-model="proCatID" placeholder="Select Category" class="py-3 text-xl" :showClear="true"/>
+                                        <Dropdown v-model="proCatID" placeholder="Select Category" class="text-xl" :showClear="true"/>
                                     </div>
                                 </div>
                                 <!-- Sub Category -->
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Sub Category</label>
-                                        <Dropdown v-model="subCatID" placeholder="Select Sub Category" class="py-3 text-xl" :showClear="true"/>
+                                        <Dropdown v-model="subCatID" placeholder="Select Sub Category" class="text-xl" :showClear="true"/>
                                     </div>
                                 </div>
                                 <!--========Variations=======-->
@@ -99,7 +119,7 @@
                                     </div>  
                                 </div>
                             </div> 
-                             <!-- Product Details -->
+                             <!--=======Product Details=========-->
                             <div class="card  px-6 py-6 my-4">
                                 <span class="block text-900 font-bold text-xl mb-4">Product Details</span>
                                 <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
@@ -110,7 +130,7 @@
                                             <div class="col-12 lg:col-12">
                                                     <div class="field">
                                                     <label for="name_en" class="text-xl">Youtube Video Link</label>
-                                                    <InputText id="product_name" placeholder="New Products" type="text" class="py-4 text-xl"/>
+                                                    <InputText id="product_name" placeholder="New Products" type="text" class="text-xl"/>
                                                 </div>  
                                             </div>
                                             <!-- Upload Imag Multiple Product and Thumbnail -->
@@ -195,7 +215,7 @@
                                     <!-- Name Product KH -->
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Name (KH)</label>
-                                        <InputText id="product_name" v-model="proNameKh" placeholder="New Products" type="text" class="py-4 text-xl font-semibold"/>
+                                        <InputText id="product_name" v-model="proNameKh" placeholder="New Products" type="text" class="text-xl font-semibold"/>
                                     </div>
                                 </div>
                                 <!-- Descriptions KH-->
@@ -272,8 +292,11 @@
                 proDesKh : '',
                 proUnitPice: '',
                 proQty: '',
+                measureUnit: '',
                 proDiscount: '',
                 isProcessingSubmit: false,
+                discountNum: '',
+                discountType: null,
                 //Active Tabs
                 activeTabs: 'eng-tabs',
                 active: 2,
@@ -281,7 +304,11 @@
                 dialogImageUrl: '',
                 dialogVisible: false,
                 disabled: false,
-                imageUrl: ''
+                imageUrl: '',
+                disTypesOption: [
+                    { id: 1,disType: 'Flat'},
+                    { id: 2, disType: 'Percent' },
+                ]
             }
         },
         methods: {
@@ -392,8 +419,8 @@
 <style>
 /* Multiple Upload File */
 .el-upload.el-upload--picture-card{
-  width: 300px;
-  height: 325px;
+  width: 200px;
+  height: 200px;
   text-align: center;
 }
 /* Single Upload File */
@@ -407,8 +434,8 @@
     padding: 10px;
 }
 .el-upload-list--picture-card .el-upload-list__item{
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height:200px;
 }
 .avatar-uploader .el-upload:hover {
     border-color: var(--el-color-primary);
@@ -417,8 +444,8 @@
 .el-icon.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 280px;
-    height: 300px;
+    width: 200px;
+    height: 180px;
     text-align: center;
 }
 </style>
