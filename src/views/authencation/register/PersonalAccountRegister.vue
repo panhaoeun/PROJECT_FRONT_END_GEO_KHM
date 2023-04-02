@@ -205,6 +205,7 @@
                              //Toast Alert
                              this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
                         }).catch(e => {
+                                console.log(e)
                                 //Toast Alert 
                                 this.messages_acc_per = [
                                     {severity: 'error', content: e.response.data.error},

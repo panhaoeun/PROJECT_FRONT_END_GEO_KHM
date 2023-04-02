@@ -66,7 +66,7 @@
             </div>
         </div>
         <!-- Footer info for register -->
-        <footer class="h-7rem gfooter container-fluid flex justify-content-center" style="font-size: 10px;">
+        <footer class="gfooter container-fluid flex justify-content-center" style="font-size: 10px;">
             <div class="gf-box">
                 <div class="gf-footer" role="presentation">
                     <table class="gf-tfooter">

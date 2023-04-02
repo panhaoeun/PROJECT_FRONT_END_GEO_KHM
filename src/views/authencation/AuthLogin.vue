@@ -25,12 +25,12 @@
                                 <!-- Input Email or Phone Number -->
                                     <div class="field pb-2">
                                         <MazInput
-                                            v-model="v$.phone.$model"
+                                            v-model="v$.userLogin.$model"
                                             label="Phone Number *"
-                                            :error="v$.phone.$invalid && submitted" 
+                                            :error="v$.userLogin.$invalid && submitted" 
                                            @input="validatePhoneNumber($event)"
                                         />
-                                        <small v-if="(v$.phone.$invalid && submitted) || v$.phone.$pending.$response" class="p-error">{{v$.phone.required.$message.replace('Value', 'Phone Number')}}</small>
+                                        <small v-if="(v$.userLogin.$invalid && submitted) || v$.userLogin.$pending.$response" class="p-error">{{v$.userLogin.required.$message.replace('Value', 'Phone Number or Email')}}</small>
                                     </div>
                                 <!-- Input Password -->
                                     <div class="field">
@@ -48,7 +48,7 @@
                                 </div>
 
                                 <!-- Messages MazDialog -->
-                                <Message v-for="msg of messages" :severity="msg.severity" :life="6000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
+                                <Message v-for="msg of messages" :severity="msg.severity"  :key="msg.content">{{msg.content}}</Message>
                         
                                 <!-- Button Submit -->
                                 <MazBtn type="submit" >Sign In</MazBtn>
@@ -93,7 +93,7 @@ export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
         return {
-            phone: '',
+            userLogin: '',
             email: '',
             password: '',
             accept: null,
@@ -107,7 +107,7 @@ export default {
     },
     validations() {
         return {
-            phone: {
+            userLogin: {
                 required
             },
             email: {
@@ -125,12 +125,13 @@ export default {
     methods: {
        // Handle Submit Business Account
        async handleSubmit(isFormValid) {
+            console.log(this.$store)
             try{
                 this.submitted = true;
-                if(this.password != '' && this.phone != ''){
+                if(this.password != '' && this.userLogin != ''){
                     // Client to Serve 
                     const data = {
-                        userPhone : this.phone,
+                        userLogin : this.userLogin,
                         userPassword: this.password
                     }
                     this.isLoading = true;
@@ -143,9 +144,10 @@ export default {
                              {severity: 'success', content: response.data.message},
                         ]
                         if(response.data.userType === "Vendor"){
-                            this.$router.push("/vendors/dashboard");
+                            // this.$router.push("/vendors/dashboard");
                         }else if(response.data.userType === "Customer"){
-                            this.$router.push("/");
+                            console.log("sadas")
+                            // this.$router.push("/");
                         }
                     }).catch(error => {
                         //  Toast Alert 
@@ -173,7 +175,7 @@ export default {
             }
         },
         resetForm() {
-            this.phone = '';
+            this.userLogin = '';
             this.email = '';
             this.password = '';
             this.accept = null;

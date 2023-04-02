@@ -42,10 +42,10 @@
                         <div class="flex flex-column align-items-start justify-content-start">
                             <div class="flex align-items-center justify-content-start  h-4rem ">
                                   <Button
-                                    @click.prevent="$r"
+                                    @click.prevent="$router.push('/auth/register')"
                                     label="Register"
                                     class=" py-2 p-button-outlined w-10rem mr-3" />
-                                <Button label="Login" class=" py-2 w-10rem"/>
+                                <Button label="Login" class=" py-2 w-10rem"   @click.prevent="$router.push('/auth/login')"/>
                             </div>
                         </div>
                         <!-- Title -->
