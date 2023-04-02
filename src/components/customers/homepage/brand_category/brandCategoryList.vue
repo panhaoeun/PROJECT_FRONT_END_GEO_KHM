@@ -17,7 +17,7 @@
         </div>
 </template>
 
-<!-- List of brand & category -->
+<!-- List of company_logo & category -->
 <script>
     export default{
         data(){

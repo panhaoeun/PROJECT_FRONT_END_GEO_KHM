@@ -1,29 +1,62 @@
 <template>
-    <div class="bg-white">
-        <vueper-slides fractions progress lazy lazy-load-on-drag>
-            <vueper-slide :fixed-height="true"
-                    v-for="(slide, i) in slides"
-                    :key="i"
-                    :image="slide.image"
-                    >
-                        <template #loader>
-                            <i class="pi pi-spin pi-spinner spinning" style="font-size: 2rem"></i>
-                            <span>Loading...</span>
-                        </template>
-            </vueper-slide>
-        </vueper-slides>
-        <div class="px-4" style="margin-bottom: 220px; !important"></div>
+ <main>
+    <div class="banner">
+        <div class="container">
+            <div class="slider-container has-scrollbar">
+                <!-- Slider Items -->
+                <div class="slider-item">
+                    <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/banner-2.jpg" alt="women's latest fashion sale" class="banner-img">
+                    <div class="banner-content">
+                    <p class="banner-subtitle">Trending item</p>
+
+                    <h2 class="banner-title">Women's latest fashion sale</h2>
+
+                    <p class="banner-text">
+                        starting at &dollar; <b>20</b>.00
+                    </p>
+                    <a href="#" class="banner-btn">Shop now</a>
+                    </div>
+                </div>
+                <div class="slider-item">
+                <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
+                <div class="banner-content">
+                    <p class="banner-subtitle">Trending item</p>
+
+                    <h2 class="banner-title">Women's latest fashion sale</h2>
+
+                    <p class="banner-text">
+                    starting at &dollar; <b>20</b>.00
+                    </p>
+                    <a href="#" class="banner-btn">Shop now</a>
+                </div>
+                </div>
+                <div class="slider-item">
+                    <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/banner-3.jpg" alt="women's latest fashion sale" class="banner-img">
+                    <div class="banner-content">
+                        <p class="banner-subtitle">Trending item</p>
+
+                        <h2 class="banner-title">Women's latest fashion sale</h2>
+
+                        <p class="banner-text">
+                        starting at &dollar; <b>20</b>.00
+                        </p>
+                        <a href="#" class="banner-btn">Shop now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+     </main>
+  
 </template>
 
 <!-- Banner Carousel Product or Promotion -->
 <script>
-    import { VueperSlides, VueperSlide } from 'vueperslides'
+    // import { VueperSlides, VueperSlide } from 'vueperslides'
     import '../../../assets/styles/vueslider/vueslider.css'
     export default {
         components:{
-            VueperSlides,
-            VueperSlide
+
         },
         data: () => ({
             breakpoints: {

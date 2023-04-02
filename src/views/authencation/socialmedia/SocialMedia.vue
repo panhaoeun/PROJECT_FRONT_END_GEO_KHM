@@ -1,5 +1,5 @@
 <template>
-       <div class="text-center py-3">
+       <div class="text-center py-3 flex">
              <a href="https://wwww.facebook.com"  target="_blank" class="px-2">
                 <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt=""  class="social-medai border-200"> 
             </a>

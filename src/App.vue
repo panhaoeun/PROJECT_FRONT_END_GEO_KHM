@@ -1,12 +1,18 @@
 <script setup></script>
 <template>
-   <div class="bg-white">
-        <CusMainLayout v-if="$route.meta.template == 'website'"/>
-        <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
-        <!-- Authencation -->
-        <Login v-if="$route.meta.template == 'authencation-login'"/>
-        <Register v-if="$route.meta.template == 'authencation-register'"/>
-   </div>
+    <CusMainLayout v-if="$route.meta.template == 'website'"/>
+    <VendorsMainLayout v-if="$route.meta.template == 'panel'"/>
+    <!-- Authentications -->
+    <Login v-if="$route.meta.template == 'authencation-login'"/>
+    <Register v-if="$route.meta.template == 'authencation-register'"/>
+    <OPTVerifyAuth v-if="$route.meta.template == 'opt-verify-authentication'"/>
+    <!-- Page Error -->
+    <PageError v-if="$route.meta.template == 'error-page'"/>
+    <!-- Page Not Found! -->
+    <!--Register Account Vendor -->
+    <StepAccRegVendor v-if="$route.meta.template == 'step-acc-vendor-reg'"/>
+    <!-- Main Page Register -->
+    <AccGlobalSeller v-if="$route.meta.template == 'acc-reg-seller'"/>
 </template>
 
 
@@ -20,9 +26,14 @@
 <script>
     import VendorsMainLayout from '../src/template/VendorsMainLayout.vue';
     import CusMainLayout from './template/CusMainLayout.vue';
-    // Authencation 
+    import AccGlobalSeller from './template/AccGlobalSeller.vue';
+    // Authentications 
     import Login from './views/authencation/AuthLogin.vue';
     import Register from './views/authencation/AuthRegister.vue';
+    import OPTVerifyAuth from './views/authencation/opt_verify/OPTVerify.vue';
+    import PageError from './components/error_page/mainPageError.vue';
+    //Register Account Vendors
+    import StepAccRegVendor from './views/authencation/steps_acc_register_seller/StepAccRegSeller.vue';
     export default {
         computed:{
             currentTemplate(){
@@ -33,7 +44,11 @@
           CusMainLayout,
           VendorsMainLayout,
           Login,
-          Register
+          Register,
+          OPTVerifyAuth,
+          PageError,
+          StepAccRegVendor,
+          AccGlobalSeller
         }
     }
 

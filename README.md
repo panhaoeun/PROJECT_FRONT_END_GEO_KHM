@@ -30,3 +30,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # Link: https://gitart-scroll-carousel.gitart.org/
 <!-- Vue Telephone Input -->
 # Link: https://vue-tel-input.iamstevendao.com/documentation/
+<!-- MazUI -->
+# Link : https://louismazel.github.io/maz-ui-3/components/maz-phone-number-input#frontmatter-title

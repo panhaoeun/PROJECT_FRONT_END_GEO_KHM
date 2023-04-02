@@ -1,0 +1,50 @@
+.account-tab{
+    max-width: 1280px;
+    margin: 0 auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: relative;
+}
+.search-filed-product{
+    padding: 10px 15px;
+    padding-right: 50px;
+    height:70px;
+    font-size: 0.875rem;
+}
+.hide{
+    display:none;
+}
+
+.bg-header-standard{
+    background-image: -webkit-linear-gradient( 50deg, rgb(22,118,213) 0%, rgb(205, 23, 26) 100%);
+}
+/* Global Standard Color */
+.bg-color-standard-red-gradient{
+    background-image: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21);
+}
+.bg-color-standard-blue-gradient{
+    background-image: linear-gradient(to right top, #2169ce, #1676d5, #1483da, #1e8fde, #2e9be2, #2498e2, #1694e2, #0091e2, #007ddc, #0067d5, #0050ca, #0537bb);
+    color: #fff;
+}
+
+.text-color-standard-red-gradient{
+    background: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21);
+}
+.text-color-standard-blue-gradient{
+ background: linear-gradient(to right top, #2169ce, #1676d5, #1483da, #1e8fde, #2e9be2, #2498e2, #1694e2, #0091e2, #007ddc, #0067d5, #0050ca, #0537bb);
+}
+
+.bg-color-standard-gray{
+    background: linear-gradient(#F4F4F8, #F4F8F4);
+}
+.bg-color-footer{
+     background: linear-gradient(#F4F4F8, #F4F8F4);
+}
+
+.bg-color-standard-red-gradient-opacity{
+    background-image: linear-gradient(to right torgb(208, 147, 148)a1d, #af2c2e, #dd2326, #cf1c1f, #e11317);
+}
+.shadow{
+   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+}

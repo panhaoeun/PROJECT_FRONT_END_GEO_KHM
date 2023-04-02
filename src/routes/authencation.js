@@ -22,5 +22,26 @@ export default [
             component: () => import("../views/authencation/AuthRegister.vue"),
           },
         ]
+    },
+    // OPT Verify - Phone Numbers
+    {
+        path:'/auth/opt-verify/:verify='+encodeURI('phone-5digit'),
+        name:'auth/opt-verify?verify=phone-5-digit',
+        meta: {template: 'opt-verify-authentication'},
+        children:[
+          {
+            path: "/auth/opt-verify?verify=phone-5-digit",
+            name:'opt-verify',
+            component: () => import("../views/authencation/opt_verify/OPTVerify.vue"),
+          },
+        ]
+    },
+    //Step Register Account Vendors
+    {
+        path: "/customer/onboarding/multi-vendor/shop-info/preferences",
+        name:'step-acc-vendor-reg',
+        meta: {template: 'step-acc-vendor-reg'},
+        component: () => import("../views/authencation/steps_acc_register_seller/StepAccRegSeller.vue"),
     }
+    
 ]

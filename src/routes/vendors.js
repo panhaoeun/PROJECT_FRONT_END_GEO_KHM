@@ -3,7 +3,7 @@ import home from "../views/vendors/HomeView.vue";
 export default [
   {
     path: "/vendors/dashboard",
-    name: "customer-index",
+    name: "vendors-index",
     meta: {template: 'panel'},
     children: [
       {
@@ -12,13 +12,20 @@ export default [
         component: home,
       },
       {
-        path:'/category', 
-        component:()=> import('../views/vendors/category/CategoryView.vue'),
+        path: "/vendor/dashboard",
+        name:'vendor-dashboard',
+        component: () => import("../views/vendors/dashboard/VenDashboard.vue"),
+      },
+      //Products
+      {
+        path: "/vendor/products/list",
+        name:'products-list',
+        component: () => import("../views/vendors/products/ProductList.vue"),
       },
       {
-        path: "/user",
-        name:'user',
-        component: () => import("../views/vendors/users/UserListView.vue"),
+        path: "/vendor/products/create",
+        name:'product',
+        component: () => import("../views/vendors/products/ProductCreate.vue"),
       },
       {
         path: "/i",
@@ -26,30 +33,42 @@ export default [
         component: () => import("../views/vendors/users/MyAccount.vue"),
       },
       {
-        path: "/product",
+        path: "/vendor/products/product_list/edit/:id",
         name:'product',
-        component: () => import("../views/vendors/products/ProductView.vue"),
+        component: () => import("../views/vendors/products/ProductUpdated.vue"),
+      },
+      //Category 
+      {
+        path: "/vendor/products/category/list",
+        name:'product-category',
+        component: () => import("../views/vendors/category/CategoryView.vue"),
+      },
+      {
+        path: "/vendor/products/category/create",
+        name:'product-category-create',
+        component: () => import("../views/vendors/category/CategoryCreate.vue"),
+      },
+      {
+        path: "/vendor/products/category/edit/:id",
+        name:'product-category-edit',
+        component: () => import("../views/vendors/category/UpdatedProductCategory.vue"),
+      },
+      //My Shops
+      {
+        path: "/vendor/shop/list",
+        name:'shop-list',
+        component: () => import("../views/vendors/shops/ShopInfoView.vue"),
+      },
+      {
+        path: "/vendor/shop/create",
+        name:'shop-create',
+        component: () => import("../views/vendors/shops/ShopInfoCreate.vue"),
       },
     //   profile
       {
         path:'/profile',
-        component:()=> import('../views/vendors/profile/ProfileVue.vue'),
-      },
-      {
-        path:'/login-activities',
-        component:()=> import('../views/vendors/profile/LogInActivityVue'),
-      },
-      {
-        path:'/change-password',
-        component:()=> import('../views/vendors/profile/ChangePasswordVue.vue'),
-      },
-      
-      {
-        path: "/customer/productdetail",
-        name: "",
-        component: () => import("../views/customers/ProductDetail.vue"),
-    },
-     
+        component:()=> import('../views/vendors/setting/ProfileView.vue'),
+      }
     ],
   },
   
