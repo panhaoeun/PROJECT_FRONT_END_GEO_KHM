@@ -83,9 +83,6 @@ import 'element-plus/theme-chalk/display.css'
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
 import 'vue-loading-overlay/dist/css/index.css';
-// Vue Progress
-import 'vue-progress-path/dist/vue-progress-path.css'
-import VueProgress from 'vue-progress-path'
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -136,7 +133,6 @@ app.component('Image',Image);
 app.directive('ripple', Ripple);
 app.component('Toast', Toast);
 app.component('Divider', Divider);
-app.use(VueProgress);
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios)  // provide 'axios'
 app.component('MazBtn', MazBtn)
