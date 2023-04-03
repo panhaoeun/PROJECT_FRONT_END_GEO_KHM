@@ -11,11 +11,11 @@ import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
 import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
 
 
-// E-Commerce Website
+// // E-Commerce Website
 import "./assets/css/customer_ecommerce_app/style_prefix.css";
-// Import Style
-import "./assets/styles/style.css";
-import "./assets/styles/account-tab.css";
+// // Import Style
+import "./assets/css/style.css";
+import "./assets/css/account-tab.css";
 import "./assets/styles/navbar.css";
 // Admin Kit 
 import "./assets/styles/adminkit/css/app.css";
@@ -24,7 +24,7 @@ import routes from "./routes/routes";
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
 import "primevue/resources/themes/fluent-light/theme.css";     
-//icons
+// //icons
 import "primeicons/primeicons.css";
 
 
