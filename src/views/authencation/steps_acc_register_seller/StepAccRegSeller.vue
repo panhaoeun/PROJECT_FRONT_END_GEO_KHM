@@ -312,7 +312,7 @@
                         </div>
 
                         <!-- NEW: Adds submit button. -->
-                        <!-- <FormKit type="submit" label="Submit Application" :disabled="!valid" /> -->
+                        <FormKit type="submit" label="Submit Application" :disabled="!valid" />
                         </FormKit>
                     </div>
                 </div>
