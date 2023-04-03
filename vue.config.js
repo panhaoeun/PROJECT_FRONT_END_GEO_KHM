@@ -1,4 +1,6 @@
 
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
 module.exports = {
    //... some other config here
    devServer: {
@@ -9,12 +11,20 @@ module.exports = {
       },
     },
   },
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/' + process.env.CI_PROJECT_NAME + '/'
-    : '/',
-     pwa: {
-      workboxOptions: {
-        exclude: [/_redirects/]
-      }
-    }
+  configureWebpack: {
+    optimization: {
+      minimizer: [
+        new CssMinimizerPlugin({
+          minimizerOptions: {
+            preset: [
+              'default',
+              {
+                discardComments: { removeAll: true },
+              },
+            ],
+          },
+        }),
+      ],
+    },
+  },
 };

@@ -1,7 +1,7 @@
-@charset "utf-8";
+/* @charset "utf-8"; */
 /* CSS Document */
 
-@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900");
+/* @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900"); */
 
 /*********************************
 2. Body and some general stuff
@@ -75,10 +75,6 @@ p a:hover {
 p a:hover::after {
     opacity: 0.2;
 }
-::selection {
-}
-p::selection {
-}
 h1 {
     font-size: 48px;
 }
@@ -106,14 +102,6 @@ h6 {
     -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
     text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
 }
-h1::selection,
-h2::selection,
-h3::selection,
-h4::selection,
-h5::selection,
-h6::selection {
-}
-
 section {
     display: block;
     position: relative;
@@ -206,7 +194,7 @@ section {
 .button:hover {
     opacity: 0.8;
 }
-*/
+
 
 /*********************************
 3. Header
@@ -548,8 +536,6 @@ section {
     line-height: 48px;
     cursor: pointer;
 }
-.custom_dropdown_placeholder i {
-}
 .custom_list {
     text-align: left;
     position: absolute;
@@ -602,8 +588,8 @@ select {
     width: auto;
     margin-left: 10px;
     outline: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    /* -webkit-appearance: none;
+    -moz-appearance: none; */
     border-bottom: 2px solid #555;
     color: #7b00ff;
     -webkit-transition: all 0.4s ease-in-out;
@@ -616,8 +602,8 @@ select option {
     border: 0;
     border-bottom: 1px solid #14630a;
     padding: 10px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    /* -webkit-appearance: none;
+    -moz-appearance: none; */
 }
 .header_search_button {
     position: absolute;
@@ -927,7 +913,7 @@ select option {
     display: block;
     position: relative;
     border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-    vertical-align: middle;
+    /* vertical-align: middle; */
 }
 .page_menu_item > a {
     display: block;
@@ -1213,13 +1199,13 @@ select option {
     }
 }
 /* Authencation Social media */
-.bordert {
+.borders {
     border-top: 1px solid #dddddd;
     display: flex;
     margin-top: -9px !important;
 }
 
-.bordert:after {
+.borders:after {
     content: "Or";
     position: absolute;
     top: -10px;
@@ -1229,7 +1215,7 @@ select option {
     padding: 0px 8px;
 }
 
-.social-medai {
+.social-media {
     width: 35px;
     height: 35px;
     object-fit: cover;
@@ -1576,7 +1562,7 @@ a:hover {
 .my-input-button {
     width: 1.3rem;
     height: 1.3rem;
-    accent-color: green;
+    /* accent-color: green; */
 }
 
 .payment-img {
@@ -1640,12 +1626,4 @@ a:hover {
     /* max-width: 100%; */
     height: 17rem;
     /* max-height: auto; */
-}
-
-/* Tabs Styles */
-.el-tabs--bottom .el-tabs__item.is-bottom:nth-child(2), .el-tabs--bottom .el-tabs__item.is-top:nth-child(2), .el-tabs--top .el-tabs__item.is-bottom:nth-child(2), .el-tabs--top .el-tabs__item.is-top:nth-child(2){
-    font-size: 16px;
-}
-.el-tabs--bottom .el-tabs__item.is-bottom:last-child, .el-tabs--bottom .el-tabs__item.is-top:last-child, .el-tabs--top .el-tabs__item.is-bottom:last-child, .el-tabs--top .el-tabs__item.is-top:last-child{
-    font-size: 16px;
 }
