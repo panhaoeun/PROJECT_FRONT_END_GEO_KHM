@@ -113,11 +113,13 @@
     import { ArrowRight } from '@element-plus/icons-vue';
     const selectGenderCus = ref();
     const imageFile = ref(null);
-    console.log(imageFile)
+    console.log(imageFile);
     const genderCus = ref([
         { name: 'Male', code: 'male' },
         { name: 'Female', code: 'female' }
     ]);
+    //Get Current Uer Profile login or registers
+    
 </script>
 
 <style>

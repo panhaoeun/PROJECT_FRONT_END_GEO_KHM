@@ -7,6 +7,7 @@ export default [
           {
             path: "/auth/login",
             name:'login',
+            pathToRegexOptions: { strict: true },
             component: () => import("../views/authencation/AuthLogin.vue"),
           },
         ]

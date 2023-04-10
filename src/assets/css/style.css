@@ -1216,8 +1216,8 @@ select option {
 }
 
 .social-media {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     border-radius: 50%;
     position: relative;

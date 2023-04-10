@@ -26,9 +26,8 @@
                                     <div class="field pb-2">
                                         <MazInput
                                             v-model="v$.userLogin.$model"
-                                            label="Phone Number *"
+                                            label="Phone Number or Email *"
                                             :error="v$.userLogin.$invalid && submitted" 
-                                           @input="validatePhoneNumber($event)"
                                         />
                                         <small v-if="(v$.userLogin.$invalid && submitted) || v$.userLogin.$pending.$response" class="p-error">{{v$.userLogin.required.$message.replace('Value', 'Phone Number or Email')}}</small>
                                     </div>
@@ -48,14 +47,17 @@
                                 </div>
 
                                 <!-- Messages MazDialog -->
-                                <Message v-for="msg of messages" :severity="msg.severity"  :key="msg.content">{{msg.content}}</Message>
-                        
+                                <div class="form-group">
+                                    <div v-if="messages"  class="alert alert-danger p-error px-2 py-2" role="alert">
+                                        {{ messages.userPassword['0'] ||  messages.userLogin['0']  || messages }}
+                                    </div>
+                                </div>    
                                 <!-- Button Submit -->
                                 <MazBtn type="submit" >Sign In</MazBtn>
                             </form>
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
-                        <div class="bordert py-2 my-4 flex align-items-center justify-content-center">
+                        <div class="bordert py-2 my-4 flex align-items-center justify-content-center text-lg">
                             <socailMedia/>
                         </div>
                     </div>
@@ -86,7 +88,7 @@ import { useVuelidate } from "@vuelidate/core";
 // Componets
 import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
-import AuthenticationsDataService from  "../../services/authencationDataService";
+// import AuthenticationsDataService from  "../../services/authencationDataService";
 import Loading from 'vue-loading-overlay';
 
 export default {
@@ -100,7 +102,7 @@ export default {
             submitted: false,
             showMessage: false,
             loading: [false,  false, false],
-            messages: [],
+            messages: '',
             results: '',
             isLoading: false
         }
@@ -122,10 +124,14 @@ export default {
             }
         }
     },
+    computed: {
+        loggedIn() {
+            return this.$store.state.auth.initialState.status.loggedIn;
+        },
+    },
     methods: {
        // Handle Submit Business Account
        async handleSubmit(isFormValid) {
-            console.log(this.$store)
             try{
                 this.submitted = true;
                 if(this.password != '' && this.userLogin != ''){
@@ -138,24 +144,25 @@ export default {
                      setTimeout(() => {
                                 this.isLoading = false
                     }, 1000);
-
-                    AuthenticationsDataService.authLogin(data).then((response) => {
-                        this.messages = [
-                             {severity: 'success', content: response.data.message},
-                        ]
-                        if(response.data.userType === "Vendor"){
-                            // this.$router.push("/vendors/dashboard");
-                        }else if(response.data.userType === "Customer"){
-                            console.log("sadas")
-                            // this.$router.push("/");
+                    this.$store.dispatch("auth/login", data).then(
+                        (response) => {
+                            //Check validation  
+                            if(response.success == true){
+                                if (response.userType === "Vendor") {
+                                    this.$router.push("/vendors/dashboard");
+                                } else if (response.userType === "Customer") {
+                                    this.$router.push("/");
+                                }
+                            }                
+                        },
+                        (error) => {
+                            if(error.response.data.success === false){
+                              if (typeof (error.response.data.error.error) !== undefined) {
+                                this.messages = (error.response.data.error.error);
+                              }    
+                            }
                         }
-                    }).catch(error => {
-                        //  Toast Alert 
-                        this.messages = [
-                             {severity: 'error', content: error.response.data.message},
-                        ]
-                    });
-
+                    );
                 }
                 if (!isFormValid) {
                     return;
@@ -167,6 +174,7 @@ export default {
                     {severity: 'success', content: error},
                 ]
             }
+           
         },
         toggleDialog() {
             this.showMessage = !this.showMessage;

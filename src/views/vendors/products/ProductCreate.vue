@@ -97,19 +97,50 @@
                                         <Dropdown v-model="subCatID" placeholder="Select Sub Category" class="text-xl" :showClear="true"/>
                                     </div>
                                 </div>
-                                <!--========Variations=======-->
+                                <!--========Variations Type of Spec - Start=======-->
                                 <div class="col-12 field">
                                     <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Spec</label>
-                                        <MazInputTags
-                                            v-model="proSpectags"
-                                            placeholder="Enter Spec"
-                                            color="primary"
-                                            class="text-xl"
-                                            size="xl"
-                                        />
+                                     <label for="name_en" class="text-xl font-bold">Spec</label>
+                                      <!-- Dynamic Input Base Spec -->
+                                        <el-card class="box-card">
+                                                <el-row :gutter="20">
+                                                    <el-col :span="12">
+                                                        <!-- Button a new spec -->
+                                                        <div class="px-2 py-2 w-5">
+                                                             <Button label="Add new spec"  icon="pi pi-plus" class="font-bold" @click="addNewSpecItem(index)"/>
+                                                        </div>
+                                                       <!-- Variant Type-->
+                                                       <div v-for="(sectionSpecPro, index) in sectionSpecPro" :key="index">
+                                                            <!-- Add new items -->
+                                                            <div class="flex item-center px-2 py-2">
+                                                                <div class="flex-initial flex align-items-center justify-content-center bg-blue-500 font-bold text-white px-2 py-2 border-round" @click="addNewSubItemSpecByIdx(index)">
+                                                                    <i class="pi pi-plus-circle" style="font-size: 2rem"></i>
+                                                                </div>
+                                                                <!-- Add Sub spec -->
+                                                                <InputText v-model="sectionSpecPro.item" type="text" class="p-inputtext-lg" placeholder="Variant" />
+                                                                <!-- Remove Input  -->
+                                                                <div class="px-2 py-2">
+                                                                    <Button icon="pi pi-times" class="p-error text-md" severity="danger" text rounded aria-label="Cancel" v-if="sectionSpecPro.length != 1" @click="btnRemoveSubSpec(index)"/>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Input of sub spec -->
+                                                            <div class="flex flex-column ml-6">
+                                                                <div class="flex align-items-center justify-content-center font-bold text-white border-round m-2" v-for="(addition, index) in sectionSpecPro.additional" :key="index">
+                                                                    <h4 class="m-2 text-sm"> {{ index + 1 }}</h4 >
+                                                                    <InputText v-model="addition.item" type="text" class="p-inputtext-lg" placeholder="Add sub item of spec" />                                
+                                                                    <!-- Remove Input  -->
+                                                                    <div class="px-2 py-2">
+                                                                        <Button icon="pi pi-times" class="p-error border-yellow-700 bg-red-600 border-circle text-md" severity="danger" text rounded aria-label="Cancel" v-if="sectionSpecPro.additional.length != 1" @click="btnRemoveSubSpec(index)"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                       </div>         
+                                                    </el-col>
+                                                </el-row>
+                                        </el-card>
                                     </div>
                                 </div>
+                                <!--========Variations Type of Spec - Start=======-->
                         
                                 <!-- Description Product -->
                                 <div class="col-12 lg:col-12">
@@ -214,7 +245,7 @@
                                 <div class="col-12 field">
                                     <!-- Name Product KH -->
                                     <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Name (KH)</label>
+                                        <label for="name_en" class="text-xl font-semibold">Product Name (KH)</label>
                                         <InputText id="product_name" v-model="proNameKh" placeholder="New Products" type="text" class="text-xl font-semibold"/>
                                     </div>
                                 </div>
@@ -308,10 +339,43 @@
                 disTypesOption: [
                     { id: 1,disType: 'Flat'},
                     { id: 2, disType: 'Percent' },
+                ],
+                //Multiple Spec of products
+                sectionSpecPro: [
+                    {
+                        item: "",
+                        additional: []
+                    }
                 ]
             }
         },
         methods: {
+            /**
+             @Add Multiple Spec
+             @Add Spec
+             @Add Sub Spec
+             @Remove Spec
+             @Remove Sub Spec
+            */
+            addNewSpecItem(){
+                this.sectionSpecPro.push({
+                    item: '',
+                    additional: []
+                });
+            },
+            addNewSubItemSpecByIdx(id){
+                this.sectionSpecPro[id].additional.push({
+                    item: ''
+                });
+            },
+            btnRemoveSpec(id) {
+                this.sectionSpecPro.slice(id).pop({
+                    item: ''
+                })
+            },
+            btnRemoveSubSpec(id){
+                this.sectionSpecPro[id].additional.splice(id,1);
+            },
             //============Upload Files Multiple===========
             handlePictureCardPreview(file){
                 this.dialogImageUrl = file.url;
