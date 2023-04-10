@@ -17,84 +17,34 @@
                 <ion-icon name="search-outline" style="color: #fff; font-weight: bold;"></ion-icon>
               </button>
             </div>
-            <!--  -->
+            <!--Toggle Auth or My Accounts-->
             <div class="header-user-actions">
-              <button class="action-btn" @click="showNotAuthentications($event)">
-                    <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
-              </button>
-              <button class="action-btn">
-                <img src="https://img.icons8.com/fluency/48/null/filled-like.png"/>
-                <span class="count">0</span>
-              </button>
-              <button class="action-btn">
-              <img src="https://img.icons8.com/external-icongeek26-flat-icongeek26/64/null/external-cart-essentials-icongeek26-flat-icongeek26.png"/>
-                <span class="count">40</span>
-              </button>
-
-
-
-            <!-- Toggle Not Register or Not Login -->
-            <OverlayPanel ref="toggleNotAuth">
-                <!-- Toggle My Account -->
-                <div class="px-1 py-1">
-                    <div class="-menu" aria-labelledby="navbarDropdown">
-                        <p>Welcome Phzarkhmer</p>
-                        <div class="flex flex-column align-items-start justify-content-start">
-                            <div class="flex align-items-center justify-content-start  h-4rem ">
-                                  <Button
-                                    @click.prevent="$router.push('/auth/register')"
-                                    label="Register"
-                                    class=" py-2 p-button-outlined w-10rem mr-3" />
-                                <Button label="Login" class=" py-2 w-10rem"   @click.prevent="$router.push('/auth/login')"/>
-                            </div>
-                        </div>
-                        <!-- Title -->
-                        <div class="flex flex-column align-items-start justify-content-start py-2">
-                            <div class="flex align-items-center justify-content-start  h-2rem">
-                                <router-link to="/">
-                                    <span class="font-bold text-sm text-black">My Account</span>
-                                </router-link>
-                            </div>
-                        </div>
-                    </div>
+                <!--User Authentications or My Account-->
+                <div v-if="!isAuthentications">
+                    <button class="action-btn"  @click="showNotAuthentications($event)">
+                            <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
+                    </button>
                 </div>
-            </OverlayPanel>
-            <!--Overlay Panel of Toggle My Accounts-->
-            <OverlayPanel ref="toggleMyAccount">
-               <!-- Toggle My Account -->
-               <div class="px-1 py-1">
-                    <div class="-menu" aria-labelledby="navbarDropdown">
-                        <div class="flex align-items-center justify-content-center">
-                            <Avatar image="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="mr-2" size="xlarge" shape="circle" />
-                            <div class="flex flex-column card-container align-content-center">
-                                <div class="flex align-items-start justify-content-start text-lg">
-                                    Phzarkhmer
-                                </div>
-                                  <div class="flex align-items-start justify-content-start text-sm">
-                                    devpanha@gmail.com                                   
-                                </div>
-
-                            </div>
-                        </div>
-                        <!-- List -->
-                       <div class="flex flex-column align-items-start justify-content-start">
-                            <div class="flex align-items-center justify-content-start  h-2rem">
-                                <router-link to="/">
-                                    <span class="font-bold text-lg">Sign Out </span>
-                                </router-link>
-                            </div>
-                       </div>
-                    </div>
-               </div>
-            </OverlayPanel>
-
-              
-            </div>
-
+                <div v-if="isAuthentications">
+                    <button class="action-btn"  @click="showMyAccount($event)">
+                        <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
+                    </button>
+                </div>
+                  
+                    
+                    
+                    <button class="action-btn">
+                        <img src="https://img.icons8.com/fluency/48/null/filled-like.png"/>
+                        <span class="count">0</span>
+                    </button>
+                    <button class="action-btn">
+                    <img src="https://img.icons8.com/external-icongeek26-flat-icongeek26/64/null/external-cart-essentials-icongeek26-flat-icongeek26.png"/>
+                        <span class="count">40</span>
+                    </button>  
+                </div>
           </div>
-
         </div>
-
+        <!-- Navigation Desktops -->
         <nav class="desktop-navigation-menu text-white">
 
           <div class="container">
@@ -599,15 +549,83 @@
           </div>
 
         </nav>
-
       </header>
+    <!--=================Toggle Not Register or Not Login ==========-->
+     <!--Overlay Panel of Toggle not Accounts-->
+        <OverlayPanel ref="toggleNotAuth">
+            <!-- Toggle My Account -->
+            <div class="px-1 py-1">
+                <div class="-menu" aria-labelledby="navbarDropdown">
+                    <p>Welcome Phzarkhmer</p>
+                    <div class="flex flex-column align-items-start justify-content-start">
+                        <div class="flex align-items-center justify-content-start  h-4rem ">
+                            <Button
+                                @click.prevent="$router.push('/auth/register')"
+                                label="Register"
+                                class=" py-2 p-button-outlined w-10rem mr-3" />
+                            <Button label="Login" class=" py-2 w-10rem"   @click.prevent="$router.push('/auth/login')"/>
+                        </div>
+                    </div>
+                    <!-- Title -->
+                    <div class="flex flex-column align-items-start justify-content-start py-2">
+                        <div class="flex align-items-center justify-content-start  h-2rem">
+                            <router-link to="/">
+                                <span class="font-bold text-sm text-black">My Account</span>
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </OverlayPanel>
+    <!--Overlay Panel of Toggle My Accounts-->
+        <OverlayPanel ref="toggleMyAccount">
+            <!-- Toggle My Account -->
+            <div class="px-1 py-1">
+                    <div class="-menu" aria-labelledby="navbarDropdown">
+                        <div class="flex align-items-center justify-content-center">
+                            <Avatar image="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="mr-2" size="xlarge" shape="circle" />
+                            <div class="flex flex-column card-container align-content-center">
+                                <div class="flex align-items-start justify-content-start text-lg">
+                                    Phzarkhmer
+                                </div>
+                                <div class="flex align-items-start justify-content-start text-sm">
+                                    devpanha@gmail.com                                   
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- List -->
+                        <div class="flex flex-column align-items-start justify-content-start">
+                                <div class="flex align-items-center justify-content-start  h-2rem">
+                                   <button @click="authLogout">
+                                        <span class="font-bold text-lg">Sign Out </span>
+                                   </button>
+                                       
+                                </div>
+                        </div>
+                    </div>
+            </div>
+        </OverlayPanel>
 </template>
 
 <!-- Export NavigationBar -->
 <script>
     import HeaderTop from "../../components/customers/headers/TopHeader.vue";
     import MobileNavigation from "../../components/customers/headers/MobileNavigation.vue";
+    import UserService from "../../services/authencations/UserServices.js";
     export default{
+        computed: {
+            isAuthentications(){
+               return this.$store.state.auth.initialState.status.loggedIn;
+            }
+        },
+        mounted(){
+           UserService.getCurrentUserByTokenId().then(
+            (response) => {
+                console.log(response)
+            }
+           ).catch((error) => console.log(error))
+        },
         components: {
             HeaderTop,
             MobileNavigation
@@ -615,22 +633,22 @@
         data(){
             return{
                 selectedCity: null,
-                cities: [
-                    { name: 'New York', code: 'NY' },
-                    { name: 'Rome', code: 'RM' },
-                    { name: 'London', code: 'LDN' },
-                    { name: 'Istanbul', code: 'IST' },
-                    { name: 'Paris', code: 'PRS' }
-                ]
             }
         },
         methods: {
+            authLogout(){
+               this.$store.dispatch('auth/actionLogout');
+            },
             showMyAccount(event){
-               this.$refs.toggleMyAccount.toggle(event);
+              if(this.isAuthentications || this.isAuthentications == true){
+                this.$refs.toggleMyAccount.toggle(event);
+              }
             },
             // Not Account Authentications
             showNotAuthentications(event){
-                this.$refs.toggleNotAuth.toggle(event);
+                if(!this.isAuthentications){
+                  this.$refs.toggleNotAuth.toggle(event);
+                }
             }
         }
     }

@@ -111,6 +111,11 @@ app.use(VueGoogleMaps, {
     }
 });
 
+//Vuex
+import Vuex from 'vuex';
+import store from "./store";
+app.use(Vuex);
+app.use(store);
 
 /* @Routers */
 app.use(routes);
@@ -175,6 +180,7 @@ app.use(plugin, defaultConfig({
         createMultiStepPlugin()
     ]
 }));
+
 
 
 app.mount('#app')

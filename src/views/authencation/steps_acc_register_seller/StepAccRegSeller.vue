@@ -348,7 +348,6 @@
     const checkStepValidity = (stepName) => {
         return (steps[stepName].errorCount > 0 || steps[stepName].blockingCount > 0) && visitedSteps.value.includes(stepName)
     }
-    
 </script>
 <!-- Styles -->
 <style>
