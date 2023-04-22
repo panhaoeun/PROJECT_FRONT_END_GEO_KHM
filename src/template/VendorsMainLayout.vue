@@ -48,12 +48,6 @@ export default {
 
             },
             {
-                id: 2,
-                icon: "#c-icon-dashboard",
-                title: "Categories",
-                url: "/vendor/products/category/list"
-            },
-            {
                 id: 3,
                 icon: "#c-icon-dashboard",
                 title: "Seller",

@@ -2,8 +2,8 @@
     <div class="layout-content">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-            <h2 class="relative text-black text-3xl section section-title:before">Update Category</h2>
-            <el-button type="info" size="large" @click.prevent="$router.push('/vendor/products/category/list')">
+            <h2 class="relative text-black text-3xl section section-title:before">Update Sub Category</h2>
+            <el-button type="info" size="large" @click.prevent="$router.push('/vendor/products/sub-category/list')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
                     <span class="pl-2">BACK</span>
@@ -27,39 +27,34 @@
                             <div class="col-12 lg:col-12">
                                 <!-- Form Layouts -->
                                 <div class="grid formgrid">
-                                    <div class="col-12 field">
+                                     <div class="col-6 field">
+                                            <label for="name_en">Category<span class="p-error">*</span></label>
+                                            <select 
+                                                class="form-select py-3 text-md"
+                                                v-model="selectedCategories"
+                                                @click="getCategoriesSelect()">
+                                                <option value="" disabled> Select an Categories</option>
+                                                 <option selected>Open this select menu</option>
+                                                <option v-for="(result, index) in catSubListDropDown" 
+                                                        :key="index" 
+                                                        :value="result.catID" 
+                                                    class="p-dropdown-item">
+                                                       {{ result.catNameEn }}    
+                                                </option> 
+                                            </select>
+                                        </div>
+                                    <div class="col-6 field">
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en">Category Name (Eng)<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Name" type="text" class="py-4 text-xl"
-                                                v-model="dataCatEdit.catNameEn"/>
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3 text-xl"
+                                                v-model="dataSubCatEdit.catNameEn"/>
                                         </div>
                                     </div>
                                     <!-- Editor -->
                                     <div class="col-12 field">
                                         <Editor v-model="proCategoryDesEng" placeholder="Descriptions *"
                                             editorStyle="height: 320px"  class="text-xl"/>
-                                    </div>
-                                    <div class="col-12 field">
-                                        <!--Category Logo -->
-                                        <div class="field">
-                                            <label for="name_en">Category Logo <span class="p-error">*</span> </label>
-                                            <!-- Upload Files -->
-                                            <el-upload 
-                                                    action="#" 
-                                                    list-type="picture-card" 
-                                                    :on-preview="handlePictureCardPreviewUpdate"
-                                                    :on-remove="handleRemoveCat" 
-                                                    :auto-upload="false" 
-                                                    :on-change="handleChangeUpdateCat" 
-                                                    :class="objClassUpdateCat"
-                                                    ref="fileUpload"
-                                                    :limit="1"
-                                                    >
-                                                <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
-                                            </el-upload>
-                                           
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +73,7 @@
                                         <div class="field">
                                             <label for="proKh">Category Name (KH) <span class="p-error">*</span> </label>
                                             <InputText id="proKh" placeholder="Name" type="text" class="py-4 text-xl"
-                                                v-model="dataCatEdit.catNameKh" />
+                                                v-model="dataSubCatEdit.catNameKh" />
                                         </div>
                                     </div>
                                     <!-- Editor -->
@@ -110,7 +105,7 @@
 import { Plus } from '@element-plus/icons-vue';
 import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-import ProductCategoriesServices from "../../../services/vendors/product_categories/ProductsCategoriesServices";
+import ProductCategoriesServices from "../../../../services/vendors/product_categories/ProductsCategoriesServices";
 import { ElMessage } from 'element-plus';
 
 export default {
@@ -145,16 +140,14 @@ export default {
             //Upload Files
             fileListCatUpdated: '',
             fileUpload: '',
-            dataCatEdit: {
+            dataSubCatEdit: {
                 catNameEn: '',
                 catNameKh: '',
                 catLogo: ''
             },
-            objClassUpdateCat: {
-                upLoadShowCat: true,
-                upLoadHideCat: false,
-            },
+            selectedCategories: '',
             dataCatEditUpdated: null,
+            catSubListDropDown: [],
             notifmsgCatUpdated: ''
         }
     },
@@ -165,16 +158,21 @@ export default {
         Plus
     },
     methods: {
+        async getCategoriesSelect(){
+            this.proCategoryService.getProCategory().then((data) => {
+                if (data.success == true) {
+                    this.catSubListDropDown = data.result.resultStatus;
+                }
+            });
+        },
         // Show Category Data
         async editDataCategories(id){
-              this.proCategoryService.editedProCategory(id)
+              this.proCategoryService.editedSubProCategory(id)
                 .then((data) => {
                     try {
-                        const { catNameEn, catNameKh, catLogo }= data.data.data;
-                        this.dataCatEditUpdated = data.data.data;
-                        this.dataCatEdit.catNameEn = catNameEn;
-                        this.dataCatEdit.catNameKh = catNameKh;
-                        this.dataCatEdit.catLogo = catLogo;
+                        const { catNameEn,catNameKh }= data.data.data;
+                        this.dataSubCatEdit.catNameEn = catNameEn;
+                        this.dataSubCatEdit.catNameKh = catNameKh;
                     } catch (error) {
                         console.log(error)
                     }
@@ -206,64 +204,7 @@ export default {
             this.proCategoryNameEng = '',
             this.proCategoryNameKh = '',
             this.submitted = false
-        },
-       //============Uploads Files================
-        handleChangeUpdateCat(file) {
-            this.fileUpload = file.raw;
-            //Check Upload File
-            this.beforeAvatarUpload(file.raw);
-            this.objClassUpdateCat.upLoadHideCat = true;//上传图片后置upLoadHideCat为真，隐藏上传框
-            this.objClassUpdateCat.upLoadShowCat = false;
-        },
-        handleRemoveCat(file, fileListCatUpdated) {
-            console.log(file, fileListCatUpdated)
-            this.objClassUpdateCat.upLoadShowCat = true;//删除图片后显示上传框
-            this.objClassUpdateCat.upLoadHideCat = false;
-        },
-        // 点击预览图的放大按钮后会触发handlePictureCardPreviewUpdate
-        handlePictureCardPreviewUpdate(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        beforeAvatarUpload(rawFile) {
-            if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
-                ElMessage.error('Picture must be JPG or PNG format!')
-                return false
-            } else if (rawFile.size / 1024 / 1024 > 2) {
-                ElMessage.error('Picture size can not exceed 2MB!');
-                return false
-            }
-            return true
-        },
+        }
     }
 }
 </script>
-
-<style>
-/*当upLoadShowCat为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
-.upLoadShowCat .el-upload {
-    width: 20rem !important;
-    height: 20rem !important;
-    line-height: 20rem !important;
-}
-
-/*当upLoadHideCat为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
-.upLoadHideCat .el-upload-list--picture-card .el-upload-list__item {
-    width: 20rem !important;
-    height: 20rem !important;
-    line-height: 20rem !important;
-}
-
-/*当upLoadHideCat为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
-.upLoadHideCat .el-upload {
-    display: none;
-}
-
-.el-alert {
-    margin: 20px 0 0;
-}
-
-.el-alert:first-child {
-    margin: 0;
-}
-</style>
