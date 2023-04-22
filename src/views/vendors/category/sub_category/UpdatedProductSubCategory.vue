@@ -34,7 +34,6 @@
                                                 v-model="selectedCategories"
                                                 @click="getCategoriesSelect()">
                                                 <option value="" disabled> Select an Categories</option>
-                                                 <option selected>Open this select menu</option>
                                                 <option v-for="(result, index) in catSubListDropDown" 
                                                         :key="index" 
                                                         :value="result.catID" 
@@ -183,15 +182,16 @@ export default {
             try {
                 this.submitted = true;
                 const dataUpdateCat = {
-                    proCategoryEng: this.dataCatEdit.catNameEn,
-                    productCategorykh: this.dataCatEdit.catNameKh,
-                    file: this.fileUpload
+                    superSubCatID: this.selectedCategories,
+                    productSubCatEng: this.dataSubCatEdit.catNameEn,
+                    productSubCatKh: this.dataSubCatEdit.catNameKh,
                 }
-                this.proCategoryService.updateProCategory(dataUpdateCat, this.$route.params.id).then(response => {
+                console.log(dataUpdateCat)
+                this.proCategoryService.updateSubProCategory(dataUpdateCat, this.$route.params.id).then(response => {
                     if (response.data.success == true) {
                         ElMessage.success(response.data.message);
                         // Push Router
-                        this.$router.push("/vendor/products/category/list");
+                        this.$router.push("/vendor/products/sub-category/list");
                     }
                 }).catch((error) => {
                     this.notifmsgCatUpdated = error.response.data;
