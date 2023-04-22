@@ -32,7 +32,7 @@ export default [
         name:'product',
         component: () => import("../views/vendors/products/ProductUpdated.vue"),
       },
-      //Category 
+      //================Category============
       {
         path: "/vendor/products/category/list",
         name:'product-category',
@@ -47,6 +47,22 @@ export default [
         path: "/vendor/products/category/edit/:id",
         name:'product-category-edit',
         component: () => import("../views/vendors/category/UpdatedProductCategory.vue"),
+      },
+      /*Sub Category*/
+      {
+         path: "/vendor/products/sub-category/list",
+        name:'sub-product-category-list',
+        component: () => import("../views/vendors/category/sub_category/SubCategoryView.vue"),
+      },
+      {
+        path: "/vendor/products/sub-category/create",
+        name:'product-sub-category-create',
+        component: () => import("../views/vendors/category/sub_category/SubCategoryCreate.vue"),
+      },
+      {
+        path: "/vendor/products/sub-category/edit/:id",
+        name:'product-sub-category-edit',
+        component: () => import("../views/vendors/category/sub_category/UpdatedProductSubCategory.vue"),
       },
       //My Shops
       {

@@ -76,8 +76,8 @@ import Row from 'primevue/row';                     //optional for row
 
 // Element Plus
 import ElementPlus from 'element-plus';
-import 'element-plus/dist/index.css';
-import 'element-plus/theme-chalk/display.css'
+import './assets/css/element_plus/index.css';
+import './assets/css/element_plus/display.css';
 
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";

@@ -3,11 +3,11 @@
     <div class="layout-content">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h2 class="relative text-black text-3xl section section-title:before">Category Lists</h2>
-            <el-button type="info" size="large" class="py-4" @click="$router.push('/vendor/products/category/create')">
+            <h2 class="relative text-black text-3xl section section-title:before">Sub Category Lists</h2>
+            <el-button type="info" size="large" class="py-4" @click="$router.push('/vendor/products/sub-category/create')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
-                    <span class="pl-2">Add Categories</span>
+                    <span class="pl-2">Add Sub Categories</span>
                 </div>
             </el-button>
         </div>
@@ -17,11 +17,11 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                            <DataTable ref="dt" :value="catList" v-model:selection="selectedCategoriesList" dataKey="id"
-                                    :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
-                                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                                    :rowsPerPageOptions="[5, 10, 25]"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
+                            <DataTable ref="dt" :value="catSubList" v-model:selection="selectedSubCategoriesList" dataKey="id"
+                                :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                :rowsPerPageOptions="[5, 10, 25]"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                                 <!-- Header -->
                                 <template #header>
                                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
@@ -36,15 +36,10 @@
                                 <template #empty> No Categories found. </template>
                                 <!-- Loading Products -->
                                 <template #loading> Loading Categories data. Please wait. </template>
-                            <!--------------Check Existed Data ----------->
-                             <div v-if="catList && catList.length > 0 && catList != ''">
-                                <!-- Columns -->
-                                    <Column field="Logo" header="Category Image" sortable style="min-width:15rem">
-                                        <template #body>
-                                            <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" size="xlarge" shape="circle" />
-                                        </template>
-                                    </Column>
-                                    <Column field="catNameEn" header="Name" sortable style="min-width:20rem"></Column>
+                                <!--------------Check Existed Data ----------->
+                                <div v-if="catSubList && catSubList.length > 0 && catSubList != ''">
+                                    <!-- Columns -->
+                                    <Column field="categoryNameEng" header="Sub Category Name" sortable style="min-width:20rem"></Column>
                                     <Column field="category" header="Category Status" sortable style="min-width:10rem">
                                         <template #body>
                                             <div class="font-bold">
@@ -55,7 +50,7 @@
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
-                                                @click="$router.push({path: `/vendor/products/category/edit/${slotProps.data.catID}`})" />
+                                                @click="$router.push({ path: `/vendor/products/sub-category/edit/${slotProps.data.catID}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 @click="confirmDeleteProduct(slotProps.data.catID)" />
                                         </template>
@@ -74,7 +69,7 @@
                                 <Button label="No" icon="pi pi-times" text @click="deleteCatDialog = false" />
                                 <Button label="Yes" icon="pi pi-check" text @click="deleteCatByID" />
                             </template>
-                        </Dialog>    
+                        </Dialog>
                     </div>
                 </el-card>
             </div>
@@ -85,59 +80,58 @@
 
 <!-- Data Tables -->
 <script>
-    // import { useToast } from 'primevue/usetoast';
-    import { FilterMatchMode } from 'primevue/api';
-    import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
+// import { useToast } from 'primevue/usetoast';
+import { FilterMatchMode } from 'primevue/api';
+import ProductCategoriesServices from '../../../../services/vendors/product_categories/ProductsCategoriesServices';
 import { ElMessage } from 'element-plus';
-    export default{
-        data(){
-            return {
-                catID: '',
-                catList: '',
-                statusShopSwitch: '',
-                deleteCatDialog: false,
-                product: '',
-                selectedCategoriesList: '',
-                filters: {
-                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
-                }
-            }
-        },
-        created() {
-            this.proCategoryService = new ProductCategoriesServices();
-        },
-        mounted(){
-            const proCatService = new ProductCategoriesServices();
-            proCatService.getProCategory().then((data) => {
-                if (data.success == true) {
-                    this.catList = data.result.resultStatus;
-                }
-            });
-        },
-        computed: {
-             dataUrl(preImg) {
-                return 'data:image/jpeg;base64,' + btoa(
-                    new Uint8Array(preImg)
-                        .reduce((data, byte) => data + String.fromCharCode(byte), '')
-                );
-            }
-        },
-        methods: {
-            confirmDeleteProduct(catId){
-                this.catID = catId;
-                this.deleteCatDialog = true;
-            },
-            deleteCatByID(){
-               if(!this.catID){
-                 ElMessage.error("Product Category Not Found...");
-               }
-               this.proCategoryService.deleteProCategory(this.catID).then((del)=> {
-                   ElMessage.success(del.data.message);
-                   this.deleteCatDialog = false;
-               }).catch((error) => {
-                  ElMessage.error(error);
-               });
+export default {
+    data() {
+        return {
+            superCatID: '',
+            catSubList: '',
+            statusShopSwitch: '',
+            deleteCatDialog: false,
+            product: '',
+            selectedSubCategoriesList: '',
+            filters: {
+                'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
             }
         }
+    },
+    created() {
+        this.proCategoryService = new ProductCategoriesServices();
+    },
+    mounted() {
+        this.proCategoryService.getSubProCategory().then((data) => {
+            if (data.success == true) {
+                this.catSubList = data.result.resultStatus;
+            }
+        });
+    },
+    computed: {
+        dataUrl(preImg) {
+            return 'data:image/jpeg;base64,' + btoa(
+                new Uint8Array(preImg)
+                    .reduce((data, byte) => data + String.fromCharCode(byte), '')
+            );
+        }
+    },
+    methods: {
+        confirmDeleteProduct(superCatID) {
+            this.superCatID = superCatID;
+            this.deleteCatDialog = true;
+        },
+        deleteCatByID() {
+            if (!this.superCatID) {
+                ElMessage.error("Product Category Not Found...");
+            }
+            this.proCategoryService.deleteSubProCategory(this.superCatID).then((del) => {
+                ElMessage.success(del.data.message);
+                this.deleteCatDialog = false;
+            }).catch((error) => {
+                ElMessage.error(error);
+            });
+        }
     }
+}
 </script>
