@@ -1,6 +1,4 @@
 <template>
-    <TopHeader />
-
     <nav class="ml-sm-5 navbar navbar-expand-lg navbar-light bg-light" id="app">
         <a class="navbar-brand ml-sm-5" href="#">E-commerce</a>
         <button

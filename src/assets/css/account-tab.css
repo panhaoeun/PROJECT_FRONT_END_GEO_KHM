@@ -48,3 +48,30 @@
 .shadow{
    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
 }
+
+/*当upLoadShowCat为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+.upLoadShowCat .el-upload {
+    width: 20rem !important;
+    height: 20rem !important;
+    line-height: 20rem !important;
+}
+
+/*当upLoadHideCat为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
+.upLoadHideCat .el-upload-list--picture-card .el-upload-list__item {
+    width: 20rem !important;
+    height: 20rem !important;
+    line-height: 20rem !important;
+}
+
+/*当upLoadHideCat为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+.upLoadHideCat .el-upload {
+    display: none;
+}
+
+.el-alert {
+    margin: 20px 0 0;
+}
+
+.el-alert:first-child {
+    margin: 0;
+}

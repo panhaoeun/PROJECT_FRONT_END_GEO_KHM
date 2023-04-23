@@ -31,7 +31,7 @@
                                         <div class="col-6 field">
                                             <label for="name_en">Category<span class="p-error">*</span></label>
                                             <select 
-                                                class="form-select py-3 text-md p-dropdown-item"
+                                                class="form-select py-3 text-md p-dropdown-item  border-round-lg"
                                                 v-model="v$.selectedCategories.$model"
                                                 @click="getCategoriesSelect()">
                                                 <option value="" disabled> Select an application</option>
@@ -46,7 +46,7 @@
                                         <!-- Name Sub Category -->
                                         <div class="field col-6">
                                             <label for="name_en">Sub Category Name (Eng)<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3"
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3  border-round-lg"
                                                 v-model="v$.proSubCategoryNameEng.$model"
                                                 :class="{ 'p-invalid p-error': v$.proSubCategoryNameEng.$invalid && submitted }" />
                                             <small
@@ -76,7 +76,7 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="proKh">Category Name (KH) <span class="p-error">*</span> </label>
-                                            <InputText id="proKh" placeholder="Name" type="text" class="py-3"
+                                            <InputText id="proKh" placeholder="Name" type="text" class="py-3  border-round-lg"
                                                 v-model="proSubCategoryNameKh" />
                                         </div>
                                     </div>

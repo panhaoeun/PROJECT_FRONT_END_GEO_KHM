@@ -8,7 +8,7 @@
             <h3>Create Shop</h3>    
             <div class="text-xl font-bold">
                 <!-- Tabs -->
-                <form action="" method="POST" @click.prevent="handleSubmitShopInfo(!v$.$invalid)">
+                <form method="POST" @click.prevent="handleSubmitShopInfo(!v$.$invalid)">
                     <!-- Tabs -->
                     <el-tabs class="demo-tabs">
                             <!-- English -->
@@ -29,12 +29,32 @@
                                                             <label for="name_en" class="text-lg">Contacts</label>
                                                             <InputText id="product_name" placeholder="Contacts" type="text" class="py-4 border-round-lg text-lg" v-model="shopInfoContact" />
                                                         </div>
-                                            
                                                 </div>
                                                 <!-- Editor -->
                                                 <div class="col-12 field">
                                                     <Editor v-model="shopDescriptionEng" placeholder="Descriptions *" editorStyle="height: 320px" class="border-round-lg"/>
-                                                </div>             
+                                                </div>     
+                                                <!-- Upload Logo Shops -->
+                                                <div class="col-12 field">
+                                                    <!--Category Logo -->
+                                                    <div class="field">
+                                                        <label for="name_en">Category Logo <span class="p-error">*</span> </label>
+                                                        <!-- Upload Files -->
+                                                        <el-upload 
+                                                                action="#" 
+                                                                list-type="picture-card" 
+                                                                :on-preview="handlePictureCardPreviewUpdate"
+                                                                :on-remove="handleRemoveCat" 
+                                                                :auto-upload="false" 
+                                                                :on-change="handleChangeUpdateCat" 
+                                                                :class="objClassUpdateShop"
+                                                                ref="fileUpload"
+                                                                :limit="1"
+                                                                >
+                                                            <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                        </el-upload>
+                                                    </div>
+                                                </div>        
                                             </div> 
                                         </div>
                                     </div>
@@ -64,8 +84,8 @@
                     <!-- Buttons Submits -->
                     <div class="col-12 flex justify-content-end mt-4">
                         <!--Buttons-->
-                        <Button label="Cancel" icon="pi pi-times" class="p-button-lg py-3 p-button-outlined w-10rem mr-3" />
-                        <Button label="Save" icon="pi pi-check" class="p-button-lg py-3 w-10rem" onclick=""/>
+                        <Button label="Cancel" icon="pi pi-times" class="p-button-lg py-4 p-button-outlined w-10rem mr-3" />
+                        <Button label="Save" icon="pi pi-check" class="p-button-lg py-4 w-10rem" onclick=""/>
                     </div>
                 </form>
             </div>
@@ -78,7 +98,8 @@
     import { required,minLength} from "@vuelidate/validators";
     import { useVuelidate } from "@vuelidate/core";
     import ShopManagementsServices from "../../../services/vendors/shop_management/ShopManagementInforServices";
-      export default {
+    import { ElMessage } from 'element-plus';
+    export default {
         setup: () => ({ v$: useVuelidate() }),
         data(){
               return{
@@ -97,6 +118,10 @@
                         },
                     }
                 ],
+                objClassUpdateShop: {
+                    upLoadShowShop: true,
+                    upLoadHideShop: false,
+                },
                 shopInfoNameEng: '',
                 shopInfoContact: '',
                 shopInfoNameKh: '',
@@ -170,7 +195,35 @@
                         {severity: 'error', content: error},
                     ]
                 }
-            }
+            },
+            //============Uploads Files================
+            handleChangeUpdateCat(file) {
+                this.fileUpload = file.raw;
+                //Check Upload File
+                this.beforeAvatarUpload(file.raw);
+                this.objClassUpdateCat.upLoadHideShop = true;//上传图片后置upLoadHideShop为真，隐藏上传框
+                this.objClassUpdateCat.upLoadShowShop = false;
+            },
+            handleRemoveCat(file, fileListCatUpdated) {
+                console.log(file, fileListCatUpdated)
+                this.objClassUpdateCat.upLoadShowShop = true;//删除图片后显示上传框
+                this.objClassUpdateCat.upLoadHideShop = false;
+            },
+            // 点击预览图的放大按钮后会触发handlePictureCardPreviewUpdate
+            handlePictureCardPreviewUpdate(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
+            beforeAvatarUpload(rawFile) {
+                if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
+                    ElMessage.error('Picture must be JPG or PNG format!')
+                    return false
+                } else if (rawFile.size / 1024 / 1024 > 2) {
+                    ElMessage.error('Picture size can not exceed 2MB!');
+                    return false
+                }
+                return true
+            },
         },
         resetForm(){
             this.shopInfoNameEng = '',

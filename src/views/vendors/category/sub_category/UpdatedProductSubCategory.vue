@@ -16,7 +16,7 @@
             <Toast />
             <!-- Tabs -->
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
-                <form enctype="multipart/form-data" @submit.prevent="handleCategoryUpdated()" class="py-4">
+                <form @submit.prevent="handleCategoryUpdated()" class="py-4">
                     <el-tab-pane label="English(EN)" name="english-tabs">
                         <!--Form Submitted-->
                         <Message severity="error" v-for="(errorArray, index) in notifmsgCatUpdated" :key="index">
@@ -30,7 +30,7 @@
                                      <div class="col-6 field">
                                             <label for="name_en">Category<span class="p-error">*</span></label>
                                             <select 
-                                                class="form-select py-3 text-md"
+                                                class="form-select py-3 text-md  border-round-lg"
                                                 v-model="selectedCategories"
                                                 @click="getCategoriesSelect()">
                                                 <option value="" disabled> Select an Categories</option>
@@ -46,7 +46,7 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en">Category Name (Eng)<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3 text-xl"
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3 text-xl  border-round-lg"
                                                 v-model="dataSubCatEdit.catNameEn"/>
                                         </div>
                                     </div>
@@ -186,7 +186,6 @@ export default {
                     productSubCatEng: this.dataSubCatEdit.catNameEn,
                     productSubCatKh: this.dataSubCatEdit.catNameKh,
                 }
-                console.log(dataUpdateCat)
                 this.proCategoryService.updateSubProCategory(dataUpdateCat, this.$route.params.id).then(response => {
                     if (response.data.success == true) {
                         ElMessage.success(response.data.message);
