@@ -72,13 +72,12 @@ import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
 import Row from 'primevue/row';                     //optional for row
 
-
+console.log(process.env.VUE_APP_URL+ '/auth/')
 
 // Element Plus
 import ElementPlus from 'element-plus';
 import './assets/css/element_plus/index.css';
 import './assets/css/element_plus/display.css';
-
 // Fabric Icons
 import "./assets/uifabricIcons/css/fabric-icons.css";
 import 'vue-loading-overlay/dist/css/index.css';
