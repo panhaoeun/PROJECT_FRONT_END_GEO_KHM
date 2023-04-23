@@ -31,7 +31,7 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en">Category Name (Eng)<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Name" type="text" class="py-4 text-xl"
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-4 text-xl  border-round-lg"
                                                 v-model="dataCatEdit.catNameEn"/>
                                         </div>
                                     </div>
@@ -58,7 +58,6 @@
                                                     >
                                                 <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
                                             </el-upload>
-                                           
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +76,7 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="proKh">Category Name (KH) <span class="p-error">*</span> </label>
-                                            <InputText id="proKh" placeholder="Name" type="text" class="py-4 text-xl"
+                                            <InputText id="proKh" placeholder="Name" type="text" class="py-4 text-xl  border-round-lg"
                                                 v-model="dataCatEdit.catNameKh" />
                                         </div>
                                     </div>
@@ -238,32 +237,3 @@ export default {
     }
 }
 </script>
-
-<style>
-/*当upLoadShowCat为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
-.upLoadShowCat .el-upload {
-    width: 20rem !important;
-    height: 20rem !important;
-    line-height: 20rem !important;
-}
-
-/*当upLoadHideCat为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
-.upLoadHideCat .el-upload-list--picture-card .el-upload-list__item {
-    width: 20rem !important;
-    height: 20rem !important;
-    line-height: 20rem !important;
-}
-
-/*当upLoadHideCat为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
-.upLoadHideCat .el-upload {
-    display: none;
-}
-
-.el-alert {
-    margin: 20px 0 0;
-}
-
-.el-alert:first-child {
-    margin: 0;
-}
-</style>

@@ -31,7 +31,7 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en">Category Name (Eng)<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3"
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3  border-round-lg"
                                                 v-model="v$.proCategoryNameEng.$model"
                                                 :class="{ 'p-invalid p-error': v$.proCategoryNameEng.$invalid && submitted }" />
                                             <small
