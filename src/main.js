@@ -65,14 +65,16 @@ import Listbox from 'primevue/listbox';
 import RadioButton from 'primevue/radiobutton';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
+import Menu from 'primevue/menu';
+import Tag from 'primevue/tag';
 
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
-import Row from 'primevue/row';                     //optional for row
+import Row from 'primevue/row';          
 
-console.log(process.env.VUE_APP_URL+ '/auth/')
+import VueUploadComponent from 'vue-upload-component'//optional for row
 
 // Element Plus
 import ElementPlus from 'element-plus';
@@ -158,13 +160,17 @@ app.use('AvatarGroup', AvatarGroup);
 app.component('Sidebar',Sidebar);
 app.component('Calendar',Calendar);
 app.component('Steps',Steps);
+app.component('Tag', Tag);
 app.component('ConfirmPopup',ConfirmPopup);
+app.component('Menu',Menu);
 app.use(ConfirmationService);
 app.component('OverlayPanel',OverlayPanel);
 app.component('Listbox',Listbox);
 app.component('RadioButton',RadioButton);
 app.component('Textarea',Textarea)
 app.component('FileUpload',FileUpload);
+//Vue Uoloads
+app.component('file-upload', VueUploadComponent)
 
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];

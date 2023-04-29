@@ -194,7 +194,6 @@ export default {
             return true
         },
         uploadFile() {
-            console.log(this.$refs.file.files[0])
             this.file = this.$refs.file.files[0];
             // this.createBase64Image(this.$refs.file.files[0]);
         },
@@ -219,7 +218,6 @@ export default {
                         productCatEng: this.proCategoryNameEng,
                         file: this.file,
                     }
-                    console.log(data)
                     this.proCategoryService.createProCategory(data).then((response) => {
                         if(response.data.success == true){
                             ElMessage.success(response.data.message);
