@@ -6,7 +6,6 @@
   
   <script>
   import { defineComponent } from 'vue';
-  import 'bootstrap/dist/css/bootstrap.min.css';
   import Chart from 'chart.js/auto';
   
   export default defineComponent({
