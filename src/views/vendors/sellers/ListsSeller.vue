@@ -362,7 +362,7 @@
                                 <template #footer>
                                     <Button label="No" icon="pi pi-times" text @click="deleteProductDialog = false"/>
                                     <Button label="Yes" icon="pi pi-check" text @click="deleteProduct" />
-                                </template>
+                            </template>
                             </Dialog>
                             <!-- Dialog Deleted -->
                             <Dialog v-model:visible="deleteProductsDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
