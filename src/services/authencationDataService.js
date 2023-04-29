@@ -1,11 +1,11 @@
-import http from "../../http-common";
+import httpJsonRequest from "../../http-json-request";
 class AuthenticationsDataService{
     // Login 
     authLogin(data){
-        return http.post("/auth/signIn", data);
+        return httpJsonRequest.post("/auth/signIn", data);
     }
     create(data){
-        return http.post("/auth/signUp", data);
+        return httpJsonRequest.post("/auth/signUp", data);
     }
 }
 
