@@ -86,6 +86,13 @@ import MazInput from 'maz-ui/components/MazInput'
 import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
  import MazInputTags from 'maz-ui/components/MazInputTags';
 import 'maz-ui/css/main.css';
+// fontaswesome Icons
+import { library, dom } from "@fortawesome/fontawesome-svg-core";
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+
+
 
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
@@ -131,6 +138,11 @@ app.use('InputSwitch',InputSwitch);
 app.use('AvatarGroup', AvatarGroup);
 app.component('Sidebar',Sidebar);
 app.component('Steps',Steps);
+
+//  font awesome icons
+library.add(fas, fab, far) 
+dom.watch(); 
+// app.add(FontAwesomeIcon);
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];
 // Element Plus

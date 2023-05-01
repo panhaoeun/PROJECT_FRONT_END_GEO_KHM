@@ -63,6 +63,18 @@ export default [
         path: "/vendor/shop/edit/:id",
         name:'shop-updated',
         component: () => import("../views/vendors/shops/ShopInfoUpdated.vue"),
+      },
+    //   order list 
+     //   order 
+     {
+        path: "/vendor/order-list",
+        name:'order-list',
+        component: () => import('../views/vendors/order/OrderList.vue'),
+      },
+       {
+        path: "/vendor/order-invoice",
+        name:'invoice-detail',
+        component: () => import('../views/vendors/order/InvoiceDetailView.vue'),
       }
 
     ],

@@ -12,10 +12,10 @@
     "@fawmi/vue-google-maps": "^0.9.79",
     "@fluentui/font-icons-mdl2": "^8.5.7",
     "@fluentui/react-icons": "^2.0.193",
-    "@fortawesome/fontawesome-svg-core": "^6.3.0",
-    "@fortawesome/free-brands-svg-icons": "^5.15.4",
-    "@fortawesome/free-regular-svg-icons": "^6.3.0",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@innologica/vue-dropdown-menu": "^0.1.4",
     "@oruga-ui/oruga-next": "^0.5.10",
@@ -40,6 +40,8 @@
     "jquery": "^3.6.0",
     "libphonenumber-js": "^1.10.19",
     "maz-ui": "^3.6.12",
+    "nodemon": "^2.0.22",
+    "npm": "^9.6.3",
     "postcss": "^8",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
@@ -97,5 +99,9 @@
   ],
   "overrides": {
     "autoprefixer": "10.4.5"
-  }
+  },
+  "description": "![Example](src/assets/logo.png)",
+  "main": "http-common.js",
+  "author": "",
+  "license": "ISC"
 }
