@@ -26,8 +26,9 @@
                 <strong class="text-xl">Order Summary</strong></span>
             <!-- table ordered items -->
             <strong>1</strong>
-            <table class="table table-striped table-borderless">
-                <thead>
+            <div class="table-responsive">
+                <table class="table table-striped table-borderless align-middle table-cell-padding-x">
+                <thead class="table-dark">
                     <th>#</th>
                     <th>Product</th>
                     <th>Unit Price</th>
@@ -54,6 +55,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
             <div class="col align-self-end">
                 <div>
                     <span>Discounts:<strong> $5000</strong></span>
