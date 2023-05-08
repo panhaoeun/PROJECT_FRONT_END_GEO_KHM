@@ -54,7 +54,8 @@
                                                     list-type="picture-card" 
                                                     :on-preview="handlePictureCardPreview"
                                                     :on-remove="handleRemove" 
-                                                    :auto-upload="false" :on-change="handleChange" 
+                                                    :auto-upload="false" 
+                                                    :on-change="handleChange" 
                                                     :class="objClass"
                                                     :file-list="fileList" 
                                                     v-model="file"
@@ -67,6 +68,7 @@
                                 </div>
                             </div>
                         </div>
+                    <!--Tab Panel KHMER-->
                     </el-tab-pane>
                     <el-tab-pane label="Khmer(KH)" name="khmer-tab">
                         <!-- Khmer -->
@@ -166,7 +168,7 @@ export default {
     methods: {
         //============Uploads Files================
         handleChange(file) {
-            console.log(file)
+            console.log(file.raw)
             this.file = file.raw;
             //Check Upload File
             this.beforeAvatarUpload(file.raw);

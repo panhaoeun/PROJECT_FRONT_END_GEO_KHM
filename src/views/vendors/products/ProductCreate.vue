@@ -11,7 +11,7 @@
                 </el-button>
         </div>
         <!-- Form Submited -->
-       <form class="p-fluid" method="POST" enctype="multipart/form-data"  role="form">    
+       <form class="p-fluid" method="POST" enctype="multipart/form-data"  role="form" @submit.prevent="submitFormProCreate(!v$.$invalid)">    
             <!-- Toast Alert -->
             <Toast />
             <!--Create Products-->
@@ -36,7 +36,11 @@
                                 <!-- Product Code -->
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Product Code</label>
+                                        <label for="name_en" class="text-xl font-semibold">
+                                            Product Code
+                                            <span class="p-error">*</span>
+                                            <span class="pl-2 underline text-blue-600" @click="sdsad">Generate Code</span>
+                                        </label>
                                         <InputText class="p-inputtext p-component text-xl" type="text" v-model="proCode" placeholder="Product Code" />
                                     </div>
                                 </div>
@@ -48,10 +52,11 @@
                                     </div>
                                 </div>
                                 <!-- Discount Type  and Discount -->
+                                <!-- Discount -->
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Discount</label>
-                                        <InputText class="p-inputtext p-component text-xl" type="text" v-model="discountNum" placeholder="Discount" />
+                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="proDiscount"/>
                                     </div>
                                 </div>
                                 <div class="col-12 lg:col-6 field">
@@ -76,25 +81,11 @@
                                          <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-lg">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
                                     </div>
                                 </div>
-                                <!-- Discount -->
-                                <div class="col-12 lg:col-6 field">
-                                    <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Discount</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="proDiscount"/>
-                                    </div>
-                                </div>
                                 <!-- Product Category -->
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Category</label>
                                         <Dropdown v-model="proCatID" placeholder="Select Category" class="text-xl" :showClear="true"/>
-                                    </div>
-                                </div>
-                                <!-- Sub Category -->
-                                <div class="col-12 lg:col-6 field">
-                                    <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Sub Category</label>
-                                        <Dropdown v-model="subCatID" placeholder="Select Sub Category" class="text-xl" :showClear="true"/>
                                     </div>
                                 </div>
                                 <!--========Variations Type of Spec - Start=======-->
@@ -167,13 +158,24 @@
                                             <!-- Upload Imag Multiple Product and Thumbnail -->
                                             <div class="col-12 lg:col-7 px-2 py-2">
                                                 <div class="field card">
-                                                    <label for="name_en" class="text-xl font-semibold">Upload Product Images <span class="">*</span> </label>
+                                                    <label for="name_en" class="text-xl font-semibold">
+                                                         Product Images 
+                                                        (Available 10 Image Uploads)
+                                                        <span class="p-error">*</span>
+                                                     </label>
                                                     <!-- Upload Filed -->
                                                     <el-upload action="#" list-type="picture-card" 
                                                         :auto-upload="false" 
+                                                        :limit="10"
+                                                        ref="proImgMultiple"
                                                         v-model="proImgMultiple"
-                                                        accept="image/jpeg,image/png"
-                                                        :on-change="handelOnChange"
+                                                        accept=".jpg, .png, .jpeg"
+                                                        :on-exceed="handleExceed"
+                                                        :on-change="handleChangeFileMalUpload"
+                                                        :file-list="formUploadArr.resourceList"
+                                                        :before-upload="beforeUploadMulImg"
+                                                        :http-request="handleFileSuccess"
+                                                        :on-success="onSuccessMalFileUpload"
                                                     >
                                                         <!-- Icons -->
                                                         <el-icon><Plus /></el-icon>
@@ -192,14 +194,14 @@
                                                                 <span
                                                                     v-if="!disabled"
                                                                     class="el-upload-list__item-delete"
-                                                                    @click="handleDownload(file)"
+                                                                    @click="handelOnChange(file)"
                                                                 >
-                                                                    <el-icon><Download /></el-icon>
+                                                                    <el-icon><EditPen/></el-icon>
                                                                 </span>
                                                                 <span
                                                                     v-if="!disabled"
                                                                     class="el-upload-list__item-delete"
-                                                                    @click="handleRemove(file)"
+                                                                    @click="handleRemoveMultiple(file)"
                                                                 >
                                                                     <el-icon><Delete/></el-icon>
                                                                 </span>
@@ -216,23 +218,23 @@
                                             <!-- Upload Thumbnail -->
                                             <div class="col-12 lg:col-5 px-2 py-2">
                                                 <div class="field card">
-                                                    <label for="name_en" class="text-xl font-semibold">Upload Thumbnail <span>*</span></label>
-                                                    <el-upload
-                                                            class="avatar-uploader"
-                                                            action=""
-                                                            :show-file-list="false"
-                                                            :on-success="handleAvatarSuccess"
-                                                            :before-upload="beforeAvatarUpload"
-                                                            v-model="proProThumbnail"
-                                                        >
-                                                            <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar" />
-                                                            <el-icon v-else class="avatar-uploader-icon">
-                                                                <Plus />
-                                                            </el-icon>
+                                                    <label for="name_en" class="text-xl font-semibold">Thumbnail (Available 1 Image Uploads)  <span class="p-error">*</span> </label>
+                                                    <el-upload action="#" 
+                                                        list-type="picture-card" 
+                                                        :on-preview="handlePictureCardPreview"
+                                                        :on-remove="handleRemoveThumbnail" 
+                                                        :auto-upload="false" 
+                                                        :on-change="handleChange" 
+                                                        :class="objClass"
+                                                        accept=".jpg, .png, .jpeg"
+                                                        :file-list="fileList" 
+                                                        v-model="proThumbnail"
+                                                        ref="proThumbnail"
+                                                        :limit="1">
+                                                        <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
                                                     </el-upload>
                                                 </div>  
                                             </div>
-
                                         </div> 
                                     </div>
                                 </div>
@@ -263,36 +265,42 @@
                     </div>
                 </div>
                 <!-- Buttons Submits -->
-                <div class="col-12 flex justify-content-end mt-4">
-                    
+                <div class="col-12 flex justify-content-end mt-4"> 
                     <!--Buttons-->
-                    <Button icon="pi pi-times"
-                        @click.prevent="submitFormProCreate(!v$.$invalid)"
-                        :disabled="isProcessingSubmit" :label='isProcessingSubmit ? "Process..." : "Save"'
+                    <Button 
+                        icon="pi pi-times"
+                        label="Cancel"
                         class="p-button-lg py-3 p-button-outlined w-10rem mr-3" />
-                    <Button label="Save" icon="pi pi-check" class="p-button-lg py-3 w-10rem" onclick=""/>
+                    <Button 
+                        icon="pi pi-check" 
+                        class="p-button-lg py-3 w-10rem"
+                        type="submit"
+                        label="Save"
+                    />
                 </div>
             </div>
         </form>
+        <!-- :label='isProcessingSubmit ? "Process..." :  -->
    </div>
 </template>
+
 
 <!-- Script Product Create  -->
 <script>
     import ProductServices from "../../../services/vendors/products/ProductServices";
-    import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue';
+    import { Plus, ZoomIn, EditPen, Delete } from '@element-plus/icons-vue';
     import { ElMessage } from 'element-plus';
     import { useVuelidate } from '@vuelidate/core';
     import { required } from '@vuelidate/validators';
     // import LoadingButton from '../../../components/buttons/LoadingButton.vue';
-    export default {
+    export default{
         setup() {
           return { v$: useVuelidate() }
         },
         components:{
             Plus,
             ZoomIn,
-            Download,
+            EditPen,
             Delete,
             // LoadingButton
         },
@@ -310,15 +318,15 @@
             return {
                 // Form Submits
                 proNameEn: '',
-                imagFilesList: [],
                 proCode: '',
                 submitted: false,
                 proSpectags: '',
                 proCatID : '',
                 subCatID : '',
                 desProEn : '',
-                proImgMultiple : '',
-                proProThumbnail : '',
+                proImgMultiple : null,
+                proThumbnail : null,
+                imagFilesList: '',
                 proNameKh : '',
                 proDesKh : '',
                 proUnitPice: '',
@@ -335,11 +343,28 @@
                 dialogImageUrl: '',
                 dialogVisible: false,
                 disabled: false,
+                //Upload Files
                 imageUrl: '',
+                fileList: [],
+                fileAttachments: [],
+                fileListArrUpload:null,
+                imageList: [],
+                objClass: {
+                    upLoadShow: true,
+                    upLoadHide: false,
+                },
+                fromList: {
+                    proCategoryNameEng: '',
+                    file: null,
+                },
                 disTypesOption: [
                     { id: 1,disType: 'Flat'},
                     { id: 2, disType: 'Percent' },
                 ],
+                formUploadArr: {
+                    resourceList: [],
+                    deleteIds: [],
+                },
                 //Multiple Spec of products
                 sectionSpecPro: [
                     {
@@ -377,36 +402,98 @@
                 this.sectionSpecPro[id].additional.splice(id,1);
             },
             //============Upload Files Multiple===========
+            handleChangeFileMalUpload(file, fileList){
+                ElMessage.success(file.name);
+                if(!fileList.length){
+                    return false;
+                }
+                this.fileAttachments.push(file.raw);
+            },  
             handlePictureCardPreview(file){
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
-            handleDownload(file){
-               console.log(file)
-            },
-            handleRemove(file,fileList){
-                console.log(file, fileList)
+            handleRemoveMultiple(file){
+               this.$refs.proImgMultiple.handleRemove(file,-1);
             },
             handelOnChange(file){
-                const isLt100M = file.zize /1024 / 1024 < 1024;
+                /**
+                 *  @Dialog Confirm replace picture uploads
+                 *  @Limited Size Uploads
+                 */ 
+                this.$confirm("This action will replace the picture with a new one, Continue?", "Tips", {
+                    confirmButtonText: "Confirm",
+                    cancelButtonText: "cancel",
+                    type: "warning",
+                }).then(() => {
+                    // Delete picture first
+                    let index = 0;
+                    this.formUploadArr.deleteIds.push(file.id);
+                    for (let i = 0; i < this.formUploadArr.resourceList.length; i++) {
+                        if (this.formUploadArr.resourceList[i].id === file.id) {
+                            // Splice (index, length, substitute content) replaces the data of the specified id
+                            this.formUploadArr.resourceList.splice(i, 1)
+                            index = i;
+                        }
+                    }
+                    // Then select a new picture
+                    this.$refs["proImgMultiple"].$refs["uploadRef"].upload() //The upload picture interface appears
+                    this.form.resourceList.splice(index, 1, file)
+                })
+                .catch(() => {
+                    this.$message({
+                        type: "info",
+                        message: "Picture editing canceled",
+                    })
+                });
+                const isLt100M = file.size /1024 / 1024 < 1024;
                 if(!isLt100M){
-                    console.log("Error")
+                   ElMessage.error('Limit Size File Upload...');
                 }  
             },
+            // The number of files exceeds the specified number
+            handleExceed(files, fileList) {
+                // this.imagFilesList.push(fileList[i].raw);
+                this.$message.warning(
+                    `Currently, 10 pictures are limited to be selected.
+                        This time, it is selected ${files.length} 
+                        Pictures selected ${files.length + fileList.length
+                    } Pictures`
+                )
+            },
+            handleFileSuccess(file){
+                console.log(file)
+            },
+            beforeUploadMulImg(file){
+                console.log(file)
+            },
+            onSuccessMalFileUpload(file, fileList){
+                console.log(file,fileList)
+            },
             //============Upload Files Single===========
-            beforeAvatarUpload(rawFile){
-                if (rawFile.type !== 'image/png' && rawFile.type !== 'image/jpeg') {
-                    ElMessage.error('Product picture must be JPG/PNG format!')
-                    return false;
-                }else if(rawFile.size / 1024 / 1024 > 2){
-                    ElMessage.error('Avatar picture size can not exceed 2MB!')
+            handleChange(file) {
+                this.proThumbnail = file.raw;
+                //Check Upload File
+                this.beforeAvatarUpload(file.raw);
+                this.objClass.upLoadHide = true;//上传图片后置upLoadHide为真，隐藏上传框
+                this.objClass.upLoadShow = false;
+            },
+            beforeAvatarUpload(rawFile) {
+                if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
+                    ElMessage.error('Picture must be JPG or PNG format!')
+                    return false
+                } else if (rawFile.size / 1024 / 1024 > 2) {
+                    ElMessage.error('Picture size can not exceed 2MB!');
                     return false
                 }
-                return true;
+                return true
             },
-            handleAvatarSuccess(response, uploadFile){
-                 this.imageUrl = URL.createObjectURL(uploadFile.raw);
-                 console.log(this.imageUrl)
+            uploadFile() {
+                this.file = this.$refs.file.files[0];
+                // this.createBase64Image(this.$refs.file.files[0]);
+            },
+            handleRemoveThumbnail(file){
+                ElMessage.success(`Remove Successfully... ${file}`)
             },
             //========Form Submit===========
             submitFormProCreate(isFormValid){
@@ -416,49 +503,49 @@
                 }
                 if(!this.proNameEng || !this.proUnitPice){
                     this.isProcessingSubmit = true;
-                    const dataPro = {
+                           const dataPro = {
                             proCategoryID: 1,
-                            proTypeID: 1,
-                            proUnit: "kg",
+                            shopTypeID: 1,
+                            proImgListID: '',
                             proNameEng: this.proNameEn,
                             proNameKh: this.proNameKh,
-                            productSpec: this.proSpectags,
-                            proUnitPrice: this.proUnitPice,
+                            proCode: this.proCode,
+                            proMeasure: this.measureUnit,
                             proQty: this.proQty,
+                            proThumbnail: this.proThumbnail,
+                            proImgMalUpload: this.fileAttachments,
+                            proUnitPrice: this.proUnitPice,
+                            proSpecJson: this.sectionSpecPro,
                             proDiscount: this.proDiscount,
-                            proAvailableNum: "10",
-                            proDiscountType: "percent",
-                            proDesEng: this.desProEn,
-                            proDesKh: this.proDesKh,
-                            createdBy: 1,
-                            createdDate: "2023-02-24",
-                            proImg: "image.png",
-                            proThumbnail: "image.png",
-                            proVideo: ""
-                    }
-                    this.productSerClass.createProduct(dataPro).then((response) => { 
-                    if (response.data.status === true) {
-                         this.submitted = true;
-                         this.isProcessingSubmit = true;
-                            this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
-                            // Push Router
-                            setTimeout(() => {
-                                this.isProcessingSubmit = false;
-                                this.$router.push("/vendor/products/list");
-                            }, 3000);
-                        }
-                     })
-                    .catch(error => {
-                        console.log(error)
-                        if (error.response.status == '401') {
-                            //  Toast Alert 
-                            this.message_pro_type = [
-                                { severity: 'error', content: error.response.data.error },
-                            ]
-                            this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
-                        }
+                            proDiscountType: this.discountType.disType,
+                            proDisEng: this.desProEn,
+                            proDisKH: this.proDesKh,
+                         }
+                         console.log(dataPro)
+                         this.productSerClass.createProduct(dataPro).then((response) => { 
+                            console.log(response)
+                            // if (response.data.status === true) {
+                            //     this.submitted = true;
+                            //     this.isProcessingSubmit = true;
+                            //         this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
+                            //         // Push Router
+                            //         setTimeout(() => {
+                            //             this.isProcessingSubmit = false;
+                            //             this.$router.push("/vendor/products/list");
+                            //         }, 3000);
+                            //     }
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            // if (error.response.status == '401') {
+                            //     //  Toast Alert 
+                            //     this.message_pro_type = [
+                            //         { severity: 'error', content: error.response.data.error },
+                            //     ]
+                            //     this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
+                            // }
 
-                    });
+                        });
                 }
             },
             resetForm(){
@@ -472,15 +559,12 @@
 
 
 <!-- Config Style -->
-<style scoped>
+<style>
 .avatar-uploader .avatar {
     width: 178px;
     height: 178px;
     display: block;
 }
-</style>
-
-<style>
 /* Multiple Upload File */
 .el-upload.el-upload--picture-card{
   width: 200px;
@@ -511,5 +595,28 @@
     width: 200px;
     height: 180px;
     text-align: center;
+}
+/* *当upLoadShow为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/ */
+.upLoadShow .el-upload {
+    width: 20rem !important;
+    height: 20rem !important;
+    line-height: 20rem !important;
+}
+
+    /*当upLoadHide为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
+.upLoadHide .el-upload-list--picture-card .el-upload-list__item {
+    width: 20rem !important;
+    height: 20rem !important;
+    line-height: 20rem !important;
+}
+    /*当upLoadHide为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+.upLoadHide .el-upload {
+    display: none;
+}
+.el-alert {
+  margin: 20px 0 0;
+}
+.el-alert:first-child {
+  margin: 0;
 }
 </style>
