@@ -50,18 +50,16 @@
                         <template #loading> Loading products data. Please wait. </template>
                         <!--------------Columns----------->
                         <div v-if="products && products.length > 0 && products !='' ">
-                            <Column field="id" header="#" sortable style="min-width: 12rem" >
+                            <Column field="id" header="Product Name" sortable style="min-width: 20rem" >
                                 <template #body="{ data }">
-                                    {{ data.id }}
-                                </template>
-                            </Column>
-                            <Column field="id" header="Name" sortable style="min-width: 12rem" >
-                                <template #body="{ data }">
-                                    {{ data.product_eng }}
+                                   <Avatar :image="`${ENV_HOST_PATH_FILE}uploads/products_img/list_img_products/${data.product_picture}`" class="mr-2" size="large" shape="circle" :data-id="data"/>
+                                    <div class="flex flex-column">
+                                        <span class="flex"> {{ data.product_eng }}</span>
+                                    </div>
                                 </template>
                             </Column>
                             
-                            <Column field="id" header="Unit Price" sortable style="min-width: 12rem" >
+                            <Column field="id" header="Unit Price" sortable style="min-width: 13rem" >
                                 <template #body="{ data }">
                                     {{ data.product_unit_price }}
                                 </template>
@@ -89,9 +87,6 @@
                                         </div>
                                     </template> 
                             </Column>
-                        </div>
-                        <div v-else>
-                            Ops... Product Type .
                         </div>
                     </DataTable>
 
@@ -127,6 +122,7 @@
     const productService = new ProductService();
     const selectedProduct = ref();
     const inputSwitchPro = ref(false);
+    const ENV_HOST_PATH_FILE = process.env.VUE_APP_PATH_FILE;
 
     onBeforeMount(() => {
         productService.getDataProducts()
@@ -139,7 +135,6 @@
                 }
             }    
         );
-
         // Filters
         initFilterData();
     });

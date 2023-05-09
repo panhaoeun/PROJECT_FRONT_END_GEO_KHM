@@ -1,4 +1,5 @@
-import http from "../../../../http-common";
+import { ElMessage } from "element-plus";
+import http from "../../../../http-json-request";
 
 export default class ProductCategoriesServices {
     //Get
@@ -38,10 +39,14 @@ export default class ProductCategoriesServices {
     async getSubProCategory(data){
         return await http.get("/vendors/product_management/product_sub_category/list", data)
             .then((result) => {
-                return result.data;
+                if(result.status == '201'){
+                    if(result.data.success == true){
+                      return result.data.result.resultStatus;
+                    }   
+                }
             })
             .catch((error) => {
-                console.log(error)
+              ElMessage.error(error);
         });
     }
     async createSubProCategory(data){

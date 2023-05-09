@@ -103,9 +103,10 @@ export default {
     },
     mounted() {
         this.proCategoryService.getSubProCategory().then((data) => {
-            if (data.success == true) {
-                this.catSubList = data.result.resultStatus;
+            if (!data) {
+                ElMessage.error("Internal Error...");
             }
+             this.catSubList = data;
         });
     },
     computed: {

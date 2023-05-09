@@ -34,6 +34,13 @@ export default {
                 isActive: 'active'
             },
             {
+                id: 0,
+                icon: "pi pi-check",
+                title: "Orders",
+                url: "/vendor/order-list",
+                isActive: 'active'
+            },
+            {
                 id: 1,
                 icon: "pi pi-check",
                 title: "Customers",
