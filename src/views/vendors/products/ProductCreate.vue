@@ -85,7 +85,18 @@
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Category</label>
-                                        <Dropdown v-model="proCatID" placeholder="Select Category" class="text-xl" :showClear="true"/>
+                                        <select 
+                                            class="form-select py-3 text-md p-dropdown-item  border-round-lg"
+                                            v-model="v$.proCatID.$model"
+                                            @click="getCategoriesSelect()">
+                                            <option value="" disabled> Select an application</option>
+                                            <option v-for="(result, index) in catSubListDropDownPro" 
+                                                    :key="index" 
+                                                    :value="result.catID" 
+                                                class="p-dropdown-item">
+                                                    {{ result.catNameEn }}    
+                                            </option>  
+                                        </select>
                                     </div>
                                 </div>
                                 <!--========Variations Type of Spec - Start=======-->
@@ -288,10 +299,11 @@
 <!-- Script Product Create  -->
 <script>
     import ProductServices from "../../../services/vendors/products/ProductServices";
+    import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
     import { Plus, ZoomIn, EditPen, Delete } from '@element-plus/icons-vue';
     import { ElMessage } from 'element-plus';
     import { useVuelidate } from '@vuelidate/core';
-    import { required } from '@vuelidate/validators';
+    import { minLength, required } from '@vuelidate/validators';
     // import LoadingButton from '../../../components/buttons/LoadingButton.vue';
     export default{
         setup() {
@@ -306,12 +318,17 @@
         },
         created() {
             this.productSerClass = new ProductServices();
+            this.proSubCategoryService = new ProductCategoriesServices();
         },
         validations() {
             return {
                 proNameEn: { required },
                 proUnitPice: {required},
                 proQty: {required},
+                proCatID: {
+                    required,
+                    minLength: minLength(3)
+                }
             }
         },  
         data() {
@@ -321,7 +338,8 @@
                 proCode: '',
                 submitted: false,
                 proSpectags: '',
-                proCatID : '',
+                proCatID : null,
+                catSubListDropDownPro: [],
                 subCatID : '',
                 desProEn : '',
                 proImgMultiple : null,
@@ -375,6 +393,23 @@
             }
         },
         methods: {
+            onLazyLoad() {
+                //  const { first, last } = event;
+                const _items = [...this.catSubListDropDownPro];
+                for (let i = 0; i < this.catSubListDropDownPro.length; i++) {
+                    console.log(_items[i].catID)
+                    _items[i] = { label: _items[i], value: i };
+                }
+                this.catSubListDropDownPro = _items;
+                this.loading = false;
+            },
+            async getCategoriesSelect(){
+                    this.proSubCategoryService.getProCategory().then((data) => {
+                        if (data.success == true) {
+                            this.catSubListDropDownPro = data.result.resultStatus;
+                        }
+                    });
+                },
             /**
              @Add Multiple Spec
              @Add Spec

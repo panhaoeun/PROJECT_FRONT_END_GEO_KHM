@@ -31,6 +31,7 @@
                                         <div class="col-6 field">
                                             <label for="name_en">Category<span class="p-error">*</span></label>
                                             <select 
+                                                placeholder="Please select categories"
                                                 class="form-select py-3 text-md p-dropdown-item  border-round-lg"
                                                 v-model="v$.selectedCategories.$model"
                                                 @click="getCategoriesSelect()">

@@ -4,8 +4,10 @@ export default class ProductServices{
     async getDataProducts(data){
         return await http.get("/vendors/product_management/products/list", data)
             .then((result) => {
-                if(result.data.status == true){
-                    return result.data.data;
+               if(result.status == '201'){
+                    if(result.data.success == true){
+                      return result.data.result.resultStatus;
+                    }   
                 }
             })
             .catch((error) => {
