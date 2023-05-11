@@ -207,7 +207,7 @@ import SellerServices from '../../../services/vendors/seller_managements/SellerS
 // Product Services
 onMounted(() => {
     const sellServices = new SellerServices();
-    sellServices.getProducts().then((data) => (products.value = data))
+    sellServices.getListSellerAcc().then((data) => (products.value = data))
 });
 
 const toast = useToast();
