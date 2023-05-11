@@ -33,6 +33,42 @@
                                          <small v-if="(v$.proNameEn.$invalid && submitted) || v$.proNameEn.$pending.$response" class="p-error text-lg">{{ v$.proNameEn.required.$message.replace('Value', 'Name') }}</small>
                                     </div>
                                 </div>
+                                <!-- Product Category -->
+                                <div class="col-12 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="name_en" class="text-xl font-semibold">Category</label>
+                                        <select 
+                                            class="form-select py-3 text-md p-dropdown-item  border-round-lg"
+                                            v-model="v$.proCatID.$model"
+                                            @click="getCategoriesSelect()">
+                                            <option value="" disabled> Select an application</option>
+                                            <option v-for="(result, index) in catSubListDropDownPro" 
+                                                    :key="index" 
+                                                    :value="result.catID" 
+                                                class="p-dropdown-item">
+                                                    {{ result.catNameEn }}    
+                                            </option>  
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Sub Product Category -->
+                                <div class="col-12 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="name_en" class="text-xl font-semibold">Sub Category</label>
+                                        <select 
+                                            class="form-select py-3 text-md p-dropdown-item  border-round-lg"
+                                            v-model="v$.proCatID.$model"
+                                            @click="getCategoriesSelect()">
+                                            <option value="" disabled> Select an application</option>
+                                            <option v-for="(result, index) in catSubListDropDownPro" 
+                                                    :key="index" 
+                                                    :value="result.catID" 
+                                                class="p-dropdown-item">
+                                                    {{ result.catNameEn }}    
+                                            </option>  
+                                        </select>
+                                    </div>
+                                </div>
                                 <!-- Product Code -->
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
@@ -81,24 +117,6 @@
                                          <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-lg">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
                                     </div>
                                 </div>
-                                <!-- Product Category -->
-                                <div class="col-12 lg:col-6 field">
-                                    <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Category</label>
-                                        <select 
-                                            class="form-select py-3 text-md p-dropdown-item  border-round-lg"
-                                            v-model="v$.proCatID.$model"
-                                            @click="getCategoriesSelect()">
-                                            <option value="" disabled> Select an application</option>
-                                            <option v-for="(result, index) in catSubListDropDownPro" 
-                                                    :key="index" 
-                                                    :value="result.catID" 
-                                                class="p-dropdown-item">
-                                                    {{ result.catNameEn }}    
-                                            </option>  
-                                        </select>
-                                    </div>
-                                </div>
                                 <!--========Variations Type of Spec - Start=======-->
                                 <div class="col-12 field">
                                     <div class="field">
@@ -142,8 +160,7 @@
                                         </el-card>
                                     </div>
                                 </div>
-                                <!--========Variations Type of Spec - Start=======-->
-                        
+                                <!--========Variations Type of Spec - Start=======-->                       
                                 <!-- Description Product -->
                                 <div class="col-12 lg:col-12">
                                         <div class="field">
@@ -409,7 +426,7 @@
                             this.catSubListDropDownPro = data.result.resultStatus;
                         }
                     });
-                },
+            },
             /**
              @Add Multiple Spec
              @Add Spec
@@ -442,7 +459,10 @@
                 if(!fileList.length){
                     return false;
                 }
-                this.fileAttachments.push(file.raw);
+                for(let i = 0;i<fileList.length;i++){
+                    this.fileAttachments.push(fileList[i].raw);
+                }
+                // this.fileAttachments.push(file.raw);
             },  
             handlePictureCardPreview(file){
                 this.dialogImageUrl = file.url;
@@ -538,7 +558,7 @@
                 }
                 if(!this.proNameEng || !this.proUnitPice){
                     this.isProcessingSubmit = true;
-                           const dataPro = {
+                        const dataPro = {
                             proCategoryID: 1,
                             shopTypeID: 1,
                             proImgListID: '',
@@ -548,7 +568,7 @@
                             proMeasure: this.measureUnit,
                             proQty: this.proQty,
                             proThumbnail: this.proThumbnail,
-                            proImgMalUpload: this.fileAttachments,
+                            proImgMalUpload: [this.fileAttachments],
                             proUnitPrice: this.proUnitPice,
                             proSpecJson: this.sectionSpecPro,
                             proDiscount: this.proDiscount,
