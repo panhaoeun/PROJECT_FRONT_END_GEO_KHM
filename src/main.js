@@ -67,6 +67,10 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Menu from 'primevue/menu';
 import Tag from 'primevue/tag';
+/*
+   @E-Commerce  
+*/ 
+import "./assets/front-end/app.css";
 
 // Databases
 import DataTable from 'primevue/datatable';
