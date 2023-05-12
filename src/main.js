@@ -10,10 +10,20 @@ import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
 import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
 import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
 
+/*
+   @E-Commerces
+   @Library E-Commerces
+*/ 
+import "./assets/front-end/app.css";
+import InnerImageZoom from 'vue-inner-image-zoom';
+import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css';
+import VueSidebarMenu from 'vue-sidebar-menu';
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
+// import VueSlider from 'vue-slider-component';
 
-// // E-Commerce Website
+
+
 import "./assets/css/customer_ecommerce_app/style_prefix.css";
-// // Import Style
 import "./assets/css/style.css";
 import "./assets/css/account-tab.css";
 import "./assets/styles/navbar.css";
@@ -67,10 +77,7 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Menu from 'primevue/menu';
 import Tag from 'primevue/tag';
-/*
-   @E-Commerce  
-*/ 
-import "./assets/front-end/app.css";
+
 
 // Databases
 import DataTable from 'primevue/datatable';
@@ -174,7 +181,13 @@ app.component('RadioButton',RadioButton);
 app.component('Textarea',Textarea)
 app.component('FileUpload',FileUpload);
 //Vue Uoloads
-app.component('file-upload', VueUploadComponent)
+app.component('file-upload', VueUploadComponent);
+/*
+    @Front-End Library 
+*/ 
+app.component('inner-image-zoom',InnerImageZoom);
+app.use(VueSidebarMenu);
+// app.component('VueSlider', VueSlider);
 
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];

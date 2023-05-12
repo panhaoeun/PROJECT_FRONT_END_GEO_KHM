@@ -23,6 +23,9 @@ import moduleErrorPage from "./errorPage";
 */
 const router = new createRouter({
     history: createWebHistory(),
+    base: '/',
+    linkActiveClass: 'router-link-active',
+    linkExactActiveClass: 'router-link-exact-active',
     routes: [
         ...moduleRouteCustomer,
         ...moduleRouteVendor,
