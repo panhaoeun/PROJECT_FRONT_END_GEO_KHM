@@ -29,10 +29,7 @@
                     <button class="action-btn"  @click="showMyAccount($event)">
                         <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
                     </button>
-                </div>
-                  
-                    
-                    
+                </div>       
                     <button class="action-btn">
                         <img src="https://img.icons8.com/fluency/48/null/filled-like.png"/>
                         <span class="count">0</span>
