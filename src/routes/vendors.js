@@ -1,4 +1,4 @@
-import home from "../views/vendors/HomeView.vue";
+import DefaultLayoutVendor from "../components/layouts/vendors/DefaultLayouts.vue";
 
 export default [
   {
@@ -7,9 +7,9 @@ export default [
     meta: {template: 'panel'},
     children: [
       {
-        path: "/home",
-        name: "home",
-        component: home,
+        path: "/vendor-dashboard/default-layouts",
+        name: "home-vendor-dashboard",
+        component: DefaultLayoutVendor,
       },
       {
         path: "/vendor/dashboard",
