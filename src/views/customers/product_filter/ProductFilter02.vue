@@ -46,62 +46,54 @@
                         </div>
                         <div class="product_shot_view">
                             <ul>
-                                <li><router-link to="/customer/search-product/query-product/filter-product-by-name-03"><i class="fas fa-list"></i></router-link></li>
-                                <li><router-link to="/customer/search-product/query-product/filter-product-by-name-02"><i class="fas fa-th-large"></i></router-link></li>
-                                <li><router-link to="/customer/search-product/query-product/filter-product-by-name" class="active"><i class="fas fa-th"></i></router-link></li>
+                                <li><nuxt-link to="/shop/shop-3"><i class="fas fa-list"></i></nuxt-link></li>
+                                <li><nuxt-link to="/shop/shop-2" class="active"><i class="fas fa-th-large"></i></nuxt-link></li>
+                                <li><nuxt-link to="/shop"><i class="fas fa-th"></i></nuxt-link></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="row">
-                <ShopSidebar />
-                
-                <div class="col-lg-9">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-6" v-for="(product,index) in shuffleProducts" :key="index" v-show="setPaginate(index)">
-                            <ProductBox1 :product="product" :index="index" @showalert="alert" @alertseconds="alert" />
-                        </div>
+                <div class="col-lg-4 col-md-4 col-sm-6" v-for="(product,index) in shuffleProducts" :key="index" v-show="setPaginate(index)">
+                    <ProductBox1 :product="product" :index="index" @showalert="alert" @alertseconds="alert" />
+                </div>
 
-                        <!-- pagination start -->
-                        <div class="col-lg-12">   
-                            <div class="product-pagination mb-0" v-if="shuffleProducts.length > this.paginate">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="javascript:void(0)"  @click="updatePaginate(current-1)">
-                                                <span aria-hidden="true">
-                                                <i class="fa fa-chevron-left" style="font-size:10px;" aria-hidden="true"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item" v-for="(page_index, index) in this.pages" :key="index" :class="{'active': page_index == current}">
-                                            <a
-                                                class="page-link"
-                                                href="javascrip:void(0)"
-                                                @click.prevent="updatePaginate(page_index)"
-                                            >{{ page_index }}</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current+1)">
-                                                <span aria-hidden="true">
-                                                <i class="fa fa-chevron-right" style="font-size:10px;" aria-hidden="true"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        <!-- pagination end -->
+                <!-- pagination start -->
+                <div class="col-lg-12">   
+                    <div class="product-pagination mb-0" v-if="shuffleProducts.length > this.paginate">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)"  @click="updatePaginate(current-1)">
+                                        <span aria-hidden="true">
+                                        <i class="fa fa-chevron-left" style="font-size:10px;" aria-hidden="true"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="page-item" v-for="(page_index, index) in this.pages" :key="index" :class="{'active': page_index == current}">
+                                    <a
+                                        class="page-link"
+                                        href="javascrip:void(0)"
+                                        @click.prevent="updatePaginate(page_index)"
+                                    >{{ page_index }}</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current+1)">
+                                        <span aria-hidden="true">
+                                        <i class="fa fa-chevron-right" style="font-size:10px;" aria-hidden="true"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
-            </div>
+                <!-- pagination end -->
 
+            </div>
         </div>
     </section>
-
     <!-- Add to cart Alert / Notification  -->
     <b-alert
       :show="dismissCountDown"
@@ -147,19 +139,17 @@
 <script>
 import { mapState } from 'vuex'
 import ProductBox1 from '../../../components/customers/product-box/ProductBox01.vue'
-import ShopSidebar from '../../../components/customers/filter_products/FilterProductSidebar.vue'
 
 export default {
-    name: 'shop-left-sidebar',
+    name: 'shop-three-grid',
     components: {
-        ProductBox1,
-        ShopSidebar
+        ProductBox1
     },
     data() {
         return {
             title: 'Shop',
             dismissCountDown: 0,
-            
+
             // Breadcrumb Items Data
             breadcrumbItems: [
                 {
@@ -168,25 +158,23 @@ export default {
                 },
                 {
                     text: 'Shop',
-                    to: '/shop/shop-4'
+                    to: '/shop/shop-2'
                 }
             ],
 
-            //Paginaion 
+            // Paginaion 
             current: 1,
             paginate: 12,
             paginateRange: 3,
             pages: [],
             paginates: '',
 
-            compareproduct: {},
-            cartproduct: {},
         }
     },
     computed: {
         ...mapState({
             shuffleProducts: state => state.products.shuffleProducts
-        }),
+        })
     },
     mounted() {
         this.getPaginate()
@@ -199,8 +187,7 @@ export default {
         // Product added Alert / notificaion 
         alert(item) {
             this.dismissCountDown = item
-        },
-
+        },        
         // For Pagination 
         getPaginate() {
             this.paginates = Math.round(this.shuffleProducts.length / this.paginate)
@@ -239,7 +226,6 @@ export default {
             }
             return this.pages
         },
-
         // For Shop Left Shorting and Up Shorting 
         randomProduct(){
             let array = this.shuffleProducts;
@@ -250,11 +236,9 @@ export default {
                 array[j] = temp;
             }
             this.$store.dispatch('products/shuffleProduct', array.slice(0, 30))  
-        },
-        getallProduct(){
-            this.$store.dispatch('products/getallProduct')  
         }
-    },   
+    },
+
     // Page head() Title, description for SEO 
     head() {
       return {
@@ -263,11 +247,10 @@ export default {
           {
             hid: 'description',
             name: 'description',
-            content: 'Shop page - AndShop Ecommerce Vue js, router js Template'
+            content: 'Shop page - AndShop Ecommerce Vue js, Nuxt js Template'
           }
         ]
       }
     }
-
 }
 </script>

@@ -228,7 +228,7 @@ ul li {
 }
 
 .btn-black-overlay {
-  background-color: #000;
+  background: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21);
   color: #fff;
 }
 
@@ -460,6 +460,7 @@ button {
 
 .main-menu nav>ul>.has-dropdown {
   margin-right: 5px;
+  margin-top: 15px;
 }
 
 .main-menu nav>ul>.has-dropdown:last-child {
@@ -575,6 +576,7 @@ button {
 
 .menu-color--black nav>ul>li>a {
   color: #24262b;
+  font-size: 20px;
 }
 
 .menu-color--black .sub-menu>li>a,
@@ -2142,7 +2144,7 @@ button {
   position: absolute;
   z-index: 9;
   top: 18px;
-  right: 18px;
+  right: -15px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease 0s;
@@ -2495,7 +2497,7 @@ button {
 }
 
 .furniture_slider {
-  padding: 200px 0;
+  padding: 50px 0px;
 }
 
 .furniture_slider_content h5 {
@@ -3337,9 +3339,9 @@ button {
 }
 
 #product_count_form_two {
-  padding-top: 20px;
+  padding-top: 5px;
+  margin-left: -10px;
 }
-
 #product_count_form_two input {
   width: 20%;
   min-height: 40px;
@@ -3355,7 +3357,7 @@ button {
 }
 
 .variable-single-item {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 .variable-single-item>span {
@@ -3763,19 +3765,19 @@ button {
 }
 
 #product_single_one .customs_selects {
-  padding-top: 30px;
+  padding-top: 5px;
 }
 
 #product_single_one .variable-single-item {
-  padding-top: 10px;
+  padding-top: 5px;
 }
 
 #product_single_one .reviews_rating {
-  padding-top: 15px;
+  padding-top: 5px;
 }
 
 #product_single_one .modal_product_content_one h4 {
-  padding-top: 20px;
+  padding-top: 2px;
 }
 
 #product_single_one .modal_product_content_one h4 del {
@@ -3784,16 +3786,16 @@ button {
 }
 
 #product_single_one .modal_product_content_one p {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 #product_single_one .links_Product_areas {
-  padding-top: 30px;
+  padding-top:14px;
 }
 
 #product_single_one .links_Product_areas ul li {
   display: inline-flex;
-  padding-right: 20px;
+  padding-right: 5px;
 }
 
 #product_single_one .links_Product_areas ul li a i {
@@ -3801,7 +3803,7 @@ button {
 }
 
 #product_single_one .links_Product_areas .theme-btn-one {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .zoom {
@@ -3832,7 +3834,7 @@ button {
 }
 
 .product_details_tabs {
-  padding-top: 60px;
+  padding-top: 10px;
 }
 
 .product_details_tabs .nav-tabs {
@@ -3998,7 +4000,7 @@ button {
 }
 
 #product_single_two .customs_selects {
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 #product_single_two .variable-single-item {

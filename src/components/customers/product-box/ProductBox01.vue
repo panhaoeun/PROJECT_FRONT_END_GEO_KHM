@@ -2,7 +2,7 @@
   <div>
     <div class="product_wrappers_one">
       <div class="thumb">
-        <router-link :to="{ path: '/product/' + product.id }" class="image">
+        <router-link :to="{ path: '/customer/product-details/product/' + product.id }" class="image">
           <img
             :src="getImageUrl(imageSrc ? imageSrc : product.images[0].src)"
             :alt="product.title"
@@ -53,9 +53,9 @@
 
       <div class="content">
         <h5 class="title text-capitalize">
-          <nuxt-link :to="{ path: '/product/' + product.id }">{{
+          <router-link :to="{ path: '/customer/product-details/product/' + product.id }">{{
             product.title
-          }}</nuxt-link>
+          }}</router-link>
         </h5>
         <span class="price">
           <span class="new" v-if="product.discount"
@@ -66,160 +66,6 @@
       </div>
 
       <!-- Modal Area Start-->
-      <div>
-        <b-modal
-          ref="product-details-popup"
-          centered
-          hide-footer
-          title="Using Component Methods"
-          class="product_one_modal_top"
-          id="product_slider_one"
-        >
-          <template #modal-header="{ close }">
-            <button
-              type="button"
-              class="close close_modal_icon"
-              @click="close()"
-            >
-              <span aria-hidden="true"><i class="fas fa-times"></i></span>
-            </button>
-          </template>
-
-          <div>
-            <div class="row">
-              <div class="col-lg-5 col-md-6 col-sm-12 col-12">
-                <div class="products_modal_sliders">
-                  <div v-swiper:mySwiper="swiperOption" ref="mySwiper">
-                    <div class="swiper-wrapper">
-                      <div
-                        class="swiper-slide"
-                        v-for="(imag, index) in product.images"
-                        :key="index"
-                      >
-                        <img
-                          :src="getImageUrl(imag.src)"
-                          :id="imag.image_id"
-                          class="img-fluid bg-img"
-                          alt="imag.alt"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-7 col-md-6 col-sm-12 col-12">
-                <div class="modal_product_content_one">
-                  <h3 class="text-capitalize">{{ product.title }}</h3>
-                  <div v-if="product.rating == 5" class="reviews_rating">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <span>(5 Customer Review)</span>
-                  </div>
-                  <div v-else-if="product.rating == 4" class="reviews_rating">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star"></i>
-                    <span>(4 Customer Review)</span>
-                  </div>
-                  <div v-else-if="product.rating == 3" class="reviews_rating">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>(3 Customer Review)</span>
-                  </div>
-                  <div v-else-if="product.rating == 2" class="reviews_rating">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>(2 Customer Review)</span>
-                  </div>
-                  <div v-else-if="product.rating == 1" class="reviews_rating">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>(1 Customer Review)</span>
-                  </div>
-                  <div v-else class="product-review">
-                    <span>No Rating</span>
-                  </div>
-
-                  <h4 v-if="product.discount">
-                    ${{ discountedPrice(product) }}
-                    <del>${{ product.price }}</del>
-                  </h4>
-                  <h4 v-else>${{ product.price }}</h4>
-
-                  <p>{{ product.description }}</p>
-                  <div class="variable-single-item">
-                    <span>Color</span>
-                    <ul class="color-variant d-flex">
-                      <li
-                        v-bind:class="{ active: activeColor == variant }"
-                        v-for="(variant, variantIndex) in Color(
-                          product.variants
-                        )"
-                        :key="variantIndex"
-                      >
-                        <a
-                          :class="[variant]"
-                          v-bind:style="{ 'background-color': variant }"
-                          @click="
-                            sizeVariant(
-                              product.variants[variantIndex].image_id,
-                              variantIndex,
-                              variant
-                            )
-                          "
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                  <form id="product_count_form_one">
-                    <div class="product_count_one">
-                      <b-form-spinbutton
-                        id="sb-inline"
-                        min="1"
-                        max="100"
-                        v-model="quantity"
-                        inline
-                        class="border-0"
-                      ></b-form-spinbutton>
-                      <a
-                        href="javascript:void(0)"
-                        @click="addToCart(product)"
-                        class="theme-btn-one btn-black-overlay btn_sm"
-                        >Add To Cart</a
-                      >
-                    </div>
-                  </form>
-                  <div class="modal_share_icons_one">
-                    <h4>SHARE THIS PRODUCT</h4>
-                    <div class="posted_icons_one">
-                      <a href="#!"><i class="fab fa-facebook-f"></i></a>
-                      <a href="#!"><i class="fab fa-instagram"></i></a>
-                      <a href="#!"><i class="fab fa-twitter"></i></a>
-                      <a href="#!"><i class="fab fa-linkedin-in"></i></a>
-                      <a href="#!"><i class="fab fa-google-plus-g"></i></a>
-                      <a href="#!"><i class="fab fa-pinterest-p"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </b-modal>
-      </div>
       <!-- Modal Area End-->
     </div>
   </div>

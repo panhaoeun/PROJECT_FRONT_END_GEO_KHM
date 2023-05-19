@@ -1,5 +1,5 @@
 <template>
-    <div class="container card">
+    <div class="container">
         <div class="px-2 py-2">
             <div class="text-3xl text-900 font-semibold">Best Selling Store ⚡</div>
         </div>

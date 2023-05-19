@@ -1,652 +1,650 @@
 <template>
-    <!-- Header Top -->
-    <HeaderTop/>
-     <header class="bg-header-standard pb-1">
-        <!-- Headers -->
-        <div class="header-main">
+  <div>
+    <!-- Start Header Area -->
+    <header class="header-section d-none d-xl-block">
+      <div class="header-wrapper">
+        <div
+          id="header"
+          class="
+            header-bottom
+            header-bottom-color--golden
+            section-fluid
+            sticky-header
+            sticky-color--golden"
+        >
           <div class="container">
-            <!-- Logo -->
-            <a href="#" class="header-logo">
-              <img src="../../assets/company_logo/ecommerce_logo.png" alt="Anon's logo" width="100" class="border-round-md shadow-md">
-            </a>
-            <!-- INput -->
-            <div class="header-search-container">
-                <!-- Input Search Products -->
-              <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
-            <button class="search-btn">
-                <ion-icon name="search-outline" style="color: #fff; font-weight: bold;"></ion-icon>
-              </button>
+            <div class="row">
+              <div
+                class="col-12 d-flex align-items-center justify-content-between"
+              >
+                <!-- Start Header Logo -->
+                <div class="header-logo">
+                  <div class="logo">
+                    <router-link to="/"
+                      ><img :src="require('@/assets/img/logo.png')" alt="logo"
+                    /></router-link>
+                  </div>
+                </div>
+                <!-- End Header Logo -->
+
+                <!-- Start Header Main Menu -->
+                <div
+                  class="main-menu menu-color--black menu-hover-color--golde font-bold text-lg"
+                >
+                  <nav>
+                    <ul>
+                      <li class="has-dropdown">
+                        <a href="#">Home <i class="fa fa-angle-down"></i></a>
+                        <!-- Sub Menu -->
+                        <ul class="sub-menu">
+                          <li><router-link to="/">Fashion</router-link></li>
+                          <li>
+                            <router-link to="/furniture">Furniture</router-link>
+                          </li>
+                          <li>
+                            <router-link to="/electronics">Electronics</router-link>
+                          </li>
+                          <li>
+                            <router-link to="/grocery">Grocery</router-link>
+                          </li>
+                          <li>
+                            <router-link to="/pharmacy">Pharmacy</router-link>
+                          </li>
+                        </ul>
+                      </li>
+
+                      <li class="has-dropdown has-megaitem">
+                        <a href="#">Shop <i class="fa fa-angle-down"></i></a>
+                        <!-- Mega Menu -->
+                        <div class="mega-menu">
+                          <ul class="mega-menu-inner">
+                            <!-- Mega Menu Sub Link -->
+                            <li class="mega-menu-item">
+                              <a href="#" class="mega-menu-item-title"
+                                >Shop Layouts</a
+                              >
+                              <ul class="mega-menu-sub">
+                                <li>
+                                  <router-link to="/shop"
+                                    >Shop Four Grid</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/shop/shop-2"
+                                    >Shop Three Grid</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/shop/shop-3"
+                                    >Shop List View</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/shop/shop-4"
+                                    >Shop Left Sidebar</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/shop/shop-5"
+                                    >Shop Right Sidebar</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/product/1"
+                                    >Product Single</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/product/product-single-2"
+                                    >Product Single Two</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/product/product-single-3"
+                                    >Product Single Three</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/lookbook">Lookbook</router-link>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Mega Menu Sub Link -->
+                            <li class="mega-menu-item">
+                              <a href="#" class="mega-menu-item-title"
+                                >Other Pages</a
+                              >
+                              <ul class="mega-menu-sub">
+                                <li>
+                                  <router-link to="/cart/"
+                                    >Cart View One</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/cart/cart-2"
+                                    >Cart View Two
+                                  </router-link>
+                                </li>
+                                <li>
+                                  <router-link to="/cart/cart-3"
+                                    >Cart View Three
+                                  </router-link>
+                                </li>
+                                <li>
+                                  <router-link to="/cart/cart-4"
+                                    >Cart View Four
+                                  </router-link>
+                                </li>
+                                <li>
+                                  <router-link to="/cart/empty-cart"
+                                    >Empty Cart</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/my-account/checkout-1"
+                                    >Checkout View One</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/my-account/checkout-2"
+                                    >Checkout View Two</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/my-account/wishlist"
+                                    >Wishlist</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/my-account/compare"
+                                    >Compare</router-link
+                                  >
+                                </li>
+                                <li>
+                                  <router-link to="/my-account/order-tracking"
+                                    >Order Tracking</router-link
+                                  >
+                                </li>
+                              </ul>
+                            </li>
+
+                            <!-- Mega Menu Sub Link -->
+                            <li class="mega-menu-item">
+                              <div class="menu-banner">
+                                <router-link to="/shop" class="menu-banner-link">
+                                  <img
+                                    class="menu-banner-img"
+                                    :src="
+                                      require('@/assets/img/common/nav_banner.png')
+                                    "
+                                    alt="img"
+                                  />
+                                </router-link>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                   
+                    </ul>
+                  </nav>
+                </div>
+                <!-- End Header Main Menu Start -->
+
+                <!-- Start Header Action Link -->
+                <ul
+                  class="
+                    header-action-link
+                    action-color--black
+                    action-hover-color--golden
+                  "
+                >
+                  <li>
+                    <a v-b-toggle.offcanvas-wishlish class="offcanvas-toggle"   @click="drawerOffWishListMenu=true">
+                      <i class="far fa-heart"></i>
+                      <span class="item-count">{{ wishlist.length }}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a v-b-toggle.offcanvas-add-cart class="offcanvas-toggle" @click="drawerOffAddToCartMenu=true">
+                      <i class="fas fa-shopping-bag"></i>
+                      <span class="item-count">{{ cart.length }}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      v-b-toggle.search_sidebar
+                      class="search_width offcanvas-toggle"
+                    >
+                      <img src="@/assets/img/svg/search.svg" alt="img" />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      @click="drawerOffCanMobileMenu=true"
+                      v-b-toggle.offcanvas-about
+                      class="offacnvas offside-about offcanvas-toggle"
+                      ><i class="fas fa-bars"></i
+                    ></a>
+                  </li>
+                </ul>
+                <!-- End Header Action Link -->
+              </div>
             </div>
-            <!--Toggle Auth or My Accounts-->
-            <div class="header-user-actions">
-                <!--User Authentications or My Account-->
-                <div v-if="!isAuthentications">
-                    <button class="action-btn"  @click="showNotAuthentications($event)">
-                            <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
-                    </button>
-                </div>
-                <div v-if="isAuthentications">
-                    <button class="action-btn"  @click="showMyAccount($event)">
-                        <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
-                    </button>
-                </div>       
-                    <button class="action-btn">
-                        <img src="https://img.icons8.com/fluency/48/null/filled-like.png"/>
-                        <span class="count">0</span>
-                    </button>
-                    <button class="action-btn">
-                    <img src="https://img.icons8.com/external-icongeek26-flat-icongeek26/64/null/external-cart-essentials-icongeek26-flat-icongeek26.png"/>
-                        <span class="count">40</span>
-                    </button>  
-                </div>
           </div>
         </div>
-        <!-- Navigation Desktops -->
-        <nav class="desktop-navigation-menu text-white">
+      </div>
+    </header>
+    <!-- Start Header Area -->
 
-          <div class="container">
-
-            <ul class="desktop-menu-category-list text-white">
-
-              <li class="menu-category">
-                <a href="#" class="menu-title">Home</a>
-              </li>
-
-              <li class="menu-category">
-                <a href="#" class="menu-title">Categories</a>
-
-                <div class="dropdown-panel">
-
-                  <ul class="dropdown-panel-list">
-
-                    <li class="menu-title">
-                      <a href="#">Electronics</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Desktop</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Laptop</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Camera</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Tablet</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Headphone</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">
-                        <!-- <img src="./assets/images/electronics-banner-1.jpg" alt="headphone collection" width="250" -->
-                          height="119">
-                      </a>
-                    </li>
-
-                  </ul>
-
-                  <ul class="dropdown-panel-list">
-
-                    <li class="menu-title">
-                      <a href="#">Men's</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Formal</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Casual</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Sports</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Jacket</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Sunglasses</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">
-                        <!-- <img src="./assets/images/mens-banner.jpg" alt="men's fashion" width="250" height="119"> -->
-                      </a>
-                    </li>
-
-                  </ul>
-
-                  <ul class="dropdown-panel-list">
-
-                    <li class="menu-title">
-                      <a href="#">Women's</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Formal</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Casual</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Perfume</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Cosmetics</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Bags</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">
-                        <!-- <img src="./assets/images/womens-banner.jpg" alt="women's fashion" width="250" height="119"> -->
-                      </a>
-                    </li>
-
-                  </ul>
-
-                  <ul class="dropdown-panel-list">
-
-                    <li class="menu-title">
-                      <a href="#">Electronics</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Smart Watch</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Smart TV</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Keyboard</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Mouse</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">Microphone</a>
-                    </li>
-
-                    <li class="panel-list-item">
-                      <a href="#">
-                        <!-- <img src="./assets/images/electronics-banner-2.jpg" alt="mouse collection" width="250" height="119"> -->
-                      </a>
-                    </li>
-
-                  </ul>
-
+    <!-- Start Mobile Header -->
+    <div
+      id="mobile_header"
+      class="
+        mobile-header
+        sticky-header
+        sticky-color--golden
+        mobile-header-bg-color--golden
+        section-fluid
+        d-lg-block d-xl-none
+      "
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-12 d-flex align-items-center justify-content-between">
+            <!-- Start Mobile Left Side -->
+            <div class="mobile-header-left">
+              <ul class="mobile-menu-logo">
+                <li>
+                  <router-link to="/">
+                    <div class="logo">
+                      <img :src="require('@/assets/img/logo.png')" alt="logo" />
+                    </div>
+                  </router-link>
+                </li>
+              </ul>
+            </div>
+            <!-- End Mobile Left Side -->
+            <!-- Start Mobile Right Side -->
+            <div class="mobile-right-side">
+              <ul
+                class="
+                  header-action-link
+                  action-color--black
+                  action-hover-color--golden
+                "
+              >
+                <li>
+                  <a
+                    v-b-toggle.search_sidebar
+                    class="search_width offcanvas-toggle"
+                  >
+                    <img src="@/assets/img/svg/search.svg" alt="img" />
+                  </a>
+                </li>
+                <li>
+                  <a v-b-toggle.offcanvas-wishlish class="offcanvas-toggle">
+                    <i class="far fa-heart"></i>
+                    <span class="item-count">{{ wishlist.length }}</span>
+                  </a>
+                </li>
+                <li>
+                  <a v-b-toggle.offcanvas-add-cart class="offcanvas-toggle">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="item-count">{{ cart.length }}</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                   @click="drawerOffCanMobileMenu=true"
+                    v-b-toggle.offcanvas-about
+                    class="offacnvas offside-about offcanvas-toggle"
+                    ><i class="fas fa-bars"></i
+                  ></a>
+                </li>
+              </ul>
+            </div>
+            <!-- End Mobile Right Side -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Mobile Header -->
+    <!-- ...:::: Start Offcanvas Mobile Menu Section:::... -->
+    <el-drawer
+            v-model="drawerOffCanMobileMenu"  
+            id="offcanvas-about"
+            class="offcanvas-mobile-about-"
+        >
+            <!-- Start Mobile Menu Navbar Wrap -->
+            <div class="mobile-menu-navbar-wrap">
+                <!-- Start Mobile Menu Nav -->
+                <div class="offcanvas-menu">
+                    <VueSidebarMenu :menu="menu" />
+                    {{ menu }}
                 </div>
-              </li>
+                <!-- End Mobile Menu Nav -->
+                <!-- Start Mobile contact Info -->
+                <div class="mobile-contact-info">
+                    <address class="address">
+                    <img :src="require('@/assets/img/logo-white.png')" alt="logo" />
+                    <span>Address: Your address goes here.</span>
+                    <span>Call Us: 0123456789, 0123456789</span>
+                    <span>Email: demo@example.com</span>
+                    </address>
 
-              <li class="menu-category">
-                <a href="#" class="menu-title">Men's</a>
+                    <ul class="social-link">
+                    <li>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </li>
+                    </ul>
 
-                <ul class="dropdown-list">
+                    <ul class="user-link">
+                        <li><router-link to="/my-account/wishlist">Wishlist</router-link></li>
+                        <li><router-link to="/cart/">Cart</router-link></li>
+                        <li><router-link to="/my-account/checkout-1">Checkout</router-link></li>
+                    </ul>
+                </div>
+                <!-- End Mobile contact Info -->
+            </div>
+        <!-- End Mobile Menu Navbar Wrap -->
+    </el-drawer>
+    <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
+    <!-- Start Offcanvas Wishlist Sidebar Section -->
+    <el-drawer
+        id="offcanvas-wishlish"
+        class="offcanvas-add-cart-section"
+        v-model="drawerOffWishListMenu"
+    >
+        <div class="offcanvas-wishlist-wrapper">
+            <h4 class="offcanvas-title">Wishlist</h4>
 
-                  <li class="dropdown-item">
-                    <a href="#">Shirt</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Shorts & Jeans</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Safety Shoes</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Wallet</a>
-                  </li>
-
-                </ul>
-              </li>
-
-              <li class="menu-category">
-                <a href="#" class="menu-title">Women's</a>
-
-                <ul class="dropdown-list">
-
-                  <li class="dropdown-item">
-                    <a href="#">Dress & Frock</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Earrings</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Necklace</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Makeup Kit</a>
-                  </li>
-
-                </ul>
-              </li>
-
-              <li class="menu-category">
-                <a href="#" class="menu-title">Jewelry</a>
-
-                <ul class="dropdown-list">
-
-                  <li class="dropdown-item">
-                    <a href="#">Earrings</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Couple Rings</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Necklace</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Bracelets</a>
-                  </li>
-
-                </ul>
-              </li>
-
-              <li class="menu-category">
-                <a href="#" class="menu-title">Perfume</a>
-
-                <ul class="dropdown-list">
-
-                  <li class="dropdown-item">
-                    <a href="#">Clothes Perfume</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Deodorant</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Flower Fragrance</a>
-                  </li>
-
-                  <li class="dropdown-item">
-                    <a href="#">Air Freshener</a>
-                  </li>
-
-                </ul>
-              </li>
-
-              <li class="menu-category">
-                <a href="#" class="menu-title">Blog</a>
-              </li>
-
-              <li class="menu-category">
-                <a href="#" class="menu-title">Hot Offers</a>
-              </li>
-
+            <div v-if="wishlist.length">
+            <ul class="offcanvas-wishlist">
+                <li
+                class="offcanvas-wishlist-item-single"
+                v-for="(item, index) in wishlist"
+                :key="index"
+                >
+                <div class="offcanvas-wishlist-item-block">
+                    <router-link
+                    :to="{ path: '/product/' + item.id }"
+                    class="offcanvas-wishlist-item-image-link"
+                    >
+                    <img
+                        :src="getImageUrl(item.images[0].src)"
+                        alt="img"
+                        class="offcanvas-wishlist-image"
+                    />
+                    </router-link>
+                    <div class="offcanvas-wishlist-item-content">
+                    <router-link
+                        :to="{ path: '/product/' + item.id }"
+                        class="offcanvas-wishlist-item-link"
+                        >{{ item.title }}</router-link
+                    >
+                    <div class="offcanvas-wishlist-item-details">
+                        <span class="offcanvas-wishlist-item-details-quantity"
+                        >{{ item.quantity }} x</span
+                        >
+                        <span
+                        v-if="item.discount"
+                        class="offcanvas-wishlist-item-details-price"
+                        >${{ discountedPrice(item) }}</span
+                        >
+                        <span v-else class="offcanvas-wishlist-item-details-price"
+                        >${{ item.price }}</span
+                        >
+                    </div>
+                    </div>
+                </div>
+                <div class="offcanvas-wishlist-item-delete text-right">
+                    <button
+                    @click="removeWishlistItem(item)"
+                    class="
+                        offcanvas-wishlist-item-delete
+                        bg-transparent
+                        remove-btn
+                    "
+                    >
+                    <i class="far fa-trash-alt"></i>
+                    </button>
+                </div>
+                </li>
             </ul>
+            <ul class="offcanvas-wishlist-action-button">
+                <li>
+                <router-link
+                    to="/my-account/wishlist"
+                    class="theme-btn-one btn-black-overlay btn_md"
+                    >View wishlist</router-link
+                >
+                </li>
+            </ul>
+            </div>
 
-          </div>
-
-        </nav>
-        <!--=================Mobile Navigation==========-->
-        <MobileNavigation/>
-        <nav class="mobile-navigation-menu  has-scrollbar" data-mobile-menu>
-
-          <div class="menu-top">
-            <h2 class="menu-title">Menu</h2>
-
-            <button class="menu-close-btn" data-mobile-menu-close-btn>
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-          </div>
-
-          <ul class="mobile-menu-category-list">
-
-            <li class="menu-category">
-              <a href="#" class="menu-title">Home</a>
-            </li>
-
-            <li class="menu-category">
-
-              <button class="accordion-menu" data-accordion-btn>
-                <p class="menu-title">Men's</p>
-
-                <div>
-                  <ion-icon name="add-outline" class="add-icon"></ion-icon>
-                  <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
+            <ul v-else class="offcanvas-wishlist">
+            <li>No Item in your wishlist!</li>
+            </ul>
+        </div>
+    </el-drawer>
+    <!-- End Offcanvas Wishlist Sidebar Section -->
+    <!-- Start Offcanvas Addcart Section -->
+    <el-drawer 
+      v-model="drawerOffAddToCartMenu"
+      id="offcanvas-add-cart"
+      class="offcanvas-add-cart-section"
+    >
+      <div class="offcanvas-add-cart-wrapper">
+        <h4 class="offcanvas-title">Shopping Cart</h4>
+        <div v-if="cart.length">
+          <ul class="offcanvas-cart">
+            <li
+              class="offcanvas-cart-item-single"
+              v-for="(item, index) in cart"
+              :key="index"
+            >
+              <div class="offcanvas-cart-item-block">
+                <router-link
+                  :to="{ path: '/product/' + item.id }"
+                  class="offcanvas-cart-item-image-link"
+                >
+                  <img
+                    :src="getImageUrl(item.images[0].src)"
+                    alt="img"
+                    class="offcanvas-cart-image"
+                  />
+                </router-link>
+                <div class="offcanvas-cart-item-content">
+                  <router-link
+                    :to="{ path: '/product/' + item.id }"
+                    class="offcanvas-cart-item-link"
+                    >{{ item.title }}</router-link
+                  >
+                  <div class="offcanvas-cart-item-details">
+                    <span class="offcanvas-cart-item-details-quantity"
+                      >{{ item.quantity }} x</span
+                    >
+                    <span
+                      v-if="item.discount"
+                      class="offcanvas-cart-item-details-price"
+                      >${{ discountedPrice(item) }}</span
+                    >
+                    <span v-else class="offcanvas-cart-item-details-price"
+                      >${{ item.price }}</span
+                    >
+                  </div>
                 </div>
-              </button>
-
-              <ul class="submenu-category-list" data-accordion>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Shirt</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Shorts & Jeans</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Safety Shoes</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Wallet</a>
-                </li>
-
-              </ul>
-
+              </div>
+              <div class="offcanvas-cart-item-delete text-right">
+                <button
+                  @click="removeCartItem(item)"
+                  class="offcanvas-cart-item-delete bg-transparent remove-btn"
+                >
+                  <i class="far fa-trash-alt"></i>
+                </button>
+              </div>
             </li>
-
-            <li class="menu-category">
-
-              <button class="accordion-menu" data-accordion-btn>
-                <p class="menu-title">Women's</p>
-
-                <div>
-                  <ion-icon name="add-outline" class="add-icon"></ion-icon>
-                  <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-                </div>
-              </button>
-
-              <ul class="submenu-category-list" data-accordion>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Dress & Frock</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Earrings</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Necklace</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Makeup Kit</a>
-                </li>
-
-              </ul>
-
-            </li>
-
-            <li class="menu-category">
-
-              <button class="accordion-menu" data-accordion-btn>
-                <p class="menu-title">Jewelry</p>
-
-                <div>
-                  <ion-icon name="add-outline" class="add-icon"></ion-icon>
-                  <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-                </div>
-              </button>
-
-              <ul class="submenu-category-list" data-accordion>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Earrings</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Couple Rings</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Necklace</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Bracelets</a>
-                </li>
-
-              </ul>
-
-            </li>
-
-            <li class="menu-category">
-
-              <button class="accordion-menu" data-accordion-btn>
-                <p class="menu-title">Perfume</p>
-
-                <div>
-                  <ion-icon name="add-outline" class="add-icon"></ion-icon>
-                  <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-                </div>
-              </button>
-
-              <ul class="submenu-category-list" data-accordion>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Clothes Perfume</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Deodorant</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Flower Fragrance</a>
-                </li>
-
-                <li class="submenu-category">
-                  <a href="#" class="submenu-title">Air Freshener</a>
-                </li>
-
-              </ul>
-
-            </li>
-
-            <li class="menu-category">
-              <a href="#" class="menu-title">Blog</a>
-            </li>
-
-            <li class="menu-category">
-              <a href="#" class="menu-title">Hot Offers</a>
-            </li>
-
           </ul>
 
-          <div class="menu-bottom">
-
-            <ul class="menu-category-list">
-
-              <li class="menu-category">
-
-                <button class="accordion-menu" data-accordion-btn>
-                  <p class="menu-title">Language</p>
-
-                  <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
-                </button>
-
-                <ul class="submenu-category-list" data-accordion>
-
-                  <li class="submenu-category">
-                    <a href="#" class="submenu-title">English</a>
-                  </li>
-
-                  <li class="submenu-category">
-                    <a href="#" class="submenu-title">Espa&ntilde;ol</a>
-                  </li>
-
-                  <li class="submenu-category">
-                    <a href="#" class="submenu-title">Fren&ccedil;h</a>
-                  </li>
-
-                </ul>
-
-              </li>
-
-              <li class="menu-category">
-                <button class="accordion-menu" data-accordion-btn>
-                  <p class="menu-title">Currency</p>
-                  <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
-                </button>
-
-                <ul class="submenu-category-list" data-accordion>
-                  <li class="submenu-category">
-                    <a href="#" class="submenu-title">USD &dollar;</a>
-                  </li>
-
-                  <li class="submenu-category">
-                    <a href="#" class="submenu-title">EUR &euro;</a>
-                  </li>
-                </ul>
-              </li>
-
-            </ul>
-
-            <ul class="menu-social-container">
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-facebook"></ion-icon>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-twitter"></ion-icon>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-instagram"></ion-icon>
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="social-link">
-                  <ion-icon name="logo-linkedin"></ion-icon>
-                </a>
-              </li>
-
-            </ul>
-
+          <div class="offcanvas-cart-total-price">
+            <span class="offcanvas-cart-total-price-text">Subtotal:</span>
+            <span class="offcanvas-cart-total-price-value"
+              >${{ cartTotal }}</span
+            >
           </div>
 
-        </nav>
-      </header>
-    <!--=================Toggle Not Register or Not Login ==========-->
-     <!--Overlay Panel of Toggle not Accounts-->
-        <OverlayPanel ref="toggleNotAuth">
-            <!-- Toggle My Account -->
-            <div class="px-1 py-1">
-                <div class="-menu" aria-labelledby="navbarDropdown">
-                    <p>Welcome Phzarkhmer</p>
-                    <div class="flex flex-column align-items-start justify-content-start">
-                        <div class="flex align-items-center justify-content-start  h-4rem ">
-                            <Button
-                                @click.prevent="$router.push('/auth/register')"
-                                label="Register"
-                                class=" py-2 p-button-outlined w-10rem mr-3" />
-                            <Button label="Login" class=" py-2 w-10rem"   @click.prevent="$router.push('/auth/login')"/>
-                        </div>
-                    </div>
-                    <!-- Title -->
-                    <div class="flex flex-column align-items-start justify-content-start py-2">
-                        <div class="flex align-items-center justify-content-start  h-2rem">
-                            <router-link to="/">
-                                <span class="font-bold text-sm text-black">My Account</span>
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </OverlayPanel>
-    <!--Overlay Panel of Toggle My Accounts-->
-        <OverlayPanel ref="toggleMyAccount">
-            <!-- Toggle My Account -->
-            <div class="px-1 py-1">
-                    <div class="-menu" aria-labelledby="navbarDropdown">
-                        <div class="flex align-items-center justify-content-center">
-                            <Avatar image="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="mr-2" size="xlarge" shape="circle" />
-                            <div class="flex flex-column card-container align-content-center">
-                                <div class="flex align-items-start justify-content-start text-lg">
-                                    Phzarkhmer
-                                </div>
-                                <div class="flex align-items-start justify-content-start text-sm">
-                                    devpanha@gmail.com                                   
-                                </div>
+          <ul class="offcanvas-cart-action-button">
+            <li>
+              <router-link
+                to="/customer/shopping-cart/product-list/cart-items"
+                class="theme-btn-one btn-black-overlay btn_md"
+                >View Cart</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/my-account/checkout-1"
+                class="theme-btn-one btn-black-overlay btn_md"
+                >Checkout</router-link
+              >
+            </li>
+          </ul>
+        </div>
 
-                            </div>
-                        </div>
-                        <!-- List -->
-                        <div class="flex flex-column align-items-start justify-content-start">
-                                <div class="flex align-items-center justify-content-start  h-2rem">
-                                   <button @click="authLogout">
-                                        <span class="font-bold text-lg">Sign Out </span>
-                                   </button>
-                                       
-                                </div>
-                        </div>
-                    </div>
-            </div>
-        </OverlayPanel>
+        <ul v-else class="offcanvas-cart">
+          <li>Your cart is empty!</li>
+        </ul>
+      </div>
+    </el-drawer>
+    <!-- End  Offcanvas Addcart Section -->
+
+  </div>
 </template>
 
-<!-- Export NavigationBar -->
 <script>
-    import HeaderTop from "../../components/customers/headers/TopHeader.vue";
-    import MobileNavigation from "../../components/customers/headers/MobileNavigation.vue";
-    import UserService from "../../services/authencations/UserServices.js";
-    export default{
-        computed: {
-            isAuthentications(){
-               return this.$store.state.auth.initialState.status.loggedIn;
-            }
-        },
-        mounted(){
-           UserService.getCurrentUserByTokenId().then(
-            (response) => {
-                console.log(response)
-            }
-           ).catch((error) => console.log(error))
-        },
-        components: {
-            HeaderTop,
-            MobileNavigation
-        },
-        data(){
-            return{
-                selectedCity: null,
-            }
-        },
-        methods: {
-            authLogout(){
-               this.$store.dispatch('auth/actionLogout');
+import { mapState, mapGetters } from "vuex";
+export default {
+  data() {
+    return {
+      // Mobile Menu Item Data
+      menu: [
+        {
+          title: "Home",
+          child: [
+            {
+              href: "/",
+              title: "Fashion",
             },
-            showMyAccount(event){
-              if(this.isAuthentications || this.isAuthentications == true){
-                this.$refs.toggleMyAccount.toggle(event);
-              }
+            {
+              href: "/furniture",
+              title: "Furniture",
             },
-            // Not Account Authentications
-            showNotAuthentications(event){
-                if(!this.isAuthentications){
-                  this.$refs.toggleNotAuth.toggle(event);
-                }
-            }
+            {
+              href: "/electronics",
+              title: "Electronics",
+            },
+          ],
         }
-    }
+      ],
+      products: [],
+      category: [],
+      cartproduct: {},
+      searchString: "",
+      drawerOffCanMobileMenu: false,
+      drawerOffWishListMenu: false,
+      drawerOffAddToCartMenu: false
+    };
+  },
+
+  mounted: function () {
+    // Menu Js
+    this.$nextTick(function () {
+      window.onscroll = function () {
+        myFunction();
+      };
+      var header = document.getElementById("header");
+      var mobile_header = document.getElementById("mobile_header");
+      var sticky = header.offsetTop;
+
+      function myFunction() {
+        if (window.pageYOffset > sticky) {
+          header.classList.add("sticky");
+          mobile_header.classList.add("sticky");
+        } else {
+          header.classList.remove("sticky");
+          mobile_header.classList.remove("sticky");
+        }
+      }
+    });
+    // Menu End
+    // this.productsArray()
+  },
+
+  computed: {
+    ...mapState({
+      productsList: (state) => state.products.productsList,
+      searchItems: (state) => state.products.searchProduct,
+    }),
+    ...mapGetters({
+      cart: "cart/cartItems",
+      cartTotal: "cart/cartTotalAmount",
+      wishlist: "products/wishlistItems",
+    }),
+  },
+
+  methods: {
+    // Image Url
+    getImageUrl(path) {
+      return require("@/assets/img/product-image/" + path);
+    },
+
+    // Discount Price
+    discountedPrice(product) {
+      const price = product.price - (product.price * product.discount) / 100;
+      return price;
+    },
+
+    // For Delete/Remove Product Item
+    removeCartItem: function (product) {
+      this.$store.dispatch("cart/removeCartItem", product);
+    },
+    // For Delete/Remove wishlist Item
+    removeWishlistItem: function (product) {
+      this.$store.dispatch("products/removeWishlistItem", product);
+    },
+    searchProduct() {
+      this.$store.dispatch("products/searchProduct", this.searchString);
+    },
+  },
+};
 </script>
+
+<style>
+/* Mobile Menu Multi Dropdown Items Start */
+.v-sidebar-menu .vsm--toggle-btn {
+  display: none;
+}
+.v-sidebar-menu {
+  position: relative;
+  background-color: transparent;
+}
+.v-sidebar-menu.vsm_expanded .vsm--item_open .vsm--link_level-1 {
+  background-color: var(--main-theme-color);
+}
+.v-sidebar-menu .vsm--link_level-1.vsm--link_exact-active,
+.v-sidebar-menu .vsm--link_level-1.vsm--link_active {
+  -webkit-box-shadow: 3px 0px 0px 0px var(--main-theme-color) inset;
+  box-shadow: 3px 0px 0px 0px var(--main-theme-color) inset;
+}
+/* Mobile Menu Multi Dropdown Items End */
+</style>

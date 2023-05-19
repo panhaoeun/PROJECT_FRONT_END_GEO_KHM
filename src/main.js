@@ -1,27 +1,15 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-
-//import adminlte styles
-
-
-//import adminlte scripts
-import "../node_modules/admin-lte/dist/js/adminlte.min.js"
-import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
-import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
-import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
-
 /*
    @E-Commerces
    @Library E-Commerces
 */ 
-import "./assets/front-end/app.css";
+import "./assets/front-end/app-front-end.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
-import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css';
+import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css'
 import VueSidebarMenu from 'vue-sidebar-menu';
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 // import VueSlider from 'vue-slider-component';
-
-
 
 import "./assets/css/customer_ecommerce_app/style_prefix.css";
 import "./assets/css/style.css";
@@ -108,12 +96,12 @@ const app = createApp(App);
 app.config && (app.config.productionTip = false);
 
 ///Form Kit
-import { plugin, defaultConfig } from '@formkit/vue';
-import { createMultiStepPlugin } from '@formkit/addons';
-import { generateClasses } from '@formkit/themes';
-//Multiple Steps
-import '@formkit/addons/css/multistep'
-import genesis from '@formkit/themes/genesis';
+// import { plugin, defaultConfig } from '@formkit/vue';
+// import { createMultiStepPlugin } from '@formkit/addons';
+// import { generateClasses } from '@formkit/themes';
+// //Multiple Steps
+// import '@formkit/addons/css/multistep'
+// import genesis from '@formkit/themes/genesis';
 
 //google Map 
 import VueGoogleMaps from '@fawmi/vue-google-maps'
@@ -185,8 +173,8 @@ app.component('file-upload', VueUploadComponent);
 /*
     @Front-End Library 
 */ 
-app.component('inner-image-zoom',InnerImageZoom);
 app.use(VueSidebarMenu);
+app.component('inner-image-zoom', InnerImageZoom);
 // app.component('VueSlider', VueSlider);
 
 // Config IONIC
@@ -194,15 +182,15 @@ app.config.ignoredElements = [/^ion-/];
 // Element Plus
 app.use(ElementPlus);
 // Form Kit
-app.use(plugin, defaultConfig({
-   config: {
-    classes: generateClasses(genesis),
-  },
-    plugins: [
-        createMultiStepPlugin()
-    ]
-}));
+// app.use(plugin, defaultConfig({
+//    config: {
+//     classes: generateClasses(genesis),
+//   },
+//     plugins: [
+//         createMultiStepPlugin()
+//     ]
+// }));
 
 
 
-app.mount('#app')
+app.mount('#app');

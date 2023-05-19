@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import { auth } from "./AuthModule";
-import products from '../store/modules/products'
+import products from "../store/modules/products";
+import carts from "../store/modules/carts";
 
 const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations']
 
@@ -103,6 +104,7 @@ const store = createStore({
     modules: {
         auth,
         products: products,
+        cart: carts,
     },
 });
 // Load all modules.
@@ -230,6 +232,5 @@ function mergeProperty (storeModule, moduleData, property) {
     storeModule[property] = Object.assign({}, storeModule[property], moduleData)
   }
 }
-
 
 export default store;

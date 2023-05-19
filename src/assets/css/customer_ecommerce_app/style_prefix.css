@@ -531,9 +531,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   border-bottom: 1px solid var(--cultured);
 }
 
-.header-logo { margin-bottom: 20px; }
-
-.header-logo img { margin: auto; }
 
 .header-search-container { position: relative; }
 
@@ -2319,7 +2316,6 @@ footer {
             align-items: center;
   }
 
-  .header-logo { margin-bottom: 0; }
 
   .header-top-actions {
     display: -webkit-box;

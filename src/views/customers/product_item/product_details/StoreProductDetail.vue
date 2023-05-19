@@ -1,7 +1,218 @@
 <template>
     <div class="container">
        <div class="row">
+            <!-- Slider Top Seller Products -->
             <div class="product-extend-sidebar col-lg-12 col-md-12 col-sm-12">
+                <!-- Products Detail and Shops Details -->
+                <div class="card">
+                 <div class="product_details_tabs">
+                    <!--Tab View -->
+                    <el-tabs v-model="activeName">
+                        <!-- Tab 01 -->
+                        <el-tab-pane label="Description"  name="desTabPanel" active id="description">
+                            <div class="product_description">
+                            <p>
+                                Curabitur arcu erat, accumsan id imperdiet et, porttitor
+                                at sem. Vestibulum ac diam sit amet quam vehicula
+                                elementum sed sit amet dui. Sed porttitor lectus nibh.
+                                Vivamus magna justo, lacinia eget consectetur sed,
+                                convallis at tellus. Sed porttitor lectus nibh. Donec
+                                sollicitudin molestie malesuada. Vivamus magna justo,
+                                lacinia eget consectetur sed, convallis at tellus.
+                                Curabitur arcu erat, accumsan id imperdiet et, porttitor
+                                at sem.
+                            </p>
+                            <ul>
+                                <li>Vivamus magna justo, lacinia eget consectetur sed</li>
+                                <li>Curabitur aliquet quam id dui posuere blandit</li>
+                                <li>
+                                Mauris blandit aliquet elit, eget tincidunt nibh
+                                pulvinar
+                                </li>
+                            </ul>
+                            <p>
+                                Donec sollicitudin molestie malesuada. Cras ultricies
+                                ligula sed magna dictum porta. Mauris blandit aliquet
+                                elit, eget tincidunt nibh pulvinar a. Nulla porttitor
+                                accumsan tincidunt. Cras ultricies ligula sed magna dictum
+                                porta. Curabitur arcu erat, accumsan id imperdiet et,
+                                Pellentesque in ipsum id orci porta dapibus. Lorem ipsum
+                                dolor sit amet, consectetur adipiscing elit. porttitor at
+                                sem. Quisque velit nisi, pretium ut lacinia in, elementum
+                                id enim.
+                            </p>
+                            </div>
+                        </el-tab-pane>
+                        <!-- Tab 02 -->
+                        <el-tab-pane label="Additional Information" name="addTabPanel" id="additional">
+                            <div class="product_additional">
+                            <ul>
+                                <li>Weight: <span>400 g</span></li>
+                                <li>Dimensions: <span>10 x 10 x 15 cm</span></li>
+                                <li>
+                                Materials: <span> 60% cotton, 40% polyester</span>
+                                </li>
+                                <li>
+                                Other Info:
+                                <span>
+                                    American heirloom jean shorts pug seitan
+                                    letterpress</span
+                                >
+                                </li>
+                            </ul>
+                            </div>
+                        </el-tab-pane>
+                        <!-- Tab 03 -->
+                        <el-tab-pane label="Reviews" name="reviewTabPanel" id="review">
+                            <div class="product_reviews">
+                            <ul>
+                                <li class="media">
+                                <div class="media-img">
+                                    <img
+                                    :src="require('@/assets/img/user/user1.png')"
+                                    alt="img"
+                                    />
+                                </div>
+                                <div class="media-body">
+                                    <div class="media-header">
+                                    <div class="media-name">
+                                        <h4>Sara Anela</h4>
+                                        <p>5 days ago</p>
+                                    </div>
+                                    <div class="post-share">
+                                        <a href="#!" class="replay">Replay</a>
+                                        <a href="#!" class="">Report</a>
+                                    </div>
+                                    </div>
+                                    <div class="media-pragraph">
+                                        <div class="product_review_strat">
+                                            <span
+                                            ><a href="#!"><i class="fas fa-star"></i></a
+                                            ></span>
+                                            <span
+                                            ><a href="#!"><i class="fas fa-star"></i></a
+                                            ></span>
+                                            <span
+                                            ><a href="#!"><i class="fas fa-star"></i></a
+                                            ></span>
+                                            <span
+                                            ><a href="#!"><i class="fas fa-star"></i></a
+                                            ></span>
+                                            <span
+                                            ><a href="#!"><i class="fas fa-star"></i></a
+                                            ></span>
+                                        </div>
+                                        <p>
+                                            Cras sit amet nibh libero, in gravida nulla. Nulla
+                                            vel metus scelerisque Praesent sapien massa,
+                                            convallis a pellentesque nec, egestas non nisi.
+                                            Cras ultricies ligula sed magna dictum porta.
+                                            Vestibulum ac diam sit amet quam vehicula
+                                            elementum sed sit amet dui. Vivamus magna justo.
+                                        </p>
+                                    </div>
+                                </div>
+                                </li>
+                                <li class="media">
+                                <div class="media-img">
+                                    <img
+                                    :src="require('@/assets/img/user/user2.png')"
+                                    alt="img"
+                                    />
+                                </div>
+                                <div class="media-body">
+                                    <div class="media-header">
+                                    <div class="media-name">
+                                        <h4>Sara Anela</h4>
+                                        <p>5 days ago</p>
+                                    </div>
+                                    <div class="post-share">
+                                        <a href="#!" class="replay">Replay</a>
+                                        <a href="#!" class="">Report</a>
+                                    </div>
+                                    </div>
+                                    <div class="media-pragraph">
+                                    <div class="product_review_strat">
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                    </div>
+                                    <p>
+                                        Cras sit amet nibh libero, in gravida nulla. Nulla
+                                        vel metus scelerisque Praesent sapien massa,
+                                        convallis a pellentesque nec, egestas non nisi.
+                                        Cras ultricies ligula sed magna dictum porta.
+                                        Vestibulum ac diam sit amet quam vehicula
+                                        elementum sed sit amet dui. Vivamus magna justo.
+                                    </p>
+                                    </div>
+                                </div>
+                                </li>
+                                <li class="media">
+                                <div class="media-img">
+                                    <img
+                                    :src="require('@/assets/img/user/user3.png')"
+                                    alt="img"
+                                    />
+                                </div>
+                                <div class="media-body">
+                                    <div class="media-header">
+                                    <div class="media-name">
+                                        <h4>Sara Anela</h4>
+                                        <p>5 days ago</p>
+                                    </div>
+                                    <div class="post-share">
+                                        <a href="#!" class="replay">Replay</a>
+                                        <a href="#!" class="">Report</a>
+                                    </div>
+                                    </div>
+                                    <div class="media-pragraph">
+                                    <div class="product_review_strat">
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                        <span
+                                        ><a href="#!"><i class="fas fa-star"></i></a
+                                        ></span>
+                                    </div>
+                                    <p>
+                                        Cras sit amet nibh libero, in gravida nulla. Nulla
+                                        vel metus scelerisque Praesent sapien massa,
+                                        convallis a pellentesque nec, egestas non nisi.
+                                        Cras ultricies ligula sed magna dictum porta.
+                                        Vestibulum ac diam sit amet quam vehicula
+                                        elementum sed sit amet dui. Vivamus magna justo.
+                                    </p>
+                                    </div>
+                                </div>
+                                </li>
+                            </ul>
+                            </div>
+                        </el-tab-pane>
+                    </el-tabs>
+                </div>
+               </div>
                 <!-- Top Seller Products -->
                 <div class="card">
                     <div class="single category">
@@ -31,62 +242,6 @@
                         </MazCarousel>
                     </div>
                 </div>
-                <!-- About Items and Vendors -->
-                <div class="card">
-                    <div class="single category">                        
-                        <TabView :activeIndex="activeIndex">
-                            <!-- About Items -->
-                            <TabPanel header="About this items">
-                                <div class="px-2 py-2">
-                                    <div class="content">
-                                        <p>Seller assumes all responsibility for this listing.</p>
-                                        <span>Last updated on Feb 17, 2023 06:08:33 PST</span>
-                                        <!-- Border -->
-                                        <div class="border grid mt-2">
-                                            <div class="col-12 md:col-3">
-                                                <span class="text-900 block font-bold mb-3 font-bold">Item specifics</span>
-                                                    <ul class="py-0 pl-3 m-0 text-600 mb-3">
-                                                        <li class="mb-2">Protection Plan:</li>
-                                                        <li class="mb-2">Europe - EUR 10</li>
-                                                        <li class="mb-2">Switzerland - CHF 10</li>
-                                                        <li class="mb-2">Canada - CAD 25</li>
-                                                        <li class="mb-2">USA - USD 20</li>
-                                                        <li class="mb-2">Australia - AUD 30</li>
-                                                        <li class="mb-2">United Kingdom - GBP 10</li>
-                                                    </ul>
-                                            </div>
-                                            <div class="col-12 md:col-3">
-                                                <span class="text-900 block font-bold mb-3 font-bold"></span>
-                                                    <ul class="py-0 pl-3 m-0 text-600 mb-3">
-                                                        <li class="mb-2">certified - Refurbished: The item is in pristine...</li>
-                                                        <li class="mb-2">No Coverage</li>
-                                                        <li class="mb-2">Switzerland - CHF 10</li>
-                                                        <li class="mb-2">Canada - CAD 25</li>
-                                                        <li class="mb-2">	Pet Hair Removal, Battery Operated, Portable, Multi Surface, Carpet Cleaning, Edge Cleaning, Self Propelled, Compact, Dirt Sensor</li>
-                                                    </ul>
-                                            </div>
-                                        </div>
-                                        <!-- Product Image Detail of Vendors -->
-                                       <div class="my-2">
-                                            <div class="col-12 md:col-12 my-2">
-                                                <img src="https://ae01.alicdn.com/kf/Ha0bf417fa7db47e3a690dfedad3c40b37.jpg" alt="" style="max-width: 100%;">
-                                                <p><img src="https://ae01.alicdn.com/kf/Hfbb54ada53cc4b9089ee9aaaa2e547f8D.jpg" slate-data-type="image" style="max-width: 100%;"></p>
-                                            </div>
-                                       </div>
-                                    </div>
-                                </div>
-                            </TabPanel>
-                            <!-- Customer Review -->
-                            <TabPanel header="Customer Reviews(2540)">
-                                    <!-- Customer Rating -->
-                                    <div class="grid mt-2 px-2 py-2">
-                                        <div class="p-tabview-panel" role="tabpanel" aria-labelledby="pv_id_55_1_header_action" style=""><div class="text-900 font-bold text-3xl mb-4 mt-2">Customer Reviews</div><ul class="list-none p-0 m-0"><li class="pb-5 border-bottom-1 surface-border"><span><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-gray-500"></i></span><div class="text-900 font-bold text-xl my-3">Absolute Perfection!</div><p class="mx-0 mt-0 mb-3 text-600 line-height-3"> Blandit libero volutpat sed cras ornare arcu dui vivamus. Arcu dictum varius duis at consectetur lorem donec massa. Imperdiet proin fermentum leo vel orci porta non. Porttitor rhoncus dolor purus non. </p><span class="font-medium">Darlene Robertson, 2 days ago</span></li><li class="py-5 border-bottom-1 surface-border"><span><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500"></i></span><div class="text-900 font-bold text-xl my-3">Classy</div><p class="mx-0 mt-0 mb-3 text-600 line-height-3">Venenatis cras sed felis eget. Proin nibh nisl condimentum id venenatis a condimentum.</p><span class="font-medium">Kristin Watson, 2 days ago</span></li></ul></div>
-                                    </div>
-                            </TabPanel>
-                        </TabView>
-                    </div>
-                </div>
-
             </div>
        </div>
     </div>
@@ -100,43 +255,11 @@
         components: {
             MazCarousel,
             MazCard
+        },
+        data(){
+            return{
+                activeName: "desTabPanel"
+            }
         }
     }
 </script>
-<style>
-.single h3.side-title {
-    margin: 0;
-    margin-bottom: 10px;
-    padding: 0;
-    font-size: 20px;
-    color: #333;
-    text-transform: uppercase; 
-}
-.single h3.side-title:after {
-    content: '';
-    width: 60px;
-    height: 1px;
-    background: #ff173c;
-    display: block;
-    margin-top: 6px; 
-}
-
-.single ul {
-    margin-bottom: 0; 
-}
-.single li a {
-    color: #666;
-    font-size: 14px;
-    text-transform: uppercase;
-    border-bottom: 1px solid #f0f0f0;
-    line-height: 40px;
-    display: block;
-    text-decoration: none; 
-}
-.single li a:hover {
-    color: #ff173c; 
-}
-.single li:last-child a {
-    border-bottom: 0; 
-}
-</style>
