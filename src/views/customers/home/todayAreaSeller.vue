@@ -14,7 +14,9 @@
                 <div class="col-lg-12">
                     <swiper
                       class="swiper todays_slider position-relative"
-                     :options="swiperOption"
+                      :options="swiperOption"
+                      :slides-per-view="4"
+                      :spaceBetween="30"
                     >
                         <swiper-slide v-for="(product, index) in products" :key="index">
                             <ProductBox01

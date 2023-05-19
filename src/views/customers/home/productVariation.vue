@@ -1,73 +1,60 @@
 <template>
     <!-- Product variation -->
-    <section id="product_variation_one" class="pt-100 px-2 py-2">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-4 col-md-6">
-            <div class="product_variation_one_boxed img-zoom-hover">
-              <img :src="require('@/assets/img/offer/woman.png')" alt="img" />
-              <div class="product_var_one_text">
-                <h4 class="color_one">Outerwear</h4>
-                <h2>New</h2>
-                <h4>Collection</h4>
-                <nuxt-link
-                  to="/shop/shop-2"
-                  class="theme-btn-one bg-black btn_sm"
-                  >Shop Now</nuxt-link
-                >
-              </div>
+    <section id="electronics_banner_bottom" class="ptb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 ">
+                    <div class="el_banner_bottom el-ban-bottom-left">
+                        <router-link to="/shop">
+                          <img :src="require('@/assets/img/electronics/common/offer1.jpg')" alt="img">
+                        </router-link>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="el_banner_bottom">
+                        <router-link to="/shop">
+                          <img :src="require('@/assets/img/electronics/common/offer2.jpg')" alt="img">
+                        </router-link>
+                    </div>
+                    <div class="el_banner_bottom">
+                        <router-link to="/shop">
+                          <img :src="require('@/assets/img/electronics/common/offer3.jpg')" alt="img">
+                        </router-link>
+                    </div>
+                </div>
             </div>
-            <div class="product_variation_one_boxed img-zoom-hover">
-              <img :src="require('../../../assets/img/offer/woman.png')" alt="img" />
-              <div class="product_var_one_text">
-                <h4 class="color_one">Summer</h4>
-                <h2>Hot</h2>
-                <h4>Collection</h4>
-                <nuxt-link to="/shop" class="theme-btn-one bg-black btn_sm"
-                  >Shop Now</nuxt-link
-                >
-              </div>
+            <div class="el_feature_wrappers">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="el_feature_box">
+                            <img :src="require('@/assets/img/electronics/icon/world.png')" alt="img">
+                            <div class="el_feature_text">
+                                <h3>Free Returns</h3>
+                                <p>Returns are free within 9 days</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="el_feature_box">
+                            <img :src="require('@/assets/img/electronics/icon/lock.png')" alt="img">
+                            <div class="el_feature_text">
+                                <h3>100% Payment Secure</h3>
+                                <p>Your payment are safe with us.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="el_feature_box">
+                            <img :src="require('@/assets/img/electronics/icon/phone.png')" alt="img">
+                            <div class="el_feature_text">
+                                <h3>Support 24/7</h3>
+                                <p>Contact us 24 hours a day</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="product_variation_one_boxed img-zoom-hover">
-              <img :src="require('../../../assets/img/offer/bag.png')" alt="img" />
-              <div class="product_var_one_text_center">
-                <h2 class="color_one">10% Offer</h2>
-                <h4>No Selected Models</h4>
-                <nuxt-link
-                  to="/shop/shop-3"
-                  class="theme-btn-one bg-black btn_sm"
-                  >Shop Now</nuxt-link
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="product_variation_one_boxed img-zoom-hover">
-              <img :src="require('../../../assets/img/offer/woman4.png')" alt="img" />
-              <div class="product_var_one_text">
-                <h2>New</h2>
-                <h4 class="color_one">Arrivals</h4>
-                <nuxt-link
-                  to="/shop/shop-2"
-                  class="theme-btn-one bg-black btn_sm"
-                  >Shop Now</nuxt-link
-                >
-              </div>
-            </div>
-            <div class="product_variation_one_boxed img-zoom-hover">
-              <img :src="require('../../../assets/img/offer/kids.png')" alt="img" />
-              <div class="product_var_one_text">
-                <h2>Hot</h2>
-                <h4 class="color_one">Offer</h4>
-                <nuxt-link to="/shop" class="theme-btn-one bg-black btn_sm"
-                  >Shop Now</nuxt-link
-                >
-              </div>
-            </div>
-          </div>
+            
         </div>
-      </div>
     </section>
 </template>

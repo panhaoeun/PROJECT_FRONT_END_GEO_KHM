@@ -1,26 +1,28 @@
 <template>
     <!-- Hero Section -->
     <HeroSection/>
-    <!-- Product variation -->
-    <!-- <ProductVariation/> -->
+    <!--=============Content==========-->
+    <ProductVariation/>
     <!--Group My Products-->
     <group-my-product/>        
     <!-- Best Selling Stores -->
     <best-selling-store/>
     <!-- Today best for you -->
     <today-best-for-you/>
-    <!-- Our Recommendation for you -->
-    <our-recommend-for-you/>
-     
+    <!-- To Days Area -->
+    <TodayAreaSeller/>     
 </template>
 
 <script>
-    // import ProductVariation from "../../../views/customers/productVariation.vue";
     import HeroSection from "../../../components/customers/HeroSection.vue";
-    // import BannerDiscount from "../../../components/customers/homepage/bannerDiscount/BannerDiscount.vue";
     import bestSellingStore from "../../../components/customers/homepage/sellingStore/bestSellingStore.vue";
     import todayBestForYou from "../../../components/customers/homepage/bestforYou/todayBestForYou.vue";
-    import ourRecommendForYou from "../../../components/customers/homepage/ourRecommed/ourRecommedPro.vue";
+     /*
+        Contents Home Page
+    */ 
+    import ProductVariation from "./productVariation.vue";
+    import TodayAreaSeller from "./todayAreaSeller.vue";
+
     export default {
         components: {
             // ProductVariation,
@@ -29,7 +31,8 @@
             // BrandCategoryList,
             bestSellingStore,
             todayBestForYou,
-            ourRecommendForYou
+            ProductVariation,
+            TodayAreaSeller,
         },
 
     }
