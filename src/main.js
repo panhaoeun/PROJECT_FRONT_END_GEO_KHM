@@ -14,9 +14,6 @@ import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 import "./assets/css/customer_ecommerce_app/style_prefix.css";
 import "./assets/css/style.css";
 import "./assets/css/account-tab.css";
-import "./assets/styles/navbar.css";
-// Admin Kit 
-import "./assets/styles/adminkit/css/app.css";
 /* @Routes */
 import routes from "./routes/routes";
 /* @Prime Vue*/ 
@@ -33,6 +30,7 @@ import "./assets/custom-vue/scss/styles.scss";
 import globalComponent from './plugins/global-components';
 import globalDirective from './plugins/global-directive';
 import globalMixin from './plugins/global-mixin';
+import BootstrapVue3 from 'bootstrap-vue-3';
 
 import InputNumber from 'primevue/inputnumber';
 import PrimeVue from 'primevue/config';
@@ -87,9 +85,6 @@ import VueUploadComponent from 'vue-upload-component'//optional for row
 import ElementPlus from 'element-plus';
 import './assets/css/element_plus/index.css';
 import './assets/css/element_plus/display.css';
-// Fabric Icons
-import "./assets/uifabricIcons/css/fabric-icons.css";
-import 'vue-loading-overlay/dist/css/index.css';
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -201,6 +196,7 @@ app.mixin(globalMixin)
 app.config.ignoredElements = [/^ion-/];
 // Element Plus
 app.use(ElementPlus);
+app.use(BootstrapVue3);
 // Form Kit
 // app.use(plugin, defaultConfig({
 //    config: {
