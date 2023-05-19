@@ -14,6 +14,9 @@ import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 import "./assets/css/customer_ecommerce_app/style_prefix.css";
 import "./assets/css/style.css";
 import "./assets/css/account-tab.css";
+// import "./assets/styles/navbar.css";
+// Admin Kit 
+import "./assets/css/adminlte.min.css";
 /* @Routes */
 import routes from "./routes/routes";
 /* @Prime Vue*/ 
