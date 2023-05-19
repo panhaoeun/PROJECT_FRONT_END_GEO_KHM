@@ -8545,6 +8545,13 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
+vue-image-zoomer@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.npmjs.org/vue-image-zoomer/-/vue-image-zoomer-2.2.3.tgz"
+  integrity sha512-W7UBLUlkPp7UqAkh/KGOGzNUSPn0cMawxjpwuo+97YR1Ft7WOpGc2T8JWL1N+a+fXE56vVftUYX/XoelqBZdtQ==
+  dependencies:
+    vue "^3.2.25"
+
 vue-inner-image-zoom@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/vue-inner-image-zoom/-/vue-inner-image-zoom-2.0.0.tgz"
@@ -8599,7 +8606,7 @@ vue-upload-component@^3.1.8:
   resolved "https://registry.npmjs.org/vue-upload-component/-/vue-upload-component-3.1.8.tgz"
   integrity sha512-8LHCrgmEZPg+1hbkKjQgMce2uasmGLEnIsLE8YG+vNyfNDuaQA71T+5t6kdDSG/szeh+E8mjb26uEd9WkVSFtg==
 
-vue@*, "vue@^2 || ^3.2.13", "vue@^2.0.0 || >=3.0.0", "vue@^2.6.14 || ^3.2.0", vue@^3.0.0, "vue@^3.0.0 || ^2.0.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.2, vue@^3.0.5, vue@^3.2.0, vue@^3.2.1, "vue@>= 3.0.0 < 4", vue@3.2.47:
+vue@*, "vue@^2 || ^3.2.13", "vue@^2.0.0 || >=3.0.0", "vue@^2.6.14 || ^3.2.0", vue@^3.0.0, "vue@^3.0.0 || ^2.0.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.2, vue@^3.0.5, vue@^3.2.0, vue@^3.2.1, vue@^3.2.25, "vue@>= 3.0.0 < 4", vue@3.2.47:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==
@@ -8617,6 +8624,11 @@ vue@^2.6.10:
   dependencies:
     "@vue/compiler-sfc" "2.7.14"
     csstype "^3.1.0"
+
+vue3-autocounter@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/vue3-autocounter/-/vue3-autocounter-1.0.6.tgz"
+  integrity sha512-jOgCD2WaOjt/tOAAGKDm2DTyQRdKyfqJv5ElUz/vR0ZJgUd4yDd6UX6+2YU3LQpY4qoFNZkzLloAfALAqK041g==
 
 vueperslides@^3.5.1:
   version "3.5.1"

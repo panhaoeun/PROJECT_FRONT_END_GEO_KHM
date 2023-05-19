@@ -24,6 +24,8 @@ import './assets/primeflex.scss';
 import "primevue/resources/themes/fluent-light/theme.css";     
 // //icons
 import "primeicons/primeicons.css";
+import CounterUp from 'vue3-autocounter';
+import BootstrapVue3 from 'bootstrap-vue-3'
 
 
 import InputNumber from 'primevue/inputnumber';
@@ -175,8 +177,11 @@ app.component('file-upload', VueUploadComponent);
 */ 
 app.use(VueSidebarMenu);
 app.component('inner-image-zoom', InnerImageZoom);
-// app.component('VueSlider', VueSlider);
+app.component('counter-up', CounterUp);
+app.use(BootstrapVue3)
 
+
+// app.component('VueSlider', VueSlider);
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];
 // Element Plus
