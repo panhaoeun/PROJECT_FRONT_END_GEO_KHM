@@ -25,8 +25,14 @@ import "primevue/resources/themes/fluent-light/theme.css";
 // //icons
 import "primeicons/primeicons.css";
 import CounterUp from 'vue3-autocounter';
-import BootstrapVue3 from 'bootstrap-vue-3'
-
+/*
+   @E-Commerces Dashboard
+   @Library E-Commerces Dashboard
+*/ 
+import "./assets/custom-vue/scss/styles.scss";
+import globalComponent from './plugins/global-components';
+import globalDirective from './plugins/global-directive';
+import globalMixin from './plugins/global-mixin';
 
 import InputNumber from 'primevue/inputnumber';
 import PrimeVue from 'primevue/config';
@@ -178,10 +184,19 @@ app.component('file-upload', VueUploadComponent);
 app.use(VueSidebarMenu);
 app.component('inner-image-zoom', InnerImageZoom);
 app.component('counter-up', CounterUp);
-app.use(BootstrapVue3)
+// app.use(BootstrapVue3)
 
 
-// app.component('VueSlider', VueSlider);
+
+/*
+   @E-Commerces Dashboard
+   @Library E-Commerces Dashboard
+*/ 
+// Custom Components & Directives
+app.use(globalComponent)
+app.use(globalDirective)
+app.mixin(globalMixin)
+
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];
 // Element Plus

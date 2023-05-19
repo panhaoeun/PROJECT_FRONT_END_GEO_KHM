@@ -3484,7 +3484,7 @@ core-js@^2.6.5:
   resolved "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
-core-js@^3.6.5, core-js@^3.8.3:
+core-js@^3.6.4, core-js@^3.6.5, core-js@^3.8.3:
   version "3.27.2"
   resolved "https://registry.npmjs.org/core-js/-/core-js-3.27.2.tgz"
   integrity sha512-9ashVQskuh5AZEZ1JdQWp1GqSoC1e1G87MzRqg2gIfVAQ7Qn9K+uFj8EcniUFA4P2NLZfV+TOlX1SzoKfo+s7w==
@@ -7840,6 +7840,14 @@ slice-ansi@^4.0.0:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
+
+smooth-scrollbar@^8.8.3:
+  version "8.8.3"
+  resolved "https://registry.npmjs.org/smooth-scrollbar/-/smooth-scrollbar-8.8.3.tgz"
+  integrity sha512-1/mTQx0PixUP9cvPNO+41imKPvfsLvDuNOLX8kOzXugibFXXH9L5Nc5DcDzdJWc4Qw2w3ROZZ152dCAJ4Sd+zw==
+  dependencies:
+    core-js "^3.6.4"
+    tslib "^1.10.0"
 
 sockjs@^0.3.24:
   version "0.3.24"
