@@ -44,7 +44,4 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-@import '../assets/custom-vue/scss/styles.scss';
-</style>
 

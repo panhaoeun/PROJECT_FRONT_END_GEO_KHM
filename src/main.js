@@ -6,24 +6,31 @@ import App from './App.vue'
 */ 
 import "./assets/front-end/app-front-end.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
-import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css'
 import VueSidebarMenu from 'vue-sidebar-menu';
-import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
-// import VueSlider from 'vue-slider-component';
 
+
+import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 import "./assets/css/customer_ecommerce_app/style_prefix.css";
 import "./assets/css/style.css";
 import "./assets/css/account-tab.css";
-// import "./assets/styles/navbar.css";
-// Admin Kit 
-import "./assets/css/adminlte.min.css";
-/* @Routes */
-import routes from "./routes/routes";
 /* @Prime Vue*/ 
 import './assets/primeflex.scss';
 import "primevue/resources/themes/fluent-light/theme.css";     
-// //icons
+// Admin Kit 
+import "./assets/css/adminlte.min.css";
+import './assets/css/element_plus/index.css';
+import './assets/css/element_plus/display.css';
+// Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import "primeicons/primeicons.css";
+import 'maz-ui/css/main.css';
+
+/*
+     @Routes
+ */
+import routes from "./routes/routes";
+
+
 import CounterUp from 'vue3-autocounter';
 /*
    @E-Commerces Dashboard
@@ -75,7 +82,6 @@ import FileUpload from 'primevue/fileupload';
 import Menu from 'primevue/menu';
 import Tag from 'primevue/tag';
 
-
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -86,9 +92,6 @@ import VueUploadComponent from 'vue-upload-component'//optional for row
 
 // Element Plus
 import ElementPlus from 'element-plus';
-import './assets/css/element_plus/index.css';
-import './assets/css/element_plus/display.css';
-// Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
@@ -96,7 +99,6 @@ import MazBtn from 'maz-ui/components/MazBtn'
 import MazInput from 'maz-ui/components/MazInput'
 import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
  import MazInputTags from 'maz-ui/components/MazInputTags';
-import 'maz-ui/css/main.css';
 
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
