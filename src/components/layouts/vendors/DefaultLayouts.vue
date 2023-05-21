@@ -27,9 +27,9 @@
         <footer-component></footer-component>
         <!-- Footer Component End Here -->
 
-        <!-- Live Customizer Component Start Here -->
+        <!-- Live Customized Component Start Here -->
         <setting-offcanvas></setting-offcanvas>
-        <!-- Live Customizer Component End Here-->
+        <!-- Live Customized Component End Here-->
 
     </main>
 </template>
