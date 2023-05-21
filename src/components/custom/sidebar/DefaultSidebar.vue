@@ -39,27 +39,27 @@ export default {
      BrandName
   },
   setup() {
-    const store = useStore()
-    const sidebarColor = computed(() => store.getters['setting/sidebar_color'])
-    console.log(sidebarColor)
-    const sidebarType = computed(() => store.getters['setting/sidebar_type'])
-    const sidebarMenuStyle = computed(() => store.getters['setting/sidebar_menu_style'])
-    const toggleSidebar = () => {
-      // Code Here
-      if (sidebarType.value.includes('sidebar-mini')) {
-        store.dispatch(
-          'setting/sidebar_type',
-          sidebarType.value.filter((item) => item !== 'sidebar-mini')
-        )
-      } else {
-        store.dispatch('setting/sidebar_type', [...sidebarType.value, 'sidebar-mini'])
-      }
+        const store = useStore()
+        const sidebarColor = computed(() => store.getters['setting/sidebar_color'])
+        console.log(sidebarColor)
+        const sidebarType = computed(() => store.getters['setting/sidebar_type'])
+        const sidebarMenuStyle = computed(() => store.getters['setting/sidebar_menu_style'])
+        const toggleSidebar = () => {
+            // Code Here
+            if (sidebarType.value.includes('sidebar-mini')) {
+                store.dispatch(
+                    'setting/sidebar_type',
+                    sidebarType.value.filter((item) => item !== 'sidebar-mini')
+                )
+            } else {
+                store.dispatch('setting/sidebar_type', [...sidebarType.value, 'sidebar-mini'])
+            }
+        }
+        onMounted(() => {
+            Scrollbar.init(document.querySelector('.data-scrollbar'), { continuousScrolling: false })
+        })
+        return { sidebarColor, sidebarType, sidebarMenuStyle, toggleSidebar }
     }
-    onMounted(() => {
-      Scrollbar.init(document.querySelector('.data-scrollbar'), { continuousScrolling: false })
-    })
-    return { sidebarColor, sidebarType, sidebarMenuStyle, toggleSidebar }
-  }
 }
 </script>
 

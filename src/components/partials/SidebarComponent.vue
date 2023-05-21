@@ -3,17 +3,16 @@
     <default-sidebar>
         <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
             <side-menu title="Home" :static-item="true"></side-menu>
-            <side-menu isTag="router-link" title="Dashboard" icon="view-grid" :route="{path: '/' }"></side-menu>
+            <side-menu  isTag="router-link" title="Dashboard" icon="view-grid" :route="{path: '/' }"></side-menu>
             <!-- Sidebar Menu -->
-            <side-menu title="Menu Style" icon="adjustment" toggle-id="menu-style" :caret-icon="true" :route="{ popup: 'false', to: 'menu-style' }" @onClick="toggle" :active="currentRoute.includes('menu-style')">
-            <b-collapse tag="ul" class="sub-nav" id="menu-style" accordion="sidebar-menu" :visible="currentRoute.includes('menu-style')">
-              <side-menu title="Horizontal" icon="circle" :icon-size="10" icon-type="solid" miniTitle="H" :route="{ to: 'horizontal.dashboard' }"></side-menu>
-              <side-menu title="Dual Horizontal" icon="circle" :icon-size="10" icon-type="solid" miniTitle="D" :route="{ to: 'dual-horizontal.dashboard' }"></side-menu>
-              <side-menu title="Dual Compact" icon="circle" :icon-size="10" icon-type="solid" miniTitle="D" :route="{ to: 'dual-compact' }"></side-menu>
-              <side-menu title="Boxed Horizontal" icon="circle" :icon-size="10" icon-type="solid" miniTitle="B" :route="{ to: 'boxed.dashboard' }"></side-menu>
-              <side-menu title="Boxed Fancy" icon="circle" :icon-size="10" icon-type="solid" miniTitle="B" :route="{ to: 'boxed-fancy.dashboard' }"></side-menu>
-            </b-collapse>
+            <side-menu title="Product Management" :static-item="true"></side-menu>
+            <side-menu title="Category Set Up" icon="adjustment" toggle-id="menu-style" :caret-icon="true" :route="{ popup: 'false', to: 'menu-style' }" @onClick="toggle" :active="currentRoute.includes('menu-style')">
+                <b-collapse tag="ul" class="sub-nav" id="menu-style" accordion="sidebar-menu" :visible="currentRoute.includes('menu-style')">
+                    <side-menu  isTag="router-link" title="Categories" icon="circle" :icon-size="10" icon-type="solid" miniTitle="CAT" :route="{ to: 'defaults.product-category-list' }"></side-menu>
+                    <side-menu  isTag="router-link" title="Sub Categories" icon="circle" :icon-size="10" icon-type="solid" miniTitle="SCAT" :route="{ to: 'defaults.sub-product-category-list' }"></side-menu>
+                </b-collapse>
             </side-menu>
+            <side-menu  isTag="router-link" title="Products" icon="cart" :route="{ to: 'defaults.products-list' }"></side-menu>
         </ul>
     </default-sidebar>  
 <!-- Sidebar Component End Here-->
