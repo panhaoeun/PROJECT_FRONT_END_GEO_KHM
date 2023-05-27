@@ -168,7 +168,6 @@ export default {
     methods: {
         //============Uploads Files================
         handleChange(file) {
-            console.log(file.raw)
             this.file = file.raw;
             //Check Upload File
             this.beforeAvatarUpload(file.raw);

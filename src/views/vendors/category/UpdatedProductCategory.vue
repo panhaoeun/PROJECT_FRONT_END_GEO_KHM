@@ -166,7 +166,7 @@ export default {
     methods: {
         // Show Category Data
         async editDataCategories(id){
-              this.proCategoryService.editedProCategory(id)
+            this.proCategoryService.editedProCategory(id)
                 .then((data) => {
                     try {
                         const { catNameEn, catNameKh, catLogo }= data.data.data;
@@ -175,10 +175,10 @@ export default {
                         this.dataCatEdit.catNameKh = catNameKh;
                         this.dataCatEdit.catLogo = catLogo;
                     } catch (error) {
-                        console.log(error)
+                       ElMessage.error(error);
                     }
                 }
-                );
+            );
         },
         async handleCategoryUpdated() {
             try {

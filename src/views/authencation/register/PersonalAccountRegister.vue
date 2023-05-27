@@ -130,6 +130,7 @@
     import socialRegister from '../socialmedia/socialRegister.vue';
     import AuthenticationsDataService from "../../../services/authencationDataService";
     import Loading from 'vue-loading-overlay';
+    import { ElMessage } from 'element-plus';
 
     export default {
         setup: () => ({ v$: useVuelidate() }),
@@ -205,11 +206,8 @@
                              //Toast Alert
                              this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
                         }).catch(e => {
-                                console.log(e)
-                                //Toast Alert 
-                                this.messages_acc_per = [
-                                    {severity: 'error', content: e.response.data.error},
-                                ]
+                                ElMessage.error(e.response.data.message);
+                                //Toast Alert                                 
                                 this.$toast.add({ severity: 'error', summary: e.response.data.message, detail: e.response.data.data.errors[0].message, life: 3000 });
                                 this.$toast.add({ severity: 'error', summary: e.response.data.data.errors.message, detail: e.response.data.data.errors.userPassword, life: 3000 });
                                 this.$toast.add({ severity: 'error', summary: e.response.data.message, detail: e.response.data.data.errors[0].message, life: 3000 });

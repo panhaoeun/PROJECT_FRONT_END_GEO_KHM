@@ -21,6 +21,10 @@ export const auth = {
     login({ commit, dispatch}, user) {
       return AuthService.login(user).then(
         user => {
+               /*
+            @Auth Store Token
+            */
+            document.cookie = `tokenJWT=${user.token}`;
             commit('authUserToken', {
                 token: tokenAuth,
                 userId: userId

@@ -3,57 +3,28 @@
           <div class="product-main">
             <!-- Title -->
             <h1 class="title">
-                New Products
+                More to love
             </h1>
             <!-- List of Products -->
             <div class="product-grid">
                 <!-- Products -->
                 <div class="showcase" v-for="item in items" :key="item.id">
-                    <div class="showcase-banner">
-                        <img :src="item.image" alt="Mens Winter Leathers Jackets" width="300" class="product-img default">
-                        <img :src="item.image" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover">
-                        <p class="showcase-badge">15%</p>
-                        <div class="showcase-actions">
-                            <button class="btn-action">
-                                <ion-icon name="heart-outline"></ion-icon>
-                            </button>
-
-                            <button class="btn-action">
-                                <ion-icon name="eye-outline"></ion-icon>
-                            </button>
-
-                            <button class="btn-action">
-                                <ion-icon name="repeat-outline"></ion-icon>
-                            </button>
-
-                            <button class="btn-action">
-                                <ion-icon name="bag-add-outline"></ion-icon>
-                            </button>
+                   <router-link to="/" style="text-decoration: none;">
+                     <div class="showcase-banner">
+                            <img :src="item.image" alt="Mens Winter Leathers Jackets" width="300" class="product-img default">
+                            <img :src="item.image" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover">
                         </div>
-                    </div>
-                    <div class="showcase-content">
-
-                        <a href="#" class="showcase-category">
-                            {{ item.title }}
-                        </a>
-                        <a href="#">
-                        <h3 class="showcase-title">Mens Winter Leathers Jackets</h3>
-                        </a>
-
-                        <div class="showcase-rating">
-                        <ion-icon name="star"></ion-icon>
-                        <ion-icon name="star"></ion-icon>
-                        <ion-icon name="star"></ion-icon>
-                        <ion-icon name="star-outline"></ion-icon>
-                        <ion-icon name="star-outline"></ion-icon>
+                        <div class="showcase-content">
+                            <!-- Sold -->
+                            <div class="price-box flex-column">
+                                <h6 class="price">KHR41.12</h6>
+                                 <span class="showcase-category">    
+                                    Extra 5% off with coins
+                                </span>
+                                 <h6 class="showcase-title"> {{ item.title }}</h6>
+                            </div>
                         </div>
-
-                        <div class="price-box">
-                        <p class="price">$48.00</p>
-                        <del>$75.00</del>
-                        </div>
-
-                    </div>
+                   </router-link>
                 </div>
             </div>
 
@@ -68,7 +39,7 @@
                 items:[
                     {
                         id: '1',
-                        image: 'https://codewithsadee.github.io/anon-ecommerce-website/assets/images/products/jacket-3.jpg',
+                        image: 'https://ae01.alicdn.com/kf/S8f2f4ce2a19a4f498e6a9413ada25592y/Short-Sleeve-Elegant-Dresses-for-Women-Geometric-Print-Ruffle-Hem-Bodycon-Skinny-Mini-Dress-New-Fashion.jpg_220x220xz.jpg_.webp',
                         title: 'Cheap and sophisticated women in lace bikinis cover beach dresses',
                         price: ' $0.76 - $0.85'
                     },

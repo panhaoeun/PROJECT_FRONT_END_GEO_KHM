@@ -21,6 +21,8 @@
                                     :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                     :rowsPerPageOptions="[5, 10, 25]"
+                                    :metaKeySelection="false"
+                                    @rowSelect="onRowSelectCatList"
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                                 <!-- Header -->
                                 <template #header>
@@ -32,19 +34,25 @@
                                         </span>
                                     </div>
                                 </template>
-                                <!-- Empty Products -->
-                                <template #empty> No Categories found. </template>
-                                <!-- Loading Products -->
-                                <template #loading> Loading Categories data. Please wait. </template>
+                            <!-- Empty Products -->
+                            <template #empty> No Categories found. </template>
+                            <!-- Loading Products -->
+                            <template #loading> Loading Categories data. Please wait. </template>
                             <!--------------Check Existed Data ----------->
                              <div v-if="catList && catList.length > 0 && catList != ''">
                                 <!-- Columns -->
-                                    <Column field="Logo" header="Category Image" sortable style="min-width:15rem">
-                                        <template #body>
-                                            <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" size="xlarge" shape="circle" />
+                                    <Column field="id" header="Category Image" sortable style="min-width:15rem">
+                                        <template #body="{data}">
+                                            <div class="flex flex-column">
+                                              <div class="flex px-2 py-2">
+                                                <router-link :to="{path: '/vendor/products/sub-category/list', id: data.catID }" class="flex px-1 py-1">
+                                                      <Avatar :image="`${envVueHost}uploads/products/${data.catLogo}`" class="mr-2" shape="circle" :data-id="data"/>
+                                                    {{ data.catNameEn }}
+                                                </router-link>
+                                              </div>
+                                            </div>
                                         </template>
                                     </Column>
-                                    <Column field="catNameEn" header="Name" sortable style="min-width:20rem"></Column>
                                     <Column field="category" header="Category Status" sortable style="min-width:10rem">
                                         <template #body>
                                             <div class="font-bold">
@@ -88,8 +96,8 @@
     // import { useToast } from 'primevue/usetoast';
     import { FilterMatchMode } from 'primevue/api';
     import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
-import { ElMessage } from 'element-plus';
-    export default{
+   import { ElMessage } from 'element-plus';
+     export default{
         data(){
             return {
                 catID: '',
@@ -100,7 +108,8 @@ import { ElMessage } from 'element-plus';
                 selectedCategoriesList: '',
                 filters: {
                     'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
-                }
+                },
+                envVueHost: process.env.VUE_APP_PATH_FILE
             }
         },
         created() {
@@ -109,9 +118,10 @@ import { ElMessage } from 'element-plus';
         mounted(){
             const proCatService = new ProductCategoriesServices();
             proCatService.getProCategory().then((data) => {
-                if (data.success == true) {
-                    this.catList = data.result.resultStatus;
+                if (!data) {
+                    ElMessage.error("Internal Error...");
                 }
+                this.catList = data;
             });
         },
         computed: {
@@ -137,6 +147,9 @@ import { ElMessage } from 'element-plus';
                }).catch((error) => {
                   ElMessage.error(error);
                });
+            },
+            onRowSelectCatList(event){
+                console.log(event)
             }
         }
     }
