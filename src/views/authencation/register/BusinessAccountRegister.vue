@@ -108,10 +108,8 @@
                         </p>
                     </div>
                 </div>
-
                 <!-- Messages MazDialog -->
-                <Message v-for="msg of messages" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
-                    
+                <Message v-for="msg of messages" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>            
             </div>
             <!-- Create business account button -->
             <div class="flex justify-content-center">
@@ -128,6 +126,7 @@
     import { useVuelidate } from "@vuelidate/core";
     import AuthenticationsDataService from "../../../services/authencationDataService";
     import Loading from 'vue-loading-overlay';
+    import { ElMessage } from 'element-plus';
 
     export default {
         setup: () => ({ v$: useVuelidate() }),
@@ -185,10 +184,7 @@
                         //Push Router
                         this.$router.push("/vendor/dashboard");    
                     }).catch(e => {
-                        //  Toast Alert 
-                        this.messages = [
-                             {severity: 'error', content: e.response.data.error},
-                        ]
+                        ElMessage.error(e.response.data.message);
                     })
                     // JSON responses are automatically parsed.
                 } catch (error) {

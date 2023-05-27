@@ -4,8 +4,33 @@ import DefaultLayoutVendor from "../components/layouts/vendors/DefaultLayouts.vu
   @Default Routes
 */ 
 const defaultChildRoutes = (prefix) => [
+     /*
+     @Dashboard Managements
+    */
+    {
+        path:'/vendor-dashboard/default-layouts',
+        name: prefix + '.dashboard',
+        meta: { auth: true, name: 'Home', isBanner: false },
+        component:()=> import('../dashboard/DashboardLayout.vue'),
+    },
     /*
-     @Products
+     @Authentications Managements
+    */
+    //   profile
+    {
+        path:'/profile',
+        component:()=> import('../views/vendors/vendors_profile/ProfileVue.vue'),
+    },
+    {
+        path:'/login-activities',
+        component:()=> import('../views/vendors/vendors_profile/LogInActivityVue'),
+    },
+    {
+        path:'/change-password',
+        component:()=> import('../views/vendors/vendors_profile/ChangePasswordVue.vue'),
+    },
+    /*
+     @Products Managements
     */
     {
         path: "/vendor/products/list",
@@ -22,7 +47,9 @@ const defaultChildRoutes = (prefix) => [
         name: prefix + '.product-edit',
         component: () => import("../views/vendors/products/ProductUpdated.vue"),
     },
-    //================Category============
+    /*
+      @Categories Managements
+    */
     {
         path: "/vendor/products/category/list",
         name: prefix + '.product-category-list',
@@ -45,7 +72,7 @@ const defaultChildRoutes = (prefix) => [
         component: () => import("../views/vendors/category/sub_category/SubCategoryView.vue"),
     },
     {
-        path: "/vendor/products/sub-category/create",
+        path: "/vendor/products/sub-category/create/:superCatID",
         name:prefix + '.product-sub-category-create',
         component: () => import("../views/vendors/category/sub_category/SubCategoryCreate.vue"),
     },
@@ -54,7 +81,9 @@ const defaultChildRoutes = (prefix) => [
         name:prefix + '.product-sub-category-edit',
         component: () => import("../views/vendors/category/sub_category/UpdatedProductSubCategory.vue"),
     },
-    //My Shops
+     /*
+      @Shops Managements
+    */
     {
         path: "/vendor/shop/list",
         name:'shop-list',
@@ -70,30 +99,21 @@ const defaultChildRoutes = (prefix) => [
         name:'shop-updated',
         component: () => import("../views/vendors/shops/ShopInfoUpdated.vue"),
     },
-    //Sellers
+    /*
+      @Sellers Managements
+    */
     {
         path: "/vendor/sellers/list",
-        name:'seller-list',
+        name:prefix + '.seller-list',
         component: () => import("../views/vendors/sellers/ListsSeller.vue"),
     },
-    //Customer
+    /*
+      @Customer Managements
+    */
     {
         path: "/vendor/sellers/customer",
-        name:'customer-list',
+        name:prefix +  '.customer-list',
         component: () => import("../views/vendors/customers/ListCustomers.vue"),
-    },
-    //   profile
-    {
-        path:'/profile',
-        component:()=> import('../views/vendors/vendors_profile/ProfileVue.vue'),
-    },
-    {
-        path:'/login-activities',
-        component:()=> import('../views/vendors/vendors_profile/LogInActivityVue'),
-    },
-    {
-        path:'/change-password',
-        component:()=> import('../views/vendors/vendors_profile/ChangePasswordVue.vue'),
     },
     
     {
@@ -101,18 +121,47 @@ const defaultChildRoutes = (prefix) => [
         name: "",
         component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
     },
-        //   order list 
-    //   order 
+    /*
+      @Order Managements
+    */
     {
         path: "/vendor/order-list",
-        name:'order-list',
+        name: prefix + '.order-list',
         component: () => import('../views/vendors/order/OrderList.vue'),
     },
     {
         path: "/vendor/order-invoice",
         name:'invoice-detail',
         component: () => import('../views/vendors/order/InvoiceDetailView.vue'),
-    }
+    },
+    /*
+      @Users Managements
+    */
+    {
+        path: "/vendor/user/list/crete-user-auth/ui-user-list",
+        name: prefix + '.user-auth-crud',
+        component: () => import("../views/administrators/user_managements/users/UsersMSList.vue"),
+    },
+    {
+        path: "/vendor/user/list/crete-user-auth/ui-user-create",
+        name: prefix + '.user-auth-crud-user-create',
+        component: () => import("../views/administrators/user_managements/users/UserMSCreate.vue"),
+    },
+    {
+        path: "/vendor/user/list/crete-user-auth/ui-user-edit/:id",
+        name: prefix + '.user-auth-crud-user-edit',
+        component: () => import("../views/administrators/user_managements/users/UserMSCreateUpdated.vue"),
+    },
+    {
+        path: "/vendor/user/permission/list/crete-user-auth/ui-permission-list",
+        name: prefix + '.user-auth-crud-permission',
+        component: () => import("../views/administrators/user_managements/permissions/PermissionMSList.vue"),
+    },
+    {
+        path: "/vendor/user/permission/list/crete-user-auth/ui-permission-create",
+        name: prefix + '.user-auth-crud-permission-add',
+        component: () => import("../views/administrators/user_managements/permissions/PermissionsMSCreate.vue"),
+    },
 ];
 export default [
     {

@@ -211,15 +211,49 @@
                       <span class="item-count">{{ cart.length }}</span>
                     </a>
                   </li>
+                  <!-- User Drop Down -->
                   <li>
-                    <a
-                      v-b-toggle.search_sidebar
-                      class="search_width offcanvas-toggle"
+                    <el-dropdown
+                          v-b-toggle.search_sidebar
+                          class="search_width offcanvas-toggle"
                     >
-                      <img src="@/assets/img/svg/search.svg" alt="img" />
-                    </a>
+                        <span class="el-dropdown-link">
+                            <icon-component type="outlined" icon-name="user" size="30"></icon-component>
+                        </span>
+                        <template #dropdown>
+                            <el-dropdown-menu class="px-2 py-2">
+                                <el-dropdown-item>
+                                    <div class="d-flex align-items-center gap-3 py-2">
+                                        <router-link to="/auth/register" class="text-center btn btn-primary d-flex gap-2 bg-color-standard-red-gradient border-none font-bold">
+                                            Register
+                                        </router-link>
+                                        <router-link to="/auth/login" class="text-center btn btn-primary d-flex gap-2 bg-red-transparent text-danger border-none font-bold">
+                                            Sign In
+                                        </router-link>
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    My Order
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    Wish List
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    My Favorite Store
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
                   </li>
-                  <li>
+                <li>
+                    <a
+                        v-b-toggle.search_sidebar
+                        class="search_width offcanvas-toggle"
+                    >
+                        <img src="@/assets/img/svg/search.svg" alt="img" />
+                    </a>
+                </li>
+                <li>
                     <a
                       @click="drawerOffCanMobileMenu=true"
                       v-b-toggle.offcanvas-about
@@ -365,11 +399,10 @@
         class="offcanvas-add-cart-section"
         v-model="drawerOffWishListMenu"
     >
-        <div class="offcanvas-wishlist-wrapper">
-            <h4 class="offcanvas-title">Wishlist</h4>
-
+        <div class="offcanvas-wishlist-wrapper font-bold">
+            <h4 class="offcanvas-title pb-4 pl-3 font-bold">Wishlist</h4>
             <div v-if="wishlist.length">
-            <ul class="offcanvas-wishlist">
+            <ul class="offcanvas-wishlist" style="padding: 1rem;">
                 <li
                 class="offcanvas-wishlist-item-single"
                 v-for="(item, index) in wishlist"
@@ -380,31 +413,31 @@
                     :to="{ path: '/product/' + item.id }"
                     class="offcanvas-wishlist-item-image-link"
                     >
-                    <img
-                        :src="getImageUrl(item.images[0].src)"
-                        alt="img"
-                        class="offcanvas-wishlist-image"
-                    />
+                        <img
+                            :src="getImageUrl(item.images[0].src)"
+                            alt="img"
+                            class="offcanvas-wishlist-image"
+                        />
                     </router-link>
                     <div class="offcanvas-wishlist-item-content">
-                    <router-link
-                        :to="{ path: '/product/' + item.id }"
-                        class="offcanvas-wishlist-item-link"
-                        >{{ item.title }}</router-link
-                    >
-                    <div class="offcanvas-wishlist-item-details">
-                        <span class="offcanvas-wishlist-item-details-quantity"
-                        >{{ item.quantity }} x</span
+                        <router-link
+                            :to="{ path: '/product/' + item.id }"
+                            class="offcanvas-wishlist-item-link font-bold text-lg text-black" 
+                            >{{ item.title }}</router-link
                         >
-                        <span
-                        v-if="item.discount"
-                        class="offcanvas-wishlist-item-details-price"
-                        >${{ discountedPrice(item) }}</span
-                        >
-                        <span v-else class="offcanvas-wishlist-item-details-price"
-                        >${{ item.price }}</span
-                        >
-                    </div>
+                        <div class="offcanvas-wishlist-item-details">
+                            <span class="offcanvas-wishlist-item-details-quantity"
+                            >{{ item.quantity }} x</span
+                            >
+                            <span
+                            v-if="item.discount"
+                            class="offcanvas-wishlist-item-details-price"
+                            >${{ discountedPrice(item) }}</span
+                            >
+                            <span v-else class="offcanvas-wishlist-item-details-price"
+                            >${{ item.price }}</span
+                            >
+                        </div>
                     </div>
                 </div>
                 <div class="offcanvas-wishlist-item-delete text-right">
@@ -421,7 +454,7 @@
                 </div>
                 </li>
             </ul>
-            <ul class="offcanvas-wishlist-action-button">
+            <ul class="offcanvas-wishlist-action-button" style="padding: 1rem;">
                 <li>
                 <router-link
                     to="/my-account/wishlist"
@@ -431,9 +464,8 @@
                 </li>
             </ul>
             </div>
-
-            <ul v-else class="offcanvas-wishlist">
-            <li>No Item in your wishlist!</li>
+            <ul v-else class="offcanvas-wishlist text-lg font-bold">
+                 <li>No Item in your wishlist!</li>
             </ul>
         </div>
     </el-drawer>
@@ -442,12 +474,13 @@
     <el-drawer 
       v-model="drawerOffAddToCartMenu"
       id="offcanvas-add-cart"
-      class="offcanvas-add-cart-section"
+      class="offcanvas-add-cart-section
+      b-sidebar b-sidebar-right bg-light text-dark"
     >
       <div class="offcanvas-add-cart-wrapper">
-        <h4 class="offcanvas-title">Shopping Cart</h4>
+        <h4 class="offcanvas-title pb-4 font-bold">Shopping Cart</h4>
         <div v-if="cart.length">
-          <ul class="offcanvas-cart">
+          <ul class="offcanvas-cart" style="margin-left: 0rem;">
             <li
               class="offcanvas-cart-item-single"
               v-for="(item, index) in cart"
@@ -464,19 +497,19 @@
                     class="offcanvas-cart-image"
                   />
                 </router-link>
-                <div class="offcanvas-cart-item-content">
+                <div class="offcanvas-cart-item-content text-black text-lg">
                   <router-link
                     :to="{ path: '/product/' + item.id }"
-                    class="offcanvas-cart-item-link"
+                    class="offcanvas-cart-item-link font-bold text-black"
                     >{{ item.title }}</router-link
                   >
                   <div class="offcanvas-cart-item-details">
-                    <span class="offcanvas-cart-item-details-quantity"
+                    <span class="offcanvas-cart-item-details-quantity text-lg"
                       >{{ item.quantity }} x</span
                     >
                     <span
                       v-if="item.discount"
-                      class="offcanvas-cart-item-details-price"
+                      class="offcanvas-cart-item-details-price text-lg"
                       >${{ discountedPrice(item) }}</span
                     >
                     <span v-else class="offcanvas-cart-item-details-price"
@@ -497,13 +530,13 @@
           </ul>
 
           <div class="offcanvas-cart-total-price">
-            <span class="offcanvas-cart-total-price-text">Subtotal:</span>
+            <span class="offcanvas-cart-total-price-text font-bold">Subtotal:</span>
             <span class="offcanvas-cart-total-price-value"
               >${{ cartTotal }}</span
             >
           </div>
 
-          <ul class="offcanvas-cart-action-button">
+          <ul class="offcanvas-cart-action-button font-bold" style="padding-left: 0rem;">
             <li>
               <router-link
                 to="/customer/shopping-cart/product-list/cart-items"

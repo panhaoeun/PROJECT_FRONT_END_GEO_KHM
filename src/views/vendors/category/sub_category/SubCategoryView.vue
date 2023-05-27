@@ -4,12 +4,14 @@
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class="relative text-black text-3xl section section-title:before">Sub Category Lists</h2>
-            <el-button type="info" size="large" class="py-4" @click="$router.push('/vendor/products/sub-category/create')">
-                <div class="flex justify-between pl-2">
-                    <i class="pi pi-plus" style="font-size: 1rem"></i>
-                    <span class="pl-2">Add Sub Categories</span>
-                </div>
-            </el-button>
+            <div v-if="selectOptValueCat !== null">
+                <el-button type="info" size="large" class="py-4" @click="$router.push(`/vendor/products/sub-category/create/${selectOptValueCat}`)">
+                    <div class="flex justify-between pl-2">
+                        <i class="pi pi-plus" style="font-size: 1rem"></i>
+                        <span class="pl-2">Add Sub Categories</span>
+                    </div>
+                </el-button>
+            </div>
         </div>
         <div class="gird">
             <div class="col-12">
@@ -25,7 +27,22 @@
                                 <!-- Header -->
                                 <template #header>
                                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                                        <h4 class="m-0"></h4>
+                                        <!-- Select Sub Categories -->
+                                        <h4 class="m-0">
+                                            <el-select 
+                                                @change="getCurrentOptCat"
+                                                v-model="selectOptValueCat" 
+                                                filterable  
+                                                placeholder="Select">
+                                                <el-option 
+                                                    selected
+                                                    v-for="item in catSubListDropDownView" 
+                                                    :value="item.catID" 
+                                                    :label="item.catNameEn"
+                                                    :key="item.catID"        
+                                                ></el-option>
+                                            </el-select>
+                                        </h4>
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />
                                             <InputText v-model="filters['global'].value" placeholder="Search..." />
@@ -92,32 +109,52 @@ export default {
             statusShopSwitch: '',
             deleteCatDialog: false,
             product: '',
-            selectedSubCategoriesList: '',
+            selectedSubCategoriesList: null,
+            selectOptValueCat: null,
             filters: {
                 'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
-            }
+            },
+            selectedCategories: '',
+            catSubListDropDownView: [],
         }
     },
     created() {
         this.proCategoryService = new ProductCategoriesServices();
     },
     mounted() {
-        this.proCategoryService.getSubProCategory().then((data) => {
+        this.proCategoryService.getProCategory().then((data) => {
             if (!data) {
                 ElMessage.error("Internal Error...");
             }
-             this.catSubList = data;
+            this.catSubListDropDownView = data;
         });
     },
     computed: {
-        dataUrl(preImg) {
-            return 'data:image/jpeg;base64,' + btoa(
-                new Uint8Array(preImg)
-                    .reduce((data, byte) => data + String.fromCharCode(byte), '')
-            );
+        computedQuerySubByCatID(){
+            return this.catSubList;
         }
     },
     methods: {
+        getCurrentOptCat(catID){
+            if(!catID){
+                ElMessage.error('Please select categories...');
+                this.catSubList = {};
+            }
+            try {
+                // const catID = this.selectOptValueCat;
+                this.proCategoryService.querySubProCategoryBySuperCatID(this.selectOptValueCat).then((datCatId) => {
+                    if (!datCatId) {
+                        ElMessage.error("Internal Error...");
+                    }
+                    this.catSubList = datCatId;
+                }).catch((err) => {
+                    console.log(err)
+                    ElMessage.error(err);
+                });
+            } catch (error) {
+                ElMessage.error(error);
+            }
+        },
         confirmDeleteProduct(superCatID) {
             this.superCatID = superCatID;
             this.deleteCatDialog = true;

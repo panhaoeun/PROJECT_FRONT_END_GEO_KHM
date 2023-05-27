@@ -211,8 +211,8 @@ ul li {
 }
 
 .theme-btn-one {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
   display: inline-block;
@@ -417,7 +417,7 @@ button {
 }
 
 .sticky-header.sticky.sticky-color--golden {
-  background: #FEF5EF;
+  background: #FFF;
 }
 
 .sticky-header.sticky.sticky-color--white {
@@ -660,7 +660,7 @@ button {
 }
 
 .header-logo .logo img {
-  width: 100%;
+  width: 50%;
   height: auto;
 }
 
@@ -878,7 +878,7 @@ button {
 }
 
 .mobile-header-bg-color--golden {
-  background: #FEF5EF;
+  background: #FFF;
 }
 
 .mobile-header-bg-color--white {
@@ -1197,7 +1197,8 @@ button {
 }
 
 .offcanvas-title {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  font-size: 30px;
 }
 
 .offcanvas-mobile-menu-section,

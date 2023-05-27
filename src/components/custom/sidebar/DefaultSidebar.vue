@@ -1,11 +1,11 @@
 <template>
   <aside id="first-tour" :class="`sidebar sidebar-base ${sidebarColor} ${sidebarMenuStyle} ${sidebarType.join(' ')}`" data-toggle="main-sidebar" data-sidebar="responsive">
     <div class="sidebar-header d-flex align-items-center justify-content-start">
-      <router-link :to="{ path: 'vendor-dashboard/default-layouts' }" class="navbar-brand">
+      <router-link :to="{ path: '/' }" class="navbar-brand">
         <brand-logo></brand-logo>
-        <h4 class="logo-title" data-setting="app_name">
-          <brand-name></brand-name>
-        </h4>
+            <h4 class="logo-title" data-setting="app_name">
+              <brand-name></brand-name>
+            </h4>
       </router-link>
       <div class="sidebar-toggle" @click="toggleSidebar">
         <i class="icon">
@@ -31,12 +31,12 @@ import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import Scrollbar from 'smooth-scrollbar';
 import BrandLogo from "../../brand_logo/BrandLogo.vue";
-import BrandName from "../../brand_logo/BrandName.vue";
+import brandName from "../../brand_logo/BrandName.vue";
 
 export default {
   components: {
      BrandLogo,
-     BrandName
+     brandName
   },
   setup() {
         const store = useStore()

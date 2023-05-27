@@ -90,6 +90,7 @@ import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
 // import AuthenticationsDataService from  "../../services/authencationDataService";
 import Loading from 'vue-loading-overlay';
+import { ElMessage } from "element-plus";
 
 export default {
     setup: () => ({ v$: useVuelidate() }),
@@ -142,24 +143,24 @@ export default {
                     }
                     this.isLoading = true;
                      setTimeout(() => {
-                                this.isLoading = false
+                            this.isLoading = false
                     }, 1000);
                     this.$store.dispatch("auth/login", data).then(
                         (response) => {
                             //Check validation  
                             if(response.success == true){
                                 if (response.userType === "Vendor") {
-                                    this.$router.push("/vendors/dashboard");
+                                    // console.log(response.userType)
+                                    this.$router.push("/vendor-dashboard/default-layouts");
                                 } else if (response.userType === "Customer") {
                                     this.$router.push("/");
                                 }
                             }                
                         },
                         (error) => {
-                            if(error.response.data.success === false){
-                              if (typeof (error.response.data.error.error) !== undefined) {
-                                this.messages = (error.response.data.error.error);
-                              }    
+                            if(typeof(error.response.data.error.error) !== undefined){
+                                ElMessage.error(error.response.data.message);
+                                ElMessage.error(error.response.data.error.error);
                             }
                         }
                     );

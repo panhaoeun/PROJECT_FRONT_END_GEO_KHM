@@ -3,12 +3,6 @@
     <!-- <nav :class="`nav navbar navbar-expand-xl navbar-light iq-navbar ${headerNavbar} ${navbarHide.join('')}`"> -->
     <div class="container-fluid navbar-inner">
       <slot></slot>
-      <div class="input-group search-input" v-if="isSearch">
-        <span class="input-group-text" id="search-input">
-          <icon-component type="outlined" :size="18" icon-name="search"></icon-component>
-        </span>
-        <input type="search" class="form-control" placeholder="Search..." />
-      </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon">
           <span class="mt-2 navbar-toggler-bar bar1"></span>
@@ -18,14 +12,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
-          <li class="me-0 me-xl-2" v-if="isGoPro">
-            <a class="btn btn-primary btn-sm d-flex gap-2 align-items-center" aria-current="page" href="http://hopeui.iqonic.design/pro?utm_source=hopeui-free-demo&utm_medium=hopeui-free-demo&utm_campaign=hopeui-pro-launch" target="_blank">
-              <icon-component type="outlined" :size="16" icon-name="location-arrow"></icon-component>
-              Go Pro
-            </a>
-          </li>
           <li class="nav-item dropdown">
-            <a href="#" class="search-toggle nav-link" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="#" class="search-toggle nav-link me-0 me-xl-2" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="../../../assets/img/Flag/flag001.png" class="img-fluid rounded-circle" alt="user" style="height: 30px; min-width: 30px; width: 30px" />
               <span class="bg-primary"></span>
             </a>
@@ -78,44 +66,6 @@
                       </div>
                     </div>
                   </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/02.png" alt="" />
-                      </div>
-                      <div class="ms-3 w-100">
-                        <h6 class="mb-0">New customer is join</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <p class="mb-0">Cyst Bni</p>
-                          <small class="float-end font-size-12">5 days ago</small>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/03.png" alt="" />
-                      <div class="ms-3 w-100">
-                        <h6 class="mb-0">Two customer is left</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <p class="mb-0">Cyst Bni</p>
-                          <small class="float-end font-size-12">2 days ago</small>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/04.png" alt="" />
-                      <div class="w-100 ms-3">
-                        <h6 class="mb-0">New Mail from Fenny</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <p class="mb-0">Cyst Bni</p>
-                          <small class="float-end font-size-12">3 days ago</small>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
                 </b-card-body>
               </b-card>
             </div>
@@ -144,50 +94,6 @@
                       </div>
                     </div>
                   </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/02.png" alt="" />
-                      </div>
-                      <div class="ms-3">
-                        <h6 class="mb-0">Lorem Ipsum Watson</h6>
-                        <small class="float-start font-size-12">20 Apr</small>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/03.png" alt="" />
-                      </div>
-                      <div class="ms-3">
-                        <h6 class="mb-0">Why do we use it?</h6>
-                        <small class="float-start font-size-12">30 Jun</small>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/04.png" alt="" />
-                      </div>
-                      <div class="ms-3">
-                        <h6 class="mb-0">Variations Passages</h6>
-                        <small class="float-start font-size-12">12 Sep</small>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/05.png" alt="" />
-                      </div>
-                      <div class="ms-3">
-                        <h6 class="mb-0">Lorem Ipsum generators</h6>
-                        <small class="float-start font-size-12">5 Dec</small>
-                      </div>
-                    </div>
-                  </a>
                 </b-card-body>
               </b-card>
             </div>
@@ -201,15 +107,12 @@
               <img src="../../../assets/img/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded" />
               <img src="../../../assets/img/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded" />
               <div class="caption ms-3 d-none d-md-block">
-                <h6 class="mb-0 caption-title">Austin Robertson</h6>
+                <h6 class="mb-0 caption-title">{{ user[0].nameEng ?? 'PhzarKhmer' }}</h6>
                 <p class="mb-0 caption-sub-title">Marketing Administrator</p>
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <!-- <li><router-link class="dropdown-item">Profile</router-link></li>
-              <li><router-link class="dropdown-item">Privacy Setting</router-link></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><router-link class="dropdown-item">Logout</router-link></li> -->
+                  <li><span class="dropdown-item cursor-pointer" @click="authVenAdLogout">Logout</span></li>
             </ul>
           </li>
         </ul>
@@ -265,5 +168,55 @@ export default {
       emit
     }
   }
+}
+</script>
+
+<!-- Script Setup -->
+<script setup>
+import AuthenticationsDataService from '../../../services/authencationDataService';
+import { useRouter } from "vue-router";
+import { storeToRefs } from 'pinia';
+import { ElMessage } from 'element-plus';
+import { useAuthStoreToken } from "../../../utils/auth/AuthStoreTokenJWT";
+const { user } = storeToRefs(useAuthStoreToken());
+const { setAuthUser } = useAuthStoreToken();
+const router = useRouter();
+
+function authVenAdLogout() {
+    try {
+        /*
+            Auto Return To Login
+        */
+        AuthenticationsDataService.authLogout().then((response) => {
+            ElMessage.success(response.data.message);
+            localStorage.clear('token');
+            localStorage.clear('tokenExpiry');
+            localStorage.clear('expiresIn')
+            localStorage.clear('user');
+            localStorage.clear('userId');
+            setAuthUser(null);
+            router.push("/auth/login");
+            /**
+             * Delete Cookies
+             * */
+            deleteAllCookies();
+        }).catch((error) => {
+            console.log(error)
+            ElMessage.error(error);
+        });
+    } catch (error) {
+        ElMessage.error(error);
+    }
+}
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + `=;expires=${new Date(
+            0
+        ).toUTCString()}`;
+    }
 }
 </script>

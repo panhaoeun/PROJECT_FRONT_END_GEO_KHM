@@ -2,7 +2,10 @@
   <div id="loading">
     <div :class="`loader simple-loader ${!show ? 'd-none' : ''}`">
       <div class="loader-body">
-        <img src="../../assets/avatar.png" alt="loader" class="light-loader img-fluid w-25" width="200" height="200" />
+<div class="loader-container">
+    <!-- <?xml version="1.0" encoding="utf-8"?> -->
+    <svg class="loader" xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" x="0" y="0" viewBox="0 0 200 200" xml:space="preserve"><path class="loaderreverse" d="M200 100c0-30.3-13.5-57.5-34.8-75.8 -4.8-4.1-12.2-3-15.8 2.3v0c-3 4.5-2.4 10.7 1.8 14.2 16.6 14.4 27.1 35.6 27.1 59.3s-10.5 44.9-27.1 59.3c-4.1 3.6-4.8 9.7-1.8 14.2v0c3.6 5.3 11 6.4 15.8 2.3C186.5 157.5 200 130.3 200 100z"/><path d="M156.7 100c0-14.9-5.8-28.5-15.2-38.6 -4.6-4.9-12.6-4.1-16.3 1.4l-0.4 0.6c-2.8 4.1-2.2 9.5 1.2 13.2 5.7 6.2 9.1 14.4 9.1 23.5 0 9-3.4 17.3-9.1 23.5 -3.3 3.7-3.9 9-1.2 13.2l0.4 0.6c3.7 5.6 11.7 6.3 16.3 1.4C150.9 128.5 156.7 114.9 156.7 100z"/></svg>
+</div>
       </div>
     </div>
   </div>
@@ -19,4 +22,38 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style >
+    /* Background */
+.loader-container {
+  width: 100vw;
+  height: 100vh;
+  background: #25313f;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader {
+  width: 100px;
+  height: 100px;
+}
+.loader path {
+  fill: #fff;
+  transform-origin: center;
+  animation: rotate 1.5s linear infinite;
+}
+.loaderreverse {
+  animation-direction: reverse !important;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+  from {
+    transform: rotate(0deg);
+  }
+}
+</style>

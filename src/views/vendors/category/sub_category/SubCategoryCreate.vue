@@ -35,12 +35,12 @@
                                                 class="form-select py-3 text-md p-dropdown-item  border-round-lg"
                                                 v-model="v$.selectedCategories.$model"
                                                 @click="getCategoriesSelect()">
-                                                <option value="" disabled> Select an application</option>
                                                 <option v-for="(result, index) in catSubListDropDown" 
                                                         :key="index" 
                                                         :value="result.catID" 
+                                                        :selected="result.catID == this.$route.params.superCatID"
                                                     class="p-dropdown-item">
-                                                       {{ result.catNameEn }}    
+                                                       {{ result.catNameEn }} 
                                                 </option>  
                                             </select>
                                         </div>
@@ -167,9 +167,7 @@ export default {
         },
         async getCategoriesSelect(){
             this.proSubCategoryService.getProCategory().then((data) => {
-                if (data.success == true) {
-                    this.catSubListDropDown = data.result.resultStatus;
-                }
+                this.catSubListDropDown = data;
             });
         },
         async handleSubCategorySubmit(isFormValidCategorySub) {
