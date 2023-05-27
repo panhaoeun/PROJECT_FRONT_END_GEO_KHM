@@ -89,6 +89,11 @@ export const auth = {
        }
     }
   },
+  getters: {
+     isUserLoggedIn: state => {
+        console.log(state)
+     }
+  },
   mutations: {
     loginFailure(state) {
       state.status.loggedIn = false;

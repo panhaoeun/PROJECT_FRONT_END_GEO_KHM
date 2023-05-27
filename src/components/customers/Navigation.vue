@@ -213,6 +213,7 @@
                   </li>
                   <!-- User Drop Down -->
                   <li>
+                    <!-- Check Authentications/UnAuthorization -->
                     <el-dropdown
                           v-b-toggle.search_sidebar
                           class="search_width offcanvas-toggle"
@@ -222,7 +223,13 @@
                         </span>
                         <template #dropdown>
                             <el-dropdown-menu class="px-2 py-2">
-                                <el-dropdown-item>
+                                <!-- My Profile -->
+                                <el-dropdown-item v-if="isUserLoggedIn">
+                                    <div class="d-flex align-items-center gap-3 py-2">
+                                        <span>{{ getUserName.name_eng }}</span>
+                                    </div>
+                                 </el-dropdown-item>
+                                <el-dropdown-item v-if="!isUserLoggedIn">
                                     <div class="d-flex align-items-center gap-3 py-2">
                                         <router-link to="/auth/register" class="text-center btn btn-primary d-flex gap-2 bg-color-standard-red-gradient border-none font-bold">
                                             Register
@@ -240,6 +247,12 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     My Favorite Store
+                                </el-dropdown-item>
+                                <!-- AutLogout -->
+                                <el-dropdown-item v-if="isUserLoggedIn">
+                                    <button @click="authCustomerAdLogout" class="text-center btn btn-primary d-flex gap-2 bg-color-standard-red-gradient border-none font-bold">
+                                        Logout
+                                    </button>
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
@@ -566,6 +579,8 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
 export default {
   data() {
     return {
@@ -633,8 +648,8 @@ export default {
       cartTotal: "cart/cartTotalAmount",
       wishlist: "products/wishlistItems",
     }),
+    
   },
-
   methods: {
     // Image Url
     getImageUrl(path) {
@@ -661,7 +676,63 @@ export default {
   },
 };
 </script>
-
+<!-- Script SetUp -->
+<script setup>
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import { useAuthStoreToken } from "../../utils/auth/AuthStoreTokenJWT";
+    import AuthenticationsDataService from '../../services/authencationDataService';
+    const { tokenAuth, user } = storeToRefs(useAuthStoreToken());
+    const { setAuthUser } = useAuthStoreToken();
+    const router = useRouter();
+    const isUserLoggedIn = computed(() => {
+        return tokenAuth;
+    });
+    const getUserName = computed(() => {
+        if (user === '') {
+             return 'user';
+        } else {
+            return user.value[0];
+        }
+    });
+    function authCustomerAdLogout() {
+    try {
+        /*
+            Auto Return To Login
+        */
+        AuthenticationsDataService.authLogout().then((response) => {
+            ElMessage.success(response.data.message);
+            localStorage.clear('token');
+            localStorage.clear('tokenExpiry');
+            localStorage.clear('expiresIn')
+            localStorage.clear('user');
+            localStorage.clear('userId');
+            setAuthUser(null);
+            router.push("/auth/login");
+            /**
+             * Delete Cookies
+             * */
+            deleteAllCookies();
+        }).catch((error) => {
+            console.log(error)
+            ElMessage.error(error);
+        });
+    } catch (error) {
+        ElMessage.error(error);
+    }
+}
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + `=;expires=${new Date(
+            0
+        ).toUTCString()}`;
+    }
+}
+</script>
 <style>
 /* Mobile Menu Multi Dropdown Items Start */
 .v-sidebar-menu .vsm--toggle-btn {
