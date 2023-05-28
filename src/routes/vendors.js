@@ -26,7 +26,7 @@ const defaultChildRoutes = (prefix) => [
         component:()=> import('../views/vendors/vendors_profile/LogInActivityVue'),
     },
     {
-        path:'/change-password',
+        path: prefix + '/change-password',
         component:()=> import('../views/vendors/vendors_profile/ChangePasswordVue.vue'),
     },
     /*
@@ -131,7 +131,7 @@ const defaultChildRoutes = (prefix) => [
     },
     {
         path: "/vendor/order-invoice",
-        name:'invoice-detail',
+        name: prefix  + '.invoice-detail',
         component: () => import('../views/vendors/order/InvoiceDetailView.vue'),
     },
     /*
