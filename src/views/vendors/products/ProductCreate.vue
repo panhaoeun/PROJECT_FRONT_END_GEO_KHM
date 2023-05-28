@@ -651,20 +651,17 @@
     height: 180px;
     text-align: center;
 }
-/* *当upLoadShow为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/ */
 .upLoadShow .el-upload {
     width: 20rem !important;
     height: 20rem !important;
     line-height: 20rem !important;
 }
 
-    /*当upLoadHide为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
 .upLoadHide .el-upload-list--picture-card .el-upload-list__item {
     width: 20rem !important;
     height: 20rem !important;
     line-height: 20rem !important;
 }
-    /*当upLoadHide为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
 .upLoadHide .el-upload {
     display: none;
 }

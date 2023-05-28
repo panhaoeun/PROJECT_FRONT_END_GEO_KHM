@@ -62,7 +62,7 @@
                         }}</nuxt-link>
                       </td>
                       <td class="product-price">
-                        ${{ discountedPrice(item) }}
+                        ៛{{ discountedPrice(item) }}
                       </td>
                       <td class="product_quantity">
                         <label>Quantity</label>
@@ -74,7 +74,7 @@
                         />
                       </td>
                       <td class="product_total">
-                        ${{ discountedPrice(item) * item.quantity }}
+                        ៛{{ discountedPrice(item) * item.quantity }}
                       </td>
                     </tr>
                     <!-- End Cart Single Item-->
@@ -99,17 +99,17 @@
               <div class="coupon_inner">
                 <div class="cart_subtotal">
                   <p>Subtotal</p>
-                  <p class="cart_amount">${{ cartTotal }}</p>
+                  <p class="cart_amount"> ៛ {{ cartTotal }}</p>
                 </div>
                 <div class="cart_subtotal">
                   <p>Shipping</p>
-                  <p class="cart_amount"><span>Flat Rate:</span> $25.00</p>
+                  <p class="cart_amount"><span>Flat Rate:</span> ៛25.00</p>
                 </div>
                 <a href="#">Calculate shipping</a>
 
                 <div class="cart_subtotal">
                   <p>Total</p>
-                  <p class="cart_amount">${{ cartTotal + 25 }}</p>
+                  <p class="cart_amount">៛ {{ cartTotal + 25 }}</p>
                 </div>
                 <!-- Process to Check Outs -->
                 <div class="checkout_btn">
