@@ -41,7 +41,7 @@
       </div>
     </div>
     <!-- Footer for Auth Login -->
-    <footer class="fixed-bottom w-full layout-footer index-1 w-full text-500 p-2 footer" style="background-color: #333;">
+    <footer class="fixed-bottom w-full layout-footer index-1 w-full text-500 p-2 footer-verify" style="background-color: #333;">
           <div class="container text-500">
               <a href="#" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">Intellectual Property Protection</a> - 
               <a href="" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">Privacy Policy</a> 
@@ -71,7 +71,7 @@
   </script>
   
   <style>
-  .footer {
+  .footer-verify {
       position: fixed;
       height: 100px;
       bottom: 0;

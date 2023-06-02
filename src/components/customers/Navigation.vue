@@ -28,167 +28,7 @@
                 <!-- End Header Logo -->
 
                 <!-- Start Header Main Menu -->
-                <div
-                  class="main-menu menu-color--black menu-hover-color--golde font-bold text-lg"
-                >
-                  <nav>
-                    <ul>
-                      <li class="has-dropdown">
-                        <a href="#">Home <i class="fa fa-angle-down"></i></a>
-                        <!-- Sub Menu -->
-                        <ul class="sub-menu">
-                          <li><router-link to="/">Fashion</router-link></li>
-                          <li>
-                            <router-link to="/furniture">Furniture</router-link>
-                          </li>
-                          <li>
-                            <router-link to="/electronics">Electronics</router-link>
-                          </li>
-                          <li>
-                            <router-link to="/grocery">Grocery</router-link>
-                          </li>
-                          <li>
-                            <router-link to="/pharmacy">Pharmacy</router-link>
-                          </li>
-                        </ul>
-                      </li>
-
-                      <li class="has-dropdown has-megaitem">
-                        <a href="#">Shop <i class="fa fa-angle-down"></i></a>
-                        <!-- Mega Menu -->
-                        <div class="mega-menu">
-                          <ul class="mega-menu-inner">
-                            <!-- Mega Menu Sub Link -->
-                            <li class="mega-menu-item">
-                              <a href="#" class="mega-menu-item-title"
-                                >Shop Layouts</a
-                              >
-                              <ul class="mega-menu-sub">
-                                <li>
-                                  <router-link to="/shop"
-                                    >Shop Four Grid</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/shop/shop-2"
-                                    >Shop Three Grid</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/shop/shop-3"
-                                    >Shop List View</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/shop/shop-4"
-                                    >Shop Left Sidebar</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/shop/shop-5"
-                                    >Shop Right Sidebar</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/product/1"
-                                    >Product Single</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/product/product-single-2"
-                                    >Product Single Two</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/product/product-single-3"
-                                    >Product Single Three</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/lookbook">Lookbook</router-link>
-                                </li>
-                              </ul>
-                            </li>
-                            <!-- Mega Menu Sub Link -->
-                            <li class="mega-menu-item">
-                              <a href="#" class="mega-menu-item-title"
-                                >Other Pages</a
-                              >
-                              <ul class="mega-menu-sub">
-                                <li>
-                                  <router-link to="/cart/"
-                                    >Cart View One</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/cart/cart-2"
-                                    >Cart View Two
-                                  </router-link>
-                                </li>
-                                <li>
-                                  <router-link to="/cart/cart-3"
-                                    >Cart View Three
-                                  </router-link>
-                                </li>
-                                <li>
-                                  <router-link to="/cart/cart-4"
-                                    >Cart View Four
-                                  </router-link>
-                                </li>
-                                <li>
-                                  <router-link to="/cart/empty-cart"
-                                    >Empty Cart</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/my-account/checkout-1"
-                                    >Checkout View One</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/my-account/checkout-2"
-                                    >Checkout View Two</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/my-account/wishlist"
-                                    >Wishlist</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/my-account/compare"
-                                    >Compare</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link to="/my-account/order-tracking"
-                                    >Order Tracking</router-link
-                                  >
-                                </li>
-                              </ul>
-                            </li>
-
-                            <!-- Mega Menu Sub Link -->
-                            <li class="mega-menu-item">
-                              <div class="menu-banner">
-                                <router-link to="/shop" class="menu-banner-link">
-                                  <img
-                                    class="menu-banner-img"
-                                    :src="
-                                      require('@/assets/img/common/nav_banner.png')
-                                    "
-                                    alt="img"
-                                  />
-                                </router-link>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                   
-                    </ul>
-                  </nav>
-                </div>
+                <MainMenuHeader/>
                 <!-- End Header Main Menu Start -->
 
                 <!-- Start Header Action Link -->
@@ -224,12 +64,12 @@
                         <template #dropdown>
                             <el-dropdown-menu class="px-2 py-2">
                                 <!-- My Profile -->
-                                <el-dropdown-item v-if="isUserLoggedIn">
+                                <el-dropdown-item v-if="user">
                                     <div class="d-flex align-items-center gap-3 py-2">
-                                        <span>{{ getUserName.name_eng }}</span>
+                                        <span>{{ user ? user[0]?.name_eng : '7Day' }}</span>
                                     </div>
                                  </el-dropdown-item>
-                                <el-dropdown-item v-if="!isUserLoggedIn">
+                                <el-dropdown-item v-if="!user">
                                     <div class="d-flex align-items-center gap-3 py-2">
                                         <router-link to="/auth/register" class="text-center btn btn-primary d-flex gap-2 bg-color-standard-red-gradient border-none font-bold">
                                             Register
@@ -249,7 +89,7 @@
                                     My Favorite Store
                                 </el-dropdown-item>
                                 <!-- AutLogout -->
-                                <el-dropdown-item v-if="isUserLoggedIn">
+                                <el-dropdown-item v-if="user">
                                     <button @click="authCustomerAdLogout" class="text-center btn btn-primary d-flex gap-2 bg-color-standard-red-gradient border-none font-bold">
                                         Logout
                                     </button>
@@ -578,6 +418,7 @@
 </template>
 
 <script>
+import  MainMenuHeader from "../customers/headers/MainMenuHeader.vue"
 import { mapState, mapGetters } from "vuex";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
@@ -613,9 +454,7 @@ export default {
       drawerOffAddToCartMenu: false
     };
   },
-
-  mounted: function () {
-    // Menu Js
+ mounted: async function () {
     this.$nextTick(function () {
       window.onscroll = function () {
         myFunction();
@@ -648,7 +487,6 @@ export default {
       cartTotal: "cart/cartTotalAmount",
       wishlist: "products/wishlistItems",
     }),
-    
   },
   methods: {
     // Image Url
@@ -678,23 +516,12 @@ export default {
 </script>
 <!-- Script SetUp -->
 <script setup>
-    import { computed } from "vue";
     import { storeToRefs } from "pinia";
     import { useAuthStoreToken } from "../../utils/auth/AuthStoreTokenJWT";
     import AuthenticationsDataService from '../../services/authencationDataService';
-    const { tokenAuth, user } = storeToRefs(useAuthStoreToken());
+    const { user } = storeToRefs(useAuthStoreToken());
     const { setAuthUser } = useAuthStoreToken();
     const router = useRouter();
-    const isUserLoggedIn = computed(() => {
-        return tokenAuth;
-    });
-    const getUserName = computed(() => {
-        if (user === '') {
-             return 'user';
-        } else {
-            return user.value[0];
-        }
-    });
     function authCustomerAdLogout() {
     try {
         /*

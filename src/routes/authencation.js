@@ -2,7 +2,10 @@ export default [
     {
         path:'/auth/login',
         name:'auth-login',
-        meta: {template: 'authencation-login'},
+        meta: {
+            template: 'authencation-login',
+            title: "Sign In | 7Day",
+        },
         children:[
           {
             path: "/auth/login",
@@ -15,7 +18,10 @@ export default [
     {
         path:'/auth/register',
         name:'auth-register',
-        meta: {template: 'authencation-register'},
+        meta: {
+            template: 'authencation-register',
+            title: "Sign Up | 7Day",
+        },
         children:[
           {
             path: "/auth/register",

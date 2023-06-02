@@ -2,6 +2,7 @@ import { createStore, createLogger} from "vuex";
 import { auth } from "./AuthModule";
 import products from "../store/modules/products";
 import carts from "../store/modules/carts";
+import {categoriesModule} from "../store/ecommerce/categories";
 import setting from './setting';
 
 const debug = process.env.NODE_ENV !== 'production';
@@ -28,8 +29,9 @@ const store = createStore({
     modules: {
         auth,
         products: products,
+        categories: categoriesModule,
         cart: carts,
-        setting: setting
+        setting: setting,
     },
 });
 // Load all modules.

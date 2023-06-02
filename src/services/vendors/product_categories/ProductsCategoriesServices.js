@@ -9,7 +9,7 @@ export default class ProductCategoriesServices {
              .then((result) => {
                  if (result.status == '201') {
                      if (result.data.success == true) {
-                         console.log(result.data.result.resultStatus)
+                        //  console.log(result.data.result.resultStatus)
                          return result.data.result.resultStatus;
                      }
                  }

@@ -9,15 +9,24 @@ export const useAuthStoreToken = defineStore("auth", () => {
     const localStorageToken = localStorage.getItem("token");
     const user = ref(JSON.parse(localStorageUser));
     const tokenAuth = ref(localStorageToken);
+    const isUserLoggedIn = ref(false);
     function setAuthUser(_user) {
         user.value = _user;
     }
     function setAuthToken(_token){
         tokenAuth.value = _token;
     }
+    function checkIsAuthToken(){
+        if (tokenAuth.value != "") {
+            isUserLoggedIn.value = true;
+        } else {
+            isUserLoggedIn.value = false;
+        }
+    }
     return {
         user,
         tokenAuth,
+        checkIsAuthToken,
         setAuthUser,
         setAuthToken
     }

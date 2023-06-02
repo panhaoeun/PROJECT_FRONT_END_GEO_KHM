@@ -12,17 +12,7 @@
                                 </div>
                             </el-button>
                         </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <router-link to="#" class="text-center btn btn-primary d-flex gap-2" data-bs-toggle="modal"
-                                data-bs-target="#new-permission">
-                                <svg width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                                New Permission
-                            </router-link>
-                        </div>
+
                     </div>
                     <b-card-body>
                         <div class="table-responsive">
@@ -90,17 +80,19 @@ export default {
         this.permissionArr = new UserPermissionsMSServices();   
     },
     mounted() {
-        const userPerMSServices = new UserPermissionsMSServices();
-        userPerMSServices.getListPermissions().then((data) => {
-            if (!data) {
-                ElMessage.error("Internal Error...");
-            }
-            this.permissions = data;
-        });
-        console.log(this.permission)
+        this.editPermissionMS(this.$route.params.id, this.$route.params.funId);
     },
     methods: {
-        
+        async editPermissionMS(id, funId){
+            const userPerMSServices = new UserPermissionsMSServices();
+            userPerMSServices.editedPermMSByID(id, funId).then((data) => {
+                if (!data) {
+                    ElMessage.error("Internal Error...");
+                }
+                this.permissions = data;
+            });
+            console.log(this.permission)
+        }
     }
 }
 </script>

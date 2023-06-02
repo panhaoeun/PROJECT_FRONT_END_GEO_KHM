@@ -44,6 +44,7 @@ import globalDirective from './plugins/global-directive';
 import globalMixin from './plugins/global-mixin';
 import BootstrapVue3 from 'bootstrap-vue-3';
 
+import ConfirmDialog from 'primevue/confirmdialog';
 import InputNumber from 'primevue/inputnumber';
 import PrimeVue from 'primevue/config';
 import InputText from 'primevue/inputtext';
@@ -108,7 +109,7 @@ const pinia = createPinia();
 
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
-import VueCookies from 'vue-cookies'
+import VueCookies from 'vue-cookies';
 
 /*
     @CASL Vue
@@ -119,12 +120,12 @@ import VueCookies from 'vue-cookies'
 // // });
 
 ///Form Kit
-// import { plugin, defaultConfig } from '@formkit/vue';
-// import { createMultiStepPlugin } from '@formkit/addons';
-// import { generateClasses } from '@formkit/themes';
-// //Multiple Steps
-// import '@formkit/addons/css/multistep'
-// import genesis from '@formkit/themes/genesis';
+import { plugin, defaultConfig } from '@formkit/vue';
+import { createMultiStepPlugin } from '@formkit/addons';
+import { generateClasses } from '@formkit/themes';
+//Multiple Steps
+import '@formkit/addons/css/multistep'
+import genesis from '@formkit/themes/genesis';
 
 //google Map 
 import VueGoogleMaps from '@fawmi/vue-google-maps'
@@ -195,8 +196,10 @@ app.use(ConfirmationService);
 app.component('OverlayPanel', OverlayPanel);
 app.component('Listbox', Listbox);
 app.component('RadioButton', RadioButton);
-app.component('Textarea', Textarea)
+app.component('Textarea', Textarea);
+app.use(ConfirmationService);
 app.component('FileUpload', FileUpload);
+app.component('ConfirmDialog', ConfirmDialog);
 //Vue Uoloads
 app.component('file-upload', VueUploadComponent);
 /*
@@ -222,14 +225,14 @@ app.config.ignoredElements = [/^ion-/];
 app.use(ElementPlus);
 app.use(BootstrapVue3);
 // Form Kit
-// app.use(plugin, defaultConfig({
-//    config: {
-//     classes: generateClasses(genesis),
-//   },
-//     plugins: [
-//         createMultiStepPlugin()
-//     ]
-// }));
+app.use(plugin, defaultConfig({
+   config: {
+    classes: generateClasses(genesis),
+  },
+    plugins: [
+        createMultiStepPlugin()
+    ]
+}));
 
 /**
  * @Handling Expired Token(Forbidden Requests) 

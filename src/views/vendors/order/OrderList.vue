@@ -107,13 +107,13 @@
                                 <td><span>0 refunded</span></td>
                                 <td>
                                     <div>
-                                        <router-link
+                                        <!-- <router-link
                                             :to="{ name: 'invoice-detail' }"
                                             type="button"
                                             class="btn btn-info rounded-circle"
                                         >
                                             <i class="fa fas fa-eye"></i>
-                                        </router-link>
+                                        </router-link> -->
                                     </div>
                                     <div>
                                         <button
@@ -142,13 +142,13 @@
                                 <td><span>0 refunded</span></td>
                                 <td>
                                     <div>
-                                        <router-link
+                                        <!-- <router-link
                                             :to="{ name: 'invoice-detail' }"
                                             type="button"
                                             class="btn btn-info rounded-circle"
                                         >
                                             <i class="pi pi-eye"></i>
-                                        </router-link>
+                                        </router-link> -->
                                     </div>
                                     <div>
                                         <button

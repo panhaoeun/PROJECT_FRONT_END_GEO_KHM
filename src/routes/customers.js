@@ -2,7 +2,10 @@ export default [
     {
         path:'/',
         name:'customers',
-        meta: {template: 'website'},
+        meta: {
+            template: 'website',
+            title: "Online Shopping | 7Day",
+        },
         children:[
           {
             path:'/', 

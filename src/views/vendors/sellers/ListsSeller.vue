@@ -2,6 +2,9 @@
 <template>
       <b-row>
         <b-col lg="12">
+            <!--Confirm Dialogs-->
+            <ConfirmDialog></ConfirmDialog>
+            <Toast />
             <!-- Titles -->
             <div class="flex justify-content-between my-4 px-4 py-4">
                 <h2 class="relative text-black text-3xl section section-title:before">Seller Lists</h2>
@@ -16,7 +19,7 @@
             <div class="gird">
                 <div class="col-12">
                     <el-card slot="header" class="box-card py-2 px-2">
-                        <div>                  
+                        <div>          
                             <div class="card">
                                     <DataTable ref="dt" :value="sellers" v-model:selection="selectedSeller" dataKey="id" 
                                         filterDisplay="menu" :loading="loading"
@@ -78,12 +81,14 @@
                                                 <Column header="Shop Publish" sortable style="min-width:10rem">
                                                     <template #body="slotProps">
                                                         <!-- Banned Seller Account -->
-                                                        <div v-if="slotProps.data.venStatus === 'Banned' && slotProps.data.shop_verify == 'Unverified'">
+                                                        <div v-if="slotProps.data.venStatus !== 'UnBanned'">
                                                             <Tag severity="danger" value="Banned"></Tag>
                                                         </div>
-                                                        <div else>
-                                                            {{ slotProps.data.shop_status == "Open" ? true : false }}
-                                                            <div class="font-bold" v-if="slotProps.data.user_id">
+                                                        <div v-if="slotProps.data.shop_verify !== 'Verify'">
+                                                                {{ slotProps.data.shop_verify }}
+                                                        </div>
+                                                        <div v-if="slotProps.data.shop_status!=='Open'">
+                                                            <div class="font-bold" v-if="slotProps.data.shop_status">
                                                                 <div class="form-check form-switch">
                                                                         <input class="form-check-input" 
                                                                             type="checkbox"
@@ -391,6 +396,7 @@ import SellerServices from '../../../services/vendors/seller_managements/SellerS
 import UploadSingleFile from "../../../components/uploads/UploadSingleFile.vue";
 import MazAvatar from 'maz-ui/components/MazAvatar';
 
+
 export default{
     components: {
         UploadSingleFile,
@@ -427,14 +433,15 @@ export default{
                             label: 'Ban This Seller',
                             icon: 'pi pi-lock',
                             command: () => {
-                                this.$toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+                                this.$confirm.require({
+                                      message: 'Are you sure you want to proceed?',
+                                })
                             }
                         },
                         {
                             label: 'Verify This Shop',
                             icon: 'pi pi-check-square',
                             command: () => {
-                                this.$toast.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000 });
                             }
                         },
                         {

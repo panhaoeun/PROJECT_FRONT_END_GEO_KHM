@@ -1,70 +1,36 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <div class="profile">
-                        <img src="https://yoori.spagreen.net/public/images/default/user.jpg" alt="" width="100" srcset="" />
-                    </div>
-                    <strong>Testing Name</strong>
-                    <span>admin@gmail.com</span>
-                    <div class="w-100">
-                        <div>
-                            <router-link to="/profile">
-                                <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
-                                    <i class="fa fa-user m-1"></i> Profile
-                                </button>
-                            </router-link>
-                        </div>
-                        <br />
-                        <div>
-                            <router-link to="/login-activities">
-                                <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
-                                    <i class="fa fa-list m-1"></i> Login Ativiities
-                                </button>
-                            </router-link>
-                        </div>
-                        <br />
-                        <div>
-                            <router-link to="">
-                                <button type="button" class="d-flex align-items-start btn btn-secondary text-white w-100">
-                                    <i class="fa fa-exchange-alt m-1"></i> Change
-                                    Password
-                                </button> </router-link>
-                        </div>
-                        <br />
-                        <div>
-                            <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
-                                <i class="fa fa-sign-out-alt m-1"></i>
-                                <LogoutModal></LogoutModal>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <b-card>
+        <b-card-header class="d-flex justify-content-between">
+            <div class="header-title">
+                <h4 class="card-title">Change Password</h4>
             </div>
-            <div class="col-md-7 card ml-4">
-                <change-password></change-password>
+        </b-card-header>
+        <b-card-body>
+            <div class="new-user-info">
+                <form>
+                    <b-row>
+                        <!-- Full name -->
+                        <b-col md="6" class="form-group">
+                            <label class="form-label" for="mobno">Password:</label>
+                            <input type="text" class="form-control" id="passwordProAdmin" placeholder="Password" />
+                        </b-col>
+                        <!-- Phone number -->
+                        <b-col md="6" class="form-group">
+                            <label class="form-label" for="phoneNumber">Confirm Password:</label>
+                            <input type="text" class="form-control" id="phone" placeholder="Confirm Password" />
+                        </b-col>
+                    </b-row>
+                    <hr />
+                    <button type="submit" class="btn btn-primary">Save Change</button>
+                </form>
             </div>
-        </div>
-    </div>
+        </b-card-body>
+    </b-card>
 </template>
 <script>
-import ChangePassword from "../../../components/vendors/user_profile/ChangePassword.vue";
-import LogoutModal from "../../../components/vendors/user_profile/LogoutModal.vue";
 export default {
     name: "profile",
     components: {
-        ChangePassword,
-        LogoutModal,
     },
 };
 </script>
-<style scoped>
-.profile {
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-}
-</style>

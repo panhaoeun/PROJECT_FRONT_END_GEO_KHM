@@ -63,7 +63,7 @@
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
-                                                @click="$router.push({ path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data.id}` })" />
+                                                @click="$router.push({ path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data.user_id}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 @click="confirmDeleteUserMS(slotProps.data.id)" />
                                         </template>

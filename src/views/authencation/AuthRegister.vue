@@ -7,7 +7,7 @@
                                 <tr>
                                     <td>
                                         <router-link to="/">
-                                            <img src="../../assets/logo/ecommerce.png" width="130" height="130" />
+                                            <img src="../../assets/company_logo/ecommerce_logo.png" width="130" height="130" />
                                         </router-link>
                                     </td>
                                 </tr>
@@ -19,7 +19,7 @@
         <div class="container py-2">
             <div class="signInLink flex px-2 py-2 my-2">
                 <span>Already a number?</span>
-                <router-link to="/" class="px-2 hover:underline underline">
+                <router-link to="/auth/login" class="px-2 hover:underline underline">
                     Sign In
                 </router-link>
             </div>

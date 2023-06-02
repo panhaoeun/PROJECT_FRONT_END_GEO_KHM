@@ -1,67 +1,100 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <div class="profile">
-                        <img src="https://yoori.spagreen.net/public/images/default/user.jpg" alt="" width="100" srcset="" />
-                    </div>
-                    <strong>Testing Name</strong>
-                    <span>admin@gmail.com</span>
-                    <div class="w-100">
-                        <div>
-                            <button type="button" class="d-flex align-items-start btn btn-secondary text-white w-100">
-                                <i class="fa fa-user m-1"></i> Profile
-                            </button>
+   <div class="px-4 py-">
+     <b-row>
+        <b-col lg="12">
+            <b-card>
+                <div class="d-flex flex-wrap align-items-center justify-content-between">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="profile-img position-relative me-3 mb-3 mb-lg-0 profile-logo profile-logo1">
+                             <img v-if="urlProfile" class="img-fluid rounded-pill avatar-100 rounded-pill" :src="urlProfile" @click="selectImage" />
+                            <!-- Empty URL Image Uploads -->
+                            <div  v-else>
+                                 <img src="@/assets/img/avatars/01.png" alt="User-Profile"
+                                    class="theme-color-default-img img-fluid rounded-pill avatar-100" loading="lazy" />
+                                <img src="@/assets/img/avatars/avtar_1.png" alt="User-Profile"
+                                    class="theme-color-purple-img img-fluid rounded-pill avatar-100" loading="lazy" />
+                                <img src="@/assets/img/avatars/avtar_2.png" alt="User-Profile"
+                                    class="theme-color-blue-img img-fluid rounded-pill avatar-100" loading="lazy" />
+                                <img src="@/assets/img/avatars/avtar_4.png" alt="User-Profile"
+                                    class="theme-color-green-img img-fluid rounded-pill avatar-100" loading="lazy" />
+                                <img src="@/assets/img/avatars/avtar_5.png" alt="User-Profile"
+                                    class="theme-color-yellow-img img-fluid rounded-pill avatar-100" loading="lazy" />
+                                <img src="@/assets/img/avatars/avtar_3.png" alt="User-Profile"
+                                    class="theme-color-pink-img img-fluid rounded-pill avatar-100" loading="lazy" />
+                            </div>
+                            <!-- Edit User Profile -->
+                            <div class="upload-icone bg-primary">
+                                <svg class="upload-button" width="14" height="14" viewBox="0 0 24 24"  @click="$refs.fileInput.click()">
+                                    <path fill="#ffffff" d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                                </svg>
+                                <input class="file-upload" ref="fileInput"  @change="onFileChangeProfileVen" enctype="multipart/form-data" type="file" accept="image/*" />
+                            </div>
                         </div>
-                        <br />
-                        <div>
-                            <router-link to="/login-activities">
-                                <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
-                                    <i class="fa fa-list m-1"></i> Login Ativiities
-                                </button>
-                            </router-link>
+                        <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
+                            <h4 class="me-2 h4">Austin Robertson</h4>
+                            <span> - Web Developer</span>
                         </div>
-                        <br />
-                        <div>
-                            <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
-                                <i class="fa fa-exchange-alt m-1"></i> Change
-                                Password
-                            </button>
-                        </div>
-                        <br />
-                        <div>
-                            <button type="button" class="d-flex align-items-start btn btn-light text-blue w-100">
-                                <i class="fa fa-sign-out-alt m-1"></i>
-                                <LogoutModal></LogoutModal>
-                            </button>
-                        </div>
-                    </div>
+                    </div> 
+                    <!-- Profile Tabs-->
+                    <ul class="d-flex nav nav-pills mb-0 text-center profile-tab" data-toggle="slider-tab" id="profile-pills-tab" role="tablist">
+                        <li class="nav-item">
+                             <a class="nav-link active show" data-bs-toggle="tab" href="#profile-feed" role="tab" aria-selected="false">User Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#password-change" role="tab" aria-selected="false">Password</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#user-log-activity" role="tab" aria-selected="false">Login Activities</a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-            <div class="col-md-7 card ml-4">
-                <personal-info></personal-info>
-            </div>
-        </div>
-    </div>
+            </b-card>
+        </b-col>
+        <!-- User Profile -->
+        <b-col lg="12" class="px-2 py-2">
+             <div class="profile-content tab-content iq-tab-fade-up">
+                <!-- User Profiles -->
+                <div id="profile-feed" class="tab-pane fade active show">
+                    <current-user-profile/>
+                </div>
+                <!-- Change Password -->
+                <div id="password-change" class="tab-pane fade">
+                    <change-password/>
+                </div>
+             </div>
+        </b-col>
+    </b-row>
+   </div>
 </template>
 <script>
-import PersonalInfo from "../../../components/vendors/user_profile/PersonalInfoVue.vue";
-import LogoutModal from "../../../components/vendors/user_profile/LogoutModal.vue";
+import ChangePassword from './ChangePasswordVue.vue';
+import CurrentUserProfile from './CurrentUserProfile.vue';
 export default {
-    name: "profile",
-    components: {
-        PersonalInfo,
-        LogoutModal,
+    data(){
+      return {
+        urlProfile: null
+      }
     },
-};
-</script>
-<style scoped>
-.profile {
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    components: {
+       ChangePassword,
+       CurrentUserProfile
+    },
+    methods: {
+        selectImage() {
+            this.$refs.fileInput.click()
+        },
+        onFileChangeProfileVen(){
+            let input = this.$refs.fileInput
+            let file = input.files
+            if (file && file[0]) {
+                let reader = new FileReader
+                reader.onload = e => {
+                    this.urlProfile = e.target.result;
+                }
+                reader.readAsDataURL(file[0])
+                this.$emit('input', file[0])
+            }
+        }
+    }
 }
-</style>
+</script>

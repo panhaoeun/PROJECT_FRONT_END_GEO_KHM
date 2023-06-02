@@ -101,21 +101,33 @@ import { ref } from "vue";
             sliderItems: [
                 {
                     id: 1,
-                    imagepath: require('@/assets/img/furniture/banner/banner1.png'),
+                    imagepath: require('@/assets/img/banner/big-banner01.png'),
                     title: 'Sofa Collection',
                     subTitle: 'NEW TRANDING',
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
                 },
                 {
                     id: 2,
-                    imagepath: require('@/assets/img/furniture/banner/banner1.png'),
+                    imagepath: require('@/assets/img/banner/big-banner02.png'),
                     title: 'Sofa Collection',
                     subTitle: 'NEW TRANDING',
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
                 },
-            
+                {
+                    id: 3,
+                    imagepath: require('@/assets/img/banner/bg-banner03.png'),
+                    title: 'Sofa Collection',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
+                },
+                {
+                    id: 4,
+                    imagepath: require('@/assets/img/banner/bg-banner04.png'),
+                    title: 'Sofa Collection',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
+                }
             ],
-
             products: [],
             category: [],
             cartproduct: {},

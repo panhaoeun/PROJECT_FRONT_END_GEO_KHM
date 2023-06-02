@@ -4,7 +4,8 @@ import httpJsonRequest from "../../../../http-json-request";
 export default class SellerServices {
    async getListSellerAcc(data){
         return await http.get("/vendors/seller_management/seller/list", data)
-            .then((result) => {      
+            .then((result) => {    
+                console.log(result)
                 if(result.status == '201'){
                     if(result.data.success == true){
                       return result.data.result.resultStatus;

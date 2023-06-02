@@ -6,19 +6,19 @@
                 <div class="col-lg-6 col-md-12 col-sm-12 ">
                     <div class="el_banner_bottom el-ban-bottom-left">
                         <router-link to="/shop">
-                          <img :src="require('@/assets/img/electronics/common/offer1.jpg')" alt="img">
+                          <img :src="require('@/assets/img/banner/small-banner.jpg')" alt="img">
                         </router-link>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="el_banner_bottom">
                         <router-link to="/shop">
-                          <img :src="require('@/assets/img/electronics/common/offer2.jpg')" alt="img">
+                          <img :src="require('@/assets/img/banner/small-banner01.jpg')" alt="img">
                         </router-link>
                     </div>
                     <div class="el_banner_bottom">
                         <router-link to="/shop">
-                          <img :src="require('@/assets/img/electronics/common/offer3.jpg')" alt="img">
+                          <img :src="require('@/assets/img/banner/small-banner02.jpg')" alt="img">
                         </router-link>
                     </div>
                 </div>

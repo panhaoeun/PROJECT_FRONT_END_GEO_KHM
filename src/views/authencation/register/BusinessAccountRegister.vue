@@ -162,7 +162,7 @@
                         userName: this.user_firstname + this.user_lastname,
                         userPhone: this.results.nationalNumber,
                         userType: "Vendor",
-                        userStatus: "Vendor"
+                        userStatus: "Active"
                     }
                   
                     this.submitted = true;
@@ -182,7 +182,7 @@
                         }, 1000);
                         //this.$router.push({path: '/auth/opt-verify/:verify='+encodeURI('phone-5digit')});
                         //Push Router
-                        this.$router.push("/vendor/dashboard");    
+                        this.$router.push("/");    
                     }).catch(e => {
                         ElMessage.error(e.response.data.message);
                     })

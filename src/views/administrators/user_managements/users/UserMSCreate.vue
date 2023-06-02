@@ -18,8 +18,8 @@
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
                 <form enctype="multipart/form-data" @submit.prevent="handleUserMSSubmit(!v$.$invalid)">
                     <!--Form Submitted-->
-                    <Message severity="error" v-for="(errorArray, index) in notifMSGUser" :key="index">
-                        {{ errorArray }}
+                    <Message severity="error" v-if="notifMSGUser">
+                        {{ notifMSGUser }}
                     </Message>
                     <el-tab-pane label="General Information" name="english-tabs">
                         <!-- English -->
@@ -32,13 +32,14 @@
                                         <!-- Name Khmer -->
                                         <div class="field">
                                             <label for="name_en">Full Name in Khmer<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Khmer Name" type="text"
-                                                class="py-3 border-round-lg" v-model="v$.userMSNameEng.$model"
-                                                :class="{ 'p-invalid p-error': v$.userMSNameEng.$invalid && submitted }" />
+                                            <InputText id="userMSNameKh" placeholder="English Name" type="text"
+                                                class="py-3 border-round-lg" v-model="v$.userMSNameKh.$model"
+                                                :class="{ 'p-invalid p-error': v$.userMSNameKh.$invalid && submitted }" />
                                             <small
-                                                v-if="(v$.userMSNameEng.$invalid && submitted) || v$.userMSNameEng.$pending.$response"
-                                                class="p-error">{{ v$.userMSNameEng.required.$message.replace('Value',
-                                                    'Full Name in Khmer') || v$.userMSNameEng.$params.min }}</small>
+                                                v-if="(v$.userMSNameKh.$invalid && submitted) || v$.userMSNameKh.$pending.$response"
+                                                class="p-error">{{ v$.userMSNameKh.required.$message.replace('Value',
+                                                    'Full Name in Khmer') || v$.userMSNameKh.$params.min }}
+                                            </small>
                                         </div>
                                     </div>
                                     <!--Full Name in Latin -->
@@ -46,14 +47,13 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en">Full Name in Latin<span class="p-error">*</span></label>
-                                            <InputText id="userMSNameKh" placeholder="English Name" type="text"
-                                                class="py-3 border-round-lg" v-model="v$.userMSNameKh.$model"
-                                                :class="{ 'p-invalid p-error': v$.userMSNameKh.$invalid && submitted }" />
+                                             <InputText id="product_name" placeholder="Khmer Name" type="text"
+                                                class="py-3 border-round-lg" v-model="v$.userMSNameEng.$model"
+                                                :class="{ 'p-invalid p-error': v$.userMSNameEng.$invalid && submitted }" />
                                             <small
-                                                v-if="(v$.userMSNameKh.$invalid && submitted) || v$.userMSNameKh.$pending.$response"
-                                                class="p-error">{{ v$.userMSNameKh.required.$message.replace('Value',
-                                                'Full Name in Latin') || v$.userMSNameKh.$params.min }}
-                                            </small>
+                                                v-if="(v$.userMSNameEng.$invalid && submitted) || v$.userMSNameEng.$pending.$response"
+                                                class="p-error">{{ v$.userMSNameEng.required.$message.replace('Value',
+                                                    'Full Name in English') || v$.userMSNameEng.$params.min }}</small>
                                         </div>
                                     </div>
                                     <!--Full Name in Latin -->
@@ -73,7 +73,11 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en">Phone Number<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Phone Number" type="text"
+                                            <InputText 
+                                                id="product_name" 
+                                                placeholder="Phone Number" 
+                                                type="text"
+                                                @keypress="inputOnlyNumber"
                                                 class="py-3 border-round-lg" v-model="v$.userMSPhoneNum.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSPhoneNum.$invalid && submitted }" />
                                             <small
@@ -214,6 +218,7 @@ export default {
             errMessageUploadFile: '',
             messages: [],
             loading: [false, false, false],
+            isUserAuthArrCreate: '',
             //Upload Files
             imageUrl: '',
             fileList: [],
@@ -239,8 +244,9 @@ export default {
         this.userMSServices = new UserPermissionsMSServices();
         this.submit = true;
     },
-    computed:{
-
+    mounted() {
+        // User Arr Vuex 
+        this.isUserAuthArrCreate = this.$store.state.auth.userArr;
     },
     //Validations
     validations() {
@@ -268,6 +274,16 @@ export default {
         }
     },
     methods: {
+        /*
+            Input Only Phone Number
+        */
+        inputOnlyNumber(event) {
+            let keyCode = event.keyCode ? event.keyCode : event.which;
+            if (keyCode < 48 || keyCode > 57) {
+                // 46 is dot
+                event.preventDefault();
+            }
+        },
         // Confirm Password
         validationConfirmPass(){
             if(this.userMSPassword !== this.confirmPassword){
@@ -280,6 +296,7 @@ export default {
         //============Uploads Files================
         handleChangeUser(file) {
             this.fileUserMS = file.raw;
+            console.log(this.fileUserMS)
             //Check Upload File
             this.beforeAvatarUpload(file.raw);
             this.objClassUserPer.upLoadHideUserMS = true;//上传图片后置upLoadHideUserMS为真，隐藏上传框
@@ -321,6 +338,7 @@ export default {
                 // console.log(this.v$.proCategoryNameEng.required.$message.replace('Val)
                 this.submitted = true;
                 if (!isFormValidUserMS) {
+                    console.log(this.fileUserMS)
                     if(!this.fileUserMS || this.fileUserMS !== ''){
                       this.errMessageUploadFile = 'Please upload profile image...';
                       ElMessage.error('Filed required...');
@@ -337,7 +355,7 @@ export default {
                     || this.fileUserMS !== ''
                 ) {
                     // Data Response
-                    const data = {
+                    const dataRes = {
                         userNameEng: this.userMSNameEng,
                         userNameKh: this.userMSNameKh,
                         userEmail: this.emailMSUser,
@@ -347,18 +365,22 @@ export default {
                         userProfile: this.fileUserMS,
                         userStatus: 'Active'
                     }
-                    this.userMSServices.createUserMS(data).then((response) => {
+                    this.userMSServices.createUserMS(dataRes).then((response) => {
                         if (response.data.success == true) {
                             ElMessage.success(response.data.message);
                             // Push Router
                             this.$router.push("/vendor/user/list/crete-user-auth/ui-user-list");
                         }
-                })
-                .catch(error => {
+                    })
+                    .catch(error => {
+                        console.log(error)
                         ElMessage.error(error);
-                        this.notifMSGUser = error.response.data;
-                        return false;
-                    });
+                        if(error.response.data.success == false){
+                            this.notifMSGUser = error.response.data.error.error || (error.response.data.error.error.errors[0].message);
+                            ElMessage.error(error.response.data.error.error.errors[0].message);
+                        }
+                            return false;
+                        });
                 }
             } catch (error) {
                 //  Toast Alert 

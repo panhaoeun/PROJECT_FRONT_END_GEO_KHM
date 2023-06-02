@@ -1,17 +1,19 @@
 import products from '../../data/products';
+import ProductCustomerServices from '../../services/customers/ProductsCustomerServices';
 const state = {
     productList: products.data,
     products: products.data,
     shuffleProducts: products.data,
     wishlist: [],
     compare: [],
-    searchProduct: []
+    searchProduct: [],
+    productMoreLoveList: [],
+    productByIDMoreLove: 0
 }
 
 // getters 
 const getters = {
     getCollectionProduct: (state) => {
-        console.log(state)
         return state.products.filter((product) => {
             return product.collection;
         })
@@ -27,10 +29,20 @@ const getters = {
     compareItems: (state) => {
         return state.compare
     }
+    /**
+     * @More Products 
+     * **/
+ 
 }
 
 // mutations 
 const mutations = {
+    /**
+     * @More Products Mutations
+    * **/
+    SET_PRODUCT_COLLECT_LIST(state, productList) {
+        state.productMoreLoveList = productList;
+    },
     addToWishlist: (state, payload) => {
         const product = state.products.find( item => item.id === payload.id )
         const wishlistItems = state.wishlist.find( item => item.id === payload.id )
@@ -83,6 +95,24 @@ const mutations = {
 
 // actions 
 const actions = {
+    async setProductCollListMoreLove({
+        commit
+    }) {
+        try {
+            const servicesProductList = new ProductCustomerServices();
+            await servicesProductList.getCustomerProducts().then((productList) => {
+                commit('SET_PRODUCT_COLLECT_LIST', productList);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async getProductCollListMoreLoveData({state, dispatch }) {
+        if (state.productMoreLoveList && state.productMoreLoveList == 0) {
+            await dispatch('setProductCollListMoreLove');
+        }
+        return state.productMoreLoveList;
+    },
     addToWishlist: (context, payload) => {
         context.commit( 'addToWishlist', payload)
     },

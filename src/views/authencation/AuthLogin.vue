@@ -9,7 +9,7 @@
     <div class="bg-white">
         <div class="flex flex-column align-items-center justify-content-center border-bottom">
             <a href="#" class="flex flex-column align-items-center justify-content-center">
-                <img src="../../assets/logo/ecommerce.png" class="w-1 text-center"/>
+                <img src="../../assets/company_logo/ecommerce_logo.png" class="w-1 text-center"/>
             </a>
         </div>
         <div class="flex align-items-center justify-content-center overflow-hidden">
@@ -68,7 +68,7 @@
   </div>
   
     <!-- Footer for Auth Login -->
-    <footer class="fixed-bottom w-full layout-footer index-1 w-full text-500 p-2 footer" style="background-color: #333;">
+    <footer class="fixed-bottom w-full layout-footer index-1 w-full text-500 p-2 footer-login" style="background-color: #333;">
         <div class="container text-500 flex">
             <a href="#" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">Intellectual Property Protection</a> - 
             <a href="" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">Privacy Policy</a> 
@@ -85,12 +85,13 @@
 <script>
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-// Componets
+// Components
 import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
 // import AuthenticationsDataService from  "../../services/authencationDataService";
 import Loading from 'vue-loading-overlay';
 import { ElMessage } from "element-plus";
+import Cookie from "js-cookie";
 
 export default {
     setup: () => ({ v$: useVuelidate() }),
@@ -149,15 +150,19 @@ export default {
                         (response) => {
                             //Check validation  
                             if(response.success == true){
+                                this.$store.dispatch("auth/setCurrentUser", localStorage.getItem('user'));
+                                this.$store.dispatch("auth/setToken", Cookie.get('token'));
                                 if (response.userType === "Vendor") {
                                     // console.log(response.userType)
-                                    this.$router.push("/vendor-dashboard/default-layouts");
+                                    this.$router.push({path: "/vendor-dashboard/default-layouts"});
                                 } else if (response.userType === "Customer") {
-                                    this.$router.push("/");
+                                    this.$router.push({path: "/"});
                                 }
+                                return;
                             }                
                         },
                         (error) => {
+                            console.log(error)
                             if(typeof(error.response.data.error.error) !== undefined){
                                 ElMessage.error(error.response.data.message);
                                 ElMessage.error(error.response.data.error.error);
@@ -189,29 +194,6 @@ export default {
             this.password = '';
             this.accept = null;
             this.submitted = false;
-        },
-        // Validation phone number 
-        validatePhoneNumber(event){
-            // Initial input state
-            let prevValue = '';
-            let prevSelectionStart = 0;
-            const input = event.target
-            let value = event.target.value            
-            // Check if value is number
-            let isValid = +value == +value
-            if (isValid) {
-                // preserve input state
-                prevValue = value
-                prevSelectionStart = input.selectionStart
-            } else {
-                // restore previous valid input state.
-                // we have to fire one more Input event in  order to reset cursor position.
-                var resetEvent = new InputEvent('input')
-                input.value = prevValue
-                input.selectionStart = prevSelectionStart
-                input.selectionEnd = prevSelectionStart
-                input.dispatchEvent(resetEvent)
-            }
         }
     },
     components: {
@@ -223,7 +205,7 @@ export default {
 </script>
 
 <style>
-.footer {
+.footer-login {
     position: fixed;
     height: 100px;
     bottom: 0;

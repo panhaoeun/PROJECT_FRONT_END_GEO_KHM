@@ -44,7 +44,11 @@
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="permissionsListArr && permissionsListArr.length > 0 && permissionsListArr != ''">
                                     <!-- Columns -->
-                                    <Column field="user_fun_name" header="Role Name" sortable style="min-width:20rem"></Column>
+                                    <Column field="user_fun_id" header="Role Name" sortable style="min-width:20rem">
+                                        <template #body="slotProps">
+                                            {{ capitalized(slotProps.data?.user_fun_id)}}
+                                        </template>
+                                    </Column>
                                     <Column field="category" header="Status" sortable style="min-width:10rem">
                                         <template #body>
                                             <div class="font-bold">
@@ -55,9 +59,9 @@
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
-                                                @click="$router.push({ path: `/vendor/permissions/category/edit/${slotProps.data.catID}` })" />
+                                                @click="$router.push({ path: `/vendor/user/permission/list/crete-user-auth/ui-permission-edit-updated/${slotProps.data?.user_id}/${slotProps.data?.user_fun_id}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
-                                                @click="confirmDeleteProduct(slotProps.data.catID)" />
+                                                @click="confirmDeleteProduct(slotProps.data.id)" />
                                         </template>
                                     </Column>
                                 </div>
@@ -104,7 +108,7 @@ export default {
         }
     },
     created() {
-        this.userPerMSServices = new UserPermissionsMSServices();
+        this.userPerMSServices = new UserPermissionsMSServices(); 
     },
     mounted() {
         const userPerMSServices = new UserPermissionsMSServices();
@@ -124,6 +128,14 @@ export default {
         }
     },
     methods: {
+        /**
+         * @Capitalize Letters
+        * */
+        capitalized(name) {
+            const capitalizedFirst = name[0].toUpperCase();
+            const rest = name.slice(1);
+            return capitalizedFirst + rest;
+        },
         confirmDeleteProduct(catId) {
             this.permissionsListArr = catId;
             this.deletePermissionsDialog = true;

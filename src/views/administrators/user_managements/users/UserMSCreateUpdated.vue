@@ -31,7 +31,7 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Khmer -->
                                         <div class="field">
-                                            <label for="name_en">Full Name in Khmer<span class="p-error">*</span></label>
+                                            <label for="name_en">Full Name in Khmer {{ this.userMSUpdatedArrFiled.userMSNameKh }}<span class="p-error">*</span></label>
                                             <InputText id="product_name" placeholder="Khmer Name" type="text"
                                                 class="py-3 border-round-lg" v-model="v$.userMSUpdatedArrFiled.userMSNameEng.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSUpdatedArrFiled.userMSNameEng.$invalid && submitted }" />
@@ -187,6 +187,7 @@ export default {
             errMessageConfirm: '',
             image: null,
             userMSImgFileURL: null,
+            isUserAuthArr: null,
             submitted: false,
             showUpload: true,
             errMessageUploadFile: '',
@@ -227,6 +228,8 @@ export default {
         this.submit = true;
     },
     mounted(){
+        // User Arr Vuex 
+        this.isUserAuthArr = this.$store.state.auth.userArr;
         this.editUserMSUpdated(this.$route.params.id);
     },
     //Validations
@@ -312,18 +315,35 @@ export default {
         async editUserMSUpdated(id){
             this.userMSServices.editedUserMSByID(id)
             .then((userId)=> {
-                try{
-                    if(userId.data.success == true){
-                        const userResult  = userId.data.result.resultStatus.userResult;
-                        const empResult = userId.data.result.resultStatus.empResult;
-                        this.userMSUpdatedArrFiled.userMSNameEng = empResult.full_latin_name;
-                        this.userMSUpdatedArrFiled.userMSNameKh = empResult.full_kh_name;
-                        this.userMSUpdatedArrFiled.userMSPhoneNum = userResult.user_phonenumber;
-                        this.userMSUpdatedArrFiled.emailMSUser = userResult.user_email;
-                    }            
-                } catch (error) {
-                    ElMessage.error(error);
-                }
+                if(this.isUserAuthArr[1].typeUser === 'Vendor' && this.isUserAuthArr[1].typeUser !== 'Customer'){
+                    try {
+                        if (userId.data.success == true) {
+                            const userResult = userId.data.result.resultStatus.userResult;
+                            const empResult = userId.data.result.resultStatus.empResult;
+                            console.log(empResult)
+                            this.userMSUpdatedArrFiled.userMSNameEng = empResult.name_eng;
+                            this.userMSUpdatedArrFiled.userMSNameKh = empResult.name_kh;
+                            this.userMSUpdatedArrFiled.userMSPhoneNum = userResult.user_phonenumber;
+                            this.userMSUpdatedArrFiled.emailMSUser = userResult.user_email;
+                        }
+                    } catch (error) {
+                        ElMessage.error(error);
+                    }
+                }  
+                if (this.isUserAuthArr[1].typeUser === 'Admin' && this.isUserAuthArr[1].typeUser !== 'Customer') {
+                    try {
+                        if (userId.data.success == true) {
+                            const userResult = userId.data.result.resultStatus.userResult;
+                            const empResult = userId.data.result.resultStatus.empResult;
+                            this.userMSUpdatedArrFiled.userMSNameEng = empResult.full_latin_name;
+                            this.userMSUpdatedArrFiled.userMSNameKh = empResult.full_kh_name;
+                            this.userMSUpdatedArrFiled.userMSPhoneNum = userResult.user_phonenumber;
+                            this.userMSUpdatedArrFiled.emailMSUser = userResult.user_email;
+                        }
+                    } catch (error) {
+                        ElMessage.error(error);
+                    }
+                }  
             }).catch((err) => {
                 ElMessage.error(err);
             })
@@ -387,7 +407,6 @@ export default {
     }
 }
 </script>
-  
 <!-- Style Upload Image -->
 <style>
 /*当upLoadShowUserMS为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/

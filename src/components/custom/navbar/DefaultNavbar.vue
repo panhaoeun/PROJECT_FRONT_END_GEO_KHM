@@ -107,11 +107,13 @@
               <img src="../../../assets/img/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded" />
               <img src="../../../assets/img/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded" />
               <div class="caption ms-3 d-none d-md-block">
-                <h6 class="mb-0 caption-title">{{ user[0].nameEng ?? 'PhzarKhmer' }}</h6>
+                <h6 class="mb-0 caption-title">{{ user ? user[0]?.name_eng : '7Day' }}</h6>
                 <p class="mb-0 caption-sub-title">Marketing Administrator</p>
               </div>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <ul v-if="user" class="dropdown-menu dropdown-menu-end px-2 py-2" aria-labelledby="navbarDropdown">
+                  <li><router-link class="dropdown-item" :to="{ name: 'defaults.ven-profile' }">Profile</router-link></li>
+                  <li><hr class="dropdown-divider" /></li>
                   <li><span class="dropdown-item cursor-pointer" @click="authVenAdLogout">Logout</span></li>
             </ul>
           </li>

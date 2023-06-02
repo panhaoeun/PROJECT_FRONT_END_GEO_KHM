@@ -19,6 +19,7 @@ const defaultChildRoutes = (prefix) => [
     //   profile
     {
         path:'/profile',
+        name: prefix + '.ven-profile',
         component:()=> import('../views/vendors/vendors_profile/ProfileVue.vue'),
     },
     {
@@ -129,17 +130,21 @@ const defaultChildRoutes = (prefix) => [
         name: prefix + '.order-list',
         component: () => import('../views/vendors/order/OrderList.vue'),
     },
-    {
-        path: "/vendor/order-invoice",
-        name: prefix  + '.invoice-detail',
-        component: () => import('../views/vendors/order/InvoiceDetailView.vue'),
-    },
+    // {
+    //     path: "/vendor/order-invoice",
+    //     name: prefix  + '.invoice-detail',
+    //     component: () => import('../views/vendors/order/InvoiceDetailView.vue'),
+    // },
     /*
       @Users Managements
     */
     {
         path: "/vendor/user/list/crete-user-auth/ui-user-list",
         name: prefix + '.user-auth-crud',
+        meta: {
+            title: "Users | 7Day",
+            requiresAuth: true,
+         },
         component: () => import("../views/administrators/user_managements/users/UsersMSList.vue"),
     },
     {
@@ -155,10 +160,14 @@ const defaultChildRoutes = (prefix) => [
     {
         path: "/vendor/user/permission/list/crete-user-auth/ui-permission-list",
         name: prefix + '.user-auth-crud-permission',
+        meta: {
+            title: "Permission | 7Day",
+            requiresAuth: true,
+        },
         component: () => import("../views/administrators/user_managements/permissions/PermissionMSList.vue"),
     },
     {
-        path: "/vendor/user/permission/list/crete-user-auth/ui-permission-create",
+        path: "/vendor/user/permission/list/crete-user-auth/ui-permission-edit-updated/:id/:funId",
         name: prefix + '.user-auth-crud-permission-add',
         component: () => import("../views/administrators/user_managements/permissions/PermissionsMSCreate.vue"),
     },

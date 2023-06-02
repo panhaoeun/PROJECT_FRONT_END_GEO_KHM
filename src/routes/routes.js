@@ -31,7 +31,7 @@ const router = new createRouter({
         ...moduleRouteVendor,
         ...moduleAuthencation,   
         ...moduleGlobalStep,   
-        ...moduleErrorPage
+        ...moduleErrorPage,
     ]
 });
 //
@@ -40,6 +40,16 @@ router.beforeEach( async(to, from, next) => {
     const publicPages = ['/auth/login', '/auth/register', '/'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
+    /**
+     * @Check Router Required Auth
+    * */ 
+    document.title = to.meta.title;
+    const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+    if (!loggedIn && requiresAuth){
+        next('/error/401');
+    }else{
+        next();
+    }
     if (authRequired && !loggedIn && !user.value) {
         next('/auth/login');
     }else{

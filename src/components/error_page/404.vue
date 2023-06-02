@@ -5,7 +5,7 @@
             <h2 class="mb-0 mt-4 text-white">Oops! This Page is Not Found.</h2>
             <h2 class="mt-2 text-white text-center align-center">The requested page dose not exist.</h2>
            <div class="px-4 py-4">
-             <router-link class="btn bg-white text-primary d-inline-flex align-items-center" to="/">Back to Home</router-link>
+             <router-link class="btn bg-white text-primary d-inline-flex align-items-center" to="/vendor-dashboard/default-layouts">Back to Home</router-link>
            </div>
         </b-container>
         <div class="box">

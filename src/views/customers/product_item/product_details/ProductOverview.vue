@@ -1,190 +1,131 @@
 <template>
     <div>
-        <!-- Banner Area -->
-        <section id="common_banner_one">
-            <div class="container">
-                <div class="row">
-                <div class="col-lg-12">
-                    <div class="common_banner_text">
-                    <h2>Shop</h2>
-                 
-                    </div>
-                </div>
-                </div>
-            </div>
-        </section>
         <!-- Product Single Area -->
-        <section id="product_single_one" class="ptb-100">
-            <div class="container">
-                <div class="row area_boxed">
-                    <!-- Sidebar Image Left -->
-                    <div class="col-lg-4">
-                          <div class="product_single_one_img">
-                            <swiper
-                                class="swiper-wrapper"
-                                :modules="modules"
-                                :scrollbar="{
-                                     hide: true,
-                                }"
-                            >   
-                                <!-- Slide Images -->
-                                <swiper-slide v-for="(product, index) in getDetail.images" :key="index">
-                                    <!-- Image Zoom -->
-                                    <inner-image-zoom
-                                        :src="getImageUrl(product.src)"
-                                        :id="product.image_id"
-                                        :zoomSrc="getImageUrl(product.src)"
-                                        moveType="drag"
-                                        className="product-image-zoom"
-                                    />
-                                </swiper-slide>
-                            </swiper>
+        <div class="container my-0 my-md-4">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-12 col-md-5 p-0 p-md-2">
+                    <div class="d-flex flex-column">
+                        <div class="col-12 px-md-2 d-none d-md-block">
+                            <div class="" style="cursor: pointer">
+                                <b-img :src="mainImage" alt="" style="width: 100%" class="image"></b-img>
+                            </div>
+                        </div>
+
+                        <div class="d-block d-md-none col-12 px-0">
+                            {{ getImageUrl(getDetail.images[1].src) }}
+                            <b-carousel v-model="slide" controls :interval="0">
+                                <b-carousel-slide v-for="(image, index) in getDetail.images" :key="index"
+                                    :img-src="getImageUrl(image.src)">
+                                    {{ getImageUrl(image.src) }}
+                                </b-carousel-slide>
+                            </b-carousel>
+                        </div>
+
+                        <div class="col-12 d-none d-md-block my-2">
+                            <div class="row">
+                                <div class="col-3" v-for="(image, index) in getDetail.images" :key="index">
+                                    <div class="thumbnail" @click="changeMainImage(image.src)">
+                                        <b-img :src="getImageUrl(image.src)" style="width: 100%" alt="" class="image"
+                                            :class="mainImage === image.src ? 'activess' : ''"></b-img>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- Sidebar Gird Right Detail Products -->
-                    <div class="col-lg-8">
-                        <div class="product_details_right_one">
-                            <div class="modal_product_content_one">
-                                <h3 class="text-capitalize">{{ getDetail.title }}</h3>
-                                <div v-if="getDetail.rating == 5" class="reviews_rating">
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <span>(5 Customer Review)</span>
-                                </div>
-                                <div v-else-if="getDetail.rating == 4" class="reviews_rating">
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span>(4 Customer Review)</span>
-                                </div>
-                                <div v-else-if="getDetail.rating == 3" class="reviews_rating">
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span>(3 Customer Review)</span>
-                                </div>
-                                <div v-else-if="getDetail.rating == 2" class="reviews_rating">
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span>(2 Customer Review)</span>
-                                </div>
-                                <div v-else-if="getDetail.rating == 1" class="reviews_rating">
-                                    <i class="fas fa-star active"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                <span>(1 Customer Review)</span>
-                                </div>
-                                <div v-else class="product-review">
-                                <span>No Rating</span>
-                                </div>
+                </div>
+                <!-- Product Overviews -->
+                <div class="col-12 col-md-6 text-left my-3">
+                    <div class="container">
+                        <div>
+                            <span style="font-size: 13px; letter-spacing: 1px; color: hsl(26, 100%, 55%); font-weight: 700">
+                                SNEAKER COMPANY
+                            </span>
+                        </div>
 
-                                <h4 v-if="getDetail.discount">
-                                    ${{ discountedPrice(getDetail) }}
-                                    <del>${{ getDetail.price }}</del>
-                                </h4>
-                                <h4 v-else>${{ getDetail.price }}</h4>
-                                <p>{{ getDetail.description }}</p>
-                                <div class="customs_selects">
-                                    <select name="product" class="customs_sel_box">
-                                        <option value="size">Size</option>
-                                        <option value="xl">XL</option>
-                                        <option value="small">S</option>
-                                        <option value="medium">M</option>
-                                        <option value="large">L</option>
-                                    </select>
+                        <div class="mt-2 mb-4">
+                            <span style="font-size: 40px; font-weight: 900; color: black; line-height: 2.8rem">
+                                {{ getDetail.title }}
+                            </span>
+                        </div>
+
+                        <div class="my-3">
+                            <span class="text-muted">
+                                {{ getDetail.description }}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8 col-md-12 d-flex flex-row align-items-center">
+                                <div>
+                                    <span style="font-size: 24px; font-weight: 900">
+                                        ${{ parseFloat(getDetail.price).toFixed(2) }}
+                                    </span>
                                 </div>
-                                <div class="variable-single-item">
-                                <span>Color</span>
-                                <!-- Active UI -->
-                                <ul class="color-variant d-flex" style="padding-left: 0rem;">
-                                    <li
-                                    v-bind:class="{ active: activeColor == variant }"
-                                    v-for="(variant, variantIndex) in Color(
-                                        getDetail.variants
-                                    )"
-                                    :key="variantIndex"
-                                    >
-                                    <a
-                                        :class="[variant]"
-                                        v-bind:style="{ 'background-color': variant }"
-                                        @click="
-                                        sizeVariant(
-                                            getDetail.variants[variantIndex].image_id,
-                                            variantIndex,
-                                            variant
-                                        )
-                                        "
-                                    ></a>
-                                    </li>
-                                </ul>
+                                <div class="">
+                                    <span class="mx-3 discount px-2 py-1 rounded"
+                                        style="font-weight: 900; font-size: 14px; color: hsl(26, 100%, 55%)">
+                                        50%
+                                    </span>
                                 </div>
-                                <form id="product_count_form_two">
-                                    <div class="product_count_one">
-                                        <InputNumber v-model="quantity" inputId="minmax-buttons" showButtons :min="1" :max="100" />
+                            </div>
+
+                            <div class="col-4 col-md-12 my-1">
+                                <span class=""
+                                    style="font-weight: 700; color: rgb(183, 183, 183); text-decoration: line-through;">
+                                    $250.00
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="my-3 row">
+                            <div class="col-12 col-md-4 text-center px-md-0 mt-3">
+                                <div class="bg-quantity d-flex flex-row justify-content-between" style="font-weight: 700">
+                                    <div class="plus-minus">
+                                        <i class="fas fa-minus" @click="decrement()"></i>
                                     </div>
-                                </form>
-                                <div class="links_Product_areas">
-                                    <ul style="padding-left: 0rem;">
-                                        <li>
-                                            <button
-                                                @click="addToWishlist(getDetail)"
-                                                class="action wishlist bg-transparent"
-                                                title="Wishlist"
-                                            >
-                                                <i class="far fa-heart mr-1"></i>Add To Wishlist
-                                            </button>
-                                        </li>
-                                        <li>
-                                        <button
-                                            @click="addToCompare(getDetail)"
-                                            class="action compare bg-transparent"
-                                            title="Compare"
-                                        >
-                                            <i class="fas fa-exchange-alt mr-1"></i>Add To Compare
-                                        </button>
-                                        </li>
-                                    </ul>
-                                <button
-                                    @click="addToCart(getDetail)"
-                                    class="theme-btn-one btn-black-overlay btn_sm"
-                                >
-                                    Add To Cart
-                                </button>
+                                    <div class="">
+                                        {{ count }}
+                                    </div>
+                                    <div class="plus-minus">
+                                        <i class="fas fa-plus" @click="increment()"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 text-center mt-3">
+                                <b-button class="bg-add-cart border-0" :disabled="this.count == 0" style="width: 100%"
+                                    @click="addToCart(getDetail)">
+                                    <span class="mx-3">
+                                        <i class="fas fa-shopping-cart text-white"></i>
+                                    </span>
+                                    <span style="font-weight: 700">
+                                        Add to cart
+                                    </span>
+                                </b-button>
+                                <div class="d-none bg-add-cart" @click="addToCart(getDetail)">
+                                    <span class="mx-3">
+                                        <i class="fas fa-shopping-cart text-white"></i>
+                                    </span>
+                                    <span style="font-weight: 700">
+                                        Add to cart
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 </template>
 <script>
-  // Import Swiper Vue.js components
-  import { Swiper, SwiperSlide } from 'swiper/vue';
-  // Import Swiper styles
-  import 'swiper/css';
-  import 'swiper/css/scrollbar';
- export default {
- name: "product-single",
-    components: {
-        Swiper,
-        SwiperSlide
-    },
+// Import Swiper Vue.js components
+import 'swiper/css';
+import 'swiper/css/scrollbar';
+export default {
+    name: "product-single",
     data() {
         return {
+            mainImage: require('@/assets/img/product-image/10.png'),
             activeColor: "",
             selectedSize: "",
             qty: "",
@@ -194,14 +135,16 @@
             // Breadcrumb Items Data
             breadcrumbItems: [
                 {
-                text: "Home",
-                to: "/",
+                    text: "Home",
+                    to: "/",
                 },
                 {
-                text: "Product Single",
-                to: "/product",
-                },
+                    text: "Product Single",
+                    to: "/product",
+                }
             ],
+            slide: 0,
+            count: 1,
             // Product Quanity Increment/ Decrement Data
             quantity: 1,
             cartProduct: {},
@@ -218,12 +161,8 @@
             return this.$store.getters["products/getProductById"](
                 this.$route.params.id
             );
-        },
-        // swiper() {
-            // return this.$refs.mySwiper.swiper;
-        // },
+        }
     },
-
     mounted() {
         // For displaying default color and size on pageload
         this.uniqColor = this.getDetail.variants[0].color;
@@ -238,12 +177,23 @@
     },
 
     methods: {
+        changeMainImage(image) {
+            this.mainImage = image;
+        },
         getImageUrl(path) {
-              return require("@/assets/img/product-image/" + path);
+            return require("@/assets/img/product-image/" + path);
         },
         discountedPrice(product) {
             const price = product.price - (product.price * product.discount) / 100;
             return price;
+        },
+        increment() {
+            this.count += 1;
+        },
+        decrement() {
+            if (this.count - 1 >= 1) {
+                this.count -= 1;
+            }
         },
         // add to cart
         addToCart: function (product, qty) {
@@ -263,13 +213,12 @@
             this.productType = this.getDetail.type;
             this.productId = this.getDetail.id;
         },
-
         // Display Unique color
         Color(variants) {
             const uniqColor = [];
             for (let i = 0; i < Object.keys(variants).length; i++) {
                 if (uniqColor.indexOf(variants[i].color) === -1) {
-                uniqColor.push(variants[i].color);
+                    uniqColor.push(variants[i].color);
                 }
             }
             return uniqColor;
@@ -289,7 +238,7 @@
             this.activeColor = color;
             this.getDetail.variants.filter((item) => {
                 if (id === item.image_id) {
-                this.size.push(item.size);
+                    this.size.push(item.size);
                 }
             });
         },
@@ -300,36 +249,115 @@
             title: this.title,
             meta: [
                 {
-                hid: "description",
-                name: "description",
+                    hid: "description",
+                    name: "description",
                     content: "Shop page - AndShop Ecommerce Vue js, Nuxt js Template",
                 },
             ],
         };
     },
- };
+};
 </script>
 
-<style>
-.swiper {
-  width: 100%;
-  height: 100%;
+<style scoped>
+.image {
+    border-radius: 10px;
 }
 
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
+@media (max-width: 768px) {
+    .image {
+        border-radius: 0px !important;
+    }
+}
 
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.discount {
+    /* border-radius: 10px; */
+    background-color: hsl(25, 100%, 94%);
 }
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+.bg-quantity {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 14px;
 }
-</style>
+
+.bg-add-cart {
+    background-color: hsl(26, 100%, 55%);
+    color: white !important;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 14px;
+    transition: 0.3s;
+    cursor: pointer;
+    box-shadow: 0px 23px 19px 10px hsl(25, 100%, 94%);
+}
+
+.bg-add-cart:hover {
+    background-color: hsl(24, 91%, 86%);
+}
+
+.plus-minus {
+    color: hsl(26, 100%, 55%);
+    cursor: pointer;
+}
+
+.thumbnail img {
+    cursor: pointer;
+    opacity: 1;
+    transition: .3s;
+}
+
+.thumbnail:hover img {
+    /* background-color: #d2d2d2 !important;  */
+    opacity: 0.3 !important;
+}
+
+.activess {
+    opacity: 0.4 !important;
+    border: 3px solid hsl(26, 100%, 55%) !important;
+}
+
+i {
+    transition: 0.3s;
+}
+
+i:hover {
+    color: hsl(24, 91%, 86%);
+}
+
+/* navbar */
+.avatar:hover {
+    border: 2px solid hsl(26, 100%, 55%) !important;
+}
+
+.category {
+    transition: 0.1s;
+}
+
+.category:hover {
+    border-bottom: 3px solid hsl(26, 100%, 55%);
+}
+
+.category:hover .text {
+    color: black !important;
+}
+
+.checkout-btn {
+    transition: 0.3s;
+}
+
+.checkout-btn:hover {
+    background-color: hsl(24, 91%, 86%) !important;
+}
+
+.cart-count {
+    position: absolute;
+    top: 3px;
+    left: 22px;
+    padding: 0px 7px;
+    font-size: 9px;
+    background-color: hsl(26, 100%, 55%);
+    color: white;
+    border-radius: 5px;
+}</style>
