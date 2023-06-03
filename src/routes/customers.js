@@ -25,6 +25,11 @@ export default [
             component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
           },
           {
+            path: "/customer/my-account/wishlist",
+            name: 'wishlist-my-account-cart',
+            component: () => import("../views/customers/sopping_cart/WishlistOfProduct.vue"),
+          },
+          {
             path: "/customer/more-product",
             name:'more-product',
             component: () => import("../views/customers/sopping_cart/MoreProductRecommend.vue"),

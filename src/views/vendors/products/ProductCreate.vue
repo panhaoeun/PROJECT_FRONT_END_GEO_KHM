@@ -75,7 +75,7 @@
                                         <label for="name_en" class="text-xl font-semibold">
                                             Product Code
                                             <span class="p-error">*</span>
-                                            <span class="pl-2 underline text-blue-600" @click="sdsad">Generate Code</span>
+                                            <span class="pl-2 underline text-blue-600" @click="generateProductCode()">Generate Code</span>
                                         </label>
                                         <InputText class="p-inputtext p-component text-xl" type="text" v-model="proCode" placeholder="Product Code" />
                                     </div>
@@ -170,7 +170,7 @@
                                 </div>
                             </div> 
                              <!--=======Product Details=========-->
-                            <div class="card  px-6 py-6 my-4">
+                            <div class="bg-white">
                                 <span class="block text-900 font-bold text-xl mb-4">Product Details</span>
                                 <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
                                     <div class="col-12 lg:col-12">
@@ -410,6 +410,28 @@
             }
         },
         methods: {
+            /**
+             * Generate Product Code
+             * */ 
+            getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            },
+            generateProductCode(){
+                console.log(this.formUploadArr.resourceList)
+                const productToken = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                const chars = 5;
+                const segments = 4;
+                let keyString = "";
+                for (var i = 0; i < segments; i++) {
+                    var segment = "";
+                    for (var j = 0; j < chars; j++) {
+                        var k = this.getRandomInt(0, 35);
+                        segment += productToken[k];
+                    }
+                    keyString += segment;
+                    return this.proCode = keyString;
+                }
+            },
             onLazyLoad() {
                 //  const { first, last } = event;
                 const _items = [...this.catSubListDropDownPro];
@@ -556,6 +578,7 @@
                 if (!isFormValid) {    
                     return;
                 }
+                
                 if(!this.proNameEng || !this.proUnitPice){
                     this.isProcessingSubmit = true;
                         const dataPro = {
@@ -579,27 +602,26 @@
                          console.log(dataPro)
                          this.productSerClass.createProduct(dataPro).then((response) => { 
                             console.log(response)
-                            // if (response.data.status === true) {
-                            //     this.submitted = true;
-                            //     this.isProcessingSubmit = true;
-                            //         this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
-                            //         // Push Router
-                            //         setTimeout(() => {
-                            //             this.isProcessingSubmit = false;
-                            //             this.$router.push("/vendor/products/list");
-                            //         }, 3000);
-                            //     }
+                            if (response.data.status === true) {
+                                this.submitted = true;
+                                this.isProcessingSubmit = true;
+                                    this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
+                                    // Push Router
+                                    setTimeout(() => {
+                                        this.isProcessingSubmit = false;
+                                        this.$router.push("/vendor/products/list");
+                                    }, 3000);
+                                }
                         })
                         .catch(error => {
                             console.log(error)
-                            // if (error.response.status == '401') {
-                            //     //  Toast Alert 
-                            //     this.message_pro_type = [
-                            //         { severity: 'error', content: error.response.data.error },
-                            //     ]
-                            //     this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
-                            // }
-
+                            if (error.response.status == '401') {
+                                //  Toast Alert 
+                                this.message_pro_type = [
+                                    { severity: 'error', content: error.response.data.error },
+                                ]
+                                this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
+                            }
                         });
                 }
             },

@@ -153,7 +153,6 @@ export default {
                                 this.$store.dispatch("auth/setCurrentUser", localStorage.getItem('user'));
                                 this.$store.dispatch("auth/setToken", Cookie.get('token'));
                                 if (response.userType === "Vendor") {
-                                    // console.log(response.userType)
                                     this.$router.push({path: "/vendor-dashboard/default-layouts"});
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({path: "/"});

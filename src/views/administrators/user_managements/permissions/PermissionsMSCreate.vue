@@ -27,8 +27,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="" v-for="(permission, index) in permissions" :key="index">
-                                        <div  v-if="permission!== '' && permission.length > 0 || permission">                   
+                                    <tr :rid="permission.id" :pid="permission.user_id"  :prid="permission.id? permission.id: '0'" v-for="(permission, index) in permissions" :key="index">
+                                        <div  v-if="permission!== '' && permission.length > 0 || permission">        
+                                            <!-- {{ permission }}            -->
                                             <td class="text-left">
                                                 {{ permission.user_fun_name }}
                                             </td>

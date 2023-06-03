@@ -133,12 +133,22 @@
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles">Roles<span class="p-error">*</span></label>
-                                            <b-form-select :options="ageOptions" id="input-1304"></b-form-select>
-                                            <!-- <small
-                                                v-if="(v$.proCategoryNameEng.$invalid && submitted) || v$.proCategoryNameEng.$pending.$response"
-                                                class="p-error">{{ v$.proCategoryNameEng.required.$message.replace('Value',
-                                                    'Roles') || v$.proCategoryNameEng.$params.min }}
-                                            </small> -->
+                                           <div class="flex flex-column">
+                                            <el-select 
+                                                    @change="getPermissionCurrent"
+                                                    v-model="selectOptValuePermission" 
+                                                    filterable  
+                                                    class="py-3 border-round-lg"
+                                                    placeholder="Select">
+                                                    <el-option 
+                                                        selected
+                                                        v-for="item in permissionListDropDownView" 
+                                                        :value="item.user_id" 
+                                                        :label="item.user_fun_id"
+                                                        :key="item.user_fun_id"        
+                                                    ></el-option>
+                                                </el-select>
+                                           </div>
                                         </div>
                                     </div>
                                     
@@ -228,13 +238,8 @@ export default {
             },
             fileUserMS: null,
             notifMSGUser: '',
-            ageOptions : [
-                { value: null, text: 'Please select your age' },
-                { value: 'child', text: '0-18' },
-                { value: 'Young', text: '19-30' },
-                { value: 'adult', text: '31-49' },
-                { value: 'senior-citizen', text: '50-99' }
-            ]
+            permissionListDropDownView: [],
+            permissionList: '',
         }
     },
     components() {
@@ -247,6 +252,13 @@ export default {
     mounted() {
         // User Arr Vuex 
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
+        //List Permissions
+        this.userMSServices.getListPermissions().then((data) => {
+            if (!data) {
+                ElMessage.error("Internal Error...");
+            }
+            this.permissionListDropDownView = data;
+        });
     },
     //Validations
     validations() {
@@ -274,6 +286,29 @@ export default {
         }
     },
     methods: {
+        /*
+            Get Permissions
+        */
+        getPermissionCurrent(permissionID){
+              if (!permissionID) {
+                ElMessage.error('Please select permissions...');
+                this.permissionList = {};
+            }
+            try {
+                // const catID = this.selectOptValueCat;
+                this.userMSServices.editedPermMSByID(this.selectOptValuePerm).then((perMID) => {
+                    if (!perMID) {
+                        ElMessage.error("Internal Error...");
+                    }
+                    this.permissionList = perMID;
+                }).catch((err) => {
+                    console.log(err)
+                    ElMessage.error(err);
+                });
+            } catch (error) {
+                ElMessage.error(error);
+            }
+        },
         /*
             Input Only Phone Number
         */

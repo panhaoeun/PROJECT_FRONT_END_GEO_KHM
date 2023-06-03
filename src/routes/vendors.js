@@ -10,7 +10,7 @@ const defaultChildRoutes = (prefix) => [
     {
         path:'/vendor-dashboard/default-layouts',
         name: prefix + '.dashboard',
-        meta: { auth: true, name: 'Home', isBanner: false },
+        meta: { auth: true, name: 'Home', isBanner: false, title: 'Dashboard | 7Day' },
         component:()=> import('../dashboard/DashboardLayout.vue'),
     },
     /*
@@ -36,11 +36,17 @@ const defaultChildRoutes = (prefix) => [
     {
         path: "/vendor/products/list",
         name: prefix + '.products-list',
+        meta: {
+         title: 'Products | 7Day'   
+        },
         component: () => import("../views/vendors/products/ProductList.vue"),
     },
     {
         path: "/vendor/products/create",
         name: prefix + '.product-create',
+        meta: {
+             title: 'Products Create| 7Day'
+         },
         component: () => import("../views/vendors/products/ProductCreate.vue"),
     },
     {

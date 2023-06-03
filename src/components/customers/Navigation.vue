@@ -310,7 +310,7 @@
             <ul class="offcanvas-wishlist-action-button" style="padding: 1rem;">
                 <li>
                 <router-link
-                    to="/my-account/wishlist"
+                    to="/customer/my-account/wishlist"
                     class="theme-btn-one btn-black-overlay btn_md"
                     >View wishlist</router-link
                 >

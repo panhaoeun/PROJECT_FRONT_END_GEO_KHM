@@ -305,10 +305,10 @@
                                 <FormKit type="button" class="next" :disabled="activeStep == 'verificationInformation'" @click="setStep(1)" v-text="'Next step'"/>
                             </div>
 
-                            <details>
+                            <!-- <details>
                                 <summary>Form data</summary>
                                 <pre>{{ value }}</pre>
-                            </details>
+                            </details> -->
                         </div>
 
                         <!-- NEW: Adds submit button. -->

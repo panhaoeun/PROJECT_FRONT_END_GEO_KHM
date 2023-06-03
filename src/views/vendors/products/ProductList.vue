@@ -4,7 +4,7 @@
             <div class="coa">
                 <!-- Titles -->
                     <div class="flex justify-content-between my-4 px-4 py-4">
-                        <h2 class="relative text-black text-3xl section section-title:before">Products</h2>
+                        <h2 class="relative text-black text-3xl section section-title:before">Products List</h2>
                         <el-button type="info" size="large" class="py-4" @click.prevent="$router.push('/vendor/products/create')">
                             <div class="flex justify-between pl-2">
                                 <i class="pi pi-plus" style="font-size: 1rem"></i>
@@ -40,7 +40,7 @@
                                     <!-- Data Table Header -->
                                     <template #header>
                                         <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                                            <h4 class="m-0">Manage Product</h4>
+                                            <h4 class="m-0"></h4>
                                             <!-- Search Products -->
                                             <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
                                                 <i class="pi pi-search" />
