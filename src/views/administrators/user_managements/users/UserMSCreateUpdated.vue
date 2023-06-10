@@ -123,9 +123,10 @@
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles">Roles<span class="p-error">*</span></label>
-                                            <el-select 
+                                            <div class="flex flex-column">
+                                                <el-select 
                                                     @change="getPermissionCurrent"
-                                                    v-model="selectOptValuePermission" 
+                                                    v-model="selectUpdateOptValuePermission" 
                                                     filterable  
                                                     placeholder="Select">
                                                     <el-option 
@@ -136,6 +137,7 @@
                                                         :key="item.user_fun_id"        
                                                     ></el-option>
                                                 </el-select>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -188,6 +190,7 @@ export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
         return {
+            selectUpdateOptValuePermission: null,
             activeName: 'english-tabs',
             activetab: 1,
             preview: null,
@@ -382,6 +385,7 @@ export default {
         },
         async handleUserMSSUpdatedSubmit(isFormValidUpdateMS) {
             try {
+                console.log(this.selectUpdateOptValuePermission)
                 this.submitted = true;
                 if (!isFormValidUpdateMS) {
                     if (!this.fileUserMS || this.fileUserMS !== '') {

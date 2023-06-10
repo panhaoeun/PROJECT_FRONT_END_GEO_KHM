@@ -161,6 +161,10 @@ const defaultChildRoutes = (prefix) => [
     {
         path: "/vendor/user/list/crete-user-auth/ui-user-edit/:id",
         name: prefix + '.user-auth-crud-user-edit',
+        meta: {
+             title: "User | 7Day",
+             requiresAuth: true,
+         },
         component: () => import("../views/administrators/user_managements/users/UserMSCreateUpdated.vue"),
     },
     {
@@ -175,6 +179,10 @@ const defaultChildRoutes = (prefix) => [
     {
         path: "/vendor/user/permission/list/crete-user-auth/ui-permission-edit-updated/:id/:funId",
         name: prefix + '.user-auth-crud-permission-add',
+        meta: {
+             title: "Permission | 7Day",
+             requiresAuth: true,
+        },
         component: () => import("../views/administrators/user_managements/permissions/PermissionsMSCreate.vue"),
     },
 ];

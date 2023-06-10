@@ -16,50 +16,66 @@
                     </div>
                     <b-card-body>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <!-- Select All Permission -->
+                            <div class="flex flex-row px-2 py-2  my-2">
+                                <span class="pl-2">Select All</span>
+                                <span class="pl-2">
+                                      <input class="form-check-input cursor-pointer" type="checkbox"/>
+                                </span>
+                            </div>
+                            <table class="table table-bordered" id="permListArr">
                                 <thead>
                                     <tr>
                                        <th>Resource Name</th>
                                        <th>Read </th>
-                                       <th>Write </th>
-                                       <th>Edit</th>
-                                       <th>Delete</th>
+                                       <th>Create </th>
+                                       <th>Modify</th>
+                                       <th>Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr :rid="permission.id" :pid="permission.user_id"  :prid="permission.id? permission.id: '0'" v-for="(permission, index) in permissions" :key="index">
-                                        <div  v-if="permission!== '' && permission.length > 0 || permission">        
-                                            <!-- {{ permission }}            -->
+                                    <tr :pname="permission?.user_fun_name" :uid="permission?.user_id"  
+                                        :pid="permission?.id? permission.id: '0'" 
+                                        v-for="(permission, index) in permissions" 
+                                        :key="index">
+                                        <div  v-if="permission!== '' && permission.length > 0 || permission">
                                             <td class="text-left">
-                                                {{ permission.user_fun_name }}
+                                                {{ (index + 1).toFixed().toString('.') }}.{{ permission?.user_fun_name }}         
                                             </td>
                                         </div>
                                         <td>
-                                            <input class="form-check-input cursor-pointer" type="checkbox" checked
-                                                v-if="permission.user_fun_view === true && permission.user_fun_view === true" />
-                                            <input class="form-check-input" type="checkbox" v-else />
+                                            <input class="form-check-input cursor-pointer" type="checkbox"
+                                                :value="permission?.user_fun_view?'1' : '0'"
+                                                :id="permission?.id"
+                                                :checked="permission?.user_fun_view== 1 ? true : false"
+                                                @change="changeSavePermission(this)"
+                                            />
                                         </td>
                                         <td>
-                                            <input class="form-check-input cursor-pointer" type="checkbox" checked
-                                                v-if="permission.user_fun_add === true && permission.user_fun_add === true" />
-                                            <input class="form-check-input" type="checkbox" v-else />
+                                            <input class="form-check-input cursor-pointer" type="checkbox"
+                                                :value="permission?.user_fun_add? '1': '0'" 
+                                                :checked="permission?.user_fun_add == 1 ? true : false"
+                                                @change="changeSavePermission(this)"
+                                            />
                                         </td>
                                         <td class="text-left">
-                                            <input class="form-check-input cursor-pointer" type="checkbox" checked
-                                                v-if="permission.user_fun_edit === true && permission.user_fun_edit === true" />
-                                            <input class="form-check-input" type="checkbox" v-else />
+                                            <input class="form-check-input cursor-pointer" 
+                                                type="checkbox"
+                                                :checked="permission?.user_fun_edit == 1 ? true : false"
+                                                :value="permission?.user_fun_edit? '1': '0'" 
+                                                @change="changeSavePermission(this)"
+                                            />
                                         </td>
                                         <td>
-                                            <input class="form-check-input cursor-pointer" type="checkbox" checked
-                                                v-if="permission.user_fun_delete === true && permission.user_fun_delete === true" />
-                                            <input class="form-check-input" type="checkbox" v-else />
+                                            <input class="form-check-input cursor-pointer" type="checkbox"
+                                                :checked="permission?.user_fun_delete == 1 ? true : false"
+                                                :value="permission?.user_fun_delete? '1': '0'" 
+                                                @change="changeSavePermission(this)"
+                                            />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="text-center">
-                                <a href="#" type="button" class="btn btn-primary">Save</a>
-                            </div>
                         </div>
                     </b-card-body>
                 </b-card>
@@ -74,7 +90,17 @@ export default {
     name: 'admin-view',
     data() {
         return {
-            permissions: null
+            permissions: null,
+            permListArr: [],
+            selected: [],
+            userIds: [],
+            allSelected: false,
+            getUserFunView: [],
+            getPermissionAdd: [],
+            getPermissionEdit: [],
+            getPermissionRemove:[],
+            getPermission: [],
+            permissionsArr: {}
         }
     },
     created() {
@@ -84,6 +110,12 @@ export default {
         this.editPermissionMS(this.$route.params.id, this.$route.params.funId);
     },
     methods: {
+        async changeSavePermission(obj){
+           this.$nextTick(() => {
+            //  const getTableVal = $(obj).val();
+             console.log(obj)
+           });
+        },
         async editPermissionMS(id, funId){
             const userPerMSServices = new UserPermissionsMSServices();
             userPerMSServices.editedPermMSByID(id, funId).then((data) => {
@@ -92,7 +124,6 @@ export default {
                 }
                 this.permissions = data;
             });
-            console.log(this.permission)
         }
     }
 }
