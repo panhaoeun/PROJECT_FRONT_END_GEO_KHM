@@ -34,6 +34,10 @@ import routes from "./routes/routes";
 
 
 import CounterUp from 'vue3-autocounter';
+
+//global registration Vue3FormWizard
+import Vue3FormWizard from 'vue3-form-wizard'
+import 'vue3-form-wizard/dist/style.css'
 /*
    @E-Commerces Dashboard
    @Library E-Commerces Dashboard
@@ -135,6 +139,8 @@ app.use(VueGoogleMaps, {
         key: 'AIzaSyBOXZ8ExfHJAN7vrX4fMqcL5AQy7TCK3ZE',
     }
 });
+// app.use(Vue3FormWizard);
+app.use(Vue3FormWizard);
 
 
 //Vuex

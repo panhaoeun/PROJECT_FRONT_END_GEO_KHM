@@ -69,6 +69,7 @@
     "vue-sidebar-menu": "^5.2.8",
     "vue-upload-component": "^3.1.8",
     "vue3-autocounter": "^1.0.6",
+    "vue3-form-wizard": "^0.2.1",
     "vueperslides": "^3.5.1",
     "vuex": "^4.0.2",
     "zod": "^3.20.4-beta.0"
