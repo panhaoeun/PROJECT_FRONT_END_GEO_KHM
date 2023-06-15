@@ -47,7 +47,7 @@ export default [
     {
         path: "/customer/onboarding/multi-vendor/shop-info/preferences",
         name:'step-acc-vendor-reg',
-        meta: {template: 'step-acc-vendor-reg'},
+        meta: {template: 'step-acc-vendor-reg', title: "Seller Apply | 7Day"},
         component: () => import("../views/authencation/steps_acc_register_seller/StepAccRegSeller.vue"),
     }
     

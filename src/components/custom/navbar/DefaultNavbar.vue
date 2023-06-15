@@ -24,18 +24,6 @@
                     <li class="iq-sub-card list-group-item">
                       <a class="p-0" href="#"><img src="../../../assets/img/Flag/flag-03.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px; height: 15px; min-width: 15px" />Spanish</a>
                     </li>
-                    <li class="iq-sub-card list-group-item">
-                      <a class="p-0" href="#"><img src="../../../assets/img/Flag/flag-04.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px; height: 15px; min-width: 15px" />Italian</a>
-                    </li>
-                    <li class="iq-sub-card list-group-item">
-                      <a class="p-0" href="#"><img src="../../../assets/img/Flag/flag-02.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px; height: 15px; min-width: 15px" />French</a>
-                    </li>
-                    <li class="iq-sub-card list-group-item">
-                      <a class="p-0" href="#"><img src="../../../assets/img/Flag/flag-05.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px; height: 15px; min-width: 15px" />German</a>
-                    </li>
-                    <li class="iq-sub-card list-group-item">
-                      <a class="p-0" href="#"><img src="../../../assets/img/Flag/flag-06.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px; height: 15px; min-width: 15px" />Japanese</a>
-                    </li>
                   </ul>
                 </div>
               </b-card>
@@ -203,7 +191,6 @@ function authVenAdLogout() {
              * */
             deleteAllCookies();
         }).catch((error) => {
-            console.log(error)
             ElMessage.error(error);
         });
     } catch (error) {

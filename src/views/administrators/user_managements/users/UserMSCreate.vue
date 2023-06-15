@@ -201,7 +201,6 @@ import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
 import { ElMessage } from 'element-plus';
-// import axios from 'axios';
  
 export default {
     setup: () => ({ v$: useVuelidate() }),
@@ -411,7 +410,7 @@ export default {
                         console.log(error)
                         ElMessage.error(error);
                         if(error.response.data.success == false){
-                            this.notifMSGUser = error.response.data.error.error || (error.response.data.error.error.errors[0].message);
+                            this.notifMSGUser = (error.response.data.error.error.errors[0].message);
                             ElMessage.error(error.response.data.error.error.errors[0].message);
                         }
                             return false;

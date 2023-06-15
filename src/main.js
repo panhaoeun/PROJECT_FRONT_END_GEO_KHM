@@ -114,10 +114,11 @@ import VueCookies from 'vue-cookies';
 /*
     @CASL Vue
 */
-// import { abilitiesPlugin } from '@casl/vue';
-// // app.use(abilitiesPlugin, {
-// //     useGlobalProperties: true
-// // });
+ import {
+     abilitiesPlugin,
+     Can
+} from '@casl/vue'
+console.log(abilitiesPlugin, Can)
 
 ///Form Kit
 import { plugin, defaultConfig } from '@formkit/vue';

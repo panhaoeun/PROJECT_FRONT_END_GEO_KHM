@@ -122,6 +122,7 @@ export default {
     mounted() {
         const userPerMSServices = new UserPermissionsMSServices();
         userPerMSServices.getListUserData().then((data) => {
+            console.log(data)
             if (!data) {
                 ElMessage.error("Internal Error...");
             }

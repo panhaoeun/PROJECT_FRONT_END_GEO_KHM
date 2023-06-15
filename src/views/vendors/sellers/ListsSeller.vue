@@ -433,9 +433,7 @@ export default{
                             label: 'Ban This Seller',
                             icon: 'pi pi-lock',
                             command: () => {
-                                this.$confirm.require({
-                                      message: 'Are you sure you want to proceed?',
-                                })
+                                console.log(this.sellerServices)
                             }
                         },
                         {
