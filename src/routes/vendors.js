@@ -129,6 +129,19 @@ const defaultChildRoutes = (prefix) => [
         component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
     },
     /*
+      @Business Sections Managements
+    */
+    {
+        path: "/vendor/sellers/shop/my_shop_vendor",
+        name: prefix + '.my_shop_vendor-list',
+        component: () => import("../views/vendors/my_shop/MyShopsVendor.vue"),
+    },
+    {
+        path: "/vendor/sellers/shop/my_shop_vendor/edit_my_shop",
+        name: prefix + '.my_shop_vendor-edit-shop',
+        component: () => import("../views/vendors/my_shop/EditMyShop.vue"),
+    },
+    /*
       @Order Managements
     */
     {
@@ -184,6 +197,15 @@ const defaultChildRoutes = (prefix) => [
              requiresAuth: true,
         },
         component: () => import("../views/administrators/user_managements/permissions/PermissionsMSCreate.vue"),
+    },
+    {
+        path: "/vendor/vendor-dashboard",
+        name: prefix + '.vendor-dashboard',
+        meta: {
+            title: "Dashboard | 7Day",
+            requiresAuth: true,
+        },
+        component: () => import("../dashboard/DashboardLayout.vue"),
     },
 ];
 export default [

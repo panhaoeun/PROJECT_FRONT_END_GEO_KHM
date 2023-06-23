@@ -50,7 +50,7 @@ router.beforeEach( async(to, from, next) => {
     }else{
         next();
     }
-    if (authRequired && !loggedIn && !user.value) {
+    if (authRequired && !loggedIn) {
         next('/auth/login');
     }else{
         next();

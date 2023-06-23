@@ -58,7 +58,7 @@
                                             <template #body="{ data }">
                                                 <div class="flex flex-column">
                                                     <span class="flex">
-                                                        <Avatar :image="`${ENV_HOST_PATH_FILE}uploads/products_img/list_img_products/${data.product_picture}`" class="mr-2" shape="circle" :data-id="data"/>
+                                                        <Avatar :image="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${data?.product_picture}`" class="mr-2" shape="circle" :data-id="data"/>
                                                         {{ data.product_eng}}
                                                     </span>
                                                 </div>

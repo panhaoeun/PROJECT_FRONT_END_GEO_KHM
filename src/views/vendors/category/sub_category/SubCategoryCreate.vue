@@ -30,19 +30,7 @@
                                     <div class="col-12 field">
                                         <div class="col-6 field">
                                             <label for="name_en">Category<span class="p-error">*</span></label>
-                                            <select 
-                                                placeholder="Please select categories"
-                                                class="form-select py-3 text-md p-dropdown-item  border-round-lg"
-                                                v-model="v$.selectedCategories.$model"
-                                                @click="getCategoriesSelect()">
-                                                <option v-for="(result, index) in catSubListDropDown" 
-                                                        :key="index" 
-                                                        :value="result.catID" 
-                                                        :selected="result.catID == this.$route.params.superCatID"
-                                                    class="p-dropdown-item">
-                                                       {{ result.catNameEn }} 
-                                                </option>  
-                                            </select>
+                                          {{ this.$route.params.superCatID }}
                                         </div>
                                         <!-- Name Sub Category -->
                                         <div class="field col-6">
@@ -166,8 +154,9 @@ export default {
             this.loading = false;
         },
         async getCategoriesSelect(){
-            this.proSubCategoryService.getProCategory().then((data) => {
+            this.proSubCategoryService.editedProCategory(this.$route.params.superCatID).then((data) => {
                 this.catSubListDropDown = data;
+                console.log(data)
             });
         },
         async handleSubCategorySubmit(isFormValidCategorySub) {
@@ -181,7 +170,7 @@ export default {
                 if (!this.proSubCategoryNameEng != "" || this.proSubCategoryNameEng !== null) {
                     // Data Response
                     const data = {
-                        superSubCatID: this.selectedCategories,
+                        superSubCatID: this.$route.params.superCatID,
                         productSubCatEng: this.proSubCategoryNameEng,
                         productSubCatKh: this.proSubCategoryNameKh
                     }

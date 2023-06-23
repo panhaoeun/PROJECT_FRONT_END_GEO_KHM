@@ -56,7 +56,9 @@
                                                 </Column>
                                                 <Column header="Author" sortable style="min-width:15rem">
                                                     <template #body="slotProps">
-                                                        <Avatar :image="`${ENV_HOST_PATH_FILE}uploads/sellers/${slotProps.data.shop_logo}`" class="mr-2" size="large" shape="circle" :data-id="slotProps.data"/>
+                                                        <div v-if="slotProps.data?.vendorProfile !== null">
+                                                            <Avatar :image="`${ENV_HOST_PATH_FILE}uploads/user_profile/${slotProps.data?.vendorProfile}`" class="mr-2" size="large" shape="circle" :data-id="slotProps.data"/>
+                                                        </div>
                                                         <div class="flex flex-column ">
                                                             <span class="flex font-bold">
                                                                 {{ slotProps.data.venNameEng }} 
@@ -84,8 +86,8 @@
                                                         <div v-if="slotProps.data.venStatus !== 'UnBanned'">
                                                             <Tag severity="danger" value="Banned"></Tag>
                                                         </div>
-                                                        <div v-if="slotProps.data.shop_verify !== 'Verify'">
-                                                                {{ slotProps.data.shop_verify }}
+                                                        <div v-if="slotProps.data.shop_verify == 'Verify'">
+                                                            <Tag severity="success" value="Verify"></Tag>
                                                         </div>
                                                         <div v-if="slotProps.data.shop_status!=='Open'">
                                                             <div class="font-bold" v-if="slotProps.data.shop_status">
@@ -395,8 +397,6 @@ import { ElMessage } from 'element-plus';
 import SellerServices from '../../../services/vendors/seller_managements/SellerServices';
 import UploadSingleFile from "../../../components/uploads/UploadSingleFile.vue";
 import MazAvatar from 'maz-ui/components/MazAvatar';
-
-
 export default{
     components: {
         UploadSingleFile,

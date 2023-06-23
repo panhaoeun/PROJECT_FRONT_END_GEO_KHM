@@ -118,12 +118,24 @@ import VueCookies from 'vue-cookies';
 /*
     @CASL Vue
 */
- import {
-     abilitiesPlugin,
-     Can
-} from '@casl/vue'
-console.log(abilitiesPlugin, Can)
 
+import {
+    abilitiesPlugin
+} from "@casl/vue";
+import defineAbilitiesFor from "./utils/casl_role_permission/ability";
+const usersData = localStorage.getItem('user');
+const jsonParseUser = JSON.parse(usersData);
+let ability = defineAbilitiesFor(jsonParseUser[0]?.user_id);
+console.log(ability.can('view', 'Dashboards'))
+
+// import {
+//     AbilityBuilder,
+//     Ability
+// } from '@casl/ability';
+// const { can, build } = new AbilityBuilder(Ability);
+app.use(abilitiesPlugin, ability, {
+    useGlobalProperties: true
+});
 ///Form Kit
 import { plugin, defaultConfig } from '@formkit/vue';
 import { createMultiStepPlugin } from '@formkit/addons';

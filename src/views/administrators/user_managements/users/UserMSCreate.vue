@@ -129,29 +129,101 @@
                                           </div>  
                                         </div>
                                     </div>
+                                    <!-- Date of Birth -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en">Date Of Birth<span class="p-error">*</span></label>
+                                            <Calendar 
+                                                placeholder="Date of birth" 
+                                                type="text"
+                                                class="py-2 border-round-lg" v-model="v$.userDateOfBirth.$model"
+                                                :class="{ 'p-invalid p-error': v$.userDateOfBirth.$invalid && submitted }" />
+                                            <small
+                                                v-if="(v$.userDateOfBirth.$invalid && submitted) || v$.userDateOfBirth.$pending.$response"
+                                                class="p-error">{{ v$.userDateOfBirth.required.$message.replace('Value',
+                                                    'Date of Birth') || v$.userDateOfBirth.$params.min }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <!-- Gender -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="roles">Gender<span class="p-error">*</span></label>
+                                           <div class="flex flex-column">
+                                                <Dropdown
+                                                 v-model="selectedUserGender"
+                                                class="py-2 border-round-lg"
+                                                :options="userGender" 
+                                                optionLabel="name" placeholder="Select a Gender" />
+                                           </div>
+                                        </div>
+                                    </div>
+                                    <!--=========User Address===========-->
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en">Address 01<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddress01" 
+                                                placeholder="Address 01" 
+                                                type="text"
+                                                class="py-3 border-round-lg" v-model="userAddress01" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en">Address 02<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddress02" 
+                                                placeholder="Address 02" 
+                                                type="text"
+                                                class="py-3 border-round-lg" v-model="userAddress02" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en">City<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddrCity" 
+                                                placeholder="City" 
+                                                type="text"
+                                                class="py-3 border-round-lg" v-model="userAddrCity" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en">Zip Code<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddrZipCode" 
+                                                placeholder="Zip Code" 
+                                                type="text"
+                                                class="py-3 border-round-lg" v-model="userAddrZipCode" />
+                                        </div>
+                                    </div>
+                                <!--=========User Address===========-->
                                     <!--User Permissions -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles">Roles<span class="p-error">*</span></label>
                                            <div class="flex flex-column">
+                                            {{ selectOptValuePermission }}
                                             <el-select 
                                                     @change="getPermissionCurrent"
                                                     v-model="selectOptValuePermission" 
                                                     filterable  
-                                                    class="py-3 border-round-lg"
+                                                    class=" border-round-lg"
                                                     placeholder="Select">
                                                     <el-option 
                                                         selected
-                                                        v-for="item in permissionListDropDownView" 
-                                                        :value="item.user_id" 
-                                                        :label="item.user_fun_id"
-                                                        :key="item.user_fun_id"        
+                                                        v-for="permList in permissionListDropDownView" 
+                                                        :value="permList?.user_id" 
+                                                        :label="permList?.user_fun_id"
+                                                        :key="permList?.user_fun_id"        
                                                     ></el-option>
                                                 </el-select>
                                            </div>
                                         </div>
                                     </div>
-                                    
+                                    <!-- Upload Profile -->
                                     <div class="col-12 field">
                                         <!--Category Logo -->
                                         <div class="field">
@@ -174,6 +246,18 @@
                                                     {{ errMessageUploadFile }}
                                                 </small> 
                                             </div>
+                                        </div>
+                                    </div>
+                                    <!--User Noted -->
+                                    <div class="col-12 col-lg-12 field">
+                                        <div class="field">
+                                            <label for="">Descriptions<span class="p-error">*</span></label>
+                                            <Editor
+                                                editorStyle="height: 400px" 
+                                                id="userUserDescription" 
+                                                placeholder="Descriptions" 
+                                                type="text"
+                                                class="py-3 border-round-lg" v-model="userUserDescription" />
                                         </div>
                                     </div>
                                 </div>
@@ -210,6 +294,11 @@ export default {
             activetab: 1,
             preview: null,
             errMessageConfirm: '',
+            userGender: [
+                { name: 'Male', gender_name: 'male' },
+                { name: 'Female', gender_name: 'female' },
+                { name: 'Other', gender_name: 'other' },
+            ],
             image: null,
             userMSNameEng: '',
             userMSNameKh: '',
@@ -228,6 +317,14 @@ export default {
             messages: [],
             loading: [false, false, false],
             isUserAuthArrCreate: '',
+            selectedUserGender: null,
+            userAddress01: "",
+            userAddress02: "",
+            userAddrCity: "",
+            userAddrZipCode: "",
+            userUserDescription: "",
+            userDateOfBirth: null,
+            selectOptValuePermission: null,
             //Upload Files
             imageUrl: '',
             fileList: [],
@@ -266,6 +363,9 @@ export default {
                 required,
                 minLength: minLength(3)
             },
+            userDateOfBirth: {
+                required
+            },
             userMSNameKh: {
                 required,
                 minLength: minLength(3)
@@ -295,7 +395,7 @@ export default {
             }
             try {
                 // const catID = this.selectOptValueCat;
-                this.userMSServices.editedPermMSByID(this.selectOptValuePerm).then((perMID) => {
+                this.userMSServices.editedPermMSByID(this.selectOptValuePermission).then((perMID) => {
                     if (!perMID) {
                         ElMessage.error("Internal Error...");
                     }
@@ -397,7 +497,14 @@ export default {
                         userPassword: this.userMSPassword,
                         userType: 'Admin',
                         userProfile: this.fileUserMS,
-                        userStatus: 'Active'
+                        userStatus: 'Active',
+                        userDOB: this.userDateOfBirth,
+                        userGender: this.selectedUserGender.name,
+                        userAddress01:this.userAddress01,
+                        userAddress02:this.userAddress02,
+                        userCity: this.userAddrCity,
+                        userZipCode:this.userAddrZipCode,
+                        userNoted: this.userUserDescription,
                     }
                     this.userMSServices.createUserMS(dataRes).then((response) => {
                         if (response.data.success == true) {

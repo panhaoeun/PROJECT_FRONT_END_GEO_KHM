@@ -15,7 +15,11 @@
                     </b-card-header>
                     <b-card-body color="#d41c21">
                         <!-- Form Submit Apply Vendors -->
-                        <Form>
+                        <Form
+                            keep-values
+                            :validation-schema="currentSchemaRegisterSellAcc"
+                            @submit="nextStepRegisterSellAcc"
+                        >
                             <form-wizard>
                                 <!-- Business information's -->
                                 <tab-content title="Seller Information" icon="fa fa-user">
@@ -50,7 +54,9 @@
                                                         <MazInput
                                                             v-model="busNameIdxRegisterName"
                                                             label="Business Name"
+                                                            name="busNameIdxRegisterName"
                                                         />
+                                                        <ErrorMessage class="p-error" name="busNameIdxRegisterName" />
                                                     </b-form-group>
                                                 </b-col>
                                                 <b-col md="6" v-if="selectBusinessType === 'business-type'">
@@ -131,16 +137,6 @@
                                                 </div>
                                             </b-row>
                                             <b-row>
-                                                <b-col md="6">
-                                                    <!-- Shop Name -->
-                                                    <b-form-group label="Shop Name">
-                                                        <MazInput
-                                                            type="text"
-                                                            v-model="storeNameInfo"
-                                                            label="Shop Name"
-                                                        />
-                                                    </b-form-group>
-                                                </b-col>
                                                 <b-col md="6">
                                                     <b-form-group label="Address Line 01">
                                                         <MazInput
@@ -229,6 +225,59 @@
                                                             <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
                                                         </el-upload>
                                                     </b-form-group>
+                                                </b-col>
+                                            </b-row>
+                                        </div>
+                                    </fieldset>
+                                </tab-content>
+                                <!-- Store Information's -->
+                                <tab-content title="Verification Information">
+                                    <fieldset>
+                                            <div class="form-card text-start">
+                                                <b-row>
+                                                    <div class="col-7">
+                                                        <h5 class="mb-4">Store Information:</h5>
+                                                    </div>
+                                                </b-row>
+                                                <b-row>
+                                                <b-col md="6">
+                                                    <!-- Store Name -->
+                                                    <b-form-group label="Shop Name">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="storeNameInfo"
+                                                            label="Store Name"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <!-- Product Categories -->
+                                                <b-col md="12">
+                                                   <b-form-group label="Product Categories">
+                                                        <!--====@=>Product Categories====-->
+                                                        <MazRadioButtons
+                                                            v-model="selectedCompetitionProCategories"
+                                                            :options="competitions"
+                                                        >
+                                                            <template #default="{ option, selected }">
+                                                                <div style="display: flex;">
+                                                                <MazAvatar
+                                                                    v-if="option.areaEnsignUrl"
+                                                                    :src="option.areaEnsignUrl"
+                                                                    style="margin-right: 16px;"
+                                                                    size="0.8rem"
+                                                                />
+                                                                <div style="display: flex; flex-direction: column;">
+                                                                    <span>
+                                                                    {{ option.label }}
+                                                                    </span>
+                                                                    <span :class="{ 'maz-text-muted': !selected }">
+                                                                        {{ option.areaName }}
+                                                                    </span>
+                                                                </div>
+                                                                </div>
+                                                            </template>
+                                                        </MazRadioButtons>
+                                                   </b-form-group>
                                                 </b-col>
                                             </b-row>
                                         </div>
@@ -325,13 +374,11 @@
                                         </div>
                                     </fieldset>
                                 </tab-content>
-                                <!-- Button Submit Apply to Seller -->
-                                <button v-if="currentStep !== stepLength" type="submit">Next</button>
-                                <button v-if="currentStep === stepLength" type="submit">Finish</button>
+                                <!-- Button Submit Apply to Seller --> 
                             </form-wizard>
                         </Form>
                         <!-- Form Submit Apply Vendors -->
-                         <pre>{{ values }}</pre>
+                     
                     </b-card-body>
                 </b-card>
             </b-col>
@@ -345,15 +392,37 @@
     import Header from '../../customers/header_of_subpage/HeaderSubPage.vue';
     import MazSelect from 'maz-ui/components/MazSelect';
     import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
+    import MazRadioButtons from 'maz-ui/components/MazRadioButtons';
     import { FormWizard, TabContent } from "vue3-form-wizard";
+    import MazAvatar from 'maz-ui/components/MazAvatar'
+    import { Form,ErrorMessage } from "vee-validate";
+    import * as yup from "yup";
     export default {
         data(){
             return{
+                formWizard: FormWizard,
                 objClassSeller: {
                     upLoadShowSellerRegister: true,
                     upLoadHideSellerRegister: false,
                 },
+                competitions: [
+                    {
+                        value: "1",
+                        label: "Ligue 1",
+                        areaName: "France",
+                        areaEnsignUrl: "https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg",
+                    },
+                    {
+                        value: "2",
+                        label: "Premier League",
+                        areaName: "England",
+                        areaEnsignUrl: "https://crests.football-data.org/770.svg",
+                    },
+                ],
+                selectedCompetitionProCategories: '',
                 selectBusinessType: 'business-type',
+                currentStep: 0,
+                stepLength: 3,
                 busNameIdxRegisterName: '',
                 busNameIdxRegisterNum: '',
                 ownerNameIdxIndividual: '',
@@ -369,15 +438,54 @@
                 verifyDocumentID: '',
                 selectYourIDBusinessID: '',
                 businessYourIndividualType: null,
-
+                // Each step should have its own validation schema
+                schemas: [
+                    yup.object({
+                        busNameIdxRegisterName: yup.string().required("Please Enter your business name"),
+                        email: yup.string().required().email(),
+                    }),
+                ],
+            }
+        },
+        computed:{
+            currentSchemaRegisterSellAcc () {
+               return this.schemas[this.currentStep];
             }
         },
         components: {
+            MazRadioButtons,
+            ErrorMessage,
+            MazAvatar,
+            Form,
             MazSelect,
             MazPhoneNumberInput,
             Header,
             FormWizard,
             TabContent,
+        },
+        method:{
+            nextStepRegisterSellAcc(values){
+                console.log(values)
+                if (this.currentStep === this.stepLength) {
+                    console.log("Done: ", JSON.stringify(values, null, 2));
+                    alert("Submit Success");
+                    return;
+                }
+                this.currentStep++;
+                // next step function to move to the next step
+                // this.formWizard?.nextTab();
+            },
+            prevStepRegisterSell(){
+                if (this.currentStep <= 0) {
+                    return;
+                }
+                this.currentStep--;
+                // previous step function to move to the previous step
+                this.formWizard?.prevTab();
+            },
+            onCompleteSubmitRegApplyAccSell(){
+                console.log()
+            }
         }
     }
 </script>

@@ -49,11 +49,16 @@
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="usersListArr && usersListArr.length > 0 && usersListArr != ''">
                                     <!-- Columns -->
-                                   <Column field="user_email" header="Email" sortable style="min-width:20rem"></Column>
+                                   <Column field="full_latin_name" header="User Name" sortable style="min-width:20rem"></Column>
                                     <Column field="user_email" header="Email" sortable style="min-width:20rem"></Column>
                                     <Column field="user_phonenumber" header="Phone" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column>
-                                    <Column field="category" header="Status" sortable style="min-width:10rem">
+                                    <!-- <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column> -->
+                                    <Column header="Status">
+                                        <template #body="slotProps">
+                                            <Tag :value="slotProps?.data.status" />
+                                        </template>
+                                    </Column>
+                                    <Column field="category" header="Option Status" sortable style="min-width:10rem">
                                         <template #body>
                                             <div class="font-bold">
                                                 <el-switch v-model="statusUserSwitch" />

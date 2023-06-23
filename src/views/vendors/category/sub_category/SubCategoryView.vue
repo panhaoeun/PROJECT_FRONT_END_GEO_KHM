@@ -145,7 +145,7 @@ export default {
                 this.proCategoryService.querySubProCategoryBySuperCatID(this.selectOptValueCat).then((datCatId) => {
                     if (!datCatId) {
                         ElMessage.error("Internal Error...");
-                    }
+                    }   
                     this.catSubList = datCatId;
                 }).catch((err) => {
                     console.log(err)

@@ -46,7 +46,7 @@
                                             <div class="flex flex-column">
                                               <div class="flex px-2 py-2">
                                                 <router-link :to="{path: '/vendor/products/sub-category/list', id: data.catID }" class="flex px-1 py-1">
-                                                      <Avatar :image="`${envVueHost}uploads/products/${data.catLogo}`" class="mr-2" shape="circle" :data-id="data"/>
+                                                      <Avatar :image="`${envVueHost}uploads/${data.catLogo}`" class="mr-2" shape="circle" :data-id="data"/>
                                                     {{ data.catNameEn }}
                                                 </router-link>
                                               </div>

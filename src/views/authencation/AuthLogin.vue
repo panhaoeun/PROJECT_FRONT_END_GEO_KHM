@@ -1,12 +1,6 @@
 <template>
-     <loading 
-        v-model:active="isLoading"
-        :can-cancel="true"
-        color='#000000'
-        backgroundColor='#ffffff'
-     />
   <div>
-    <div class="bg-white">
+    <div class="">
         <div class="flex flex-column align-items-center justify-content-center border-bottom">
             <a href="#" class="flex flex-column align-items-center justify-content-center">
                 <img src="../../assets/company_logo/ecommerce_logo.png" class="w-1 text-center"/>
@@ -14,14 +8,18 @@
         </div>
         <div class="flex align-items-center justify-content-center overflow-hidden">
             <div class="flex flex-column align-items-center justify-content-center">
-                <div>
-                    <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
+                <div class="px-4 py-4">
+                    <div class="w-full surface-card py-6 px-12 sm:px-8" style="border-radius: 53px">
                         <div class="text-center mb-5">
                             <div class="text-900 text-3xl font-medium mb-3">Welcome, PzharKhmer!</div>
                             <span class="text-600 font-medium">Sign in to continue</span>
                         </div>
                         <!-- Form Submit -->
                         <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid w-25rem">
+                            <!-- Loading -->
+                            <loading 
+                               :active="isLoading" :is-full-page="fullPage" :loader="loader"
+                            />
                                 <!-- Input Email or Phone Number -->
                                     <div class="field pb-2">
                                         <MazInput
