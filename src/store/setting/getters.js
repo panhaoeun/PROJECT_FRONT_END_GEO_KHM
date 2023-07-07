@@ -20,5 +20,6 @@ export default {
   // footer_style: (state) => state.setting.footer_style.value,
   body_font_family: (state) => state.setting.body_font_family.value,
   heading_font_family: (state) => state.setting.heading_font_family.value,
-  settingObj: (state) => state
+  settingObj: (state) => state,
+  language: (state) => state.language
 }

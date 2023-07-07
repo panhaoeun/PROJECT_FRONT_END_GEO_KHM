@@ -10,7 +10,12 @@ const defaultChildRoutes = (prefix) => [
     {
         path:'/vendor-dashboard/default-layouts',
         name: prefix + '.dashboard',
-        meta: { auth: true, name: 'Home', isBanner: false, title: 'Dashboard | 7Day' },
+        meta: {
+            title: 'dashboard',
+            icon: 'dashboard',
+            noCache: false,
+            permissions: ['view dashboard']
+        },
         component:()=> import('../dashboard/DashboardLayout.vue'),
     },
     /*
@@ -37,7 +42,7 @@ const defaultChildRoutes = (prefix) => [
         path: "/vendor/products/list",
         name: prefix + '.products-list',
         meta: {
-         title: 'Products | 7Day'   
+            title: 'Products | 7Day'   
         },
         component: () => import("../views/vendors/products/ProductList.vue"),
     },
@@ -60,32 +65,56 @@ const defaultChildRoutes = (prefix) => [
     {
         path: "/vendor/products/category/list",
         name: prefix + '.product-category-list',
+        meta: {
+            title: "Categories | 7Day",
+            requiresAuth: true,
+        },
         component: () => import("../views/vendors/category/CategoryView.vue"),
     },
     {
         path: "/vendor/products/category/create",
         name: prefix + '.product-category-create',
+        meta: {
+             title: "Categories | 7Day",
+             requiresAuth: true,
+        },
         component: () => import("../views/vendors/category/CategoryCreate.vue"),
     },
     {
         path: "/vendor/products/category/edit/:id",
         name: prefix + '.product-category-edit',
+        meta: {
+            title: "Categories | 7Day",
+            requiresAuth: true,
+        },
         component: () => import("../views/vendors/category/UpdatedProductCategory.vue"),
     },
     /*Sub Category*/
     {
         path: "/vendor/products/sub-category/list",
         name:prefix + '.sub-product-category-list',
+        meta: {
+             title: "Sub Categories | 7Day",
+             requiresAuth: true,
+        },
         component: () => import("../views/vendors/category/sub_category/SubCategoryView.vue"),
     },
     {
         path: "/vendor/products/sub-category/create/:superCatID",
         name:prefix + '.product-sub-category-create',
+        meta: {
+            title: "Sub Categories | 7Day",
+            requiresAuth: true,
+        },
         component: () => import("../views/vendors/category/sub_category/SubCategoryCreate.vue"),
     },
     {
         path: "/vendor/products/sub-category/edit/:id",
         name:prefix + '.product-sub-category-edit',
+        meta: {
+            title: "Sub Categories | 7Day",
+            requiresAuth: true,
+        },
         component: () => import("../views/vendors/category/sub_category/UpdatedProductSubCategory.vue"),
     },
      /*
@@ -169,6 +198,10 @@ const defaultChildRoutes = (prefix) => [
     {
         path: "/vendor/user/list/crete-user-auth/ui-user-create",
         name: prefix + '.user-auth-crud-user-create',
+        meta: {
+            title: "Users | 7Day",
+            requiresAuth: true,
+        },
         component: () => import("../views/administrators/user_managements/users/UserMSCreate.vue"),
     },
     {
@@ -202,11 +235,26 @@ const defaultChildRoutes = (prefix) => [
         path: "/vendor/vendor-dashboard",
         name: prefix + '.vendor-dashboard',
         meta: {
-            title: "Dashboard | 7Day",
+            title: "Dashboards | 7Day",
             requiresAuth: true,
         },
         component: () => import("../dashboard/DashboardLayout.vue"),
     },
+    /**
+    
+     * @Role and Permissions Managements
+     * **/ 
+    {
+        path: "/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module",
+        name: prefix + '.user-auth-crud-permission-auth-role-module',
+        meta: {
+            title: "Permissions | 7Day",
+            requiresAuth: true,
+            icon: 'role',
+            permissions: ['manage permission']
+        },
+        component: () => import("../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),
+    }
 ];
 export default [
     {

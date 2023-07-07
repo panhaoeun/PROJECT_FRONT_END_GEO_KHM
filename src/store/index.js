@@ -4,26 +4,34 @@ import products from "../store/modules/products";
 import carts from "../store/modules/carts";
 import {categoriesModule} from "../store/ecommerce/categories";
 import setting from './setting';
+import app from './modules/app';
+import usersPerm from './modules/usersPerm';
+import { getLanguage } from "../lang";
 
 const debug = process.env.NODE_ENV !== 'production';
-const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations']
+const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
 const store = createStore({
+    namespaced: true,
     state: {
-        shareOffcanvas: false
+        id: null,
+        name: [],
+        shareOffcanvas: false,
+        language: getLanguage()
     },
     getters: {
-        shareOffcanvas: (state) => state.shareOffcanvas
+        shareOffcanvas: (state) => state.shareOffcanvas,
+        language: (state) => state.language,
     },
     mutations: {
         openBottomCanvasCommit(state, payload) {
             state[payload.name] = payload.value
-        }
+        },
     },
     actions: {
         openBottomCanvasAction({ commit }, payload) {
-        commit('openBottomCanvasCommit', payload)
-        }
+            commit('openBottomCanvasCommit', payload)
+        },
     },
     plugins: debug ? [createLogger()] : [],
     modules: {
@@ -32,6 +40,8 @@ const store = createStore({
         categories: categoriesModule,
         cart: carts,
         setting: setting,
+        app: app,
+        users: usersPerm,
     },
 });
 // Load all modules.

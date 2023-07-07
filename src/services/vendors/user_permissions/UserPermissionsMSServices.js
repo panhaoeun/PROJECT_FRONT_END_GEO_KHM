@@ -61,6 +61,14 @@ export default class UserPermissionsMSServices {
             }
         );
     }
+    async changeUserStatusVerify(userID, updatePerm) {
+        return httpAccessJson.put(
+            `/vendors/users_management/users/change-status/verify/${userID}`, {
+                headers: authHeader(),
+            },
+            updatePerm
+        );
+    }
     /**
      * @Permissions Managements
      * @List Permissions

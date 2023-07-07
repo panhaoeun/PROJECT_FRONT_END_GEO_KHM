@@ -41,7 +41,6 @@ export default {
   setup() {
         const store = useStore()
         const sidebarColor = computed(() => store.getters['setting/sidebar_color'])
-        console.log(sidebarColor)
         const sidebarType = computed(() => store.getters['setting/sidebar_type'])
         const sidebarMenuStyle = computed(() => store.getters['setting/sidebar_menu_style'])
         const toggleSidebar = () => {

@@ -205,21 +205,20 @@
                                         <div class="field">
                                             <label for="roles">Roles<span class="p-error">*</span></label>
                                            <div class="flex flex-column">
-                                            {{ selectOptValuePermission }}
-                                            <el-select 
+                                            <b-form-select 
                                                     @change="getPermissionCurrent"
                                                     v-model="selectOptValuePermission" 
-                                                    filterable  
-                                                    class=" border-round-lg"
+                                                    class="border-round-lg py-3 fond-bold text-black"
                                                     placeholder="Select">
-                                                    <el-option 
-                                                        selected
-                                                        v-for="permList in permissionListDropDownView" 
-                                                        :value="permList?.user_id" 
+                                                    <b-form-select-option 
+                                                        v-for="(permList, index) in permissionListDropDownView"
+                                                        :key="index"
+                                                        :value="permList?.user_id"
                                                         :label="permList?.user_fun_id"
-                                                        :key="permList?.user_fun_id"        
-                                                    ></el-option>
-                                                </el-select>
+                                                    >
+                                                        {{ permList?.user_id }}
+                                                    </b-form-select-option>
+                                                </b-form-select>
                                            </div>
                                         </div>
                                     </div>
@@ -294,6 +293,7 @@ export default {
             activetab: 1,
             preview: null,
             errMessageConfirm: '',
+            optionsPerm: [],
             userGender: [
                 { name: 'Male', gender_name: 'male' },
                 { name: 'Female', gender_name: 'female' },
@@ -350,6 +350,7 @@ export default {
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
         //List Permissions
         this.userMSServices.getListPermissions().then((data) => {
+            console.log(data)
             if (!data) {
                 ElMessage.error("Internal Error...");
             }

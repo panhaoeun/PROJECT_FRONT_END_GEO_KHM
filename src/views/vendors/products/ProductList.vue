@@ -17,7 +17,7 @@
                         <div class="col-12">
                         <!-- Product List -->
                         <div class="card">
-                            <div class="table-responsive">
+                            <div class="ta">
                                 <DataTable 
                                     :paginator="true"
                                     :value="products"
@@ -31,7 +31,7 @@
                                     :loading="loading"
                                     :filters="filtersData"
                                     responsiveLayout="scroll"
-                                    :globalFilterFields="['representative.name', 'title']"
+                                    :globalFilterFields="['representative.name', 'product_eng']"
                                     v-model:selection="selectedProduct" 
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" 
                                     :rowsPerPageOptions="[5, 10, 25]"           

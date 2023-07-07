@@ -526,9 +526,9 @@ export default {
                 this.userMSServices
                     .editedPermMSByID(this.selectOptValuePerm)
                     .then((perMID) => {
-                        if (!perMID) {
-                            ElMessage.error("Internal Error...");
-                        }
+                        // if (!perMID) {
+                        //     ElMessage.error("Internal Error...");
+                        // }
                         this.permissionList = perMID;
                     })
                     .catch((err) => {
@@ -609,11 +609,10 @@ export default {
                                     userId.data.result.resultStatus.userResult;
                                 const empResult =
                                     userId.data.result.resultStatus.empResult;
-                                console.log(empResult);
                                 this.userMSUpdatedArrFiled.userMSNameEng =
-                                    empResult.name_eng;
+                                    empResult.full_latin_name;
                                 this.userMSUpdatedArrFiled.userMSNameKh =
-                                    empResult.name_kh;
+                                    empResult.full_kh_name;
                                 this.userMSUpdatedArrFiled.userMSPhoneNum =
                                     userResult.user_phonenumber;
                                 this.userMSUpdatedArrFiled.emailMSUser =

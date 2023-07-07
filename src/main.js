@@ -10,7 +10,17 @@ import "./assets/front-end/app-front-end.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
 import VueSidebarMenu from 'vue-sidebar-menu';
 
+/**
+ * Vendor or Adminstrator use type check permissions 
+ * can access to use modules auth sign 
+ * */ 
+import "./permissions";
 
+
+
+/**
+ * Plugin Install on projects
+ * * */ 
 import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 import "./assets/css/customer_ecommerce_app/style_prefix.css";
@@ -18,7 +28,7 @@ import "./assets/css/style.css";
 import "./assets/css/account-tab.css";
 /* @Prime Vue*/
 import './assets/primeflex.scss';
-import "primevue/resources/themes/fluent-light/theme.css";
+import "primevue/resources/themes/md-light-indigo/theme.css";
 // Admin Kit 
 import "./assets/css/adminlte.min.css";
 import './assets/css/element_plus/index.css';
@@ -26,13 +36,6 @@ import './assets/css/element_plus/display.css';
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
 import "primeicons/primeicons.css";
 import 'maz-ui/css/main.css';
-
-/*
-     @Routes
- */
-import routes from "./routes/routes";
-
-
 import CounterUp from 'vue3-autocounter';
 
 //global registration Vue3FormWizard
@@ -47,7 +50,7 @@ import globalComponent from './plugins/global-components';
 import globalDirective from './plugins/global-directive';
 import globalMixin from './plugins/global-mixin';
 import BootstrapVue3 from 'bootstrap-vue-3';
-
+// PRIMEVUE
 import ConfirmDialog from 'primevue/confirmdialog';
 import InputNumber from 'primevue/inputnumber';
 import PrimeVue from 'primevue/config';
@@ -88,20 +91,19 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Menu from 'primevue/menu';
 import Tag from 'primevue/tag';
-
+import TreeTable from 'primevue/treetable';
+import Tree from 'primevue/tree';
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup'; //optional for column grouping
 import Row from 'primevue/row';
-
 import VueUploadComponent from 'vue-upload-component' //optional for row
-
 // Element Plus
 import ElementPlus from 'element-plus';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-
+// MAZ
 import MazBtn from 'maz-ui/components/MazBtn'
 import MazInput from 'maz-ui/components/MazInput'
 import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
@@ -110,39 +112,14 @@ import {
     createPinia
 } from 'pinia';
 const pinia = createPinia();
-
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 import VueCookies from 'vue-cookies';
 
 /*
-    @CASL Vue
-*/
-
-import {
-    abilitiesPlugin
-} from "@casl/vue";
-import defineAbilitiesFor from "./utils/casl_role_permission/ability";
-const usersData = localStorage.getItem('user');
-const jsonParseUser = JSON.parse(usersData);
-let ability = defineAbilitiesFor(jsonParseUser[0]?.user_id);
-console.log(ability.can('view', 'Dashboards'))
-
-// import {
-//     AbilityBuilder,
-//     Ability
-// } from '@casl/ability';
-// const { can, build } = new AbilityBuilder(Ability);
-app.use(abilitiesPlugin, ability, {
-    useGlobalProperties: true
-});
-///Form Kit
-import { plugin, defaultConfig } from '@formkit/vue';
-import { createMultiStepPlugin } from '@formkit/addons';
-import { generateClasses } from '@formkit/themes';
-//Multiple Steps
-import '@formkit/addons/css/multistep'
-import genesis from '@formkit/themes/genesis';
+     @Routes
+ */
+import routes from "./routes/routes";
 
 //google Map 
 import VueGoogleMaps from '@fawmi/vue-google-maps'
@@ -153,6 +130,14 @@ app.use(VueGoogleMaps, {
 });
 // app.use(Vue3FormWizard);
 app.use(Vue3FormWizard);
+
+/*
+   @Vue I18n: Vue - Languages 
+   @Link: https: //kazupon.github.io/vue-i18n/installation.html#direct-download-cdn
+*/
+import i18n from "./lang";
+app.use(i18n);
+
 
 
 //Vuex
@@ -221,6 +206,8 @@ app.component('FileUpload', FileUpload);
 app.component('ConfirmDialog', ConfirmDialog);
 //Vue Uoloads
 app.component('file-upload', VueUploadComponent);
+app.component('TreeTable', TreeTable);
+app.component('Tree', Tree);
 /*
     @Front-End Library 
 */
@@ -240,25 +227,53 @@ app.mixin(globalMixin)
 
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];
-// Element Plus
-app.use(ElementPlus);
+/**
+ * @Element UI  
+ * */
+app.use(ElementPlus, {
+    i18n: (key, value) => i18n.t(key, value)
+});
 app.use(BootstrapVue3);
-// Form Kit
-app.use(plugin, defaultConfig({
-   config: {
-    classes: generateClasses(genesis),
-  },
-    plugins: [
-        createMultiStepPlugin()
-    ]
-}));
-
 /**
  * @Handling Expired Token(Forbidden Requests) 
  * use AxiosJS 
  * */ 
 handlingExpiredToken(routes);
+// register global utility filters.
+import * as filters from "./filters";
+Object.keys(filters).forEach(key => {
+   app.config.globalProperties.$filters = filters[key];
+});
 
-
+/*
+    @Directive Permissions and roles
+**/ 
+app.directive("permission", async (el, binding) => {
+    const { value} = binding;
+    if (value && value instanceof Array && value.length > 0) {
+            const functionName = value[0].functionName;
+            const moduleName = value[0].moduleName;
+            const resultModuleAcc = await store.dispatch('users/permUserCanAccModule', {
+                functionName,
+                moduleName
+            });
+            const permissionModule =  store.getters && store.getters['users/permissionModules'];
+            if (!resultModuleAcc){
+                console.log("sorry")
+            }
+            const requiredPermissions = value;
+            const hasPermission = permissionModule.some((permission) => {
+                if (!permission){
+                    return false;
+                }
+                return requiredPermissions.push(permission)
+            });
+        if (!hasPermission) {
+            el.parentNode && el.parentNode.removeChild(el);
+        }
+    } else {
+        throw new Error(`Permissions are required! Example: v-permission="['dashboard','view create']"`);
+    }
+});
 
 app.mount('#app');

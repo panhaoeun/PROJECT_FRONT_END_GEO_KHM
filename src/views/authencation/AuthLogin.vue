@@ -150,6 +150,9 @@ export default {
                             if(response.success == true){
                                 this.$store.dispatch("auth/setCurrentUser", localStorage.getItem('user'));
                                 this.$store.dispatch("auth/setToken", Cookie.get('token'));
+                                if (response.userType === "Admin") {
+                                    this.$router.push({path: "/vendor-dashboard/default-layouts"});
+                                }
                                 if (response.userType === "Vendor") {
                                     this.$router.push({path: "/vendor-dashboard/default-layouts"});
                                 } else if (response.userType === "Customer") {

@@ -12,23 +12,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
-          <li class="nav-item dropdown">
-            <a href="#" class="search-toggle nav-link me-0 me-xl-2" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="../../../assets/img/Flag/flag001.png" class="img-fluid rounded-circle" alt="user" style="height: 30px; min-width: 30px; width: 30px" />
-              <span class="bg-primary"></span>
-            </a>
-            <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
-              <b-card no-body class="m-0 border-0 shadow-none">
-                <div class="p-0">
-                  <ul class="list-group list-group-flush p-0">
-                    <li class="iq-sub-card list-group-item">
-                      <a class="p-0" href="#"><img src="../../../assets/img/Flag/flag-03.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px; height: 15px; min-width: 15px" />Spanish</a>
-                    </li>
-                  </ul>
-                </div>
-              </b-card>
-            </div>
-          </li>
+         <!--Languages Multiple-->
+         <Languagesi18N/>
           <li class="nav-item dropdown">
             <a href="#" class="nav-link" id="notification-drop" data-bs-toggle="dropdown">
               <icon-component type="dual-tone" icon-name="bell"></icon-component>
@@ -58,6 +43,7 @@
               </b-card>
             </div>
           </li>
+        
           <li class="nav-item dropdown">
             <a href="#" class="nav-link" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <icon-component type="dual-tone" icon-name="message"></icon-component>
@@ -95,7 +81,7 @@
               <img src="../../../assets/img/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded" />
               <img src="../../../assets/img/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded" />
               <div class="caption ms-3 d-none d-md-block">
-                <h6 class="mb-0 caption-title">{{ user ? user[0]?.name_eng : '7Day' }}</h6>
+                <h6 class="mb-0 caption-title">{{ user ? user[0]?.name_eng ?? user[0]?.full_latin_name : '7Day' }}</h6>
                 <p class="mb-0 caption-sub-title"> {{ user?user[1].typeUser : '7Day-Vendor' }}</p>
               </div>
             </a>
@@ -111,10 +97,13 @@
   </nav>
 </template>
 <script>
+import Languagesi18N from "./languages_i18n/Languagesi18n";
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 export default {
-  components: {},
+  components: {
+    Languagesi18N
+  },
   props: {
     isGoPro: {
       type: Boolean,
@@ -160,7 +149,6 @@ export default {
   }
 }
 </script>
-
 <!-- Script Setup -->
 <script setup>
 import AuthenticationsDataService from '../../../services/authencationDataService';

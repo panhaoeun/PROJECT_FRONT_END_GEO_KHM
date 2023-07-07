@@ -25,7 +25,7 @@
                         <el-tab-pane label="English(EN)" name="eng-tabs">
                             <!-- Form Layouts -->
                             <div class="grid formgrid">
-                                <div class="col-12 field">
+                                <div class="col-6 field">
                                     <!-- Name Product -->
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Name (EN) <span class="p-error">*</span></label>
@@ -34,11 +34,11 @@
                                     </div>
                                 </div>
                                 <!-- Product Category -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-6 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Category</label>
                                         <select 
-                                            class="form-select py-3 text-md p-dropdown-item  border-round-lg"
+                                            class="form-select text-md p-dropdown-item  border-round-lg"
                                             v-model="v$.proCatID.$model"
                                             @click="getCategoriesSelect()">
                                             <option value="" disabled> Select an application</option>
@@ -52,11 +52,11 @@
                                     </div>
                                 </div>
                                 <!-- Sub Product Category -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-6 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Sub Category</label>
                                         <select 
-                                            class="form-select py-3 text-md p-dropdown-item  border-round-lg"
+                                            class="form-select text-md p-dropdown-item  border-round-lg"
                                             v-model="v$.proCatID.$model"
                                             @click="getCategoriesSelect()">
                                             <option value="" disabled> Select an application</option>
@@ -70,18 +70,18 @@
                                     </div>
                                 </div>
                                 <!-- Product Code -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-6 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">
                                             Product Code
                                             <span class="p-error">*</span>
-                                            <span class="pl-2 underline text-blue-600" @click="generateProductCode()">Generate Code</span>
+                                            <span class="pl-2 underline text-blue-600 cursor-pointer disabled" @click="generateProductCode()">Generate Code</span>
                                         </label>
                                         <InputText class="p-inputtext p-component text-xl" type="text" v-model="proCode" placeholder="Product Code" />
                                     </div>
                                 </div>
                                 <!-- Measure -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Measure</label>
                                         <InputText class="p-inputtext p-component text-xl" type="text" v-model="measureUnit" placeholder="Measure" />
@@ -89,20 +89,20 @@
                                 </div>
                                 <!-- Discount Type  and Discount -->
                                 <!-- Discount -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Discount</label>
                                         <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="proDiscount"/>
                                     </div>
                                 </div>
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="discountType" class="text-xl font-semibold">Discount Type</label>
-                                        <Dropdown v-model="discountType" placeholder="Select Discount Type" optionLabel="disType"  class="text-xl" :options="disTypesOption" :showClear="true"/>
+                                        <Dropdown v-model="discountType" placeholder="Select Discount Type" optionLabel="disType"  class="text-xl p-1" :options="disTypesOption" :showClear="true"/>
                                     </div>
                                 </div>
                                 <!-- Product Prices -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Unit Price</label>
                                         <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
@@ -110,7 +110,7 @@
                                     </div>
                                 </div>
                                 <!-- Product Qty -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Total Quality</label>
                                         <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="v$.proQty.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proQty.$invalid && submitted }"/>
@@ -184,7 +184,7 @@
                                                 </div>  
                                             </div>
                                             <!-- Upload Imag Multiple Product and Thumbnail -->
-                                            <div class="col-12 lg:col-7 px-2 py-2">
+                                            <div class="col-6 lg:col-7 px-2 py-2">
                                                 <div class="field card">
                                                     <label for="name_en" class="text-xl font-semibold">
                                                          Product Images 
@@ -244,7 +244,7 @@
                                                     </div> 
                                             </div>
                                             <!-- Upload Thumbnail -->
-                                            <div class="col-12 lg:col-5 px-2 py-2">
+                                            <div class="col-6 lg:col-5 px-2 py-2">
                                                 <div class="field card">
                                                     <label for="name_en" class="text-xl font-semibold">Thumbnail (Available 1 Image Uploads)  <span class="p-error">*</span> </label>
                                                     <el-upload action="#" 
@@ -253,7 +253,6 @@
                                                         :on-remove="handleRemoveThumbnail" 
                                                         :auto-upload="false" 
                                                         :on-change="handleChange" 
-                                                        :class="objClass"
                                                         accept=".jpg, .png, .jpeg"
                                                         :file-list="fileList" 
                                                         v-model="proThumbnail"
@@ -637,9 +636,12 @@
 
 <!-- Config Style -->
 <style>
+.el-upload-list--picture-card .el-upload-list__item-actions{
+    font-size: 12px;
+}
 .avatar-uploader .avatar {
-    width: 178px;
-    height: 178px;
+    width: 200px;
+    height: 200px;
     display: block;
 }
 /* Multiple Upload File */
@@ -669,13 +671,13 @@
 .el-icon.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 200px;
+    width: 180px;
     height: 180px;
     text-align: center;
 }
 .upLoadShow .el-upload {
-    width: 20rem !important;
-    height: 20rem !important;
+    width: 15rem !important;
+    height: 14rem !important;
     line-height: 20rem !important;
 }
 

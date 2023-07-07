@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import {
     defineStore
 } from "pinia";
@@ -31,3 +32,7 @@ export const useAuthStoreToken = defineStore("auth", () => {
         setAuthToken
     }
 })
+
+export function removeToken() {
+    return Cookies.remove();
+}

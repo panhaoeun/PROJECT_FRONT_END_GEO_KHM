@@ -1,5 +1,6 @@
 // Initial Setting State
 export const initialState = {
+    
   saveLocal: 'sessionStorage',
   storeKey: 'huisetting',
   setting: {
