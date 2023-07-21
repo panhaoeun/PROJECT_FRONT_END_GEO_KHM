@@ -100,7 +100,7 @@ import ColumnGroup from 'primevue/columngroup'; //optional for column grouping
 import Row from 'primevue/row';
 import VueUploadComponent from 'vue-upload-component' //optional for row
 // Element Plus
-import ElementPlus from 'element-plus';
+import ElementPlus, { ElMessage } from 'element-plus';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 // MAZ
@@ -258,8 +258,9 @@ app.directive("permission", async (el, binding) => {
                 moduleName
             });
             const permissionModule =  store.getters && store.getters['users/permissionModules'];
+            // console.log(permissionModule)
             if (!resultModuleAcc){
-                console.log("sorry")
+                ElMessage.error("Permission of Module Not Found...");
             }
             const requiredPermissions = value;
             const hasPermission = permissionModule.some((permission) => {

@@ -38,6 +38,9 @@ export default class SellerServices {
    async verifyShopBySellerID(data,userId){
        return httpJsonRequest.put(`/vendors/seller_management/public-shop/shop-verify/${userId}`, data);
    }
+    async verifyShopEnableBySellerID(data, userId) {
+          return httpJsonRequest.put(`/vendors/seller_management/verify-shop-enable/shop-verify/${userId}`, data);
+    }
    async banAccSellerByID(data,userId){
        return httpJsonRequest.put(`/vendors/seller_management/account-seller-ban/status-seller-ban-acc/${userId}`, data);
    }

@@ -5,7 +5,7 @@
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class="relative text-black text-3xl section section-title:before">Category Lists</h2>
             <el-button type="info" size="large" class="py-4" @click="$router.push('/vendor/products/category/create')">
-                <div class="flex justify-between pl-2">
+                <div class="flex justify-between pl-2" v-permission="[{functionName: 'categories_module', moduleName: 'fun_create'}]">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
                     <span class="pl-2">Add Categories</span>
                 </div>
@@ -53,18 +53,13 @@
                                             </div>
                                         </template>
                                     </Column>
-                                    <Column field="category" header="Category Status" sortable style="min-width:10rem">
-                                        <template #body>
-                                            <div class="font-bold">
-                                                <el-switch v-model="statusShopSwitch" />
-                                            </div>
-                                        </template>
-                                    </Column>
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
+                                                v-permission="[{functionName: 'categories_module', moduleName: 'fun_edit'}]"
                                                 @click="$router.push({path: `/vendor/products/category/edit/${slotProps.data.catID}`})" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                v-permission="[{functionName: 'categories_module', moduleName: 'fun_deleted'}]"
                                                 @click="confirmDeleteProduct(slotProps.data.catID)" />
                                         </template>
                                     </Column>

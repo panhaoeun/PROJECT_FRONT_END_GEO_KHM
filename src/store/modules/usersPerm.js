@@ -1,5 +1,8 @@
 import Cookies from "js-cookie";
-import {  asyncRoutes, constantRoutes } from "../../routes/routes";
+import {
+    constantRoutes,
+    asyncRoutes
+} from "../../routes/routes";
 import UserPermissionsModuleMSServices from "../../services/vendors/user_permissions/UserPermissionModuleMSServices";
 const userPermModuleMSServices = new UserPermissionsModuleMSServices();
 /**
@@ -11,7 +14,7 @@ const userPermModuleMSServices = new UserPermissionsModuleMSServices();
 function canAccess(roles, permissions, route) {
     if (route.meta) {
         let hasRole = true;
-        let hasPermission = true;
+        let hasPermission = true;   
         if (route.meta.roles || route.meta.permissions) {
             // If it has meta.roles or meta.permissions, accessible = hasRole || permission
             hasRole = false;
@@ -19,10 +22,11 @@ function canAccess(roles, permissions, route) {
             if (route.meta.roles) {
                 hasRole = roles.some(role => route.meta.roles.includes(role));
             }
-            if (route.meta.permissions) {
-                hasPermission = permissions.some(permission => route.meta.permissions.includes(permission));
+            if (route.meta.permissions && route.meta.permissions !== undefined) {
+                console.log(permissions)
+                hasPermission = permissions.some(permission =>route.meta.permissions.includes(permission?.module_alias));
             }
-        }
+        }   
         return hasRole || hasPermission;
     }
     // If no meta.roles/meta.permissions inputted - the route should be accessible
@@ -36,9 +40,7 @@ function canAccess(roles, permissions, route) {
 function filterAsyncRoutes(routes,roles,permissions){
     const res = [];
     routes.forEach(route => {
-        const tmp = {
-            ...route
-        };
+        const tmp = {...route};
         if (canAccess(roles, permissions, tmp)) {
             if (tmp.children) {
                 tmp.children = filterAsyncRoutes(
@@ -81,9 +83,7 @@ const mutations = {
     }
 }
 const actions = {
-    setRolesModules({
-        commit
-    }) {
+    setRolesModules({commit}) {
        return new Promise((resolve, reject) => {
            userPermModuleMSServices.getUserInfoMSByAuth().then((userInfo) => {
                 if (userInfo!== undefined){
@@ -95,7 +95,7 @@ const actions = {
                           reject('Verification failed, please login again');
                       }
                       if (!usersRoles || usersRoles.length <= 0) {
-                          reject('Get info: role must be a not-null array!');
+                          reject('No Permissions access use...!');
                       }
                       const roles = usersRoles;
                       commit("SET_ROLES", roles);
@@ -115,7 +115,7 @@ const actions = {
         return new Promise(resolve => {
             let accessedRoutes;
             accessedRoutes = filterAsyncRoutes(asyncRoutes, roles,permissions);
-            commit('SET_ROUTES', accessedRoutes);
+            commit('SET_ROUTES', accessedRoutes);   
             resolve(accessedRoutes);
         });
     },
@@ -123,15 +123,16 @@ const actions = {
     async permUserCanAccModule({ commit}, {functionName, moduleName}) {
         return new Promise((resolve, reject) => {
             userPermModuleMSServices.checkPermissionsModuleCanAccess(functionName,moduleName)
-            .then((resultModuleAcc) => {
-                if (!resultModuleAcc) {
-                    console.log('Not Found Module User Can Access');
-                }
-                commit("SET_CHECK_PERMISSION", resultModuleAcc);
-                resolve(resolve);
-            }).catch((err) => {
-                reject(err);
-            });
+                .then((resultModuleAcc) => {
+                    if (!resultModuleAcc) {
+                        console.log('Not Found Module User Can Access');
+                    }
+                    commit("SET_CHECK_PERMISSION", resultModuleAcc);
+                    //Resolve Check Permissions Modules
+                    resolve(resolve);
+                }).catch((err) => {
+                    reject(err);
+                });
         }); 
     },
     // remove token

@@ -5,7 +5,7 @@ export default [
     {
         path: "/page/error/not-found",
         meta: {template: 'error-page'},
-        
+        hidden: true,
         children: [
           //Status Code 404 -> Not Found 
            { path: '/:pathMatch(.*)*', component: PageNotfound },

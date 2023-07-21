@@ -1,5 +1,9 @@
 export default {
     route: {
+        routeGeneralInfo: 'ព័ត៌មាន​ទូទៅ',
+        routeBack: 'ត្រឡប់មកវិញ',
+        routeCancel: 'បោះបង់',
+        routeSave: 'រក្សាទុក',
         dashboard: 'ផ្ទាំងគ្រប់គ្រង',
         introduction: 'សេចក្តីផ្តើម',
         documentation: 'Documentation',
@@ -7,6 +11,8 @@ export default {
         permission: 'ការអនុញ្ញាត',
         pagePermission: 'Page Permission',
         rolePermission: 'ការអនុញ្ញាតតួនាទី',
+        role: 'តួនាទី',
+        roleName: 'ឈ្មោះតួនាទី',
         directivePermission: 'Directives',
         icons: 'Icons',
         components: 'Components',
@@ -93,6 +99,21 @@ export default {
         documentation: 'Documentation',
         laravel: 'Laravel',
         github: 'Github Repository',
+    },
+    users: {
+        userName: 'ឈ្មោះ​អ្នកប្រើប្រាស់',
+        userEmail: 'អ៊ីមែល',
+        userPhone: 'លេខទូរសព្ទ័',
+        roleNameModule: 'តួនាទី',
+        addUsers: 'បង្កើតអ្នកប្រើប្រាស់ថ្មី',
+        listUsers: 'រាយបញ្ជីអ្នកប្រើប្រាស់',
+        editUsers: 'កែសម្រួលអ្នកប្រើប្រាស់',
+        roles: 'Your roles',
+        switchRoles: 'Switch roles',
+        delete: 'លុប',
+        confirm: 'បញ្ជាក់',
+        cancel: 'បោះបង់',
+        search: 'ស្វែងរក...'
     },
     permission: {
         addRole: 'New Role',

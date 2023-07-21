@@ -5,7 +5,7 @@
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class="relative text-black text-3xl section section-title:before">Sub Category Lists</h2>
             <div v-if="selectOptValueCat !== null">
-                <el-button type="info" size="large" class="py-4" @click="$router.push(`/vendor/products/sub-category/create/${selectOptValueCat}`)">
+                <el-button type="info" size="large" class="py-4" @click="$router.push(`/vendor/products/sub-category/create/${selectOptValueCat}`)"   v-permission="[{functionName: 'sub_categories', moduleName: 'fun_create'}]">
                     <div class="flex justify-between pl-2">
                         <i class="pi pi-plus" style="font-size: 1rem"></i>
                         <span class="pl-2">Add Sub Categories</span>
@@ -30,6 +30,7 @@
                                         <!-- Select Sub Categories -->
                                         <h4 class="m-0">
                                             <el-select 
+                                                v-permission="[{functionName: 'sub_categories', moduleName: 'fun_view'}]"
                                                 @change="getCurrentOptCat"
                                                 v-model="selectOptValueCat" 
                                                 filterable  
@@ -57,18 +58,13 @@
                                 <div v-if="catSubList && catSubList.length > 0 && catSubList != ''">
                                     <!-- Columns -->
                                     <Column field="categoryNameEng" header="Sub Category Name" sortable style="min-width:20rem"></Column>
-                                    <Column field="category" header="Category Status" sortable style="min-width:10rem">
-                                        <template #body>
-                                            <div class="font-bold">
-                                                <el-switch v-model="statusShopSwitch" />
-                                            </div>
-                                        </template>
-                                    </Column>
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
+                                                v-permission="[{functionName: 'sub_categories', moduleName: 'fun_edit'}]"
                                                 @click="$router.push({ path: `/vendor/products/sub-category/edit/${slotProps.data.catID}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                v-permission="[{functionName: 'sub_categories', moduleName: 'fun_deleted'}]"
                                                 @click="confirmDeleteProduct(slotProps.data.catID)" />
                                         </template>
                                     </Column>

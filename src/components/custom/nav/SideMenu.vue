@@ -58,7 +58,7 @@ export default {
     },
     title: {
       type: String,
-      default: 'Dashboard'
+      default: 'No Title Module'
     },
     miniTitle: {
       type: String,

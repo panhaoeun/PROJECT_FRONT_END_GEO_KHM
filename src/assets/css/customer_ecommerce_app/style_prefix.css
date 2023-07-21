@@ -13,7 +13,12 @@
 /*-----------------------------------*\
   #CUSTOM PROPERTY
 \*-----------------------------------*/
-
+/* Config Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Khmer&display=swap');
+body {
+    font-family: 'Khmer', cursive;
+}
+/* Config Fonts */
 :root {
 
   /**
@@ -89,6 +94,7 @@ a { text-decoration: none; }
 li { list-style: none; }
 
 button {
+ font-family: 'Khmer', cursive;
   background: none;
   font: inherit;
   border: none;

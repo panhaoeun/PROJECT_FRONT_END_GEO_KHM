@@ -6,7 +6,7 @@ import httpAccessJson from "../../../../http-access-control-json";
 import authHeader from "../../authencations/AuthHeader";
 
 export default class UserPermissionsModuleMSServices {
-    /**
+    /**`            
      * @Permissions Managements
     * **/
    async getUserInfoMSByAuth(data){
@@ -27,6 +27,10 @@ export default class UserPermissionsModuleMSServices {
             .catch((error) => {
                 ElMessage.error(error);
             });
+   }
+   // Update Module Permissions
+   async updateSavePermissionModulePermId(updateSavePerm) {
+       return httpAccessJson.put('/authentication/permission_modules/updated_module/role_permission_by_id', updateSavePerm);
    }
     /**
      * @Permissions Managements
@@ -91,12 +95,12 @@ export default class UserPermissionsModuleMSServices {
  * @Save Permissions Managers
  *
  * **/
-    async updateSavePermIdMG(permId, updateSavePerm) {
-        return httpAccessJson.put(
-            `/vendors/users_management/permissions/check-permission/${permId}`,
-            updateSavePerm
-        );
-    }
+async updateSavePermIdMG(permId, updateSavePerm) {
+    return httpAccessJson.put( 
+        `/authentication/permission_modules/updated_module/role_permission_by_id`, 
+        updateSavePerm
+    );
+}
 /**
  * @Check Role and Permission user can access
  * **/

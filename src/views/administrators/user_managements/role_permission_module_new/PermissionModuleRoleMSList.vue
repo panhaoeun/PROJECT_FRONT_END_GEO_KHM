@@ -38,63 +38,69 @@
                                     Loading permissions data. Please wait...
                                 </template>
                                 <!--------------Check Existed Data ----------->
-                                <div v-if="permissionsRoleModuleListArr &&
-                                    permissionsRoleModuleListArr.length > 0 &&
-                                    permissionsRoleModuleListArr != ''
-                                    ">
+                                <div v-if="permissionsRoleModuleListArr && permissionsRoleModuleListArr.length > 0 && permissionsRoleModuleListArr != ''">
                                     <!-- Columns -->
-                                    <Column field="role_name" header="Role Name" sortable style="min-width: 20rem">
+                                    <Column field="role_name" :header="$t('route.roleName')" sortable style="min-width: 20rem">
                                         <template #body="slotProps">
-                                            {{
-                                                capitalized(
-                                                    slotProps.data?.role_name
-                                                )
-                                            }}
+                                            {{capitalized(slotProps.data?.role_name)}}
                                         </template>
                                     </Column>
                                     <Column :exportable="false" header="Actions" style="min-width: 8rem">
                                         <template #body="slotProps">
-                                            <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click="handleEditPermissionsModules(slotProps?.data.id)" />
+                                          <div  v-permission="[{functionName: 'permissions_module', moduleName: 'fun_edit'}]">
+                                                <Button icon="pi pi-pencil" 
+                                                    outlined rounded class="mr-2" 
+                                                    @click="handleEditPermissionsModules(slotProps?.data.id)" 
+                                                />
+                                          </div>
                                         </template>
                                     </Column>
                                 </div>
                             </DataTable>
                         </div>
                         <!-- ===============Edit Permissions of Dialogs======================= -->
-                        <el-dialog v-model="dialogVisible" :title="'Edit Permissions - ' + currentRole?.role_name" width="70%">
+                        <el-dialog v-model="dialogVisible" :title="'Edit Permissions -   ' + currentRole?.role_name" width="70%">
                             <div v-loading="dialogLoading" class="form-container">
                                 <div class="permissions-container">
                                     <!-- Table Permissions -->
                                     <div class="block">
                                         <el-form label-width="500px" label-position="top">
                                             <el-table
-                                                    :data="moduleDetailRoutes"
-                                                    style="width: 100%; margin-bottom: 20px"
-                                                    row-key="moduleSubId"
-                                                    border
-                                                    lazy
-                                                    :default-expand-all="true"
-                                                    :tree-props="{ children: 'childrenModule', hasChildren: 'hasChildren' }"
-                                                >
+                                                ref="multipleTableModulePerm"
+                                                :data="moduleDetailRoutes.filter(data => !search || data.moduleParentName.toLowerCase().includes(search.toLowerCase()))"
+                                                style="width: 100%; margin-bottom: 20px"
+                                                row-key="moduleSubId"
+                                                border
+                                                lazy
+                                                :default-expand-all="true"
+                                                :tree-props="{ children: 'childrenModule', hasChildren: 'hasChildren' }"
+                                                id="moduleTblPerm"
+                                                :row-class-name="tableRowClassNamePerm"
+                                            >   
+                                                <!-- Index -->
+                                                <el-table-column
+                                                    label="ID"
+                                                    type="index"
+                                                    :index="indexMethodModulePerm">
+                                                </el-table-column>
                                                 <el-table-column prop="moduleParentName" label="Module Name" sortable width="260">
                                                     <template #default="scope">
-                                                        <el-checkbox 
-                                                            @change="handleCheckAllChange(scope.row,$event)"
-                                                            v-model="scope.row.id">
-                                                            {{scope.row.moduleParentName}}                                 
-                                                        </el-checkbox>                                   
+                                                        {{scope.row?.moduleParentName}}                                                 
                                                     </template>
                                                 </el-table-column>
                                                 <el-table-column prop="functionView" label="View">
                                                     <template #default="scope">
+                                                        <!-- {{ scope.row.rolePermId }} -->
+                                                        <!-- {{ scope.row.functionView  }} -->
+
                                                             <input
                                                                 class="form-check-input cursor-pointer"
                                                                 type="checkbox"
-                                                                :value="scope.row?.functionView ? 1 : 0"
-                                                                :id="scope.row?.moduleParentName"
-                                                                name="user_fun_view[]"
-                                                                v-model="scope.row.functionView"
-                                                                :checked="scope.row?.functionView == 1? true: false "
+                                                                :value="scope.row?.functionView ? '1' : '0'"
+                                                                :id="scope.row?.functionView ? '1' : '0'"
+                                                                :checked="scope.row?.functionView == 1 ? true: false "
+                                                                :v-model="scope.row.functionView === 1 ? true: false"
+                                                                @change="changeSavePermissionModules($event, scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0) "
                                                             />
                                                     </template>
                                                 </el-table-column>
@@ -103,11 +109,12 @@
                                                         <input
                                                             class="form-check-input cursor-pointer"
                                                             type="checkbox"
-                                                            :value="scope.row?.functionEdited ? 1 : 0"
-                                                            :id="scope.row?.moduleParentName"
+                                                            :value="scope.row?.functionEdited ? '1' : '0'"
+                                                            :id="scope.row?.functionEdited"
                                                             name="user_fun_view[]"
-                                                            v-model="scope.row.functionEdited"
+                                                            :v-model="scope.row.functionEdited === 1 ? true: false"
                                                             :checked="scope.row?.functionEdited == 1? true: false "
+                                                            @change="changeSavePermissionModules($event,scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0) "
                                                         />
                                                     </template>
                                                 </el-table-column>
@@ -116,11 +123,12 @@
                                                         <input
                                                             class="form-check-input cursor-pointer"
                                                             type="checkbox"
-                                                            :value="scope.row?.functionCreated ? 1 : 0"
+                                                            :value="scope.row?.functionCreated ? '1' : '0'"
                                                             :id="scope.row?.moduleParentName"
                                                             name="user_fun_view[]"
-                                                            v-model="scope.row.functionCreated"
+                                                            :v-model="scope.row.functionCreated === 1 ? true: false"
                                                             :checked="scope.row?.functionCreated == 1? true: false "
+                                                            @change="changeSavePermissionModules($event, scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0) "
                                                         />
                                                     </template>
                                                 </el-table-column>
@@ -129,11 +137,12 @@
                                                         <input
                                                             class="form-check-input cursor-pointer"
                                                             type="checkbox"
-                                                            :value="scope.row?.functionDeleted ? 1 : 0"
+                                                            :value="scope.row?.functionDeleted ? '1' : '0'"
                                                             :id="scope.row?.moduleParentName"
                                                             name="user_fun_view[]"
-                                                            v-model="scope.row.functionDeleted"
+                                                            :v-model="scope.row.functionDeleted === 1 ? true: false"
                                                             :checked="scope.row?.functionDeleted == 1? true: false "
+                                                            @change="changeSavePermissionModules($event, scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0) "
                                                         />
                                                     </template>
                                                 </el-table-column>
@@ -141,14 +150,14 @@
                                         </el-form>
                                     </div>
                                     <!-- Button Dialog Actions -->
-                                    <div style="text-align:right;">
+                                    <!-- <div style="text-align:right;">
                                         <el-button type="danger" @click="dialogVisible=false">
                                             {{ $t('permission.cancel') }}
                                         </el-button>
                                         <el-button type="primary" @click="confirmPermission">
                                             {{ $t('permission.confirm') }}
                                         </el-button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </el-dialog>
@@ -162,7 +171,6 @@
 
 <!-- Data Tables -->
 <script>
-
 import { FilterMatchMode } from "primevue/api";
 import UserPermissionsModuleMSServices from "../../../../services/vendors/user_permissions/UserPermissionModuleMSServices";
 import { ElMessage } from "element-plus";
@@ -172,11 +180,11 @@ const defaultRole = {
   moduleParentName: '',
   description: '',
   routesModule: [],
-
 }
 export default {
     data() {
         return {
+            envAppPATH: process.env.VUE_APP_PATH_FILE,
             permissionProps: {
                 children: 'childrenModule',
                 label: 'moduleParentName',
@@ -199,7 +207,7 @@ export default {
             routesModulesPerm: [],
             routesModule: [],
             moduleDetailRoutes: [],
-            checked1: true
+            checkOut: false
         };
     },
     computed: {
@@ -226,12 +234,25 @@ export default {
             this.permissionsRoleModuleListArr = data;
         });
     },
-    methods: {
+    methods: {  
         /**
-         * @Hane Multiple Row with Parent Chid 
+         * @Handle Multiple Row with Parent Chid 
         * */
-       handleCheckAllChange(val,checked){
-          console.log(val.childrenModule,checked)
+       handleCheckAllChange(valPerm, checked){  
+            const targetPerm = checked.target.closest("tr") ?? "";
+            const td = targetPerm.getElementsByTagName("td");
+            const permId = td[1].childNodes[0];
+            console.log(permId,targetPerm)
+            this.findChildren(valPerm.childrenModule);
+       },
+       findChildren(list,checked){
+            list.forEach(children => {
+                // children.functionView = checked;
+                console.log(children,checked)
+            });
+       },
+       tableRowClassNamePerm({row}){
+          return `permId-${row?.permissionId ?? 0} roleId-${row?.roleId ?? 0} rolePermId-${row?.id}`;
        },
         /**
          * @Popup update Detail Module Permissions routesModulesPerm
@@ -292,7 +313,7 @@ export default {
        },
        normalizeMenuPermission(permission){
             return {id:permission.id,moduleParentName: permission.moduleParentName}
-       },
+       }, 
        generateArr(moduleSub){
             let data = []
             moduleSub.forEach(module => {
@@ -314,6 +335,59 @@ export default {
             const capitalizedFirst = name[0].toUpperCase();
             const rest = name.slice(1);
             return capitalizedFirst + rest;
+        },
+        // Module Index
+        indexMethodModulePerm(index){
+            return index + 1;
+        },
+        // Module Permissions
+        changeSavePermissionModules(obj,permIdModule, roleIdModule,rolePermId){
+                this.$nextTick(() => {
+                    try{
+                        const tblClosetTrModule = obj.target.closest("tr") ?? '';
+                        // Get Element Tag name by obj
+                        const tdElTagChidTrModulePerm = tblClosetTrModule.getElementsByTagName("td");
+                        if(tdElTagChidTrModulePerm !== undefined){
+                            // Child Module
+                            const childModulePermView = tdElTagChidTrModulePerm[2].childNodes[0];
+                            const childModulePermEdit = tdElTagChidTrModulePerm[3].childNodes[0];
+                            const childModulePermCreate = tdElTagChidTrModulePerm[4].childNodes[0];
+                            const childModulePermRemove = tdElTagChidTrModulePerm[5].childNodes[0];
+                            // Child Modules
+                            const childModuleViewId =  childModulePermView.children[0].value ? 1 : 0;
+                            const childModuleEditId=   childModulePermEdit.children[0].value ?1 : 0;
+                            const childModuleCreateId= childModulePermCreate.children[0].value ? 1 : 0;
+                            const childModuleRemoveId= childModulePermRemove.children[0].value ? 1 : 0;
+                            console.log(childModuleViewId)
+                            // Data Permissions Modules
+                            const modulePermDetail = {
+                                rolePermId: parseInt(rolePermId),
+                                roleId: parseInt(roleIdModule),
+                                permissionId: parseInt(permIdModule),
+                                funView: parseInt(childModuleViewId)  ? 1 : 0,
+                                funEdited:parseInt(childModuleEditId)  ? 1 : 0,
+                                funCreate:parseInt(childModuleCreateId)  ? 1 : 0,
+                                funDeleted:parseInt(childModuleRemoveId)  ? 1 : 0
+                            }
+                            this.userPermModuleMSServices
+                                .updateSavePermissionModulePermId(modulePermDetail)
+                                .then((moduleRes) => {
+                                    if (moduleRes.data.success == true) {
+                                        console.log();
+                                        ElMessage.success(`${moduleRes?.data.message} : ${this.currentRole.role_name ?? ''}`);
+                                    }
+                                }).catch((error) => {
+                                    if (error.response.data.success == false) {
+                                        ElMessage.error(error.response.data.message);
+                                        ElMessage.error(error);
+                                    }
+                                    return false;
+                                });
+                            }
+                        }catch (error) {
+                            ElMessage.error(error);
+                        }
+                });
         }
     },
 };

@@ -9,16 +9,17 @@ import DefaultLayoutVendor from "../components/layouts/vendors/DefaultLayouts.vu
 /*
     Imports Vue and VueRouter to extend with the routes.
 */
-import { createRouter, createWebHistory } from "vue-router";
+import { createWebHistory,createRouter } from "vue-router";
 import moduleRouteVendor from  "./vendors";
 import moduleRouteCustomer from "./customers";
-import moduleAuthencation from "./authencation";
+import moduleAuthentication from "./authencation";
 import moduleGlobalStep from "./globaStepper";
 import moduleErrorPage from "./errorPage";
-// import permissionsRoutes from "./errorPage";
-// import { storeToRefs } from "pinia";
-// import { useAuthStoreToken } from "../utils/auth/AuthStoreTokenJWT";
-
+// Manager Vendor or Admin base on modules have permissions can access modules
+import moduleProductManagementRouters from "./modules/product_managements";
+import moduleUsersManagementRouters from "./modules/users_managements";
+import moduleBusinessManagementRouters from "./modules/business_sections";
+import moduleOrdersReportManagementRouters from "./modules/orders_managements";
 /*
     Makes a new VueRouter that we will use to run all of the routes
     for the app.
@@ -31,65 +32,34 @@ export const constantRoutes = [
             path: '/redirect/:path*',
             component: () => import('../views/authencation/AuthRedirect.vue'),
         },
-        
         hidden: true,
     },
     ...moduleErrorPage,
-    ...moduleAuthencation,
-    // GLobal Customer Routes
-    ...moduleRouteVendor,
+    ...moduleAuthentication,
     ...moduleRouteCustomer,
     ...moduleGlobalStep,
-
+    ...moduleRouteVendor
 ]
 export const asyncRoutes = [
-    ...moduleErrorPage,
+    moduleProductManagementRouters,
+    moduleUsersManagementRouters,
+    moduleBusinessManagementRouters,
+    moduleOrdersReportManagementRouters
 ]
-const router = new createRouter({
+const routerModules = () => new createRouter({
+    // mode: 'history', // require service support
     history: createWebHistory(),
-    scrollBehavior: () => ({ y: 0 }),
-    base: '/',
+    scrollBehavior: () => ({
+        y: 0
+    }),
+    base: process.env.BASE_URL,
     linkActiveClass: 'router-link-active',
     linkExactActiveClass: 'router-link-exact-active',
-    routes: constantRoutes
+    routes: constantRoutes,
 });
+const router = routerModules();
 export function resetRouter() {
-    const newRouter = createRouter();
+    const newRouter = routerModules();
     router.matcher = newRouter.matcher; // reset router
 }
-
-//
-// router.beforeEach( async(to, from, next) => {
-//     const {user} = storeToRefs(useAuthStoreToken());
-//     const publicPages = ['/auth/login', '/auth/register', '/'];
-//     const authRequired = !publicPages.includes(to.path);
-//     const loggedIn = localStorage.getItem('user');
-//     /**
-//      * @Check Router Required Auth
-//     * */ 
-//     document.title = to.meta.title;
-//     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-//     if (!loggedIn && requiresAuth){
-//         next('/error/401');
-//     }else{
-//         next();
-//     }
-//     if (authRequired && !loggedIn) {
-//         next('/auth/login');
-//     }else{
-//         next();
-//     }
-//     /*
-//      @Authentications  Customer 
-//     **/
-//     if (authRequired && loggedIn && user.value[1].typeUser == 'Customer') {
-//         next('/');
-//     }
-//     /*
-//      @Authentications  Vendor 
-//     **/ 
-//     if (authRequired && loggedIn && user.value[1].typeUser == 'Vendor' || user.value[1].typeUser == 'Admin') {
-//         next('/vendor-dashboard/default-layouts');
-//     }
-// });
 export default router;

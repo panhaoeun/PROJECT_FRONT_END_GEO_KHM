@@ -6,9 +6,10 @@
             <h2
                 class="relative text-black text-3xl section section-title:before"
             >
-                Users Lists
+                {{ $t('users.listUsers') }}
             </h2>
-            <div class="d-flex align-items-center gap-3">
+            <!-- Permissions Modules -->
+            <div class="d-flex align-items-center gap-3"  v-permission="[{functionName: 'users_modules', moduleName: 'fun_create'}]">
                 <router-link
                     to="/vendor/user/list/crete-user-auth/ui-user-create"
                     class="text-center btn btn-primary d-flex gap-2"
@@ -27,7 +28,7 @@
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                         ></path>
                     </svg>
-                    New User
+                   {{ $t('users.addUsers') }}
                 </router-link>
             </div>
         </div>
@@ -62,7 +63,7 @@
                                                 v-model="
                                                     filters['global'].value
                                                 "
-                                                placeholder="Search..."
+                                                :placeholder="$t('users.search')"
                                             />
                                         </span>
                                     </div>
@@ -84,31 +85,32 @@
                                     <!-- Columns -->
                                     <Column
                                         field="full_latin_name"
-                                        header="User Name"
+                                        :header="$t('users.userName')"
                                         sortable
                                         style="min-width: 20rem"
                                     ></Column>
                                     <Column
                                         field="user_email"
-                                        header="Email"
+                                        :header="$t('users.userEmail')"
                                         sortable
                                         style="min-width: 20rem"
                                     ></Column>
                                     <Column
                                         field="user_phonenumber"
-                                        header="Phone"
+                                        :header="$t('users.userPhone')"
                                         sortable
                                         style="min-width: 20rem"
                                     ></Column>
                                     <!-- <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column> -->
                                     <Column 
                                         field="role_name"
-                                        header="Role"
+                                        :header="$t('route.role')"
                                         sortable
                                         style="min-width: 20rem">
                                     
                                     </Column>
                                     <Column
+                                        v-permission="[{functionName: 'permissions_module', moduleName: 'fun_edit'}]"
                                         field="category"
                                         header="Option Status"
                                         sortable
@@ -117,6 +119,7 @@
                                         <template #body="slotProps">
                                             <div class="font-bold">
                                                 <el-switch
+                                                    v-permission="[{functionName: 'users_modules', moduleName: 'fun_edit'}]"
                                                     @click="changeStatusUsers(slotProps.data.user_id,slotProps.data.user_status)"
                                                     :key="slotProps?.data.user_id"
                                                     id="slotProps?.data.user_id"
@@ -132,17 +135,19 @@
                                     >
                                         <template #body="slotProps">
                                             <Button
+                                                v-permission="[{functionName: 'users_modules', moduleName: 'fun_edit'}]"
                                                 icon="pi pi-pencil"
                                                 outlined
                                                 rounded
                                                 class="mr-2"
                                                 @click="
                                                     $router.push({
-                                                        path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data.user_id}`,
+                                                        path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data?.user_id}`,
                                                     })
                                                 "
                                             />
                                             <Button
+                                                v-permission="[{functionName: 'users_modules', moduleName: 'fun_deleted'}]"
                                                 icon="pi pi-trash"
                                                 outlined
                                                 rounded

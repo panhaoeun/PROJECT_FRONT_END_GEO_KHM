@@ -43,7 +43,7 @@
                                     permissionsListArr != ''
                                     ">
                                     <!-- Columns -->
-                                    <Column field="user_fun_id" header="Role Name" sortable style="min-width: 20rem">
+                                    <Column field="user_fun_id" :header="$t('permission.roleNameModule')" sortable style="min-width: 20rem">
                                         <template #body="slotProps">
                                             {{
                                                 capitalized(

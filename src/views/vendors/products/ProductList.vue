@@ -5,7 +5,7 @@
                 <!-- Titles -->
                     <div class="flex justify-content-between my-4 px-4 py-4">
                         <h2 class="relative text-black text-3xl section section-title:before">Products List</h2>
-                        <el-button type="info" size="large" class="py-4" @click.prevent="$router.push('/vendor/products/create')">
+                        <el-button type="info" size="large" class="py-4" @click.prevent="$router.push('/vendor/products/create')"  v-permission="[{functionName: 'product_module', moduleName: 'fun_create'}]">
                             <div class="flex justify-between pl-2">
                                 <i class="pi pi-plus" style="font-size: 1rem"></i>
                                 <span class="pl-2">Create</span>
@@ -75,21 +75,12 @@
                                                 {{ data.product_qty }}
                                             </template>
                                         </Column>
-                                        <!--  -->
-                                        <Column field="active_status" header="Active Status" sortable style="min-width: 12rem" >
-                                            <template #body>
-                                                    <el-switch
-                                                    v-model="inputSwitchPro"
-                                                    size="large"
-                                                />
-                                            </template>
-                                            </Column>
                                         <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;" header="Actions" bodyStyle="text-align: center; overflow: visible">
                                                 <template #body="{ data }">
                                                     <div class="flex flex-wrap gap-2">
-                                                        <Button icon="pi pi-search" outlined rounded class="mr-2" @click.prevent="$router.push(`/vendor/products/product_list/view/${data.id}`)" />
-                                                        <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click.prevent="$router.push(`/vendor/products/product_list/edit/${data.id}`)" />
-                                                        <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteCatPro()" />
+                                                        <Button icon="pi pi-search" outlined rounded class="mr-2" @click.prevent="$router.push(`/vendor/products/product_list/view/${data.id}`)" v-permission="[{functionName: 'product_module', moduleName: 'fun_view'}]"/>
+                                                        <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click.prevent="$router.push(`/vendor/products/product_list/edit/${data.id}`)" v-permission="[{functionName: 'product_module', moduleName: 'fun_edit'}]"/>
+                                                        <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteCatPro()" v-permission="[{functionName: 'product_module', moduleName: 'fun_deleted'}]"/>
                                                     </div>
                                                 </template> 
                                         </Column>
@@ -121,13 +112,13 @@
     import { ref, onBeforeMount } from 'vue';
     import { FilterMatchMode, FilterOperator } from 'primevue/api';
     import ProductService from '../../../services/vendors/products/ProductServices';
+    import { ElMessage } from 'element-plus';
     // Product Services
     const loading = ref(true);
     const products = ref(null);
     const filtersData = ref(null);
     const productService = new ProductService();
     const selectedProduct = ref();
-    const inputSwitchPro = ref(false);
     // const deleteProductDialog = ref(false);
     const ENV_HOST_PATH_FILE = process.env.VUE_APP_PATH_FILE;
 
@@ -138,7 +129,7 @@
                     products.value = data;
                     loading.value = false;
                 }catch(error){
-                    console.log(error);
+                    ElMessage.error(`Fail Product Service: ${error.response.data?.message}`);
                 }
             }    
         );

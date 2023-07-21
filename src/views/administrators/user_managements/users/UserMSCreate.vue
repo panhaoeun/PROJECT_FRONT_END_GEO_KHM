@@ -2,11 +2,11 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-            <h2 class="relative text-black text-3xl section section-title:before">Add User</h2>
+            <h2 class="relative text-black text-3xl section section-title:before">{{$t("users.addUsers")}}</h2>
             <el-button type="info" size="large" @click.prevent="$router.push('/vendor/user/list/crete-user-auth/ui-user-list')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
-                    <span class="pl-2">BACK</span>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
                 </div>
             </el-button>
         </div>
@@ -21,7 +21,7 @@
                     <Message severity="error" v-if="notifMSGUser">
                         {{ notifMSGUser }}
                     </Message>
-                    <el-tab-pane label="General Information" name="english-tabs">
+                    <el-tab-pane :label='$t("route.routeGeneralInfo")' name="english-tabs">
                         <!-- English -->
                         <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
                             <div class="col-12 lg:col-12">
@@ -152,7 +152,7 @@
                                            <div class="flex flex-column">
                                                 <Dropdown
                                                  v-model="selectedUserGender"
-                                                class="py-2 border-round-lg"
+                                                class="py-1 border-round-lg"
                                                 :options="userGender" 
                                                 optionLabel="name" placeholder="Select a Gender" />
                                            </div>
@@ -205,20 +205,21 @@
                                         <div class="field">
                                             <label for="roles">Roles<span class="p-error">*</span></label>
                                            <div class="flex flex-column">
-                                            <b-form-select 
-                                                    @change="getPermissionCurrent"
-                                                    v-model="selectOptValuePermission" 
-                                                    class="border-round-lg py-3 fond-bold text-black"
-                                                    placeholder="Select">
-                                                    <b-form-select-option 
+                                            <el-select 
+                                                @change="getPermissionCurrent"
+                                                v-model="selectOptValuePermission" 
+                                                filterable  
+                                                placeholder="Select">
+                                                <el-option 
+                                                        selected
                                                         v-for="(permList, index) in permissionListDropDownView"
-                                                        :key="index"
-                                                        :value="permList?.user_id"
-                                                        :label="permList?.user_fun_id"
+                                                        :value="permList?.id ?? 0" 
+                                                        :label="permList?.role_name"
+                                                        :key="index"        
                                                     >
-                                                        {{ permList?.user_id }}
-                                                    </b-form-select-option>
-                                                </b-form-select>
+                                                    {{ permList?.role_name }}
+                                                </el-option>
+                                            </el-select>
                                            </div>
                                         </div>
                                     </div>
@@ -349,7 +350,7 @@ export default {
         // User Arr Vuex 
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
         //List Permissions
-        this.userMSServices.getListPermissions().then((data) => {
+        this.userMSServices.getListRolesData().then((data) => {
             console.log(data)
             if (!data) {
                 ElMessage.error("Internal Error...");
@@ -390,6 +391,7 @@ export default {
             Get Permissions
         */
         getPermissionCurrent(permissionID){
+            console.log(permissionID)
               if (!permissionID) {
                 ElMessage.error('Please select permissions...');
                 this.permissionList = {};
@@ -473,7 +475,6 @@ export default {
                 // console.log(this.v$.proCategoryNameEng.required.$message.replace('Val)
                 this.submitted = true;
                 if (!isFormValidUserMS) {
-                    console.log(this.fileUserMS)
                     if(!this.fileUserMS || this.fileUserMS !== ''){
                       this.errMessageUploadFile = 'Please upload profile image...';
                       ElMessage.error('Filed required...');
@@ -488,9 +489,11 @@ export default {
                     || this.userMSPhoneNum !== ''
                     || this.userMSPassword !== ''
                     || this.fileUserMS !== ''
+                    || this.selectOptValuePermission !== ''
                 ) {
                     // Data Response
                     const dataRes = {
+                        userRole: this.selectOptValuePermission ?? 0,
                         userNameEng: this.userMSNameEng,
                         userNameKh: this.userMSNameKh,
                         userEmail: this.emailMSUser,

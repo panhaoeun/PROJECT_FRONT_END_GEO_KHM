@@ -2,6 +2,7 @@ export default [
     {
         path:'/',
         name:'customers',
+        hidden: true,
         meta: {
             template: 'website',
             title: "Online Shopping | 7Day",

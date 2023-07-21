@@ -21,7 +21,7 @@ export default class UserPermissionsMSServices {
                 data
             )
             .then((result) => {
-                console.log(result);
+                // console.log(result);
                 if (result.status == "201") {
                     if (result.data.success == true) {
                         return result.data.result.resultStatus;
@@ -68,6 +68,33 @@ export default class UserPermissionsMSServices {
             },
             updatePerm
         );
+    }
+    /**
+     * @Roles Managements
+     * @List Roles
+     * @Create Roles
+     * @Updated Roles
+     * @Delete Roles
+    * **/
+    async getListRolesData(data) {
+        return await http
+            .get(
+                "/authentication/protect_mal/permission/module_list/functions", {
+                    headers: authHeader()
+                },
+                data
+            )
+            .then((result) => {
+                console.log(result);
+                if (result.status == "201") {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                ElMessage.error(error);
+            });
     }
     /**
      * @Permissions Managements

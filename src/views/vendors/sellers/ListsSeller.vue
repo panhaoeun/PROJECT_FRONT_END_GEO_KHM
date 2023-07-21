@@ -8,7 +8,9 @@
             <!-- Titles -->
             <div class="flex justify-content-between my-4 px-4 py-4">
                 <h2 class="relative text-black text-3xl section section-title:before">Seller Lists</h2>
-                <el-button type="info" size="large" class="py-4"
+                <el-button type="info" size="large" 
+                    v-permission="[{functionName: 'sellers_module', moduleName: 'fun_create'}]"
+                    class="py-4"
                     @click="openCreateSeller">
                     <div class="flex justify-between pl-2">
                         <i class="pi pi-plus" style="font-size: 1rem"></i>
@@ -21,6 +23,7 @@
                     <el-card slot="header" class="box-card py-2 px-2">
                         <div>          
                             <div class="card">
+                                    <!-- Data Table -->
                                     <DataTable ref="dt" :value="sellers" v-model:selection="selectedSeller" dataKey="id" 
                                         filterDisplay="menu" :loading="loading"
                                         :paginator="true" :rows="10" :filters="filters"
@@ -72,18 +75,10 @@
                                                         </div>
                                                     </template>
                                                 </Column>
-                                                <Column field="category" header="Info" sortable style="min-width:10rem">
-                                                    <template #body>
-                                                        <div class="font-bold">
-                                                            Current Balance:
-                                                            Last Login :  
-                                                        </div>
-                                                    </template>
-                                                </Column>
                                                 <Column header="Shop Publish" sortable style="min-width:10rem">
                                                     <template #body="slotProps">
                                                         <!-- Banned Seller Account -->
-                                                        <div v-if="slotProps.data.venStatus !== 'UnBanned'">
+                                                        <div v-if="slotProps.data?.venStatus !== 'UnBanned'">
                                                             <Tag severity="danger" value="Banned"></Tag>
                                                         </div>
                                                         <div v-if="slotProps.data.shop_verify == 'Verify'">
@@ -108,12 +103,24 @@
                                                 </Column>
                                                 <Column :exportable="false" header="Options" style="min-width:8rem">
                                                     <template #body="slotProps">
-                                                        <Button icon="pi pi-ellipsis-v" outlined rounded class="mr-2" @click="toggleOptionSeller" aria-haspopup="true" aria-controls="overlay_menu"/>
-                                                        <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click="editSellerData(slotProps.data)" />
-                                                        <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteSeller(slotProps.data)" />
+                                                        <Button icon="pi pi-ellipsis-v"
+                                                            outlined rounded class="mr-2"
+                                                            v-permission="[{functionName: 'sellers_module', moduleName: 'fun_view'}]" 
+                                                            @click="toggleOptionSeller($event)" aria-haspopup="true" aria-controls="overlay_menu"/>
+                                                        <Button icon="pi pi-pencil" outlined rounded
+                                                            class="mr-2"
+                                                            v-permission="[{functionName: 'sellers_module', moduleName: 'fun_edit'}]" 
+                                                            @click="editSellerData(slotProps.data?.user_id)" />
+                                                        <Button 
+                                                            icon="pi pi-trash" outlined rounded severity="danger" 
+                                                            @click="confirmDeleteSeller(slotProps.data)" 
+                                                            v-permission="[{functionName: 'sellers_module', moduleName: 'fun_deleted'}]"/>
                                                         <!-- Menu Toggle Options -->
-                                                        <Menu ref="menu" id="overlay_menu" :model="itemsToggleOption" :popup="true" />
-
+                                                        <Menu ref="menu" 
+                                                                 v-permission="[{functionName: 'sellers_module', moduleName: 'fun_view'}]"  
+                                                                :id="slotProps.data?.user_id.concat('_', slotProps.data?.venStatus,'_',slotProps.data?.shop_status, '_', slotProps.data?.shop_verify)" 
+                                                                :model="itemsToggleOption" 
+                                                        :popup="true"/>
                                                     </template>
                                                 </Column>
                                             </div>          
@@ -121,7 +128,7 @@
                                 </div>
                                 <!-- ===============Add New Sellers======================= -->
                                 <Dialog 
-                                    v-model:visible="createSellerDialog" :style="{ width: '900px' }"  
+                                    v-model:visible="createSellerDialog" :style="{ width: '1000px' }"  
                                     header="Seller Info" :modal="true" class="p-fluid">
                                     <!--===========================Upload Avatars==========-->
                                     <!-- Alert Message Validation -->
@@ -320,7 +327,7 @@
                                                     />
                                                     <MazAvatar
                                                         v-if="!filePreviewLogo"
-                                                        src="../../../assets/img/photos/no_img.jpeg"
+                                                        src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
                                                         size="3rem"
                                                         class="pb-2"
                                                         square                                         
@@ -346,8 +353,8 @@
                                                     />
                                                     <MazAvatar
                                                         v-if="!filePreviewBanner"
-                                                        src="../../../assets/img/photos/no_img.jpeg"
-                                                        size="3rem"
+                                                        src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+                                                        size="5rem"
                                                         class="pb-2"
                                                         square                                         
                                                         no-size
@@ -362,17 +369,238 @@
                                     </template>
                                 </Dialog>
                                 <!-- ===============Edited New Sellers======================= -->
-                                <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
-                                    <div class="confirmation-content">
-                                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-                                        <span v-if="product">Are you sure you want to delete <b>{{ product.name }}</b>?</span>
+                                <Dialog v-model:visible="editedProductDialog" :style="{ width: '1000px' }"  header="Seller Info" :modal="true" class="p-fluid">
+                                    <!--===========================Edit Upload Avatars==========-->
+                                    <!-- Alert Message Validation -->
+                                    <transition-group name="p-message" tag="div">
+                                        <Message v-for="msg of errorSellerList" :key="msg.id" :severity="msg.severity">
+                                            <ul>
+                                                <li>{{ msg.content }}</li>
+                                            </ul>
+                                        </Message>
+                                    </transition-group>    
+                                    <div class="px-2 py-2 text-center justify-center">
+                                        <MazAvatar
+                                                v-if="filePreview"
+                                                :src="filePreview"
+                                                size="3rem"
+                                                class="pb-2"
+                                        />
+                                        <MazAvatar
+                                                v-if="!filePreview"
+                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+                                                size="3rem"
+                                                class="pb-2 w-full"
+                                        />
+                                        <UploadSingleFile  
+                                            v-model.trim="arrSeller.uploadFileLogo" 
+                                            required="true" 
+                                            @file-updated="captureFile($event)" 
+                                            autofocus
+                                            uploadName="Upload Avatar"/>
+                                        <small class="p-error" v-if="errorUploadAvatar">{{ errorUploadAvatar }}</small>
                                     </div>
+                                    <!--===========================Upload Avatars==========-->
+                                      <!-- Title -->
+                                        <p class="font-bold text-black text-lg">Seller Info <span class="p-error">*</span></p>
+                                        <!-- Sellers -->
+                                        <div class="formgrid grid">
+                                            <div class="field col">
+                                                <label for="firstNameSell">User Name  <span class="p-error">*</span></label>
+                                                <InputText id="firstNameSell" v-model.trim="editListSellerModule.editVendorEng" required="true" autofocus :class="{ 'p-invalid': submitted && !editListSellerModule.editVendorEng }" />
+                                                <small class="p-error" v-if="submitted && !editListSellerModule.editVendorEng">User Name is required.</small>
+                                            </div>
+                                            <div class="field col">
+                                                <label for="phoneNumberSeller">Phone<span class="p-error">*</span></label>
+                                                <InputText id="phoneNumberSeller" 
+                                                    v-model.trim="editListSellerModule.editVendorPhone" required="true" 
+                                                    autofocus
+                                                    :class="{ 'p-invalid': submitted && !editListSellerModule.editVendorPhone }" 
+                                                    @keypress="inputOnlyNumber"
+                                                />
+                                                <small class="p-error" v-if="submitted && !editListSellerModule.editVendorPhone">Phone Number field cannot be empty.</small>
+                                            </div>
+                                            <div class="field col">
+                                                <label for="emailSeller">Email <span class="p-error">*</span></label>
+                                                <InputText id="name" v-model.trim="editListSellerModule.editVendorEmail" type="email" @blur="validateEmail"/>
+                                                <small class="p-error" v-if="submitted && msgEmailValidate">{{ msgEmailValidate }}</small>
+                                            </div> 
+                                        </div>   
+                                        <!-- Password -->
+                                        <div class="formgrid grid">
+                                            <div class="field col">
+                                                <label for="name">Password</label>
+                                                <Password 
+                                                    v-model.trim="arrSeller.passwordSeller" required="true" autofocus 
+                                                    :class="{ 'p-invalid': submitted && !arrSeller.passwordSeller }"
+                                                    toggleMask>
+                                                    <template #header>
+                                                        <h6>Pick a password</h6>
+                                                    </template>
+                                                    <template #footer>
+                                                        <Divider />
+                                                        <p class="mt-2">Suggestions</p>
+                                                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                                            <li>At least one lowercase</li>
+                                                            <li>At least one uppercase</li>
+                                                            <li>At least one numeric</li>
+                                                            <li>Minimum 8 characters</li>
+                                                        </ul>
+                                                    </template>
+                                                </Password>
+                                                <small class="p-error" v-if="submitted && !arrSeller.passwordSeller">Password is required.</small>
+                                            </div>
+                                            <div class="field col">
+                                                <label for="name">Confirm Password</label>
+                                                <Password 
+                                                    v-model.trim="arrSeller.confirmPassword" required="true" autofocus 
+                                                    :class="{ 'p-invalid': submitted && !arrSeller.confirmPassword }"
+                                                    @input="checkConfirmPassword"
+                                                    toggleMask>
+                                                    <template #header>
+                                                        <h6>Pick a password</h6>
+                                                    </template>
+                                                    <template #footer>
+                                                        <Divider />
+                                                        <p class="mt-2">Suggestions</p>
+                                                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                                            <li>At least one lowercase</li>
+                                                            <li>At least one uppercase</li>
+                                                            <li>At least one numeric</li>
+                                                            <li>Minimum 8 characters</li>
+                                                        </ul>
+                                                    </template>
+                                                </Password>
+                                                <small class="p-error" v-if="submitted && !arrSeller.confirmPassword">Confirm Password is required.</small>
+                                                <small class="p-error" v-if="errorConfirmPass">{{ errorConfirmPass }}</small>
+                                            </div> 
+                                        </div>
+                                        <!--======Shop Detail======-->
+                                        <div class="pt-3">
+                                            <p class="font-bold text-black text-lg">Shop Details <span class="p-error">*</span></p>
+                                            <!-- Shop Accounts -->
+                                            <div class="formgrid grid">
+                                                    <div class="field col">
+                                                        <label for="shop_name">Shop Name  <span class="p-error">*</span></label>
+                                                        <InputText id="name" v-model.trim="editListSellerModule.editShopName" required="true" autofocus :class="{ 'p-invalid': submitted && !editListSellerModule.editShopName }" />
+                                                        <small class="p-error" v-if="submitted && !editListSellerModule.editShopName">Shop Name is required.</small>
+                                                    </div>
+                                                    <div class="field col">
+                                                        <label for="name">Phone<span class="p-error">*</span></label>
+                                                        <InputText id="name" v-model.trim="editListSellerModule.editShopPhone" 
+                                                            required="true" 
+                                                            autofocus 
+                                                            :class="{ 'p-invalid': submitted && !editListSellerModule.editShopPhone }"
+                                                            @keypress="inputOnlyNumber" 
+                                                        />
+                                                        <small class="p-error" v-if="submitted && !editListSellerModule.editShopPhone">Phone Number field cannot be empty.</small>
+                                                    </div>
+                                                </div>
+                                                <!-- Slug URL -->
+                                                <div class="field">
+                                                    <label for="slug">Slug<span class="p-error">*</span></label>
+                                                    <InputText id="slug_seller" v-model.trim="editListSellerModule.editShopSlugURL"/>
+                                                </div>
+                                            <div>
+                                            <!-- Address -->
+                                            <div class="formgrid grid">
+                                                <div class="field col">
+                                                    <label for="shop_name">Address Line 01  <span class="p-error">*</span></label>
+                                                    <InputText id="name" v-model.trim="editListSellerModule.editShopAddr01" required="true" autofocus :class="{ 'p-invalid': submitted && !editListSellerModule.editShopAddr01 }" />
+                                                    <small class="p-error" v-if="submitted && !editListSellerModule.editShopAddr01">Address Line 01 is required.</small>
+                                                </div>
+                                                <div class="field col">
+                                                    <label for="shop_name">Address Line 02<span class="p-error">*</span></label>
+                                                    <InputText id="name" v-model.trim="editListSellerModule.editShopAddr02" required="true" autofocus :class="{ 'p-invalid': submitted && !editListSellerModule.editShopAddr02 }" />
+                                                    <small class="p-error" v-if="submitted && !editListSellerModule.editShopAddr02">Address Line 02 is required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="formgrid grid">
+                                                <div class="field col">
+                                                    <label for="shop_name">City/Town<span class="p-error">*</span></label>
+                                                    <InputText id="name" v-model.trim="editListSellerModule.editShopCity" required="true" autofocus :class="{ 'p-invalid': submitted && !editListSellerModule.editShopCity }" />
+                                                    <small class="p-error" v-if="submitted && !editListSellerModule.editShopCity">City/Town is required.</small>
+                                                </div>
+                                                <div class="field col">
+                                                    <label for="shop_name">Zip/Postal Code<span class="p-error">*</span></label>
+                                                    <InputText id="name" v-model.trim="editListSellerModule.editShopPostalCode"/>
+                                                </div>
+                                            </div>
+                                            <!-- Request/Approved Dated -->
+                                            <div class="formgrid grid">
+                                                <div class="field col">
+                                                    <label for="shop_name">Request Date<span class="p-error">*</span></label>
+                                                    <Calendar id="name" v-model.trim="editListSellerModule.editShopRequestDate" showButtonBar  dateFormat="dd/mm/yy" required="true" autofocus :class="{ 'p-invalid': submitted && !editListSellerModule.editShopRequestDate }" />
+                                                    <small class="p-error" v-if="submitted && !editListSellerModule.editShopRequestDate">Request Date is required.</small>
+                                                </div>
+                                                <div class="field col">
+                                                    <label for="shop_name">Approved Date<span class="p-error">*</span></label>
+                                                    <Calendar id="name" v-model.trim="editListSellerModule.editShopApprovedDate" showButtonBar required="true"  dateFormat="dd/mm/yy" autofocus :class="{ 'p-invalid': submitted && !editListSellerModule.editShopApprovedDate }" />
+                                                    <small class="p-error" v-if="submitted && !editListSellerModule.editShopApprovedDate">Approved Date is required.</small>
+                                                </div>
+                                            </div>
+                                            <!-- Upload Banner of Shoppings -->
+                                            <div class="field">
+                                                <!-- Logo -->
+                                                <label for="name">Logo (72*72)<span class="p-error">*</span></label>
+                                                <FileUpload mode="basic" name="uploadFileShopLogo[]" ref="uploadFileShopLogo" accept="image/*" 
+                                                        customUpload
+                                                        :maxFileSize="2000000"
+                                                        @uploader="onUploadFileLogo" 
+                                                        :auto="true" chooseLabel="Browse" />
+                                                <div class="pt-2">
+                                                    <MazAvatar
+                                                        v-if="filePreviewLogo"
+                                                        :src="filePreviewLogo"
+                                                        size="3rem"
+                                                        class="pb-2"
+                                                        square                                         
+                                                        no-size
+                                                    />
+                                                    <MazAvatar
+                                                        v-if="!filePreviewLogo"
+                                                        src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+                                                        size="3rem"
+                                                        class="pb-2"
+                                                        square                                         
+                                                        no-size
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label for="name">Banner (297*203)<span class="p-error">*</span></label>
+                                            <FileUpload mode="basic" name="uploadFileBanner[]" ref="uploadFileBanner" accept="image/*" 
+                                                    customUpload
+                                                        :maxFileSize="2000000"
+                                                        @uploader="onUploadFileBanner" 
+                                                        :auto="true" chooseLabel="Browse" />
+                                                <div class="pt-2">
+                                                    <MazAvatar
+                                                        v-if="filePreviewBanner"
+                                                        :src="filePreviewBanner"
+                                                        size="3rem"
+                                                        class="pb-2"
+                                                        square                                         
+                                                        no-size
+                                                    />
+                                                    <MazAvatar
+                                                        v-if="!filePreviewBanner"
+                                                        src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+                                                        size="5rem"
+                                                        class="pb-2"
+                                                        square                                         
+                                                        no-size
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
                                     <template #footer>
-                                        <Button label="No" icon="pi pi-times" text @click="deleteProductDialog = false"/>
+                                        <Button label="No" icon="pi pi-times" text @click="editedProductDialog = false"/>
                                         <Button label="Yes" icon="pi pi-check" text @click="deleteProduct" />
-                                </template>
+                                    </template>
                                 </Dialog>
-                                <!-- Dialog Deleted -->
+                                <!-- ===============Dialogs Deleted Sellers======================= -->
                                 <Dialog v-model:visible="deleteProductsDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
                                     <div class="confirmation-content">
                                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -404,8 +632,11 @@ export default{
     },  
     data(){
         return {
+            errorSellerList: null,
             selectedSeller: '',
             createSellerDialog: false,
+            editedProductDialog: false,
+            deleteProductsDialog: false,
             submitted: false,
             sellers: null,
             arrSeller: {},
@@ -423,6 +654,7 @@ export default{
             // Add two new data properties here to capture the emitted file properties we need
             filePreview: '',
             fileName: '',
+            optBanedStatus: '',
             filePreviewLogo: null,
             filePreviewBanner: null,
             itemsToggleOption: [
@@ -432,28 +664,53 @@ export default{
                         {
                             label: 'Ban This Seller',
                             icon: 'pi pi-lock',
-                            command: () => {
-                                console.log(this.sellerServices)
+                            command: (banedEvent) => {
+                                const userId = banedEvent?.id.replace(/\/0/, "").split('_');
+                                this.bandAccountSellerTogglePro(userId[0] ?? 0, userId[1] ?? "UnBanned",userId[2] ?? 'Close');
                             }
                         },
                         {
                             label: 'Verify This Shop',
                             icon: 'pi pi-check-square',
-                            command: () => {
+                            command: (verifyId) => {
+                                const userId = verifyId?.id.replace(/\/0/, "").split('_');
+                                this.verifyShopPublic(userId[0] ?? 0, userId[1] ?? "UnBanned",userId[2] ?? 'Close',userId[3] ?? 'Unverified');
                             }
                         },
                         {
                             label: 'Verify Account',
                             icon: 'pi pi-verified',
-                            command: () => {
-                                this.$toast.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000 });
+                            command: (verifyAccSellId) => {
+                                const userVerifyId = verifyAccSellId?.id.replace(/\/0/, "").split('_');
+                                this.verifyAccountSellerTogglePro(userVerifyId[0] ?? 0);
                             }
                         }
                     ]
                 }
             ],
             messageAlert: '',
-            msgEmailValidate: ''
+            msgEmailValidate: '',
+            editListSellerModule: {
+                editVendorEng: '',
+                editVendorPhone: '',
+                editVendorEmail: '',
+                editShopName: '',
+                editShopPhone: '',
+                editShopAddr01: '',
+                editShopAddr02: '',
+                editShopCity: '',
+                editShopPostalCode: '',
+                editShopRequestDate: '',
+                editShopApprovedDate: '',
+                editShopLogo: '',
+                editShopBanners: '',
+                editShopSlugURL: ''
+            }
+        }
+    },
+    computed: {
+        currentBannedAcc(banStatus){
+            return banStatus;
         }
     },
     watch: {
@@ -474,9 +731,61 @@ export default{
         });
     },
     methods:{
+        /**Menu Option Toggle Provide of Sellers-Started**/ 
+        bandAccountSellerTogglePro(userId, sellerStatus, shopStatus){
+            try{
+                const banAcc = {
+                    sellerBanStatus: sellerStatus ? "Banned" : "UnBanned",
+                    shopStatus: shopStatus ? "Open" : "Close"
+                }
+                this.sellerServices.banAccSellerByID(banAcc,userId).then((banUserId) => {
+                if (banUserId.data.success == true) {
+                        ElMessage.success('Update User Status Successfully...');
+                    }
+                }).catch((error) => {
+                    ElMessage.error(`Fail Update: ${error.response.data?.message}`);
+                });
+            }catch(error) {
+                ElMessage.error(`Fail Banned Seller: ${error} ...`);
+            }
+        },
+        verifyShopPublic(userId,sellerStatus, shopStatus,shopVerify){
+            try{
+                const verifyShopPublic = {
+                    shopStatus: shopVerify ? "Verify" : "Unverified"
+                }
+                this.sellerServices.verifyShopEnableBySellerID(verifyShopPublic,userId).then((verifyShop) => {
+                    if (verifyShop.data.success == true) {
+                        ElMessage.success('Update User Status Successfully...');
+                    }
+                }).catch((error) => {
+                    ElMessage.error(`Fail Update: ${error.response.data?.message}`);
+                });
+            }catch(error) {
+                ElMessage.error(`Fail Banned Seller: ${error} ...`);
+            }
+        },
+        verifyAccountSellerTogglePro(userId){
+            try{
+                let sellerStatus;
+                const verifyAccountSell = {
+                    userStatusVerify: sellerStatus ? "Active" : "Inactive",
+                }
+                this.sellerServices.verifySellerAccByID(verifyAccountSell,userId).then((verifyAcc) => {
+                if (verifyAcc.data.success == true) {
+                        ElMessage.success('Update User Status Successfully...');
+                    }
+                }).catch((error) => {
+                    ElMessage.error(`Fail verify account seller: ${error.response.data?.message}`);
+                });
+        }catch(error) {
+            ElMessage.error(`Fail verify account Seller: ${error} ...`);
+        }
+        },
         toggleOptionSeller(events){
           this.$refs.menu.toggle(events);
         },
+        /**Menu Option Toggle Provide of Sellers-End**/ 
         initFilters(){
              this.filters = {
                 'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -595,9 +904,9 @@ export default{
            this.errorConfirmPass = '';
            return true;
         },
+        // Save Sellers
         saveSellerCreate() {
-            this.submitted = true;
-            
+            this.submitted = true;       
              const { firstNameSell,
                      lastNameSell, 
                      passwordSeller, 
@@ -657,7 +966,7 @@ export default{
                         shopBanner: this.uploadFileBanner,
                         shopTypeID: 2,
                         shopRequestDate: this.arrSeller.sellerRequestDate,
-                        shopApprovedDate: this.arrSeller.sellerApprovedDate,
+                        shopApprovedDate: this.editListSellerModule.editShopApprovedDate,
                         shopVerify: 'Unverified',
                         shopStatus: 'Close',
                         sellerNameEng: this.arrSeller.firstNameSell + ' ' + this.arrSeller.lastNameSell,
@@ -694,11 +1003,42 @@ export default{
                 console.log(this.arrSeller)
             }
         },
+        // Update Seller
         editSellerData(arrSeller){
-            this.arrSeller = {...arrSeller }
-            this.arrSeller.userId = arrSeller.user_id;
-            this.createSellerDialog = true;
-            this.arrSeller[this.findIndexByAccSellId(this.arrSeller.user_id)] = this.arrSeller;
+            this.editedProductDialog = true;
+            const sellerId = arrSeller ?? 0;
+            this.$nextTick(() => {
+                this.sellerServices.editedSellerAccByID(sellerId).then((moduleId) => {
+                    if (!moduleId) {
+                        ElMessage.error("Empty of Seller...");
+                    }
+                    if (moduleId.data.success == true) {
+                        const {user_phonenumber,user_email} = moduleId.data?.result?.resultStatus.users ?? '';
+                        const {name_eng} = moduleId.data?.result?.resultStatus.seller ?? '';
+                        const {shopAddr01,shopAddr02,shop_city,shop_zipcode} = moduleId.data?.result?.resultStatus.shopLocation ?? '';
+                        const {shop_eng,shop_logo,sh_banner,url_page,request_dated,approved_date} = moduleId.data?.result?.resultStatus.shops ?? '';
+                        this.editListSellerModule.editVendorEng = name_eng?? '';
+                        this.editListSellerModule.editVendorEmail = user_email?? '';
+                        this.editListSellerModule.editVendorPhone = user_phonenumber?? '';
+                        this.editListSellerModule.editShopName = shop_eng?? '';
+                        this.editListSellerModule.editShopPhone = user_phonenumber?? '';
+                        this.editListSellerModule.editShopAddr01 = shopAddr01?? '';
+                        this.editListSellerModule.editShopAddr02 = shopAddr02?? '';
+                        this.editListSellerModule.editShopCity = shop_city?? '';
+                        this.editListSellerModule.editShopPostalCode = shop_zipcode?? '';
+                        this.editListSellerModule.editShopRequestDate = request_dated?? '';
+                        this.editListSellerModule.editShopApprovedDate = approved_date?? '';
+                        this.editListSellerModule.editShopLogo = shop_logo?? '';
+                        this.editListSellerModule.editShopBanners = sh_banner?? '';
+                        this.editListSellerModule.editShopSlugURL = url_page ?? ''
+                        console.log(name_eng)
+                    }else{
+                        return this.editListSellerModule = [];
+                    }
+                }).catch((error) => {
+                    this.errorSellerList = error.response.data;
+                })
+            });
         },
         findIndexByAccSellId(id) {
             let index = -1;

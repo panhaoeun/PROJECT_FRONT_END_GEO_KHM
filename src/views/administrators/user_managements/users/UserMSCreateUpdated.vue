@@ -327,25 +327,20 @@
                                                 ></label
                                             >
                                             <div class="flex flex-column">
-                                                <el-select
-                                                    @change="
-                                                        getPermissionCurrent
-                                                    "
-                                                    v-model="
-                                                        selectUpdateOptValuePermission
-                                                    "
-                                                    filterable
-                                                    placeholder="Select"
-                                                >
-                                                    <el-option
-                                                        selected
-                                                        v-for="item in permissionListDropDownView"
-                                                        :value="item.user_id"
-                                                        :label="
-                                                            item.user_fun_id
-                                                        "
-                                                        :key="item.user_fun_id"
-                                                    ></el-option>
+                                                <el-select 
+                                                    @change="getPermissionCurrent"
+                                                    v-model="selectUpdateOptValuePermission" 
+                                                    filterable  
+                                                    placeholder="Select">
+                                                    <el-option 
+                                                            selected
+                                                            v-for="(permList, index) in permissionListDropDownView"
+                                                            :value="permList?.id ?? 0" 
+                                                            :label="permList?.role_name"
+                                                            :key="index"        
+                                                        >
+                                                        {{ permList?.role_name }}
+                                                    </el-option>
                                                 </el-select>
                                             </div>
                                         </div>
@@ -425,7 +420,6 @@ import { useVuelidate } from "@vuelidate/core";
 import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
 import { ElMessage } from "element-plus";
 // import axios from 'axios';
-
 export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
@@ -475,10 +469,9 @@ export default {
     mounted() {
         // User Arr Vuex
         this.isUserAuthArr = this.$store.state.auth.userArr;
-        this.editUserMSUpdated(this.$route.params.id);
+        console.log(this.$route.params.id)
         //List Permissions
-        this.userMSServices.getListPermissions().then((data) => {
-            console.log(data)
+        this.userMSServices.getListRolesData().then((data) => {
             if (!data) {
                 ElMessage.error("Internal Error...");
             }
@@ -596,6 +589,7 @@ export default {
          * @Updated Users
          * */
         async editUserMSUpdated(id) {
+            console.log(id)
             this.userMSServices
                 .editedUserMSByID(id)
                 .then((userId) => {
@@ -617,6 +611,7 @@ export default {
                                     userResult.user_phonenumber;
                                 this.userMSUpdatedArrFiled.emailMSUser =
                                     userResult.user_email;
+
                             }
                         } catch (error) {
                             ElMessage.error(error);
@@ -652,7 +647,6 @@ export default {
         },
         async handleUserMSSUpdatedSubmit(isFormValidUpdateMS) {
             try {
-                console.log(this.selectUpdateOptValuePermission);
                 this.submitted = true;
                 if (!isFormValidUpdateMS) {
                     if (!this.fileUserMS || this.fileUserMS !== "") {
@@ -670,6 +664,7 @@ export default {
                     this.userMSUpdatedArrFiled.userMSPhoneNum !== "" ||
                     this.userMSUpdatedArrFiled.userMSPassword !== "" ||
                     this.fileUserMS !== ""
+                    || this.selectUpdateOptValuePermission !== ""
                 ) {
                     // Data Response
                     const dataUserMSUpdated = {
@@ -680,11 +675,12 @@ export default {
                         userPassword: this.userMSUpdatedArrFiled.userMSPassword,
                         userType: "Admin",
                         userProfile: this.fileUserMS,
-                        userStatus: "Active",
+                        userRole: this.selectUpdateOptValuePermission ?? 0
                     };
                     this.userMSServices
                         .updateUserMS(this.$route.params.id, dataUserMSUpdated)
                         .then((response) => {
+                            console.log(response.data)
                             if (response.data.success == true) {
                                 ElMessage.success(response.data.message);
                                 // Push Router
