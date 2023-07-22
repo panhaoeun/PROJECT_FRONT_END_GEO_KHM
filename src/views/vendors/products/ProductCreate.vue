@@ -1,5 +1,5 @@
 <template>
-   <div class="layout-content">
+   <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
                 <h2 class="relative text-black text-3xl section section-title:before">Add Product</h2>
@@ -29,8 +29,19 @@
                                     <!-- Name Product -->
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Name (EN) <span class="p-error">*</span></label>
-                                        <InputText id="product_name" placeholder="New Products"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="text-xl"/>
+                                        <InputText id="product_name" placeholder="New Products"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="text-xl border-round-lg"/>
                                          <small v-if="(v$.proNameEn.$invalid && submitted) || v$.proNameEn.$pending.$response" class="p-error text-lg">{{ v$.proNameEn.required.$message.replace('Value', 'Name') }}</small>
+                                    </div>
+                                </div>
+                                <!-- Product Code -->
+                                <div class="col-6 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="name_en" class="text-xl font-semibold">
+                                            Product Code
+                                            <span class="p-error">*</span>
+                                            <span class="pl-2 underline text-blue-600 cursor-pointer disabled" @click="generateProductCode()">Generate Code</span>
+                                        </label>
+                                        <InputText class="p-inputtext p-component text-xl border-round-lg" type="text" v-model="proCode" placeholder="Product Code" />
                                     </div>
                                 </div>
                                 <!-- Product Category -->
@@ -67,17 +78,6 @@
                                                     {{ result.catNameEn }}    
                                             </option>  
                                         </select>
-                                    </div>
-                                </div>
-                                <!-- Product Code -->
-                                <div class="col-6 lg:col-6 field">
-                                    <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">
-                                            Product Code
-                                            <span class="p-error">*</span>
-                                            <span class="pl-2 underline text-blue-600 cursor-pointer disabled" @click="generateProductCode()">Generate Code</span>
-                                        </label>
-                                        <InputText class="p-inputtext p-component text-xl" type="text" v-model="proCode" placeholder="Product Code" />
                                     </div>
                                 </div>
                                 <!-- Measure -->
@@ -126,7 +126,7 @@
                                                 <el-row :gutter="20">
                                                     <el-col :span="12">
                                                         <!-- Button a new spec -->
-                                                        <div class="px-2 py-2 w-5">
+                                                        <div class="px-2 py-2 w-5 md:w-5">
                                                              <Button label="Add new spec"  icon="pi pi-plus" class="font-bold" @click="addNewSpecItem(index)"/>
                                                         </div>
                                                        <!-- Variant Type-->
