@@ -162,7 +162,7 @@ export default {
                             }                
                         },
                         (error) => {
-                            console.log(error)
+                            console.log(process.env.VUE_APP_URL)
                             if(typeof(error.response.data.error.error) !== undefined){
                                 ElMessage.error(error.response.data.message);
                                 ElMessage.error(error.response.data.error.error);
