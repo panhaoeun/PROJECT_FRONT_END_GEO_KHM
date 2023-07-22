@@ -11,13 +11,10 @@ import InnerImageZoom from 'vue-inner-image-zoom';
 import VueSidebarMenu from 'vue-sidebar-menu';
 
 /**
- * Vendor or Adminstrator use type check permissions 
+ * Vendor or Administrator use type check permissions 
  * can access to use modules auth sign 
  * */ 
 import "./permissions";
-
-
-
 /**
  * Plugin Install on projects
  * * */ 
@@ -258,7 +255,7 @@ app.directive("permission", async (el, binding) => {
                 moduleName
             });
             const permissionModule =  store.getters && store.getters['users/permissionModules'];
-            // console.log(permissionModule)
+            console.log(permissionModule)
             if (!resultModuleAcc){
                 ElMessage.error("Permission of Module Not Found...");
             }

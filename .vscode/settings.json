@@ -1,5 +1,8 @@
 {
     "git.ignoreLimitWarning": true,
     "liveServer.settings.port": 5501,
-    "vue.codeActions.enabled": false
+    "vue.codeActions.enabled": false,
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
+    ]
 }

@@ -21,7 +21,7 @@
                                 <DataTable 
                                     :paginator="true"
                                     :value="products"
-                                    class="p-datatable-gridlines text-lg font-semibold"
+                                    class="p-datatable-gridlines text-lg"
                                     :rows="10"
                                     dataKey="id"
                                     :rowHover="true"
