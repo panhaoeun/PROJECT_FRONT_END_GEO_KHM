@@ -36,12 +36,12 @@
 
 <script setup>
     // Library
-    import { ref, computed, onMounted } from 'vue';
+    import { computed, onMounted } from 'vue';
     import { useRoute } from 'vue-router';
     import { useStore } from 'vuex';
 
     // Components
-    import LoaderComponent from '../../../components/loader/LoaderComponent.vue';
+    // import LoaderComponent from '../../../components/loader/LoaderComponent.vue';
     import SidebarComponent from '../../../components/partials/SidebarComponent.vue';
     import HeaderComponent from '../../../components/partials/HeaderComponent.vue';
     import SubHeader from '../../../components/custom/header/SubHeader.vue';
@@ -53,10 +53,10 @@
     const store = useStore()
     const isBanner = computed(() => route.meta.isBanner)
     const bannerStyle = computed(() => store.getters['setting/header_banner'])
-    const isLoader = ref(true)
+    // const isLoader = ref(true)
     onMounted(() => {
-        setTimeout(() => {
-            isLoader.value = false
-        }, 600)
+        // setTimeout(() => {
+        //     isLoader.value = false
+        // }, 600)
     })
 </script>

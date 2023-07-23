@@ -108,7 +108,7 @@ const moduleProductManagementRouters = {
     // redirect: '/vendor/product_managements/index',
     alwaysShow: true,
     meta: {
-        title: 'Product Managements',
+        title: 'proManagement',
         icon: 'admin',
         permissions: ['product_managements_modules'],
         template: 'panel'
