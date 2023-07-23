@@ -23,7 +23,6 @@ function canAccess(roles, permissions, route) {
                 hasRole = roles.some(role => route.meta.roles.includes(role));
             }
             if (route.meta.permissions && route.meta.permissions !== undefined) {
-                console.log(permissions)
                 hasPermission = permissions.some(permission =>route.meta.permissions.includes(permission?.module_alias));
             }
         }   

@@ -143,7 +143,7 @@ export default {
                     this.isLoading = true;
                      setTimeout(() => {
                             this.isLoading = false
-                    }, 1000);
+                    }, 300);
                     this.$store.dispatch("auth/login", data).then(
                         (response) => {
                             //Check validation  
