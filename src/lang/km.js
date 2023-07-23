@@ -1,5 +1,6 @@
 export default {
     route: {
+        proManagement: 'ការគ្រប់គ្រងផលិតផល',
         routeGeneralInfo: 'ព័ត៌មាន​ទូទៅ',
         routeBack: 'ត្រឡប់មកវិញ',
         routeCancel: 'បោះបង់',

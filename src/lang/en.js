@@ -4,6 +4,7 @@ export default {
         routeBack: 'Back',
         routeCancel: 'Cancel',
         routeSave: 'Save',
+        proManagement: 'Products Managements',
         dashboard: 'Dashboard',
         introduction: 'Introduction',
         documentation: 'Documentation',

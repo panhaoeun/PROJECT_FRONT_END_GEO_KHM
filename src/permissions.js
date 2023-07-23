@@ -54,7 +54,7 @@ router.beforeEach(async (to, from, next) => {
                     } catch (error) {
                         // remove token and go to login page to re-login
                         await store.dispatch('users/resetToken');
-                        ElMessage.error(error || 'Has Error');
+                        ElMessage.error(error || 'Can not Access Module- Has Error');
                         next(`/auth/login`);
                         NProgress.done();
                     }
