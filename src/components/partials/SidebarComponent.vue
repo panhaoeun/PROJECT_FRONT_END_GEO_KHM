@@ -7,12 +7,11 @@
                 <div v-if="hasOneShowingChild(routes.children, routes) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)">
                     <side-menu :title="routes.meta.title" :static-item="true"></side-menu>  
                 </div>
-                {{generateTitle}}
+                {{$t('route.' + )}}
 
                 <!-- Visible Children -->
                 <div v-for="child in routes.children" :key="child">
                     <div v-if="!child.hidden">
-                        {{  }}
                         <side-menu  isTag="router-link" :title="child?.meta.title" icon="circle" :icon-size="10" icon-type="solid" miniTitle="CAT" :route="{ to: `${child.name}` }"></side-menu>
                     </div>
                 </div>
@@ -25,7 +24,7 @@
 
 <!-- Script of JS  -->
 <script setup>
-import {generateTitle} from "../../utils/i18n";
+
 import DefaultSidebar from '../../components/custom/sidebar/DefaultSidebar';
 import SideMenu from '../../components/custom/nav/SideMenu.vue';
 import store from "../../store";
@@ -34,7 +33,6 @@ import { useRoute } from 'vue-router'
 const currentRoute = ref('');
 const route = useRoute();
 const onlyOneChild = ref(null);
-
 const toggle = (route) => {
     if (route === currentRoute.value && route.includes('.')) {
         const menu = currentRoute.value.split('.')

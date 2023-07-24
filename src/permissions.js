@@ -39,7 +39,7 @@ router.beforeEach(async (to, from, next) => {
                         const accessRoutes = await store.dispatch('users/generateRoutes', {roles: usersRoles,permissions: permissionModules});
                         // const resRoute = [];
                         accessRoutes.forEach(route => {
-                            console.log(route)
+                            // console.log(route)
                             router.addRoute({
                                 name: route?.name,
                                 meta: route?.meta,
