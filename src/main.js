@@ -256,7 +256,7 @@ app.directive("permission", async (el, binding) => {
                 moduleName
             });
             const permissionModule =  store.getters && store.getters['users/permissionModules'];
-            console.log(permissionModule)
+            // console.log(permissionModule)
             if (!resultModuleAcc){
                 ElMessage.error("Permission of Module Not Found...");
             }
