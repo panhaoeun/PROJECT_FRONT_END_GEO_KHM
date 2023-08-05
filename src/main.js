@@ -9,8 +9,6 @@ import App from './App.vue'
 import "./assets/front-end/app-front-end.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
 import VueSidebarMenu from 'vue-sidebar-menu';
-
-console.log(process.env.VUE_APP_URL)
 /**
  * Vendor or Administrator use type check permissions 
  * can access to use modules auth sign 

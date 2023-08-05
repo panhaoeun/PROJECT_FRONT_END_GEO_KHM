@@ -25,8 +25,21 @@
                                 <!-- Header -->
                                 <template #header>
                                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                                        <!-- Filter Date Order -->
                                         <h4 class="m-0">
-                                            
+                                            <div class="flex flex-wrap gap-3 p-fluid">
+                                                <div class="flex-auto text-sm p-float-label">
+                                                    <label for="startDateFilter"> Start Date </label>
+                                                    <Calendar id="startDateFilter" v-model="orderListStartFilter"  inputId="startDateOrder" showIcon showTime hourFormat="12" />
+                                                </div>
+                                                <div class="flex-auto text-sm p-float-label">
+                                                    <label for="endDateFilter"> End Date </label>
+                                                    <Calendar id="endDateFilter" v-model="orderListEndFilter" inputId="endDateOrder" showIcon showTime hourFormat="24" />
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <Button icon="pi pi-search" class="btn btn-primary h-3rem justify-content-center flex w-10rem pl-3" label="Show Data" />
+                                                </div>
+                                            </div>
                                         </h4>
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />
@@ -35,9 +48,9 @@
                                     </div>
                                 </template>
                                 <!-- Empty Users -->
-                                <template #empty> No Users found... </template>
+                                <template #empty> No Order found... </template>
                                 <!-- Loading Users -->
-                                <template #loading> Loading Users data. Please wait... </template>
+                                <template #loading> Loading Order data. Please wait... </template>
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="usersListArr && usersListArr.length > 0 && usersListArr != ''">
                                     <!-- Columns -->
@@ -45,18 +58,6 @@
                                     <Column field="user_email" header="Customer Info" sortable style="min-width:20rem"></Column>
                                     <Column field="user_phonenumber" header="Total Amount" sortable style="min-width:20rem"></Column>
                                     <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column>
-                                    <Column header="Status">
-                                        <template #body="slotProps">
-                                            <Tag :value="slotProps?.data.status" />
-                                        </template>
-                                    </Column>
-                                    <Column field="category" header="Option Status" sortable style="min-width:10rem">
-                                        <template #body>
-                                            <div class="font-bold">
-                                                <el-switch v-model="statusUserSwitch" />
-                                            </div>
-                                        </template>
-                                    </Column>
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
@@ -107,6 +108,8 @@ export default {
             product: '',
             selectedRolesList: '',
             statusUserSwitch: false,
+            orderListStartFilter: null,
+            orderListEndFilter: null,
             filters: {
                 'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
             }
@@ -118,9 +121,8 @@ export default {
     mounted() {
         const cusMSServices = new CustomerOrderMSServices();
         cusMSServices.getViewCustomerOrder().then((data) => {
-            console.log(data)
             if (!data) {
-                ElMessage.error("Internal Error...");
+               this.usersListArr = [];
             }
             this.usersListArr = data;
         });

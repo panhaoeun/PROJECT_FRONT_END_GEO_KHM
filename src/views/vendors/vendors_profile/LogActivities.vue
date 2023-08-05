@@ -9,49 +9,7 @@
 
         <b-card-body>
             <div class="new-user-info">
-                <form method="PUT" enctype="multipart/form-data">
-                    <b-row>
-                        <!-- Validation -->
-                        <Message severity="error" v-for="(errorArray, index) in notificationMGUserInfoUpdated" :key="index">
-                            {{ errorArray }} 
-                       </Message>
-                        <!-- Full name -->
-                        <b-col md="6" class="form-group">
-                            <label for="name_en" class="text-sm">Full Name<span class="p-error">*</span></label>
-                            <InputText id="product_name" placeholder="Full Name" type="text" class="py-3 border-round-lg text-sm"
-                                        v-model="v$.currentFullName.$model"
-                                        :class="{ 'p-invalid p-error': v$.currentFullName.$invalid && submitted }" />
-                                    <small
-                                        v-if="(v$.currentFullName.$invalid && submitted) || v$.currentFullName.$pending.$response"
-                                        class="p-error">{{ v$.currentFullName.required.$message.replace('Value',
-                                            'Full Name') || v$.currentFullName.$params.min }}</small>
-                        </b-col>
-                        <!-- Phone number -->
-                        <b-col md="6" class="form-group">
-                            <label for="name_en" class="text-sm">Phone Number<span class="p-error">*</span></label>
-                            <InputText id="product_name" placeholder="Phone Number" type="text" class="py-3 border-round-lg text-sm"
-                                    v-model="v$.currentPhoneNum.$model"
-                                    :class="{ 'p-invalid p-error': v$.currentPhoneNum.$invalid && submitted }" />
-                                <small
-                                    v-if="(v$.currentPhoneNum.$invalid && submitted) || v$.currentPhoneNum.$pending.$response"
-                                    class="p-error">{{ v$.currentPhoneNum.required.$message.replace('Value',
-                                        'Phone Number') || v$.currentPhoneNum.$params.min }}</small>
-                        </b-col>
-                        <!-- Email Address -->
-                        <b-col md="6" class="form-group">
-                            <label for="name_en" class="text-sm">Email</label>
-                            <InputText id="product_name" placeholder="Email" type="text" class="py-3 border-round-lg text-sm"
-                                    v-model="v$.currentEmailAddr.$model"
-                                    :class="{ 'p-invalid p-error': v$.currentEmailAddr.$invalid && submitted }" />
-                                <small
-                                    v-if="(v$.currentEmailAddr.$invalid && submitted) || v$.currentEmailAddr.$pending.$response"
-                                    class="p-error">{{ v$.currentEmailAddr.required.$message.replace('Value',
-                                        'Email Address') || v$.currentEmailAddr.$params.min }}</small>
-                        </b-col>
-                    </b-row>
-                    <hr />
-                    <button type="submit" @click.prevent="handleSubmitUpdateCurrentUser(!v$.$invalid)" class="btn btn-primary">Save Change</button>
-                </form>
+                <p>Logs</p>
             </div>
         </b-card-body>
     </b-card>

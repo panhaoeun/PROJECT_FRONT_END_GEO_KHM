@@ -11,11 +11,11 @@ module.exports = {
         changeOrigin: true,
       },
     },
-     client: {
+    client: {
           overlay: {
               runtimeErrors: false,
           },
-      },
+    },
   },
   configureWebpack: {
     optimization: {

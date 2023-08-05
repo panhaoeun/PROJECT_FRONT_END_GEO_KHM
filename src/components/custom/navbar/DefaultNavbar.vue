@@ -86,7 +86,7 @@
               </div>
             </a>
             <ul v-if="user" class="dropdown-menu dropdown-menu-end px-2 py-2" aria-labelledby="navbarDropdown">
-                  <!-- <li><router-link class="dropdown-item" :to="{ name: 'defaults.ven-profile' }">Profile</router-link></li> -->
+                  <li><router-link class="dropdown-item" :to="{path: `/vendor-profile/vendor-profile/${user[0]?.user_id ?? ''}`, currentUserId: user[0]?.user_id ?? ''}">Profile</router-link></li>
                   <li><hr class="dropdown-divider" /></li>
                   <li><span class="dropdown-item cursor-pointer" @click="authVenAdLogout">Logout</span></li>
             </ul>
@@ -175,6 +175,7 @@ function authVenAdLogout() {
             localStorage.clear('userId');
             setAuthUser(null);
             router.push("/auth/login");
+            window.location.reload();
             /**
              * Delete Cookies
              * */

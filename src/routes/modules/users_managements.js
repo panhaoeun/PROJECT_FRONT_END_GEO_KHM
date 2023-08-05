@@ -8,12 +8,23 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/list/admin/seller_lists",
         name: prefix + '.customer_list',
         meta: {
-            title: "Customers",
+            title: "customerMS",
             requiresAuth: true,
             permissions: ['customers_module']
         },
         component: () => import("../../views/vendors/customers/ListCustomers.vue"),
     },
+    {
+         path: "/vendor/user/customer_info/list/admin/customer_view_details/:customerId",
+         name: prefix + '.customer_view_details',
+         hidden: true,
+         meta: {
+             title: "customerMS",
+             requiresAuth: true,
+             permissions: ['customers_module']
+         },
+         component: () => import("../../views/vendors/customers/ViewDetailCustomers.vue"),
+     },
     /*
       @Sellers Managements
     */
@@ -21,7 +32,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/list/admin/sellers/list",
         name: prefix + '.seller-list',
         meta: {
-            title: "Sellers",
+            title: "sellerMS",
             requiresAuth: true,
             permissions: ['sellers_module']
         },
@@ -34,7 +45,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/list/crete-user-auth/ui-user-list",
         name: prefix + '.user_auth_crud_list',
         meta: {
-            title: "Users",
+            title: "usersMS",
             requiresAuth: true,
             permissions: ['users_modules']
         },
@@ -44,7 +55,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/list/crete-user-auth/ui-user-create",
         name: prefix + '.user_auth_crud_user_create',
         meta: {
-            title: "Users",
+            title: "usersMS",
             requiresAuth: true,
             permissions: ['users_modules']
         },
@@ -55,7 +66,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/list/crete-user-auth/ui-user-edit/:id",
         name: prefix + '.user_auth_crud_user_edit',
         meta: {
-            title: "Users",
+            title: "usersMS",
             requiresAuth: true,
             permissions: ['users_modules']
         },
@@ -69,7 +80,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/permission/list/crete-user-auth/ui-permission-list",
         name: prefix + '.user_auth_crud_permission',
         meta: {
-            title: "Permissions",
+            title: "permissionMS",
             requiresAuth: true
         },
         hidden: true,
@@ -79,7 +90,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/permission/list/crete-user-auth/ui-permission-edit-updated/:id/:funId",
         name: prefix + '.user_auth_crud_permission_add',
         meta: {
-            title: "Permission",
+            title: "permissionMS",
             requiresAuth: true,
             permissions: ['permissions_module']
         },
@@ -90,7 +101,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         path: "/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module",
         name: prefix + '.user-auth_crud_permission_auth_role_module',
         meta: {
-            title: "Permissions",
+            title: "permissionMS",
             requiresAuth: true,
             icon: 'role',
             permissions: ['permissions_module']
@@ -101,10 +112,10 @@ const defaultChildRoutesUsersMS = (prefix) => [
 const moduleUsersManagementRouters = {
     path: '/vendor/users_managements',
     components: DefaultLayoutVendor,
-    name: 'Users Management',
+    name: 'userMSModule',
     alwaysShow: true,
     meta: {
-        title: 'Users Management',
+        title: 'userMSModule',
         icon: 'admin',
         // permissions: ['users_management_module'],
         template: 'panel'

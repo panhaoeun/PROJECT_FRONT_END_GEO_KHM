@@ -2,11 +2,11 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-            <h2 class="relative text-black text-3xl section section-title:before">Add Category</h2>
-            <el-button type="info" size="large" @click.prevent="$router.push('/vendor/products/category/list')">
+            <h2 class="relative text-black text-xl section section-title:before">Add Category</h2>
+            <el-button class="btn btn-primary"  type="info" size="large" @click.prevent="$router.push('/vendor/products/category/list')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
-                    <span class="pl-2">BACK</span>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
                 </div>
             </el-button>
         </div>
@@ -30,8 +30,8 @@
                                     <div class="col-12 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en">Category Name (Eng)<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3 border-round-lg"
+                                            <label for="name_en" class="text-sm">Category Name (Eng)<span class="p-error">*</span></label>
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3 border-round-lg text-sm"
                                                 v-model="v$.proCategoryNameEng.$model"
                                                 :class="{ 'p-invalid p-error': v$.proCategoryNameEng.$invalid && submitted }" />
                                             <small
@@ -48,7 +48,7 @@
                                     <div class="col-12 field">
                                         <!--Category Logo -->
                                         <div class="field">
-                                            <label for="name_en">Category Logo <span class="p-error">*</span> </label>
+                                            <label for="name_en" class="text-sm">Category Logo <span class="p-error">*</span> </label>
                                             <!-- Upload Files -->
                                             <el-upload action="#" 
                                                     list-type="picture-card" 
@@ -79,8 +79,8 @@
                                     <div class="col-12 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="proKh">Category Name (KH) <span class="p-error">*</span> </label>
-                                            <InputText id="proKh" placeholder="Name" type="text" class="py-3 border-round-lg"
+                                            <label for="proKh" class="text-sm">Category Name (KH) <span class="p-error">*</span> </label>
+                                            <InputText id="proKh" placeholder="Name" type="text" class="py-3 border-round-lg text-sm"
                                                 v-model="proCategoryNameKh" />
                                         </div>
                                     </div>

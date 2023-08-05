@@ -2,8 +2,8 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-            <h2 class="relative text-black text-3xl section section-title:before">{{$t("users.addUsers")}}</h2>
-            <el-button type="info" size="large" @click.prevent="$router.push('/vendor/user/list/crete-user-auth/ui-user-list')">
+            <h2 class="relative text-black text-xl section section-title:before">{{$t("users.addUsers")}}</h2>
+            <el-button class="btn btn-primary text-sm" type="info" size="default" @click.prevent="$router.push('/vendor/user/list/crete-user-auth/ui-user-list')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
                     <span class="pl-2">{{$t("route.routeBack")}}</span>
@@ -31,9 +31,9 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Khmer -->
                                         <div class="field">
-                                            <label for="name_en">Full Name in Khmer<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Full Name in Khmer<span class="p-error">*</span></label>
                                             <InputText id="userMSNameKh" placeholder="English Name" type="text"
-                                                class="py-3 border-round-lg" v-model="v$.userMSNameKh.$model"
+                                                class="py-3 border-round-lg text-sm" v-model="v$.userMSNameKh.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSNameKh.$invalid && submitted }" />
                                             <small
                                                 v-if="(v$.userMSNameKh.$invalid && submitted) || v$.userMSNameKh.$pending.$response"
@@ -46,9 +46,9 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en">Full Name in Latin<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Full Name in Latin<span class="p-error">*</span></label>
                                              <InputText id="product_name" placeholder="Khmer Name" type="text"
-                                                class="py-3 border-round-lg" v-model="v$.userMSNameEng.$model"
+                                                class="py-3 border-round-lg text-sm" v-model="v$.userMSNameEng.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSNameEng.$invalid && submitted }" />
                                             <small
                                                 v-if="(v$.userMSNameEng.$invalid && submitted) || v$.userMSNameEng.$pending.$response"
@@ -60,11 +60,11 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en">Email</label>
+                                            <label for="name_en" class="text-sm">Email</label>
                                             <InputText id="email_add"  
                                                placeholder="Email"
                                                type="email"
-                                               class="py-3 border-round-lg" v-model="emailMSUser"
+                                               class="py-3 border-round-lg text-sm" v-model="emailMSUser"
                                             />
                                         </div>
                                     </div>
@@ -72,13 +72,13 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en">Phone Number<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Phone Number<span class="p-error">*</span></label>
                                             <InputText 
                                                 id="product_name" 
                                                 placeholder="Phone Number" 
                                                 type="text"
                                                 @keypress="inputOnlyNumber"
-                                                class="py-3 border-round-lg" v-model="v$.userMSPhoneNum.$model"
+                                                class="py-3 border-round-lg text-sm" v-model="v$.userMSPhoneNum.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSPhoneNum.$invalid && submitted }" />
                                             <small
                                                 v-if="(v$.userMSPhoneNum.$invalid && submitted) || v$.userMSPhoneNum.$pending.$response"
@@ -91,12 +91,13 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Password -->
                                         <div class="field">
-                                            <label for="name_en">Password<span class="p-error">*</span></label>
-                                            <InputText id="userMSPassword" 
+                                            <label for="name_en" class="text-sm">Password<span class="p-error">*</span></label>
+                                            <Password id="userMSPassword" 
                                                 placeholder="Password" 
                                                 type="text"
+                                                toggleMask
                                                 ref="MSPasswordRef"
-                                                class="py-3 border-round-lg" v-model="v$.userMSPassword.$model"
+                                                class="border-round-lg text-sm" v-model="v$.userMSPassword.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSPassword.$invalid && submitted }" />
                                             <small
                                                 v-if="(v$.userMSPassword.$invalid && submitted) || v$.userMSPassword.$pending.$response"
@@ -108,11 +109,11 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Confirm Password -->
                                         <div class="field">
-                                            <label for="confirmPassword">Confirm Password<span class="p-error">*</span></label>
-                                            <InputText id="confirm_password" placeholder="Confirm Password"
+                                            <label for="confirmPassword" class="text-sm">Confirm Password<span class="p-error">*</span></label>
+                                            <Password id="confirm_password" toggleMask placeholder="Confirm Password"
                                                 type="text"
                                                 @input="validationConfirmPass"
-                                                class="py-3 border-round-lg"
+                                                class="border-round-lg text-sm"
                                                 v-model="confirmPassword"
                                                 :class="{'p-invalid p-error' : v$.confirmPassword.$invalid && submitted }"
                                             />
@@ -132,11 +133,11 @@
                                     <!-- Date of Birth -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="name_en">Date Of Birth<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Date Of Birth<span class="p-error">*</span></label>
                                             <Calendar 
                                                 placeholder="Date of birth" 
                                                 type="text"
-                                                class="py-2 border-round-lg" v-model="v$.userDateOfBirth.$model"
+                                                class="border-round-lg text-sm" v-model="v$.userDateOfBirth.$model"
                                                 :class="{ 'p-invalid p-error': v$.userDateOfBirth.$invalid && submitted }" />
                                             <small
                                                 v-if="(v$.userDateOfBirth.$invalid && submitted) || v$.userDateOfBirth.$pending.$response"
@@ -148,11 +149,11 @@
                                     <!-- Gender -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="roles">Gender<span class="p-error">*</span></label>
+                                            <label for="roles" class="text-sm">Gender<span class="p-error">*</span></label>
                                            <div class="flex flex-column">
                                                 <Dropdown
                                                  v-model="selectedUserGender"
-                                                class="py-1 border-round-lg"
+                                                class="border-round-lg text-sm"
                                                 :options="userGender" 
                                                 optionLabel="name" placeholder="Select a Gender" />
                                            </div>
@@ -161,73 +162,80 @@
                                     <!--=========User Address===========-->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="name_en">Address 01<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Address 01<span class="p-error">*</span></label>
                                             <InputText 
                                                 id="userAddress01" 
                                                 placeholder="Address 01" 
                                                 type="text"
-                                                class="py-3 border-round-lg" v-model="userAddress01" />
+                                                class="py-3 border-round-lg text-sm" v-model="userAddress01" />
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="name_en">Address 02<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Address 02<span class="p-error">*</span></label>
                                             <InputText 
                                                 id="userAddress02" 
                                                 placeholder="Address 02" 
                                                 type="text"
-                                                class="py-3 border-round-lg" v-model="userAddress02" />
+                                                class="py-3 border-round-lg text-sm" v-model="userAddress02" />
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="name_en">City<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">City<span class="p-error">*</span></label>
                                             <InputText 
                                                 id="userAddrCity" 
                                                 placeholder="City" 
                                                 type="text"
-                                                class="py-3 border-round-lg" v-model="userAddrCity" />
+                                                class="py-3 border-round-lg text-sm" v-model="userAddrCity" />
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="name_en">Zip Code<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Zip Code<span class="p-error">*</span></label>
                                             <InputText 
                                                 id="userAddrZipCode" 
                                                 placeholder="Zip Code" 
                                                 type="text"
-                                                class="py-3 border-round-lg" v-model="userAddrZipCode" />
+                                                class="py-3 border-round-lg text-sm" v-model="userAddrZipCode" />
                                         </div>
                                     </div>
                                 <!--=========User Address===========-->
                                     <!--User Permissions -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="roles">Roles<span class="p-error">*</span></label>
-                                           <div class="flex flex-column">
-                                            <el-select 
-                                                @change="getPermissionCurrent"
-                                                v-model="selectOptValuePermission" 
-                                                filterable  
-                                                placeholder="Select">
-                                                <el-option 
-                                                        selected
-                                                        v-for="(permList, index) in permissionListDropDownView"
-                                                        :value="permList?.id ?? 0" 
-                                                        :label="permList?.role_name"
-                                                        :key="index"        
-                                                    >
-                                                    {{ permList?.role_name }}
-                                                </el-option>
-                                            </el-select>
-                                           </div>
+                                            <label for="roles" class="text-sm">Roles<span class="p-error">*</span></label>
+                                            <Dropdown 
+                                                    @change="getPermissionCurrent"
+                                                    :options="permissionListDropDownView" 
+                                                    filter  
+                                                    v-model="selectOptValuePermission" 
+                                                    inputId="id"
+                                                    optionLabel="role_name" 
+                                                    placeholder="Select a Categories" 
+                                                    aria-describedby="dd-error"
+                                                    class="w-full border-round-lg text-sm">
+                                                    <template #value="slotProps">
+                                                        <div v-if="slotProps.value" class="flex align-items-center">
+                                                            <div>{{ slotProps.value?.role_name }}</div>
+                                                        </div>
+                                                        <span v-else>
+                                                            {{ slotProps.placeholder }}
+                                                        </span>
+                                                    </template>
+                                                    <template #option="slotProps">
+                                                        <div class="flex align-items-center">
+                                                            <div>{{ slotProps.option?.role_name }}</div>
+                                                        </div>
+                                                    </template>
+                                            </Dropdown>
                                         </div>
                                     </div>
                                     <!-- Upload Profile -->
                                     <div class="col-12 field">
                                         <!--Category Logo -->
                                         <div class="field">
-                                            <label for="name_en">Profile Image<span class="p-error">*</span> </label>
+                                            <label for="name_en" class="text-sm">Profile Image<span class="p-error">*</span> </label>
                                             <!-- Upload Files -->
                                             <el-upload action="#" list-type="picture-card"
                                                 :on-preview="handlePictureCardPreview"
@@ -351,7 +359,6 @@ export default {
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
         //List Permissions
         this.userMSServices.getListRolesData().then((data) => {
-            console.log(data)
             if (!data) {
                 ElMessage.error("Internal Error...");
             }
@@ -391,24 +398,22 @@ export default {
             Get Permissions
         */
         getPermissionCurrent(permissionID){
-            console.log(permissionID)
-              if (!permissionID) {
-                ElMessage.error('Please select permissions...');
+            if (!Array.isArray(permissionID) || !permissionID.length) {
                 this.permissionList = {};
             }
             try {
-                // const catID = this.selectOptValueCat;
-                this.userMSServices.editedPermMSByID(this.selectOptValuePermission).then((perMID) => {
+                this.userMSServices.editedPermMSByID(permissionID.value?.id).then((perMID) => {
                     if (!perMID) {
-                        ElMessage.error("Internal Error...");
+                        this.permissionList = Array.isArray() ?? [];
                     }
-                    this.permissionList = perMID;
+                    this.permissionList =  Array.isArray(perMID) ? perMID.slice() : [];
                 }).catch((err) => {
-                    console.log(err)
-                    ElMessage.error(err);
+                    ElMessage.error(err.message);
+                    this.permissionList = {};
                 });
             } catch (error) {
                 ElMessage.error(error);
+                this.permissionList = [];
             }
         },
         /*
@@ -493,7 +498,7 @@ export default {
                 ) {
                     // Data Response
                     const dataRes = {
-                        userRole: this.selectOptValuePermission ?? 0,
+                        userRole: this.selectOptValuePermission?.id ?? 0,
                         userNameEng: this.userMSNameEng,
                         userNameKh: this.userMSNameKh,
                         userEmail: this.emailMSUser,
