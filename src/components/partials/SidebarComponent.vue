@@ -1,7 +1,7 @@
 <template>
     <!-- Sidebar Component Start Here-->
     <default-sidebar>
-         <!-- <h1 v-if="can('view', 'Dashboards')">Can access</h1> -->
+         <h1 v-if="can('view', 'Dashboards')">Can access</h1>
         
     </default-sidebar>  
 <!-- Sidebar Component End Here-->
@@ -51,7 +51,7 @@ const hasOneShowingChild = (children,parent) => {
             return true;
         }
    });
-   console.log(hasOneShowingChild)
+
     // When there is only one child router, the child router is displayed by default
     if (showingChildren.length >0) {
         return true;
@@ -64,4 +64,5 @@ const hasOneShowingChild = (children,parent) => {
    return false;
 }
 
+   console.log(hasOneShowingChild)
 </script>
