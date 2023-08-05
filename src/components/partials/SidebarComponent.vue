@@ -1,22 +1,8 @@
 <template>
     <!-- Sidebar Component Start Here-->
     <default-sidebar>
-        {{ "Hello World" }}
-         <h1 v-if="can('view', 'Dashboards')">Can access</h1>
-        <!-- <ul class="navbar-nav iq-main-menu text-sm" id="sidebar-menu" v-for="routes in routesModules" :key="routes.path">
-            <div v-if="!routes.hidden && routes.children">
-                <div v-if="hasOneShowingChild(routes.children, routes) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)">
-                    <side-menu :title="$te('route.' + routes?.meta.title) ? $t('route.'+routes?.meta.title) : $t('route.'+routes?.meta.title)" :static-item="true"></side-menu>  
-                </div>
-                <!-- Visible Children -->
-                <div v-for="child in routes.children" :key="child">
-                    <div v-if="!child.hidden">
-                        <side-menu  isTag="router-link" class="text-sm" :title="$te('route.' + child?.meta.title) ? $t('route.'+child?.meta.title) : $t('route.'+child?.meta.title)" icon="circle" :icon-size="10" icon-type="solid" miniTitle="CAT" :route="{ to: `${child.name}` }"></side-menu>
-                    </div>
-                </div>
-            
-            </div>
-        </ul> -->
+         <!-- <h1 v-if="can('view', 'Dashboards')">Can access</h1> -->
+        
     </default-sidebar>  
 <!-- Sidebar Component End Here-->
 </template>
