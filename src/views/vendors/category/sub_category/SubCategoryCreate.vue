@@ -2,11 +2,11 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-            <h2 class="relative text-black text-3xl section section-title:before">Add Sub Category</h2>
-            <el-button type="info" size="large" @click.prevent="$router.push('/vendor/products/sub-category/list')">
-                <div class="flex justify-between pl-2">
+            <h2 class="relative text-black text-xl section section-title:before">Add Sub Category</h2>
+            <el-button class="btn btn-primary" @click.prevent="$router.push('/vendor/products/sub-category/list')">
+                <div class="flex justify-between pl-2 ">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
-                    <span class="pl-2">BACK</span>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
                 </div>
             </el-button>
         </div>
@@ -27,24 +27,27 @@
                             <div class="col-12 lg:col-12">
                                 <!-- Form Layouts -->
                                 <div class="grid formgrid">
-                                    <div class="col-12 field">
-                                        <div class="col-6 field">
-                                            <label for="name_en">Category<span class="p-error">*</span></label>
-                                          {{ this.$route.params.superCatID }}
-                                        </div>
-                                        <!-- Name Sub Category -->
-                                        <div class="field col-6">
-                                            <label for="name_en">Sub Category Name (Eng)<span class="p-error">*</span></label>
-                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3  border-round-lg"
-                                                v-model="v$.proSubCategoryNameEng.$model"
-                                                :class="{ 'p-invalid p-error': v$.proSubCategoryNameEng.$invalid && submitted }" />
-                                            <small
-                                                v-if="(v$.proSubCategoryNameEng.$invalid && submitted) || v$.proSubCategoryNameEng.$pending.$response"
-                                                class="p-error">{{ v$.proSubCategoryNameEng.required.$message.replace('Value',
-                                                    'Name') || v$.proSubCategoryNameEng.$params.min }}</small>   
+                                     <div class="col-6 field">
+                                        <label for="name_en">
+                                            Category
+                                            <span class="p-error">*</span>
+                                        </label>
+                                        <div class="border border-round-lg" style="padding: 11px !important;">
+                                            {{ getCurrentCategorySelect }} {{ selectedCategories?.catNameEn }}
                                         </div>
                                     </div>
-                                   
+                                    <!-- Name Sub Category -->
+                                    <div class="col-6 field">
+                                        <label for="name_en">Sub Category Name (Eng)<span class="p-error">*</span></label>
+                                        <InputText id="product_name" placeholder="Name" type="text" class="py-3  border-round-lg"
+                                            v-model="v$.proSubCategoryNameEng.$model"
+                                            :class="{ 'p-invalid p-error': v$.proSubCategoryNameEng.$invalid && submitted }" />
+                                        <small
+                                            v-if="(v$.proSubCategoryNameEng.$invalid && submitted) || v$.proSubCategoryNameEng.$pending.$response"
+                                            class="p-error">{{ v$.proSubCategoryNameEng.required.$message.replace('Value','Name') 
+                                            || v$.proSubCategoryNameEng.$params.min }}
+                                        </small>   
+                                    </div>                                   
                                     <!-- Editor -->
                                     <div class="col-12 field">
                                         <Editor v-model="proSubCategoryDesEng" placeholder="Descriptions *"
@@ -135,28 +138,23 @@ export default {
                 required,
                 minLength: minLength(3)
             },
-            selectedCategories: {
-                required,
-                minLength: minLength(3)
-            }
+        }
+    },
+    computed: {
+        getCurrentCategorySelect(){
+            const listCategories = this.getCurrentListCatView();
+            return listCategories;
         }
     },
     methods: {
-        onLazyLoad() {
-            //  const { first, last } = event;
-            const _items = [...this.catSubListDropDown];
-            for (let i = 0; i < this.catSubListDropDown.length; i++) {
-                console.log(_items[i].catID)
-                _items[i] = { label: _items[i], value: i };
-            }
-            this.catSubListDropDown = _items;
-            console.log(this.catSubListDropDown)
-            this.loading = false;
-        },
-        async getCategoriesSelect(){
-            this.proSubCategoryService.editedProCategory(this.$route.params.superCatID).then((data) => {
-                this.catSubListDropDown = data;
-                console.log(data)
+        getCurrentListCatView(){
+            this.proSubCategoryService.getProCategory().then((currentCat) => {
+                    if (currentCat === undefined || currentCat === null) {
+                        return { role_name: '', childrenModule: [] };
+                    }
+                const currentNameCat =  currentCat.find(cat =>cat?.catID === parseInt(this.$route.params.superCatID));
+                this.selectedCategories = currentNameCat ?? [];
+                return currentNameCat;
             });
         },
         async handleSubCategorySubmit(isFormValidCategorySub) {
@@ -164,7 +162,7 @@ export default {
                 this.submitted = true;
                 this.isProcessingSubmit = false;
                 if (!isFormValidCategorySub) {
-                    ElMessage.error('Name is required!');
+                    ElMessage.error('Validations is required!');
                     return;
                 }
                 if (!this.proSubCategoryNameEng != "" || this.proSubCategoryNameEng !== null) {
@@ -183,8 +181,7 @@ export default {
                         }
                     })
                     .catch(error => {
-                        console.log(error)
-                        ElMessage.error(error);
+                        ElMessage.error(error.message);
                         this.notifmsg = error.response.data.error.error;
                         return false;
                     });

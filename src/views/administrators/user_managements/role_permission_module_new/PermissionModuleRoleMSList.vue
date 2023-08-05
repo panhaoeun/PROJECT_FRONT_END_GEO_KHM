@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
-    <div class="layout-content">
+    <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h2 class="relative text-black text-3xl section section-title:before">
+            <h2 class="relative text-black text-xl section section-title:before">
                 {{ $t('permission.listPermission') }}
             </h2>
         </div>
@@ -13,8 +13,12 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                            <DataTable ref="dt" :value="permissionsRoleModuleListArr" v-model:selection="selectedCategoriesList"
-                                dataKey="id" :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
+                            <DataTable 
+                                ref="dt" 
+                                :value="permissionsRoleModuleListArr" 
+                                v-model:selection="selectedCategoriesList"
+                                dataKey="id" :paginator="true" :rows="10" :filters="filters" 
+                                class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} permissions">
@@ -90,9 +94,6 @@
                                                 </el-table-column>
                                                 <el-table-column prop="functionView" label="View">
                                                     <template #default="scope">
-                                                        <!-- {{ scope.row.rolePermId }} -->
-                                                        <!-- {{ scope.row.functionView  }} -->
-
                                                             <input
                                                                 class="form-check-input cursor-pointer"
                                                                 type="checkbox"
@@ -212,11 +213,11 @@ export default {
     },
     computed: {
         currentRole(){
-            const found = this.permissionsRoleModuleListArr.find(module => module?.id === this.currentRoleId);
-            if (found === undefined) {
+            const permissionModule = this.permissionsRoleModuleListArr.find(module => module?.id === this.currentRoleId);
+            if (permissionModule === undefined) {
                 return { role_name: '', childrenModule: [] };
             }
-            return found;
+            return permissionModule;
         },
         roleMenuPermissions(){
             return this.routesModule;
@@ -347,7 +348,7 @@ export default {
                         const tblClosetTrModule = obj.target.closest("tr") ?? '';
                         // Get Element Tag name by obj
                         const tdElTagChidTrModulePerm = tblClosetTrModule.getElementsByTagName("td");
-                        if(tdElTagChidTrModulePerm !== undefined){
+                            if(tdElTagChidTrModulePerm !== undefined){
                             // Child Module
                             const childModulePermView = tdElTagChidTrModulePerm[2].childNodes[0];
                             const childModulePermEdit = tdElTagChidTrModulePerm[3].childNodes[0];
@@ -358,7 +359,6 @@ export default {
                             const childModuleEditId=   childModulePermEdit.children[0].value ?1 : 0;
                             const childModuleCreateId= childModulePermCreate.children[0].value ? 1 : 0;
                             const childModuleRemoveId= childModulePermRemove.children[0].value ? 1 : 0;
-                            console.log(childModuleViewId)
                             // Data Permissions Modules
                             const modulePermDetail = {
                                 rolePermId: parseInt(rolePermId),

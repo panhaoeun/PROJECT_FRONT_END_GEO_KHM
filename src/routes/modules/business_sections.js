@@ -8,7 +8,7 @@ const defaultChildRoutesBusinessMS = (prefix) => [
         path: "/vendor/sellers/shop/my_shop_vendor",
         name: prefix + '.my_shop_vendor-list',
         meta: {
-            title: "My Shop",
+            title: "myShopModule",
             requiresAuth: true,
             permissions: ['vendor_shop_info_module']
         },
@@ -18,7 +18,7 @@ const defaultChildRoutesBusinessMS = (prefix) => [
         path: "/vendor/sellers/shop/my_shop_vendor/edit_my_shop",
         name: prefix + '.my_shop_vendor-edit-shop',
         meta: {
-            title: "Business Section",
+            title: "myShopModule",
             requiresAuth: true,
             permissions: ['vendor_shop_info_module']
         },
@@ -29,10 +29,10 @@ const defaultChildRoutesBusinessMS = (prefix) => [
 const moduleProductManagementRouters = {
     path: '/vendor/product_managements/business_sections',
     components: DefaultLayoutVendor,
-    name: 'Business Section',
+    name: 'businessSectionMS',
     alwaysShow: true,
     meta: {
-        title: 'Business Section',
+        title: 'businessSectionMS',
         icon: 'admin',
         permissions: ['business_section_module'],
         template: 'panel'

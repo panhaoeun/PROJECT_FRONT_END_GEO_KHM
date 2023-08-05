@@ -1,16 +1,16 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
-      <b-row>
+      <b-row class="px-2 py-2">
         <b-col lg="12">
             <!--Confirm Dialogs-->
             <ConfirmDialog></ConfirmDialog>
             <Toast />
             <!-- Titles -->
             <div class="flex justify-content-between my-4 px-4 py-4">
-                <h2 class="relative text-black text-3xl section section-title:before">Seller Lists</h2>
+                <h2 class="relative text-black text-xl section section-title:before">Seller Lists</h2>
                 <el-button type="info" size="large" 
                     v-permission="[{functionName: 'sellers_module', moduleName: 'fun_create'}]"
-                    class="py-4"
+                    class="btn btn-primary"
                     @click="openCreateSeller">
                     <div class="flex justify-between pl-2">
                         <i class="pi pi-plus" style="font-size: 1rem"></i>
@@ -24,13 +24,15 @@
                         <div>          
                             <div class="card">
                                     <!-- Data Table -->
-                                    <DataTable ref="dt" :value="sellers" v-model:selection="selectedSeller" dataKey="id" 
+                                    <DataTable ref="dt" :value="sellers" v-model:selection="selectedSeller" 
+                                        dataKey="id" 
                                         filterDisplay="menu" :loading="loading"
                                         :paginator="true" :rows="10" :filters="filters"
                                         scrollable
                                         class="p-datatable-scrollable"
+                                        :globalFilterFields="['representative.name', 'shop_eng', 'shop_verify', 'vendorProfile','venNameEng', 'user_email','phoneNumber','shop_status']"
                                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} sellers">
                                             <template #header>
                                                 <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
                                                     <h4 class="m-0"></h4>

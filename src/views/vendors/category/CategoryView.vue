@@ -1,10 +1,10 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
-    <div class="layout-content">
+    <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h2 class="relative text-black text-3xl section section-title:before">Category Lists</h2>
-            <el-button type="info" size="large" class="py-4" @click="$router.push('/vendor/products/category/create')">
+            <h2 class="relative text-black text-xl section section-title:before">Category Lists</h2>
+            <el-button class="btn btn-primary"  type="info" size="large" @click="$router.push('/vendor/products/category/create')">
                 <div class="flex justify-between pl-2" v-permission="[{functionName: 'categories_module', moduleName: 'fun_create'}]">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
                     <span class="pl-2">Add Categories</span>
@@ -18,11 +18,10 @@
                         <div class="px-2">
                             <!-- Data Tables -->
                             <DataTable ref="dt" :value="catList" v-model:selection="selectedCategoriesList" dataKey="id"
-                                    :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
+                                    :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable text-sm"
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                     :rowsPerPageOptions="[5, 10, 25]"
                                     :metaKeySelection="false"
-                                    @rowSelect="onRowSelectCatList"
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                                 <!-- Header -->
                                 <template #header>
@@ -143,9 +142,6 @@
                   ElMessage.error(error);
                });
             },
-            onRowSelectCatList(event){
-                console.log(event)
-            }
         }
     }
 </script>

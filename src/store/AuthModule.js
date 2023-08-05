@@ -40,7 +40,7 @@ export const auth = {
           return Promise.resolve(response.data);
         },
         error => {
-          console.log("Error---:", error)
+        //   console.log("Error---:", error)
           return Promise.reject(error);
         }
       );

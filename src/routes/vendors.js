@@ -17,6 +17,18 @@ const defaultChildRoutes = (prefix) => [
         },
         component: () => import('../dashboard/DashboardLayout.vue'),
     },
+    {
+        path: '/vendor-profile/vendor-profile/:currentUserId',
+        name: prefix + '.vendor_profile_info',
+        meta: {
+            title: 'vendorProfile',
+            icon: 'vendorProfile',
+            noCache: false,
+            permissions: ['vendor_profile']
+        },
+        hidden: true,
+        component: () => import('../views/vendors/vendors_profile/ProfileVue.vue'),
+    }
 ];
 export default [
     {
@@ -24,7 +36,7 @@ export default [
             template: 'panel',
             icon: 'icons',
             permissions: ['home_modules'],
-            title: 'Home'
+            title: 'homeModule'
         },
         path: "/vendor-dashboard/default-layouts",
         name: "home-vendor-dashboard",

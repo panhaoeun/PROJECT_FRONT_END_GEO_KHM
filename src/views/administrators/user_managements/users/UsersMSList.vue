@@ -1,15 +1,15 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
-    <div class="layout-content">
+    <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2
-                class="relative text-black text-3xl section section-title:before"
+                class="relative text-black text-xl section section-title:before"
             >
                 {{ $t('users.listUsers') }}
             </h2>
             <!-- Permissions Modules -->
-            <div class="d-flex align-items-center gap-3"  v-permission="[{functionName: 'users_modules', moduleName: 'fun_create'}]">
+            <div class="d-flex text-sm align-items-center gap-3"  v-permission="[{functionName: 'users_modules', moduleName: 'fun_create'}]">
                 <router-link
                     to="/vendor/user/list/crete-user-auth/ui-user-create"
                     class="text-center btn btn-primary d-flex gap-2"
@@ -28,7 +28,7 @@
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                         ></path>
                     </svg>
-                   {{ $t('users.addUsers') }}
+                    <span class="text-sm">{{ $t('users.addUsers') }}</span>  
                 </router-link>
             </div>
         </div>
@@ -45,8 +45,9 @@
                                 dataKey="id"
                                 :paginator="true"
                                 :rows="10"
+                                :globalFilterFields="['representative.name', 'userName', 'role_name','user_email', 'user_phonenumber']"
                                 :filters="filters"
-                                class="p-datatable-scrollable"
+                                class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"

@@ -7,7 +7,7 @@ const defaultChildRoutesProMS = (prefix) => [
         path: "/vendor/products/category/list",
         name: prefix + '.product_category_list',
         meta: {
-            title: "Categories",
+            title: "proCategories",
             requiresAuth: true,
             permissions: ['categories_module']
         },
@@ -18,7 +18,7 @@ const defaultChildRoutesProMS = (prefix) => [
         name: prefix + '.product-category-create',
         hidden: true,
         meta: {
-            title: "Categories",
+            title: "proCategories",
             requiresAuth: true,
             permissions: ['categories_module']
         },
@@ -28,7 +28,7 @@ const defaultChildRoutesProMS = (prefix) => [
         path: "/vendor/products/category/edit/:id",
         name: prefix + '.product-category-edit',
         meta: {
-            title: "Categories",
+            title: "proCategories",
             requiresAuth: true,
             permissions: ['categories_module']
         },
@@ -40,7 +40,7 @@ const defaultChildRoutesProMS = (prefix) => [
         path: "/vendor/products/sub-category/list",
         name: prefix + '.sub_product_category_list',
         meta: {
-            title: "Sub Categories",
+            title: "proSubCategories",
             requiresAuth: true,
             permissions: ['sub_categories']
         },
@@ -51,17 +51,17 @@ const defaultChildRoutesProMS = (prefix) => [
          name: prefix + '.product-sub-category-create',
          hidden: true,
          meta: {
-            title: "Sub Categories",
+            title: "proSubCategories",
             requiresAuth: true,
             permissions: ['sub_categories']
          },
          component: () => import("../../views/vendors/category/sub_category/SubCategoryCreate.vue"),
     },
     {
-         path: "/vendor/products/sub-category/edit/:id",
+         path: "/vendor/products/sub-category/edit/:id/:catName",
          name: prefix + '.product-sub-category-edit',
          meta: {
-            title: "Sub Categories",
+            title: "proSubCategories",
             requiresAuth: true,
             permissions: ['sub_categories']
          },
@@ -75,7 +75,7 @@ const defaultChildRoutesProMS = (prefix) => [
         path: "/vendor/products/list",
         name: prefix + '.products-list',
         meta: {
-            title: 'Products',
+            title: 'proProductMS',
             permissions: ['product_module']
         },
         component: () => import("../../views/vendors/products/ProductList.vue"),
@@ -100,6 +100,16 @@ const defaultChildRoutesProMS = (prefix) => [
             permissions: ['product_module']
         },
      },
+     {
+          path: "/vendor/products/view-detail/:proId",
+          name: prefix + '.products-view-details',
+          hidden: true,
+          meta: {
+              title: 'proProductViewDetailMS',
+              permissions: ['product_module']
+          },
+          component: () => import("../../views/vendors/products/detail_products/ViewProductDetails.vue"),
+      },
 ]
 const moduleProductManagementRouters = {
     path: '/vendor/product_managements',

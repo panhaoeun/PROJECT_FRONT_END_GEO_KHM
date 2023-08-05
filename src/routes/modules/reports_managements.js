@@ -1,6 +1,6 @@
 import DefaultLayoutVendor from "../../components/layouts/vendors/DefaultLayouts.vue";
 
-const defaultChildRoutesOrdersMS = (prefix) => [
+const defaultChildRoutesReportMS = (prefix) => [
     // Orders Managements
     {
         path: "/vendor/order_managements/order_list",
@@ -11,7 +11,7 @@ const defaultChildRoutesOrdersMS = (prefix) => [
             // permissions: ['orders_report_modules']
         },
         component: () => import('../../views/vendors/order/OrderList.vue'),
-     },
+    },
 ]
 const moduleOrdersManagementRouters = {
     path: '/vendor/product_managements/order_reports/management_orders',
@@ -24,6 +24,6 @@ const moduleOrdersManagementRouters = {
         // permissions: ['report_managements_module'],
         template: 'panel'
     },
-    children: defaultChildRoutesOrdersMS('defaults')
+    children: defaultChildRoutesReportMS('defaults')
 }
 export default moduleOrdersManagementRouters;

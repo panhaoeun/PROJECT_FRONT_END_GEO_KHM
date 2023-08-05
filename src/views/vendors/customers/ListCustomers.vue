@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
-    <div class="layout-content">
+    <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h2 class="relative text-black text-3xl section section-title:before">Customer Lists</h2>
+            <h2 class="relative text-black text-xl section section-title:before">Customer Lists</h2>
         </div>
         <div class="gird">
             <div class="col-12">
@@ -18,9 +18,10 @@
                                 dataKey="id"
                                 :paginator="true" :rows="10" 
                                 :filters="filters"
-                                class="p-datatable-scrollable"
+                                class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
+                                :globalFilterFields="['representative.name', 'full_latin_name','user_email','user_phonenumber']"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
                                 <!-- Header -->
                                 <template #header>
@@ -28,9 +29,9 @@
                                         <h4 class="m-0">
                                             
                                         </h4>
-                                        <span class="p-input-icon-left">
+                                        <span class="p-input-icon-left text-sm">
                                             <i class="pi pi-search" />
-                                            <InputText v-model="filters['global'].value" placeholder="Search..." />
+                                            <InputText v-model="filters['global'].value" class=" text-sm" placeholder="Search..." />
                                         </span>
                                     </div>
                                 </template>
@@ -41,16 +42,21 @@
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="customerArrAdmin && customerArrAdmin.length > 0 && customerArrAdmin != ''">
                                     <!-- Columns -->
-                                   <Column field="full_latin_name" header="User Name" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_email" header="Email" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_phonenumber" header="Phone" sortable style="min-width:20rem"></Column>
-                                    <!-- <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column> -->
+                                   <Column field="full_latin_name" header="Customer Name" sortable style="min-width:20rem"></Column>
+                                    <Column field="user_email" header="Email" sortable style="min-width:20rem">
+                                        <template #body="slotProps">
+                                            <div class="flex flex-column gap-2">
+                                                <span class="font-bold">{{ slotProps.data?.user_email ?? ''}}</span>
+                                                <span>{{ slotProps.data?.user_phonenumber ?? ''}}</span>
+                                            </div>
+                                        </template>
+                                    </Column>
                                     <Column header="Status">
                                         <template #body="slotProps">
                                             <Tag :value="slotProps?.data.status" />
                                         </template>
                                     </Column>
-                                    <Column field="category" header="Option Status" sortable style="min-width:10rem">
+                                    <Column field="category" header="Block/Unblock" style="min-width:10rem">
                                         <template #body>
                                             <div class="font-bold">
                                                 <el-switch v-model="statusUserSwitch" />
@@ -60,7 +66,7 @@
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-eye" outlined rounded class="mr-2"
-                                                @click="$router.push({ path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data.user_id}` })" />
+                                                @click="$router.push({ path: `/vendor/user/customer_info/list/admin/customer_view_details/${slotProps.data.user_id}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 @click="confirmDeleteUserMS(slotProps.data.id)" />
                                         </template>

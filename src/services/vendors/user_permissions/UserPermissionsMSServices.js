@@ -85,7 +85,7 @@ export default class UserPermissionsMSServices {
                 data
             )
             .then((result) => {
-                console.log(result);
+                // console.log(result);
                 if (result.status == "201") {
                     if (result.data.success == true) {
                         return result.data.result.resultStatus;
