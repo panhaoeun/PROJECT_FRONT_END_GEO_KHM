@@ -1,7 +1,7 @@
 <template>
     <!-- Sidebar Component Start Here-->
     <default-sidebar>
-         <h1 v-if="can('view', 'Dashboards')">Can access</h1>
+         <h1>Can access</h1>
         
     </default-sidebar>  
 <!-- Sidebar Component End Here-->
