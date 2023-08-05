@@ -10,7 +10,7 @@
 <!-- Script of JS  -->
 <script setup>
 import DefaultSidebar from '../../components/custom/sidebar/DefaultSidebar';
-import SideMenu from '../../components/custom/nav/SideMenu.vue';
+// import SideMenu from '../../components/custom/nav/SideMenu.vue';
 import store from "../../store";
 import { ref,computed} from 'vue'
 import { useRoute } from 'vue-router'
@@ -39,6 +39,7 @@ toggle(route?.name);
 const routesModules = computed(() => {
     return store.state.users.routes;
 });
+console.log(routesModules)
 //Showing on child
 const hasOneShowingChild = (children,parent) => {
    const showingChildren = children.filter(item => {
@@ -50,6 +51,7 @@ const hasOneShowingChild = (children,parent) => {
             return true;
         }
    });
+   console.log(hasOneShowingChild)
     // When there is only one child router, the child router is displayed by default
     if (showingChildren.length >0) {
         return true;
