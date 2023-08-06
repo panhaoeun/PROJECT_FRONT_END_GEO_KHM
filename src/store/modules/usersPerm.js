@@ -124,7 +124,7 @@ const actions = {
             userPermModuleMSServices.checkPermissionsModuleCanAccess(functionName,moduleName)
                 .then((resultModuleAcc) => {
                     if (!resultModuleAcc) {
-                        console.log('Not Found Module User Can Access');
+                        Promise.reject('Not Found Module User Can Access');
                     }
                     commit("SET_CHECK_PERMISSION", resultModuleAcc);
                     //Resolve Check Permissions Modules

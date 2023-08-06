@@ -1,5 +1,6 @@
 export default {
     route: {
+        search: 'ស្វែងរក...',
         homeModule: 'ផ្ទាំងខាងមុខ',
         proManagement: 'គ្រប់គ្រងផលិតផល',
         proSubCategories: 'ប្រភេទផលិតផលរង',
@@ -27,6 +28,9 @@ export default {
         rolePermission: 'ការអនុញ្ញាតតួនាទី',
         role: 'តួនាទី',
         roleName: 'ឈ្មោះតួនាទី',
+        orderReportAnalysisMS: 'របាយការណ៍',
+        ordersReportMS: 'របាយការណ៍ការកម្ម៉ង់ទំនិញ',
+        productsReportMS: 'របាយការណ៍ការផលិតផល',
         directivePermission: 'Directives',
         icons: 'Icons',
         components: 'Components',

@@ -47,7 +47,7 @@ const mutations = {
         const product = state.products.find( item => item.id === payload.id )
         const wishlistItems = state.wishlist.find( item => item.id === payload.id )
         if (wishlistItems) {
-            console.log(wishlistItems)
+            return wishlistItems;
         } else {
             state.wishlist.push({
                 ...product
@@ -62,7 +62,7 @@ const mutations = {
         const product = state.products.find(item => item.id === payload.id)
         const compareItems = state.compare.find(item => item.id === payload.id)
         if (compareItems) {
-            console.log(compareItems)
+           return compareItems;
         } else {
             state.compare.push({
                 ...product
@@ -87,9 +87,8 @@ const mutations = {
     shuffleProduct: (state, payload) => {
         state.shuffleProducts = payload
     },
-    getallProduct: (state, payload) => {
+    getallProduct: (state) => {
         state.shuffleProducts = products.data;
-        console.log(payload)
     }
 }
 
@@ -104,7 +103,7 @@ const actions = {
                 commit('SET_PRODUCT_COLLECT_LIST', productList);
             });
         } catch (error) {
-            console.log(error);
+            Promise.reject(error);
         }
     },
     async getProductCollListMoreLoveData({state, dispatch }) {

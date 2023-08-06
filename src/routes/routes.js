@@ -19,7 +19,8 @@ import moduleErrorPage from "./errorPage";
 import moduleProductManagementRouters from "./modules/product_managements";
 import moduleUsersManagementRouters from "./modules/users_managements";
 import moduleBusinessManagementRouters from "./modules/business_sections";
-import moduleOrdersReportManagementRouters from "./modules/orders_managements";
+import moduleOrderManagementRouters from "./modules/orders_managements";
+import moduleOrderReportManagementRouters from "./modules/report_managements/orders_report_managements";
 /*
     Makes a new VueRouter that we will use to run all of the routes
     for the app.
@@ -44,7 +45,8 @@ export const asyncRoutes = [
     moduleProductManagementRouters,
     moduleUsersManagementRouters,
     moduleBusinessManagementRouters,
-    moduleOrdersReportManagementRouters
+    moduleOrderManagementRouters,
+    moduleOrderReportManagementRouters
 ]
 const routerModules = () => new createRouter({
     // mode: 'history', // require service support

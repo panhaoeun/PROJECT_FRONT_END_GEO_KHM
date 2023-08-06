@@ -18,12 +18,14 @@ export default class CustomerOrderMSServices {
                 data
             )
             .then((result) => {
-                console.log(result);
-                // if (result.status == "201") {
-                //     if (result.data.success == true) {
-                //         return result.data.result.resultStatus;
-                //     }
-                // }
+                if (!result){
+                    return;
+                }
+                if (result.status == "201") {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
             })
             .catch((error) => {
                 ElMessage.error(error);

@@ -11,7 +11,18 @@ const defaultChildRoutesOrdersMS = (prefix) => [
             // permissions: ['orders_report_modules']
         },
         component: () => import('../../views/vendors/order/OrderList.vue'),
-     },
+    },
+    {
+        path: "/vendor/order_managements/customer_detail/customer_order/order_detail",
+        name: prefix + '.customer_orders_detail',
+        meta: {
+            title: "orderProductModule",
+            requiresAuth: true,
+            // permissions: ['orders_report_modules']
+        },
+        hidden: true,
+        component: () => import('../../views/vendors/order/orders_managements_detail/OrderDetailsCustomer.vue'),
+    },
 ]
 const moduleOrdersManagementRouters = {
     path: '/vendor/product_managements/order_reports/management_orders',

@@ -12,7 +12,6 @@ export const categoriesModule = {
             state.categoryList = categoriesList;
         },
         SET_SUB_CATEGORIES_LIST(state, subCategoriesList){
-            console.log(subCategoriesList)
             state.subCategoryList = subCategoriesList;
         }
     },
@@ -59,7 +58,6 @@ export const categoriesModule = {
             // return state
         },
         async getSubCategoriesName({state, dispatch}, subCategoriesId){
-            console.log(subCategoriesId)
             const categoryList = await dispatch('getSubCategoriesList', subCategoriesId);
             // const indexSubCat = categoryList;
              console.log(categoryList, state);

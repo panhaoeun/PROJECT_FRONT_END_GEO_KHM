@@ -1,11 +1,30 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
-    <div class="layout-content">
+    <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class="relative text-black text-3xl section section-title:before">All Order</h2>
         </div>
         <div class="gird">
+            <div class="col-12">
+                <el-card slot="header" class="box-card">
+                    <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                        <div class="flex flex-wrap gap-3 p-fluid">
+                            <div class="flex-auto text-sm p-float-label flex align-items-center justify-content-center">
+                                <label for="startDateFilter"> Start Date </label>
+                                <Calendar id="startDateFilter" v-model="orderListStartFilter"  inputId="startDateOrder" showIcon showTime hourFormat="12" />
+                            </div>
+                            <div class="flex-auto text-sm p-float-label flex align-items-center justify-content-center">
+                                <label for="endDateFilter"> End Date </label>
+                                <Calendar id="endDateFilter" v-model="orderListEndFilter" inputId="endDateOrder" showIcon showTime hourFormat="24" />
+                            </div>
+                            <div class="flex-auto p-float-label text-sm flex align-items-center justify-content-center">
+                                <Button icon="pi pi-search" class="btn btn-primary h-3rem w-10rem pl-3" label="Show Data" />
+                            </div>
+                        </div>
+                    </div>
+                </el-card>
+            </div>
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <div>
@@ -27,19 +46,7 @@
                                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
                                         <!-- Filter Date Order -->
                                         <h4 class="m-0">
-                                            <div class="flex flex-wrap gap-3 p-fluid">
-                                                <div class="flex-auto text-sm p-float-label">
-                                                    <label for="startDateFilter"> Start Date </label>
-                                                    <Calendar id="startDateFilter" v-model="orderListStartFilter"  inputId="startDateOrder" showIcon showTime hourFormat="12" />
-                                                </div>
-                                                <div class="flex-auto text-sm p-float-label">
-                                                    <label for="endDateFilter"> End Date </label>
-                                                    <Calendar id="endDateFilter" v-model="orderListEndFilter" inputId="endDateOrder" showIcon showTime hourFormat="24" />
-                                                </div>
-                                                <div class="flex-auto">
-                                                    <Button icon="pi pi-search" class="btn btn-primary h-3rem justify-content-center flex w-10rem pl-3" label="Show Data" />
-                                                </div>
-                                            </div>
+                                           
                                         </h4>
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />

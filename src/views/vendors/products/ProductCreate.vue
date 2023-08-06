@@ -2,13 +2,13 @@
    <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-                <h2 class="relative text-black text-xl section section-title:before">Add Product</h2>
-                <el-button type="info" size="large" class="btn btn-primary" @click.prevent="$router.push('/vendor/products/list')">
-                    <div class="flex justify-between pl-2">
-                        <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
-                        <span class="pl-2">{{$t("route.routeBack")}}</span>
-                    </div>
-                </el-button>
+            <h2 class="relative text-black text-xl section section-title:before">Add Product</h2>
+            <el-button type="info" size="large" class="btn btn-primary" @click.prevent="$router.push('/vendor/products/list')">
+                <div class="flex justify-between pl-2">
+                    <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
+                </div>
+            </el-button>
         </div>
         <!-- Form Submited -->
         <form method="POST">    

@@ -1,5 +1,6 @@
 export default {
     route: {
+        search: 'Search...',
         routeGeneralInfo: 'General Information',
         routeBack: 'Back',
         routeCancel: 'Cancel',
@@ -17,6 +18,9 @@ export default {
         sellerMS: 'Sellers',
         usersMS: 'Users',
         permissionMS: 'Permissions',
+        orderReportAnalysisMS: 'Reports',
+        ordersReportMS: 'Order Report',
+        productsReportMS: 'Product Report',
         dashboard: 'Dashboard',
         introduction: 'Introduction',
         documentation: 'Documentation',
