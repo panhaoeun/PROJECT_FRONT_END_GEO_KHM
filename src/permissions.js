@@ -9,7 +9,7 @@ import 'nprogress/nprogress.css'; // progress bar style
 NProgress.configure({
     showSpinner: false
 }); // NProgress Configuration
-const whiteList = ['/auth/login', '/auth-redirect', '/']; // no redirect whitelist
+const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
     // start progress bar

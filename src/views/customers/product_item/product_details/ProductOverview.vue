@@ -59,7 +59,7 @@
                                 <div>
                                     <span style="font-size: 24px; font-weight: 900">
                                         ${{ parseFloat(getDetail.price).toFixed(2) }}
-                                    </span>
+                                    </span> 
                                 </div>
                                 <div class="">
                                     <span class="mx-3 discount px-2 py-1 rounded"

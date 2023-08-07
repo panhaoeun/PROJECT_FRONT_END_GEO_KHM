@@ -16,10 +16,6 @@
                         </div>
                         <!-- Form Submit -->
                         <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid w-25rem">
-                            <!-- Loading -->
-                            <loading 
-                               :active="isLoading" :is-full-page="fullPage" :loader="loader"
-                            />
                                 <!-- Input Email or Phone Number -->
                                     <div class="field pb-2">
                                         <MazInput
@@ -51,7 +47,7 @@
                                     </div>
                                 </div>    
                                 <!-- Button Submit -->
-                                <MazBtn type="submit" >Sign In</MazBtn>
+                                <MazBtn type="submit" :loading="userLoggedIn">Sign In</MazBtn>
                             </form>
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
@@ -86,8 +82,7 @@ import { useVuelidate } from "@vuelidate/core";
 // Components
 import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
-// import AuthenticationsDataService from  "../../services/authencationDataService";
-import Loading from 'vue-loading-overlay';
+import { mapActions } from "vuex";
 import { ElMessage } from "element-plus";
 import Cookie from "js-cookie";
 
@@ -98,6 +93,7 @@ export default {
             userLogin: '',
             email: '',
             password: '',
+            userLoggedIn: false,
             accept: null,
             submitted: false,
             showMessage: false,
@@ -130,6 +126,7 @@ export default {
         },
     },
     methods: {
+        ...mapActions(["set_user"]),
        // Handle Submit Business Account
        async handleSubmit(isFormValid) {
             try{
@@ -140,14 +137,11 @@ export default {
                         userLogin : this.userLogin,
                         userPassword: this.password
                     }
-                    this.isLoading = true;
-                     setTimeout(() => {
-                            this.isLoading = false
-                    }, 300);
                     this.$store.dispatch("auth/login", data).then(
                         (response) => {
                             //Check validation  
                             if(response.success == true){
+                                this.userLoggedIn = true;
                                 this.$store.dispatch("auth/setCurrentUser", localStorage.getItem('user'));
                                 this.$store.dispatch("auth/setToken", Cookie.get('token'));
                                 if (response.userType === "Admin") {
@@ -159,9 +153,12 @@ export default {
                                     this.$router.push({path: "/"});
                                 }
                                 return;
-                            }                
+                            }else{
+                                throw response;
+                            }         
                         },
                         (error) => {
+                            this.userLoggedIn = false;
                             if(typeof(error.response.data.name)!== undefined){
                                 ElMessage.error(error.response.data.name);
                             }
@@ -173,11 +170,16 @@ export default {
                     );
                 }
                 if (!isFormValid) {
+                    this.userLoggedIn = true;
+                    setTimeout(function(){
+                        this.userLoggedIn = false;
+                    }.bind(this),1000);
                     return;
                 }
                                  
             }catch(error){
                 // Message Error
+                this.userLoggedIn = false;
                 this.messages = [
                     {severity: 'success', content: error},
                 ]
@@ -200,8 +202,7 @@ export default {
     },
     components: {
         socailMedia,
-        MazInput,
-        Loading
+        MazInput
     }
 }
 </script>

@@ -1,13 +1,13 @@
 <template>
        <div class="register-header">
         <!-- Logo -->
-            <header class="pt-5">
+            <header>
                     <table class="">
                         <tbody>
                                 <tr>
                                     <td>
                                         <router-link to="/">
-                                            <img src="../../assets/company_logo/ecommerce_logo.png" width="130" height="130" />
+                                            <img src="../../assets/company_logo/ecommerce_logo.png" width="120" height="120" />
                                         </router-link>
                                     </td>
                                 </tr>
@@ -16,7 +16,7 @@
             </header>
        </div>
        <!-- Create Account -->
-        <div class="container py-2">
+        <div class="container">
             <div class="signInLink flex px-2 py-2 my-2">
                 <span>Already a number?</span>
                 <router-link to="/auth/login" class="px-2 hover:underline underline">
