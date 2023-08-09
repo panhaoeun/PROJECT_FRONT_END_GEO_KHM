@@ -1,371 +1,305 @@
 <template>
-  <div>
-    <!-- Banner Area -->
-    <section id="common_banner_one">
-        <div class="container ">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="common_banner_text">
-                        <h2>{{this.title}}</h2>
-                        <b-breadcrumb :items="breadcrumbItems" class="bg-transparent"></b-breadcrumb>
-                    </div>
+   <div class="bg-white">
+        <div class="breadcrumb-area bg-bluegray-100">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">Checkout </li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Checkout-Area -->
-    <section id="checkout_two" class="ptb-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="accordion" role="tablist">
-                        <div class="user-actions">
-                            <h3 role="tab">
-                                <i class="far fa-file"></i>Returning customer?
-                                <b-button class="border-0 p-0 bg-transparent" v-b-toggle.checkout_login>Click here to login</b-button>
-                            </h3>
-                            <b-collapse id="checkout_login" accordion="my-accordion" role="tabpanel">
-                                <div class="checkout_info">
-                                    <p>If you have shopped with us before, please enter your details in the boxes below. If
-                                        you are a new customer please proceed to the Billing &amp; Shipping section.</p>
-                                    <form @submit.prevent="handleLoginSubmit">
-                                        <div class="form_group default-form-box">
-                                            <label>Username or email <span>*</span></label>
-                                            <input type="text" v-model="userLogin.username" id="username" name="username" class="form-control" :class="{ 'is-invalid': submitted && $v.userLogin.username.$error }" />                                          
-                                            <div v-if="submitted && !$v.userLogin.username.required" class="invalid-feedback">Username or Email is required</div>
-                                        </div>
-                                        <div class="form_group default-form-box">
-                                            <label>Password <span>*</span></label>
-                                            <input type="password" v-model="userLogin.password" id="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.userLogin.password.$error }" />
-                                            <div v-if="submitted && $v.userLogin.password.$error" class="invalid-feedback">
-                                                <span v-if="!$v.userLogin.password.required">Password is required</span>
-                                                <span v-if="!$v.userLogin.password.minLength">Password must be at least 6 characters</span>
-                                            </div>
-                                        </div>
-                                        <div class="form_group group_3 default-form-box">
-                                            <button class="theme-btn-one btn-black-overlay btn_md">Login</button>
-                                            <label class="checkbox-default">
-                                                <input type="checkbox">
-                                                <span>Remember me</span>
-                                            </label>
-                                        </div>
-                                        <a href="#">Lost your password?</a>
-                                    </form>
-                                </div>
-                            </b-collapse>
-                        </div>
-
-                        <div class="user-actions">
-                            <h3 role="tab">
-                                <i class="far fa-file"></i>Returning customer?
-                                <b-button class="border-0 p-0 bg-transparent" v-b-toggle.checkout_coupon>Click here to enter your code</b-button>
-                            </h3>
-                            <b-collapse id="checkout_coupon" class="checkout_coupon" accordion="my-accordion" role="tabpanel">
-                                <div class="checkout_info">
-                                    <form action="#">
-                                        <input placeholder="Coupon code" type="text">
-                                        <button class="theme-btn-one btn btn-black-overlay btn-md" type="button">Apply
-                                            coupon</button>
-                                    </form>
-                                </div>
-                            </b-collapse>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="checkout_area_two">
-                        <form @submit.prevent="handleSubmit">
+        <div class="checkout-main-area pt-120 pb-120">
+            <div class="container">
+                <div class="customer-zone mb-20">
+                    <p class="cart-page-title">Returning customer? <a class="checkout-click1" href="#">Click here to login</a></p>
+                    <div class="checkout-login-info">
+                        <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please proceed to the Billing & Shipping section.</p>
+                        <form action="#">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
-                                    <div class="checkout_form_area">
-
-                                        <h3>Billing Details</h3>
-                                        <div class="row pt-4">
-                                            <div class="col-lg-6">
-                                                <div class="default-form-box">
-                                                    <label for="fname">First Name <span>*</span></label>
-                                                    <input type="text" v-model="user.fname" id="fname" name="fname" class="form-control" :class="{ 'is-invalid': submitted && $v.user.fname.$error }" />                                                  
-                                                    <div v-if="submitted && !$v.user.fname.required" class="invalid-feedback">First Name is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="default-form-box">
-                                                    <label for="lname">Last Name <span>*</span></label>
-                                                    <input type="text" v-model="user.lname" id="lname" name="lname" class="form-control" :class="{ 'is-invalid': submitted && $v.user.lname.$error }" />
-                                                    <div v-if="submitted && !$v.user.lname.required" class="invalid-feedback">Last Name is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="default-form-box">
-                                                    <label for="companyname">Company Name</label>
-                                                    <input type="text" v-model="user.companyname" id="companyname" name="companyname" class="form-control" :class="{ 'is-invalid': submitted && $v.user.companyname.$error }" />
-                                                    <div v-if="submitted && !$v.user.companyname.required" class="invalid-feedback">Company Name is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="default-form-box">
-                                                    <label for="country">country <span>*</span></label>
-                                                    <select class="country_option nice-select wide form-control"
-                                                        v-model="user.country" name="country" id="country" :class="{ 'is-invalid': submitted && $v.user.country.$error }" >
-                                                        <option value="2">Bangladesh</option>
-                                                        <option value="3">Algeria</option>
-                                                        <option value="4">Afghanistan</option>
-                                                        <option value="5">Ghana</option>
-                                                        <option value="6">Albania</option>
-                                                        <option value="7">Bahrain</option>
-                                                        <option value="8">Colombia</option>
-                                                        <option value="9">Dominican Republic</option>
-                                                    </select>
-                                                    <div v-if="submitted && !$v.user.country.required" class="invalid-feedback">Country is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="default-form-box">
-                                                    <label for="street">Street address <span>*</span></label>
-                                                    <input v-model="user.street" id="street" name="street" placeholder="House number and street name" type="text"
-                                                        class="form-control" :class="{ 'is-invalid': submitted && $v.user.street.$error }" />                                                      
-                                                    <div v-if="submitted && !$v.user.street.required" class="invalid-feedback">Street is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="default-form-box">
-                                                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="default-form-box">
-                                                    <label for="city">Town / City <span>*</span></label>
-                                                    <input v-model="user.city" id="city" name="city" type="text" class="form-control" :class="{ 'is-invalid': submitted && $v.user.city.$error }" />                                                                                             
-                                                    <div v-if="submitted && !$v.user.city.required" class="invalid-feedback">City is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="default-form-box">
-                                                    <label for="state">State / County <span>*</span></label>
-                                                    <input type="text" v-model="user.state" id="state" name="state" class="form-control" :class="{ 'is-invalid': submitted && $v.user.state.$error }" />
-                                                    <div v-if="submitted && !$v.user.state.required" class="invalid-feedback">state is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="default-form-box">
-                                                    <label for="phone">Phone<span>*</span></label>
-                                                    <input type="text" v-model="user.phone" id="phone" name="phone" class="form-control" :class="{ 'is-invalid': submitted && $v.user.phone.$error }" />
-                                                    <div v-if="submitted && !$v.user.phone.required" class="invalid-feedback">phone is required</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="default-form-box">
-                                                    <label for="email"> Email Address <span>*</span></label>
-                                                    <input type="email" v-model="user.email" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.user.email.$error }"  />                                                  
-                                                    <div v-if="submitted && $v.user.email.$error" class="invalid-feedback">
-                                                        <span v-if="!$v.user.email.required">Email is required</span>
-                                                        <span v-if="!$v.user.email.email">Email is invalid</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <div class="order-notes">
-                                                    <label for="order_note">Order Notes</label>
-                                                    <textarea id="order_note"
-                                                        placeholder="Notes about your order, e.g. special notes for delivery."
-                                                        class="form-control" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="sin-checkout-login">
+                                        <label>Username or email address <span>*</span></label>
+                                        <input type="text" name="user-name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
-                                    <h3>Your order</h3>
-                                    <div class="order_table table-responsive mb-0">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td> Handbag fringilla <strong> × 2</strong></td>
-                                                    <td> $165.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td> Handbag justo <strong> × 2</strong></td>
-                                                    <td> $50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td> Handbag elit <strong> × 2</strong></td>
-                                                    <td> $50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td> Handbag Rutrum <strong> × 1</strong></td>
-                                                    <td> $50.00</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Cart Subtotal</th>
-                                                    <td>$215.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Shipping</th>
-                                                    <td><strong>$5.00</strong></td>
-                                                </tr>
-                                                <tr class="order_total">
-                                                    <th>Order Total</th>
-                                                    <td><strong>$220.00</strong></td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <div class="payment_method">
-
-                                        <div class="payment-inner panel-default">
-                                            <b-button class="bg-transparent p-0 border-0">
-                                                <input type="checkbox" id="currencyCod">
-                                                <label for="currencyCod" v-b-toggle.methodCod></label> Cash on Delivery 
-                                            </b-button>
-                                        <b-collapse id="methodCod" class="mt-2">
-                                            <div class="card-body1">
-                                                <p>Please send a check to Store Name, Store Street, Store Town,
-                                                    Store State
-                                                    / County, Store Postcode.</p>
-                                            </div>
-                                        </b-collapse>
-                                        </div>
-
-                                        <div class="payment-inner panel-default">
-                                            <b-button class="bg-transparent p-0 border-0">
-                                                <input type="checkbox" id="currencyPaypal">
-                                                <label for="currencyPaypal" v-b-toggle.methodPaypal></label> PayPal
-                                            </b-button>
-                                        <b-collapse id="methodPaypal" class="mt-2">
-                                            <div class="card-body1">
-                                            <p>Pay via PayPal; you can pay with your credit card if you don’t
-                                                have a
-                                                PayPal account.</p>
-                                            </div>
-                                        </b-collapse>
-                                        </div>
-                            
-                                        <div class="order_button pt-3">
-                                            <button class="theme-btn-one btn-black-overlay btn_sm">Place Order</button>
-                                        </div>
+                                    <div class="sin-checkout-login">
+                                        <label>Passwords <span>*</span></label>
+                                        <input type="password" name="user-password">
                                     </div>
                                 </div>
                             </div>
+                            <div class="button-remember-wrap">
+                                <button class="button" type="submit">Login</button>
+                                <div class="checkout-login-toggle-btn">
+                                    <input type="checkbox">
+                                    <label>Remember me</label>
+                                </div>
+                            </div>
+                            <div class="lost-password">
+                                <a href="#">Lost your password?</a>
+                            </div>
                         </form>
+                        <div class="checkout-login-social">
+                            <span>Login with:</span>
+                            <ul>
+                                <li><a href="#">Facebook</a></li>
+                                <li><a href="#">Twitter</a></li>
+                                <li><a href="#">Google</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="customer-zone mb-20">
+                    <p class="cart-page-title">Have a coupon? <a class="checkout-click3" href="#">Click here to enter your code</a></p>
+                    <div class="checkout-login-info3">
+                        <form action="#">
+                            <input type="text" placeholder="Coupon code">
+                            <input type="submit" value="Apply Coupon">
+                        </form>
+                    </div>
+                </div>
+                <div class="checkout-wrap pt-30">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="billing-info-wrap mr-50">
+                                <h3>Billing Details</h3>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-20">
+                                            <label>First Name <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-20">
+                                            <label>Last Name <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Company Name <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-select mb-20">
+                                            <label>Country <abbr class="required" title="required">*</abbr></label>
+                                            <select>
+                                                <option>Select a country</option>
+                                                <option>Azerbaijan</option>
+                                                <option>Bahamas</option>
+                                                <option>Bahrain</option>
+                                                <option>Bangladesh</option>
+                                                <option>Barbados</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Street Address <abbr class="required" title="required">*</abbr></label>
+                                            <input class="billing-address" placeholder="House number and street name" type="text">
+                                            <input placeholder="Apartment, suite, unit etc." type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Town / City <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>State / County <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Postcode / ZIP <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Phone <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Email Address <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkout-account mb-25">
+                                    <input class="checkout-toggle2" type="checkbox">
+                                    <span>Create an account?</span>
+                                </div>
+                                <div class="checkout-account-toggle open-toggle2 mb-30">
+                                    <label>Email Address</label>
+                                    <input placeholder="Password" type="password">
+                                </div>
+                                <div class="checkout-account mt-25">
+                                    <input class="checkout-toggle" type="checkbox">
+                                    <span>Ship to a different address?</span>
+                                </div>
+                                <div class="different-address open-toggle mt-30">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>First Name</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Last Name</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-info mb-20">
+                                                <label>Company Name</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-select mb-20">
+                                                <label>Country</label>
+                                                <select>
+                                                    <option>Select a country</option>
+                                                    <option>Azerbaijan</option>
+                                                    <option>Bahamas</option>
+                                                    <option>Bahrain</option>
+                                                    <option>Bangladesh</option>
+                                                    <option>Barbados</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-info mb-20">
+                                                <label>Street Address</label>
+                                                <input class="billing-address" placeholder="House number and street name" type="text">
+                                                <input placeholder="Apartment, suite, unit etc." type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-info mb-20">
+                                                <label>Town / City</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>State / County</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Postcode / ZIP</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Phone</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Email Address</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="additional-info-wrap">
+                                    <label>Order notes</label>
+                                    <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="your-order-area">
+                                <h3>Your order</h3>
+                                <div class="your-order-wrap gray-bg-4">
+                                    <div class="your-order-info-wrap">
+                                        <div class="your-order-info">
+                                            <ul>
+                                                <li>Product <span>Total</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-middle">
+                                            <ul>
+                                                <li>Product Name X 1 <span>$329 </span></li>
+                                                <li>Product Name X 1 <span>$329 </span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info order-subtotal">
+                                            <ul>
+                                                <li>Subtotal <span>$329 </span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info order-shipping">
+                                            <ul>
+                                                <li>Shipping <p>Enter your full address </p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info order-total">
+                                            <ul>
+                                                <li>Total <span>$273.00 </span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="payment-method">
+                                        <div class="pay-top sin-payment">
+                                            <input id="payment_method_1" class="input-radio" type="radio" value="cheque" checked="checked" name="payment_method">
+                                            <label for="payment_method_1"> Direct Bank Transfer </label>
+                                            <div class="payment-box payment_method_bacs">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
+                                            </div>
+                                        </div>
+                                        <div class="pay-top sin-payment">
+                                            <input id="payment-method-2" class="input-radio" type="radio" value="cheque" name="payment_method">
+                                            <label for="payment-method-2">Check payments</label>
+                                            <div class="payment-box payment_method_bacs">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
+                                            </div>
+                                        </div>
+                                        <div class="pay-top sin-payment">
+                                            <input id="payment-method-3" class="input-radio" type="radio" value="cheque" name="payment_method">
+                                            <label for="payment-method-3">Cash on delivery </label>
+                                            <div class="payment-box payment_method_bacs">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
+                                            </div>
+                                        </div>
+                                        <div class="pay-top sin-payment sin-payment-3">
+                                            <input id="payment-method-4" class="input-radio" type="radio" value="cheque" name="payment_method">
+                                            <label for="payment-method-4">PayPal <img alt="" src="assets/images/icon-img/payment.png"><a href="#">What is PayPal?</a></label>
+                                            <div class="payment-box payment_method_bacs">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="Place-order">
+                                    <a href="#">Place Order</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-  </div>
+   </div>
 </template>
-
-<script>
-import { required, email, minLength } from "@vuelidate/validators";
-export default {
-    name: 'checkout-2',
-
-    data() {
-        return {
-            title: 'Checkout',
-
-            // Breadcrumb Items Data
-            breadcrumbItems: [
-                {
-                    text: 'Home',
-                    to: '/'
-                },
-                {
-                    text: 'Checkout',
-                    to: '/my-account/checkout-2'
-                }
-            ],
-
-            // Payment Method Data 
-            visible: false,
-            // Form Validation
-            userLogin: {
-                username: "",
-                password: "",
-            },
-            submitLogin: false,
-            user: {
-                fname: "",
-                lname: "",
-                companyname: "",
-                country: "",
-                street: "",
-                city: "",
-                state: "",
-                phone: "",
-                email: "",
-            },
-            submitted: false
-
-        }
-    },
-    validations: { 
-        userLogin: {
-            username: { required },
-            password: { required, minLength: minLength(6) },
-        },
-        user: {
-            fname: { required },
-            lname: { required },
-            companyname: { required },
-            country: { required },
-            street: { required },
-            city: { required },
-            state: { required },
-            phone: { required },
-            email: { required, email },
-        },
-    },
-    mounted() {
-        // For scroll page top for every Route 
-        window.scrollTo(0, 0)
-    },
-    methods: {
-        handleLoginSubmit() {
-            this.submitLogin = true;
-
-            // stop here if form is invalid
-            this.$v.$touch();
-            if (this.$v.$invalid) {
-                return;
-            }
-            this.$router.push('/'); 
-        },
-        handleSubmit() {
-            this.submitted = true;
-
-            // stop here if form is invalid
-            this.$v.$touch();
-            if (this.$v.$invalid) {
-                return;
-            }
-            alert("Order placed Successfully! Thank you for shopping with us.");
-        }
-    },
-    
-    // Page head() Title, description for SEO 
-    head() {
-      return {
-        title: this.title,
-        meta: [
-          {
-            hid: 'description',
-            name: 'description',
-            content: 'Checkout page - AndShop Ecommerce Vue js, Nuxt js Template'
-          }
-        ]
-      }
-    }
-}
-</script>

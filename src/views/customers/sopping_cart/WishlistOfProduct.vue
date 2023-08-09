@@ -1,150 +1,91 @@
 <template>
-    <div>
-        <!-- Banner Area -->
-        <section id="common_banner_one">
-            <div class="container ">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="common_banner_text">
-                            <h2>{{ this.title }}</h2>
-                            <b-breadcrumb :items="breadcrumbItems" class="bg-transparent"></b-breadcrumb>
-                        </div>
-                    </div>
+    <div class="bg-white">
+        <div class="breadcrumb-area bg-bluegray-100">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">Wishlist </li>
+                    </ul>
                 </div>
             </div>
-        </section>
-
-        <!-- Checkout-Area -->
-        <section id="Wishlist_area" class="ptb-100">
+        </div>
+        <div class="cart-main-area pt-115 pb-120">
             <div class="container">
+                <h3 class="cart-page-title">Your cart items</h3>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="table_desc">
-                            <div class="table_page table-responsive mb-0">
-                                <table class="mb-0">
-                                    <!-- Start Wishlist Table Head -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <form action="#">
+                            <div class="table-content table-responsive cart-table-content">
+                                <table>
                                     <thead>
                                         <tr>
-                                            <th class="product_remove">Remove</th>
-                                            <th class="product_thumb">Image</th>
-                                            <th class="product_name">Product</th>
-                                            <th class="product-price">Price</th>
-                                            <th class="product_stock">Stock Status</th>
-                                            <th class="product_addcart">Add To Cart</th>
+                                            <th>Image</th>
+                                            <th>Product Name</th>
+                                            <th>Until Price</th>
+                                            <th>Qty</th>
+                                            <th>Subtotal</th>
+                                            <th>action</th>
                                         </tr>
-                                    </thead> <!-- End Cart Table Head -->
-                                    <tbody v-if="wishlist.length">
-                                        <!-- Start Wishlist Single Item-->
-                                        <tr v-for="( item, index ) in wishlist" :key="index">
-                                            <td class="product_remove"><button @click="removeWishlistItem(item)"
-                                                    class="bg-transparent remove-btn"><i
-                                                        class="far fa-trash-alt"></i></button></td>
-
-                                            <td class="product_thumb">
-                                                <nuxt-link to="/product">
-                                                    <img :src="getImageUrl(item.images[0].src)" alt="img" />
-                                                </nuxt-link>
-                                            </td>
-                                            <td class="product_name"><nuxt-link
-                                                    :to="{ path: '/product/' + item.id }">{{ item.title }}</nuxt-link></td>
-                                            <td class="product-price">${{ item.price }}</td>
-                                            <td class="product_stock">
-                                                <h6>In Stock</h6>
-                                            </td>
-                                            <td class="product_addcart">
-                                                <button @click="addToCart(item)"
-                                                    class="theme-btn-one btn-black-overlay btn_sm">Add To Cart</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody v-else>
+                                    </thead>
+                                    <tbody>
                                         <tr>
-                                            <td class="border-0">No Item found!</td>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img src="assets/images/cart/cart-1.jpg" alt=""></a>
+                                            </td>
+                                            <td class="product-name"><a href="#">Simple Black T-Shirt</a></td>
+                                            <td class="product-price-cart"><span class="amount">$260.00</span></td>
+                                            <td class="product-quantity pro-details-quality">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal">$110.00</td>
+                                            <td class="product-wishlist-cart">
+                                                <a href="#">add to cart</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img src="assets/images/cart/cart-2.jpg" alt=""></a>
+                                            </td>
+                                            <td class="product-name"><a href="#">Norda Simple Backpack</a></td>
+                                            <td class="product-price-cart"><span class="amount">$150.00</span></td>
+                                            <td class="product-quantity pro-details-quality">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal">$150.00</td>
+                                            <td class="product-wishlist-cart">
+                                                <a href="#">add to cart</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img src="assets/images/cart/cart-1.jpg" alt=""></a>
+                                            </td>
+                                            <td class="product-name"><a href="#">Simple Black T-Shirt </a></td>
+                                            <td class="product-price-cart"><span class="amount">$170.00</span></td>
+                                            <td class="product-quantity pro-details-quality">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal">$170.00</td>
+                                            <td class="product-wishlist-cart">
+                                                <a href="#">add to cart</a>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
-
+        </div>
     </div>
 </template>
-
-<script>
-import { mapGetters, mapState } from 'vuex'
-export default {
-    name: 'wishlist',
-
-    data() {
-        return {
-            title: 'Wishlist',
-            // Breadcrumb Items Data
-            breadcrumbItems: [
-                {
-                    text: 'Home',
-                    to: '/'
-                },
-                {
-                    text: 'Wishlist',
-                    to: '/my-account/wishlist'
-                }
-            ],
-            cartProduct: {},
-        }
-    },
-
-    computed: {
-        ...mapGetters({
-            wishlist: 'products/wishlistItems',
-        }),
-        ...mapState({
-            productslist: (state) => state.products.productslist,
-        }),
-    },
-    mounted() {
-        // For scroll page top for every Route 
-        window.scrollTo(0, 0)
-    },
-
-    methods: {
-        // Image Url 
-        getImageUrl(path) {
-            return require('@/assets/img/product-image/' + path)
-        },
-        // For Delete/Remove wishlist Item 
-        removeWishlistItem: function (product) {
-            this.$store.dispatch('products/removeWishlistItem', product)
-        },
-        // Product Add To Cart realted methods
-        addToCart: function (product) {
-            this.dismissCountDown = this.dismissSecs;
-            this.cartProduct = product;
-            this.$emit('showalert', this.dismissCountDown);
-            this.$store.dispatch('cart/addToCart', product);
-        },
-
-        // After Add to cart Alert 
-        countDownChanged(dismissCountDown) {
-            this.dismissCountDown = dismissCountDown
-            this.$emit('alertseconds', this.dismissCountDown)
-        },
-    },
-
-    // Page head() Title, description for SEO 
-    head() {
-        return {
-            title: this.title,
-            meta: [
-                {
-                    hid: 'description',
-                    name: 'description',
-                    content: 'Wishlist page - AndShop Ecommerce Vue js, Nuxt js Template'
-                }
-            ]
-        }
-    }
-}
-</script>
