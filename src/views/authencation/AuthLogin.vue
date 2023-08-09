@@ -52,7 +52,7 @@
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
                         <div class="bordert py-2 my-4 flex align-items-center justify-content-center text-lg">
-                            <socailMedia/>
+                            <!-- <socailMedia/> -->
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 // Components
-import socailMedia from "./socialmedia/SocialMedia.vue";
+// import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
 import { mapActions } from "vuex";
 import { ElMessage } from "element-plus";
@@ -201,7 +201,7 @@ export default {
         }
     },
     components: {
-        socailMedia,
+        // socailMedia,
         MazInput
     }
 }

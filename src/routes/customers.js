@@ -10,7 +10,7 @@ export default [
         children:[
           {
             path:'/', 
-            component:()=> import('../views/customers/home/homePage.vue'),
+            component:()=> import('../views/customers/MainCustomerPage.vue'),
           },
         /**
          * @Router My Order Payment & My Accounts
@@ -25,6 +25,11 @@ export default [
             name:'shopping-cart',
             component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
           },
+           {
+               path: "/customer/my-account/shopping-cart/orders/checkout",
+               name: 'my-acc-checkouts',
+               component: () => import("../views/customers/sopping_cart/MyAccCheckOut.vue"),
+           },
           {
             path: "/customer/my-account/wishlist",
             name: 'wishlist-my-account-cart',
@@ -34,11 +39,6 @@ export default [
             path: "/customer/more-product",
             name:'more-product',
             component: () => import("../views/customers/sopping_cart/MoreProductRecommend.vue"),
-          },
-         {
-            path: "/customer/my-account/shopping-cart/orders/checkout",
-            name:'my-acc-checkouts',
-            component: () => import("../views/customers/sopping_cart/MyAccCheckOut.vue"),
           },
           {
             path: "/customer/order/account_detail",
@@ -53,16 +53,6 @@ export default [
             path: "/customer/search-product/query-product/filter-product-by-name",
             name:'query-product-detail',
             component: () => import("../views/customers/product_filter/ProductFilters.vue"),
-          },
-          {
-            path: "/customer/search-product/query-product/filter-product-by-name-02",
-            name:'query-product-detail-02',
-            component: () => import("../views/customers/product_filter/ProductFilter02.vue"),
-          },
-           {
-            path: "/customer/search-product/query-product/filter-product-by-name-03",
-            name:'query-product-detail-03',
-            component: () => import("../views/customers/product_filter/ProductFilter03.vue"),
           }
         ]
     },

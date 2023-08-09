@@ -1,12 +1,17 @@
-import {
-    createApp
-} from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 /*
    @E-Commerces
    @Library E-Commerces
 */
-import "./assets/front-end/app-front-end.css";
+import "./assets/commerce_frontend_/css/commerce_frontend.css";
+// Global Font and Icons
+import "./assets/commerce_frontend_/css/icon_font_global.css";
+// Customize Plugins
+import "./assets/commerce_frontend_/css/plugins/animate.css";
+import "./assets/commerce_frontend_/css/plugins/easyzoom.css";
+import "./assets/commerce_frontend_/css/plugins/slick.css";
+import "./assets/commerce_frontend_/css/plugins/magnific-popup.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
 import VueSidebarMenu from 'vue-sidebar-menu';
 /**
@@ -17,16 +22,12 @@ import "./permissions";
 /**
  * Plugin Install on projects
  * * */ 
-import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css'
-import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
-import "./assets/css/customer_ecommerce_app/style_prefix.css";
-import "./assets/css/style.css";
-import "./assets/css/account-tab.css";
+
 /* @Prime Vue*/
 import './assets/primeflex.scss';
 import "primevue/resources/themes/md-light-indigo/theme.css";
 // Admin Kit 
-import "./assets/css/adminlte.min.css";
+// import "./assets/css/adminlte.min.css";
 import './assets/css/element_plus/index.css';
 import './assets/css/element_plus/display.css';
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
@@ -134,12 +135,9 @@ app.use(Vue3FormWizard);
 import i18n from "./lang";
 app.use(i18n);
 
-
-
 //Vuex
 import Vuex from 'vuex';
 import store from "./store";
-
 import { handlingExpiredToken } from './utils/auth/handlingExpiredToken';
 app.use(Vuex);
 app.use(store);
@@ -211,7 +209,6 @@ app.use(VueSidebarMenu);
 app.component('inner-image-zoom', InnerImageZoom);
 app.component('counter-up', CounterUp);
 app.use(VueCookies);
-
 /*
    @E-Commerces Dashboard
    @Library E-Commerces Dashboard
@@ -240,7 +237,6 @@ import * as filters from "./filters";
 Object.keys(filters).forEach(key => {
    app.config.globalProperties.$filters = filters[key];
 });
-
 /*
     @Directive Permissions and roles
 **/ 

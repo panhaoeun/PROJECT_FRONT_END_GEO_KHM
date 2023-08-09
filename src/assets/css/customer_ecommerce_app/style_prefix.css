@@ -1982,7 +1982,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
 \*-----------------------------------*/
 
 footer {
-  background: var(--eerie-black);
+  background: var(--white);
   padding: 30px 0;
 }
 

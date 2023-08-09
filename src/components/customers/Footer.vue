@@ -1,247 +1,48 @@
 <template>
-    <footer>
-        <!-- Footer Category -->
-        <div class="footer-category">
-          <div class="container">
-            <h2 class="footer-category-title">Brand directory</h2>
-            <div class="footer-category-box">
-
-              <h3 class="category-box-title">Fashion :</h3>
-
-              <a href="#" class="footer-category-link">T-shirt</a>
-              <a href="#" class="footer-category-link">Shirts</a>
-              <a href="#" class="footer-category-link">shorts & jeans</a>
-              <a href="#" class="footer-category-link">jacket</a>
-              <a href="#" class="footer-category-link">dress & frock</a>
-              <a href="#" class="footer-category-link">innerwear</a>
-              <a href="#" class="footer-category-link">hosiery</a>
-
+    <footer class="footer-area pt-115 pb-115">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact-info-wrap">
+                        <div class="footer-logo">
+                            <a href="#"><img src="../../assets/company_logo/ecommerce_logo.png" width="100" alt="logo"></a>
+                        </div>
+                        <div class="single-contact-info">
+                            <span>Our Location</span>
+                            <p>869 General Village Apt. 645, Moorebury, USA</p>
+                        </div>
+                        <div class="single-contact-info">
+                            <span>24/7 hotline:</span>
+                            <p>(+99) 052 128 2399</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="footer-right-wrap">
+                        <div class="footer-menu">
+                            <nav>
+                                <ul>
+                                    <li><a href="index.html">home</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="shop.html">Product </a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="blog.html">Blog.</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="social-style-2 social-style-2-hover-black social-style-2-mrg">
+                            <a href="#"><i class="social_twitter"></i></a>
+                            <a href="#"><i class="social_facebook"></i></a>
+                            <a href="#"><i class="social_googleplus"></i></a>
+                            <a href="#"><i class="social_instagram"></i></a>
+                            <a href="#"><i class="social_youtube"></i></a>
+                        </div>
+                        <div class="copyright">
+                            <p>Copyright © 2020 HasThemes | <a href="https://hasthemes.com/">Built with <span>Norda</span> by HasThemes</a>.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <!-- Product Categories -->
-        <div class="footer-nav">
-
-          <div class="container">
-
-            <ul class="footer-nav-list">
-
-              <li class="footer-nav-item">
-                <h2 class="nav-title">Popular Categories</h2>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Fashion</a>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Electronic</a>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Cosmetic</a>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Health</a>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Watches</a>
-              </li>
-
-            </ul>
-
-            <ul class="footer-nav-list">
-        
-              <li class="footer-nav-item">
-                <h2 class="nav-title">Products</h2>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Prices drop</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">New products</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Best sales</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Contact us</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Sitemap</a>
-              </li>
-        
-            </ul>
-
-            <ul class="footer-nav-list">
-        
-              <li class="footer-nav-item">
-                <h2 class="nav-title">Our Company</h2>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Delivery</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Legal Notice</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Terms and conditions</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">About us</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Secure payment</a>
-              </li>
-        
-            </ul>
-
-            <ul class="footer-nav-list">
-        
-              <li class="footer-nav-item">
-                <h2 class="nav-title">Services</h2>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Prices drop</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">New products</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Best sales</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Contact us</a>
-              </li>
-        
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">Sitemap</a>
-              </li>
-        
-            </ul>
-
-            <ul class="footer-nav-list">
-
-              <li class="footer-nav-item">
-                <h2 class="nav-title">Contact</h2>
-              </li>
-
-              <li class="footer-nav-item flex">
-                <div class="icon-box">
-                  <ion-icon name="location-outline"></ion-icon>
-                </div>
-
-                <address class="content">
-                  419 State 414 Rte
-                  Beaver Dams, New York(NY), 14812, USA
-                </address>
-              </li>
-
-              <li class="footer-nav-item flex">
-                <div class="icon-box">
-                  <ion-icon name="call-outline"></ion-icon>
-                </div>
-
-                <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
-              </li>
-
-              <li class="footer-nav-item flex">
-                <div class="icon-box">
-                  <ion-icon name="mail-outline"></ion-icon>
-                </div>
-
-                <a href="mailto:example@gmail.com" class="footer-nav-link">example@gmail.com</a>
-              </li>
-
-            </ul>
-
-            <ul class="footer-nav-list">
-
-              <li class="footer-nav-item">
-                <h2 class="nav-title">Follow Us</h2>
-              </li>
-
-              <li>
-                <ul class="social-link">
-
-                  <li class="footer-nav-item">
-                    <a href="#" class="footer-nav-link">
-                      <ion-icon name="logo-facebook"></ion-icon>
-                    </a>
-                  </li>
-
-                  <li class="footer-nav-item">
-                    <a href="#" class="footer-nav-link">
-                      <ion-icon name="logo-twitter"></ion-icon>
-                    </a>
-                  </li>
-
-                  <li class="footer-nav-item">
-                    <a href="#" class="footer-nav-link">
-                      <ion-icon name="logo-linkedin"></ion-icon>
-                    </a>
-                  </li>
-
-                  <li class="footer-nav-item">
-                    <a href="#" class="footer-nav-link">
-                      <ion-icon name="logo-instagram"></ion-icon>
-                    </a>
-                  </li>
-
-                </ul>
-              </li>
-
-            </ul>
-
-          </div>
-
-        </div>
-
-        <div class="footer-bottom">
-
-          <div class="container">
-            <img src="../../assets/img/credit/payment.png" alt="payment method" class="payment-img" style="width: 15rem;">
-            <p class="copyright">
-              Copyright &copy; <router-link to="/">PhzarKhmer</router-link> all rights reserved.
-            </p>
-
-          </div>
-
-        </div>
-
-      </footer>
-
+    </footer>
 </template>
-<!-- Open Shop -->
-<script>
-        export default{
-            data(){
-                return {
-                    loading: [false,  false, false]
-                }
-            },
-            methods:{
-                 // Loadin Submit
-                 load(index) {
-                    this.loading[index] = true;
-                    setTimeout(() => this.loading[index] = false, 1000);
-                 }
-            }
-        }
-</script>
