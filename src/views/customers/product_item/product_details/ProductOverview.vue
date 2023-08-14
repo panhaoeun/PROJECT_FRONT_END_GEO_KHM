@@ -20,74 +20,70 @@
                     <div class="product-details-tab">
                         <div class="pro-dec-big-img-slider">
                             <div class="easyzoom-style">
-                                <div class="easyzoom easyzoom--overlay">
+                                <div class="easyzoom easyzoom--overlay" v-if="productThumbnailRULFormate && productThumbnailRULFormate!== null">
                                     <a href="#">
-                                        <img src="../../../../assets/img/product/large-1.jpg" alt="">
+                                        <img 
+                                            :src="productThumbnailRULFormate ?? ''" 
+                                            :aria-atomic="title"
+                                        >
                                     </a>
                                 </div>
-                                <a class="easyzoom-pop-up img-popup" href="../../../../assets/img/product/b-large-1.jpg"><i class="icon-size-fullscreen"></i></a>
+                                <!-- Empty Thumbnail -->
+                                <EmptyThumbnail v-else/>
+                                <!-- Image Popup expandable -->
+                                <a 
+                                    data-mfp-src="image-for-popup.jpg"
+                                    class="easyzoom-pop-up img-popup" 
+                                    href="../../../../assets/img/product/b-large-1.jpg"
+                                >
+                                    <i class="icon-size-fullscreen"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="product-dec-slider-small product-dec-small-style1">
-                            <div class="product-dec-small active">
-                                <img src="../../../../assets/img/product/small-1.jpg" alt="">
-                            </div>
-                            <div class="product-dec-small">
-                                <img src="../../../../assets/img/product/small-1.jpg" alt="">
+                        <!-- Product Multiple Image -->
+                        <!-- {{ productImgMulti }} -->
+                        <div class="product-dec-slider-small product-dec-small-style1" 
+                            v-for="multiImg in productImgMulti.slice(0, 4)" 
+                            :key="multiImg"
+                        >        
+                            <div class="product-dec-small"
+                               v-for="(image,index) in multiImg" :key="index"
+                            >
+                                <img 
+                                    v-on:mouseover="setActiveImageThumbnail(index)"
+                                    :src="productMultiImgURLFormate(image?.fileName)"
+                                    :alt="image?.fileName"
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product-details-content pro-details-content-mrg">
-                        <h2>Simple Black T-Shirt</h2>
-                        <div class="product-ratting-review-wrap">
+                        <h2>{{title ?? '7Day'}}</h2>
+                        <div class="product-ratting-review-wrap" v-if="rating">
                             <div class="product-ratting-digit-wrap">
                                 <div class="product-ratting">
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                </div>
-                                <div class="product-digit">
-                                    <span>5.0</span>
+                                  <i v-for="rating in productRating" :key="rating" class="icon_star"></i>
                                 </div>
                             </div>
-                            <div class="product-review-order">
-                                <span>62 Reviews</span>
+                            <!-- <div class="product-review-order">
                                 <span>242 orders</span>
-                            </div>
+                            </div> -->
                         </div>
-                        <p>Seamlessly predominate enterprise metrics without performance based process improvements.</p>
                         <div class="pro-details-price">
-                            <span class="new-price">$75.72</span>
-                            <span class="old-price">$95.72</span>
+                            <span class="new-price">{{ productUnitPrice ?? 0 }}</span>
+                            <!-- <span class="old-price">$95.72</span> -->
                         </div>
-                        <div class="pro-details-color-wrap">
-                            <span>Color:</span>
-                            <div class="pro-details-color-content">
-                                <ul>
-                                    <li><a class="dolly" href="#">dolly</a></li>
-                                    <li><a class="white" href="#">white</a></li>
-                                    <li><a class="azalea" href="#">azalea</a></li>
-                                    <li><a class="peach-orange" href="#">Orange</a></li>
-                                    <li><a class="mona-lisa active" href="#">lisa</a></li>
-                                    <li><a class="cupid" href="#">cupid</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="pro-details-size">
-                            <span>Size:</span>
+                        <!-- Product Spec -->
+                        <div class="pro-details-size" v-if="productSpec">
+                            {{ productSpec }}
+                            <!-- <span>Size:</span>
                             <div class="pro-details-size-content">
                                 <ul>
                                     <li><a href="#">XS</a></li>
-                                    <li><a href="#">S</a></li>
-                                    <li><a href="#">M</a></li>
-                                    <li><a href="#">L</a></li>
-                                    <li><a href="#">XL</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="pro-details-quality">
                             <span>Quantity:</span>
@@ -97,24 +93,17 @@
                         </div>
                         <div class="product-details-meta">
                             <ul>
-                                <li><span>Categories:</span> <a href="#">Woman,</a> <a href="#">Dress,</a> <a href="#">T-Shirt</a></li>
-                                <li><span>Tag: </span> <a href="#">Fashion,</a> <a href="#">Mentone</a> , <a href="#">Texas</a></li>
+                                <li>
+                                    <span>Categories:</span> <a href="#">Woman</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="pro-details-action-wrap">
                             <div class="pro-details-add-to-cart">
-                                <a href="#">Buy on Themeforest </a>
+                                <a href="#">Add To Cart </a>
                             </div>
-                            <div class="pro-details-action">
-                                <a title="Add to Wishlist" href="#"><i class="icon-heart"></i></a>
-                                <a title="Add to Compare" href="#"><i class="icon-refresh"></i></a>
-                                <a class="social" title="Social" href="#"><i class="icon-share"></i></a>
-                                <div class="product-dec-social">
-                                    <a class="facebook" title="Facebook" href="#"><i class="icon-social-facebook"></i></a>
-                                    <a class="twitter" title="Twitter" href="#"><i class="icon-social-twitter"></i></a>
-                                    <a class="instagram" title="Instagram" href="#"><i class="icon-social-instagram"></i></a>
-                                    <a class="pinterest" title="Pinterest" href="#"><i class="icon-social-pinterest"></i></a>
-                                </div>
+                            <div class="pro-details-add-to-cart-red">
+                                <a href="#">Buy Now</a>
                             </div>
                         </div>
                     </div>
@@ -125,17 +114,126 @@
 </template>
 <!-- Script -->
 <script>
-   
-    export default{
-        data(){
-            return {}
-        },
+    import EmptyThumbnail from "../../../../components/error_page/EmptyThumbnail.vue";
+    import $ from "jquery";
+    export default {
         components: {
+            EmptyThumbnail
         },
-        method:{
-            cartPlusMinusQuantity(){
-
+        props: {
+            title: {type: String},
+            productThumbnail: {type: String, required: true, default: ''},
+            productImgMulti: {type: Array, required: true},
+            productSpec: {type: Array, default: Array.isArray() ?? []},
+            productQty: {type: Number, default : 1},
+            productRating: {type: Number},
+            productUnitPrice: {type: Number},
+        },
+        data(){
+            return{
+                quantity: 1,
+                activeImageThumbnail: this.productThumbnail,
+                ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http"),
+                multipleImgPATH: ''
             }
+        },
+        computed: {
+            productThumbnailRULFormate(){
+                return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + String(this.productThumbnail) ?? '';
+            }
+        },
+        created(){
+            this.productDesSliderSmall();
+        },  
+        methods: {
+    
+            productMultiImgURLFormate(filePath){ 
+                return this.ENV_HOST_PATH_FILE + `uploads/products_img/list_img_products/` + String(filePath);
+            },
+            setActiveImageThumbnail(index){
+                const proxy = new Proxy(this.productImgMulti, {});
+                const arrayImg = JSON.parse(JSON.stringify(proxy));
+                console.log( String(arrayImg[0][index].fileName) ?? []);
+            },
+            productDesSliderSmall(){
+                $(document).ready(function() {
+                    /*------- Color active -----*/
+                    $('.pro-details-color-content').on('click', 'a', function(e){
+                        e.preventDefault();
+                        $(this).addClass('active').parent().siblings().children('a').removeClass('active');
+                    });
+                    $('.pro-details-size-content').on('click', 'a', function(e){
+                        e.preventDefault();
+                        $(this).addClass('bg-red-500').parent().siblings().children('a').removeClass('bg-red-500');
+                    });
+                     /*----------------------------
+                        Cart Plus Minus Button
+                    ------------------------------ */
+                    var cartPlusMinus = $('.cart-plus-minus');
+                    cartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
+                    cartPlusMinus.append('<div class="inc qtybutton">+</div>');
+                    $(".qtybutton").on("click", function() {
+                        var $button = $(this);
+                        var oldValue = $button.parent().find("input").val();
+                        if ($button.text() === "+") {
+                            var newVal = !isNaN(oldValue) && parseFloat(oldValue) + 1;
+                        } else {
+                            // Don't allow decrementing below zero
+                            if (oldValue > 1) {
+                                // eslint-disable-next-line no-redeclare
+                                var newVal =  !isNaN(oldValue) &&  parseFloat(oldValue) - 1;
+                            } else { 
+                                newVal = 1;
+                            }
+                        }
+                        $button.parent().find("input").val(newVal);
+                    });
+                    
+                    /*-------------------------------------
+                    Product details big image slider
+                    ---------------------------------------*/
+                    $('.pro-dec-big-img-slider').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        arrows: false,
+                        draggable: false,
+                        fade: false,
+                        asNavFor: '.product-dec-slider-small',
+                    });
+                    /*---------------------------------------
+                        Product details small image slider
+                    -----------------------------------------*/
+                    $('.product-dec-slider-small').slick({
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        asNavFor: '.pro-dec-big-img-slider',
+                        dots: false,
+                        focusOnSelect: true,
+                        fade: false,
+                        prevArrow: '<span class="pro-dec-prev"><i class="icon-arrow-left"></i></span>',
+                        nextArrow: '<span class="pro-dec-next"><i class="icon-arrow-right"></i></span>',
+                        responsive: [{
+                                breakpoint: 991,
+                                settings: {
+                                    slidesToShow: 3,
+                                }
+                            },
+                            {
+                                breakpoint: 767,
+                                settings: {
+                                    slidesToShow: 4,
+                                }
+                            },
+                            {
+                                breakpoint: 575,
+                                settings: {
+                                    slidesToShow: 2,
+                                }
+                            }
+                        ]
+                    });
+                });
+            },
         }
     }
-</script>
+  </script>

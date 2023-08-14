@@ -5,17 +5,18 @@
                 <div class="col-lg-12">
                     <div class="dec-review-topbar nav mb-45" style="background: none;">
                         <a class="active" data-toggle="tab" data-bs-toggle="pill" data-bs-target="#des-details1" type="button" role="tab" aria-controls="des-details1" aria-selected="true" href="#des-details1">Description</a>
-                        <a data-toggle="tab" data-bs-toggle="pill" data-bs-target="#des-details2" type="button" role="tab" aria-controls="des-details2" aria-selected="true" href="#des-details2">Specification</a>
-                        <a data-toggle="tab" data-bs-toggle="pill" data-bs-target="#des-details3" type="button" role="tab" aria-controls="des-details3" aria-selected="true"  href="#des-details3">Reviews and Ratting </a>
+                        <!-- <a data-toggle="tab" data-bs-toggle="pill" data-bs-target="#des-details2" type="button" role="tab" aria-controls="des-details2" aria-selected="true" href="#des-details2">Specification</a>
+                        <a data-toggle="tab" data-bs-toggle="pill" data-bs-target="#des-details3" type="button" role="tab" aria-controls="des-details3" aria-selected="true"  href="#des-details3">Reviews and Ratting </a> -->
                     </div>
+                    <!-- Tabs -->
                     <div class="tab-content dec-review-bottom px-2 py-2">
-                        <div id="des-details1" role="tabpanel" aria-labelledby="des-details1-tab" class="tab-pane active">
-                            <div class="description-wrap">
-                                <p>Crafted in premium watch quality, fenix Chronos is the first Garmin timepiece to combine a durable metal case with integrated performance GPS to support navigation and sport. In the tradition of classic tool watches it features a tough design and a set of modern meaningful tools.</p>
-                                <p> advanced performance metrics for endurance sports, Garmin quality navigation features and smart notifications. In fenix Chronos top-tier performance meets sophisticated design in a highly evolved timepiece that fits your style anywhere, anytime. Solid brushed 316L stainless steel case with brushed stainless steel bezel and integrated EXOTM antenna for GPS + GLONASS support. High-strength scratch resistant sapphire crystal. Brown vintage leather strap with hand-sewn contrast stitching and nubuck inner lining and quick release mechanism.</p>
+                        <!-- Descriptions -->
+                        <div id="des-details1" role="tabpanel" aria-labelledby="des-details1-tab" class="tab-pane active pt-20">
+                            <div class="description-wrap content-descriptions">
+                                {{ productDescEng ?? '' }}
                             </div>
                         </div>
-                        <div id="des-details2" role="tabpanel" aria-labelledby="des-details2-tab" class="tab-pane">
+                        <!-- <div id="des-details2" role="tabpanel" aria-labelledby="des-details2-tab" class="tab-pane pt-20">
                             <div class="specification-wrap table-responsive">
                                 <table>
                                     <tbody>
@@ -51,7 +52,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div id="des-details3" role="tabpanel" aria-labelledby="des-details3-tab" class="tab-pane">
+                        <div id="des-details3" role="tabpanel" aria-labelledby="des-details3-tab" class="tab-pane pt-20">
                             <div class="review-wrapper">
                                 <h2>1 review for Sleeve Button Cowl Neck</h2>
                                 <div class="single-review">
@@ -137,7 +138,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -147,7 +148,9 @@
 <script>
 export default {
     components: {},
-    props: {},
+    props: {
+        productDescEng: {type: String, required: true, default: ''}
+    },
     data() {
         return {};
     },
@@ -159,4 +162,11 @@ export default {
 <style scoped>
 </style>
 <style lang='scss' scoped>
+    .content-descriptions{
+        font-size: 15px;
+        line-height: 30px;
+        margin: 0 0 20px;
+        color: #666;
+        font-family: "Poppins", sans-serif;
+    }
 </style>
