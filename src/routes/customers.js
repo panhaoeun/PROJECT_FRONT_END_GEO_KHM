@@ -16,15 +16,45 @@ export default [
          * @Router My Order Payment & My Accounts
          * */   
           {
-            path: "/customer/product-details/product/:id?",
+            path: "/customer/product-details/product/view-product-detail",
             name:'product-details',
             component: () => import("../views/customers/product_item/product_details/ProductDetails.vue"),
+            beforeEnter: (to, from, next) => {
+                // Check Empty Queries
+                let typePID = typeof to.query?.pid;
+                let typePName = typeof to.query?.pname;
+                if (Object.keys(to.query).length < 1 || typePID === 'undefined' || typePName === 'undefined') {
+                     next({
+                         path: '/customer/shopping-cart/product-list/cart-items'
+                     });
+                     
+                }else if(to.query?.pname === '' || to.query?.id === ''){
+                    next({
+                        path: '/'
+                    })
+                }
+                if (Object.keys(to.query).length > 0) {
+                    if (!Object.prototype.hasOwnProperty.call(to.query)) {
+                       next();
+                       return true;
+                    }
+                }
+
+            }
           },
           {
             path: "/customer/shopping-cart/product-list/cart-items",
             name:'shopping-cart',
             component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
           },
+            /*
+            @Add to cart
+            * */ 
+            {
+                path: "/customer/shopping-cart/product-list/cart-items",
+                name: 'shopping-cart',
+                component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
+            },
            {
                path: "/customer/my-account/shopping-cart/orders/checkout",
                name: 'my-acc-checkouts',
@@ -53,7 +83,13 @@ export default [
             path: "/customer/search-product/query-product/filter-product-by-name",
             name:'query-product-detail',
             component: () => import("../views/customers/product_filter/ProductFilters.vue"),
-          }
+          },
+          //Contact Info
+          {
+              path: '/customer/admin_contact_info/contact_info',
+              name: 'contact-info',
+              component: () => import('../components/customers/home_frontend_component/contact_us/ContactInfo.vue'),
+          },
         ]
     },
 ]

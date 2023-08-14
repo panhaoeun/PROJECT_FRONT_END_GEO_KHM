@@ -48,12 +48,40 @@ export const asyncRoutes = [
     moduleOrderManagementRouters,
     moduleOrderReportManagementRouters
 ]
+const scrollBehavior = (to, from, savedPosition) => {
+    if (savedPosition) {
+        // savedPosition is only available for popstate navigation's.
+        return savedPosition
+    } else {
+        const position = {}
+        // new navigation.
+        // scroll to anchor by returning the selector
+        if (to.hash) {
+            position.selector = to.hash;
+            // console.log("scrolling to == ",to)
+            // specify offset of the element
+            if (to.hash === '#products') {
+                position.offset = {
+                    y: 10
+                }
+            }
+        }
+        // check if any matched route config has meta that requires scrolling to top
+        if (to.matched.some(m => m.meta.scrollToTop)) {
+            // cords will be used if no selector is provided,
+            // or if the selector didn't match any element.
+            position.x = 0
+            position.y = 0
+        }
+        // if the returned position is falsy or an empty object,
+        // will retain current scroll position.
+        return position
+    }
+}
 const routerModules = () => new createRouter({
     // mode: 'history', // require service support
     history: createWebHistory(),
-    scrollBehavior: () => ({
-        y: 0
-    }),
+    scrollBehavior,
     base: process.env.BASE_URL,
     linkActiveClass: 'router-link-active',
     linkExactActiveClass: 'router-link-exact-active',

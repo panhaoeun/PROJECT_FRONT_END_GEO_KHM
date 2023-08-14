@@ -8,14 +8,14 @@ export default [
         hidden: true,
         children: [
           //Status Code 404 -> Not Found 
-           { path: '/:pathMatch(.*)*', component: PageNotfound },
-           {
-               path: '/error/401',
-               component: UnauthorizedError,
-               meta: {
-                   title: "Unauthorized | 7Day"
-               },
-           },
+            { path: '/:pathMatch(.*)*', component: PageNotfound },
+            {
+                path: '/error/401',
+                component: UnauthorizedError,
+                meta: {
+                    title: "Unauthorized | 7Day"
+                },
+            },
         ]
     }
 ];

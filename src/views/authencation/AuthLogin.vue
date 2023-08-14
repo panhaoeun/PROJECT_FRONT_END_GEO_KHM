@@ -48,6 +48,7 @@
                                 </div>    
                                 <!-- Button Submit -->
                                 <MazBtn type="submit" :loading="userLoggedIn">Sign In</MazBtn>
+                                <!-- Errors -->
                             </form>
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
@@ -100,7 +101,8 @@ export default {
             loading: [false,  false, false],
             messages: '',
             results: '',
-            isLoading: false
+            isLoading: false,
+            loginError: ""
         }
     },
     validations() {
@@ -165,6 +167,7 @@ export default {
                             if(typeof(error.response.data.error.error) !== undefined){
                                 ElMessage.error(error.response.data.message);
                                 ElMessage.error(error.response.data.error.error);
+                                this.loginError = error.response.data.error ?? '';
                             }
                         }
                     );

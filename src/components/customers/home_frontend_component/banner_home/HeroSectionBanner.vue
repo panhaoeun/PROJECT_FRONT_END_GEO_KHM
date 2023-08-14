@@ -1,84 +1,88 @@
 <template>
     <div class="slider-area pb-65">
-            <swiper 
-                :grabCursor="true"
-                :effect="'creative'"
-                :modules="modules"
-                :centeredSlides="true"
-                :autoplay="{
-                    delay: 8000,
-                    disableOnInteraction: false,
-                }"
-                :navigation="{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                }"
-                :creativeEffect="{
-                    prev: {
-                        shadow: true,
-                        translate: [0, 0, -300],
-                    },
-                    next: {
-                        translate: ['100%', 0, 0],
-                    },
-                }"
-                :keyboard="{
-                    enabled: true,
-                }"
-                :pagination="{
-                    clickable: true,
-                }"
-                class="hero-slider-active-1 nav-style-1 dot-style-2 dot-style-2-position-2 dot-style-2-active-black"
+        <div class="hero-slider-active-1 nav-style-1 dot-style-2 dot-style-2-position-2 dot-style-2-active-black">
+            <div
+                v-for="sliderItem in sliderHeroSectionItems" :key="sliderItem.id" 
+                class="single-hero-slider single-animation-wrap slider-height-2 custom-d-flex custom-align-item-center bg-img hm2-slider-bg res-white-overly-xs" 
+                v-bind:style="{ 'background-image': `url(${sliderItem?.imagePath})`}"
             >
-                <swiper-slide 
-                    class="single-hero-slider single-animation-wrap slider-height-2 custom-d-flex custom-align-item-center bg-img hm2-slider-bg res-white-overly-xs" 
-                    v-bind:style="{ 'background-image': `url(${imagepath})` }"
-                >
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="hero-slider-content-4 slider-animated-1">
-                                    <h4 class="animated">Lookbook</h4>
-                                    <h1 class="animated">Denim Mixed <br>Layering Combine <br>collect</h1>
-                                    <p class="animated">We love seeing how our Raifa wearers like to wear their Norda</p>
-                                    <div class="btn-style-1">
-                                        <a class="animated btn-1-padding-1" href="product-details.html">Explore Now</a>
-                                    </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="hero-slider-content-4 slider-animated-1 h1 pb-100">
+                                <h4 class="animated">Lookbook</h4>
+                                <h1 class="animated">{{sliderItem?.title }}</h1>
+                                <p class="animated">{{ sliderItem?.description }}</p>
+                                <div class="btn-style-1">
+                                    <a class="animated btn-1-padding-1" href="product-details.html">Explore Now</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                 </swiper-slide>
-                <!-- If we need navigation buttons -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </swiper>
+                </div>
+            </div>
         </div>
+    </div>
 </template>
 <script>
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import {Autoplay,Keyboard, Navigation, Pagination} from 'swiper';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-creative';
-import "swiper/css/scrollbar";
+import $ from "jquery";
 export default {
-    components: {Swiper, SwiperSlide},
     setup() {
-        return {
-            modules: [Autoplay,Keyboard, Navigation, Pagination],
+        return {    
         };
     },
     props: {},
     data() {
         return {
-             imagepath: require('@/assets/img/product/hm-4-slider-1.jpg'),
+            imagepath: require('@/assets/img/product/hm-4-slider-1.jpg'),
+            sliderHeroSectionItems: [
+                {
+                    id: 1,
+                    imagePath: require('@/assets/img/banner/brown_fashion.png'),
+                    title: 'Fashion Style',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Brown Minimalist Fashion Sale Banner'
+                },
+                {
+                    id: 2,
+                    imagePath: require('@/assets/img/banner/fashion_sale.png'),
+                    title: 'New Fashion',
+                    subTitle: 'NEW TRANDING',
+                    description: '+123-456-7890 / www.reallygreatsite.com / @reallygreatsite'
+                },
+                {
+                    id: 3,
+                    imagePath: require('@/assets/img/banner/promotion_banner.png'),
+                    title: 'Fresh Sale',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Flash Sale 9.9 Promotion'
+                },
+            ]
         };
     },
     created() {},
-    methods: {},
-    mounted() {},
+    mounted() {
+        this.heroSliderBannerSection();
+    },
+    methods: {
+        async heroSliderBannerSection(){
+            $(document).ready(function () {
+                /*------ Hero slider active 1 ----*/
+                $('.hero-slider-active-1').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    fade: true,
+                    loop: true,
+                    dots: true,
+                    arrows: true,
+                    prevArrow: '<span class="slider-icon-1-prev"><i class="icon-arrow-left"></i></span>',
+                    nextArrow: '<span class="slider-icon-1-next"><i class="icon-arrow-right"></i></span>',
+                });
+                
+            });
+        }
+    },
+
 };
 </script>
 <style scoped>

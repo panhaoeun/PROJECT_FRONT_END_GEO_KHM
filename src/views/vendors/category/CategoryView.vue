@@ -90,7 +90,7 @@
     // import { useToast } from 'primevue/usetoast';
     import { FilterMatchMode } from 'primevue/api';
     import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
-   import { ElMessage } from 'element-plus';
+    import { ElMessage } from 'element-plus';
      export default{
         data(){
             return {

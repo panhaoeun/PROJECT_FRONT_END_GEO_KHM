@@ -11,6 +11,10 @@ import "./assets/commerce_frontend_/css/icon_font_global.css";
 import "./assets/commerce_frontend_/css/plugins/animate.css";
 import "./assets/commerce_frontend_/css/plugins/easyzoom.css";
 import "./assets/commerce_frontend_/css/plugins/slick.css";
+// Slick Slider
+import "./assets/commerce_frontend_/js/slick.js";
+// Global Functions
+// import "./assets/commerce_frontend_/js/main_global_functions.js";
 import "./assets/commerce_frontend_/css/plugins/magnific-popup.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
 import VueSidebarMenu from 'vue-sidebar-menu';
@@ -112,6 +116,11 @@ const pinia = createPinia();
 const app = createApp(App);
 app.config && (app.config.productionTip = false);
 import VueCookies from 'vue-cookies';
+// Vue Query Initialization
+import {
+    VueQueryPlugin
+} from "@tanstack/vue-query";
+app.use(VueQueryPlugin);
 
 /*
      @Routes

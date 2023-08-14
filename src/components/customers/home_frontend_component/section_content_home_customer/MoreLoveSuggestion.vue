@@ -4,87 +4,91 @@
         <div class="section-title-btn-wrap border-bottom-3 mb-50 pb-20">
             <div class="section-title-deal-wrap">
                 <div class="section-title-3">
-                    <h2>Flash Deal</h2>
+                    <h2>More Love</h2>
                 </div>
             </div>
             <div class="btn-style-7">
-                <a href="shop.html">All Product</a>
+                <a href="#">All Product</a>
             </div>
         </div>
-        <div class="row">
-            <div class="custom-col-5">
-                <div class="single-product-wrap mb-60">
-                    <div class="product-img product-img-zoom mb-15">
-                        <a href="product-details.html">
-                            <img src="../../../../assets/img/product/product-62.jpg" alt="">
-                        </a>
-                        <div class="product-action-2 tooltip-style-2">
-                            <button title="Wishlist"><i class="icon-heart"></i></button>
-                            <button title="Quick View" data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i></button>
-                            <button title="Compare"><i class="icon-refresh"></i></button>
-                        </div>
-                    </div>
-                    <div class="product-content-wrap-3">
-                        <h3 class="mrg-none"><a class="blue" href="product-details.html">Mini Protector</a></h3>
-                        <div class="product-rating-wrap-2">
-                            <div class="product-rating-4">
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                            </div>
-                            <span>(4)</span>
-                        </div>
-                        <div class="product-price-4">
-                            <span>$19.98 </span>
-                        </div>
-                        <div class="product-author">
-                            <span>Seller: <a href="#">USoffice</a></span>
-                        </div>
-                    </div>
-                    <div class="product-content-wrap-3 product-content-position-2 pro-position-2-padding-dec">
-                        <h3 class="mrg-none"><a class="blue" href="product-details.html">Mini Protector</a></h3>
-                        <div class="product-rating-wrap-2">
-                            <div class="product-rating-4">
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                                <i class="icon_star"></i>
-                            </div>
-                            <span>(4)</span>
-                        </div>
-                        <div class="product-price-4">
-                            <span>$19.98 </span>
-                        </div>
-                        <div class="product-author">
-                            <span>Seller: <a href="#">USoffice</a></span>
-                        </div>
-                        <div class="pro-add-to-cart-2">
-                            <button title="Add to Cart">Add To Cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row" v-if="loadingData">
+           <!-- Product Flash Deal-->
+            <product-card
+                v-for="(product, index) in productMoreLove"
+                :productId="parseInt(product.productId) ?? 1"
+                :key="index"
+                :imageUrl="product?.product_picture ?? []"
+                :productName="product?.product_eng ?? []"
+                currency="KHR"
+                :productPrice="product?.product_unit_price ?? []"
+                :inStock="product.product_qty ?? []"
+            />
         </div>
+        <!-- Product Loader -->
+        <product-preloader v-else> Loading products... </product-preloader>
         <div class="more-product-btn text-center">
-            <a href="shop.html">More Product</a>
+            <a href="#" @click.prevent="loadMoreProductResult(pageNum,pageSize)">More Product...</a>
         </div>
     </div>
 </div>
 </template>
 <script>
+import ProductServices from '../../../../services/vendors/products/ProductServices'; 
+import ProductPreloader from "../../../../components/preloaders/ProductPreloader.vue";
+import ProductCard from './card_module_products/ProductCard.vue';
+import { ElMessage } from 'element-plus';
 export default {
-    components: {},
+    components: {
+        ProductCard, 
+        "product-preloader": ProductPreloader
+    },
     props: {},
     data() {
-        return {};
+        return {
+            totalPage: null,
+            productMoreLove: [],
+            ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http"),
+            pageNum: 1,
+            pageSize: 8,
+            loadingData: false
+        };
     },
-    created() {},
-    methods: {},
+    created() {
+        this.productServicesMS = new ProductServices();
+        this.getProductFlashDeal();
+    },
+    methods: {
+        async getProductFlashDeal(){    
+            try{
+                var requestURL = 'https://api.exchangerate.host/symbols'; 
+                // var request = new XMLHttpRequest(); 
+                console.log(requestURL)
+                this.loadingData = false;
+                this.productServicesMS.getCustomerProductsData(this.pageNum,this.pageSize)
+                    .then((proResult) => {
+                        if(!Array.isArray(proResult) || !proResult.length > 0){
+                            this.totalPage = [];
+                            this.productMoreLove = [];
+                        }
+                        this.productMoreLove = Array.isArray(proResult?.products) ? proResult?.products.slice() : [];
+                        this.totalPage = proResult.pages?.totalPages ?? [];
+                        this.loadingData = true;
+                    }    
+                );
+            }catch(error){
+                ElMessage.error(error.message ?? 'Some error entries of product...');
+                this.loadingData = false;
+            }
+        },
+        loadMoreProductResult(page, size){
+            this.pageNum = page;
+            this.pageSize = size + this.totalPage;
+            this.getProductFlashDeal();
+            window.scrollTo(0, 0);
+        }
+    },
     mounted() {},
-};
+}
 </script>
 <style scoped>
 </style>
