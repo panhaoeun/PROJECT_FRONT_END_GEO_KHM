@@ -26,6 +26,7 @@ const store = createStore({
     },
     mutations: {
         loginUser(state, payload) {
+            console.log(state.user)
             state.user = payload;
         },
         openBottomCanvasCommit(state, payload) {

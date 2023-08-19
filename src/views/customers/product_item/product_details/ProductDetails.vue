@@ -1,19 +1,22 @@
 <template>
    <div class="bg-white">
         <!-- Product Details -->
-        <!-- {{ productDetailResultArr[0]?.productImages }} -->
-        <ProductOverview
-           :title="String(productDetailResultArr[0]?.product[0].product_eng) ?? ''"
-           :productThumbnail="String(productDetailResultArr[0]?.product[0].thumbnail) ?? ''"
-           :productImgMulti="Array(productDetailResultArr[0]?.productImages)"
-           :productSpec="productDetailResultArr[0]?.product[0].product_spec ?? []"
-           :productQty="Number((parseInt(productDetailResultArr[0]?.product[0].product_qty ?? 0)))"
-           :productUnitPrice="Number((parseFloat(productDetailResultArr[0]?.product[0].product_unit_price)))"
-        />
-        <!-- Details of company or vendor show about their product -->
-        <ProductsDescription :productDescEng="productDetailResultArr[0]?.product[0].product_description_eng"/>
-        <!-- Relaid More Product -->
-        <StoreProductDetail/>
+        <template v-if="productDetailResultArr">  
+            <ProductOverview
+            :title="String(productDetailResultArr[0]?.product[0].product_eng) ?? ''"
+            :productThumbnail="String(productDetailResultArr[0]?.product[0].thumbnail) ?? ''"
+            :productImgMulti="Array(productDetailResultArr[0]?.productImages)"
+            :productSpec="productDetailResultArr[0]?.product[0].product_spec ?? []"
+            :productQty="Number((parseInt(productDetailResultArr[0]?.product[0].product_qty ?? 0)))"
+            :productUnitPrice="Number((parseFloat(productDetailResultArr[0]?.product[0].product_unit_price)))"
+            :categories="String(productDetailResultArr[0]?.product[0].catNameEn) ?? ''"
+            :productArrDetail="Array(productDetailResultArr[0].product) ?? []"
+            />
+            <!-- Details of company or vendor show about their product -->
+            <ProductsDescription :productDescEng="productDetailResultArr[0]?.product[0].product_description_eng"/>
+            <!-- Relaid More Product -->
+            <StoreProductDetail/>
+        </template>
    </div>
 </template>
 

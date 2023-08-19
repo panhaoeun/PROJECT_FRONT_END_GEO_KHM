@@ -1,5 +1,5 @@
 <template>
-    <div class="lds-ring">
+    <div class="lds-ring pro-details-add-to-cart">
         <div></div>
         <div></div>
         <div></div>
@@ -16,20 +16,19 @@ export default {};
 .lds-ring {
     display: inline-block;
     position: relative;
-    width: 15px;
-    height: 20px;
+    width: 30px;
+    height: 18px;
 }
 .lds-ring div {
     box-sizing: border-box;
     display: block;
     position: absolute;
-    width: 15px;
-    height: 15px;
-    margin: 3px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #fff transparent transparent transparent;
+    width: 25px;
+    height: 25px;
+    border: 7px solid #fff;
+    border-radius: 100%;
+    animation: lds-ring 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #f8f8f8b3 transparent transparent transparent;
 }
 .lds-ring div:nth-child(1) {
     animation-delay: -0.45s;

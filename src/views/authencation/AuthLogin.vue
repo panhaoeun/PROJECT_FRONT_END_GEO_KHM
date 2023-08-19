@@ -143,6 +143,7 @@ export default {
                         (response) => {
                             //Check validation  
                             if(response.success == true){
+                                this.set_user(response ?? []);
                                 this.userLoggedIn = true;
                                 this.$store.dispatch("auth/setCurrentUser", localStorage.getItem('user'));
                                 this.$store.dispatch("auth/setToken", Cookie.get('token'));

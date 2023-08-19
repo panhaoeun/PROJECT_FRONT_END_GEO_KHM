@@ -10,85 +10,100 @@
             <div class="btn-style-7">
                 <a href="#">All Product</a>
             </div>
-        </div>
-        <div class="row" v-if="loadingData">
+        </div> 
+        <div class="row" >
+            <span v-if="isLoading">Loading...</span>
+            <span v-else-if="isError">Error: {{ error.message }}</span>
            <!-- Product Flash Deal-->
-            <product-card
-                v-for="(product, index) in productMoreLove"
-                :productId="parseInt(product.productId) ?? 1"
+            <template 
+                v-else-if="data" 
+                v-for="(page, index) in data?.pages"
                 :key="index"
-                :imageUrl="product?.product_picture ?? []"
-                :productName="product?.product_eng ?? []"
-                currency="KHR"
-                :productPrice="product?.product_unit_price ?? []"
-                :inStock="product.product_qty ?? []"
-            />
+            >
+                <!-- Fetching Data -->
+                <span v-if="isFetching && !isFetchingNextPage">Fetching...</span>
+                <product-card
+                    v-for="product in page?.pageData"
+                    :productId="parseInt(product?.productId) ?? 1"
+                    :key="product"
+                    :imageUrl="product?.product_picture ?? []"
+                    :productName="product?.product_eng ?? []"
+                    currency="KHR"
+                    :productPrice="product?.product_unit_price ?? []"
+                    :inStock="product?.product_qty ?? []"
+                />
+            </template>
         </div>
-        <!-- Product Loader -->
-        <product-preloader v-else> Loading products... </product-preloader>
         <div class="more-product-btn text-center">
-            <a href="#" @click.prevent="loadMoreProductResult(pageNum,pageSize)">More Product...</a>
+            <!-- More Products -->
+            <a href="#" 
+                @click="nextPage()"
+               :disabled="!hasNextPage || isFetchingNextPage"
+            >
+                <span v-if="isFetchingNextPage">Loading more...</span>
+                <span v-else-if="hasNextPage">Load More...</span>
+                <span v-else>Nothing more to load...</span>
+            </a>
         </div>
     </div>
 </div>
 </template>
-<script>
+<!-- Script -->
+<script setup>
+import { ref } from 'vue';
 import ProductServices from '../../../../services/vendors/products/ProductServices'; 
-import ProductPreloader from "../../../../components/preloaders/ProductPreloader.vue";
+// import ProductPreloader from "../../../../components/preloaders/ProductPreloader.vue";
 import ProductCard from './card_module_products/ProductCard.vue';
 import { ElMessage } from 'element-plus';
-export default {
-    components: {
-        ProductCard, 
-        "product-preloader": ProductPreloader
-    },
-    props: {},
-    data() {
-        return {
-            totalPage: null,
-            productMoreLove: [],
-            ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http"),
-            pageNum: 1,
-            pageSize: 8,
-            loadingData: false
-        };
-    },
-    created() {
-        this.productServicesMS = new ProductServices();
-        this.getProductFlashDeal();
-    },
-    methods: {
-        async getProductFlashDeal(){    
-            try{
-                var requestURL = 'https://api.exchangerate.host/symbols'; 
-                // var request = new XMLHttpRequest(); 
-                console.log(requestURL)
-                this.loadingData = false;
-                this.productServicesMS.getCustomerProductsData(this.pageNum,this.pageSize)
-                    .then((proResult) => {
-                        if(!Array.isArray(proResult) || !proResult.length > 0){
-                            this.totalPage = [];
-                            this.productMoreLove = [];
-                        }
-                        this.productMoreLove = Array.isArray(proResult?.products) ? proResult?.products.slice() : [];
-                        this.totalPage = proResult.pages?.totalPages ?? [];
-                        this.loadingData = true;
-                    }    
-                );
-            }catch(error){
-                ElMessage.error(error.message ?? 'Some error entries of product...');
-                this.loadingData = false;
-            }
-        },
-        loadMoreProductResult(page, size){
-            this.pageNum = page;
-            this.pageSize = size + this.totalPage;
-            this.getProductFlashDeal();
-            window.scrollTo(0, 0);
+import {useInfiniteQuery} from "@tanstack/vue-query";
+// import React from 'react'
+// console.log(React)
+    const totalPage = ref(0);
+    const productMoreLove = ref([]);
+    const productServicesMS = new ProductServices();
+    // const pageNumber = ref(1);
+    /**
+     * 
+     * @param page - reactive variable
+    */
+    const getProductFlashDeal = async ({pageParam = 10 }) => {    
+        // var requestURL = 'https://api.exchangerate.host/symbols';
+        try{
+            await productServicesMS.getCustomerProductsData(pageParam)
+                .then(async(proResult) => {
+                    if(!Array.isArray(proResult) || !proResult.length > 0){
+                        totalPage.value = [];
+                        productMoreLove.value = [];
+                    }
+                    productMoreLove.value = Array.isArray(proResult?.products) ? proResult?.products.slice() : [];
+                    totalPage.value = proResult.pages?.totalPages ?? [];
+                }    
+            );
+            // sent the cursor/page value and the results
+            // set max to 3 pages of data
+            console.log(productMoreLove.value)
+            return {
+                pageData: productMoreLove.value ?? [],
+                cursor: pageParam === 3 ? undefined : pageParam + 1,
+            };
+        }catch(error){
+           ElMessage.error(`Some Error Entries More Product Suggestion: ${error.message}`);
         }
-    },
-    mounted() {},
-}
+    } 
+    
+    const {data,error,isLoading,isFetching,isFetchingNextPage,hasNextPage,isError,fetchNextPage} = useInfiniteQuery({
+        queryKey: ["productsMoreLove"],
+        queryFn: getProductFlashDeal,
+        getNextPageParam: (lastPage) => {
+            return lastPage.cursor;
+        },
+    });
+    /**
+        * function to ge the next page of data
+    */
+    const nextPage = () => {
+        fetchNextPage();
+    };
 </script>
 <style scoped>
 </style>
