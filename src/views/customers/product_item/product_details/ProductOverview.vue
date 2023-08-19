@@ -94,16 +94,17 @@
                         <div class="product-details-meta">
                             <ul>
                                 <li>
-                                    <span>Categories:</span> <a href="#">Woman</a>
+                                    <span>Categories:</span> <a href="#">{{ categories ?? '' }}</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="pro-details-action-wrap">
-                            <div class="pro-details-add-to-cart">
-                                <a href="#">Add To Cart </a>
-                            </div>
+                        <div class="pro-details-action-wrap" style="font-weight: 500">
+                            <!-- Add To Cart -->
+                             <div class="pro-details-add-to-cart">
+                                <MazBtn color="danger" size="lg"  class="font-bold btn-red" @click.prevent="addProductItemsToCart()" style="background-color:#0053a0; padding: 18px 50px 17px;border-radius: 0%;">Add To Cart</MazBtn>
+                             </div>
                             <div class="pro-details-add-to-cart-red">
-                                <a href="#">Buy Now</a>
+                                <MazBtn color="danger" size="lg"  class="font-bold btn-red" style="background-color:red; padding: 18px 50px 17px; border-radius: 0%;">Buy It Now</MazBtn>
                             </div>
                         </div>
                     </div>
@@ -115,6 +116,7 @@
 <!-- Script -->
 <script>
     import EmptyThumbnail from "../../../../components/error_page/EmptyThumbnail.vue";
+    import { mapActions, mapState } from "vuex";
     import $ from "jquery";
     export default {
         components: {
@@ -128,25 +130,41 @@
             productQty: {type: Number, default : 1},
             productRating: {type: Number},
             productUnitPrice: {type: Number},
+            categories: {type: String},
+            productArrDetail: {type: Array,default: Array.isArray() ?? []}
         },
         data(){
             return{
                 quantity: 1,
                 activeImageThumbnail: this.productThumbnail,
                 ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http"),
-                multipleImgPATH: ''
-            }
-        },
-        computed: {
-            productThumbnailRULFormate(){
-                return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + String(this.productThumbnail) ?? '';
+                multipleImgPATH: '',
+                quantityItemOrder: 1
             }
         },
         created(){
             this.productDesSliderSmall();
         },  
         methods: {
-    
+            ...mapActions('cart',["addToCart"]),
+            /**
+             * Add TO CART
+             * BUY IT NOW 
+            * */ 
+           async addProductItemsToCart(){
+               const qtyItem =  document.getElementsByClassName('cart-plus-minus-box');
+                let itemProduct = {
+                    ...Array(this.productArrDetail ?? []),
+                    quantity: parseInt((parseInt(qtyItem[0].value ?? 0))),
+                    unitPrice: parseFloat((parseFloat(this.productUnitPrice))),
+                    productSpec: this.productSpec ?? []
+                }
+                this.$store.dispatch("cart/addToCart", itemProduct);
+           },
+            /**
+             * Product Thumbnail
+             * Product Small Carousel 
+             * */ 
             productMultiImgURLFormate(filePath){ 
                 return this.ENV_HOST_PATH_FILE + `uploads/products_img/list_img_products/` + String(filePath);
             },
@@ -234,6 +252,16 @@
                     });
                 });
             },
-        }
+            /**
+             * Product Thumbnail
+             * Product Small Carousel 
+            * */   
+        },
+        computed: {
+            ...mapState('cart',['cart']),
+            productThumbnailRULFormate(){
+                return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + String(this.productThumbnail) ?? '';
+            },
+        } 
     }
   </script>
