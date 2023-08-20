@@ -8,12 +8,12 @@
                     <side-menu :title="$te('route.' + routes?.meta.title) ? $t('route.'+routes?.meta.title) : $t('route.'+routes?.meta.title)" :static-item="true"></side-menu>  
                 </div>
                 <!-- Visible Children -->
-                <div v-for="child in routes.children" :key="child">
-                    <div v-if="!child.hidden">
+                <temple v-for="child in routes.children" :key="child">
+                    <temple v-if="!child.hidden">
                         <side-menu  isTag="router-link" class="text-sm" :title="$te('route.' + child?.meta.title) ? $t('route.'+child?.meta.title) : $t('route.'+child?.meta.title)" icon="circle" :icon-size="10" icon-type="solid" miniTitle="CAT" :route="{ to: `${child.name}` }"></side-menu>
-                    </div>
-                </div>
-            
+                    </temple>
+                </temple>
+                
             </div>
         </ul>
     </default-sidebar>  

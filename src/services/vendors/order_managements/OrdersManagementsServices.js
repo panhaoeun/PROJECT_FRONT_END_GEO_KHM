@@ -12,16 +12,17 @@ export default class CustomerOrderMSServices {
      * **/
     async getViewCustomerOrder(data) {
         return await httpCommon.get(
-                "/vendors/users_management/vendor/customer_order/list_order_product", {
+                "/vendor/order_management/list-orders", {
                     headers: authHeader()
                 },
                 data
             )
             .then((result) => {
+                
                 if (!result){
                     return;
                 }
-                if (result.status == "201") {
+                if (result.status == "200") {
                     if (result.data.success == true) {
                         return result.data.result.resultStatus;
                     }

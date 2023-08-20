@@ -61,14 +61,28 @@
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="usersListArr && usersListArr.length > 0 && usersListArr != ''">
                                     <!-- Columns -->
-                                   <Column field="full_latin_name" header="Order Date" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_email" header="Customer Info" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_phonenumber" header="Total Amount" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column>
+                                   <Column field="order_date" header="Order Date" sortable></Column>
+                                    <Column field="id" header="Customer Info" sortable>
+                                        <template #body="slotProps">
+                                            <div class="justify-content-center">
+                                                <p class="font-bold"> {{slotProps.data?.name_eng}}</p>
+                                               <span>{{ slotProps.data?.user_phonenumber }}</span>
+                                            </div>
+                                        </template>
+                                    </Column>
+                                    <Column field="store" header="Store" sortable></Column>
+                                    <Column field="total_price" header="Total Amount" sortable></Column>
+                                    <Column field="id" header="Order Status" sortable>
+                                        <template #body="slotProps">
+                                            <div class="justify-content-center">
+                                                <Tag :value="slotProps.data.payment_status" :severity="getSeverityPaymentStatus(slotProps.data?.payment_status)" />
+                                            </div>
+                                        </template>
+                                    </Column>
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
-                                            <Button icon="pi pi-pencil" outlined rounded class="mr-2"
-                                                @click="$router.push({ path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data.user_id}` })" />
+                                            <Button icon="pi pi-eye" outlined rounded class="mr-2"
+                                                @click="$router.push({ path: `/vendor/order_managements/customer_detail/customer_order/order_detail/${slotProps.data?.orderId }` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 @click="confirmDeleteUserMS(slotProps.data.id)" />
                                         </template>
@@ -128,10 +142,11 @@ export default {
     mounted() {
         const cusMSServices = new CustomerOrderMSServices();
         cusMSServices.getViewCustomerOrder().then((data) => {
+            console.log(data)
             if (!data) {
                this.usersListArr = [];
             }
-            this.usersListArr = data;
+            this.usersListArr = Array.isArray(data) ? data.slice() : [];
         });
     },
     methods: {
@@ -139,6 +154,23 @@ export default {
             this.usersID = userId;
             this.deleteUsersDialog = true;
         },
+        getSeverityPaymentStatus(payStatus){
+            switch (payStatus) {
+                case 'Complete':
+                    return 'success';
+
+                case 'Padding':
+                    return 'warning';
+
+                case 'Incomplete':
+                    return 'danger';
+                case 'Declined':
+                    return 'info';
+
+                default:
+                    return null;
+            }
+        },  
         deleteUserMSByID() {
             if (!this.usersID) {
                 ElMessage.error("Users Not Found...");

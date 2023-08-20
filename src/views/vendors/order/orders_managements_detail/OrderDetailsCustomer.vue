@@ -64,7 +64,7 @@
                 <div class="col-lg-4 col-xl-3 d-flex flex-column gap-3">
                    <div class="gap-3 column-gap-4 row-gap-6">
                         <!--================= Order & Shipping Info===============-->
-                        <el-card class="box-card">
+                        <el-card class="box-car">
                             <div class="flex justify-content-between flex flex-wrap gap-3">
                                 <div class="relative text-black text-sm section section-title:before">
                                     <p class="h6">Order & Shipping Info</p>
@@ -74,13 +74,13 @@
                                     <div class="col-12 field">
                                         <div class="field">
                                             <label for="name_en" class="text-sm font-semibold">Order Status</label>
-                                            <Dropdown v-model="selectedPaymentStatus" optionLabel="name" placeholder="Select a Order Status" class="w-full text-sm" />
+                                            <Dropdown v-model="selectedPaymentStatus" :options="orderStatusOption" optionLabel="name" placeholder="Select a Order Status" class="w-full text-sm"/>
                                         </div>
                                     </div>
                                     <div class="col-12 field">
                                         <div class="field">
                                             <label for="name_en" class="text-sm font-semibold">Payment Status</label>
-                                            <Dropdown v-model="selectedPaymentStatus" optionLabel="name" placeholder="Select a Payment Status" class="w-full text-sm" />
+                                            <Dropdown v-model="selectedPaymentStatus" optionLabel="name" placeholder="Select a Payment Status" class="text-sm w-full" />
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +177,25 @@
         data(){
             return {
                 selectedPaymentStatus: null,
-                tableDataCusOrderDetails: []
+                tableDataCusOrderDetails: [],
+                orderStatusOption: [
+                    {
+                        name: 'Padding', 
+                        status:'Padding'
+                    },
+                    {
+                        name: 'Incomplete', 
+                        status:'Incomplete'
+                    },
+                    {
+                        name: 'Complete', 
+                        status:'Complete'
+                    },
+                    {
+                        name: 'Declined', 
+                        status:'Declined'
+                    }
+                ]
             }
         }
     }
