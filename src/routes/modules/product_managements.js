@@ -2,71 +2,78 @@ import DefaultLayoutVendor from "../../components/layouts/vendors/DefaultLayouts
 
 const defaultChildRoutesProMS = (prefix) => [
     // Products Managements
-    /**Categories*/ 
     {
-        path: "/vendor/products/category/list",
-        name: prefix + '.product_category_list',
+        path: '/vendor/product/categories-setup',
+        name: prefix + '.product_setup_module',
         meta: {
-            title: "proCategories",
+            title: "catSetUp",
             requiresAuth: true,
-            permissions: ['categories_module']
+            permissions: ['categories_set_up']
         },
-        component: () => import("../../views/vendors/category/CategoryView.vue"),
-    },
-    {
-        path: "/vendor/products/category/create",
-        name: prefix + '.product-category-create',
-        hidden: true,
-        meta: {
-            title: "proCategories",
-            requiresAuth: true,
-            permissions: ['categories_module']
-        },
-        component: () => import("../../views/vendors/category/CategoryCreate.vue"),
-    }, 
-    {
-        path: "/vendor/products/category/edit/:id",
-        name: prefix + '.product-category-edit',
-        meta: {
-            title: "proCategories",
-            requiresAuth: true,
-            permissions: ['categories_module']
-        },
-        hidden: true,
-        component: () => import("../../views/vendors/category/UpdatedProductCategory.vue"),
-    },
-    /**Sub Categories*/
-    {
-        path: "/vendor/products/sub-category/list",
-        name: prefix + '.sub_product_category_list',
-        meta: {
-            title: "proSubCategories",
-            requiresAuth: true,
-            permissions: ['sub_categories']
-        },
-        component: () => import("../../views/vendors/category/sub_category/SubCategoryView.vue"),
-    }, 
-    {
-         path: "/vendor/products/sub-category/create/:superCatID",
-         name: prefix + '.product-sub-category-create',
-         hidden: true,
-         meta: {
-            title: "proSubCategories",
-            requiresAuth: true,
-            permissions: ['sub_categories']
-         },
-         component: () => import("../../views/vendors/category/sub_category/SubCategoryCreate.vue"),
-    },
-    {
-         path: "/vendor/products/sub-category/edit/:id/:catName",
-         name: prefix + '.product-sub-category-edit',
-         meta: {
-            title: "proSubCategories",
-            requiresAuth: true,
-            permissions: ['sub_categories']
-         },
-         hidden: true,
-         component: () => import("../../views/vendors/category/sub_category/UpdatedProductSubCategory.vue"),
+        children: [
+            /**Categories*/
+             {
+                 path: "/vendor/products/category/list",
+                 name: prefix + '.product_category_list',
+                 meta: {
+                     title: "proCategories",
+                     requiresAuth: true,
+                     permissions: ['categories_module']
+                 },
+                 component: () => import("../../views/vendors/category/CategoryView.vue"),
+             }, {
+                 path: "/vendor/products/category/create",
+                 name: prefix + '.product-category-create',
+                 hidden: true,
+                 meta: {
+                     title: "proCategories",
+                     requiresAuth: true,
+                     permissions: ['categories_module']
+                 },
+                 component: () => import("../../views/vendors/category/CategoryCreate.vue"),
+             }, {
+                 path: "/vendor/products/category/edit/:id",
+                 name: prefix + '.product-category-edit',
+                 meta: {
+                     title: "proCategories",
+                     requiresAuth: true,
+                     permissions: ['categories_module']
+                 },
+                 hidden: true,
+                 component: () => import("../../views/vendors/category/UpdatedProductCategory.vue"),
+             },
+             /**Sub Categories*/
+             {
+                 path: "/vendor/products/sub-category/list",
+                 name: prefix + '.sub_product_category_list',
+                 meta: {
+                     title: "proSubCategories",
+                     requiresAuth: true,
+                     permissions: ['sub_categories']
+                 },
+                 component: () => import("../../views/vendors/category/sub_category/SubCategoryView.vue"),
+             }, {
+                 path: "/vendor/products/sub-category/create/:superCatID",
+                 name: prefix + '.product-sub-category-create',
+                 hidden: true,
+                 meta: {
+                     title: "proSubCategories",
+                     requiresAuth: true,
+                     permissions: ['sub_categories']
+                 },
+                 component: () => import("../../views/vendors/category/sub_category/SubCategoryCreate.vue"),
+             }, {
+                 path: "/vendor/products/sub-category/edit/:id/:catName",
+                 name: prefix + '.product-sub-category-edit',
+                 meta: {
+                     title: "proSubCategories",
+                     requiresAuth: true,
+                     permissions: ['sub_categories']
+                 },
+                 hidden: true,
+                 component: () => import("../../views/vendors/category/sub_category/UpdatedProductSubCategory.vue"),
+             },
+        ]
     },
      /*
      @Products Managements

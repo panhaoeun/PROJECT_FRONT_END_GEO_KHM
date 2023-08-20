@@ -7,6 +7,7 @@ export default {
         routeSave: 'Save',
         myShopModule: 'My Shop',
         businessSectionMS: 'Business Section',
+        catSetUp: 'Categories Set Up',
         ordersMSProduct: 'Order Managements',
         orderProductModule: 'Orders',
         proManagement: 'Products Managements',

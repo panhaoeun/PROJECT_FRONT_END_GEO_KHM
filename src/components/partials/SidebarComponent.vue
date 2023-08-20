@@ -3,18 +3,18 @@
     <default-sidebar>
          <!-- <h1 v-if="can('view', 'Dashboards')">Can access</h1> -->
         <ul class="navbar-nav iq-main-menu text-sm" id="sidebar-menu" v-for="routes in routesModules" :key="routes.path">
-            <div v-if="!routes.hidden && routes.children">
-                <div v-if="hasOneShowingChild(routes.children, routes) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)">
-                    <side-menu :title="$te('route.' + routes?.meta.title) ? $t('route.'+routes?.meta.title) : $t('route.'+routes?.meta.title)" :static-item="true"></side-menu>  
-                </div>
+            <!-- {{routes.children}} -->
+            <template v-if="!routes.hidden && routes.children">
+                <template v-if="hasOneShowingChild(routes.children, routes) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)">
+                    <app-link :to="resolvePath(onlyOneChild.path)">
+                        <side-menu  :title="$te('route.' + routes?.meta.title) ? $t('route.'+routes?.meta.title) : $t('route.'+routes?.meta.title)" :static-item="true"></side-menu>  
+                    </app-link>
+                </template>
                 <!-- Visible Children -->
-                <temple v-for="child in routes.children" :key="child">
-                    <temple v-if="!child.hidden">
-                        <side-menu  isTag="router-link" class="text-sm" :title="$te('route.' + child?.meta.title) ? $t('route.'+child?.meta.title) : $t('route.'+child?.meta.title)" icon="circle" :icon-size="10" icon-type="solid" miniTitle="CAT" :route="{ to: `${child.name}` }"></side-menu>
-                    </temple>
-                </temple>
-                
-            </div>
+                <template v-for="child in routes.children" :key="child">
+                    {{child}}
+                </template>
+            </template>
         </ul>
     </default-sidebar>  
 <!-- Sidebar Component End Here-->
@@ -25,11 +25,29 @@
 import DefaultSidebar from '../../components/custom/sidebar/DefaultSidebar';
 import SideMenu from '../../components/custom/nav/SideMenu.vue';
 import store from "../../store";
-import { ref,computed} from 'vue'
-import { useRoute } from 'vue-router'
+import { ref,computed,defineProps} from 'vue'
+import { useRoute } from 'vue-router';
+import {isExternal} from "../../utils/validate"; 
+// import AppLink from "./sidebar/Link";
 const currentRoute = ref('');
 const route = useRoute();
 const onlyOneChild = ref(null);
+const props = defineProps({
+    // route object
+    item: {
+        type: Object,
+        required: true,
+    },
+    isNest: {
+        type: Boolean,
+        default: false,
+    },
+    basePath: {
+        type: String,
+        default: '',
+    },
+})
+
 const toggle = (route) => {
     // Toggles 
     if (route === currentRoute.value && route.includes('.')) {
@@ -48,10 +66,11 @@ const toggle = (route) => {
     return (currentRoute.value = '')
 }
 toggle(route?.name);
+// Resolve Path Sidebar Menu
 // Store Routes base Permissions
 const routesModules = computed(() => {
     return store.state.users.routes;
-});
+})
 //Showing on child
 const hasOneShowingChild = (children,parent) => {
    const showingChildren = children.filter(item => {
@@ -74,5 +93,13 @@ const hasOneShowingChild = (children,parent) => {
    }
    return false;
 }
-
+const resolvePath = (routePath) => {
+    if (isExternalLink(routePath)) {
+        return routePath;
+    }
+   return props.basePath, routePath;
+}
+const isExternalLink = (routePath)  => {
+    return isExternal(routePath);
+}
 </script>
