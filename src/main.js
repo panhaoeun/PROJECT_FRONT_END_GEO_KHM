@@ -1,5 +1,32 @@
 import {createApp} from 'vue'
 import App from './App.vue'
+<<<<<<< HEAD
+
+//import adminlte styles
+
+
+//import adminlte scripts
+import "../node_modules/admin-lte/dist/js/adminlte.min.js"
+import "../node_modules/admin-lte/plugins/select2/js/select2.full.min.js"
+import "../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"
+import "../node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"
+
+
+// // E-Commerce Website
+import "./assets/css/customer_ecommerce_app/style_prefix.css";
+// // Import Style
+import "./assets/css/style.css";
+import "./assets/css/account-tab.css";
+import "./assets/styles/navbar.css";
+// Admin Kit 
+import "./assets/styles/adminkit/css/app.css";
+/* @Routes */
+import routes from "./routes/routes";
+/* @Prime Vue*/ 
+import './assets/primeflex.scss';
+import "primevue/resources/themes/fluent-light/theme.css";     
+// //icons
+=======
 /*
    @E-Commerces
    @Library E-Commerces
@@ -35,6 +62,7 @@ import "primevue/resources/themes/md-light-indigo/theme.css";
 import './assets/css/element_plus/index.css';
 import './assets/css/element_plus/display.css';
 // Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
+>>>>>>> main
 import "primeicons/primeicons.css";
 import 'maz-ui/css/main.css';
 import CounterUp from 'vue3-autocounter';
@@ -92,6 +120,25 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Menu from 'primevue/menu';
 import Tag from 'primevue/tag';
+<<<<<<< HEAD
+
+// Databases
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
+import Row from 'primevue/row';          
+
+import VueUploadComponent from 'vue-upload-component'//optional for row
+
+// Element Plus
+import ElementPlus from 'element-plus';
+import './assets/css/element_plus/index.css';
+import './assets/css/element_plus/display.css';
+// Fabric Icons
+import "./assets/uifabricIcons/css/fabric-icons.css";
+import 'vue-loading-overlay/dist/css/index.css';
+// Allow CORS Access ( http client vue.js plugin for cross origin access without prefligh)
+=======
 import TreeTable from 'primevue/treetable';
 import Tree from 'primevue/tree';
 // Databases
@@ -102,6 +149,7 @@ import Row from 'primevue/row';
 import VueUploadComponent from 'vue-upload-component' //optional for row
 // Element Plus
 import ElementPlus, { ElMessage } from 'element-plus';
+>>>>>>> main
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 // MAZ
@@ -137,6 +185,11 @@ app.use(VueGoogleMaps, {
 // app.use(Vue3FormWizard);
 app.use(Vue3FormWizard);
 
+<<<<<<< HEAD
+//Vuex
+import Vuex from 'vuex';
+import store from "./store";
+=======
 /*
    @Vue I18n: Vue - Languages 
    @Link: https: //kazupon.github.io/vue-i18n/installation.html#direct-download-cdn
@@ -148,6 +201,7 @@ app.use(i18n);
 import Vuex from 'vuex';
 import store from "./store";
 import { handlingExpiredToken } from './utils/auth/handlingExpiredToken';
+>>>>>>> main
 app.use(Vuex);
 app.use(store);
 
@@ -193,6 +247,22 @@ app.component('Dropdown', Dropdown);
 app.component('InputNumber', InputNumber);
 app.use('InputSwitch', InputSwitch);
 app.use('AvatarGroup', AvatarGroup);
+<<<<<<< HEAD
+app.component('Sidebar',Sidebar);
+app.component('Calendar',Calendar);
+app.component('Steps',Steps);
+app.component('Tag', Tag);
+app.component('ConfirmPopup',ConfirmPopup);
+app.component('Menu',Menu);
+app.use(ConfirmationService);
+app.component('OverlayPanel',OverlayPanel);
+app.component('Listbox',Listbox);
+app.component('RadioButton',RadioButton);
+app.component('Textarea',Textarea)
+app.component('FileUpload',FileUpload);
+//Vue Uoloads
+app.component('file-upload', VueUploadComponent)
+=======
 app.component('Sidebar', Sidebar);
 app.component('Calendar', Calendar);
 app.component('Steps', Steps);
@@ -226,6 +296,7 @@ app.use(VueCookies);
 app.use(globalComponent)
 app.use(globalDirective)
 app.mixin(globalMixin)
+>>>>>>> main
 
 // Config IONIC
 app.config.ignoredElements = [/^ion-/];
@@ -278,4 +349,10 @@ app.directive("permission", async (el, binding) => {
     }
 });
 
+<<<<<<< HEAD
+
+
+app.mount('#app')
+=======
 app.mount('#app');
+>>>>>>> main

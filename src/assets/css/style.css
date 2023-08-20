@@ -1,5 +1,10 @@
 /* @charset "utf-8"; */
 /* CSS Document */
+<<<<<<< HEAD
+
+/* @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900"); */
+
+=======
 /*********************************
 1. Config Global Fonts
 *********************************/
@@ -35,6 +40,7 @@ html {
    font-family: 'Khmer OS Battambong', cursive;
    font-size: 18px;
 }
+>>>>>>> main
 /*********************************
 2. Body and some general stuff
 *********************************/

@@ -13,6 +13,200 @@
             sticky-color--golden"
         >
           <div class="container">
+<<<<<<< HEAD
+            <!-- Logo -->
+            <a href="#" class="header-logo">
+              <img src="../../assets/company_logo/ecommerce_logo.png" alt="Anon's logo" width="100" class="border-round-md shadow-md">
+            </a>
+            <!-- INput -->
+            <div class="header-search-container">
+                <!-- Input Search Products -->
+              <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
+            <button class="search-btn">
+                <ion-icon name="search-outline" style="color: #fff; font-weight: bold;"></ion-icon>
+              </button>
+            </div>
+            <!--Toggle Auth or My Accounts-->
+            <div class="header-user-actions">
+                <!--User Authentications or My Account-->
+                <div v-if="!isAuthentications">
+                    <button class="action-btn"  @click="showNotAuthentications($event)">
+                            <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
+                    </button>
+                </div>
+                <div v-if="isAuthentications">
+                    <button class="action-btn"  @click="showMyAccount($event)">
+                        <img src="https://img.icons8.com/fluency/48/null/user-female-circle.png"/>
+                    </button>
+                </div>
+                  
+                    
+                    
+                    <button class="action-btn">
+                        <img src="https://img.icons8.com/fluency/48/null/filled-like.png"/>
+                        <span class="count">0</span>
+                    </button>
+                    <button class="action-btn">
+                    <img src="https://img.icons8.com/external-icongeek26-flat-icongeek26/64/null/external-cart-essentials-icongeek26-flat-icongeek26.png"/>
+                        <span class="count">40</span>
+                    </button>  
+                </div>
+          </div>
+        </div>
+        <!-- Navigation Desktops -->
+        <nav class="desktop-navigation-menu text-white">
+
+          <div class="container">
+
+            <ul class="desktop-menu-category-list text-white">
+
+              <li class="menu-category">
+                <a href="#" class="menu-title">Home</a>
+              </li>
+
+              <li class="menu-category">
+                <a href="#" class="menu-title">Categories</a>
+
+                <div class="dropdown-panel">
+
+                  <ul class="dropdown-panel-list">
+
+                    <li class="menu-title">
+                      <a href="#">Electronics</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Desktop</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Laptop</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Camera</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Tablet</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Headphone</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">
+                        <!-- <img src="./assets/images/electronics-banner-1.jpg" alt="headphone collection" width="250" -->
+                          height="119">
+                      </a>
+                    </li>
+
+                  </ul>
+
+                  <ul class="dropdown-panel-list">
+
+                    <li class="menu-title">
+                      <a href="#">Men's</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Formal</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Casual</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Sports</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Jacket</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Sunglasses</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">
+                        <!-- <img src="./assets/images/mens-banner.jpg" alt="men's fashion" width="250" height="119"> -->
+                      </a>
+                    </li>
+
+                  </ul>
+
+                  <ul class="dropdown-panel-list">
+
+                    <li class="menu-title">
+                      <a href="#">Women's</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Formal</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Casual</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Perfume</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Cosmetics</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Bags</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">
+                        <!-- <img src="./assets/images/womens-banner.jpg" alt="women's fashion" width="250" height="119"> -->
+                      </a>
+                    </li>
+
+                  </ul>
+
+                  <ul class="dropdown-panel-list">
+
+                    <li class="menu-title">
+                      <a href="#">Electronics</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Smart Watch</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Smart TV</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Keyboard</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Mouse</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">Microphone</a>
+                    </li>
+
+                    <li class="panel-list-item">
+                      <a href="#">
+                        <!-- <img src="./assets/images/electronics-banner-2.jpg" alt="mouse collection" width="250" height="119"> -->
+                      </a>
+                    </li>
+
+                  </ul>
+
+=======
             <div class="row">
               <div
                 class="col-12 d-flex align-items-center justify-content-between"
@@ -209,6 +403,7 @@
                 <div class="offcanvas-menu">
                     <VueSidebarMenu :menu="menu" />
                     {{ menu }}
+>>>>>>> main
                 </div>
                 <!-- End Mobile Menu Nav -->
                 <!-- Start Mobile contact Info -->
@@ -389,6 +584,66 @@
             >
           </div>
 
+<<<<<<< HEAD
+        </nav>
+      </header>
+    <!--=================Toggle Not Register or Not Login ==========-->
+     <!--Overlay Panel of Toggle not Accounts-->
+        <OverlayPanel ref="toggleNotAuth">
+            <!-- Toggle My Account -->
+            <div class="px-1 py-1">
+                <div class="-menu" aria-labelledby="navbarDropdown">
+                    <p>Welcome Phzarkhmer</p>
+                    <div class="flex flex-column align-items-start justify-content-start">
+                        <div class="flex align-items-center justify-content-start  h-4rem ">
+                            <Button
+                                @click.prevent="$router.push('/auth/register')"
+                                label="Register"
+                                class=" py-2 p-button-outlined w-10rem mr-3" />
+                            <Button label="Login" class=" py-2 w-10rem"   @click.prevent="$router.push('/auth/login')"/>
+                        </div>
+                    </div>
+                    <!-- Title -->
+                    <div class="flex flex-column align-items-start justify-content-start py-2">
+                        <div class="flex align-items-center justify-content-start  h-2rem">
+                            <router-link to="/">
+                                <span class="font-bold text-sm text-black">My Account</span>
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </OverlayPanel>
+    <!--Overlay Panel of Toggle My Accounts-->
+        <OverlayPanel ref="toggleMyAccount">
+            <!-- Toggle My Account -->
+            <div class="px-1 py-1">
+                    <div class="-menu" aria-labelledby="navbarDropdown">
+                        <div class="flex align-items-center justify-content-center">
+                            <Avatar image="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="mr-2" size="xlarge" shape="circle" />
+                            <div class="flex flex-column card-container align-content-center">
+                                <div class="flex align-items-start justify-content-start text-lg">
+                                    Phzarkhmer
+                                </div>
+                                <div class="flex align-items-start justify-content-start text-sm">
+                                    devpanha@gmail.com                                   
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- List -->
+                        <div class="flex flex-column align-items-start justify-content-start">
+                                <div class="flex align-items-center justify-content-start  h-2rem">
+                                   <button @click="authLogout">
+                                        <span class="font-bold text-lg">Sign Out </span>
+                                   </button>
+                                       
+                                </div>
+                        </div>
+                    </div>
+            </div>
+        </OverlayPanel>
+=======
           <ul class="offcanvas-cart-action-button font-bold" style="padding-left: 0rem;">
             <li>
               <router-link
@@ -415,9 +670,52 @@
     <!-- End  Offcanvas Addcart Section -->
 
   </div>
+>>>>>>> main
 </template>
 
 <script>
+<<<<<<< HEAD
+    import HeaderTop from "../../components/customers/headers/TopHeader.vue";
+    import MobileNavigation from "../../components/customers/headers/MobileNavigation.vue";
+    import UserService from "../../services/authencations/UserServices.js";
+    export default{
+        computed: {
+            isAuthentications(){
+               return this.$store.state.auth.initialState.status.loggedIn;
+            }
+        },
+        mounted(){
+           UserService.getCurrentUserByTokenId().then(
+            (response) => {
+                console.log(response)
+            }
+           ).catch((error) => console.log(error))
+        },
+        components: {
+            HeaderTop,
+            MobileNavigation
+        },
+        data(){
+            return{
+                selectedCity: null,
+            }
+        },
+        methods: {
+            authLogout(){
+               this.$store.dispatch('auth/actionLogout');
+            },
+            showMyAccount(event){
+              if(this.isAuthentications || this.isAuthentications == true){
+                this.$refs.toggleMyAccount.toggle(event);
+              }
+            },
+            // Not Account Authentications
+            showNotAuthentications(event){
+                if(!this.isAuthentications){
+                  this.$refs.toggleNotAuth.toggle(event);
+                }
+            }
+=======
 import  MainMenuHeader from "../customers/headers/MainMenuHeader.vue"
 import { mapState, mapGetters } from "vuex";
 import { ElMessage } from "element-plus";
@@ -443,6 +741,7 @@ export default {
               title: "Electronics",
             },
           ],
+>>>>>>> main
         }
       ],
       products: [],

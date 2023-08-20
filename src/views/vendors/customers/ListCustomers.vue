@@ -102,6 +102,47 @@
 <script>
 // import { useToast } from 'primevue/usetoast';
 import { FilterMatchMode } from 'primevue/api';
+<<<<<<< HEAD
+import SellerServices from '../../../services/vendors/seller_managements/SellerServices';
+
+// Product Services
+onMounted(() => {
+    const sellServices = new SellerServices();
+    sellServices.getListSellerAcc().then((data) => (products.value = data))
+});
+
+const toast = useToast();
+const dt = ref();
+const products = ref();
+const statusShopSwitch = ref();
+const productDialog = ref(false);
+const deleteProductDialog = ref(false);
+const deleteProductsDialog = ref(false);
+const product = ref({});
+const selectedProducts = ref();
+const filters = ref({
+    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
+const submitted = ref(false);
+
+const openNew = () => {
+    product.value = {};
+    submitted.value = false;
+    productDialog.value = true;
+};
+const hideDialog = () => {
+    productDialog.value = false;
+    submitted.value = false;
+};
+const saveProduct = () => {
+    submitted.value = true;
+
+    if (product.value.name.trim()) {
+        if (product.value.id) {
+            product.value.inventoryStatus = product.value.inventoryStatus.value ? product.value.inventoryStatus.value : product.value.inventoryStatus;
+            products.value[findIndexById(product.value.id)] = product.value;
+            toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+=======
 import CustomerServicesBaseAdmin from '../../../services/administrator/customers/CustomerServices';
 import { ElMessage } from 'element-plus';
 export default {
@@ -117,6 +158,7 @@ export default {
             filters: {
                 'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
             }
+>>>>>>> main
         }
     },
     created() {

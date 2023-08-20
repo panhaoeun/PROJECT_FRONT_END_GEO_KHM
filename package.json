@@ -26,7 +26,11 @@
     "@vueuse/core": "^9.13.0",
     "autoprefixer": "10.4.5",
     "axios": "^1.3.2",
+<<<<<<< HEAD
+    "chart.js": "^3.9.1",
+=======
     "bootstrap-vue-3": "^0.5.1",
+>>>>>>> main
     "core-js": "^3.6.5",
     "cropperjs": "^1.5.13",
     "dotenv-webpack": "^8.0.1",
@@ -34,9 +38,13 @@
     "element-plus": "^2.2.33",
     "font-awesome": "^4.7.0",
     "global": "^4.4.0",
+<<<<<<< HEAD
+    "libphonenumber-js": "^1.10.19",
+=======
     "jquery": "^3.7.0",
     "js-cookie": "^3.0.5",
     "libphonenumber-js": "^1.10.39",
+>>>>>>> main
     "maz-ui": "^3.6.12",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.3",
@@ -53,6 +61,13 @@
     "vue-axios-cors": "^1.0.1",
     "vue-cookies": "^1.8.3",
     "vue-horizontal": "^1.0.2",
+<<<<<<< HEAD
+    "vue-loading-button": "^0.2.0",
+    "vue-loading-overlay": "^6.0",
+    "vue-router": "^4.1.6",
+    "vue-upload-component": "^3.1.8",
+    "vueperslides": "^3.5.1",
+=======
     "vue-i18n": "^9.2.2",
     "vue-image-zoomer": "^2.2.3",
     "vue-inner-image-zoom": "^2.0.0",
@@ -63,6 +78,7 @@
     "vue-upload-component": "^3.1.8",
     "vue3-autocounter": "^1.0.6",
     "vue3-form-wizard": "^0.2.1",
+>>>>>>> main
     "vuex": "^4.0.2",
     "yup": "^1.2.0",
     "zod": "^3.20.4-beta.0"

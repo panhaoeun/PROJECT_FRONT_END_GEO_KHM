@@ -1,5 +1,21 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
+<<<<<<< HEAD
+    <div class="layout-content">
+        <!-- Titles -->
+        <div class="flex justify-content-between my-4 px-4 py-4">
+            <h2 class="relative text-black text-3xl section section-title:before">Sub Category Lists</h2>
+            <el-button type="info" size="large" class="py-4" @click="$router.push('/vendor/products/sub-category/create')">
+                <div class="flex justify-between pl-2">
+                    <i class="pi pi-plus" style="font-size: 1rem"></i>
+                    <span class="pl-2">Add Sub Categories</span>
+                </div>
+            </el-button>
+        </div>
+        <div class="gird">
+            <div class="col-12">
+                <el-card slot="header" class="box-card py-2 px-2">
+=======
     <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
@@ -16,17 +32,25 @@
         <div class="gird">
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2 text-sm">
+>>>>>>> main
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
                             <DataTable ref="dt" :value="catSubList" v-model:selection="selectedSubCategoriesList" dataKey="id"
+<<<<<<< HEAD
+                                :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
+=======
                                 :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable text-sm"
+>>>>>>> main
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                                 <!-- Header -->
                                 <template #header>
                                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+<<<<<<< HEAD
+                                        <h4 class="m-0"></h4>
+=======
                                         <!-- Select Sub Categories -->
                                         <h4 class="m-0"> 
                                             <Dropdown 
@@ -55,6 +79,7 @@
                                                     </template>
                                             </Dropdown>
                                         </h4>
+>>>>>>> main
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />
                                             <InputText v-model="filters['global'].value" placeholder="Search..." />
@@ -69,6 +94,20 @@
                                 <div v-if="catSubList && catSubList.length > 0 && catSubList != ''">
                                     <!-- Columns -->
                                     <Column field="categoryNameEng" header="Sub Category Name" sortable style="min-width:20rem"></Column>
+<<<<<<< HEAD
+                                    <Column field="category" header="Category Status" sortable style="min-width:10rem">
+                                        <template #body>
+                                            <div class="font-bold">
+                                                <el-switch v-model="statusShopSwitch" />
+                                            </div>
+                                        </template>
+                                    </Column>
+                                    <Column :exportable="false" header="Options" style="min-width:8rem">
+                                        <template #body="slotProps">
+                                            <Button icon="pi pi-pencil" outlined rounded class="mr-2"
+                                                @click="$router.push({ path: `/vendor/products/sub-category/edit/${slotProps.data.catID}` })" />
+                                            <Button icon="pi pi-trash" outlined rounded severity="danger"
+=======
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
@@ -76,6 +115,7 @@
                                                 @click="$router.push({ path: `/vendor/products/sub-category/edit/${slotProps.data.catID}/${computedQuerySubByCatName ?? ''}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 v-permission="[{functionName: 'sub_categories', moduleName: 'fun_deleted'}]"
+>>>>>>> main
                                                 @click="confirmDeleteProduct(slotProps.data.catID)" />
                                         </template>
                                     </Column>
@@ -116,6 +156,12 @@ export default {
             statusShopSwitch: '',
             deleteCatDialog: false,
             product: '',
+<<<<<<< HEAD
+            selectedSubCategoriesList: '',
+            filters: {
+                'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
+            }
+=======
             selectedSubCategoriesList: null,
             selectOptValueCat: null,
             filters: {
@@ -123,12 +169,31 @@ export default {
             },
             selectedCategories: '',
             catSubListDropDownView: [],
+>>>>>>> main
         }
     },
     created() {
         this.proCategoryService = new ProductCategoriesServices();
     },
     mounted() {
+<<<<<<< HEAD
+        this.proCategoryService.getSubProCategory().then((data) => {
+            if (!data) {
+                ElMessage.error("Internal Error...");
+            }
+             this.catSubList = data;
+        });
+    },
+    computed: {
+        dataUrl(preImg) {
+            return 'data:image/jpeg;base64,' + btoa(
+                new Uint8Array(preImg)
+                    .reduce((data, byte) => data + String.fromCharCode(byte), '')
+            );
+        }
+    },
+    methods: {
+=======
         this.proCategoryService.getProCategory().then((data) => {
             if (!data) {
                 ElMessage.error("Internal Error...");
@@ -159,6 +224,7 @@ export default {
             }
            
         },
+>>>>>>> main
         confirmDeleteProduct(superCatID) {
             this.superCatID = superCatID;
             this.deleteCatDialog = true;

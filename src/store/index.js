@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+import { createStore } from "vuex";
+import { auth } from "./AuthModule";
+
+const store = createStore({
+    getters: {
+        getLoginStatus: state => {
+            return state.idToken !== null;
+        }
+    },
+    modules: {
+        auth,
+    },
+});
+
+=======
 import { createStore, createLogger} from "vuex";
 import { auth } from "./AuthModule";
 import products from "../store/modules/products";
@@ -177,5 +193,6 @@ function mergeProperty (storeModule, moduleData, property) {
     storeModule[property] = Object.assign({}, storeModule[property], moduleData)
   }
 }
+>>>>>>> main
 
 export default store;

@@ -1,10 +1,13 @@
 
 import axios from 'axios';
 import { Date } from 'core-js';
+<<<<<<< HEAD
+=======
 import {
     useAuthStoreToken
 } from '../../utils/auth/AuthStoreTokenJWT';
 // const {setAuthUser} = useAuthStoreToken();s
+>>>>>>> main
 
 class AuthService {
   async login(user) {
@@ -16,6 +19,10 @@ class AuthService {
             localStorage.setItem('token',response.data.token);
             localStorage.setItem('tokenExpiry',expiry);
             localStorage.setItem('expiresIn',response.data.expiresIn)
+<<<<<<< HEAD
+            localStorage.setItem('user', JSON.stringify(response.data));
+            localStorage.setItem('userId', JSON.stringify(response.data.userId));
+=======
             localStorage.setItem('user', JSON.stringify(response.data.userResult));
             localStorage.setItem('userId', JSON.stringify(response.data.userId));
             /*
@@ -25,6 +32,7 @@ class AuthService {
            const userAuthData = response.data.userResult;
            useAuthStoreToken().setAuthUser(userAuthData);
           
+>>>>>>> main
       }
       return response.data;
   }

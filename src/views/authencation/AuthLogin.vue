@@ -53,7 +53,11 @@
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
                         <div class="bordert py-2 my-4 flex align-items-center justify-content-center text-lg">
+<<<<<<< HEAD
+                            <socailMedia/>
+=======
                             <!-- <socailMedia/> -->
+>>>>>>> main
                         </div>
                     </div>
                 </div>
@@ -83,9 +87,14 @@ import { useVuelidate } from "@vuelidate/core";
 // Components
 // import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
+<<<<<<< HEAD
+// import AuthenticationsDataService from  "../../services/authencationDataService";
+import Loading from 'vue-loading-overlay';
+=======
 import { mapActions } from "vuex";
 import { ElMessage } from "element-plus";
 import Cookie from "js-cookie";
+>>>>>>> main
 
 export default {
     setup: () => ({ v$: useVuelidate() }),
@@ -139,10 +148,31 @@ export default {
                         userLogin : this.userLogin,
                         userPassword: this.password
                     }
+<<<<<<< HEAD
+                    this.isLoading = true;
+                     setTimeout(() => {
+                                this.isLoading = false
+                    }, 1000);
+=======
+>>>>>>> main
                     this.$store.dispatch("auth/login", data).then(
                         (response) => {
                             //Check validation  
                             if(response.success == true){
+<<<<<<< HEAD
+                                if (response.userType === "Vendor") {
+                                    this.$router.push("/vendors/dashboard");
+                                } else if (response.userType === "Customer") {
+                                    this.$router.push("/");
+                                }
+                            }                
+                        },
+                        (error) => {
+                            if(error.response.data.success === false){
+                              if (typeof (error.response.data.error.error) !== undefined) {
+                                this.messages = (error.response.data.error.error);
+                              }    
+=======
                                 this.set_user(response ?? []);
                                 this.userLoggedIn = true;
                                 this.$store.dispatch("auth/setCurrentUser", localStorage.getItem('user'));
@@ -169,6 +199,7 @@ export default {
                                 ElMessage.error(error.response.data.message);
                                 ElMessage.error(error.response.data.error.error);
                                 this.loginError = error.response.data.error ?? '';
+>>>>>>> main
                             }
                         }
                     );

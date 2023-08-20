@@ -6,9 +6,12 @@ class AuthenticationsDataService{
     }
     create(data){
         return httpJsonRequest.post("/auth/signUp", data);
+<<<<<<< HEAD
+=======
     }
     authLogout(data) {
          return httpJsonRequest.post("/auth/logout", data);
+>>>>>>> main
     }
 }
 

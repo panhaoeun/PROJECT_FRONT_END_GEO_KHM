@@ -10,6 +10,54 @@
                                 <i class="pi pi-plus" style="font-size: 1rem"></i>
                                 <span class="pl-2">Create</span>
                             </div>
+<<<<<<< HEAD
+                        </template>
+                        <!-- Empty Products -->
+                        <template #empty> No products found. </template>
+                        <!-- Loading Products -->
+                        <template #loading> Loading products data. Please wait. </template>
+                        <!--------------Columns----------->
+                        <div v-if="products && products.length > 0 && products !='' ">
+                            <Column field="id" header="Product Name" sortable style="min-width: 20rem" >
+                                <template #body="{ data }">
+                                   <Avatar :image="`${ENV_HOST_PATH_FILE}uploads/products_img/list_img_products/${data.product_picture}`" class="mr-2" size="large" shape="circle" :data-id="data"/>
+                                    <div class="flex flex-column">
+                                        <span class="flex"> {{ data.product_eng }}</span>
+                                    </div>
+                                </template>
+                            </Column>
+                            
+                            <Column field="id" header="Unit Price" sortable style="min-width: 13rem" >
+                                <template #body="{ data }">
+                                    {{ data.product_unit_price }}
+                                </template>
+                            </Column>
+                            <Column field="id" header="Qty" sortable style="min-width: 12rem" >
+                                <template #body="{ data }">
+                                    {{ data.product_qty }}
+                                </template>
+                            </Column>
+                            <!--  -->
+                            <Column field="active_status" header="Active Status" sortable style="min-width: 12rem" >
+                                <template #body>
+                                     <el-switch
+                                        v-model="inputSwitchPro"
+                                        size="large"
+                                    />
+                                </template>
+                             </Column>
+                            <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;" header="Actions" bodyStyle="text-align: center; overflow: visible">
+                                    <template #body="{ data }">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Button icon="pi pi-search" outlined rounded class="mr-2" @click.prevent="$router.push(`/vendor/products/product_list/view/${data.id}`)" />
+                                            <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click.prevent="$router.push(`/vendor/products/product_list/edit/${data.id}`)" />
+                                            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteCatPro()" />
+                                        </div>
+                                    </template> 
+                            </Column>
+                        </div>
+                    </DataTable>
+=======
                         </el-button>
                     </div>
                     <!-- DataTables -->
@@ -123,6 +171,7 @@
                                                 <InputText v-model="filterModel.value" type="text" class="p-column-filter" placeholder="Search by product name" />
                                             </template>
                                         </Column>
+>>>>>>> main
 
                                         <Column field="id" header="Purchase Price" sortField="product_unit_price"  sortable style="min-width: 13rem" >
                                             <template #body="{ data }">
@@ -181,6 +230,11 @@
     const productService = new ProductService();
     const proCategory = new ProductCategoriesServices();
     const selectedProduct = ref();
+<<<<<<< HEAD
+    const inputSwitchPro = ref(false);
+    const ENV_HOST_PATH_FILE = process.env.VUE_APP_PATH_FILE;
+
+=======
     const selectedProCatFilter = ref();
     const catListSelectOptProList = ref(null);
     const selectedProSubCatProFilter = ref(null);
@@ -195,6 +249,7 @@
             ? subString.slice(0, subString.lastIndexOf(" ")) 
             : subString) + "...";
     });
+>>>>>>> main
     onBeforeMount(() => {
         productService.getDataProducts()
             .then((data) => {
@@ -206,8 +261,11 @@
                 }
             }    
         );
+<<<<<<< HEAD
+=======
         //Get Product Categories
         getSelectOptCategoriesFilter();
+>>>>>>> main
         // Filters
         initFilterData();
     });

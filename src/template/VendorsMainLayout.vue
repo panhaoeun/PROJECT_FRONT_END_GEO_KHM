@@ -6,6 +6,52 @@ import { onMounted, onUnmounted, computed } from 'vue'
 import { useStore } from 'vuex'
 // import '@/plugins/styles'
 export default {
+<<<<<<< HEAD
+  name: "MainLayout",
+  data(){
+    return{
+        message: "Hello World",
+        menuListItems: [
+            {
+                id: 0,
+                icon: "pi pi-check",
+                title: "Dashboard",
+                url: "/vendor/dashboard",
+                isActive: 'active'
+            },
+            {
+                id: 0,
+                icon: "pi pi-check",
+                title: "Orders",
+                url: "/vendor/order-list",
+                isActive: 'active'
+            },
+            {
+                id: 1,
+                icon: "pi pi-check",
+                title: "Customers",
+                url: "/vendor/sellers/customer",
+      
+            },
+            {
+                id: 1,
+                icon: "pi pi-check",
+                title: "Product",
+                url: "/vendor/products/list",
+
+            },
+            {
+                id: 3,
+                icon: "#c-icon-dashboard",
+                title: "Seller",
+                url: "/vendor/sellers/list"
+            },
+            {
+                id: 4,
+                icon: "#c-icon-dashboard",
+                title: "Shops",
+                url: "/vendor/shop/list"
+=======
     name: 'App',
     setup() {
         const store = useStore()
@@ -30,6 +76,7 @@ export default {
                         )
                     }
                 }
+>>>>>>> main
             }
         }
         onMounted(() => {

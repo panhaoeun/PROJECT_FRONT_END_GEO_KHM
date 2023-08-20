@@ -3,9 +3,15 @@
     <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
+<<<<<<< HEAD
+            <h2 class="relative text-black text-3xl section section-title:before">Category Lists</h2>
+            <el-button type="info" size="large" class="py-4" @click="$router.push('/vendor/products/category/create')">
+                <div class="flex justify-between pl-2">
+=======
             <h2 class="relative text-black text-xl section section-title:before">Category Lists</h2>
             <el-button class="btn btn-primary"  type="info" size="large" @click="$router.push('/vendor/products/category/create')">
                 <div class="flex justify-between pl-2" v-permission="[{functionName: 'categories_module', moduleName: 'fun_create'}]">
+>>>>>>> main
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
                     <span class="pl-2">Add Categories</span>
                 </div>
@@ -18,10 +24,16 @@
                         <div class="px-2">
                             <!-- Data Tables -->
                             <DataTable ref="dt" :value="catList" v-model:selection="selectedCategoriesList" dataKey="id"
+<<<<<<< HEAD
+                                    :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
+                                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                    :rowsPerPageOptions="[5, 10, 25]"
+=======
                                     :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable text-sm"
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                     :rowsPerPageOptions="[5, 10, 25]"
                                     :metaKeySelection="false"
+>>>>>>> main
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                                 <!-- Header -->
                                 <template #header>
@@ -33,6 +45,25 @@
                                         </span>
                                     </div>
                                 </template>
+<<<<<<< HEAD
+                                <!-- Empty Products -->
+                                <template #empty> No Categories found. </template>
+                                <!-- Loading Products -->
+                                <template #loading> Loading Categories data. Please wait. </template>
+                            <!--------------Check Existed Data ----------->
+                             <div v-if="catList && catList.length > 0 && catList != ''">
+                                <!-- Columns -->
+                                    <Column field="Logo" header="Category Image" sortable style="min-width:15rem">
+                                        <template #body>
+                                            <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" size="xlarge" shape="circle" />
+                                        </template>
+                                    </Column>
+                                    <Column field="catNameEn" header="Name" sortable style="min-width:20rem"></Column>
+                                    <Column field="category" header="Category Status" sortable style="min-width:10rem">
+                                        <template #body>
+                                            <div class="font-bold">
+                                                <el-switch v-model="statusShopSwitch" />
+=======
                             <!-- Empty Products -->
                             <template #empty> No Categories found. </template>
                             <!-- Loading Products -->
@@ -49,16 +80,22 @@
                                                     {{ data.catNameEn }}
                                                 </router-link>
                                               </div>
+>>>>>>> main
                                             </div>
                                         </template>
                                     </Column>
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
+<<<<<<< HEAD
+                                                @click="$router.push({path: `/vendor/products/category/edit/${slotProps.data.catID}`})" />
+                                            <Button icon="pi pi-trash" outlined rounded severity="danger"
+=======
                                                 v-permission="[{functionName: 'categories_module', moduleName: 'fun_edit'}]"
                                                 @click="$router.push({path: `/vendor/products/category/edit/${slotProps.data.catID}`})" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 v-permission="[{functionName: 'categories_module', moduleName: 'fun_deleted'}]"
+>>>>>>> main
                                                 @click="confirmDeleteProduct(slotProps.data.catID)" />
                                         </template>
                                     </Column>
@@ -90,8 +127,13 @@
     // import { useToast } from 'primevue/usetoast';
     import { FilterMatchMode } from 'primevue/api';
     import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
+<<<<<<< HEAD
+import { ElMessage } from 'element-plus';
+    export default{
+=======
     import { ElMessage } from 'element-plus';
      export default{
+>>>>>>> main
         data(){
             return {
                 catID: '',
@@ -102,8 +144,12 @@
                 selectedCategoriesList: '',
                 filters: {
                     'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
+<<<<<<< HEAD
+                }
+=======
                 },
                 envVueHost: process.env.VUE_APP_PATH_FILE
+>>>>>>> main
             }
         },
         created() {
@@ -112,10 +158,16 @@
         mounted(){
             const proCatService = new ProductCategoriesServices();
             proCatService.getProCategory().then((data) => {
+<<<<<<< HEAD
+                if (data.success == true) {
+                    this.catList = data.result.resultStatus;
+                }
+=======
                 if (!data) {
                     ElMessage.error("Internal Error...");
                 }
                 this.catList = data;
+>>>>>>> main
             });
         },
         computed: {
@@ -141,7 +193,11 @@
                }).catch((error) => {
                   ElMessage.error(error);
                });
+<<<<<<< HEAD
+            }
+=======
             },
+>>>>>>> main
         }
     }
 </script>

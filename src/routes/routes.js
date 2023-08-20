@@ -87,9 +87,24 @@ const routerModules = () => new createRouter({
     linkExactActiveClass: 'router-link-exact-active',
     routes: constantRoutes,
 });
+<<<<<<< HEAD
+//
+router.beforeEach((to, from, next) => {
+    const publicPages = ['/auth/login', '/auth/register', '/'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
+    if(authRequired && !loggedIn){
+        next('/auth/login');
+    }else{
+        next();
+    }
+    
+});
+=======
 const router = routerModules();
 export function resetRouter() {
     const newRouter = routerModules();
     router.matcher = newRouter.matcher; // reset router
 }
+>>>>>>> main
 export default router;

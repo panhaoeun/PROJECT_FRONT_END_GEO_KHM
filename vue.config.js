@@ -33,4 +33,23 @@ module.exports = {
       ],
     },
   },
+<<<<<<< HEAD
+  configureWebpack: {
+    optimization: {
+      minimizer: [
+        new CssMinimizerPlugin({
+          minimizerOptions: {
+            preset: [
+              'default',
+              {
+                discardComments: { removeAll: true },
+              },
+            ],
+          },
+        }),
+      ],
+    },
+  },
+=======
+>>>>>>> main
 };
