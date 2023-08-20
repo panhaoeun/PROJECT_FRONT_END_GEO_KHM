@@ -71,6 +71,7 @@ import {useInfiniteQuery} from "@tanstack/vue-query";
         try{
             await productServicesMS.getCustomerProductsData(pageParam)
                 .then(async(proResult) => {
+                    console.log(proResult)
                     if(!Array.isArray(proResult) || !proResult.length > 0){
                         totalPage.value = [];
                         productMoreLove.value = [];

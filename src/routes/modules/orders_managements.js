@@ -13,7 +13,7 @@ const defaultChildRoutesOrdersMS = (prefix) => [
         component: () => import('../../views/vendors/order/OrderList.vue'),
     },
     {
-        path: "/vendor/order_managements/customer_detail/customer_order/order_detail",
+        path: "/vendor/order_managements/customer_detail/customer_order/order_detail/:orderId",
         name: prefix + '.customer_orders_detail',
         meta: {
             title: "orderProductModule",
