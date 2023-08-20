@@ -9,6 +9,7 @@ export default {
         businessSectionMS: 'ផ្នែកអាជីវកម្ម',
         orderProductModule: 'កម្ម៉ង់ទំនិញ',
         proCategories: 'ប្រភេទផលិតផល',
+        catSetUp: 'កំណត់ប្រភេទផលិតផល',
         proProductMS: 'ផលិតផល',
         routeGeneralInfo: 'ព័ត៌មាន​ទូទៅ',
         userMSModule: 'គ្រប់គ្រងអ្នកប្រើប្រាស់',
