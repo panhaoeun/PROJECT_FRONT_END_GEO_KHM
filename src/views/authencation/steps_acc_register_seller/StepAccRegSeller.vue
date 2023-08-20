@@ -2,410 +2,526 @@
     <!-- Header -->
     <Header/>
     <!--Contents -->
-    <div class="bg-white">
-      <div class="container bg-white" align-center>
-            <div class="px-2 py-2 ">
-              <!-- Form Submit on Stepper Accounts -->
-              <!--========Form==============-->
-                <div class="row">
-                    <div class="col-12">
-                        <!--Form Kit Multiple Action Step-->
-                        <FormKit
-                            type="form"
-                            #default="{ value, state: { valid } }"
-                            :plugins="[stepPlugin]"
-                            @submit="submitApp"
-                            :actions="false"
-                            style="max-width:500rem; min-width: 40rem; width: auto;"
-                            :allow-incomplete="false"
-                        >
-                        <ul class="steps">
-                            <li
-                            v-for="(step, stepName, index) in steps"
-                            :class="['step', { 'has-errors': checkStepValidity(stepName) }]"
-                            @click="activeStep = stepName"
-                            :data-step-valid="step.valid && step.errorCount === 0"
-                            :data-step-active="activeStep === stepName"
-                            :key="index"
-                            >
-                            <span
-                                v-if="checkStepValidity(stepName)"
-                                class="step--errors"
-                                v-text="step.errorCount + step.blockingCount"
-                            />
-                                {{ camel2title(stepName) }}
-                            </li>
-                        </ul>
-
-                        <!-- .form-body solely for styling -->
-                        <div class="form-body">
-                            <!--===========Business information's========-->
-                            <section v-show="activeStep === 'businessInformation'">
-                                <FormKit
-                                    type="group"
-                                    id="businessInformation"
-                                    name="businessInformation"
-                                >       
-                                    <FormKit
-
-                                        type="select"
-                                        label="Business Type"
-                                        name="businessType"
-                                        placeholder="Select Business Type"
-                                        :options="[
-                                           {label: 'Business' , value: '0'},
-                                           {label: 'None, I am an individual', value: '1'}
-                                        ]"
-
-                                        validation="required"
-                                    />
-                                    <!--===========Check Show/Hide Input==============-->
-                                    <div v-if="value.businessInformation && value.businessInformation != ''">
-                                        <!-- Business Account  -->
-                                        <div v-if="value.businessInformation.businessType === '0'">
-                                            <FormKit
-                                                type="text"
-                                                label="*Business Name"
-                                                name="busNameIdx0"
-                                                placeholder="Business name as it appears on business registrations document"
-                                                validation="required"
-                                            />     
-                                            <FormKit
-                                                type="text"
-                                                label="*Company registration number"
-                                                name="busNameIdx1"
-                                                placeholder="Company registration number"
-                                                validation="required"
-                                            />   
-                                        </div>
-                                        <!-- Individual Account  -->
-                                        <div v-if="value.businessInformation.businessType === '1'">
-                                            <FormKit
-                                                type="text"
-                                                label="*OwnerName"
-                                                name="ownerNameIdxIndividual"
-                                                placeholder="Owner Name"
-                                                validation="required"
-                                            />     
-                                        </div>
-                                    </div>
-                                    <div v-else>
-                                        Ops...Error this points .
-                                    </div>
-
-                                    <!-- Address -->
-                                    <p>Register business address</p>  
-                                    <FormKit
-                                        type="text"
-                                        name="addrLine02"
-                                        placeholder="Address Line 01"
-                                        validation="required"
-                                    />   
-                                    <FormKit
-                                        type="text"
-                                        name="addrLine02"
-                                        placeholder="Address Line 02"
-                                        validation="required"
-                                    />   
-
-                                    <div class="double">   
-                                        <FormKit
-                                            type="text"
-                                            name="addrCity"
-                                            placeholder="City/Town"
-                                            validation="required"
-                                        />      
-                                        <FormKit
-                                            type="text"
-                                            name="addrRegion"
-                                            placeholder="State/Region/Province"
-                                            validation="required"
-                                        />    
-                                        <FormKit
-                                            type="text"
-                                            name="addressRegion"
-                                            placeholder="Zip/Postal Code"
-                                            validation="required"
-                                        />        
-                                    </div>  
-                                    <FormKit
-                                        type="text"
-                                        label="If vou sell your product online. enter your website URL (optional)"
-                                        name="addrLine02"
-                                        placeholder="www.phzarkhmer.com/khonlineshop"
-                                    />   
-                                    <FormKit
-                                        type="text"
-                                        label="Mobile Number"
-                                        name="mobileNumber"
-                                        placeholder="Mobile Number"
-                                        validation="required"
-                                    />   
-                                    <FormKit
-                                        type="text"
-                                        label="Email"
-                                        name="busInformEmail"
-                                        placeholder="Email Address"
-                                        validation="required"
-                                    />   
-                                </FormKit>
-                            </section>
-                            <!--===========Store information's========-->
-                            <section v-show="activeStep === 'storeInformation'">
-                                <FormKit
-                                    id="storeInformation"
-                                    type="group"
-                                    name="storeInformation"
-                                >
-                                    <FormKit
-                                        type="text"
-                                        label="Store Name*"
-                                        name="storeName"
-                                        placeholder="Store Name"
-                                        validation="required"
-                                    /> 
-                                    <FormKit
-                                        type="radio"
-                                        label="Product Category"
-                                        help="Shoppers will find this item in all of these categories:"
-                                        validation="required"
-                                        :options="[
-                                            { label: 'Household Products', value: 'house-product' },
-                                            { label: 'Fashion and Accessories', value: 'fashion-accessories' },
-                                            { label: 'Electronics', value: 'electronic' },
-                                            { label: 'Baby and Kids` Products', value: 'baby-kid-product' },
-                                            {label: 'Office and School Supplies', value: 'office-school-supplies'},
-                                            { label: 'Other', value: 'Other' },
-                                        ]"
-                                    />   
-                                </FormKit>
-                                <!-- Address -->
-                                <p>Register Store address</p>  
-                                <FormKit
-                                        type="text"
-                                        name="storeAddrLine01"
-                                        placeholder="Address Line 01"
-                                        validation="required"
-                                    />   
-                                <FormKit
-                                        type="text"
-                                        name="storeAddrLine02"
-                                        placeholder="Address Line 02"
-                                        validation="required"
-                                    />   
-                                <FormKit
-                                    type="text"
-                                    name="storeAddrCity"
-                                    placeholder="City/Town"
-                                    validation="required"
-                                />   
-                                <FormKit
-                                    type="text"
-                                    name="storeAddrState"
-                                    placeholder="State/Region/Province"
-                                    validation="required"
-                                />   
-                                <FormKit
-                                    type="text"
-                                    name="storeAddrZipCode"
-                                    placeholder="Zip/Postal Code"
-                                    validation="required"
-                                />   
-                            </section>
-                            <!--===========Verification information's========-->
-                            <section v-show="activeStep === 'verificationInformation'">
-                                <FormKit
-                                    id="verificationInformation"
-                                    type="group"
-                                    name="verificationInformation"
-                                >
-                                    <FormKit
-                                            type="text"
-                                            label="National ID/Passport/License No *"
-                                            name="passportIDNo"
-                                            placeholder="National ID/Passport/License No"
-                                            validation="required"
-                                        />   
-                                        <!-- Business Account  -->
-                                        <div v-if="value.businessInformation && value.businessInformation != ''">
-                                            <div v-if="value.businessInformation.businessType === '0'">
-                                                <FormKit
-                                                    type="select"
-                                                    label="Choose your ID"
-                                                    name="small_country"
-                                                    placeholder="Choose your ID "
-                                                    :options="[
-                                                        'Business License'
-                                                    ]"
-                                                    validation="required"
-                                                /> 
-                                                <FormKit
-                                                    type="file"
-                                                    label="Certificate Photo upload"
-                                                    name="license"
-                                                    multiple="true"
-                                                    help="Please upload business license"
-                                                    accept=".jpg,.png,.pdf"
-                                                    validation="required"
-                                                />
-                                                <!-- Simple Document  -->
-                                                <div class="float-">
-                                                    <span class="font-bold text-lg">Simple Document</span>
-                                                    <!--Simple Document for Uploads-->
-                                                    <div class="demo-image__placeholder">
-                                                        <div class="block">
-                                                            <!--Preview Business Documents -->
-                                                            <div class="demo-image__preview">
-                                                                <el-image 
-                                                                    src="https://www.prasac.com.kh/wp-content/uploads/2020/05/Certificate-of-incorporation-update.png"  
-                                                                    style="width: 60%;height: 60%;"
-                                                                    :zoom-rate="1.2"
-                                                                    :preview-src-list="srcListDocumentPreview"
-                                                                    :initial-index="4"
-                                                                    fit="cover"
-                                                                />
-                                                            </div>   
-                                                        </div>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                            <!-- Individual Account  -->
-                                            <div v-if="value.businessInformation.businessType === '1'">
-                                                    <FormKit
-                                                        type="select"
-                                                        label="Choose your ID"
-                                                        name="small_country"
-                                                        placeholder="Choose your ID "
-                                                        :options="[
-                                                            'Passport',
-                                                            'National ID',
-                                                            'Driver License'
-                                                        ]"
-                                                        validation="required"
-                                                        /> 
-                                                    <FormKit
-                                                        type="file"
-                                                        label="Certificate Photo upload"
-                                                        name="license"
-                                                        multiple="true"
-                                                        help="Please upload your id"
-                                                        accept=".jpg,.png,.pdf"
-                                                        validation="required"
-                                                    />
-                                                    <!--===============Simple Document==============-->
-                                                    <DocumentExample/>
-                                            </div>
-                                        </div>       
-                                </FormKit>
-                            </section>
-
-                            <!-- NEW: Adds Next / Previous navigation buttons. -->
-                            <div class="step-nav">
-                                <FormKit type="button" :disabled="activeStep == 'businessInformation'" @click="setStep(-1)" v-text="'Previous step'" />
-                                <FormKit type="button" class="next" :disabled="activeStep == 'verificationInformation'" @click="setStep(1)" v-text="'Next step'"/>
-                            </div>
-
-                            <details>
-                                <summary>Form data</summary>
-                                <pre>{{ value }}</pre>
-                            </details>
-                        </div>
-
-                        <!-- NEW: Adds submit button. -->
-                        <FormKit type="submit" label="Submit Application" :disabled="!valid" />
-                        </FormKit>
+    <div class="conatiner-fluid content-inner py-4 px-4">
+        <b-row>
+            <b-col sm="12">
+                <b-card no-body class="card">
+                    <b-card-header class="d-flex justify-content-between">
+                    <div class="header-title">
+                        <b-card-title>
+                            <h3>Apply to Seller</h3>
+                        </b-card-title>
                     </div>
-                </div>
-              <!--========Form==============-->
-            </div>
-        </div>
+                    </b-card-header>
+                    <b-card-body color="#d41c21">
+                        <!-- Form Submit Apply Vendors -->
+                        <Form
+                            keep-values
+                            :validation-schema="currentSchemaRegisterSellAcc"
+                            @submit="nextStepRegisterSellAcc"
+                        >
+                            <form-wizard>
+                                <!-- Business information's -->
+                                <tab-content title="Seller Information" icon="fa fa-user">
+                                    <fieldset>
+                                        <div class="form-card text-start">
+                                        <b-row>
+                                            <div class="col-7">
+                                                <h5 class="mb-4">Seller Information:</h5>
+                                            </div>
+                                        </b-row>
+                                        <b-row>
+                                                <b-col md="6">
+                                                    <b-form-group label="Seller Type: *">
+                                                            <MazSelect
+                                                                v-model="selectBusinessType"
+                                                                label="Select Seller Type"
+                                                                name="businessType"
+                                                                type="text"
+                                                                search
+                                                                :options="[
+                                                                    {label: 'Business' , value: 'business-type'},
+                                                                    {label: 'None, I am an individual', value: 'individual-type'}
+                                                                ]"
+                                                                validation="required"
+                                                            />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <!--===========Check Show/Hide Input==============-->
+                                                <!-- Business Account -->
+                                                <b-col md="6" v-if="selectBusinessType === 'business-type'">
+                                                    <b-form-group label="Business Name: *">
+                                                        <MazInput
+                                                            v-model="busNameIdxRegisterName"
+                                                            label="Business Name"
+                                                            name="busNameIdxRegisterName"
+                                                        />
+                                                        <ErrorMessage class="p-error" name="busNameIdxRegisterName" />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6" v-if="selectBusinessType === 'business-type'">
+                                                    <b-form-group label="Company Register number: *">
+                                                        <MazInput
+                                                            v-model="busNameIdxRegisterNum"
+                                                            label="Company register number"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <!-- Individual Account -->
+                                                <b-col md="6" v-if="selectBusinessType === 'individual-type'">
+                                                    <b-form-group label="Owner Name: *">
+                                                        <MazInput
+                                                            v-model="ownerNameIdxIndividual"
+                                                            label="Owner Name"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6">
+                                                    <b-form-group label="Phone Number: *">
+                                                        <!-- Phone number of seller info -->
+                                                        <MazPhoneNumberInput
+                                                            defaultCountryCode="KH"
+                                                            type="number"
+                                                            v-model="mobilePhoneNumber"
+                                                            :translations="{
+                                                                countrySelector: {
+                                                                    placeholder: 'Country code',
+                                                                    error: 'Choose country',
+                                                                },
+                                                                phoneInput: {
+                                                                    placeholder: 'Phone number',
+                                                                    example: 'Example:',
+                                                                },
+                                                                }"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6">
+                                                    <b-form-group label="Email Address: *">
+                                                        <MazInput
+                                                            v-model="emailAddr"
+                                                            label="Email Address"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <!--===========Check Show/Hide Input==============-->
+                                                <!--====Upload Shop Logo======-->
+                                                <b-col md="12">
+                                                    <b-form-group label="Profile Image: *">
+                                                        <el-upload action="#" 
+                                                                list-type="picture-card" 
+                                                                :on-preview="handlePictureCardPreview"
+                                                                :on-remove="handleRemove" 
+                                                                :auto-upload="false" 
+                                                                :on-change="handleChange" 
+                                                                :class="objClassSeller"
+                                                                :file-list="fileList" 
+                                                                v-model="file"
+                                                                ref="file"
+                                                                :limit="1">
+                                                            <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                        </el-upload>
+                                                    </b-form-group>
+                                                </b-col>
+                                        </b-row>
+                                        </div>
+                                    </fieldset>
+                                </tab-content>
+                                <!-- Business information's -->
+                                <tab-content title="Shop Information">
+                                    <fieldset>
+                                        <div class="form-card text-start">
+                                            <b-row>
+                                                <div class="col-7">
+                                                    <h5 class="mb-4">Shop Information:</h5>
+                                                </div>
+                                            </b-row>
+                                            <b-row>
+                                                <b-col md="6">
+                                                    <b-form-group label="Address Line 01">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="addressLine01"
+                                                            label="Address Line 01"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6">
+                                                    <b-form-group label="Address Line 02">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="addressLine02"
+                                                            label="Address Line 02"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6">
+                                                    <b-form-group label="City/Town">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="addressCityTown"
+                                                            label="City/Town"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6">
+                                                    <b-form-group label="Region/Province">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="addressStateOrProvince"
+                                                            label="Region/Province"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6">
+                                                    <b-form-group label="Zip/Postal Code">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="addZipOrPostalCode"
+                                                            label="Zip/Postal Code"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6">
+                                                    <b-form-group label="If vou sell your product online. enter your website URL (optional)">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="urlShopWebSite"
+                                                            label="www.7day.com.kh/7dayshop"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <!-- Shop Banner & Logo -->
+                                                <b-col md="12">
+                                                    <b-form-group label="Shop Logo: *">
+                                                        <el-upload action="#" 
+                                                                list-type="picture-card" 
+                                                                :on-preview="handlePictureCardPreview"
+                                                                :on-remove="handleRemove" 
+                                                                :auto-upload="false" 
+                                                                :on-change="handleChange" 
+                                                                :class="objClassSeller"
+                                                                :file-list="fileList" 
+                                                                v-model="file"
+                                                                ref="file"
+                                                                :limit="1">
+                                                            <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                        </el-upload>
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="12">
+                                                    <b-form-group label="Shop Banner: *">
+                                                        <el-upload action="#" 
+                                                                list-type="picture-card" 
+                                                                :on-preview="handlePictureCardPreview"
+                                                                :on-remove="handleRemove" 
+                                                                :auto-upload="false" 
+                                                                :on-change="handleChange" 
+                                                                :class="objClassSeller"
+                                                                :file-list="fileList" 
+                                                                v-model="file"
+                                                                ref="file"
+                                                                :limit="1">
+                                                            <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                        </el-upload>
+                                                    </b-form-group>
+                                                </b-col>
+                                            </b-row>
+                                        </div>
+                                    </fieldset>
+                                </tab-content>
+                                <!-- Store Information's -->
+                                <tab-content title="Verification Information">
+                                    <fieldset>
+                                            <div class="form-card text-start">
+                                                <b-row>
+                                                    <div class="col-7">
+                                                        <h5 class="mb-4">Store Information:</h5>
+                                                    </div>
+                                                </b-row>
+                                                <b-row>
+                                                <b-col md="6">
+                                                    <!-- Store Name -->
+                                                    <b-form-group label="Shop Name">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="storeNameInfo"
+                                                            label="Store Name"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <!-- Product Categories -->
+                                                <b-col md="12">
+                                                   <b-form-group label="Product Categories">
+                                                        <!--====@=>Product Categories====-->
+                                                        <MazRadioButtons
+                                                            v-model="selectedCompetitionProCategories"
+                                                            :options="competitions"
+                                                        >
+                                                            <template #default="{ option, selected }">
+                                                                <div style="display: flex;">
+                                                                <MazAvatar
+                                                                    v-if="option.areaEnsignUrl"
+                                                                    :src="option.areaEnsignUrl"
+                                                                    style="margin-right: 16px;"
+                                                                    size="0.8rem"
+                                                                />
+                                                                <div style="display: flex; flex-direction: column;">
+                                                                    <span>
+                                                                    {{ option.label }}
+                                                                    </span>
+                                                                    <span :class="{ 'maz-text-muted': !selected }">
+                                                                        {{ option.areaName }}
+                                                                    </span>
+                                                                </div>
+                                                                </div>
+                                                            </template>
+                                                        </MazRadioButtons>
+                                                   </b-form-group>
+                                                </b-col>
+                                            </b-row>
+                                        </div>
+                                    </fieldset>
+                                </tab-content>
+                                <!-- Verify Information's -->
+                                <tab-content title="Verification Information">
+                                    <fieldset>
+                                            <div class="form-card text-start">
+                                                <b-row>
+                                                    <div class="col-7">
+                                                        <h5 class="mb-4">Verify Information:</h5>
+                                                    </div>
+                                                </b-row>
+                                                <b-row>
+                                                <!--Business ID License No-->
+                                                <b-col md="6">
+                                                    <b-form-group label="National ID/Passport/License No *">
+                                                        <MazInput
+                                                            type="text"
+                                                            v-model="verifyDocumentID"
+                                                            label="National ID/Passport/License No *"
+                                                        />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6" v-if="selectBusinessType === 'business-type'">
+                                                    <b-form-group label="Choose Your ID: *">
+                                                            <MazSelect
+                                                                v-model="selectYourIDBusinessID"
+                                                                label="Select Your ID"
+                                                                name="businessYourID"
+                                                                type="text"
+                                                                search
+                                                                :options="[
+                                                                    {label: 'Business License' , value: 'business-license'}
+                                                                ]"
+                                                                validation="required"
+                                                            />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="6" v-if="selectBusinessType === 'business-type'">
+                                                    <b-form-group label="Certificate Photo Upload: *">
+                                                        <el-upload action="#" 
+                                                                list-type="picture-card" 
+                                                                :on-preview="handlePictureCardPreview"
+                                                                :on-remove="handleRemove" 
+                                                                :auto-upload="false" 
+                                                                :on-change="handleChange" 
+                                                                :class="objClassSeller"
+                                                                :file-list="fileList" 
+                                                                v-model="file"
+                                                                ref="file"
+                                                                :limit="1">
+                                                            <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                        </el-upload>
+                                                    </b-form-group>
+                                                </b-col>
+                                                <!--=== Passport or Nation ID Upload======-->
+                                                <b-col md="6" v-if="selectBusinessType === 'individual-type'">
+                                                    <b-form-group label="Choose Your ID: *" >
+                                                            <MazSelect
+                                                                v-model="selectYourIDBusinessID"
+                                                                label="Select Your ID"
+                                                                name="businessYourIndividualType"
+                                                                type="text"
+                                                                search
+                                                                :options="[
+                                                                    {label: 'Passport' , value: 'passport-license'},
+                                                                    {label: 'National ID' , value: 'national-license'},
+                                                                    {label: 'Driver License' , value: 'driver-license'}
+                                                                ]"
+                                                                validation="required"
+                                                            />
+                                                    </b-form-group>
+                                                </b-col>
+                                                <b-col md="12" v-if="selectBusinessType === 'individual-type'">
+                                                    <b-form-group label="Document Upload: *" >
+                                                        <el-upload action="#" 
+                                                                list-type="picture-card" 
+                                                                :on-preview="handlePictureCardPreview"
+                                                                :on-remove="handleRemove" 
+                                                                :auto-upload="false" 
+                                                                :on-change="handleChange" 
+                                                                :class="objClassSeller"
+                                                                :file-list="fileList" 
+                                                                v-model="file"
+                                                                ref="file"
+                                                                :limit="1">
+                                                            <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                        </el-upload>
+                                                    </b-form-group>
+                                                </b-col>
+                                            </b-row>
+                                        </div>
+                                    </fieldset>
+                                </tab-content>
+                                <!-- Button Submit Apply to Seller --> 
+                            </form-wizard>
+                        </Form>
+                        <!-- Form Submit Apply Vendors -->
+                     
+                    </b-card-body>
+                </b-card>
+            </b-col>
+        </b-row>
     </div>
-  
+
 </template> 
 
 <!-- Import Files -->
-<script setup>
-    import {  axios, camel2title } from '../../../utils/utils.js'
-    import useSteps  from '../../../utils/useSteps';
+<script>
     import Header from '../../customers/header_of_subpage/HeaderSubPage.vue';
-    import DocumentExample from "../../authencation/steps_acc_register_seller/stepper_acc/document_example/DocumentExaple.vue"
-    //Document Previews
-    const srcListDocumentPreview = ["https://www.prasac.com.kh/wp-content/uploads/2020/05/Certificate-of-incorporation-update.png"];
-    //Acc Steps
-    const { steps, visitedSteps, activeStep, setStep, stepPlugin } = useSteps()
-    // NEW: submit handler, which posts to our fake backend.
-    const submitApp = async (formData, node) => {
-        try {
-            const res = await axios.post(formData)
-            console.log(res)
-            node.clearErrors()
-            alert('Your application was submitted successfully!')
-        } catch (err) {
-            node.setErrors(err.formErrors, err.fieldErrors)
+    import MazSelect from 'maz-ui/components/MazSelect';
+    import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
+    import MazRadioButtons from 'maz-ui/components/MazRadioButtons';
+    import { FormWizard, TabContent } from "vue3-form-wizard";
+    import MazAvatar from 'maz-ui/components/MazAvatar'
+    import { Form,ErrorMessage } from "vee-validate";
+    import * as yup from "yup";
+    export default {
+        data(){
+            return{
+                formWizard: FormWizard,
+                objClassSeller: {
+                    upLoadShowSellerRegister: true,
+                    upLoadHideSellerRegister: false,
+                },
+                competitions: [
+                    {
+                        value: "1",
+                        label: "Ligue 1",
+                        areaName: "France",
+                        areaEnsignUrl: "https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg",
+                    },
+                    {
+                        value: "2",
+                        label: "Premier League",
+                        areaName: "England",
+                        areaEnsignUrl: "https://crests.football-data.org/770.svg",
+                    },
+                ],
+                selectedCompetitionProCategories: '',
+                selectBusinessType: 'business-type',
+                currentStep: 0,
+                stepLength: 3,
+                busNameIdxRegisterName: '',
+                busNameIdxRegisterNum: '',
+                ownerNameIdxIndividual: '',
+                storeNameInfo: '',
+                addressLine01: '',
+                addressLine02: '',
+                addressCityTown: '',
+                addressStateOrProvince: '',
+                addZipOrPostalCode: '',
+                urlShopWebSite: '',
+                mobilePhoneNumber:'',
+                emailAddr: '',
+                verifyDocumentID: '',
+                selectYourIDBusinessID: '',
+                businessYourIndividualType: null,
+                // Each step should have its own validation schema
+                schemas: [
+                    yup.object({
+                        busNameIdxRegisterName: yup.string().required("Please Enter your business name"),
+                        email: yup.string().required().email(),
+                    }),
+                ],
+            }
+        },
+        computed:{
+            currentSchemaRegisterSellAcc () {
+               return this.schemas[this.currentStep];
+            }
+        },
+        components: {
+            MazRadioButtons,
+            ErrorMessage,
+            MazAvatar,
+            Form,
+            MazSelect,
+            MazPhoneNumberInput,
+            Header,
+            FormWizard,
+            TabContent,
+        },
+        method:{
+            nextStepRegisterSellAcc(values){
+                console.log(values)
+                if (this.currentStep === this.stepLength) {
+                    console.log("Done: ", JSON.stringify(values, null, 2));
+                    alert("Submit Success");
+                    return;
+                }
+                this.currentStep++;
+                // next step function to move to the next step
+                // this.formWizard?.nextTab();
+            },
+            prevStepRegisterSell(){
+                if (this.currentStep <= 0) {
+                    return;
+                }
+                this.currentStep--;
+                // previous step function to move to the previous step
+                this.formWizard?.prevTab();
+            },
+            onCompleteSubmitRegApplyAccSell(){
+                console.log()
+            }
         }
     }
+<<<<<<< HEAD
     //Check Step
     const checkStepValidity = (stepName) => {
         return (steps[stepName].errorCount > 0 || steps[stepName].blockingCount > 0) && visitedSteps.value.includes(stepName)
     }
+=======
+>>>>>>> main
 </script>
-<!-- Styles -->
+
+
+<!-- Style -->
 <style>
-    /* Styles imported for brevity */
-    /* CSS for multi-step forms is not included in the default Genesis theme.
-    styles were custom-written for this example and you will need to provide
-    your own. */
-   @import "https://cdn.formk.it/web-assets/multistep-form.css";
-    .demo-image__placeholder .block {
-        display: inline-block;
-        width: 60%;
-        box-sizing: border-box;
-        vertical-align: top;
-    }
-
-    .demo-image__placeholder .demonstration {
-        display: block;
-        color: var(--el-text-color-secondary);
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-    .demo-image__placeholder.image-slot {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        background: var(--el-fill-color-light);
-        color: var(--el-text-color-secondary);
-        font-size: 14px;
-    }
-
-    .demo-image__placeholder .dot {
-        animation: dot 2s infinite steps(3, start);
-        overflow: hidden;
-    }
-    .demo-image__error .image-slot {
-        font-size: 30px;
-    }
-    .demo-image__error .image-slot .el-icon {
-        font-size: 30px;
-    }
-    .demo-image__error .el-image {
-         width: 100%;
-         height: 100%;
-    }
-    .demo-image__lazy {
-  height: 400px;
-  overflow-y: auto;
+/*当upLoadShowSellerRegister为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+.upLoadShowSellerRegister .el-upload {
+    width: 15rem !important;
+    height: 15rem !important;
+    line-height: 15rem !important;
 }
-.demo-image__lazy .el-image {
-  display: block;
-  min-height: 200px;
-  margin-bottom: 10px;
+
+    /*当upLoadHideSellerRegister为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
+.upLoadHideSellerRegister .el-upload-list--picture-card .el-upload-list__item {
+    width: 15rem !important;
+    height: 15rem !important;
+    line-height: 15rem !important;
 }
-.demo-image__lazy .el-image:last-child {
-  margin-bottom: 0;
+    /*当upLoadHideSellerRegister为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+.upLoadHideSellerRegister .el-upload {
+    display: none;
+}
+.el-alert {
+  margin: 20px 0 0;
+}
+.el-alert:first-child {
+  margin: 0;
 }
 
 </style>
-

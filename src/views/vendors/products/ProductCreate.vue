@@ -1,22 +1,29 @@
 <template>
-   <div class="layout-content">
+   <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-                <h2 class="relative text-black text-3xl section section-title:before">Add Product</h2>
-                <el-button type="info" size="large" @click.prevent="$router.push('/vendor/products/list')">
-                    <div class="flex justify-between pl-2">
-                        <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
-                        <span class="pl-2">BACK</span>
-                    </div>
-                </el-button>
+            <h2 class="relative text-black text-xl section section-title:before">Add Product</h2>
+            <el-button type="info" size="large" class="btn btn-primary" @click.prevent="$router.push('/vendor/products/list')">
+                <div class="flex justify-between pl-2">
+                    <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
+                </div>
+            </el-button>
         </div>
         <!-- Form Submited -->
+<<<<<<< HEAD
        <form class="p-fluid" method="POST" enctype="multipart/form-data"  role="form" @submit.prevent="submitFormProCreate(!v$.$invalid)">    
+=======
+        <form method="POST">    
+>>>>>>> main
             <!-- Toast Alert -->
             <Toast />
+            <Message severity="error" v-for="(errorArray, index) in notifmsg" :key="index">
+                {{ errorArray[0] }} 
+            </Message>
             <!--Create Products-->
             <div class="card card px-6 py-6">
-                <span class="block text-900 font-bold text-xl mb-4">Create Product</span>
+                <span class="block text-900 font-bold text-md mb-4">Create Product</span>
                 <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">     
                     <div class="col-12 lg:col-12">
                     <!--==========Tabs===============-->
@@ -25,12 +32,12 @@
                         <el-tab-pane label="English(EN)" name="eng-tabs">
                             <!-- Form Layouts -->
                             <div class="grid formgrid">
-                                <div class="col-12 field">
+                                <div class="col-6 field">
                                     <!-- Name Product -->
                                     <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Name (EN) <span class="p-error">*</span></label>
-                                        <InputText id="product_name" placeholder="New Products"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="text-xl"/>
-                                         <small v-if="(v$.proNameEn.$invalid && submitted) || v$.proNameEn.$pending.$response" class="p-error text-lg">{{ v$.proNameEn.required.$message.replace('Value', 'Name') }}</small>
+                                        <label for="name_en" class="text-sm font-semibold">Name (EN) <span class="p-error">*</span></label>
+                                        <InputText id="product_name" placeholder="New Products"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="text-sm border-round-lg"/>
+                                        <small v-if="(v$.proNameEn.$invalid && submitted) || v$.proNameEn.$pending.$response" class="p-error text-lg">{{ v$.proNameEn.required.$message.replace('Value', 'Name') }}</small>
                                     </div>
                                 </div>
                                 <!-- Product Category -->
@@ -70,56 +77,138 @@
                                     </div>
                                 </div>
                                 <!-- Product Code -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-6 lg:col-6 field">
                                     <div class="field">
+<<<<<<< HEAD
                                         <label for="name_en" class="text-xl font-semibold">
                                             Product Code
                                             <span class="p-error">*</span>
                                             <span class="pl-2 underline text-blue-600" @click="sdsad">Generate Code</span>
                                         </label>
                                         <InputText class="p-inputtext p-component text-xl" type="text" v-model="proCode" placeholder="Product Code" />
+=======
+                                        <label for="name_en" class="text-sm font-semibold">
+                                            Product Code
+                                            <span class="p-error">*</span>
+                                            <span class="pl-2 underline text-blue-600 cursor-pointer h5 disabled" @click="generateProductCode()">Generate Code</span>
+                                        </label>
+                                        <InputText class="border-round-lg text-sm" type="text" v-model="proCode" placeholder="Product Code" />
+>>>>>>> main
                                     </div>
                                 </div>
-                                <!-- Measure -->
-                                <div class="col-12 lg:col-6 field">
+                                <!--========== Product Category and Sub Categories =======-->
+                                <div class="col-6 lg:col-6 field">
+                                    <!-- Categories -->
                                     <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Measure</label>
-                                        <InputText class="p-inputtext p-component text-xl" type="text" v-model="measureUnit" placeholder="Measure" />
+                                        <label for="name_en" class="text-sm font-semibold">Category</label>
+                                        <Dropdown 
+                                                :options="catListSelectOpt" 
+                                                filter 
+                                                v-model="v$.selectedProCat.$model" 
+                                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v$.selectedProCat.$invalid && submitted }"
+                                                inputId="catID"
+                                                optionLabel="catNameEn" 
+                                                placeholder="Select a Categories" 
+                                                aria-describedby="dd-error"
+                                                class="w-full border-round-lg text-sm">
+                                                <template #value="slotProps">
+                                                    <div v-if="slotProps.value" class="flex align-items-center">
+                                                        <div>{{ slotProps.value?.catNameEn }}</div>
+                                                    </div>
+                                                    <span v-else>
+                                                        {{ slotProps.placeholder }}
+                                                    </span>
+                                                </template>
+                                                <template #option="slotProps">
+                                                    <div class="flex align-items-center">
+                                                        <div>{{ slotProps.option?.catNameEn }}</div>
+                                                    </div>
+                                                </template>
+                                        </Dropdown>
+                                        <small v-if="(v$.selectedProCat.$invalid && submitted) || v$.selectedProCat.$pending.$response" class="p-error text-lg">{{ v$.selectedProCat.required.$message.replace('Value', 'Categories') }}</small>
+                                    </div>
+                                </div>
+                                <!-- Sub Product Category -->
+                                <div class="col-6 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="subCategories" class="text-sm font-semibold">Sub Category</label>
+                                        <Dropdown 
+                                                @click="getSubCategoriesOptSelect(selectedProCat)"
+                                                :options="catSubListDropDownPro" 
+                                                filter 
+                                                v-model="v$.selectedProSubCat.$model" 
+                                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v$.selectedProSubCat.$invalid && submitted }"
+                                                inputId="catID"
+                                                optionLabel="categoryNameEng" 
+                                                placeholder="Select a Sub Categories" 
+                                                aria-describedby="dd-error"
+                                                class="w-full border-round-lg text-sm">
+                                                <template #value="slotProps">
+                                                    <div v-if="slotProps.value" class="flex align-items-center">
+                                                        <div>{{ slotProps.value?.categoryNameEng }}</div>
+                                                    </div>
+                                                    <span v-else>
+                                                        {{ slotProps.placeholder }}
+                                                    </span>
+                                                </template>
+                                                <template #option="slotProps">
+                                                    <div class="flex align-items-center">
+                                                        <div>{{ slotProps.option?.categoryNameEng }}</div>
+                                                    </div>
+                                                </template>
+                                            </Dropdown>
+                                            <small v-if="(v$.selectedProSubCat.$invalid && submitted) || v$.selectedProSubCat.$pending.$response" class="p-error text-lg">{{ v$.selectedProSubCat.required.$message.replace('Value', 'Sub Categories') }}</small>
+                                    </div>
+                                </div>
+                                <!--========== Product Category and Sub Categories =======-->
+                                <!-- Measure -->
+                                <div class="col-4 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="name_en" class="text-sm font-semibold">Measure</label>
+                                        <InputText class="p-inputtext p-component border-round-lg text-sm" type="text" v-model="measureUnit" placeholder="Measure" />
                                     </div>
                                 </div>
                                 <!-- Discount Type  and Discount -->
                                 <!-- Discount -->
+<<<<<<< HEAD
                                 <div class="col-12 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-xl font-semibold">Discount</label>
                                         <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="proDiscount"/>
+=======
+                                <div class="col-4 lg:col-6 field">
+                                    <div class="field">
+                                        <label for="name_en" class="text-sm font-semibold">Discount</label>
+                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="border-round-lg text-sm"  v-model="proDiscount"/>
+>>>>>>> main
                                     </div>
                                 </div>
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
-                                        <label for="discountType" class="text-xl font-semibold">Discount Type</label>
-                                        <Dropdown v-model="discountType" placeholder="Select Discount Type" optionLabel="disType"  class="text-xl" :options="disTypesOption" :showClear="true"/>
+                                        <label for="discountType" class="text-sm font-semibold">Discount Type</label>
+                                        <Dropdown v-model="discountType" placeholder="Select Discount Type" optionLabel="disType"  class="border-round-lg text-sm" :options="disTypesOption" :showClear="true"/>
                                     </div>
                                 </div>
                                 <!-- Product Prices -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Unit Price</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
-                                         <small v-if="(v$.proUnitPice.$invalid && submitted) || v$.proUnitPice.$pending.$response" class="p-error text-lg">{{ v$.proUnitPice.required.$message.replace('Value', 'Unit Price') }}</small>
+                                        <label for="name_en" class="text-sm font-semibold">Unit Price</label>
+                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="border-round-lg text-sm"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
+                                         <small v-if="(v$.proUnitPice.$invalid && submitted) || v$.proUnitPice.$pending.$response" class="p-error text-sm">{{ v$.proUnitPice.required.$message.replace('Value', 'Unit Price') }}</small>
                                     </div>
                                 </div>
                                 <!-- Product Qty -->
-                                <div class="col-12 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Total Quality</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="text-xl"  v-model="v$.proQty.$model" :class="{ 'p-invalid p-inputtext-lg p-error': v$.proQty.$invalid && submitted }"/>
-                                         <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-lg">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
+                                        <label for="name_en" class="text-sm font-semibold">Total Quality</label>
+                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="border-round-lg text-sm"  v-model="v$.proQty.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proQty.$invalid && submitted }"/>
+                                         <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-sm">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
                                     </div>
                                 </div>
                                 <!--========Variations Type of Spec - Start=======-->
                                 <div class="col-12 field">
                                     <div class="field">
+<<<<<<< HEAD
                                      <label for="name_en" class="text-xl font-bold">Spec</label>
                                       <!-- Dynamic Input Base Spec -->
                                         <el-card class="box-card">
@@ -158,20 +247,60 @@
                                                     </el-col>
                                                 </el-row>
                                         </el-card>
+=======
+                                     <label for="name_en" class="text-md font-bold">Spec</label>
+                                      <!-- Dynamic Input Base Spec -->
+                                       <el-row :gutter="20">
+                                            <el-col :span="12">
+                                                    <!-- Button a new spec -->
+                                                    <div class="px-2 py-2 w-5 md:w-5">
+                                                        <Button label="Add new spec" icon="pi pi-plus" class="font-bold btn btn-outline-primary" @click="addNewSpecItem(index)"/>
+                                                    </div>
+                                                    <!-- Variant Type-->
+                                                    <div v-for="(sectionSpecPro, index) in sectionSpecPro" :key="index">
+                                                        <!-- Add new items -->
+                                                        <div class="flex item-center px-2 py-2">
+                                                            <div class="flex-initial flex align-items-center text-sm text-danger cursor-pointer justify-content-center btn btn-primary py-2 px-2 font-bold text-white border-round" @click="addNewSubItemSpecByIdx(index)">
+                                                                <i class="pi pi-plus-circle" style="font-size: 1.3rem"></i>
+                                                            </div>
+                                                            <!-- Add Sub spec -->
+                                                            <InputText v-model="sectionSpecPro.item" size="small" type="text" class="text-sm p-inputtext border-round-lg" placeholder="Variant" />
+                                                            <!-- Remove Input  -->
+                                                            <div class="px-2 py-2">
+                                                                <Button icon="pi pi-times" class="p-error text-sm" severity="danger" text rounded aria-label="Cancel" v-if="sectionSpecPro.length != 1" @click="btnRemoveSubSpec(index)"/>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Input of sub spec -->
+                                                        <div class="flex flex-column ml-6">
+                                                            <div class="flex align-items-center text-sm justify-content-center font-bold text-white border-round m-2" v-for="(addition, index) in sectionSpecPro?.additional" :key="index">
+                                                                <h4 class="m-2 text-sm"> {{ index + 1 }}</h4 >
+                                                                <InputText v-model="addition.item" size="small" type="text" class="border-round-lg text-sm" placeholder="Add sub item of spec" />                                
+                                                                <!-- Remove Input  -->
+                                                                <div class="px-2 py-2">
+                                                                    <Button icon="pi pi-trash" outlined rounded class="mr-2 text-sm" v-if="sectionSpecPro.additional.length != 1" @click="btnRemoveSubSpec(index)" severity="danger" text aria-label="Cancel" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>         
+                                            </el-col>
+                                        </el-row>
+>>>>>>> main
                                     </div>
                                 </div>
                                 <!--========Variations Type of Spec - Start=======-->                       
                                 <!-- Description Product -->
                                 <div class="col-12 lg:col-12">
                                         <div class="field">
-                                        <label for="name_en" class="text-xl font-semibold">Description (EN)</label>
-                                        <Editor v-model="desProEn" editorStyle="height: 320px" class="text-xl"/>
+                                        <label for="name_en" class="text-sm font-semibold">Description (EN)</label>
+                                        <Editor v-model="desProEn" editorStyle="height: 320px" class="text-sm"/>
                                     </div>  
                                 </div>
                             </div> 
                              <!--=======Product Details=========-->
-                            <div class="card  px-6 py-6 my-4">
-                                <span class="block text-900 font-bold text-xl mb-4">Product Details</span>
+                            <div class="bg-white">
+                                <span class="block text-900 font-bold text-sm mb-4">
+                                    Product Details
+                                </span>
                                 <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
                                     <div class="col-12 lg:col-12">
                                         <!-- Form Layouts -->
@@ -179,59 +308,88 @@
                                             <!-- Link Video -->
                                             <div class="col-12 lg:col-12">
                                                     <div class="field">
-                                                    <label for="name_en" class="text-xl">Youtube Video Link</label>
-                                                    <InputText id="product_name" placeholder="New Products" type="text" class="text-xl"/>
+                                                    <label for="name_en" class="text-sm">Youtube Video Link</label>
+                                                    <InputText id="product_name" placeholder="New Products" type="text" class="text-sm border-round-lg"/>
                                                 </div>  
                                             </div>
                                             <!-- Upload Imag Multiple Product and Thumbnail -->
+<<<<<<< HEAD
                                             <div class="col-12 lg:col-7 px-2 py-2">
                                                 <div class="field card">
                                                     <label for="name_en" class="text-xl font-semibold">
                                                          Product Images 
+=======
+                                            <div class="col-6 lg:col-7 px-2 py-2">
+                                                <div class="field">
+                                                    <label for="name_en" class="text-sm font-semibold pl-3">
+                                                        Product Images 
+>>>>>>> main
                                                         (Available 10 Image Uploads)
                                                         <span class="p-error">*</span>
                                                      </label>
                                                     <!-- Upload Filed -->
+<<<<<<< HEAD
                                                     <el-upload action="#" list-type="picture-card" 
                                                         :auto-upload="false" 
                                                         :limit="10"
+=======
+                                                    <el-upload 
+                                                        class="text-sm pl-3"
+                                                        action="#" 
+                                                        list-type="picture-card" 
+                                                        :auto-upload="true" 
+                                                        :limit="10"
+                                                        :show-file-list="true"
+>>>>>>> main
                                                         ref="proImgMultiple"
                                                         v-model="proImgMultiple"
                                                         accept=".jpg, .png, .jpeg"
                                                         :on-exceed="handleExceed"
+<<<<<<< HEAD
                                                         :on-change="handleChangeFileMalUpload"
                                                         :file-list="formUploadArr.resourceList"
                                                         :before-upload="beforeUploadMulImg"
+=======
+                                                        :file-list="formUploadArr.resourceList"
+>>>>>>> main
                                                         :http-request="handleFileSuccess"
                                                         :on-success="onSuccessMalFileUpload"
                                                     >
                                                         <!-- Icons -->
-                                                        <el-icon><Plus /></el-icon>
+                                                        <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
                                                         <!-- Files -->
                                                         <template #file="{ file }">
                                                             <div>
-                                                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                                                <img class="el-upload-list__item-thumbnail w-full" :src="file.url" alt="" />
                                                                 <span class="el-upload-list__item-actions">
                                                                 <span
                                                                     class="el-upload-list__item-preview"
                                                                     @click="handlePictureCardPreview(file)"
                                                                 >
                                                                     <!-- Zoom In -->
-                                                                    <el-icon><ZoomIn /></el-icon>
+                                                                    <el-icon class="text-md"><ZoomIn /></el-icon>
                                                                 </span>
                                                                 <span
                                                                     v-if="!disabled"
                                                                     class="el-upload-list__item-delete"
                                                                     @click="handelOnChange(file)"
                                                                 >
+<<<<<<< HEAD
                                                                     <el-icon><EditPen/></el-icon>
                                                                 </span>
                                                                 <span
                                                                     v-if="!disabled"
                                                                     class="el-upload-list__item-delete"
+=======
+                                                                    <el-icon class="text-md"><EditPen/></el-icon>
+                                                                </span>
+                                                                <span
+                                                                    v-if="!disabled"
+                                                                    class="el-upload-list__item-delete text-sm"
+>>>>>>> main
                                                                     @click="handleRemoveMultiple(file)"
                                                                 >
-                                                                    <el-icon><Delete/></el-icon>
+                                                                    <i class="pi pi-trash text-sm"></i>
                                                                 </span>
                                                                 </span>
                                                             </div>
@@ -244,17 +402,28 @@
                                                     </div> 
                                             </div>
                                             <!-- Upload Thumbnail -->
+<<<<<<< HEAD
                                             <div class="col-12 lg:col-5 px-2 py-2">
                                                 <div class="field card">
                                                     <label for="name_en" class="text-xl font-semibold">Thumbnail (Available 1 Image Uploads)  <span class="p-error">*</span> </label>
+=======
+                                            <div class="col-6 lg:col-5 px-2 py-2">
+                                                <div class="field">
+                                                    <label for="name_en" class="text-sm font-semibold">Thumbnail (Available 1 Image Uploads)  <span class="p-error">*</span> </label>
+>>>>>>> main
                                                     <el-upload action="#" 
                                                         list-type="picture-card" 
                                                         :on-preview="handlePictureCardPreview"
                                                         :on-remove="handleRemoveThumbnail" 
                                                         :auto-upload="false" 
                                                         :on-change="handleChange" 
+<<<<<<< HEAD
                                                         :class="objClass"
                                                         accept=".jpg, .png, .jpeg"
+=======
+                                                        accept=".jpg, .png, .jpeg"
+                                                        :on-exceed="handleExceedThumbnail"
+>>>>>>> main
                                                         :file-list="fileList" 
                                                         v-model="proThumbnail"
                                                         ref="proThumbnail"
@@ -275,14 +444,19 @@
                                 <div class="col-12 field">
                                     <!-- Name Product KH -->
                                     <div class="field">
+<<<<<<< HEAD
                                         <label for="name_en" class="text-xl font-semibold">Product Name (KH)</label>
                                         <InputText id="product_name" v-model="proNameKh" placeholder="New Products" type="text" class="text-xl font-semibold"/>
+=======
+                                        <label for="name_en" class="text-sm font-semibold">Product Name (KH)</label>
+                                        <InputText id="product_name" v-model="proNameKh" placeholder="New Products" type="text" class="text-sm border-round-lg"/>
+>>>>>>> main
                                     </div>
                                 </div>
                                 <!-- Descriptions KH-->
                                 <div class="col-12 lg:col-12">
                                         <div class="field">
-                                            <label for="name_en" class="text-xl font-semibold">Description (KH)</label>
+                                            <label for="name_en" class="text-sm font-semibold">Description (KH)</label>
                                             <Editor v-model="proDesKh" editorStyle="height: 320px"/>
                                         </div>  
                                 </div>
@@ -298,12 +472,22 @@
                     <Button 
                         icon="pi pi-times"
                         label="Cancel"
+<<<<<<< HEAD
                         class="p-button-lg py-3 p-button-outlined w-10rem mr-3" />
                     <Button 
                         icon="pi pi-check" 
                         class="p-button-lg py-3 w-10rem"
                         type="submit"
                         label="Save"
+=======
+                        class="p-button-lg btn btn-danger py-3 p-button-outlined w-10rem mr-3" />
+                    <Button 
+                        icon="pi pi-check" 
+                        class="p-button-lg btn btn-primary py-3 w-10rem"
+                        type="submit"
+                        label="Save"
+                        @click.prevent="submitFormProductCreate(!v$.$invalid)"
+>>>>>>> main
                     />
                 </div>
             </div>
@@ -317,7 +501,11 @@
 <script>
     import ProductServices from "../../../services/vendors/products/ProductServices";
     import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
+<<<<<<< HEAD
     import { Plus, ZoomIn, EditPen, Delete } from '@element-plus/icons-vue';
+=======
+    import { ZoomIn, EditPen } from '@element-plus/icons-vue';
+>>>>>>> main
     import { ElMessage } from 'element-plus';
     import { useVuelidate } from '@vuelidate/core';
     import { minLength, required } from '@vuelidate/validators';
@@ -327,11 +515,14 @@
           return { v$: useVuelidate() }
         },
         components:{
-            Plus,
             ZoomIn,
+<<<<<<< HEAD
             EditPen,
             Delete,
             // LoadingButton
+=======
+            EditPen
+>>>>>>> main
         },
         created() {
             this.productSerClass = new ProductServices();
@@ -339,6 +530,8 @@
         },
         validations() {
             return {
+                selectedProSubCat: {required},
+                selectedProCat: {required},
                 proNameEn: { required },
                 proUnitPice: {required},
                 proQty: {required},
@@ -355,8 +548,16 @@
                 proCode: '',
                 submitted: false,
                 proSpectags: '',
+<<<<<<< HEAD
                 proCatID : null,
                 catSubListDropDownPro: [],
+=======
+                catListSelectOpt:null,
+                selectedProSubCat: null,
+                selectedProCat: null,
+                proCatID : null,
+                catSubListDropDownPro: null,
+>>>>>>> main
                 subCatID : '',
                 desProEn : '',
                 proImgMultiple : null,
@@ -409,7 +610,11 @@
                 ]
             }
         },
+        mounted() {
+           this.getSelectOptCategories();
+        },  
         methods: {
+<<<<<<< HEAD
             onLazyLoad() {
                 //  const { first, last } = event;
                 const _items = [...this.catSubListDropDownPro];
@@ -426,6 +631,59 @@
                             this.catSubListDropDownPro = data.result.resultStatus;
                         }
                     });
+=======
+            // Select Categories and Sub Categories
+            async getSelectOptCategories(){
+                this.proSubCategoryService.getProCategory().then((data) => {
+                    if (!data) {
+                        ElMessage.error("Not Font Product Categories...");
+                    }
+                    this.catListSelectOpt = data;
+                });
+            },
+            async getSubCategoriesOptSelect(parentCatID){
+                if(!Array.isArray(parentCatID) || !parentCatID.length > 0){
+                    this.selectedProSubCat = null;
+                    this.catSubListDropDownPro = [];
+                }
+                try {
+                  if(!Array.isArray(parentCatID) || parentCatID?.catID !== undefined || parentCatID?.catID !== null){
+                    this.proSubCategoryService.querySubProCategoryBySuperCatID(parentCatID?.catID).then((datSubCatId) => {
+                        if (!datSubCatId) {
+                            this.catSubListDropDownPro = Array.isArray() ?? [];
+                            ElMessage.error("Not Found Sub Categories...");
+                        }   
+                        const queryCatIDSupCatId =  datSubCatId.filter(categories => Array.isArray(categories?.superCatId) ===  Array.isArray(parentCatID?.catID));
+                        this.catSubListDropDownPro = Array.isArray(queryCatIDSupCatId) ? queryCatIDSupCatId.slice() : [];
+                    }).catch((err) => {
+                        ElMessage.error(err.message);
+                    });
+                  }
+                } catch (error) {
+                    ElMessage.error(error);
+                }
+            },
+            /**
+             * Generate Product Code
+             * */ 
+            getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            },
+            generateProductCode(){
+                const productToken = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                const chars = 5;
+                const segments = 4;
+                let keyString = "";
+                for (var i = 0; i < segments; i++) {
+                    var segment = "";
+                    for (var j = 0; j < chars; j++) {
+                        var k = this.getRandomInt(0, 35);
+                        segment += productToken[k];
+                    }
+                    keyString += segment;
+                    return this.proCode = keyString;
+                }
+>>>>>>> main
             },
             /**
              @Add Multiple Spec
@@ -469,7 +727,17 @@
                 this.dialogVisible = true;
             },
             handleRemoveMultiple(file){
+<<<<<<< HEAD
                this.$refs.proImgMultiple.handleRemove(file,-1);
+=======
+                this.formUploadArr.deleteIds.push(file.uid);
+                for (let i = 0; i < this.formUploadArr.resourceList.length; i++) {
+                    if (this.formUploadArr.resourceList[i].uid === file.uid) {
+                        // Splice (index, length) deletes the data with the specified id    
+                        this.formUploadArr.resourceList.splice(i, 1);
+                    }
+                }
+>>>>>>> main
             },
             handelOnChange(file){
                 /**
@@ -483,9 +751,15 @@
                 }).then(() => {
                     // Delete picture first
                     let index = 0;
+<<<<<<< HEAD
                     this.formUploadArr.deleteIds.push(file.id);
                     for (let i = 0; i < this.formUploadArr.resourceList.length; i++) {
                         if (this.formUploadArr.resourceList[i].id === file.id) {
+=======
+                    this.formUploadArr.deleteIds.push(file.uid);
+                    for (let i = 0; i < this.formUploadArr.resourceList.length; i++) {
+                        if (this.formUploadArr.resourceList[i].uid === file.uid) {
+>>>>>>> main
                             // Splice (index, length, substitute content) replaces the data of the specified id
                             this.formUploadArr.resourceList.splice(i, 1)
                             index = i;
@@ -508,7 +782,10 @@
             },
             // The number of files exceeds the specified number
             handleExceed(files, fileList) {
+<<<<<<< HEAD
                 // this.imagFilesList.push(fileList[i].raw);
+=======
+>>>>>>> main
                 this.$message.warning(
                     `Currently, 10 pictures are limited to be selected.
                         This time, it is selected ${files.length} 
@@ -516,11 +793,27 @@
                     } Pictures`
                 )
             },
+<<<<<<< HEAD
             handleFileSuccess(file){
                 console.log(file)
             },
             beforeUploadMulImg(file){
                 console.log(file)
+=======
+            handleExceedThumbnail(files, fileList){
+                this.$message.warning(
+                    `Currently, 01 pictures are limited to be selected.
+                        This time, it is selected ${files.length} 
+                        Pictures selected ${files.length + fileList.length
+                    } Pictures`
+                );
+            },
+            handleFileSuccess(file){
+                if(!Array.isArray(file) || file !== null){
+                    this.formUploadArr.resourceList.push(file.file) ?? [];
+                    this.$message.success(`File upload successfully - ${this.formUploadArr.resourceList.length} picture are select`);
+                }
+>>>>>>> main
             },
             onSuccessMalFileUpload(file, fileList){
                 console.log(file,fileList)
@@ -548,16 +841,25 @@
                 // this.createBase64Image(this.$refs.file.files[0]);
             },
             handleRemoveThumbnail(file){
+<<<<<<< HEAD
                 ElMessage.success(`Remove Successfully... ${file}`)
+=======
+                ElMessage.success(`Remove Successfully... ${file.name}`)
+>>>>>>> main
             },
             //========Form Submit===========
-            submitFormProCreate(isFormValid){
-                this.submitted = true;
-                if (!isFormValid) {    
-                    return;
-                }
-                if(!this.proNameEng || !this.proUnitPice){
+            async submitFormProductCreate(isFormValid){
+                try{
+                    // Validations
+                    if (!isFormValid) {    
+                        return;
+                    }
+                    this.submitted = true;
                     this.isProcessingSubmit = true;
+<<<<<<< HEAD
+=======
+                    if(this.proNameEng !== "" || this.proUnitPice !== "" || this.discountType !== undefined && this.discountType !== null){
+>>>>>>> main
                         const dataPro = {
                             proCategoryID: 1,
                             shopTypeID: 1,
@@ -568,6 +870,7 @@
                             proMeasure: this.measureUnit,
                             proQty: this.proQty,
                             proThumbnail: this.proThumbnail,
+<<<<<<< HEAD
                             proImgMalUpload: [this.fileAttachments],
                             proUnitPrice: this.proUnitPice,
                             proSpecJson: this.sectionSpecPro,
@@ -601,7 +904,47 @@
                             // }
 
                         });
+=======
+                            proImgMalUpload: this.fileAttachments,
+                            proUnitPrice: this.proUnitPice ?? '',
+                            proSpecJson: this.sectionSpecPro ?? '',
+                            proDiscount: this.proDiscount ?? '',
+                            proDiscountType: this.discountType?.disType ?? '',
+                            proDisEng: this.desProEn,
+                            proDisKH: this.proDesKh,
+                        }
+                        console.log(dataPro)
+                        // this.productSerClass.createProduct(dataPro).then((response) => { 
+                        //     if (response.data.status === true) {
+                        //         this.submitted = true;
+                        //         this.isProcessingSubmit = true;
+                        //             this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
+                        //             // Push Router
+                        //             setTimeout(() => {
+                        //                 this.isProcessingSubmit = false;
+                        //                 this.$router.push("/vendor/products/list");
+                        //             }, 3000);
+                        //         }
+                        // })
+                        // .catch(error => {
+                        //     console.log(error)
+                        //     if (error.response.status == '401') {
+                        //         //  Toast Alert 
+                        //         this.message_pro_type = [
+                        //             { severity: 'error', content: error.response.data.error },
+                        //         ]
+                        //         this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
+                        //     }
+                        // });
+                    }
+                    
+                }catch(error){
+                    ElMessage.error(error.message);
+                    this.validationError = error.response.data.error.error;
+                    return false;
+>>>>>>> main
                 }
+               
             },
             resetForm(){
                 this.proCode = '';
@@ -611,13 +954,17 @@
         }
     }
 </script>
-
-
 <!-- Config Style -->
 <style>
+<<<<<<< HEAD
+=======
+.el-upload-list--picture-card .el-upload-list__item-actions{
+    font-size: 12px;
+}
+>>>>>>> main
 .avatar-uploader .avatar {
-    width: 178px;
-    height: 178px;
+    width: 200px;
+    height: 200px;
     display: block;
 }
 /* Multiple Upload File */
@@ -647,10 +994,11 @@
 .el-icon.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 200px;
+    width: 180px;
     height: 180px;
     text-align: center;
 }
+<<<<<<< HEAD
 /* *当upLoadShow为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/ */
 .upLoadShow .el-upload {
     width: 20rem !important;
@@ -659,12 +1007,23 @@
 }
 
     /*当upLoadHide为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
+=======
+.upLoadShow .el-upload {
+    width: 15rem !important;
+    height: 14rem !important;
+    line-height: 20rem !important;
+}
+
+>>>>>>> main
 .upLoadHide .el-upload-list--picture-card .el-upload-list__item {
     width: 20rem !important;
     height: 20rem !important;
     line-height: 20rem !important;
 }
+<<<<<<< HEAD
     /*当upLoadHide为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+=======
+>>>>>>> main
 .upLoadHide .el-upload {
     display: none;
 }

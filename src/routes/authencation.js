@@ -2,7 +2,11 @@ export default [
     {
         path:'/auth/login',
         name:'auth-login',
-        meta: {template: 'authencation-login'},
+        hidden: true,
+        meta: {
+            template: 'authencation-login',
+            title: "Sign In | 7Day",
+        },
         children:[
           {
             path: "/auth/login",
@@ -15,7 +19,11 @@ export default [
     {
         path:'/auth/register',
         name:'auth-register',
-        meta: {template: 'authencation-register'},
+        hidden: true,
+        meta: {
+            template: 'authencation-register',
+            title: "Sign Up | 7Day",
+        },
         children:[
           {
             path: "/auth/register",
@@ -29,6 +37,7 @@ export default [
         path:'/auth/opt-verify/:verify='+encodeURI('phone-5digit'),
         name:'auth/opt-verify?verify=phone-5-digit',
         meta: {template: 'opt-verify-authentication'},
+        hidden: true,
         children:[
           {
             path: "/auth/opt-verify?verify=phone-5-digit",
@@ -41,7 +50,8 @@ export default [
     {
         path: "/customer/onboarding/multi-vendor/shop-info/preferences",
         name:'step-acc-vendor-reg',
-        meta: {template: 'step-acc-vendor-reg'},
+        hidden: true,
+        meta: {template: 'step-acc-vendor-reg', title: "Seller Apply | 7Day"},
         component: () => import("../views/authencation/steps_acc_register_seller/StepAccRegSeller.vue"),
     }
     

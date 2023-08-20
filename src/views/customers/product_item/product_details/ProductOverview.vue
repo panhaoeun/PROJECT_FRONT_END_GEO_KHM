@@ -1,329 +1,267 @@
 <template>
-    <div class="container my-0 my-md-4">
-      <div class="row align-items-center justify-content-between">
-        <div class="col-12 col-md-5 p-0 p-md-2">
-          <div class="d-flex flex-column">
-            <div class="col-12 px-md-2 d-none d-md-block">
-              <div class="" style="cursor: pointer">
-                <img :src="mainImage" alt="" style="width: 100%" class="image" @click="showMainImage()"/>
-              </div>
-              <div class="col-12 d-none d-md-block">
-              <div class="row">
-                <div class="col-3" v-for="(image, index) in images" :key="index">
-                  <div class="thumbnail" @click="changeMainImage(image)">
-                    <img :src="image" style="width: 100%" alt="" class="image" :class="mainImage === image ? 'activess' : ''"/>
-                  </div>
-                </div>
-              </div>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-area bg-bluegray-100">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="active">Product Details</li>
+                </ul>
             </div>
-            </div>
-
-          </div>
         </div>
-        
-        <div class="col-12 col-md-6 text-left my-3">
-          <div class="container">
-            <div>  
-              <span style="font-size: 13px; letter-spacing: 1px; color: hsl(26, 100%, 55%); font-weight: 700">
-                SNEAKER COMPANY 
-              </span>  
-            </div>
-
-            <div class="mt-2 mb-4">
-              <span style="font-size: 40px; font-weight: 900; color: black; line-height: 2.8rem">
-                {{ title }}
-              </span>
-            </div>
-
-            <div class="my-3">
-              <span class="text-muted">
-                These low-profile sneakers are your perfect casual wear companion.
-                Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.
-              </span>
-            </div>
-
+    </div>
+    <!-- Product Detail Slider -->
+    <div class="product-details-area pt-120 pb-115">
+        <div class="container">
             <div class="row">
-              <div class="col-8 col-md-12 d-flex flex-row align-items-center">
-                <div>
-                  <span style="font-size: 24px; font-weight: 900">
-                    ${{ parseFloat(price).toFixed(2) }}
-                  </span>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product-details-tab">
+                        <div class="pro-dec-big-img-slider">
+                            <div class="easyzoom-style">
+                                <div class="easyzoom easyzoom--overlay" v-if="productThumbnailRULFormate && productThumbnailRULFormate!== null">
+                                    <a href="#">
+                                        <img 
+                                            :src="productThumbnailRULFormate ?? ''" 
+                                            :aria-atomic="title"
+                                        >
+                                    </a>
+                                </div>
+                                <!-- Empty Thumbnail -->
+                                <EmptyThumbnail v-else/>
+                                <!-- Image Popup expandable -->
+                                <a 
+                                    data-mfp-src="image-for-popup.jpg"
+                                    class="easyzoom-pop-up img-popup" 
+                                    href="../../../../assets/img/product/b-large-1.jpg"
+                                >
+                                    <i class="icon-size-fullscreen"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Product Multiple Image -->
+                        <!-- {{ productImgMulti }} -->
+                        <div class="product-dec-slider-small product-dec-small-style1" 
+                            v-for="multiImg in productImgMulti.slice(0, 4)" 
+                            :key="multiImg"
+                        >        
+                            <div class="product-dec-small"
+                               v-for="(image,index) in multiImg" :key="index"
+                            >
+                                <img 
+                                    v-on:mouseover="setActiveImageThumbnail(index)"
+                                    :src="productMultiImgURLFormate(image?.fileName)"
+                                    :alt="image?.fileName"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="">
-                  <span class="mx-3 discount px-2 py-1 rounded" style="font-weight: 900; font-size: 14px; color: hsl(26, 100%, 55%)">
-                    50%
-                  </span>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product-details-content pro-details-content-mrg">
+                        <h2>{{title ?? '7Day'}}</h2>
+                        <div class="product-ratting-review-wrap" v-if="rating">
+                            <div class="product-ratting-digit-wrap">
+                                <div class="product-ratting">
+                                  <i v-for="rating in productRating" :key="rating" class="icon_star"></i>
+                                </div>
+                            </div>
+                            <!-- <div class="product-review-order">
+                                <span>242 orders</span>
+                            </div> -->
+                        </div>
+                        <div class="pro-details-price">
+                            <span class="new-price">{{ productUnitPrice ?? 0 }}</span>
+                            <!-- <span class="old-price">$95.72</span> -->
+                        </div>
+                        <!-- Product Spec -->
+                        <div class="pro-details-size" v-if="productSpec">
+                            {{ productSpec }}
+                            <!-- <span>Size:</span>
+                            <div class="pro-details-size-content">
+                                <ul>
+                                    <li><a href="#">XS</a></li>
+                                </ul>
+                            </div> -->
+                        </div>
+                        <div class="pro-details-quality">
+                            <span>Quantity:</span>
+                            <div class="cart-plus-minus">
+                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1"/>
+                            </div>
+                        </div>
+                        <div class="product-details-meta">
+                            <ul>
+                                <li>
+                                    <span>Categories:</span> <a href="#">{{ categories ?? '' }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pro-details-action-wrap" style="font-weight: 500">
+                            <!-- Add To Cart -->
+                             <div class="pro-details-add-to-cart">
+                                <MazBtn color="danger" size="lg"  class="font-bold btn-red" @click.prevent="addProductItemsToCart()" style="background-color:#0053a0; padding: 18px 50px 17px;border-radius: 0%;">Add To Cart</MazBtn>
+                             </div>
+                            <div class="pro-details-add-to-cart-red">
+                                <MazBtn color="danger" size="lg"  class="font-bold btn-red" style="background-color:red; padding: 18px 50px 17px; border-radius: 0%;">Buy It Now</MazBtn>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              <div class="col-4 col-md-12 my-1">
-                <span class="" style="font-weight: 700; color: rgb(183, 183, 183); text-decoration: line-through;">
-                  $250.00
-                </span>
-              </div>
             </div>
-
-            <div class="my-3 row">
-              <div class="col-12 col-md-4 text-center px-md-0 mt-3">
-                <div class="bg-quantity d-flex flex-row justify-content-between" style="font-weight: 700">
-                  <div class="plus-minus">
-                    <i class="fas fa-minus" @click="decrement()"></i>
-                  </div>
-                  <div class="">
-                       {{ count }}
-                  </div>
-                  <div class="plus-minus">
-                    <i class="fas fa-plus" @click="increment()"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-8 text-center mt-3">
-                <button class="bg-add-cart border-0" :disabled="this.count == 0" style="width: 100%" @click="submit">
-                  <span class="mx-3">
-                    <i class="fas fa-shopping-cart text-white"></i>
-                  </span>
-                  <span style="font-weight: 700">
-                    Add to cart
-                  </span>
-                </button>
-                <div class="d-none bg-add-cart" @click="submit">
-                  <span class="mx-3">
-                    <i class="fas fa-shopping-cart text-white"></i>
-                  </span>
-                  <span style="font-weight: 700">
-                    Add to cart
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
 </template>
+<!-- Script -->
 <script>
-// import NavBar from './NavBar'
-export default {
-  name: 'ProductPage',
-  props: {
-  },
-  components: {
-    // NavBar
-  },
-  data() {
-    return {
-      title: 'Fall Limited Edition Sneakers',
-      price: "125.000",
-      count: 1,
-      mainImage: 'https://i.ebayimg.com/images/g/7oQAAOSwf9Njg4gz/s-l500.jpg',
-      images: [
-        'https://i.ebayimg.com/images/g/7oQAAOSwf9Njg4gz/s-l500.jpg',
-        'https://i.ebayimg.com/images/g/7oQAAOSwf9Njg4gz/s-l500.jpg',
-        'https://ae01.alicdn.com/kf/S9fc6de264f0740a0b9d6f1df690e84bc4/Silicone-Strap-For-Apple-Watch-Band-44mm-40mm-45mm-41mm-49mm-42mm-38mm-44-45-mm.jpg_Q90.jpg'
-      ],
-      mainCategory: 'Collections',
-      categories: [
-          'Collections',
-          'Men',
-          'Women',
-          'About',
-          'Contact',
-      ],
-      cartItems: [],
-      showImageModal: false,
-      slide: 0,
+    import EmptyThumbnail from "../../../../components/error_page/EmptyThumbnail.vue";
+    import { mapActions, mapState } from "vuex";
+    import $ from "jquery";
+    export default {
+        components: {
+            EmptyThumbnail
+        },
+        props: {
+            title: {type: String},
+            productThumbnail: {type: String, required: true, default: ''},
+            productImgMulti: {type: Array, required: true},
+            productSpec: {type: Array, default: Array.isArray() ?? []},
+            productQty: {type: Number, default : 1},
+            productRating: {type: Number},
+            productUnitPrice: {type: Number},
+            categories: {type: String},
+            productArrDetail: {type: Array,default: Array.isArray() ?? []}
+        },
+        data(){
+            return{
+                quantity: 1,
+                activeImageThumbnail: this.productThumbnail,
+                ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http"),
+                multipleImgPATH: '',
+                quantityItemOrder: 1
+            }
+        },
+        created(){
+            this.productDesSliderSmall();
+        },  
+        methods: {
+            ...mapActions('cart',["addToCart"]),
+            /**
+             * Add TO CART
+             * BUY IT NOW 
+            * */ 
+           async addProductItemsToCart(){
+               const qtyItem =  document.getElementsByClassName('cart-plus-minus-box');
+                let itemProduct = {
+                    ...Array(this.productArrDetail ?? []),
+                    quantity: parseInt((parseInt(qtyItem[0].value ?? 0))),
+                    unitPrice: parseFloat((parseFloat(this.productUnitPrice))),
+                    productSpec: this.productSpec ?? []
+                }
+                this.$store.dispatch("cart/addToCart", itemProduct);
+           },
+            /**
+             * Product Thumbnail
+             * Product Small Carousel 
+             * */ 
+            productMultiImgURLFormate(filePath){ 
+                return this.ENV_HOST_PATH_FILE + `uploads/products_img/list_img_products/` + String(filePath);
+            },
+            setActiveImageThumbnail(index){
+                const proxy = new Proxy(this.productImgMulti, {});
+                const arrayImg = JSON.parse(JSON.stringify(proxy));
+                console.log( String(arrayImg[0][index].fileName) ?? []);
+            },
+            productDesSliderSmall(){
+                $(document).ready(function() {
+                    /*------- Color active -----*/
+                    $('.pro-details-color-content').on('click', 'a', function(e){
+                        e.preventDefault();
+                        $(this).addClass('active').parent().siblings().children('a').removeClass('active');
+                    });
+                    $('.pro-details-size-content').on('click', 'a', function(e){
+                        e.preventDefault();
+                        $(this).addClass('bg-red-500').parent().siblings().children('a').removeClass('bg-red-500');
+                    });
+                     /*----------------------------
+                        Cart Plus Minus Button
+                    ------------------------------ */
+                    var cartPlusMinus = $('.cart-plus-minus');
+                    cartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
+                    cartPlusMinus.append('<div class="inc qtybutton">+</div>');
+                    $(".qtybutton").on("click", function() {
+                        var $button = $(this);
+                        var oldValue = $button.parent().find("input").val();
+                        if ($button.text() === "+") {
+                            var newVal = !isNaN(oldValue) && parseFloat(oldValue) + 1;
+                        } else {
+                            // Don't allow decrementing below zero
+                            if (oldValue > 1) {
+                                // eslint-disable-next-line no-redeclare
+                                var newVal =  !isNaN(oldValue) &&  parseFloat(oldValue) - 1;
+                            } else { 
+                                newVal = 1;
+                            }
+                        }
+                        $button.parent().find("input").val(newVal);
+                    });
+                    
+                    /*-------------------------------------
+                    Product details big image slider
+                    ---------------------------------------*/
+                    $('.pro-dec-big-img-slider').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        arrows: false,
+                        draggable: false,
+                        fade: false,
+                        asNavFor: '.product-dec-slider-small',
+                    });
+                    /*---------------------------------------
+                        Product details small image slider
+                    -----------------------------------------*/
+                    $('.product-dec-slider-small').slick({
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        asNavFor: '.pro-dec-big-img-slider',
+                        dots: false,
+                        focusOnSelect: true,
+                        fade: false,
+                        prevArrow: '<span class="pro-dec-prev"><i class="icon-arrow-left"></i></span>',
+                        nextArrow: '<span class="pro-dec-next"><i class="icon-arrow-right"></i></span>',
+                        responsive: [{
+                                breakpoint: 991,
+                                settings: {
+                                    slidesToShow: 3,
+                                }
+                            },
+                            {
+                                breakpoint: 767,
+                                settings: {
+                                    slidesToShow: 4,
+                                }
+                            },
+                            {
+                                breakpoint: 575,
+                                settings: {
+                                    slidesToShow: 2,
+                                }
+                            }
+                        ]
+                    });
+                });
+            },
+            /**
+             * Product Thumbnail
+             * Product Small Carousel 
+            * */   
+        },
+        computed: {
+            ...mapState('cart',['cart']),
+            productThumbnailRULFormate(){
+                return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + String(this.productThumbnail) ?? '';
+            },
+        } 
     }
-  },
-  mounted() {
-    const items = JSON.parse(localStorage.getItem('myCart'));
-    console.log('items', items);
-    this.cartItems = items;
-  },
-  computed: {
-    cartItemsCount() {
-      return this.cartItems.length;
-    }
-  },
-  methods: {
-    showMainImage() {
-      this.showImageModal = true;
-    },
-    increment() {
-      this.count += 1;
-      
-    },
-    decrement() {
-      if (this.count - 1 >= 0) {
-        this.count -= 1;
-      }
-    },
-    changeMainImage(image) {
-      this.mainImage = image;
-    },
-    calcPrice(item) {
-      return parseFloat(parseFloat(item.price).toFixed(2) * item.quantity).toFixed(2);
-    },
-    deleteItem(item, index) {
-      this.cartItems.splice(index, 1);
-      localStorage.setItem('myCart', JSON.stringify(this.cartItems));
-    },
-    submit() {
-      var existingEntries = JSON.parse(localStorage.getItem("myCart"));
-      if(existingEntries == null) existingEntries = [];
-    
-      var entry = {
-        title: this.title,
-        price: this.price,
-        quantity: this.count,
-        image: this.mainImage,
-      };
-      localStorage.setItem("latestItem", JSON.stringify(entry));
-      
-      // Save allEntries back to local storage
-      existingEntries.push(entry);
-      localStorage.setItem("myCart", JSON.stringify(existingEntries));
-      console.log('myCart', JSON.parse(localStorage.getItem('myCart')));
-      this.cartItems = JSON.parse(localStorage.getItem('myCart'));
-    }
-  }
-}
-</script>
-<style scoped>
-.image {
-  border-radius: 10px;
-}
-@media (max-width: 768px) {
-  .image {
-    border-radius: 0px !important;
-  }
-}
-.discount {
-  /* border-radius: 10px; */
-  background-color: hsl(25, 100%, 94%);
-}
-.bg-quantity {
-  background-color: #f1f1f1;
-  border-radius: 10px;
-  font-size: 16px;
-  padding: 14px;
-}
-.bg-add-cart {
-  background-color: hsl(26, 100%, 55%);
-  color: white !important;
-  border-radius: 10px;
-  font-size: 15px;
-  padding: 14px;
-  transition: 0.3s;
-  cursor: pointer;
-}
-.bg-add-cart:hover {
-  background-color: hsl(24, 91%, 86%);
-}
-.plus-minus {
-  color: hsl(26, 100%, 55%);
-  cursor: pointer;
-}
-.thumbnail img{
-  cursor: pointer;
-  opacity: 1;
-  transition: .3s;
-}
-.thumbnail:hover img{
-  /* background-color: #d2d2d2 !important;  */
-  opacity: 0.3 !important;
-}
-.activess {
-  opacity: 0.4 !important;
-  border: 3px solid hsl(26, 100%, 55%) !important;
-}
-i {
-  transition: 0.3s;
-}
-i:hover {
-  color: hsl(24, 91%, 86%);
-}
-/* navbar */
-.avatar:hover {
-    border: 2px solid hsl(26, 100%, 55%) !important;
-}
-.category {
-    transition: 0.1s;
-}
-.category:hover {
-    border-bottom: 3px solid hsl(26, 100%, 55%);
-}
-.category:hover .text {
-  color: black !important;
-}
-.checkout-btn {
-  transition: 0.3s;
-}
-.checkout-btn:hover {
-  background-color: hsl(24, 91%, 86%) !important;
-}
-.cart-count {
-  position: absolute;
-  top: 3px;
-  left: 22px;
-  padding: 0px 7px;
-  font-size: 9px;
-  background-color: hsl(26, 100%, 55%);
-  color: white;
-  border-radius: 5px;
-}
-</style>
-<style>
-  .dropdown-menu.dropdown-menu-right.show {
-    padding: 0px !important;
-    border: 0px !important;
-  }
-  .appbar-mobile .dropdown-menu.show {
-    position: absolute;
-    left: -220px;
-    border: none;
-    padding: 0px;
-    border-radius: 15px;
-  }
-  .modal-content {
-    background-color: transparent !important;
-    border: none !important; 
-  }
-  .modal-header {
-    border: none !important;
-  }
-  .modal-header .close {
-    opacity: 1 !important;
-  }
-  .carousel-control-prev {
-    opacity: 1 !important;
-    align-items: center !important;
-    position: absolute;
-    left: 0px !important;
-  }
-  .carousel-control-next {
-    opacity: 1 !important;
-    align-items: center !important;
-    position: absolute;
-    right: 0px !important;
-  }
-  .carousel-control-prev-icon {
-    width: 30px !important;
-    height: 30px !important;
-  }
-  .carousel-control-next-icon {
-    width: 30px !important;
-    height: 30px !important;
-  }
-  .navbar-toggler.collapsed {
-    border: none;
-    padding: 0px;
-  }
-  @media (max-width: 768px) {
-    .carousel-item .img-fluid {
-      border-radius: 0px !important;
-    }  
-  }
-  .carousel-item .img-fluid {
-    border-radius: 30px;
-  }
-</style>
+  </script>

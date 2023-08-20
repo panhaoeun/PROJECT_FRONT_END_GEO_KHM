@@ -7,7 +7,11 @@
       "default",
       {
         "ignore": [
-          "-webkit-text-size-adjust"
+          "-webkit-text-size-adjust",
+          "-ms-filter",
+          "-moz-appearance",
+          "user-select",
+          "print-color-adjust"
         ]
       }
     ]

@@ -1,21 +1,15 @@
 <template>
-     <loading 
-        v-model:active="isLoading"
-        :can-cancel="true"
-        color='#000000'
-        backgroundColor='#ffffff'
-     />
   <div>
-    <div class="bg-white">
+    <div class="">
         <div class="flex flex-column align-items-center justify-content-center border-bottom">
             <a href="#" class="flex flex-column align-items-center justify-content-center">
-                <img src="../../assets/logo/ecommerce.png" class="w-1 text-center"/>
+                <img src="../../assets/company_logo/ecommerce_logo.png" class="w-1 text-center"/>
             </a>
         </div>
         <div class="flex align-items-center justify-content-center overflow-hidden">
             <div class="flex flex-column align-items-center justify-content-center">
-                <div>
-                    <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
+                <div class="px-4 py-4">
+                    <div class="w-full surface-card py-6 px-12 sm:px-8" style="border-radius: 53px">
                         <div class="text-center mb-5">
                             <div class="text-900 text-3xl font-medium mb-3">Welcome, PzharKhmer!</div>
                             <span class="text-600 font-medium">Sign in to continue</span>
@@ -53,12 +47,17 @@
                                     </div>
                                 </div>    
                                 <!-- Button Submit -->
-                                <MazBtn type="submit" >Sign In</MazBtn>
+                                <MazBtn type="submit" :loading="userLoggedIn">Sign In</MazBtn>
+                                <!-- Errors -->
                             </form>
                         <!-- Form Submit -->
                         <!-- Or Authencation with Socail Media -->
                         <div class="bordert py-2 my-4 flex align-items-center justify-content-center text-lg">
+<<<<<<< HEAD
                             <socailMedia/>
+=======
+                            <!-- <socailMedia/> -->
+>>>>>>> main
                         </div>
                     </div>
                 </div>
@@ -68,7 +67,7 @@
   </div>
   
     <!-- Footer for Auth Login -->
-    <footer class="fixed-bottom w-full layout-footer index-1 w-full text-500 p-2 footer" style="background-color: #333;">
+    <footer class="fixed-bottom w-full layout-footer index-1 w-full text-500 p-2 footer-login" style="background-color: #333;">
         <div class="container text-500 flex">
             <a href="#" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">Intellectual Property Protection</a> - 
             <a href="" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">Privacy Policy</a> 
@@ -85,11 +84,17 @@
 <script>
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-// Componets
-import socailMedia from "./socialmedia/SocialMedia.vue";
+// Components
+// import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
+<<<<<<< HEAD
 // import AuthenticationsDataService from  "../../services/authencationDataService";
 import Loading from 'vue-loading-overlay';
+=======
+import { mapActions } from "vuex";
+import { ElMessage } from "element-plus";
+import Cookie from "js-cookie";
+>>>>>>> main
 
 export default {
     setup: () => ({ v$: useVuelidate() }),
@@ -98,13 +103,15 @@ export default {
             userLogin: '',
             email: '',
             password: '',
+            userLoggedIn: false,
             accept: null,
             submitted: false,
             showMessage: false,
             loading: [false,  false, false],
             messages: '',
             results: '',
-            isLoading: false
+            isLoading: false,
+            loginError: ""
         }
     },
     validations() {
@@ -130,6 +137,7 @@ export default {
         },
     },
     methods: {
+        ...mapActions(["set_user"]),
        // Handle Submit Business Account
        async handleSubmit(isFormValid) {
             try{
@@ -140,14 +148,18 @@ export default {
                         userLogin : this.userLogin,
                         userPassword: this.password
                     }
+<<<<<<< HEAD
                     this.isLoading = true;
                      setTimeout(() => {
                                 this.isLoading = false
                     }, 1000);
+=======
+>>>>>>> main
                     this.$store.dispatch("auth/login", data).then(
                         (response) => {
                             //Check validation  
                             if(response.success == true){
+<<<<<<< HEAD
                                 if (response.userType === "Vendor") {
                                     this.$router.push("/vendors/dashboard");
                                 } else if (response.userType === "Customer") {
@@ -160,16 +172,49 @@ export default {
                               if (typeof (error.response.data.error.error) !== undefined) {
                                 this.messages = (error.response.data.error.error);
                               }    
+=======
+                                this.set_user(response ?? []);
+                                this.userLoggedIn = true;
+                                this.$store.dispatch("auth/setCurrentUser", localStorage.getItem('user'));
+                                this.$store.dispatch("auth/setToken", Cookie.get('token'));
+                                if (response.userType === "Admin") {
+                                    this.$router.push({path: "/vendor-dashboard/default-layouts"});
+                                }
+                                if (response.userType === "Vendor") {
+                                    this.$router.push({path: "/vendor-dashboard/default-layouts"});
+                                } else if (response.userType === "Customer") {
+                                    this.$router.push({path: "/"});
+                                }
+                                return;
+                            }else{
+                                throw response;
+                            }         
+                        },
+                        (error) => {
+                            this.userLoggedIn = false;
+                            if(typeof(error.response.data.name)!== undefined){
+                                ElMessage.error(error.response.data.name);
+                            }
+                            if(typeof(error.response.data.error.error) !== undefined){
+                                ElMessage.error(error.response.data.message);
+                                ElMessage.error(error.response.data.error.error);
+                                this.loginError = error.response.data.error ?? '';
+>>>>>>> main
                             }
                         }
                     );
                 }
                 if (!isFormValid) {
+                    this.userLoggedIn = true;
+                    setTimeout(function(){
+                        this.userLoggedIn = false;
+                    }.bind(this),1000);
                     return;
                 }
                                  
             }catch(error){
                 // Message Error
+                this.userLoggedIn = false;
                 this.messages = [
                     {severity: 'success', content: error},
                 ]
@@ -188,41 +233,17 @@ export default {
             this.password = '';
             this.accept = null;
             this.submitted = false;
-        },
-        // Validation phone number 
-        validatePhoneNumber(event){
-            // Initial input state
-            let prevValue = '';
-            let prevSelectionStart = 0;
-            const input = event.target
-            let value = event.target.value            
-            // Check if value is number
-            let isValid = +value == +value
-            if (isValid) {
-                // preserve input state
-                prevValue = value
-                prevSelectionStart = input.selectionStart
-            } else {
-                // restore previous valid input state.
-                // we have to fire one more Input event in  order to reset cursor position.
-                var resetEvent = new InputEvent('input')
-                input.value = prevValue
-                input.selectionStart = prevSelectionStart
-                input.selectionEnd = prevSelectionStart
-                input.dispatchEvent(resetEvent)
-            }
         }
     },
     components: {
-        socailMedia,
-        MazInput,
-        Loading
+        // socailMedia,
+        MazInput
     }
 }
 </script>
 
 <style>
-.footer {
+.footer-login {
     position: fixed;
     height: 100px;
     bottom: 0;

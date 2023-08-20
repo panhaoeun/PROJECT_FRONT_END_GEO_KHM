@@ -1,11 +1,4 @@
 <template>
-    <!-- Loading -->
-    <loading 
-        v-model:active="isLoadingBusiness"
-        :can-cancel="true"
-        color='#000000'
-        backgroundColor='#ffffff'
-     />
     <form @submit.prevent="handleSubmitBusinessAcc(!v$.$invalid)" class="p-fluid" method="POST" enctype="multipart/form-data"  role="form">    
             <div>
                 <div class="p-fluid grid">
@@ -108,14 +101,12 @@
                         </p>
                     </div>
                 </div>
-
                 <!-- Messages MazDialog -->
-                <Message v-for="msg of messages" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>
-                    
+                <Message v-for="msg of messages" :severity="msg.severity" :life="5000" :sticky="false" :key="msg.content">{{msg.content}}</Message>            
             </div>
             <!-- Create business account button -->
             <div class="flex justify-content-center">
-                <Button type="submit" label="Create account" class="mt-2 p-button-rounded p-button-md"  :loading="isLoading"  style="font-size: 16px; color: white;width: 250px; height: 50px;"/>
+                <MazBtn type="submit"  block :loading="isLoading" >Create account</MazBtn>
             </div>
         </form>
     
@@ -127,7 +118,7 @@
     import {required} from "@vuelidate/validators";
     import { useVuelidate } from "@vuelidate/core";
     import AuthenticationsDataService from "../../../services/authencationDataService";
-    import Loading from 'vue-loading-overlay';
+    import { ElMessage } from 'element-plus';
 
     export default {
         setup: () => ({ v$: useVuelidate() }),
@@ -147,9 +138,6 @@
                 }
             }
         },
-        components: {
-            Loading
-        },
         methods: {
             // Handle Submit Business Account
             async handleSubmitBusinessAcc(isFormValid) {
@@ -163,7 +151,7 @@
                         userName: this.user_firstname + this.user_lastname,
                         userPhone: this.results.nationalNumber,
                         userType: "Vendor",
-                        userStatus: "Vendor"
+                        userStatus: "Active"
                     }
                   
                     this.submitted = true;
@@ -183,12 +171,9 @@
                         }, 1000);
                         //this.$router.push({path: '/auth/opt-verify/:verify='+encodeURI('phone-5digit')});
                         //Push Router
-                        this.$router.push("/vendor/dashboard");    
+                        this.$router.push("/");    
                     }).catch(e => {
-                        //  Toast Alert 
-                        this.messages = [
-                             {severity: 'error', content: e.response.data.error},
-                        ]
+                        ElMessage.error(e.response.data.message);
                     })
                     // JSON responses are automatically parsed.
                 } catch (error) {

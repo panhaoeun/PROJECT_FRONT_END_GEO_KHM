@@ -31,6 +31,9 @@
     cursor: pointer;
 }
 
+.bg-red-transparent { 
+    background-image: linear-gradient(to right top, #fff1f1, #fff1f1, #fff1f1, #fff1f1, #fff1f1);
+}
 .text-color-standard-red-gradient{
     background: linear-gradient(to right top, #b51a1d, #bd1b1e, #c41b1f, #cc1c20, #d41c21);
 }

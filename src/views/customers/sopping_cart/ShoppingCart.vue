@@ -1,157 +1,196 @@
 <template>
-    <div class="mx-auto md:mx-auto gap-3 row">
-        <!-- SHOPPING CART SECTION -->
-        <div class="col-lg-7">
-            <div class="p-5 bg-white rounded">
-                <div>
-                    <p class="text-black font-weight-bold md:h1 h4 mb-3">
-                        Shopping Cart (2)
-                    </p>
-                    <div class="">
-                        <label for="select-item">
-                            <input class="mr-3 my-input-button" type="radio" id="select-item" />
-                            Select all items
-                        </label>
-                    </div>
-                    <hr />
-                </div>
+  <div>
+    <!-- Banner Area -->
+    <section id="common_banner_one">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="common_banner_text">
+              <h2>{{ this.title }}</h2>
+              <b-breadcrumb
+                :items="breadcrumbItems"
+                class="bg-transparent"
+              ></b-breadcrumb>
             </div>
-            <div class="bg-white mt-3 px-3 py-4 rounded">
-                <p class="text-black font-weight-bold h6">
-                    <span class="bg-red rounded p-2">Welcome Deal</span>
-                    Applicable on 1 item only
-                </p>
-            </div>
-
-            <!-- APPLE WATCH STORE SECTION -->
-            <div class="bg-white mt-3 px-3 py-3 rounded mb-5 w-100">
-                <input class="lg:ml-3 my-input-button" type="radio" />
-                <label class="ml-3" for="">AppleWatch Store</label>
-
-                <hr />
-
-                <div class="container-fluid row gap-2">
-                    <div class="lg:col-4">
-                        <div class="d-flex align-items-center">
-                            <input type="radio" class="my-input-button" />
-                            <img
-                                src="https://ae04.alicdn.com/kf/S5f2aa25a2a724fc0a2ccb6ec595c5289K.jpg"
-                                alt="logo"
-                                class="shopping-img rounded ml-4"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="lg:col-7">
-                        <div class="flex flex-col">
-                            <p class="text-black d-inline">
-                                Original Apple Watch Series 7 Used GPS 41mm 45mm
-                                Sports Smart Watch.
-                            </p>
-                            <div class="flex gap-3 ml-8">
-                                <i class="pi pi-heart"></i>
-                                <i class="pi pi-trash"></i>
-                            </div>
-                        </div>
-
-                        <a class="text-black cursor-pointer"
-                            >As picture Show/41MM</a
-                        >
-                        <div class="flex justify-content-between mt-2">
-                            <p class="text-black font-weight-bold h5">
-                                US $427.20
-                            </p>
-                            <div class="flex gap-3">
-                                <i class="pi pi-minus-circle"></i>
-                                <span>1</span>
-                                <i class="pi pi-plus-circle"></i>
-                            </div>
-                        </div>
-                        <a class="text-black cursor-pointer"
-                            >Free shopping now</a
-                        >
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Payment method sections -->
-        <div class="col-lg-4">
-            <div class="bg-white rounded p-5">
-                <p class="text-black font-weight-bold h4 md:h1">Summary</p>
-                <div
-                    class="d-flex justify-content-between align-items-center mb-2"
-                >
-                    <p class="text-black font-weight-bold h6">Total</p>
-                    <p class="text-black font-weight-bold h3">US $0.00</p>
-                </div>
-                <div
-                    class="md:d-flex mt-2 justify-content-center align-items-center container"
-                >
-                    <button
-                        class="w-100 rounded-pill btn btn-secondary text-enter text-center"
-                        type="button"
-                    >
-                        Checkout (0)
-                    </button>
-                </div>
-            </div>
-            <div class="bg-white rounded mt-2 px-5 py-5">
-                <h2 class="text-black font-weight-bold h4 md:h1">
-                    Payment methods
-                </h2>
-                <div>
-                    <ul class="d-flex gap-4 align-items-center">
-                        <li>
-                            <img
-                                class="payment-img"
-                                src="https://img.alicdn.com/tfs/TB1xcMWdEKF3KVjSZFEXXXExFXa-68-48.png"
-                                alt=""
-                            />
-                        </li>
-                        <li>
-                            <img
-                                class="payment-img"
-                                src="https://img.alicdn.com/tfs/TB19TEYdB1D3KVjSZFyXXbuFpXa-53-48.png"
-                                alt=""
-                            />
-                        </li>
-                        <li>
-                            <img
-                                class="payment-img"
-                                src="https://img.alicdn.com/tfs/TB19qM7drus3KVjSZKbXXXqkFXa-39-48.png"
-                                alt=""
-                            />
-                        </li>
-                        <li>
-                            <img
-                                class="payment-img"
-                                src="https://img.alicdn.com/tfs/TB18So3dBKw3KVjSZFOXXarDVXa-41-48.png"
-                                alt=""
-                            />
-                        </li>
-                    </ul>
-                </div>
-                <hr />
-                <div class="text-black">
-                    <h2 class="text-black font-weight-bold h4 md:h1">
-                        Buyer Protection
-                    </h2>
-                    <div class="flex gap-3 align-items-center">
-                        <img
-                            class="protected-img"
-                            src="https://ae01.alicdn.com/kf/S5d155b426fd74b24bd10e73f9ac90a93b/64x76.png"
-                            alt=""
+    <!-- Cart-Area -->
+    <section id="cart_area_one" class="ptb-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table_desc border-bottom-0">
+              <div class="table_page table-responsive">
+                <table>
+                  <!-- Start Cart Table Head -->
+                  <thead>
+                    <tr>
+                      <th class="product_remove">Remove</th>
+                      <th class="product_thumb">Image</th>
+                      <th class="product_name">Product</th>
+                      <th class="product-price">Price</th>
+                      <th class="product_quantity">Quantity</th>
+                      <th class="product_total">Total</th>
+                    </tr>
+                  </thead>
+                  <!-- End Cart Table Head -->
+                  <tbody v-if="cart.length">
+                    <!-- Start Cart Single Item-->
+                    <tr v-for="(item, index) in cart" :key="index">
+                      <td class="product_remove">
+                        <button
+                          @click="removeCartItem(index)"
+                          class="bg-transparent remove-btn"
+                        >
+                          <i class="far fa-trash-alt"></i>
+                        </button>
+                      </td>
+                      <td class="product_thumb">
+                        <nuxt-link :to="{ path: '/product/' + item.id }">
+                          <img
+                            :src="getImageUrl(item.images[0].src)"
+                            alt="img"
+                          />
+                        </nuxt-link>
+                      </td>
+                      <td class="product_name">
+                        <nuxt-link :to="{ path: '/product/' + item.id }">{{
+                          item.title
+                        }}</nuxt-link>
+                      </td>
+                      <td class="product-price">
+                        ៛{{ discountedPrice(item) }}
+                      </td>
+                      <td class="product_quantity">
+                        <label>Quantity</label>
+                        <input
+                          min="1"
+                          max="100"
+                          v-model="item.quantity"
+                          type="number"
                         />
-                        <p class="text-black h6">
-                            Get full refund if the item is not as described or
-                            if is not delivered
-                        </p>
-                    </div>
-                </div>
+                      </td>
+                      <td class="product_total">
+                        ៛{{ discountedPrice(item) * item.quantity }}
+                      </td>
+                    </tr>
+                    <!-- End Cart Single Item-->
+                  </tbody>
+                  <tbody v-else>
+                    <tr>
+                      <td class="border-0">No Item found!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
+          <!-- Cart Total -->
+          <div class="col-lg-12 col-md-12">
+            <div
+              class="coupon_code right"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <h3>Cart Total</h3>
+              <div class="coupon_inner">
+                <div class="cart_subtotal">
+                  <p>Subtotal</p>
+                  <p class="cart_amount"> ៛ {{ cartTotal }}</p>
+                </div>
+                <div class="cart_subtotal">
+                  <p>Shipping</p>
+                  <p class="cart_amount"><span>Flat Rate:</span> ៛25.00</p>
+                </div>
+                <a href="#">Calculate shipping</a>
+
+                <div class="cart_subtotal">
+                  <p>Total</p>
+                  <p class="cart_amount">៛ {{ cartTotal + 25 }}</p>
+                </div>
+                <!-- Process to Check Outs -->
+                <div class="checkout_btn">
+                  <router-link
+                    to="/customer/my-account/shopping-cart/orders/checkout"
+                    class="theme-btn-one btn-black-overlay btn_sm"
+                    >Proceed to Checkout</router-link
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
+  </div>
 </template>
 
-<script></script>
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  name: "cart",
+
+  data() {
+    return {
+      title: "Cart",
+      // Breadcrumb Items Data
+      breadcrumbItems: [
+        {
+          text: "Home",
+          to: "/",
+        },
+        {
+          text: "Cart",
+          to: "/cart",
+        },
+      ],
+
+      // Product Quanity Increment/ Decrement Data
+      quantity: 1,
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      cart: "cart/cartItems",
+      cartTotal: "cart/cartTotalAmount",
+    }),
+  },
+  mounted() {
+    // For scroll page top for every Route
+    window.scrollTo(0, 0);
+  },
+  methods: {
+    getImageUrl(path) {
+      return require("@/assets/img/product-image/" + path);
+    },
+    // Discount Price
+    discountedPrice(product) {
+      const price = product.price - (product.price * product.discount) / 100;
+      return price;
+    },
+    // For Delete/Remove Product Item
+    removeCartItem: function (product) {
+      this.$store.dispatch("cart/removeCartItem", product);
+    },
+  },
+
+  // Page head() Title, description for SEO
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "Cart page - AndShop Ecommerce Vue js, Nuxt js Template",
+        },
+      ],
+    };
+  },
+};
+</script>

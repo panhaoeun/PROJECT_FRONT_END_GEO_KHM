@@ -5,76 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26a29ffb-1b4f-460a-ac54-f2c70cb4020b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/avatar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/avatar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/home/Map.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/icons/directions_car.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/icons/grid_view.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/icons/icons.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/icons/mail_outline.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/icons/map.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/icons/notes.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/vehicles/42w.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/vehicles/bebop.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/vehicles/bliss.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/vehicles/eagle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icons/img/vehicles/expedition.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Avatar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Button.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Notification.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/vendors/Navbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.css" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/bs-stepper/css/bs-stepper.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/chart.js/Chart.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/chart.js/Chart.bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/chart.js/Chart.css" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/chart.js/Chart.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/chart.js/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/chart.js/Chart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/bower.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/bower.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/demo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/amd/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/amd/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/amd/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/amd/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/browserify/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/browserify/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/browserify/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/example/browserify/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/daterangepicker/website/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/fullcalendar/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/fullcalendar/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/icheck-bootstrap/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/icheck-bootstrap/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/jsgrid/i18n/jsgrid-ja.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/jsgrid/i18n/jsgrid-ja.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/LICENSE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/csstype/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/csstype/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/csstype/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/csstype/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/csstype/index.js.flow" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/csstype/index.js.flow" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/csstype/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/csstype/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/eventemitter3/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/eventemitter3/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/eventemitter3/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/eventemitter3/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/eventemitter3/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/eventemitter3/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/eventemitter3/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/eventemitter3/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/eventemitter3/umd/eventemitter3.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/eventemitter3/umd/eventemitter3.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/is-plain-object/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/is-plain-object/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/is-plain-object/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/is-plain-object/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/is-plain-object/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/is-plain-object/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/ms/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/ms/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/ms/license.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/ms/license.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/ms/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/ms/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/ms/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/ms/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/scss/_overrides.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/_overrides.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/scss/blocks/_main-sidebar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/blocks/_main-sidebar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/styles/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/customers/homepage/brand_category/brandCategoryList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/customers/homepage/brand_category/brandCategoryList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/customers/my_profiles/MyProfileDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/customers/my_profiles/MyProfileDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scss/hope-ui-design-system/layout-style/menu_style/_default_sidebar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/hope-ui-design-system/layout-style/menu_style/_default_sidebar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/partials/SidebarComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/partials/SidebarComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/modules/orders_managements.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/modules/orders_managements.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/vendors/order_managements/OrdersManagementsServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/vendors/order_managements/OrdersManagementsServices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/vendors/order/OrderList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/vendors/order/OrderList.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,22 +28,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/macbook/Documents/Norton University/Year04/Thesis-Finihed Year04/Project Development/Front-End/thesis-ecommerce-project-frontend/src/assets/css",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/macbook/Documents/Norton University/Year04/Thesis-Finihed Year04/Project Development/Front-End/thesis-ecommerce-project-frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/assets/css" />
@@ -132,6 +69,8 @@
       <workItem from="1678086593295" duration="2881000" />
       <workItem from="1678089480429" duration="1104000" />
       <workItem from="1678090587185" duration="13399000" />
+      <workItem from="1691282082984" duration="975000" />
+      <workItem from="1691298533130" duration="648000" />
     </task>
     <servers />
   </component>

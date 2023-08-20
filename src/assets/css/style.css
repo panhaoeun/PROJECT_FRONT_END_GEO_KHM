@@ -1,13 +1,52 @@
 /* @charset "utf-8"; */
 /* CSS Document */
+<<<<<<< HEAD
 
 /* @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900"); */
 
+=======
+/*********************************
+1. Config Global Fonts
+*********************************/
+@font-face {
+  src: local('Anek Kannada'), url(../fonts/english_fonts/AnekKannada-VariableFont_wdth\,wght.ttf) format('truetype');
+  src: local('Khmer OS Battambong'), url(../fonts/khmer_fonts/khmer_os_battambong.ttf) format('truetype');
+  font-family: 'Anek Kannada',sans-serif;
+  font-family: 'Khmer OS Battambong', cursive;
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Anek Kannada';
+  font-weight: 500;
+  font-size: 18px;
+  src: local('Anek Kannada'), url(../fonts/english_fonts/AnekKannada-VariableFont_wdth\,wght.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Khmer M1';
+  font-weight: 500;
+  font-size: 18px;
+  src: local('Khmer M1'), url(../fonts/khmer_fonts/khmer_m1.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Khmer OS Battambong';
+  font-weight: 500;
+  font-size: 14px;
+  src: local('Khmer OS Battambong'), url(../fonts/khmer_fonts/khmer_os_battambong.ttf) format('truetype');
+}
+body,
+html {
+   font-family: 'Anek Kannada',sans-serif;
+   font-family: 'Khmer OS Battambong', cursive;
+   font-size: 18px;
+}
+>>>>>>> main
 /*********************************
 2. Body and some general stuff
 *********************************/
 
 * {
+    font-family: 'Cerebri Sans','Khmer OS Battambong',sans-serif;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -413,7 +452,7 @@ section {
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-.logo_container {
+/* .logo_container {
     height: 80px;
 }
 .logo {
@@ -428,7 +467,7 @@ section {
     font-size: 36px;
     font-weight: 500;
     color: #0e8ce4;
-}
+} */
 .header_search {
     height: 90px;
 }

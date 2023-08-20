@@ -1,61 +1,51 @@
 <template>
-    <el-button type="primary" class="py-5 text-xl px-4 text-center" :loading="loading">
-         <template #loading>
-                <div class="custom-loading">
-                    <svg class="circular" viewBox="-10, -10, 50, 50">
-                        <path
-                        class="path"
-                        d="
-                        M 30 15
-                        L 28 17
-                        M 25.61 25.61
-                        A 15 15, 0, 0, 1, 15 30
-                        A 15 15, 0, 1, 1, 27.99 7.5
-                        L 15 15
-                        "
-                        style="stroke-width: 10px; fill: rgba(0, 0, 0, 0)"
-                        />
-                    </svg>
-                </div>
-                 Loading...
-        </template>
-        <div :class="{'invisible px-5 py-4' : loading}" style="width: 100px;">
-               {{ title }}
-             <slot></slot>
-        </div>
-      
-    </el-button>
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
 </template>
 
 <script>
-export default ({
-   props: {
-       title: String,
-       loading: {
-            type: Boolean,
-            default: false
-        }
-    },
-    methods: {
-        
-    }
-})
+export default {};
 </script>
 
-<style scoped>
-.el-button .custom-loading .circular {
-    margin-right: 6px;
-    width: 18px;
-    height: 18px;
-    animation: loading-rotate 2s linear infinite;
+<style>
+/* Loading Spinner for button */
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 15px;
+    height: 20px;
 }
-
-.el-button .custom-loading .circular .path {
-    animation: loading-dash 1.5s ease-in-out infinite;
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: 0;
-    stroke-width: 2;
-    stroke: var(--el-button-text-color);
-    stroke-linecap: round;
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    margin: 3px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>

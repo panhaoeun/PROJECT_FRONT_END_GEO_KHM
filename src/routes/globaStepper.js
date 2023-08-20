@@ -3,6 +3,7 @@ export default [
         path: '/acc-reg-seller',
         name:'acc-reg-seller',
         meta: {template: 'acc-reg-seller'},
+        hidden: true,
         children:[
           {
             path: "/reg-acc/onboarding/multi-vendor/shop-info/preferences/business-information",

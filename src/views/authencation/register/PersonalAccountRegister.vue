@@ -1,15 +1,8 @@
 <template>
-    <!-- Loading -->
-    <loading 
-        v-model:active="isLoadingPersonal"
-        :can-cancel="true"
-        color='#000000'
-        backgroundColor='#ffffff'
-     />
     <!-- Modal Popup - MazDialogs OPT Verify -->
      <form role="form" @submit.prevent="handleSubmitPersonalAcc(!v$.$invalid)" method="POST" enctype="multipart/form-data">
-        <!-- Toast Alert -->
-        <Toast />
+            <!-- Toast Alert -->
+            <Toast />
             <div>
                 <div class="p-fluid grid">
                     <!-- Username -->
@@ -106,7 +99,7 @@
             </div>
             <!-- Create account button -->
             <div class="flex justify-content-center">
-                <Button type="submit" :label="btnLoading ?  'Loading...' : 'Create Account'" :loading="isLoading" class="mt-2 p-button-rounded p-button-md" style="font-size: 16px; color: white;width: 230px; height: 40px;"/>
+                <MazBtn type="submit" block :loading="isLoadingPersonal">Create account</MazBtn>
             </div>
         </form>
      <!-- Messages Alert-->
@@ -116,20 +109,20 @@
             <div class="border-align bordert my-4 flex align-items-center justify-content-center"></div>  
         </div>
         <!-- Authentication Social Media -->
-        <div class="authentication">
+        <!-- <div class="authentication">
             <div class="auth-title">
                 <social-register/>
             </div>
-        </div>
+        </div> -->
 </template>
 
 <!-- Personal Account Register -->
 <script>
     import {required} from "@vuelidate/validators";
     import { useVuelidate } from "@vuelidate/core";
-    import socialRegister from '../socialmedia/socialRegister.vue';
+    // import socialRegister from '../socialmedia/socialRegister.vue';
     import AuthenticationsDataService from "../../../services/authencationDataService";
-    import Loading from 'vue-loading-overlay';
+    import { ElMessage } from 'element-plus';
 
     export default {
         setup: () => ({ v$: useVuelidate() }),
@@ -168,8 +161,7 @@
             }
         },  
         components: {
-            socialRegister,
-            Loading
+            // socialRegister
         },
         methods: {
             async handleSubmitPersonalAcc(isFormValid){
@@ -205,11 +197,8 @@
                              //Toast Alert
                              this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
                         }).catch(e => {
-                                console.log(e)
-                                //Toast Alert 
-                                this.messages_acc_per = [
-                                    {severity: 'error', content: e.response.data.error},
-                                ]
+                                ElMessage.error(e.response.data.message);
+                                //Toast Alert                                 
                                 this.$toast.add({ severity: 'error', summary: e.response.data.message, detail: e.response.data.data.errors[0].message, life: 3000 });
                                 this.$toast.add({ severity: 'error', summary: e.response.data.data.errors.message, detail: e.response.data.data.errors.userPassword, life: 3000 });
                                 this.$toast.add({ severity: 'error', summary: e.response.data.message, detail: e.response.data.data.errors[0].message, life: 3000 });

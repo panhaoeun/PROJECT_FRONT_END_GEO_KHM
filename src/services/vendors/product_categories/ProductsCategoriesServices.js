@@ -1,4 +1,5 @@
 import { ElMessage } from "element-plus";
+<<<<<<< HEAD
 import http from "../../../../http-json-request";
 
 export default class ProductCategoriesServices {
@@ -8,8 +9,25 @@ export default class ProductCategoriesServices {
             .then((result) => {
                 return result.data;
             })
+=======
+import httpJson from "../../../../http-json-request";
+import http from "../../../../http-common";
+
+export default class ProductCategoriesServices {
+    //Get
+    async getProCategory(data) {
+        return await httpJson.get("/vendors/product_management/product_category/list", data)
+             .then((result) => {
+                 if (result.status == '201') {
+                     if (result.data.success == true) {
+                        //  console.log(result.data.result.resultStatus)
+                         return result.data.result.resultStatus;
+                     }
+                 }
+             })
+>>>>>>> main
             .catch((error) => {
-                console.log(error)
+              ElMessage.error(error);
         });
     }
    //Create
@@ -37,10 +55,17 @@ export default class ProductCategoriesServices {
  * Delete Sub Categories
 */
     async getSubProCategory(data){
+<<<<<<< HEAD
         return await http.get("/vendors/product_management/product_sub_category/list", data)
             .then((result) => {
                 if(result.status == '201'){
                     if(result.data.success == true){
+=======
+        return await httpJson.get("/vendors/product_management/product_sub_category/list", data)
+            .then((result) => {
+                if(result.status == '201'){
+                    if(result.data.success == true){
+                        // console.log(result.data.result.resultStatus)
                       return result.data.result.resultStatus;
                     }   
                 }
@@ -49,6 +74,27 @@ export default class ProductCategoriesServices {
               ElMessage.error(error);
         });
     }
+    async createSubProCategory(data){
+        return httpJson.post("/vendors/product_management/product_sub_category/create", data);
+    }
+    async editedSubProCategory(proSubCateId){
+     return httpJson.get(`/vendors/product_management/product_sub_category/edit/${proSubCateId}`);
+    }
+    async querySubProCategoryBySuperCatID(proSubCateId){
+        return httpJson.get(`/vendors/product_management/product_sub_category/query_sub_cate/${proSubCateId}`)
+         .then((result) => {
+                if(result.status == '201'){
+                    if(result.data.success == true){
+>>>>>>> main
+                      return result.data.result.resultStatus;
+                    }   
+                }
+            })
+            .catch((error) => {
+              ElMessage.error(error);
+        });
+    }
+<<<<<<< HEAD
     async createSubProCategory(data){
         return http.post("/vendors/product_management/product_sub_category/create", data);
     }
@@ -60,5 +106,12 @@ export default class ProductCategoriesServices {
     }
     async deleteSubProCategory(data,proCateId){
        return http.delete(`/vendors/product_management/product_sub_category/delete/${proCateId}`, data);
+=======
+    async updateSubProCategory(data, proCateId){
+        return httpJson.put(`/vendors/product_management/product_sub_category/update/${proCateId}`, data);
+    }
+    async deleteSubProCategory(data,proCateId){
+       return httpJson.delete(`/vendors/product_management/product_sub_category/delete/${proCateId}`, data);
+>>>>>>> main
    }
 }

@@ -2,11 +2,19 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
+<<<<<<< HEAD
             <h2 class="relative text-black text-3xl section section-title:before">Add Sub Category</h2>
             <el-button type="info" size="large" @click.prevent="$router.push('/vendor/products/sub-category/list')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
                     <span class="pl-2">BACK</span>
+=======
+            <h2 class="relative text-black text-xl section section-title:before">Add Sub Category</h2>
+            <el-button class="btn btn-primary" @click.prevent="$router.push('/vendor/products/sub-category/list')">
+                <div class="flex justify-between pl-2 ">
+                    <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
+>>>>>>> main
                 </div>
             </el-button>
         </div>
@@ -27,6 +35,7 @@
                             <div class="col-12 lg:col-12">
                                 <!-- Form Layouts -->
                                 <div class="grid formgrid">
+<<<<<<< HEAD
                                     <div class="col-12 field">
                                         <div class="col-6 field">
                                             <label for="name_en">Category<span class="p-error">*</span></label>
@@ -57,6 +66,29 @@
                                         </div>
                                     </div>
                                    
+=======
+                                     <div class="col-6 field">
+                                        <label for="name_en">
+                                            Category
+                                            <span class="p-error">*</span>
+                                        </label>
+                                        <div class="border border-round-lg" style="padding: 11px !important;">
+                                            {{ getCurrentCategorySelect }} {{ selectedCategories?.catNameEn }}
+                                        </div>
+                                    </div>
+                                    <!-- Name Sub Category -->
+                                    <div class="col-6 field">
+                                        <label for="name_en">Sub Category Name (Eng)<span class="p-error">*</span></label>
+                                        <InputText id="product_name" placeholder="Name" type="text" class="py-3  border-round-lg"
+                                            v-model="v$.proSubCategoryNameEng.$model"
+                                            :class="{ 'p-invalid p-error': v$.proSubCategoryNameEng.$invalid && submitted }" />
+                                        <small
+                                            v-if="(v$.proSubCategoryNameEng.$invalid && submitted) || v$.proSubCategoryNameEng.$pending.$response"
+                                            class="p-error">{{ v$.proSubCategoryNameEng.required.$message.replace('Value','Name') 
+                                            || v$.proSubCategoryNameEng.$params.min }}
+                                        </small>   
+                                    </div>                                   
+>>>>>>> main
                                     <!-- Editor -->
                                     <div class="col-12 field">
                                         <Editor v-model="proSubCategoryDesEng" placeholder="Descriptions *"
@@ -147,6 +179,7 @@ export default {
                 required,
                 minLength: minLength(3)
             },
+<<<<<<< HEAD
             selectedCategories: {
                 required,
                 minLength: minLength(3)
@@ -170,6 +203,25 @@ export default {
                 if (data.success == true) {
                     this.catSubListDropDown = data.result.resultStatus;
                 }
+=======
+        }
+    },
+    computed: {
+        getCurrentCategorySelect(){
+            const listCategories = this.getCurrentListCatView();
+            return listCategories;
+        }
+    },
+    methods: {
+        getCurrentListCatView(){
+            this.proSubCategoryService.getProCategory().then((currentCat) => {
+                    if (currentCat === undefined || currentCat === null) {
+                        return { role_name: '', childrenModule: [] };
+                    }
+                const currentNameCat =  currentCat.find(cat =>cat?.catID === parseInt(this.$route.params.superCatID));
+                this.selectedCategories = currentNameCat ?? [];
+                return currentNameCat;
+>>>>>>> main
             });
         },
         async handleSubCategorySubmit(isFormValidCategorySub) {
@@ -177,13 +229,21 @@ export default {
                 this.submitted = true;
                 this.isProcessingSubmit = false;
                 if (!isFormValidCategorySub) {
+<<<<<<< HEAD
                     ElMessage.error('Name is required!');
+=======
+                    ElMessage.error('Validations is required!');
+>>>>>>> main
                     return;
                 }
                 if (!this.proSubCategoryNameEng != "" || this.proSubCategoryNameEng !== null) {
                     // Data Response
                     const data = {
+<<<<<<< HEAD
                         superSubCatID: this.selectedCategories,
+=======
+                        superSubCatID: this.$route.params.superCatID,
+>>>>>>> main
                         productSubCatEng: this.proSubCategoryNameEng,
                         productSubCatKh: this.proSubCategoryNameKh
                     }
@@ -196,8 +256,12 @@ export default {
                         }
                     })
                     .catch(error => {
+<<<<<<< HEAD
                         console.log(error)
                         ElMessage.error(error);
+=======
+                        ElMessage.error(error.message);
+>>>>>>> main
                         this.notifmsg = error.response.data.error.error;
                         return false;
                     });

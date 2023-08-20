@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="layout-content">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
@@ -7,6 +8,16 @@
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
                     <span class="pl-2">BACK</span>
+=======
+    <div class="layout-content px-4 py-4">
+        <!-- Titles -->
+        <div class="flex justify-content-between my-4 px-2 py-2">
+            <h2 class="relative text-black section section-title:before text-md">Update Sub Category</h2>
+            <el-button class="btn btn-primary"  type="info" size="large" @click.prevent="$router.push('/vendor/products/sub-category/list')">
+                <div class="flex justify-between pl-2">
+                    <i class="pi pi-arrow-left text-sm" style="font-size: 1rem"></i>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
+>>>>>>> main
                 </div>
             </el-button>
         </div>
@@ -15,7 +26,11 @@
             <!-- Toast Alert -->
             <Toast />
             <!-- Tabs -->
+<<<<<<< HEAD
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
+=======
+            <el-tabs v-model="activeName" class="demo-tabs">
+>>>>>>> main
                 <form @submit.prevent="handleCategoryUpdated()" class="py-4">
                     <el-tab-pane label="English(EN)" name="english-tabs">
                         <!--Form Submitted-->
@@ -28,6 +43,7 @@
                                 <!-- Form Layouts -->
                                 <div class="grid formgrid">
                                      <div class="col-6 field">
+<<<<<<< HEAD
                                             <label for="name_en">Category<span class="p-error">*</span></label>
                                             <select 
                                                 class="form-select py-3 text-md  border-round-lg"
@@ -47,6 +63,18 @@
                                         <div class="field">
                                             <label for="name_en">Category Name (Eng)<span class="p-error">*</span></label>
                                             <InputText id="product_name" placeholder="Name" type="text" class="py-3 text-xl  border-round-lg"
+=======
+                                            <label for="name_en" class="text-sm">Category<span class="p-error">*</span></label>
+                                            <div class="p-3 border border-round-lg text-sm">
+                                                {{ getCurrentCategorySelect }} {{ getCurrentCategorySelect }}
+                                            </div>
+                                    </div>
+                                    <div class="col-6 field">
+                                        <!-- Name Category -->
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">Category Name (Eng)<span class="p-error">*</span></label>
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3 text-sm border-round-lg"
+>>>>>>> main
                                                 v-model="dataSubCatEdit.catNameEn"/>
                                         </div>
                                     </div>
@@ -58,8 +86,11 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> main
                     </el-tab-pane>
                     <el-tab-pane label="Khmer(KH)" name="khmer-tab">
                         <!-- Khmer -->
@@ -70,8 +101,13 @@
                                     <div class="col-12 field">
                                         <!-- Name Category -->
                                         <div class="field">
+<<<<<<< HEAD
                                             <label for="proKh">Category Name (KH) <span class="p-error">*</span> </label>
                                             <InputText id="proKh" placeholder="Name" type="text" class="py-4 text-xl"
+=======
+                                            <label for="proKh" class="text-sm">Category Name (KH) <span class="p-error">*</span> </label>
+                                            <InputText id="proKh" placeholder="Name" type="text" class="py-3 text-sm"
+>>>>>>> main
                                                 v-model="dataSubCatEdit.catNameKh" />
                                         </div>
                                     </div>
@@ -144,7 +180,11 @@ export default {
                 catNameKh: '',
                 catLogo: ''
             },
+<<<<<<< HEAD
             selectedCategories: '',
+=======
+            selectedCategories: null,
+>>>>>>> main
             dataCatEditUpdated: null,
             catSubListDropDown: [],
             notifmsgCatUpdated: ''
@@ -153,10 +193,20 @@ export default {
     mounted() {
         this.editDataCategories(this.$route.params.id);
     },
+<<<<<<< HEAD
+=======
+    computed: {
+        getCurrentCategorySelect(){
+            const listCategories = this.$route.params.catName;
+            return listCategories;
+        }
+    },
+>>>>>>> main
     components() {
         Plus
     },
     methods: {
+<<<<<<< HEAD
         async getCategoriesSelect(){
             this.proCategoryService.getProCategory().then((data) => {
                 if (data.success == true) {
@@ -164,6 +214,8 @@ export default {
                 }
             });
         },
+=======
+>>>>>>> main
         // Show Category Data
         async editDataCategories(id){
               this.proCategoryService.editedSubProCategory(id)

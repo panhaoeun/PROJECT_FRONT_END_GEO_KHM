@@ -596,7 +596,11 @@
     height: 180px;
     text-align: center;
 }
+<<<<<<< HEAD
 /* *当upLoadShow为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/ */
+=======
+/* *当upLoadShow为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+>>>>>>> main
 .upLoadShow .el-upload {
     width: 20rem !important;
     height: 20rem !important;

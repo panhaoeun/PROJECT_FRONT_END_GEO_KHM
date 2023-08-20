@@ -1,115 +1,207 @@
 <template>
- <main>
-    <div class="banner">
-        <div class="container">
-            <div class="slider-container has-scrollbar">
-                <!-- Slider Items -->
-                <div class="slider-item">
-                    <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/banner-2.jpg" alt="women's latest fashion sale" class="banner-img">
-                    <div class="banner-content">
-                    <p class="banner-subtitle">Trending item</p>
-
-                    <h2 class="banner-title">Women's latest fashion sale</h2>
-
-                    <p class="banner-text">
-                        starting at &dollar; <b>20</b>.00
-                    </p>
-                    <a href="#" class="banner-btn">Shop now</a>
+    <div class="home-page">
+        <!-- Banner Area -->
+        <section id="furniture_banner">
+            <swiper
+                :spaceBetween="30"
+                class="electronics_slider_box"
+                :grabCursor="true"
+                :effect="'creative'"
+                :modules="modules"
+                :centeredSlides="true"
+                :autoplay="{
+                    delay: 8000,
+                    disableOnInteraction: false,
+                }"
+                :creativeEffect="{
+                    prev: {
+                        shadow: true,
+                        translate: [0, 0, -300],
+                    },
+                    next: {
+                        translate: ['100%', 0, 0],
+                    },
+                }"
+                :keyboard="{
+                    enabled: true,
+                }"
+                :scrollbar="true"
+                :pagination="{
+                    clickable: true,
+                }"
+                @autoplayTimeLeft="onAutoplayTimeLeft"
+            >
+                <swiper-slide v-for="sliderItem in sliderItems" :key="sliderItem.id" 
+                    class="furniture_slider background_bg" 
+                    v-bind:style="{ 'background-image': `url(${sliderItem.imagepath})` }"
+                >
+                    <div class="container">
+                        <div class="row">
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+                            <div class="furniture_slider_content">
+                                <h5>{{sliderItem.subTitle}}</h5>
+                                <h2>{{sliderItem.title}}</h2>
+                                <p>{{sliderItem.description}}</p>
+                                <router-link to="/shop/shop-2" class="theme-btn-one bg-black btn_sm">Shop Now</router-link>
+                            </div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="slider-item">
-                <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
-                <div class="banner-content">
-                    <p class="banner-subtitle">Trending item</p>
-
-                    <h2 class="banner-title">Women's latest fashion sale</h2>
-
-                    <p class="banner-text">
-                    starting at &dollar; <b>20</b>.00
-                    </p>
-                    <a href="#" class="banner-btn">Shop now</a>
-                </div>
-                </div>
-                <div class="slider-item">
-                    <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/banner-3.jpg" alt="women's latest fashion sale" class="banner-img">
-                    <div class="banner-content">
-                        <p class="banner-subtitle">Trending item</p>
-
-                        <h2 class="banner-title">Women's latest fashion sale</h2>
-
-                        <p class="banner-text">
-                        starting at &dollar; <b>20</b>.00
-                        </p>
-                        <a href="#" class="banner-btn">Shop now</a>
+                </swiper-slide>
+                <!-- Progress Loading Change Background Images -->
+                <template #container-end>
+                    <div class="autoplay-progress">
+                        <svg viewBox="0 0 48 48" ref="progressCircle">
+                        <circle cx="24" cy="24" r="20"></circle>
+                        </svg>
+                        <span ref="progressContent"></span>
                     </div>
-                </div>
-            </div>
-        </div>
+                </template>
+            </swiper>
+        </section>
     </div>
-     </main>
-  
 </template>
 
 <!-- Banner Carousel Product or Promotion -->
 <script>
-    // import { VueperSlides, VueperSlide } from 'vueperslides'
-    import '../../../assets/styles/vueslider/vueslider.css'
+    // Import Swiper Vue.js components
+    import { Swiper, SwiperSlide } from "swiper/vue";
+    import "swiper/css/scrollbar";
+    import "swiper/css/navigation";
+    import "swiper/css/pagination";
+    // Import Swiper styles
+    import "swiper/css";
+    // import required modules
+    import {Autoplay,Keyboard, Scrollbar, Navigation, Pagination} from 'swiper';
+    import 'swiper/css/effect-creative';
+import { ref } from "vue";
     export default {
         components:{
-
+            Swiper,
+            SwiperSlide
         },
-        data: () => ({
-            breakpoints: {
-                1200: {
-                     slideRatio: 1 / 5
+        setup() {
+            const progressCircle = ref(null);
+            const progressContent = ref(null);
+            const onAutoplayTimeLeft = (s, time, progress) => {
+                progressCircle.value.style.setProperty('--progress', 1 - progress);
+                progressContent.value.textContent = `${Math.ceil(time / 1000)}s`;
+            };
+            return {
+                onAutoplayTimeLeft,
+                progressCircle,
+                progressContent,
+                modules: [Autoplay,Keyboard, Scrollbar, Navigation, Pagination],
+            };
+        },
+        data() {
+            return { 
+            title: 'Furniture Home',
+            // Furniture Banner Slider Items 
+            sliderItems: [
+                {
+                    id: 1,
+                    imagepath: require('@/assets/img/banner/big-banner01.png'),
+                    title: 'Sofa Collection',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
                 },
-                900: {
-                     slideRatio: 1 / 3
+                {
+                    id: 2,
+                    imagepath: require('@/assets/img/banner/big-banner02.png'),
+                    title: 'Sofa Collection',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
                 },
-                600: {
-                    slideRatio: 1 / 2,
-                    arrows: false,
-                    bulletsOutside: true
+                {
+                    id: 3,
+                    imagepath: require('@/assets/img/banner/bg-banner03.png'),
+                    title: 'Sofa Collection',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
                 },
-                // The order you list breakpoints does not matter, Vueper Slides will sort them for you.
-                1100: {
-                    slideRatio: 1 / 4
+                {
+                    id: 4,
+                    imagepath: require('@/assets/img/banner/bg-banner04.png'),
+                    title: 'Sofa Collection',
+                    subTitle: 'NEW TRANDING',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.'
                 }
-            },
-            pauseOnHover: true,
-            autoPlaying: true,
-            internalAutoPlaying: true,
-            slides: [
-                {
-                    id: 'slide-1',
-                    title: 'Slide <b style="font-size: 1.3em;color: yellow">#1</b>',
-                    image:'https://m.media-amazon.com/images/I/71qid7QFWJL._SX3000_.jpg',
-                    content: 'Slider'
+            ],
+            products: [],
+            category: [],
+            cartproduct: {},
+            compareproduct: {},
+            dismissCountDown: 0,
+            // Todays Slider options 
+            swiperOption: {
+                slidesPerView: 4,
+                slidesPerGroup: 1,
+                spaceBetween: 30,
+                loop: false,
+                mousewheel: false,
+                keyboard: {
+                    enabled: false,
                 },
-                {
-                    id: 'slide-2',
-                    title: 'Slide <b style="font-size: 1.3em;color: yellow">#1</b>',
-                    image:'https://m.media-amazon.com/images/I/71N3Vmy5V4L._SX3000_.jpg',
-                    content: 'Slider'
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev'
                 },
-            ]
-        })
+                breakpoints: {
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 40
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 30
+                        },
+                        640: {
+                            slidesPerView: 2,
+                            spaceBetween: 20
+                        },
+                        300: {
+                            slidesPerView: 1,
+                            spaceBetween: 10
+                        }
+                    },
+                        autoplay: false,
+                },
+            }
+        }
+        
     } 
 </script>
-<!-- Style oof fraction progress of carousel slider -->
+
+<!-- Style -->
 <style>
-    .vueperslides__progress {
-        background: rgba(0, 0, 0, 0.25);
-        color: #E22D37;
-    }
-    .vueperslides__arrows{
-         margin-top: -220px;
-    }
-    .vueperslides--fixed-height { height: 900px; }
-    .vueperslides__parallax-wrapper{
-        padding-bottom: 500px;
-    }
-    .vueperslides__progress{
-        margin-bottom: 10px;
-    }
+.autoplay-progress {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.autoplay-progress svg {
+  --progress: 0;
+  position: absolute;
+  left: 0;
+  top: 0px;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  stroke-width: 4px;
+  stroke: #cc1c20;
+  fill: none;
+  stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
+  stroke-dasharray: 125.6;
+  transform: rotate(-90deg);
+  animation: progress 1s ease-out forwards;
+}
 </style>

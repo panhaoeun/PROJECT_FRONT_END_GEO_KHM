@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
+<<<<<<< HEAD
     <div class="layout-content">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
@@ -14,18 +15,71 @@
         <div class="gird">
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
+=======
+    <div class="layout-content px-2 py-2">
+        <!-- Titles -->
+        <div class="flex justify-content-between my-4 px-4 py-4">
+            <h2 class="relative text-black text-xl section section-title:before">Sub Category Lists</h2>
+            <div v-if="selectOptValueCat !== null">
+                <el-button type="info" size="large" class="btn btn-primary" @click="$router.push(`/vendor/products/sub-category/create/${parseInt(computedQuerySubByCatID)}`)"   v-permission="[{functionName: 'sub_categories', moduleName: 'fun_create'}]">
+                    <div class="flex justify-between pl-2 text-sm">
+                        <i class="pi pi-plus" style="font-size: 1rem"></i>
+                        <span class="pl-2">Add Sub Categories</span>
+                    </div>
+                </el-button>
+            </div>
+        </div>
+        <div class="gird">
+            <div class="col-12">
+                <el-card slot="header" class="box-card py-2 px-2 text-sm">
+>>>>>>> main
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
                             <DataTable ref="dt" :value="catSubList" v-model:selection="selectedSubCategoriesList" dataKey="id"
+<<<<<<< HEAD
                                 :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
+=======
+                                :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable text-sm"
+>>>>>>> main
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
                                 <!-- Header -->
                                 <template #header>
                                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+<<<<<<< HEAD
                                         <h4 class="m-0"></h4>
+=======
+                                        <!-- Select Sub Categories -->
+                                        <h4 class="m-0"> 
+                                            <Dropdown 
+                                                    @change="getCurrentOptCat"
+                                                    :options="catSubListDropDownView" 
+                                                    filter  
+                                                    v-model="selectOptValueCat" 
+                                                    v-permission="[{functionName: 'sub_categories', moduleName: 'fun_view'}]"
+                                                    inputId="catID"
+                                                    optionLabel="catNameEn" 
+                                                    placeholder="Select a Categories" 
+                                                    aria-describedby="dd-error"
+                                                    class="w-full border-round-lg md:w-14rem">
+                                                    <template #value="slotProps">
+                                                        <div v-if="slotProps.value" class="flex align-items-center">
+                                                            <div>{{ slotProps.value?.catNameEn }}</div>
+                                                        </div>
+                                                        <span v-else>
+                                                            {{ slotProps.placeholder }}
+                                                        </span>
+                                                    </template>
+                                                    <template #option="slotProps">
+                                                        <div class="flex align-items-center">
+                                                            <div>{{ slotProps.option?.catNameEn }}</div>
+                                                        </div>
+                                                    </template>
+                                            </Dropdown>
+                                        </h4>
+>>>>>>> main
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />
                                             <InputText v-model="filters['global'].value" placeholder="Search..." />
@@ -40,6 +94,7 @@
                                 <div v-if="catSubList && catSubList.length > 0 && catSubList != ''">
                                     <!-- Columns -->
                                     <Column field="categoryNameEng" header="Sub Category Name" sortable style="min-width:20rem"></Column>
+<<<<<<< HEAD
                                     <Column field="category" header="Category Status" sortable style="min-width:10rem">
                                         <template #body>
                                             <div class="font-bold">
@@ -52,6 +107,15 @@
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
                                                 @click="$router.push({ path: `/vendor/products/sub-category/edit/${slotProps.data.catID}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
+=======
+                                    <Column :exportable="false" header="Options" style="min-width:8rem">
+                                        <template #body="slotProps">
+                                            <Button icon="pi pi-pencil" outlined rounded class="mr-2"
+                                                v-permission="[{functionName: 'sub_categories', moduleName: 'fun_edit'}]"
+                                                @click="$router.push({ path: `/vendor/products/sub-category/edit/${slotProps.data.catID}/${computedQuerySubByCatName ?? ''}` })" />
+                                            <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                v-permission="[{functionName: 'sub_categories', moduleName: 'fun_deleted'}]"
+>>>>>>> main
                                                 @click="confirmDeleteProduct(slotProps.data.catID)" />
                                         </template>
                                     </Column>
@@ -92,16 +156,27 @@ export default {
             statusShopSwitch: '',
             deleteCatDialog: false,
             product: '',
+<<<<<<< HEAD
             selectedSubCategoriesList: '',
             filters: {
                 'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
             }
+=======
+            selectedSubCategoriesList: null,
+            selectOptValueCat: null,
+            filters: {
+                'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
+            },
+            selectedCategories: '',
+            catSubListDropDownView: [],
+>>>>>>> main
         }
     },
     created() {
         this.proCategoryService = new ProductCategoriesServices();
     },
     mounted() {
+<<<<<<< HEAD
         this.proCategoryService.getSubProCategory().then((data) => {
             if (!data) {
                 ElMessage.error("Internal Error...");
@@ -118,6 +193,38 @@ export default {
         }
     },
     methods: {
+=======
+        this.proCategoryService.getProCategory().then((data) => {
+            if (!data) {
+                ElMessage.error("Internal Error...");
+            }
+            this.catSubListDropDownView = data;
+        });
+    },
+    computed: {
+        computedQuerySubByCatID(){
+            return this.selectOptValueCat?.catID ?? [];
+        },
+        computedQuerySubByCatName(){
+            return this.selectOptValueCat?.catNameEn ?? [];
+        }
+    },
+    methods: {
+        getCurrentOptCat(catID){
+            if (!Array.isArray(catID) || !catID.length) {
+                this.proCategoryService.querySubProCategoryBySuperCatID(catID.value?.catID).then((datSubCatId) => {
+                    if (!datSubCatId) {
+                        this.catSubList = Array.isArray() ?? [];
+                        ElMessage.error("Not Found Sub Categories...");
+                    }   
+                    this.catSubList = Array.isArray(datSubCatId) ? datSubCatId.slice() : [];
+                }).catch((err) => {
+                    ElMessage.error(err.message);
+                });
+            }
+           
+        },
+>>>>>>> main
         confirmDeleteProduct(superCatID) {
             this.superCatID = superCatID;
             this.deleteCatDialog = true;

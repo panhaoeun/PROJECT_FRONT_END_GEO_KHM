@@ -1,13 +1,13 @@
 <template>
        <div class="register-header">
         <!-- Logo -->
-            <header class="pt-5">
+            <header>
                     <table class="">
                         <tbody>
                                 <tr>
                                     <td>
                                         <router-link to="/">
-                                            <img src="../../assets/logo/ecommerce.png" width="130" height="130" />
+                                            <img src="../../assets/company_logo/ecommerce_logo.png" width="120" height="120" />
                                         </router-link>
                                     </td>
                                 </tr>
@@ -16,10 +16,10 @@
             </header>
        </div>
        <!-- Create Account -->
-        <div class="container py-2">
+        <div class="container">
             <div class="signInLink flex px-2 py-2 my-2">
                 <span>Already a number?</span>
-                <router-link to="/" class="px-2 hover:underline underline">
+                <router-link to="/auth/login" class="px-2 hover:underline underline">
                     Sign In
                 </router-link>
             </div>
@@ -36,27 +36,27 @@
                         <div class="py-2">
                             <div class="bg-white pt-4 pb-2 pl-2">
                                 <!-- Credit card form tabs -->
-                                <ul role="tablist" class="nav border-500 surface-overlay border-1 nav-pills rounded nav-fill mb-3 px-2 py-2">
-                                    <li class="nav-item">
-                                            <a data-toggle="pill" href="#personal-account" class="nav-link active px-2 py-2">
+                                <ul role="tablist" class="nav nav-pills border-500 surface-overlay border-1 nav-pills rounded nav-fill mb-3 px-2 py-2" id="pills-tab">
+                                    <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
                                                    <span class="text-lg"> Personal account </span>
-                                            </a>
+                                            </button>
                                     </li>
                                     <li class="nav-item"> 
-                                            <a data-toggle="pill" href="#business-account" class="nav-link px-2 py-2"> 
+                                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"> 
                                                 <span class="text-lg"> Business account </span>
-                                            </a> 
+                                            </button> 
                                     </li>
                                 </ul>
                             </div> 
                             <!-- Tab Account Personal or Business account -->
-                            <div class="tab-content">
+                            <div class="tab-content" id="tab-tabContent">
                                 <!-- Personal account card form contents -->
-                                <div id="personal-account" class="tab-pane fade show active pt-3">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                         <personal-account-register/>
                                 </div>
                                  <!-- business account card form contents -->
-                                <div class="tab-pane" id="business-account" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                                     <business-account-register/>
                                 </div>
                             </div>                           
