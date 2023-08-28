@@ -41,11 +41,6 @@ export default [
                 }
             }
           },
-          {
-            path: "/customer/shopping-cart/product-list/cart-items",
-            name:'shopping-cart',
-            component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
-          },
             /*
             @Add to cart
             * */ 

@@ -36,9 +36,10 @@
 
 <script setup>
     // Library
-    import { computed, onMounted } from 'vue';
+    import { computed,ref } from 'vue';
     import { useRoute } from 'vue-router';
     import { useStore } from 'vuex';
+    const isLoader = ref(null);
 
     // Components
     // import LoaderComponent from '../../../components/loader/LoaderComponent.vue';
@@ -53,10 +54,4 @@
     const store = useStore()
     const isBanner = computed(() => route.meta.isBanner)
     const bannerStyle = computed(() => store.getters['setting/header_banner'])
-    // const isLoader = ref(true)
-    onMounted(() => {
-        // setTimeout(() => {
-        //     isLoader.value = false
-        // }, 600)
-    })
 </script>

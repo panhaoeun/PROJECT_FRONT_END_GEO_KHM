@@ -139,9 +139,9 @@
                                         <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count black">03</span></a>
                                     </div>
                                     <div class="same-style-2 same-style-2-font-inc header-cart">
-                                        <a class="cart-active" href="#">
+                                        <router-link class="cart-active" to="/customer/shopping-cart/product-list/cart-items">
                                             <i class="icon-basket-loaded"></i><span class="pro-count black">02</span>
-                                        </a>
+                                        </router-link>
                                     </div>
                                 </div>
                             </div>

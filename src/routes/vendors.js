@@ -11,7 +11,7 @@ const defaultChildRoutes = (prefix) => [
         name: prefix + '.dashboard_modules',
         meta: {
             title: 'dashboard',
-            icon: 'dashboard',
+            icon: 'viewGrid',
             noCache: false,
             permissions: ['dashboard_module']
         },
@@ -22,7 +22,7 @@ const defaultChildRoutes = (prefix) => [
         name: prefix + '.vendor_profile_info',
         meta: {
             title: 'vendorProfile',
-            icon: 'vendorProfile',
+            icon: 'bookmark',
             noCache: false,
             permissions: ['vendor_profile']
         },

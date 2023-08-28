@@ -1,4 +1,4 @@
-import http from "../../../../http-common";
+import http from "../../../../http-access-control";
 import authHeader from "../../authencations/AuthHeader";
 export default class ProductServices{
     /**
@@ -6,7 +6,9 @@ export default class ProductServices{
      * */ 
     async getCustomerProductsData(proFilterPage , proSize, data) {
         const page = parseInt(proFilterPage) ?? 3;
-        return await http.get(`/customers/products/product_module/customer_products_list?page=${page ?? 4}&size=${page ?? 4}`, data)
+        return await http.get(`/customers/products/product_module/customer_products_list?page=${page ?? 4}&size=${page ?? 4}`, {
+                headers: authHeader()
+        }, data)
             .then((result) => {
                 if (result.status == '200') {
                     if (result.data.success == true) {
@@ -15,7 +17,7 @@ export default class ProductServices{
                 }
             })
             .catch((error) => {
-                console.log(error)
+                this.$message.error(`Oops, this is a error message: ${error?.message}`);
             });
     }
     async getCustomerProductsDetailByID(productId, data) {
@@ -28,7 +30,7 @@ export default class ProductServices{
                 }
             })
             .catch((error) => {
-                console.log(error)
+                this.$message.error(`Oops, this is a error message: ${error?.message}`);
             });
     }
     /**
@@ -48,30 +50,23 @@ export default class ProductServices{
             })
             .catch((error) => {
                 console.log(error)
+                this.$message.error(`Oops, this is a error message: ${error?.message}`);
             });
     }
    //Create
    async createProduct(data){
-        return http.post("/vendors/product_management/products/create",{
-            headers: authHeader()
-        },data);
+        return http.post("/vendors/product_management/products/create",data);
     }
     //Edited
     async editedProByID(proId){
-     return http.get(`/vendors/product_management/products/edit/${proId}`, {
-        headers: authHeader()
-     });
+     return http.get(`/vendors/product_management/products/edit/${proId}`);
     }
     //Updated
    async updateProductID(data, proId){
-        return http.put(`/vendors/product_management/products/update/${proId}`,{
-            headers: authHeader()
-        },data);
+        return http.put(`/vendors/product_management/products/update/${proId}`,data);
    }
    //Delete
    async deleteProByID(data,proId){
-       return http.delete(`/vendors/product_management/products/delete/${proId}`,{
-            headers: authHeader()
-       },data);
+       return http.delete(`/vendors/product_management/products/delete/${proId}`,data);
    }
 }

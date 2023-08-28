@@ -25,26 +25,31 @@
                             >
                                 <template #value="slotProps">
                                     <div v-if="slotProps.value" class="flex align-items-center">
-                                        <div>{{ slotProps.value?.shop_eng ?? '' }}</div>
+                                        <div class="text-sm">{{ slotProps.value?.shop_eng ?? '' }}</div>
                                     </div>
-                                    <span v-else>
+                                    <span v-else class="text-sm">
                                         {{ slotProps.placeholder }}
                                     </span>
                                 </template>
                                 <template #option="slotProps">
-                                    <div class="flex align-items-center">
-                                        <div>{{ slotProps.option?.shop_eng ?? '' }} ({{ slotProps.option?.venNameEng ?? '' }})</div>
+                                    <div class="flex align-items-center text-sm">
+                                        <div class="text-sm">{{ slotProps.option?.shop_eng ?? '' }} ({{ slotProps.option?.venNameEng ?? '' }})</div>
                                     </div>
                                 </template>
                             </Dropdown>  
                         </div>
                         <div class="col-4 lg:col-6 field">
-                            <label for="name_en" class="text-sm font-semibold">Start Date</label>
-                            <Calendar id="endDateFilter" class="w-full text-sm"   v-model="orderReportListStartFilter" inputId="endDateOrder" showIcon showTime hourFormat="24" />
-                        </div>
-                        <div class="col-4 lg:col-6 field">
-                            <label for="name_en" class="text-sm font-semibold">End Date</label>
-                             <Calendar id="endDateFilter" class="w-full text-sm"  v-model="orderReportListEndFilter" inputId="endDateOrder" showIcon showTime hourFormat="24" />
+                            <label for="name_en" class="text-sm font-semibold">Date Range</label>
+                            <Calendar 
+                                id="endDateFilter" class="w-full text-sm" 
+                                v-model="orderReportListStartFilter"
+                                selectionMode="range" 
+                                :manualInput="false"
+                                inputId="endDateOrder" 
+                                showIcon
+                                hourFormat="24" 
+                                showButtonBar
+                            />
                         </div>
                        <div class="col-12 lg:col-6 field">
                            <Button icon="pi pi-filter" class="btn btn-primary h-3rem w-10rem" label="Filters" />

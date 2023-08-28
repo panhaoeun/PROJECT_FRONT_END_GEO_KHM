@@ -5,12 +5,14 @@
                 <!-- Titles -->
                     <div class="flex justify-content-between my-4 px-4 py-4">
                         <h2 class="relative text-black text-xl section section-title:before">Products List</h2>
-                        <el-button type="info" size="large" class="btn btn-primary" @click.prevent="$router.push('/vendor/products/create')"  v-permission="[{functionName: 'product_module', moduleName: 'fun_create'}]">
-                            <div class="flex justify-between pl-2">
-                                <i class="pi pi-plus" style="font-size: 1rem"></i>
-                                <span class="pl-2">Create</span>
-                            </div>
-                        </el-button>
+                        <template v-if="user?user[1].typeUser == 'Vendor' : '7Day-Vendor' == true && user[1].typeUser !== 'Admin'">
+                            <el-button type="info" size="large" class="btn btn-primary" @click.prevent="$router.push('/vendor/products/create')" v-permission="[{functionName: 'product_module', moduleName: 'fun_create'}]">
+                                <div class="button">
+                                    <i class="pi pi-plus" style="font-size: 1rem"></i>
+                                    <span class="pl-2">Create</span>
+                                </div>
+                            </el-button>
+                        </template>
                     </div>
                     <!-- DataTables -->
                     <div class="gird">
@@ -58,7 +60,7 @@
                                                                 <div>{{ slotProps.value?.catNameEn }}</div>
                                                             </div>
                                                             <span v-else>
-                                                                {{ slotProps.placeholder }}
+                                                                {{ slotProps?.placeholder }}
                                                             </span>
                                                         </template>
                                                         <template #option="slotProps">
@@ -109,7 +111,7 @@
                                     <template #loading> Loading products data. Please wait... </template>
                                     <!--------------Columns----------->
                                     <div v-if="products && products.length > 0 && products != ''">
-                                        <Column field="id" header="Product Name"  filterField="product_eng" sortField="product_eng" sortable style="min-width: 20rem" >
+                                        <Column field="id" header="Product Name"  filterField="product_eng" sortField="product_eng" sortable  >
                                             <template #body="{ data }">
                                                 <div class="flex flex-column">
                                                     <span class="flex">
@@ -124,14 +126,14 @@
                                             </template>
                                         </Column>
 
-                                        <Column field="id" header="Purchase Price" sortField="product_unit_price"  sortable style="min-width: 13rem" >
+                                        <Column field="id" header="Purchase Price" sortField="product_unit_price"  sortable >
                                             <template #body="{ data }">
                                                 {{ data?.product_unit_price }}
                                             </template>
                                         </Column>
-                                        <Column field="id" header="Qty"  sortField="product_qty" sortable style="min-width: 12rem" >
+                                        <Column field="id" header="Qty"  sortField="product_qty" sortable>
                                             <template #body="{ data }">
-                                                {{ data.product_qty }}
+                                                {{ data?.product_qty }}
                                             </template>
                                         </Column>
                                         <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;" header="Actions" bodyStyle="text-align: center; overflow: visible">
@@ -174,6 +176,9 @@
     import ProductService from '../../../services/vendors/products/ProductServices';
     import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
     import { ElMessage } from 'element-plus';
+    import { storeToRefs } from 'pinia';
+    import { useAuthStoreToken } from '../../../utils/auth/AuthStoreTokenJWT';
+    const { user } = storeToRefs(useAuthStoreToken());
     // Product Services
     const loadingProductList = ref(true);
     const products = ref(null);
@@ -211,6 +216,20 @@
         // Filters
         initFilterData();
     });
+    // Initial Filter Data
+    const initFilterData = () => {
+        filtersData.value = {
+            global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+            title: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+            representative: { value: null, matchMode: FilterMatchMode.IN },
+            product_eng: {
+                operator: FilterOperator.AND,
+                constraints: [
+                    { value: null, matchMode: FilterMatchMode.IN },
+                ],
+            }
+        }
+    }
     const getSelectOptCategoriesFilter = () => {
         proCategory.getProCategory().then((data) => {
             if(!Array.isArray(data)){
@@ -238,21 +257,7 @@
                 });
             }
         } catch (error) {
-            ElMessage.error(error);
-        }
-    }
-    // Initial Filter Data
-    const initFilterData = () => {
-        filtersData.value = {
-            global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-            title: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-            representative: { value: null, matchMode: FilterMatchMode.IN },
-            product_eng: {
-                operator: FilterOperator.AND,
-                constraints: [
-                    { value: null, matchMode: FilterMatchMode.IN },
-                ],
-            }
+            ElMessage.error(error.message);
         }
     }
 </script>

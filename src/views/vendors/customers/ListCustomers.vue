@@ -42,13 +42,18 @@
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="customerArrAdmin && customerArrAdmin.length > 0 && customerArrAdmin != ''">
                                     <!-- Columns -->
-                                   <Column field="full_latin_name" header="Customer Name" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_email" header="Email" sortable style="min-width:20rem">
+                                   <Column field="full_latin_name" header="Customer Name" sortable style="min-width:10rem"></Column>
+                                    <Column field="user_email" header="Email" sortable style="min-width:10rem">
                                         <template #body="slotProps">
                                             <div class="flex flex-column gap-2">
                                                 <span class="font-bold">{{ slotProps.data?.user_email ?? ''}}</span>
                                                 <span>{{ slotProps.data?.user_phonenumber ?? ''}}</span>
                                             </div>
+                                        </template>
+                                    </Column>
+                                    <Column field="totalItem" header="Total Order" sortable style="min-width:10rem">
+                                        <template #body="slotProps">
+                                            <Tag class="font-bold" :value="parseInt(slotProps.data?.totalItem) ?? 0" :style="{ background: 'linear-gradient(-225deg,#AC32E4 0%,#7918F2 48%,#4801FF 100%)' }"/>
                                         </template>
                                     </Column>
                                     <Column header="Status">
@@ -66,7 +71,7 @@
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-eye" outlined rounded class="mr-2"
-                                                @click="$router.push({ path: `/vendor/user/customer_info/list/admin/customer_view_details/${slotProps.data.user_id}` })" />
+                                                @click="$router.push({ path: `/vendor/user/customer_info/list/admin/customer_view_details/${slotProps.data?.customerId ?? ''}` })" />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 @click="confirmDeleteUserMS(slotProps.data.id)" />
                                         </template>
@@ -87,7 +92,7 @@
                             </div>
                             <template #footer>
                                 <Button label="No" icon="pi pi-times" text @click="deleteUsersDialog = false" />
-                                <Button label="Yes" icon="pi pi-check" text @click="deleteUserMSByID" />
+                                <Button label="Yes" icon="pi pi-check" text @click="deleteUserMSByID()" />
                             </template>
                         </Dialog>
                     </div>
@@ -125,11 +130,10 @@ export default {
     mounted() {
         const adminCheckCustomers = new CustomerServicesBaseAdmin();
         adminCheckCustomers.getCustomerList().then((data) => {
-            console.log(data)
             if (!data) {
-                ElMessage.error("Internal Error...");
+                this.customerArrAdmin = Array.isArray()?? [];
             }
-            this.customerArrAdmin = data;
+            this.customerArrAdmin = Array.isArray(data) ? data.slice() : [];
         });
     },
     computed: {

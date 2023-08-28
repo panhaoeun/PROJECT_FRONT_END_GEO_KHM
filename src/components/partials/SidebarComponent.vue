@@ -1,9 +1,8 @@
+<!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <template>
     <!-- Sidebar Component Start Here-->
     <default-sidebar>
-         <!-- <h1 v-if="can('view', 'Dashboards')">Can access</h1> -->
         <ul class="navbar-nav iq-main-menu text-sm" id="sidebar-menu" v-for="routes in routesModules" :key="routes.path">
-            <!-- {{routes.children}} -->
             <template v-if="!routes.hidden && routes.children">
                 <template v-if="hasOneShowingChild(routes.children, routes) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)">
                     <app-link :to="resolvePath(onlyOneChild.path)">
@@ -11,8 +10,11 @@
                     </app-link>
                 </template>
                 <!-- Visible Children -->
-                <template v-for="child in routes.children" :key="child">
-                    {{child}}
+                <template v-for="(child,index) in routes.children" :key="index">
+                    <!-- Children -->
+                    <template v-if="!child.hidden">
+                        <side-menu isTag="router-link"  class="text-sm" :title="$te('route.' + child?.meta.title) ? $t('route.'+child?.meta.title) : $t('route.'+child?.meta.title)" :icon="child.meta?.icon" :icon-size="10" icon-type="solid" miniTitle="CAT" :route="{ to: `${child.name}` }"></side-menu>
+                    </template>
                 </template>
             </template>
         </ul>
@@ -28,7 +30,7 @@ import store from "../../store";
 import { ref,computed,defineProps} from 'vue'
 import { useRoute } from 'vue-router';
 import {isExternal} from "../../utils/validate"; 
-// import AppLink from "./sidebar/Link";
+import AppLink from "./sidebar/Link";
 const currentRoute = ref('');
 const route = useRoute();
 const onlyOneChild = ref(null);
