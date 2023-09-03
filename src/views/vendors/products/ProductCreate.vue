@@ -4,7 +4,7 @@
         <div class="flex justify-content-between my-4 px-2 py-2">
             <h2 class="relative text-black text-xl section section-title:before">Add Product</h2>
             <el-button type="info" size="large" class="btn btn-primary" @click.prevent="$router.push('/vendor/products/list')">
-                <div class="flex justify-between pl-2">
+                <div class="pl-2 justify-content-center">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
                     <span class="pl-2">{{$t("route.routeBack")}}</span>
                 </div>
@@ -32,7 +32,7 @@
                                     <!-- Name Product -->
                                     <div class="field">
                                         <label for="name_en" class="text-sm font-semibold">Name (EN) <span class="p-error">*</span></label>
-                                        <InputText id="product_name" placeholder="New Products"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="text-sm border-round-lg"/>
+                                        <InputText id="product_name" placeholder="New Products"  :input="v$.proNameEn.$touch"  v-model="v$.proNameEn.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proNameEn.$invalid && submitted }" type="text" class="text-sm border-round-lg"/>
                                         <small v-if="(v$.proNameEn.$invalid && submitted) || v$.proNameEn.$pending.$response" class="p-error text-lg">{{ v$.proNameEn.required.$message.replace('Value', 'Name') }}</small>
                                     </div>
                                 </div>
@@ -44,11 +44,12 @@
                                             <span class="p-error">*</span>
                                             <span class="pl-2 underline text-blue-600 cursor-pointer h5 disabled" @click="generateProductCode()">Generate Code</span>
                                         </label>
-                                        <InputText class="border-round-lg text-sm" type="text" v-model="proCode" placeholder="Product Code" />
+                                        <InputText class="border-round-lg text-sm" type="text" v-model="v$.proCode.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proCode.$invalid && submitted }" placeholder="Product Code" />
+                                        <small v-if="(v$.proCode.$invalid && submitted) || v$.proCode.$pending.$response" class="p-error text-lg">{{ v$.proCode.required.$message.replace('Value', 'Product Code') }}</small>
                                     </div>
                                 </div>
                                 <!--========== Product Category and Sub Categories =======-->
-                                <div class="col-6 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <!-- Categories -->
                                     <div class="field">
                                         <label for="name_en" class="text-sm font-semibold">Category</label>
@@ -80,7 +81,7 @@
                                     </div>
                                 </div>
                                 <!-- Sub Product Category -->
-                                <div class="col-6 lg:col-6 field">
+                                <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="subCategories" class="text-sm font-semibold">Sub Category</label>
                                         <Dropdown 
@@ -163,9 +164,9 @@
                                                     <!-- Variant Type-->
                                                     <div v-for="(sectionSpecPro, index) in sectionSpecPro" :key="index">
                                                         <!-- Add new items -->
-                                                        <div class="flex item-center px-2 py-2">
-                                                            <div class="flex-initial flex align-items-center text-sm text-danger cursor-pointer justify-content-center btn btn-primary py-2 px-2 font-bold text-white border-round" @click="addNewSubItemSpecByIdx(index)">
-                                                                <i class="pi pi-plus-circle" style="font-size: 1.3rem"></i>
+                                                        <div class="flex item-center justify-content-center">
+                                                            <div class="flex-initial p-2 flex align-items-center text-sm text-danger cursor-pointer justify-content-center font-bold" @click="addNewSubItemSpecByIdx(index)">
+                                                                <i class="pi pi-plus-circle" style="font-size: 1.5rem"></i>
                                                             </div>
                                                             <!-- Add Sub spec -->
                                                             <InputText v-model="sectionSpecPro.item" size="small" type="text" class="text-sm p-inputtext border-round-lg" placeholder="Variant" />
@@ -216,6 +217,7 @@
                                                 </div>  
                                             </div>
                                             <!-- Upload Imag Multiple Product and Thumbnail -->
+                                            <!---Uploads 10 Files--->
                                             <div class="col-6 lg:col-7 px-2 py-2">
                                                 <div class="field">
                                                     <label for="name_en" class="text-sm font-semibold pl-3">
@@ -230,9 +232,8 @@
                                                         list-type="picture-card" 
                                                         :auto-upload="true" 
                                                         :limit="10"
+                                                        ref="fileInputMultiFile"
                                                         :show-file-list="true"
-                                                        ref="proImgMultiple"
-                                                        v-model="proImgMultiple"
                                                         accept=".jpg, .png, .jpeg"
                                                         :on-exceed="handleExceed"
                                                         :file-list="formUploadArr.resourceList"
@@ -244,7 +245,7 @@
                                                         <!-- Files -->
                                                         <template #file="{ file }">
                                                             <div>
-                                                                <img class="el-upload-list__item-thumbnail w-full" :src="file.url" alt="" />
+                                                                <img class="el-upload-list__item-thumbnail" :src="file?.url" :alt="file?.name" style="width: 100%;"/>
                                                                 <span class="el-upload-list__item-actions">
                                                                 <span
                                                                     class="el-upload-list__item-preview"
@@ -256,7 +257,7 @@
                                                                 <span
                                                                     v-if="!disabled"
                                                                     class="el-upload-list__item-delete"
-                                                                    @click="handelOnChange(file)"
+                                                                    @click="handelOnChangeMultipleUpload(file)"
                                                                 >
                                                                     <el-icon class="text-md"><EditPen/></el-icon>
                                                                 </span>
@@ -346,7 +347,6 @@
         <!-- :label='isProcessingSubmit ? "Process..." :  -->
    </div>
 </template>
-
 <!-- Script Product Create  -->
 <script>
     import ProductServices from "../../../services/vendors/products/ProductServices";
@@ -375,6 +375,9 @@
                 proNameEn: { required },
                 proUnitPice: {required},
                 proQty: {required},
+                proCode: {
+                    required
+                },
                 proCatID: {
                     required,
                     minLength: minLength(3)
@@ -383,11 +386,13 @@
         },  
         data() {
             return {
-                // Form Submits
+                //Unique Validation
+                numbersNumber: [],
+                validating: false,
                 proNameEn: '',
                 proCode: '',
                 submitted: false,
-                proSpectags: '',
+                proSpecTags: '',
                 catListSelectOpt:null,
                 selectedProSubCat: null,
                 selectedProCat: null,
@@ -395,7 +400,7 @@
                 catSubListDropDownPro: null,
                 subCatID : '',
                 desProEn : '',
-                proImgMultiple : null,
+                proImgMultiple : [],
                 proThumbnail : null,
                 imagFilesList: '',
                 proNameKh : '',
@@ -418,8 +423,9 @@
                 imageUrl: '',
                 fileList: [],
                 fileAttachments: [],
-                fileListArrUpload:null,
+                fileListArrUploadMulti:[],
                 imageList: [],
+                errorValidateFile: [],
                 objClass: {
                     upLoadShow: true,
                     upLoadHide: false,
@@ -449,6 +455,16 @@
            this.getSelectOptCategories();
         },  
         methods: {
+            randomNumberID(maxVal){
+                const number = Math.floor((Math.random() * maxVal) + 1);
+                if (!this.numbersNumber.includes(number)) {
+                    this.numbersNumber.push(number);
+                    return number;
+                } else if (this.numbersNumber.length - 1 !== maxVal) {
+                    this.randomNumberID(maxVal);
+                }
+            },
+
             // Select Categories and Sub Categories
             async getSelectOptCategories(){
                 this.proSubCategoryService.getProCategory().then((data) => {
@@ -522,13 +538,14 @@
             btnRemoveSpec(id) {
                 this.sectionSpecPro.slice(id).pop({
                     item: ''
-                })
+                });
             },
             btnRemoveSubSpec(id){
                 this.sectionSpecPro[id].additional.splice(id,1);
             },
             //============Upload Files Multiple===========
             handleChangeFileMalUpload(file, fileList){
+                 console.log(file, "file");
                 ElMessage.success(file.name);
                 if(!fileList.length){
                     return false;
@@ -551,7 +568,7 @@
                     }
                 }
             },
-            handelOnChange(file){
+            handelOnChangeMultipleUpload(file){
                 /**
                  *  @Dialog Confirm replace picture uploads
                  *  @Limited Size Uploads
@@ -606,7 +623,14 @@
             handleFileSuccess(file){
                 if(!Array.isArray(file) || file !== null){
                     this.formUploadArr.resourceList.push(file.file) ?? [];
-                    this.$message.success(`File upload successfully - ${this.formUploadArr.resourceList.length} picture are select`);
+                    for (var index = 0; index < this.formUploadArr.resourceList.length; index++) {
+                       const reader = new FileReader();
+                       reader.readAsDataURL(this.formUploadArr.resourceList[index]);
+                       this.fileListArrUploadMulti.push(this.formUploadArr.resourceList[index]);
+                    }
+                    this.$message.success(`Gallery image upload successfully - ${this.formUploadArr.resourceList.length} picture are select`);
+                }else{
+                    this.fileListArrUploadMulti = [];
                 }
             },
             onSuccessMalFileUpload(file, fileList){
@@ -640,54 +664,66 @@
             //========Form Submit===========
             async submitFormProductCreate(isFormValid){
                 try{
-                    // Validations
-                    if (!isFormValid) {    
-                        return;
-                    }
                     this.submitted = true;
                     this.isProcessingSubmit = true;
-                    if(this.proNameEng !== "" || this.proUnitPice !== "" || this.discountType !== undefined && this.discountType !== null){
-                        const dataPro = {
-                            proCategoryID: 1,
-                            shopTypeID: 1,
-                            proImgListID: '',
-                            proNameEng: this.proNameEn,
-                            proNameKh: this.proNameKh,
-                            proCode: this.proCode,
-                            proMeasure: this.measureUnit,
-                            proQty: this.proQty,
-                            proThumbnail: this.proThumbnail,
-                            proImgMalUpload: this.fileAttachments,
-                            proUnitPrice: this.proUnitPice ?? '',
-                            proSpecJson: this.sectionSpecPro ?? '',
-                            proDiscount: this.proDiscount ?? '',
-                            proDiscountType: this.discountType?.disType ?? '',
-                            proDisEng: this.desProEn,
-                            proDisKH: this.proDesKh,
+                    if(
+                        !this.proNameEn  !== ''
+                        && !this.proUnitPice || !this.proCode 
+                        && this.discountType !== undefined 
+                        && this.discountType !== null
+                        && this.selectedProSubCat !== null
+                    ){
+                        const validation = await this.v$.$validate();
+                        if(validation === false){
+                            const errorValidation = this.v$.$errors;
+                            this.$toast.add({ severity: 'error', summary: 'Error Message', detail: errorValidation[0]?.$message, life: 1000 });
                         }
-                        console.log(dataPro)
-                        // this.productSerClass.createProduct(dataPro).then((response) => { 
-                        //     if (response.data.status === true) {
-                        //         this.submitted = true;
-                        //         this.isProcessingSubmit = true;
-                        //             this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
-                        //             // Push Router
-                        //             setTimeout(() => {
-                        //                 this.isProcessingSubmit = false;
-                        //                 this.$router.push("/vendor/products/list");
-                        //             }, 3000);
-                        //         }
-                        // })
-                        // .catch(error => {
-                        //     console.log(error)
-                        //     if (error.response.status == '401') {
-                        //         //  Toast Alert 
-                        //         this.message_pro_type = [
-                        //             { severity: 'error', content: error.response.data.error },
-                        //         ]
-                        //         this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
-                        //     }
-                        // });
+                    }else{
+                        if(this.v$.$invalid === true){
+                            const dataPro = {
+                                proCategoryID: this.selectedProSubCat?.catID,
+                                proImgListID: Math.floor(Math.random() * 10) + this.selectedProSubCat?.catID ?? 1,
+                                proNameEng: this.proNameEn,
+                                proNameKh: this.proNameKh,
+                                proCode: this.proCode,
+                                proMeasure: this.measureUnit,
+                                proTotalQty: this.proQty,
+                                proThumbnail: this.proThumbnail ?? '',
+                                proImgMalUpload:this.formUploadArr.resourceList ?? [],
+                                proUnitPrice: this.proUnitPice ?? '',
+                                proSpecJson: this.sectionSpecPro ?? '',
+                                proDiscount: this.proDiscount ?? 0,
+                                proDiscountType: this.discountType?.disType ?? '',
+                                proDisEng: this.desProEn,
+                                proDisKH: this.proDesKh,
+                            }
+                            this.productSerClass.createProduct(dataPro).then((response) => { 
+                                if (response.data.success === true) {
+                                    this.submitted = false;
+                                    this.errorValidateFile = [];
+                                    this.isProcessingSubmit = true;
+                                        this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
+                                        // Push Router
+                                        this.$router.push("/vendor/products/list");
+                                    }
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                this.$toast.add({ severity: 'error', summary: error?.response.data.message || error?.response.data.error.error.errors[0].message, detail: error?.response.data.message, life: 3000 });
+                                this.errorValidateFile = error?.response.data?.message;
+                                if (error.response.status == '401') {
+                                    //  Toast Alert 
+                                    this.message_pro_type = [
+                                        { severity: 'error', content: error.response.data.error },
+                                    ]
+                                    this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
+                                }
+                            });
+                        }
+                    }
+                    this.v$.$touch();
+                    if (!isFormValid) {    
+                        return;
                     }
                     
                 }catch(error){

@@ -3,7 +3,7 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between mb-3">
-            <h2 class="flex relative text-black text-xl section section-title:before justify-content-center">
+            <h2 class="flex relative text-black text-xl section section-title:before">
                 <img class="flex align-items-center justify-content-center " src="../../../../src/assets/img/product_icons/customer_icons.jpeg" alt="Image" width="50"/>
                 <span class="flex align-items-center justify-content-center pl-2">Customer Details</span>
             </h2>
@@ -51,29 +51,48 @@
                             <template #loading> Loading customer order data. Please wait... </template>
                             <!--------------Check Existed Data ----------->
                             <div v-if="customerDetailOrder && customerDetailOrder.length > 0 && customerDetailOrder != ''">
-                                <Column field="order_id" header="Order ID" sortable style="min-width:20rem"></Column>
-                                <Column field="order_id" header="Total" sortable style="min-width:20rem"></Column>
+                                <Column field="id" header="Order ID" sortable style="min-width:20rem">
+                                    <template #body="body">
+                                       <span>
+                                        <router-link :to="`/vendor/order_managements/customer_detail/customer_order/order_detail/${parseInt(body.data?.orderId ?? '')}`">
+                                             {{ body?.data?.orderId }}
+                                        </router-link>
+                                       </span>
+                                    </template>
+                                </Column>
+                                <Column field="id" header="Total" sortable style="min-width:20rem">
+                                    <template #body="body">
+                                        {{ body?.data?.total_price }}
+                                    </template>
+                                </Column>
+                                <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;" header="Actions" bodyStyle="text-align: center; overflow: visible">
+                                    <template #body="{ data }">
+                                        <div class="flex flex-wrap gap-2">
+                                            <Button icon="pi pi-search" outlined rounded class="mr-2" @click.prevent="$router.push(`/vendor/order_managements/customer_detail/customer_order/order_detail/${parseInt(data?.orderId) ?? ''}`)"/>
+                                        </div>
+                                    </template> 
+                                </Column>
                             </div>
-                        
                         </DataTable>
                 </el-card>
             </div>
-            <div class="col-4">
+            <!-- <div class="col-4">
                 <el-card class="box-card">
-                    <div class="px-2 py-2">
-                        <h2 class="flex relative pb-3 text-black text-xl section section-title:before justify-content-start">
-                            <img class="flex align-items-center justify-content-center " src="../../../../src/assets/img/product_icons/customer_icons.jpeg" alt="Image" width="50"/>
-                            <span class="flex align-items-center justify-content-center pl-2">Customer</span>
-                        </h2>
+                    <div class="flex justify-content-between flex flex-wrap gap-3">
+                        <div class="relative text-black text-sm section section-title:before">
+                            <p class="h6">Customer</p>
+                        </div>
+                    </div>
+                    <div class="py-2">
                         <div class="mb-4 d-flex align-items-center gap-2">
-                           <img class="justify" src="../../../../src/assets/img/product_icons/customer_icon_default_order.png" alt="Image" width="50"/>
-                            <div  class="flex-row gap-2">
-                               <span>Devid Jack</span>
+                              <img  src="../../../../src/assets/img/product_icons/customer_icon_default_order.png" class="circle" alt="Image" width="50"/>
+                            <div class="px-2">
+                                {{ customerDetailOrder }}
                             </div>
                         </div>
                     </div>
-                </el-card >
-            </div>
+                </el-card>
+            </div> -->
         </div>
     </div>
 </template>
@@ -85,6 +104,7 @@
     export default{
         data(){
             return{
+                customerDetailOrder: [],
                 filters: {
                     'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
                 }
@@ -94,9 +114,10 @@
             this.customerServicesMS = new CustomerServices();
         },
         mounted() {
-            this.customerServicesMS.getCustomerListDetailByOrder().then((data) => {
+            const customerOrderID = this.$route.params.customerId ?? '';
+            this.customerServicesMS.getCustomerListDetailByOrder(customerOrderID).then((data) => {
                 if (!data) {
-                     this.customerDetailOrder = [];
+                    this.customerDetailOrder = [];
                 }
                 this.customerDetailOrder = Array.isArray(data) ? data.slice() : [];
             });

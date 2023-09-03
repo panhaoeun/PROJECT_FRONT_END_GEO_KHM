@@ -169,7 +169,7 @@ export default {
             this.proCategoryService.editedProCategory(id)
                 .then((data) => {
                     try {
-                        const { catNameEn, catNameKh, catLogo }= data.data.data;
+                        const { catNameEn, catNameKh, catLogo }= data.data?.data;
                         this.dataCatEditUpdated = data.data.data;
                         this.dataCatEdit.catNameEn = catNameEn;
                         this.dataCatEdit.catNameKh = catNameKh;

@@ -8,6 +8,7 @@ const defaultChildRoutesOrdersMS = (prefix) => [
         meta: {
             title: "orderProductModule",
             requiresAuth: true,
+            icon: 'cart'
             // permissions: ['orders_report_modules']
         },
         component: () => import('../../views/vendors/order/OrderList.vue'),
@@ -18,6 +19,7 @@ const defaultChildRoutesOrdersMS = (prefix) => [
         meta: {
             title: "orderProductModule",
             requiresAuth: true,
+            icon: '',
             // permissions: ['orders_report_modules']
         },
         hidden: true,

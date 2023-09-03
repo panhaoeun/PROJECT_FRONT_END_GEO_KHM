@@ -10,6 +10,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         meta: {
             title: "customerMS",
             requiresAuth: true,
+            icon: 'userGroup',
             permissions: ['customers_module']
         },
         component: () => import("../../views/vendors/customers/ListCustomers.vue"),
@@ -21,6 +22,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
          meta: {
              title: "customerMS",
              requiresAuth: true,
+             icon: 'userGroup',
              permissions: ['customers_module']
          },
          component: () => import("../../views/vendors/customers/ViewDetailCustomers.vue"),
@@ -34,6 +36,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         meta: {
             title: "sellerMS",
             requiresAuth: true,
+            icon:'i',
             permissions: ['sellers_module']
         },
         component: () => import("../../views/vendors/sellers/ListsSeller.vue"),
@@ -47,6 +50,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         meta: {
             title: "usersMS",
             requiresAuth: true,
+            icon: 'user',
             permissions: ['users_modules']
         },
         component: () => import("../../views/administrators/user_managements/users/UsersMSList.vue"),
@@ -81,6 +85,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         name: prefix + '.user_auth_crud_permission',
         meta: {
             title: "permissionMS",
+            icon:'shieldCheck',
             requiresAuth: true
         },
         hidden: true,
@@ -103,7 +108,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         meta: {
             title: "permissionMS",
             requiresAuth: true,
-            icon: 'role',
+            icon: 'shieldCheck',
             permissions: ['permissions_module']
         },
         component: () => import("../../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),

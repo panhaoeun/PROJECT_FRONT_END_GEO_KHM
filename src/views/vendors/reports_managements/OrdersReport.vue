@@ -25,26 +25,31 @@
                             >
                                 <template #value="slotProps">
                                     <div v-if="slotProps.value" class="flex align-items-center">
-                                        <div>{{ slotProps.value?.shop_eng ?? '' }}</div>
+                                        <div class="text-sm">{{ slotProps.value?.shop_eng ?? '' }}</div>
                                     </div>
-                                    <span v-else>
+                                    <span v-else class="text-sm">
                                         {{ slotProps.placeholder }}
                                     </span>
                                 </template>
                                 <template #option="slotProps">
-                                    <div class="flex align-items-center">
-                                        <div>{{ slotProps.option?.shop_eng ?? '' }} ({{ slotProps.option?.venNameEng ?? '' }})</div>
+                                    <div class="flex align-items-center text-sm">
+                                        <div class="text-sm">{{ slotProps.option?.shop_eng ?? '' }} ({{ slotProps.option?.venNameEng ?? '' }})</div>
                                     </div>
                                 </template>
                             </Dropdown>  
                         </div>
                         <div class="col-4 lg:col-6 field">
-                            <label for="name_en" class="text-sm font-semibold">Start Date</label>
-                            <Calendar id="endDateFilter" class="w-full text-sm"   v-model="orderReportListStartFilter" inputId="endDateOrder" showIcon showTime hourFormat="24" />
-                        </div>
-                        <div class="col-4 lg:col-6 field">
-                            <label for="name_en" class="text-sm font-semibold">End Date</label>
-                             <Calendar id="endDateFilter" class="w-full text-sm"  v-model="orderReportListEndFilter" inputId="endDateOrder" showIcon showTime hourFormat="24" />
+                            <label for="name_en" class="text-sm font-semibold">Date Range</label>
+                            <Calendar 
+                                id="endDateFilter" class="w-full text-sm" 
+                                v-model="orderReportListStartFilter"
+                                selectionMode="range" 
+                                :manualInput="false"
+                                inputId="endDateOrder" 
+                                showIcon
+                                hourFormat="24" 
+                                showButtonBar
+                            />
                         </div>
                        <div class="col-12 lg:col-6 field">
                            <Button icon="pi pi-filter" class="btn btn-primary h-3rem w-10rem" label="Filters" />
@@ -60,7 +65,7 @@
                             <!-- Data Tables -->
                             <DataTable 
                               ref="dt" 
-                                :value="ordersReportMSArr" 
+                                :value="sellerOrderReport" 
                                 v-model:selection="selectedCategoriesList"
                                 dataKey="id"
                                 :paginator="true" :rows="10" 
@@ -85,10 +90,10 @@
                                 <!-- Loading Users -->
                                 <template #loading> Loading Orders report data. Please wait... </template>
                                 <!--------------Check Existed Data ----------->
-                                <div v-if="ordersReportMSArr && ordersReportMSArr.length > 0 && ordersReportMSArr != ''">
+                                <div v-if="sellerOrderReport && sellerOrderReport.length > 0 && sellerOrderReport != ''">
                                     <!-- Columns -->
-                                    <Column field="full_latin_name" header="Order ID" sortable style="min-width:20rem"></Column>
-                                    <Column field="user_id" header="Total Amount" sortable style="min-width:20rem"></Column>
+                                    <Column field="orderId" header="Order ID" sortable style="min-width:20rem"></Column>
+                                    <Column field="totalsAmount" header="Total Amount" sortable style="min-width:20rem"></Column>
                                 </div>
                             </DataTable>
                         </div>
@@ -119,12 +124,13 @@
 <!-- Data Tables -->
 <script>
 import { FilterMatchMode } from 'primevue/api';
-import SellerServices from '../../../services/vendors/seller_managements/SellerServices';
+import SellerServices from '../../../services/vendors/reports_managements/OrdersReportService';
 import { ElMessage } from 'element-plus';
+// import covertKHRToUSDExchangeRate from "../../../utils/exchangeMoneyKHRUSD";
 export default {
     data() {
         return {
-            ordersReportMSArr: [],
+            sellerOrderReport: [],
             orderListEndFilter: '',
             selectedAllShop: '',
             orderReportListStartFilter: '',
@@ -135,8 +141,13 @@ export default {
             }
         }
     },
+    computed: {
+        // convertExchangeUSDToRiel(){
+        //     // return covertKHRToUSDExchangeRate(10);
+        // }
+    },
     created() {
-        this.sellersShopServices = new SellerServices();
+        this.sellersShopOrderServices = new SellerServices();
     },
     mounted() {
        this.getSellerShopOptArr();
@@ -147,11 +158,12 @@ export default {
             this.deleteUsersDialog = true;
         },
         async getSellerShopOptArr(){
-            this.sellersShopServices.getListSellerAcc().then((seller) => {
-            if(!Array.isArray(seller)){
+            this.sellersShopOrderServices.getSaleOrderReportList().then((orderReport) => {
+                console.log(orderReport)
+            if(!Array.isArray(orderReport)){
                 ElMessage.error("Not found sellers...");
             }
-            this.getOptSellerShopsArr = Array.isArray(seller) ? seller.slice() : [];
+            this.sellerOrderReport = Array.isArray(orderReport) ? orderReport.slice() : [];
         });
         }
     }

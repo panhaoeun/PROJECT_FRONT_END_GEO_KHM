@@ -94,6 +94,7 @@ import Menu from 'primevue/menu';
 import Tag from 'primevue/tag';
 import TreeTable from 'primevue/treetable';
 import Tree from 'primevue/tree';
+import ProgressSpinner from 'primevue/progressspinner';
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -211,6 +212,7 @@ app.component('ConfirmDialog', ConfirmDialog);
 app.component('file-upload', VueUploadComponent);
 app.component('TreeTable', TreeTable);
 app.component('Tree', Tree);
+app.component('ProgressSpinner', ProgressSpinner);
 /*
     @Front-End Library 
 */

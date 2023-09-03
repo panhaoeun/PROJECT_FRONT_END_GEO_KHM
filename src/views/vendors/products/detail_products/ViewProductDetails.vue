@@ -1,14 +1,14 @@
 <!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
-    <div class="layout-content px-4 py-4">
+    <div class="layout-content px-4 py-4" v-if="productListDetailID.length > 0 && productListDetailID !== '' || productListDetailID !== null">
         <!-- Titles -->
         <div class="flex justify-content-between">
-            <h2 class="flex relative text-black text-xl section section-title:before justify-content-center">
+            <h2 class="flex relative text-black text-xl section section-title:before">
                 <img class="flex align-items-center justify-content-center " src="../../../../../src/assets/img/product_icons/package.png" alt="Image" width="50"/>
-                <span class="flex align-items-center justify-content-center pl-2">Hot Selling Sneakers,</span>
+                <span class="flex align-items-center justify-content-center pl-2">{{ String(productListDetailID?.product_eng) ? productListDetailID?.product_eng : '7 Day' }}</span>
             </h2>
             <el-button class="btn btn-primary text-sm"  type="info" size="large" @click="$router.push('/vendor/products/list')">
-                <div class="flex justify-between pl-2" v-permission="[{functionName: 'categories_module', moduleName: 'fun_create'}]">
+                <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
                     <span class="pl-2">Back</span>
                 </div>
@@ -25,16 +25,31 @@
                                 <b-col cols="5" class="md:col-5 col-8">
                                     <div class="col-md-auto mb-3 mb-md-0">
                                         <div class="d-flex align-items-center">
-                                            <img 
-                                                    class="avatar w-5 h-12rem mr-4" 
-                                                    src="https://6valley.6amtech.com/storage/app/public/product/thumbnail/2023-06-13-64882d3231ad8.png" 
-                                            alt="Image Description">
-                                            <div class="d-block">
+                                            <!-- Product Thumbnail -->
+                                            <template  v-if="productListDetailID?.product_picture !== '' 
+                                                    || productListDetailID?.product_picture 
+                                                    !== null && productListDetailID?.product_picture !== undefined">
+                                                    <img 
+                                                    
+                                                        class="avatar w-2 h-10rem mr-4" 
+                                                    :src="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${productListDetailID?.product_picture}`" 
+                                                        :alt="productListDetailID?.product_eng ?? '7Day'"
+                                                    />
+                                            </template>
+                                          <template v-else>
+                                                    <img 
+                                                    
+                                                    class="avatar w-2 h-10rem mr-4" 
+                                                    src="../../../../../src/assets/img/product_icons/package.png" 
+                                                :alt="productListDetailID?.product_eng ?? '7Day'"/>
+                                          </template>
+                                           
+                                            <!-- <div class="d-block">
                                                 <h4 class="display-2 text-dark mb-0">0</h4>
                                                 <p> Of 0 Reviews
                                                     <span class="badge badge-soft-dark badge-pill ml-1"></span>
                                                 </p>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </b-col>
@@ -47,28 +62,29 @@
                             <b-row>
                                 <b-col cols="4" col-lg="5" class="flex-column gap-1 d-flex">
                                     <div class="flex-start">
-                                        <h5 class="">Crossbody Shoulder Bag Soft Leather Bag Female Fashion</h5>
+                                        <h5 class="">{{ String(productListDetailID?.product_eng) ? productListDetailID?.product_eng : '7 Day' }}</h5>
                                     </div>
                                     <div class="flex-start">
-                                        <span>Price : </span>
-                                        <span class="mx-1">$500.00</span>
-                                    </div>
-                                    <div class="flex-start">
-                                     <span>TAX : </span>
-                                     <span class="mx-1">5% (Exclude)</span>
+                                        <span class="font-bold">Price : </span>
+                                        <span class="mx-1">{{ parseFloat(productListDetailID?.product_unit_price) ?? 0 }}</span>
                                     </div>
                                 </b-col>
                                 <b-col cols="8" col-lg="7" class="gap-1 d-flex border-lg-left">
                                     <div>
                                         <div class="mb-2">Product Image</div>
-                                            <div class="row g-2">
-                                                <div class="col-6 col-md-4 col-lg-3">
-                                                    <div class="card">
+                                        <div class="row g-2">
+                                            <template  v-if="productImageListID.length > 0 && productImageListID !== '' || productImageListID !== null || productImageListID !== undefined">
+                                                <div class="col-6 col-md-4 col-lg-3" v-for="(image, index) in productImageListID" :key="index">
+                                                    <div class="card" v-if="image?.fileName !== undefined || image?.fileName !== '' || image?.fileName !== null">
                                                         <div class="card-body">
-                                                            <img class="width-100" src="https://6valley.6amtech.com/storage/app/public/product/2022-04-13-62566ecb46b07.png" alt="Product image">
+                                                            <img class="w-10" :src="`${ENV_HOST_PATH_FILE}uploads/products_img/list_img_products/${image?.fileName ?? ''}`"  alt="Product image">
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </template>
+                                            <template v-else>
+                                                 <el-empty :image-size="200" description="No product image" />
+                                            </template>
                                         </div>
                                     </div>
                                 </b-col>
@@ -76,7 +92,7 @@
                         </b-container>
                     </el-card>
                     <!-- Review  Product by customers -->
-                    <el-card class="box-card">
+                    <!-- <el-card class="box-card">
                        <table class="table">
                             <thead>
                                <tr>
@@ -86,64 +102,55 @@
                                </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex align-items-center justify-content-center">
-                                                <Avatar image="https://w7.pngwing.com/pngs/213/907/png-transparent-editing-picsart-studio-others-blue-hand-girl.png" style="width: 50px; height: 50px" class="mr-2" shape="circle"/>
-                                            </div>
-                                            <div class="ml-3ow">
-                                                <span class="d-block h5 text-hover-primary mb-0">TAX : </span>
-                                                <span class="d-block font-size-sm text-body">5% (Exclude)</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="flex flex-column justify-content-center text-sm">
-                                            <el-rate
-                                                v-model="customerRatingModel"
-                                                disabled
-                                                class="text-sm"
-                                                show-score
-                                                size="small"
-                                                text-color="#ff9900"
-                                                score-template="{value} points"
-                                            />
-                                            <!--Product Review-->
-                                            <b-container>
-                                                <b-row>
-                                                    <b-col col="4">
-                                                        <img 
-                                                                class="w-3rem h-3rem" 
-                                                                src="https://6valley.6amtech.com/storage/app/public/product/thumbnail/2023-06-13-64882d3231ad8.png" 
-                                                        alt="Image Description">
-                                                    </b-col>                                                                                                        
-                                                </b-row>
-                                            </b-container>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ Date('YYY-MM-DD') }}
-                                    </td>
-                                </tr>
+                               <Empty/>
                             </tbody>
                        </table>
-                       <!-- Empty Data To Show -->
                        <el-empty :image-size="200" description="No data to show" />
-                    </el-card>
+                    </el-card> -->
             </div>
         </div>
+    </div>
+    <div v-else>
+        <el-empty :image-size="500" description="No data to show" />
     </div>
 </template>
 
 
 <!-- Data Tables -->
 <script>
+    import ProductServices from "../../../../services/vendors/products/ProductServices";
     export default {
         data(){
             return {
+                ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE,
                 customerRatingModel: 3.7,
-                mainProps: { width: 200, height: 200, class: 'm1' }
+                mainProps: { width: 200, height: 200, class: 'm1' },
+                productListDetailID: [],
+                productImageListID: []
+            }
+        },
+        created(){
+            this.productServiceClass = new ProductServices();
+            this.getViewProductDetails();
+        },
+        methods: {
+            async getViewProductDetails() {
+                const productId = this.$route.params?.proId ?? '';
+                // Product Services
+                this.productServiceClass.productDetailByID(productId).then((product) => {
+                    if (product.data.success) {
+                        if (!Array.isArray(product.data.result?.resultStatus) || !product.data.result?.resultStatus.length > 0) {
+                            this.productListDetailID = [];
+                            this.productImageListID = [];
+                        }
+                        if (!Array.isArray(product.data.result?.resultStatus) || product.data.result?.resultStatus !== undefined || product.data.result?.resultStatus !== null) {
+                            this.productListDetailID = product.data.result?.resultStatus?.products;
+                            this.productImageListID = product.data.result?.resultStatus?.imgList;
+                        }
+                    }
+                }).catch((error) => {
+                    this.$toast.add({ severity: 'error', summary: 'Error Message', detail: error, life: 3000 });
+                })
             }
         }
     }

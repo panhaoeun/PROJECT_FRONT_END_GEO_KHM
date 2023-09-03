@@ -30,6 +30,7 @@ export default class UserPermissionsModuleMSServices {
    }
    // Update Module Permissions
    async updateSavePermissionModulePermId(updateSavePerm) {
+    // console.log(updateSavePerm)
        return httpAccessJson.put('/authentication/permission_modules/updated_module/role_permission_by_id', updateSavePerm);
    }
     /**

@@ -71,7 +71,6 @@ import {useInfiniteQuery} from "@tanstack/vue-query";
         try{
             await productServicesMS.getCustomerProductsData(pageParam)
                 .then(async(proResult) => {
-                    console.log(proResult)
                     if(!Array.isArray(proResult) || !proResult.length > 0){
                         totalPage.value = [];
                         productMoreLove.value = [];
@@ -82,7 +81,6 @@ import {useInfiniteQuery} from "@tanstack/vue-query";
             );
             // sent the cursor/page value and the results
             // set max to 3 pages of data
-            console.log(productMoreLove.value)
             return {
                 pageData: productMoreLove.value ?? [],
                 cursor: pageParam === 3 ? undefined : pageParam + 1,

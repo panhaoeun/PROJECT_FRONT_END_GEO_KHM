@@ -22,20 +22,20 @@ export default class CustomerServicesBaseAdmin {
                 ElMessage.error(error);
             });
     }
-    async getCustomerListDetailByOrder(data) {
-        return await http.get("/vendors/users_management/emp_dependents/admin/customer_data/list", {
+    async getCustomerListDetailByOrder(customerID,data) {
+        return await http.get(`/vendors/users_management/customer_detail/customer_order_detail/${customerID ?? ''}`, {
                 headers: authHeader()
             }, data)
             .then((result) => {
                 if (result.status == 201) {
                     if (result.data.success == true) {
-                        //  console.log(result.data.result.resultStatus)
                         return result.data.result.resultStatus;
                     }
                 }
             })
             .catch((error) => {
                 ElMessage.error(error);
+                return false;
             });
     }
 }

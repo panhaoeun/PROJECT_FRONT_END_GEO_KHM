@@ -17,7 +17,7 @@ const store = createStore({
         id: null,
         name: [],
         shareOffcanvas: false,
-        user: null,
+        userAuth: null,
         language: getLanguage()
     },
     getters: {
@@ -26,8 +26,8 @@ const store = createStore({
     },
     mutations: {
         loginUser(state, payload) {
-            console.log(state.user)
-            state.user = payload;
+            
+            state.userAuth = payload;
         },
         openBottomCanvasCommit(state, payload) {
             state[payload.name] = payload.value

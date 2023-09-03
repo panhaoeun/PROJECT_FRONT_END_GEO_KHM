@@ -18,42 +18,43 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <div class="product-details-tab">
-                        <div class="pro-dec-big-img-slider">
+                        <div class="pro-dec-big-img-slider slick-initialized slick-slider">
                             <div class="easyzoom-style">
-                                <div class="easyzoom easyzoom--overlay" v-if="productThumbnailRULFormate && productThumbnailRULFormate!== null">
-                                    <a href="#">
-                                        <img 
-                                            :src="productThumbnailRULFormate ?? ''" 
-                                            :aria-atomic="title"
-                                        >
-                                    </a>
+                                <!-- Thumbnail Image -->
+                                <div class="easyzoom easyzoom--overlay">
+                                    <!-- Thumbnail -->
+                                    <template  v-if="activeImage == ''">
+                                        <a href="#">
+                                            <img 
+                                                :src="productThumbnailRULFormate ?? ''" 
+                                                :aria-atomic="title"
+                                                class="main-img"
+                                            >
+                                        </a>
+                                    </template>
+                                    <!-- Change Thumbnail -->
+                                    <template v-if="activeImage !==''" >
+                                            <img 
+                                                :src="productMultiImgURLFormate(activeImage)" 
+                                                class="main-img" />
+                                    </template>
                                 </div>
-                                <!-- Empty Thumbnail -->
-                                <EmptyThumbnail v-else/>
-                                <!-- Image Popup expandable -->
-                                <a 
-                                    data-mfp-src="image-for-popup.jpg"
-                                    class="easyzoom-pop-up img-popup" 
-                                    href="../../../../assets/img/product/b-large-1.jpg"
-                                >
-                                    <i class="icon-size-fullscreen"></i>
-                                </a>
                             </div>
                         </div>
-                        <!-- Product Multiple Image -->
-                        <!-- {{ productImgMulti }} -->
-                        <div class="product-dec-slider-small product-dec-small-style1" 
-                            v-for="multiImg in productImgMulti.slice(0, 4)" 
-                            :key="multiImg"
-                        >        
-                            <div class="product-dec-small"
-                               v-for="(image,index) in multiImg" :key="index"
-                            >
-                                <img 
-                                    v-on:mouseover="setActiveImageThumbnail(index)"
+                        <!-- Cart Item -> Product Detail Image -->
+                        <div class="cart-item">
+                            <div class="image-section" 
+                                v-for="multiImg in productImgMulti.slice(0, 4)" 
+                                :key="multiImg">
+                            <div class="img-thumbnails">
+                                <img
+                                    v-for="(image, index) in multiImg"
+                                    :key="index"
                                     :src="productMultiImgURLFormate(image?.fileName)"
-                                    :alt="image?.fileName"
+                                    class="thumbnail"
+                                    @click="setActiveImage(index)"
                                 />
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -78,12 +79,12 @@
                         <!-- Product Spec -->
                         <div class="pro-details-size" v-if="productSpec">
                             {{ productSpec }}
-                            <!-- <span>Size:</span>
+                            <span>Size:</span>
                             <div class="pro-details-size-content">
                                 <ul>
                                     <li><a href="#">XS</a></li>
                                 </ul>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="pro-details-quality">
                             <span>Quantity:</span>
@@ -115,12 +116,12 @@
 </template>
 <!-- Script -->
 <script>
-    import EmptyThumbnail from "../../../../components/error_page/EmptyThumbnail.vue";
+    // import EmptyThumbnail from "../../../../components/error_page/EmptyThumbnail.vue";
     import { mapActions, mapState } from "vuex";
     import $ from "jquery";
     export default {
         components: {
-            EmptyThumbnail
+            // EmptyThumbnail
         },
         props: {
             title: {type: String},
@@ -131,7 +132,7 @@
             productRating: {type: Number},
             productUnitPrice: {type: Number},
             categories: {type: String},
-            productArrDetail: {type: Array,default: Array.isArray() ?? []}
+            productArrDetail: {type: Array,default: Array.isArray() ?? ''}
         },
         data(){
             return{
@@ -139,7 +140,8 @@
                 activeImageThumbnail: this.productThumbnail,
                 ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http"),
                 multipleImgPATH: '',
-                quantityItemOrder: 1
+                quantityItemOrder: 1,
+                activeImage: ''
             }
         },
         created(){
@@ -147,6 +149,12 @@
         },  
         methods: {
             ...mapActions('cart',["addToCart"]),
+            setActiveImage(image) {
+                const proxy = new Proxy(this.productImgMulti, {});
+                const arrayImg = JSON.parse(JSON.stringify(proxy));
+                // this.activeImage = String(arrayImg[0][image]) ?? [];
+                this.activeImage = arrayImg[0][image].fileName;
+            },
             /**
              * Add TO CART
              * BUY IT NOW 
@@ -167,11 +175,6 @@
              * */ 
             productMultiImgURLFormate(filePath){ 
                 return this.ENV_HOST_PATH_FILE + `uploads/products_img/list_img_products/` + String(filePath);
-            },
-            setActiveImageThumbnail(index){
-                const proxy = new Proxy(this.productImgMulti, {});
-                const arrayImg = JSON.parse(JSON.stringify(proxy));
-                console.log( String(arrayImg[0][index].fileName) ?? []);
             },
             productDesSliderSmall(){
                 $(document).ready(function() {
@@ -207,49 +210,6 @@
                         $button.parent().find("input").val(newVal);
                     });
                     
-                    /*-------------------------------------
-                    Product details big image slider
-                    ---------------------------------------*/
-                    $('.pro-dec-big-img-slider').slick({
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        arrows: false,
-                        draggable: false,
-                        fade: false,
-                        asNavFor: '.product-dec-slider-small',
-                    });
-                    /*---------------------------------------
-                        Product details small image slider
-                    -----------------------------------------*/
-                    $('.product-dec-slider-small').slick({
-                        slidesToShow: 4,
-                        slidesToScroll: 1,
-                        asNavFor: '.pro-dec-big-img-slider',
-                        dots: false,
-                        focusOnSelect: true,
-                        fade: false,
-                        prevArrow: '<span class="pro-dec-prev"><i class="icon-arrow-left"></i></span>',
-                        nextArrow: '<span class="pro-dec-next"><i class="icon-arrow-right"></i></span>',
-                        responsive: [{
-                                breakpoint: 991,
-                                settings: {
-                                    slidesToShow: 3,
-                                }
-                            },
-                            {
-                                breakpoint: 767,
-                                settings: {
-                                    slidesToShow: 4,
-                                }
-                            },
-                            {
-                                breakpoint: 575,
-                                settings: {
-                                    slidesToShow: 2,
-                                }
-                            }
-                        ]
-                    });
                 });
             },
             /**
@@ -265,3 +225,118 @@
         } 
     }
   </script>
+
+<!-- Style Cart Item -->
+<style scoped>
+.cart-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 5rem;
+    padding-bottom: 2rem;
+    margin-top: 10px;
+}
+
+.image-section {
+    width: 47%;
+}
+
+.image-section,
+.product-details {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#back {
+    padding: 1rem 1.8rem;
+    font-size: 2rem;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    background-color: var(--dark-blue);
+    transition: opacity 0.25s;
+    display: grid;
+    place-content: center;
+    width: fit-content;
+}
+
+#back:hover {
+    opacity: 0.85;
+}
+
+.main-img {
+    height: 55vh;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.img-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    padding-top: 1rem;
+    width: 100%;
+}
+
+.img-thumbnails .thumbnail {
+    height: auto;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.img-thumbnails .thumbnail:hover {
+    opacity: 0.7;
+}
+
+/* Product Details */
+.product-details {
+    width: 60%;
+    padding-block: 2.5rem;
+}
+
+.product-details span {
+    font-size: 1.4rem;
+}
+
+.product-details h4 {
+    padding: 1.5rem 0 1rem 0;
+}
+
+.product-details select {
+    max-width: 120px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.extra {
+    padding-block: 4.5rem;
+    text-align: center;
+}
+
+.product-description {
+    line-height: 2.5rem;
+}
+
+@media (max-width: 599px) {
+    .cart-item {
+        flex-direction: column;
+    }
+    .image-section,
+    .product-details {
+        width: 100%;
+    }
+
+    .image-section {
+        padding-top: 2rem;
+    }
+    .image-section a {
+        top: -2rem;
+        left: 0;
+    }
+}
+</style>
