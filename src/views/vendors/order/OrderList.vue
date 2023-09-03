@@ -265,7 +265,6 @@ export default {
            try{         
                 const cusMSServices = new CustomerOrderMSServices();
                 cusMSServices.getViewCustomerOrder(fromDate,toDate).then((data) => {
-                    console.log(data)
                     if (!data) {
                         this.ordersListArr = [];
                     }

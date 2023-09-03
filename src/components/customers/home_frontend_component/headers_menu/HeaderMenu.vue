@@ -83,8 +83,7 @@
                                                     <li>
                                                         <ul>
                                                             <li>
-                                                                <a class="dropdown-title" href="#">Shop Layout</a>
-                                                                <ul>
+                                                                <a class="dropdown-title" href="#">Shop Layout</a>                                                                                                                               <ul>
                                                                     <li><a href="shop.html">standard style</a></li>
                                                                     <li><a href="shop-list.html">shop list style</a></li>
                                                                     <li><a href="shop-fullwide.html">shop fullwide</a></li>
@@ -97,19 +96,13 @@
                                                             <li>
                                                                 <a href="#"><img src="../../../../assets/img/product/banner-12.png" alt=""></a>
                                                             </li>
-                                                             <li>
-                                                                <a href="#"><img src="../../../../assets/img/product/banner-12.png" alt=""></a>
-                                                            </li>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="blog.html">BLOG </a>
+                                            <li><a href="/">BECOME SELLER </a>
                                                 <ul class="sub-menu-style">
-                                                    <li><a href="blog.html">blog standard </a></li>
-                                                    <li><a href="blog-no-sidebar.html">blog no sidebar </a></li>
-                                                    <li><a href="blog-right-sidebar.html">blog right sidebar</a></li>
-                                                    <li><a href="blog-details.html">blog details</a></li>
+                                                    <li><router-link to="/auth/login">Seller Login </router-link></li>
                                                 </ul>
                                             </li>
                                             <li><router-link to="/customer/admin_contact_info/contact_info">CONTACT </router-link></li>
@@ -133,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="same-style-2 same-style-2-font-inc">
-                                        <a href="login-register.html"><i class="icon-user"></i></a>
+                                        <router-link to="/auth/login"><i class="icon-user"></i></router-link>
                                     </div>
                                     <div class="same-style-2 same-style-2-font-inc">
                                         <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count black">03</span></a>

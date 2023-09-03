@@ -37,6 +37,7 @@ const mutations = {
   addToCart: (state, payload) => {
     const product = state.products.find(item => item.id === payload.id)
     const cartItems = state.cart.find(item => item.id === payload.id)
+    console.log(cartItems)
     const qty = payload.quantity ? payload.quantity : 1
     if (cartItems) {
       cartItems.quantity = qty
@@ -46,7 +47,7 @@ const mutations = {
         quantity: qty
       })
     }
-    product.stock--
+    // product.stock--
   },
   updateCartQuantity: (state, payload) => {
     // Calculate Product Stock Counts

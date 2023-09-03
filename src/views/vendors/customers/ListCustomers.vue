@@ -61,13 +61,13 @@
                                             <Tag :value="slotProps?.data.status" />
                                         </template>
                                     </Column>
-                                    <Column field="category" header="Block/Unblock" style="min-width:10rem">
+                                    <!-- <Column field="category" header="Block/Unblock" style="min-width:10rem">
                                         <template #body>
                                             <div class="font-bold">
                                                 <el-switch v-model="statusUserSwitch" />
                                             </div>
                                         </template>
-                                    </Column>
+                                    </Column> -->
                                     <Column :exportable="false" header="Options" style="min-width:8rem">
                                         <template #body="slotProps">
                                             <Button icon="pi pi-eye" outlined rounded class="mr-2"

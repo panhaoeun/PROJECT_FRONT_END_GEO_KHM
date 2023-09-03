@@ -682,7 +682,7 @@
                         if(this.v$.$invalid === true){
                             const dataPro = {
                                 proCategoryID: this.selectedProSubCat?.catID,
-                                proImgListID: Math.floor(Math.random() * 10) + this.selectedProSubCat?.catID,
+                                proImgListID: Math.floor(Math.random() * 10) + this.selectedProSubCat?.catID ?? 1,
                                 proNameEng: this.proNameEn,
                                 proNameKh: this.proNameKh,
                                 proCode: this.proCode,

@@ -1,7 +1,7 @@
 <template>
    <div class="bg-white">
         <!-- Product Details -->
-        <template v-if="productDetailResultArr">  
+        <template v-if="productDetailResultArr && productDetailResultArr !== ''">  
             <ProductOverview
             :title="String(productDetailResultArr[0]?.product[0].product_eng) ?? ''"
             :productThumbnail="String(productDetailResultArr[0]?.product[0].thumbnail) ?? ''"
@@ -10,12 +10,15 @@
             :productQty="Number((parseInt(productDetailResultArr[0]?.product[0].product_qty ?? 0)))"
             :productUnitPrice="Number((parseFloat(productDetailResultArr[0]?.product[0].product_unit_price)))"
             :categories="String(productDetailResultArr[0]?.product[0].catNameEn) ?? ''"
-            :productArrDetail="Array(productDetailResultArr[0].product) ?? []"
+            :productArrDetail="Array(productDetailResultArr[0] ?? '') ?? []"
             />
             <!-- Details of company or vendor show about their product -->
             <ProductsDescription :productDescEng="productDetailResultArr[0]?.product[0].product_description_eng"/>
             <!-- Relaid More Product -->
-            <StoreProductDetail/>
+            <!-- <StoreProductDetail/> -->
+        </template>
+        <template v-else>
+                <p>Product Not Found</p>
         </template>
    </div>
 </template>
@@ -25,13 +28,13 @@
     import ProductServices from '../../../../services/vendors/products/ProductServices'; 
     import ProductsDescription from "./product_description/ProductDetailDescription.vue";
     import ProductOverview from './ProductOverview.vue';
-    import StoreProductDetail from './StoreProductDetail.vue';
+    // import StoreProductDetail from './StoreProductDetail.vue';
     import { ElMessage } from "element-plus";
     export default{
         components: {
             ProductOverview,
             ProductsDescription,
-            StoreProductDetail,
+            // StoreProductDetail,
         }, 
         data() {
             return {
