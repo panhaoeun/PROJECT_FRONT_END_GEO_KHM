@@ -1,6 +1,13 @@
 export default {
     route: {
         search: 'Search...',
+        option: "Options",
+        select: "Select",
+        a: 'a',
+        sub: 'sub',
+        status: "Status",
+        action: 'Actions',
+        addNew: "Add New",
         routeGeneralInfo: 'General Information',
         routeBack: 'Back',
         routeCancel: 'Cancel',
@@ -14,7 +21,7 @@ export default {
         proSubCategories: 'Sub Categories',
         proCategories: 'Categories',
         proProductMS: 'Products',
-        userMSModule:'User Managements',
+        userMSModule: 'User Managements',
         customerMS: 'Customers',
         sellerMS: 'Sellers',
         usersMS: 'Users',
@@ -39,7 +46,30 @@ export default {
         elementUi: 'Element UI',
         administrator: 'Administrator',
         users: 'Users',
+      
         userProfile: 'User Profile',
+    },
+    userinfo: {
+        generalInfo:"General Information",
+        editUser: "Edit User",
+        khmerName:"Khmer name",
+        englishName:"English Name",
+        sellerInfo: "Seller Info",
+        firstName: "First Name",
+        lastName: "Last Name",
+        fullNameInKhmer: "Full Name In Khmer",
+        fullNameInEn: "Full Name In Latin",
+        phone: "Phone",
+        email: "Email",
+        role:"Role",
+        profileImage:"Profile Image",
+        password: "Password",
+        confirmPassword: "Confirm Password",
+        address1: 'Address line 1',
+        address2: 'Address line 2',
+        shopName: "Shop Name",
+        description: "Description",
+        city: "City/Town",
     },
     navbar: {
         logOut: 'Log Out',
@@ -185,4 +215,44 @@ export default {
             visitor: 'Visitor. Have access to static pages, should not have any writable permission',
         },
     },
+    order: {
+        allOrder: "All Order",
+        showData: "Show Data",
+    },
+
+    message: {
+        noHaveData: "No have data !",
+        dataLoading: "Data is loading..."
+    },
+    category: {
+        categoryList: "Categories List",
+        addCategory: "Add Category",
+        categoryImage: "Category Image",
+        category: 'Category',
+        // sub category
+        subGategoryList: "Sub Gategories List",
+        subGategoryName: "Sub gategory name",
+        selectCategory: "Select categories",
+        updateSubCategory: "Update Sub Category",
+
+
+    },
+
+    product: {
+        productList: "Product List",
+        productName: "Product Name",
+        purchasePrice: "Phurchase Price",
+        qty: "Quantity",
+        loadingProduct: "fetching products..."
+    },
+    customer: {
+        customerList: "Customer List",
+        customerNotFound: 'Customer not found',
+
+    },
+    seller: {
+        sellerList: "Seller List",
+        shopName: "Shop Name",
+        author: "Author",
+    }
 };

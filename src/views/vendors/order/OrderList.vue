@@ -3,11 +3,11 @@
     <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between px-4 py-4">
-            <h2 class="relative text-black text-xl section section-title:before ">All Order</h2>
+            <h2 class="relative text-black text-xl section section-title:before ">{{ $t('order.allOrder') }}</h2>
         </div>
         <div class="gird">
             <div class="col-12">
-                <el-card slot="header" class="box-card">
+                <el-card  class="box-card">
                     <!-- Hidden -->
                     <input hidden  v-model="orderListArrComputed"/>
                     <!-- From Date to End Date -->
@@ -41,7 +41,7 @@
                                 <small v-if="(v$.orderListEndFilter.$invalid && isSearchLoading) || v$.orderListEndFilter.$pending.$response" class="p-error">{{v$.orderListEndFilter.required.$message.replace('Value', 'Please Select End Date')}}</small>
                             </div>
                             <div class="flex-auto p-float-label text-sm flex align-items-center justify-content-center">
-                                <Button icon="pi pi-search" class="text-sm btn btn-primary h-3rem w-10rem pl-3" :loading="isSearchLoading" @click.prevent="filterOrderItemByDateRange(!v$.$invalid)" label="Show Data" />
+                                <Button icon="pi pi-search" class="text-sm btn btn-primary h-3rem w-10rem pl-3" :loading="isSearchLoading" @click.prevent="filterOrderItemByDateRange(!v$.$invalid)" :label="$t('order.showData')" />
                             </div>
                         </div>
                     </div>
@@ -73,14 +73,14 @@
                                             </h4>
                                             <span class="p-input-icon-left">
                                                 <i class="pi pi-search" />
-                                                <InputText v-model="filters['global'].value" placeholder="Search..." />
+                                                <InputText v-model="filters['global'].value" :placeholder="$t('route.search')" />
                                             </span>
                                         </div>
                                     </template>
                                     <!-- Empty Users -->
-                                    <template #empty> No Order found... </template>
+                                    <template #empty> {{ $t('message.noHaveData') }}</template>
                                     <!-- Loading Users -->
-                                    <template #loading> Loading Order data. Please wait... </template>
+                                    <template #loading> {{ $t('message.dataLoading') }}</template>
                                     <!--------------Check Existed Data ----------->
                                     <template v-if="ordersListArr && ordersListArr.length > 0 && ordersListArr != ''">
                                         <!-- Columns -->

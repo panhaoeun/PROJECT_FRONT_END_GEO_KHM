@@ -2,7 +2,7 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-            <h2 class="relative text-black section section-title:before text-md">Update Sub Category</h2>
+            <h2 class="relative text-black section section-title:before text-md">{{ $t('category.updateSubCategory') }}</h2>
             <el-button class="btn btn-primary"  type="info" size="large" @click.prevent="$router.push('/vendor/products/sub-category/list')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left text-sm" style="font-size: 1rem"></i>
@@ -28,7 +28,7 @@
                                 <!-- Form Layouts -->
                                 <div class="grid formgrid">
                                      <div class="col-6 field">
-                                            <label for="name_en" class="text-sm">Category<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">{{ $t('category.category') }}<span class="p-error">*</span></label>
                                             <div class="p-3 border border-round-lg text-sm">
                                                 {{ getCurrentCategorySelect }} {{ getCurrentCategorySelect }}
                                             </div>
@@ -36,7 +36,7 @@
                                     <div class="col-6 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Category Name (Eng)<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">{{$t('category.category')}} Name (Eng)<span class="p-error">*</span></label>
                                             <InputText id="product_name" placeholder="Name" type="text" class="py-3 text-sm border-round-lg"
                                                 v-model="dataSubCatEdit.catNameEn"/>
                                         </div>
