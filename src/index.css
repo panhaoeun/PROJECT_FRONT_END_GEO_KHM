@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /* Customize classes */
+    .my_button {
+        @apply bg-blue-600 text-white font-medium hover:bg-blue-400  px-3 py-1.5 m-2 rounded-md;
+    }
+
+    /* Animation class */
+    .my_animation {
+        animation: top_to_bottom 1s ease-out;
+    }
+
+    @keyframes top_to_bottom {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateX(0%);
+            opacity: 1;
+        }
+    }
+}

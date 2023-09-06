@@ -1,9 +1,14 @@
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 /*
    @E-Commerces
    @Library E-Commerces
+
 */
+
+// tailwind css
+import './index.css'
+// 
 import "./assets/commerce_frontend_/css/commerce_frontend.css";
 // Global Font and Icons
 import "./assets/commerce_frontend_/css/icon_font_global.css";
@@ -21,11 +26,11 @@ import VueSidebarMenu from 'vue-sidebar-menu';
 /**
  * Vendor or Administrator use type check permissions 
  * can access to use modules auth sign 
- * */ 
+ * */
 import "./permissions";
 /**
  * Plugin Install on projects
- * * */ 
+ * * */
 
 /* @Prime Vue*/
 import './assets/primeflex.scss';
@@ -241,37 +246,37 @@ app.use(BootstrapVue3);
 /**
  * @Handling Expired Token(Forbidden Requests) 
  * use AxiosJS 
- * */ 
+ * */
 handlingExpiredToken(routes);
 // register global utility filters.
 import * as filters from "./filters";
 Object.keys(filters).forEach(key => {
-   app.config.globalProperties.$filters = filters[key];
+    app.config.globalProperties.$filters = filters[key];
 });
 /*
     @Directive Permissions and roles
-**/ 
+**/
 app.directive("permission", async (el, binding) => {
-    const { value} = binding;
+    const { value } = binding;
     if (value && value instanceof Array && value.length > 0) {
-            const functionName = value[0].functionName;
-            const moduleName = value[0].moduleName;
-            const resultModuleAcc = await store.dispatch('users/permUserCanAccModule', {
-                functionName,
-                moduleName
-            });
-            const permissionModule =  store.getters && store.getters['users/permissionModules'];
-            // console.log(permissionModule)
-            if (!resultModuleAcc){
-                ElMessage.error("Permission of Module Not Found...");
+        const functionName = value[0].functionName;
+        const moduleName = value[0].moduleName;
+        const resultModuleAcc = await store.dispatch('users/permUserCanAccModule', {
+            functionName,
+            moduleName
+        });
+        const permissionModule = store.getters && store.getters['users/permissionModules'];
+        // console.log(permissionModule)
+        if (!resultModuleAcc) {
+            ElMessage.error("Permission of Module Not Found...");
+        }
+        const requiredPermissions = value;
+        const hasPermission = permissionModule.some((permission) => {
+            if (!permission) {
+                return false;
             }
-            const requiredPermissions = value;
-            const hasPermission = permissionModule.some((permission) => {
-                if (!permission){
-                    return false;
-                }
-                return requiredPermissions.push(permission)
-            });
+            return requiredPermissions.push(permission)
+        });
         if (!hasPermission) {
             el.parentNode && el.parentNode.removeChild(el);
         }

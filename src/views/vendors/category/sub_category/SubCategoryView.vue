@@ -55,7 +55,8 @@
                                         </h4>
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />
-                                            <InputText v-model="filters['global'].value" :placeholder="$t('route.search')" />
+                                            <InputText v-model="filters['global'].value"
+                                                :placeholder="$t('route.search')" />
                                         </span>
                                     </div>
                                 </template>
