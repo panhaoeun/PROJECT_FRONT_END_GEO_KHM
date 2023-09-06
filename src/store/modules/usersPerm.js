@@ -142,11 +142,13 @@ const actions = {
             commit('SET_ROLES', []);
             // Remove Token
             Cookies.remove('token');
+            Cookies.remove('tokenJWT');
             localStorage.removeItem('token');
             localStorage.removeItem('expiresIn');
             localStorage.removeItem('user');
             localStorage.removeItem('userId');
             localStorage.removeItem('tokenExpiry');
+            
             resolve();
         });
     },

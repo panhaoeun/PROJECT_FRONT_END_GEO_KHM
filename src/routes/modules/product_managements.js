@@ -86,6 +86,7 @@ const defaultChildRoutesProMS = (prefix) => [
             title: 'Products Create',
             permissions: ['product_module']
         },
+        requiresAuth: true,
         hidden: true,
         component: () => import("../../views/vendors/products/ProductCreate.vue"),
      }, 
@@ -94,6 +95,7 @@ const defaultChildRoutesProMS = (prefix) => [
         name: prefix + '.product_edit',
         component: () => import("../../views/vendors/products/ProductUpdated.vue"),
         hidden: true,
+        requiresAuth: true,
         meta: {
             title: 'Products Update',
             permissions: ['product_module']
@@ -107,6 +109,7 @@ const defaultChildRoutesProMS = (prefix) => [
               title: 'proProductViewDetailMS',
               permissions: ['product_module']
           },
+          requiresAuth: true,
           component: () => import("../../views/vendors/products/detail_products/ViewProductDetails.vue"),
       },
 ]
@@ -122,6 +125,7 @@ const moduleProductManagementRouters = {
         permissions: ['product_managements_modules'],
         template: 'panel'
     },
+    requiresAuth: true,
     children: defaultChildRoutesProMS('defaults')
 }
 export default moduleProductManagementRouters;

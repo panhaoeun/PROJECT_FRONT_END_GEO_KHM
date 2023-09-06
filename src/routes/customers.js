@@ -80,7 +80,7 @@ export default [
           },
           //Contact Info
           {
-              path: '/n',
+              path: '/contact-info',
               name: 'contact-info',
               component: () => import('../components/customers/home_frontend_component/contact_us/ContactInfo.vue'),
           },

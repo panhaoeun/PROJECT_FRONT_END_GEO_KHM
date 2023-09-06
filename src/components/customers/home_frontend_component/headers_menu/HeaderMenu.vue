@@ -8,14 +8,14 @@
                         <div class="col-xl-4 col-lg-3">
                             <div class="header-quick-contect">
                                 <ul>
-                                    <li><i class="icon-phone "></i> +054 8371 65 66</li>
-                                    <li><i class="icon-envelope-open "></i> norda@domain.com</li>
+                                    <li><i class="icon-phone "></i> +016 387 467</li>
+                                    <li><i class="icon-envelope-open "></i> sevenday@gmail.com</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-4">
                             <div class="header-offer-wrap-3 text-center">
-                                <p>Free shipping worldwide for orders over $99 <a href="#">Learn More</a></p>
+                                <!-- <p>Free shipping worldwide for orders over $99 <a href="#">Learn More</a></p> -->
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-5">
@@ -30,7 +30,7 @@
                                         <a href="#"><i class="icon-social-pinterest"></i></a>
                                     </div>
                                 </div>
-                                <div class="hm4-currency-language-wrap same-style-wrap">
+                                <!-- <div class="hm4-currency-language-wrap same-style-wrap">
                                     <div class="same-style same-style-mrg-3 language-wrap">
                                         <a class="language-dropdown-active" href="#">ENG <i class="icon-arrow-down"></i></a>
                                         <div class="language-dropdown">
@@ -51,7 +51,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
             title: "customerMS",
             requiresAuth: true,
             icon: 'userGroup',
-            permissions: ['customers_module']
+            permissions: ['customers_module'],
         },
         component: () => import("../../views/vendors/customers/ListCustomers.vue"),
     },
@@ -122,6 +122,7 @@ const moduleUsersManagementRouters = {
     meta: {
         title: 'userMSModule',
         icon: 'admin',
+        requiresAuth: true,
         // permissions: ['users_management_module'],
         template: 'panel'
     },
