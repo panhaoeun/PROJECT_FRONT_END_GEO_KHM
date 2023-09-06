@@ -32,8 +32,7 @@
                 <!-- Menu List -->
                 <MenuTab />
                 <!-- Data -->
-                <div
-                    class="w-full md:max-h-[calc(100vh-260px)] overflow-y-auto flex flex-col bg-white px-2  rounded-md py-4 justify-start items-start relative">
+                <div class="w-full  flex flex-col bg-white px-2  rounded-md py-4 justify-start items-start relative">
                     <router-view></router-view>
                 </div>
             </div>
