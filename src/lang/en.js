@@ -1,5 +1,6 @@
 export default {
     route: {
+        createDeposit:"Create Deposit",
         search: 'Search...',
         option: "Options",
         select: "Select",

@@ -23,6 +23,21 @@ export default [
                         component: () => import('../views/customers/my_profiles/new_profile/order.vue')
                     },
                     {
+                        path: "/profile/my-wallet",
+                        name: 'account-my-wallet',
+                        component: () => import('../views/customers/my_profiles/new_profile/wallet/MyWallet.vue'),
+                        children: [
+                            {
+                                path: "/profile/my-wallet",
+                                component: () => import('../views/customers/my_profiles/new_profile/wallet/CreateDeposit.vue'),
+                            },
+                            {
+                                path: "/profile/my-wallet/history",
+                                component: () => import('../views/customers/my_profiles/new_profile/wallet/History.vue'),
+                            },
+                        ]
+                    },
+                    {
                         path: "/profile/favorite",
                         name: 'account-favorite',
                         component: () => import('../views/customers/my_profiles/new_profile/Favorite.vue')

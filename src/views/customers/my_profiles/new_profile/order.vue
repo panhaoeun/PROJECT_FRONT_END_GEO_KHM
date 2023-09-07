@@ -1,13 +1,13 @@
 <template>
-    <div class=" flex w-full  sticky top-0 px-4 bg-white z-2  py-2">
+    <div class=" flex w-full  sticky top-0 px-4 bg-white z-2  py-2 re ">
         <span class="text-xl font-bold text-black ">Order</span>
     </div>
-    <div class="w-full  border flex flex-col  p-2 group my-2 hover:bg-green-50 min-w-[400px] " v-for="item in orders"
+    <div class="w-full  relative border-2 rounded-md border-green-500 flex flex-col  p-2 group my-2 hover:bg-green-50  " v-for="item in orders"
         :key="item.id">
-        <div class="flex justify-between w-full relative  overflow-x-auto">
-            <div class="flex mix-w[300px]  gap-4 p-3 justify-start ">
+        <div class="flex flex-wrap w-full   overflow-x-auto">
+            <div class="flex flex-wrap  gap-4 p-3 justify-start ">
                 <div class="" v-for="(img, index) in item.images" :key="index">
-                    <div class="max-w-[100px] h-[150px]">
+                    <div class=" min-w-[100px] max-w-[200px] h-[150px]">
                         <img class="w-full h-full object-cover" :src="img" alt="">
                     </div>
                 </div>
