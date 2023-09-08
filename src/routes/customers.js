@@ -25,10 +25,14 @@ export default [
                     {
                         path: "/profile/my-wallet",
                         name: 'account-my-wallet',
-                        component: () => import('../views/customers/my_profiles/new_profile/wallet/MyWallet.vue'),
+                        component: () => import('../views/customers/my_profiles/new_profile/wallet/Transactions.vue'),
                         children: [
                             {
                                 path: "/profile/my-wallet",
+                                component: () => import('../views/customers/my_profiles/new_profile/wallet/MyWallet.vue'),
+                            },
+                            {
+                                path: "/profile/my-wallet/add-deposit",
                                 component: () => import('../views/customers/my_profiles/new_profile/wallet/CreateDeposit.vue'),
                             },
                             {

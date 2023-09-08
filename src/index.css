@@ -1,14 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@layer base {
+    html {
+        @apply text-purple-700;
+    }
+}
 @layer components {
     /* Customize classes */
     .title_2 {
-        @apply text-gray-900 text-xl font-semibold;
+        @apply text-gray-900 text-xl font-semibold dark:text-white;
     }
-    .title_4{
-        @apply text-gray-800 text-[16px];
+    .default_text{
+        @apply dark:text-gray-100 text-gray-900;
+    }
+    .title_4 {
+        @apply text-gray-800 text-[16px] dark:text-white;
+    }
+    .shadow_default{
+        @apply dark:shadow-md  dark:shadow-blue-200;
+    }
+    .color_default02 {
+        @apply bg-white dark:bg-gray-900 dark:text-gray-100 text-black;
+    }
+    .color_default01 {
+        @apply bg-gray-200 dark:bg-gray-900 dark:text-gray-200 text-black;
     }
     .my_button {
         @apply bg-blue-600 text-white font-medium hover:bg-blue-400  px-3 py-1.5 m-2 rounded-md;

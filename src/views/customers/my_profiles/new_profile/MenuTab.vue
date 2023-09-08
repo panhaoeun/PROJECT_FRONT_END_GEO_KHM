@@ -1,14 +1,14 @@
 <template>
-    <button class="  top-0 right-2 z-20 my_button fixed  block md:hidden" @click="isOpen = !isOpen">Menu</button>
+    <button class="  top-0 right-2 z-20 my_button fixed   block md:hidden" @click="isOpen = !isOpen">Menu</button>
 
-    <div class="min-w-[calc(100vh/3+50px)]  shadow-md md:shadow-none shadow-gray-500  my_animation  w-full md:max-w-sm px-3 py-3  rounded-md bg-white "
+    <div class="min-w-[calc(100vh/3+50px)]  shadow-md   my_animation   w-full md:max-w-sm px-3 py-3  rounded-md color_default02 shadow_default"
         :class="isOpen === true ? ' sticky md:static top-[45px] left-0 z-10 ' : 'hidden md:block'">
 
-        <span class="text-xl font-medium  dark:text-black  text-blue-700 ">Welcome, Senghong</span><br><br>
+        <span class="text-xl font-medium   text-blue-700 ">Welcome, Senghong</span><br><br>
         <router-link :to="item.path"
-            class="hover:bg-gray-200  flex justify-between px-3 py-3 my-1 rounded-md text-black font-medium"
+            class="hover:bg-gray-200  default_text flex justify-between px-3 py-3 my-1 rounded-md  font-medium hover:text-gray-800"
             v-for="(item, index) in accountMenus" :key="index" @click="isOpen = false"
-            :class="{ 'bg-blue-400 text-white': $route.matched[2].path === item.path }">
+            :class="{ 'bg-blue-500 text-white': $route.matched[2].path === item.path }">
             <div class="flex justify-start space-x-2 ">
                 <div v-html="item.icon">
                 </div>

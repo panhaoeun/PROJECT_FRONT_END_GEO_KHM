@@ -12,10 +12,9 @@
                             <input type="radio" :name="option" :value="option" v-model="selected"
                                 @change="handleChange(option)"
                                 class="form-radio w-[20px] h-[20px]  text-blue-600 border-2 border-blue-600">
-                            <label for="" class=" text-gray-800 "
-                                :class="{ 'text-red-800 font-medium': selected === index }">{{
-                                    option
-                                }}</label>
+                            <label for="" class="  " :class="{ 'text-red-800 font-medium': selected === index }">{{
+                                option
+                            }}</label>
                         </div>
                     </div>
                 </div>
@@ -26,8 +25,10 @@
                         <button type="button" @click=" amount > 0 ? amount-- : amount"
                             class=" cursor-pointer h-full items-center focus:border-2  focus:border-green-500 justify-center flex bg-gray-500 rounded-md text-white w-[40px] text-2xl">
                             -</button>
-                        <input type="number" v-model="amount"
-                            class="form-control text-black text-xl outline-none w-full h-full">
+                        <div class="w-full rounded-md ring-1">
+                            <input type="number" v-model="amount"
+                                class=" rounded-md  ring-0 bg-transparent default_text text-xl outline-none w-full h-full">
+                        </div>
                         <button type="button" @click="amount++"
                             class=" cursor-pointer h-full items-center focus:border-2 focus:border-green-500  justify-center flex bg-gray-500 rounded-md text-white w-[40px] text-2xl">
                             +</button>
@@ -38,7 +39,7 @@
                     <label for="date" class="title_4 before:content-['*'] before:text-red-500 before:mr-1">Deposit
                         Date</label>
                     <div class="w-[220px]">
-                        <input type="date" class=" form-control text-gray-900">
+                        <input type="date" class=" color_default02  rounded-md ">
                     </div>
                 </div>
                 <div class="flex w-full flex-col items-center justify-start md:items-start">
@@ -55,7 +56,8 @@
                         </div>
                         <img v-if="imageUrl" :src="imageUrl" class="w-full absolute h-full rounded-md object-fill"
                             alt="Uploaded Image">
-                        <input @change="handleImageUpload" type="file" class=" opacity-0">
+                        <input @change="handleImageUpload" type="file" class=" opacity-0"
+                            accept="image/x-png,image/gif,image/jpeg">
 
 
                     </div>
