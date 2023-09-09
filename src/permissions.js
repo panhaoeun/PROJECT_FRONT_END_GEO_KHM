@@ -3,6 +3,7 @@ import router from "./routes/routes";
 import store from "./store";
 import NProgress from "nprogress";
 import 'nprogress/nprogress.css'; // progress bar style
+import { isLoggedIn } from "./utils/auth/auth";
 // import getPageTitle from '@/utils/getPageTitle';
 // import DefaultLayoutVendor from "./components/layouts/vendors/DefaultLayouts.vue";
 
@@ -14,8 +15,10 @@ const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/']; // n
 router.beforeEach(async (to, from, next) => {
     // start progress bar
     const admin = store.state.users.permissions;
-    if (admin == undefined) {
+    if (!admin) {
         next("/error/401");
+    }else if(admin){
+        next();
     }else{
         next();
     }
@@ -76,13 +79,13 @@ router.beforeEach(async (to, from, next) => {
             NProgress.done();
         }
     }
-})
-router.afterEach((to, from, next) => {
-    document.title = to.meta.title;
-    const admin = store.state.users.permissions;
-    if (!admin) {
-        next("/error/401");
-    } else if (admin) {
+});
+router.beforeEach((to, from, next) => {
+    if (to.meta.allowAnonymous === true && isLoggedIn()) {
+       next({ path: '/' });
+    }else if (!to.meta.allowAnonymous && !isLoggedIn()) {
+        next();
+    }else{
         next();
     }
 });

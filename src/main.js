@@ -1,5 +1,6 @@
 import {createApp} from 'vue'
-import App from './App.vue'
+import App from './App.vue';
+import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
 /*
    @E-Commerces
    @Library E-Commerces
@@ -238,6 +239,9 @@ app.use(ElementPlus, {
     i18n: (key, value) => i18n.t(key, value)
 });
 app.use(BootstrapVue3);
+// Get product cart add to cart
+const cart = CartService.getCart();
+store.commit('cart/SET_CART_ITEMS', cart);
 /**
  * @Handling Expired Token(Forbidden Requests) 
  * use AxiosJS 
@@ -279,5 +283,8 @@ app.directive("permission", async (el, binding) => {
         throw new Error(`Permissions are required! Example: v-permission="['dashboard','view create']"`);
     }
 });
+/*
+    @Remove product item cookie and replace add new to database
+**/
 
 app.mount('#app');

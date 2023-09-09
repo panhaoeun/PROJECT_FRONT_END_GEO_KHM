@@ -30,28 +30,6 @@
                                         <a href="#"><i class="icon-social-pinterest"></i></a>
                                     </div>
                                 </div>
-                                <!-- <div class="hm4-currency-language-wrap same-style-wrap">
-                                    <div class="same-style same-style-mrg-3 language-wrap">
-                                        <a class="language-dropdown-active" href="#">ENG <i class="icon-arrow-down"></i></a>
-                                        <div class="language-dropdown">
-                                            <ul>
-                                                <li><a href="#">English</a></li>
-                                                <li><a href="#">German</a></li>
-                                                <li><a href="#">Spanish</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="same-style same-style-mrg-3 currency-wrap">
-                                        <a class="currency-dropdown-active" href="#"> USD <i class="icon-arrow-down"></i></a>
-                                        <div class="currency-dropdown">
-                                            <ul>
-                                                <li><a href="#">USD</a></li>
-                                                <li><a href="#">EUR</a></li>
-                                                <li><a href="#">BDT</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -61,6 +39,7 @@
                 <div class="container-fluid">
                     <div class="border-bottom-6">
                         <div class="row align-items-center">
+                            {{ get }}
                             <!-- Menu Sidebar Left -->
                             <div class="col-xl-3 col-lg-2">
                                 <div class="logo">
@@ -85,12 +64,6 @@
                                                             <li>
                                                                 <a class="dropdown-title" href="#">Shop Layout</a>                                                                                                                               <ul>
                                                                     <li><a href="shop.html">standard style</a></li>
-                                                                    <li><a href="shop-list.html">shop list style</a></li>
-                                                                    <li><a href="shop-fullwide.html">shop fullwide</a></li>
-                                                                    <li><a href="shop-no-sidebar.html">grid no sidebar</a></li>
-                                                                    <li><a href="shop-list-no-sidebar.html">list no sidebar</a></li>
-                                                                    <li><a href="shop-right-sidebar.html">shop right sidebar</a></li>
-                                                                    <li><a href="store-location.html">store location</a></li>
                                                                 </ul>
                                                             </li>
                                                             <li>
@@ -102,6 +75,7 @@
                                             </li>
                                             <li><a href="/">BECOME SELLER </a>
                                                 <ul class="sub-menu-style">
+                                                    <li><router-link to="/auth/register">Become Seller </router-link></li>
                                                     <li><router-link to="/auth/login">Seller Login </router-link></li>
                                                 </ul>
                                             </li>
@@ -125,18 +99,80 @@
                                             </form>
                                         </div>
                                     </div>
+                                    <!-- Menu Dropdown -->
                                     <div class="same-style-2 same-style-2-font-inc">
-                                        <router-link to="/auth/login"><i class="icon-user"></i></router-link>
-                                    </div>
-                                    <div class="same-style-2 same-style-2-font-inc">
-                                        <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count black">03</span></a>
+                                        <el-dropdown :hide-on-click="false">
+                                            <div class="el-dropdown-link">
+                                                <i class="icon-user" style="font-size: 20px;"></i>         
+                                            </div>
+                                            <!-- Dropdown menu for login successfully-->
+                                            <template #dropdown v-if="isLoggedIn()">
+                                                <el-dropdown-menu>
+                                                    <el-dropdown-item>
+                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/auth/login')">
+                                                            <i class="icon-basket" style="font-size: 15px;"></i>   
+                                                            <p class="font-semibold pl-2">My Order</p>      
+                                                        </div>
+                                                    </el-dropdown-item>
+                                                    <el-dropdown-item>
+                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/auth/register')">
+                                                            <i class="icon-user-follow" style="font-size: 15px;"></i>   
+                                                            <p class="font-semibold pl-2">My Profile</p>      
+                                                        </div>
+                                                    </el-dropdown-item>
+                                                    <!-- Logout -->
+                                                    <el-dropdown-item divided>
+                                                        <div class="flex justify-content-center px-2 py-2" @click="currentCustomerLogout()">
+                                                            <i class="icon-logout" style="font-size: 15px;"></i>   
+                                                            <p class="font-semibold pl-2">Logout</p>      
+                                                        </div>
+                                                    </el-dropdown-item>
+                                                </el-dropdown-menu>
+                                            </template>
+                                            <!-- Login first -> Return Login or Register Account -->
+                                            <template #dropdown v-else>
+                                                <el-dropdown-menu>
+                                                    <el-dropdown-item>
+                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/auth/login')">
+                                                            <i class="icon-login" style="font-size: 15px;"></i>   
+                                                            <p class="font-semibold pl-2">Sing In</p>      
+                                                        </div>
+                                                    </el-dropdown-item>
+                                                    <el-dropdown-item>
+                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/auth/register')">
+                                                            <i class="icon-lock" style="font-size: 15px;"></i>   
+                                                            <p class="font-semibold pl-2">Sing up</p>      
+                                                        </div>
+                                                    </el-dropdown-item>
+                                                </el-dropdown-menu>
+                                            </template>
+                                        </el-dropdown>    
                                     </div>
                                     <div class="same-style-2 same-style-2-font-inc header-cart">
-                                        <router-link class="cart-active" to="/customer/shopping-cart/product-list/cart-items">
-                                            <i class="icon-basket-loaded"></i><span class="pro-count black">02</span>
-                                        </router-link>
+                                       <!-- Item of cart -->
+                                       <template v-if="isLoggedIn()">
+                                            <router-link class="cart-active" to="/customer/shopping-cart/product-list/cart-items">
+                                                <i class="icon-basket-loaded"></i>
+                                                <span class="pro-count black">0</span>
+                                            </router-link>
+                                       </template>
+                                       <!-- Cart item localstorage -->
+                                        <template v-else>
+                                            <router-link class="cart-active" to="/customer/shopping-cart/product-list/cart-items">
+                                                <i class="icon-basket-loaded"></i>
+                                                <span class="pro-count black">
+                                                    <template v-if="cart.length >=1">
+                                                        {{ cart.length ? cart.length : 0  }}
+                                                    </template>
+                                                    <template v-else>
+                                                        0
+                                                    </template>
+                                                </span>
+                                            </router-link>
+                                       </template>
                                     </div>
                                 </div>
+                              <p @click="getCustomerCartOrderItem()">LAdd</p>
                             </div>
                         </div>
                     </div>
@@ -183,17 +219,41 @@
     <ProductCategoriesHeader/>
 </template>
 <script>
+import axios from 'axios'
 import $ from "jquery";
 import MobileMenu from "./MobileMenu.vue";
 import ProductCategoriesHeader from "./header_categories/HeaderCategoriesArea";
+import CustomerServicesBaseAdmin from '../../../../services/administrator/customers/CustomerServices';
+import AuthenticationsDataService from '@/services/authencationDataService';
+import router from "../../../../routes/routes";
+import {isLoggedIn} from '@/utils/auth/auth';
+import { mapState } from "vuex";
+import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
 export default {
     components: { MobileMenu ,ProductCategoriesHeader},
     props: {},
     data() {
-        return {};
+        return {
+            customerType: null,
+            customerId: {},
+        };
     },
-    created() {},
+    computed: {
+        ...mapState('cart', ['cart'])
+    },
+    created() {
+        this.customerCurrentId = new CustomerServicesBaseAdmin();
+        this.customerCurrentOrder = new CustomerOrderCheckOutServices();
+    },
+    mounted() {
+        const userId = this.$store.state.auth.userArr;
+        this.getProfileCurrentAccount(userId);
+    },
     methods: {
+        // Check login
+        isLoggedIn() {
+            return isLoggedIn();
+        },
         searchToggleProduct: function(){
             /*-------------------------------
                   Header Search Toggle
@@ -206,8 +266,8 @@ export default {
                 $('.search-toggle').siblings('.search-wrap-1').addClass('open');
             }
         },
-         /*====== Sidebar menu Active ======*/
-       mobileHeaderActive: function() {
+        /*====== Sidebar menu Active ======*/
+        mobileHeaderActive: function() {
             var navbarTrigger = $('.mobile-header-button-active'),
                 endTrigger = $('.sidebar-close'),
                 container = $('.mobile-header-active'),
@@ -229,9 +289,67 @@ export default {
                 container.removeClass('sidebar-visible');
                 wrapper4.removeClass('overlay-active-1');
             });
+        },
+        getProfileCurrentAccount(customerId){
+            try{
+                if(!Array.isArray(customerId) || !customerId.length > 0){
+                    this.customerType = null;
+                    this.customerId = null;
+                }else{
+                    this.customerType = customerId[1].typeUser ? customerId[1].typeUser : '';   
+                    this.customerId = customerId[0] ? customerId[0] : ''; 
+                }
+            }catch(error){
+                this.customerType = null;
+                this.customerId = null;
+            }
+        },
+        currentCustomerLogout(){
+            AuthenticationsDataService.authLogout().then((response) => {
+                console.log(response)
+                this.$toast.add({ severity: 'Logout Successfully', summary: 'Info', detail: response.data.message, life: 3000 });
+                localStorage.clear('token');
+                localStorage.clear('tokenExpiry');
+                localStorage.clear('expiresIn')
+                localStorage.clear('user');
+                localStorage.clear('userId');
+                router.push("/auth/login");
+                window.location.reload();
+                /**
+                 * Delete Cookies
+                 * */
+                this.deleteAllCookies();
+                // Remove token
+                axios.defaults.headers.common['Authorization'] = ''
+                const token = localStorage.getItem('token');
+                localStorage.removeItem(token);
+            }).catch((error) => {
+                Promise.reject(error);
+            });
+        },
+        deleteAllCookies() {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i];
+                const eqPos = cookie.indexOf("=");
+                const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + `=;expires=${new Date(
+                    0
+                ).toUTCString()}`;
+            }
+        },
+        // Get Current Order
+        getCustomerCartOrderItem(){
+            console.log("getCustomerCartOrderItem")
+            const proItem = {
+                productId: 10,
+                productQty: 1,
+                productPrice: 25,
+                type: 'new'
+            }   
+            this.customerCurrentOrder.createCartOrderItemCustomer(proItem).then((proItem) => console.log(proItem)).catch((error) => console.log(error));
         }
-    },
-    mounted() {},
+    }
 };
 </script>
 <style scoped>

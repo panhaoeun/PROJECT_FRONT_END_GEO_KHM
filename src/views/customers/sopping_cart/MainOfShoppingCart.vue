@@ -2,20 +2,23 @@
    <div class="bg-white">
       <div class="breadcrumb-area bg-bluegray-100">
             <div class="container">
+                <!-- Breadcrumb -->
                 <div class="breadcrumb-content text-center">
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="#">Home</a>
                         </li>
+                        {{ cart }}
                         <li class="active">Cart Page </li>
                     </ul>
                 </div>
             </div>
         </div>
+        {{ currentCartAuthToken }}
         <div class="cart-main-area pt-70 pb-120">
             <div class="container">
                 <!-- Cart Item -->
-                <div v-if="addToCart">
+                <div v-if="getProductsInCart.length > 0 && getProductsInCart !== null">
                     <h3 class="cart-page-title">Your cart items</h3>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -28,25 +31,44 @@
                                                 <th>Product Name</th>
                                                 <th>Until Price</th>
                                                 <th>Qty</th>
-                                                <th>Subtotal</th>
                                                 <th>action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody v-for="(productItem, index) in getProductsInCart"  :key="index">
                                             <tr>
                                                 <td class="product-thumbnail">
-                                                    <a href="#"><img src="assets/images/cart/cart-1.jpg" alt=""></a>
+                                                    <a href="#">
+                                                        <!-- Thumbnail -->
+                                                        <img 
+                                                            :src="productItem?.productURL 
+                                                                && productItem?.productURL.length>0
+                                                                ? productItem?.productURL 
+                                                                : 'https://img.business.com/rc/816x500/aHR0cHM6Ly93d3cuYnVzaW5lc3NuZXdzZGFpbHkuY29tL2ltYWdlcy9pLzAwMC8wMTcvMDg0L29yaWdpbmFsL21hY2Jvb2stcHJvLTE4LnBuZw==?_ga=2.200130154.557404650.1551883694-765115885.1551883694'
+                                                                " 
+                                                            alt=""
+                                                        />
+                                                    </a>
                                                 </td>
-                                                <td class="product-name"><a href="#">Simple Black T-Shirt</a></td>
-                                                <td class="product-price-cart"><span class="amount">$260.00</span></td>
+                                                <td class="product-name">
+                                                    <a href="#">{{ productItem?.product_eng ?? '' }}</a>
+                                                </td>
+                                                <td class="product-price-cart">
+                                                    <span class="amount">{{ parseFloat(productItem?.price).toFixed(2,10) ?? '0.00' }} ៛</span>
+                                                </td>
                                                 <td class="product-quantity pro-details-quality">
                                                     <div class="cart-plus-minus">
-                                                        <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
+                                                        <!-- Update TY -->
+                                                        <input 
+                                                            :class="productItem?.price"
+                                                            type="number"
+                                                            min="1"
+                                                            :value="parseInt(productItem?.quantity ?? 0)"
+                                                            @change="updateCartItem($event,productItem)"
+                                                        >
                                                     </div>
                                                 </td>
-                                                <td class="product-subtotal">$110.00</td>
                                                 <td class="product-remove">
-                                                    <a href="#"><i class="icon_close"></i></a>
+                                                    <a href="#" @click="removeCartItem(productItem)"><i class="icon_close"></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -56,11 +78,7 @@
                                     <div class="col-lg-12">
                                         <div class="cart-shiping-update-wrapper">
                                             <div class="cart-shiping-update">
-                                                <a href="#">Continue Shopping</a>
-                                            </div>
-                                            <div class="cart-clear">
-                                                <button>Update Cart</button>
-                                                <a href="#">Clear Cart</a>
+                                                <router-link to="/">Continue Shopping</router-link>
                                             </div>
                                         </div>
                                     </div>
@@ -73,16 +91,15 @@
                                         <div class="title-wrap">
                                             <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                                         </div>
-                                        <h5>Total products <span>$260.00</span></h5>
+                                        <h5>Total products <span> {{ cartTotalAmount ?? '0.00' }} ៛</span></h5>
                                         <div class="total-shipping">
                                             <h5>Total shipping</h5>
                                             <ul>
-                                                <li><input type="checkbox"> Standard <span>$20.00</span></li>
-                                                <li><input type="checkbox"> Express <span>$30.00</span></li>
+                                                <li><input type="checkbox"> Pick up <span>0.00 ៛</span></li>
                                             </ul>
                                         </div>
-                                        <h4 class="grand-totall-title">Grand Total <span>$260.00</span></h4>
-                                        <a href="#">Proceed to Checkout</a>
+                                        <h4 class="grand-totall-title">Grand Total <span>{{ cartSubTotal }} ៛</span></h4>
+                                        <router-link to="/customer/my-account/shopping-cart/orders/checkout">Proceed to Checkout</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +107,10 @@
                     </div>
                 </div>
                 <!-- Cart Empty -->
-                <EmptyAddTOCart/>
+                <template v-else>
+                    <EmptyAddTOCart />
+                </template>
+               
             </div>
         </div>
    </div>
@@ -98,16 +118,78 @@
 
 <script>
 import EmptyAddTOCart from "./empty_add_to_cart/EmptyAddToCart.vue";
-// import { mapState, mapActions, mapGetters } from "vuex";
+import {mapGetters, mapActions} from "vuex";
+import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
+import {isLoggedIn} from '@/utils/auth/auth';
+import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
 export default {
-    name: 'AddToCart',
+    name: 'ViewCart',
     components: {
         EmptyAddTOCart
     },
+    computed: {
+        ...mapGetters('cart', [
+            'getProductsInCart',
+            'cartTotalAmount',
+            'cartSubTotal'
+        ]),
+        // Check product item cart in  api
+        currentCartAuthToken(){
+            return this.getCurrentOrderItemAuthLog()
+        }
+    },
     data() {
         return {
-            addToCart: '',
             title: 'Checkout',
+        }
+    },
+    created() {
+        this.getCurrentCartItem = new CustomerOrderCheckOutServices();
+    },
+    methods: {
+        ...mapActions('cart', {
+            updateQuantity: 'updateCartQuantity',
+            removeProductFromCart: 'removeCartItem'
+        }),
+        getProductCurrentStorage(){
+            return CartService.getCart();
+        },
+        hasProduct(){
+            if(!Array.isArray(this.getProductsInCart) || !this.getProductsInCart.length > 0){
+                return [];
+            }
+        },
+        getProductImageURLThumbnail(pathName) {
+            if (typeof pathName !== "undefined") {
+                return `${process.env.ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${pathName}`
+            } else {
+                return '';
+            }
+        },
+        updateCartItem(event, cartItem){
+            const quantity = parseInt(event.target.value) ?? 0;
+            const productItemId = cartItem?.productId ?? 0;
+            const productSpecItem = cartItem?.productSpec ?? '';
+            const productPrice = cartItem?.unitPrice ?? 0;
+            this.updateQuantity({productItemId,cartItem,quantity,productSpecItem,productPrice});
+        },
+        removeCartItem(productItem){
+            this.removeProductFromCart(productItem);
+        },
+        // Get current order auth login
+        getCurrentOrderItemAuthLog(){
+            if(isLoggedIn()){
+                this.getCurrentCartItem.getCartOrderListCurrentCustomer().then((cartItem) => {
+                    if(!cartItem){
+                        return [];
+                    }
+                    if(cartItem.length >0 && cartItem !== null){
+                        return cartItem? cartItem : [];
+                    }
+                }).catch((error) => {
+                    Promise.reject(error);
+                });
+            }
         }
     }
 }
