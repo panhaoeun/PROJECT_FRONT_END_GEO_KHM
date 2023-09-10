@@ -34,6 +34,7 @@ const moduleProductManagementRouters = {
     meta: {
         title: 'businessSectionMS',
         icon: 'admin',
+        requiresAuth: true,
         permissions: ['business_section_module'],
         template: 'panel'
     },

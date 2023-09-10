@@ -21,6 +21,7 @@ const moduleOrdersManagementRouters = {
     meta: {
         title: 'ordersMSProduct',
         icon: 'admin',
+        requiresAuth: true,
         // permissions: ['report_managements_module'],
         template: 'panel'
     },

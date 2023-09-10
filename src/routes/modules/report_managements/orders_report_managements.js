@@ -21,6 +21,7 @@ const moduleOrdersReportManagementRouters = {
     meta: {
         title: 'orderReportAnalysisMS',
         icon: 'admin',
+        requiresAuth: true,
         // permissions: ['reports_analysis_module'],
         template: 'panel'
     },

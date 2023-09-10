@@ -13,6 +13,7 @@ const defaultChildRoutes = (prefix) => [
             title: 'dashboard',
             icon: 'viewGrid',
             noCache: false,
+            requiresAuth: true,
             permissions: ['dashboard_module']
         },
         component: () => import('../dashboard/DashboardLayout.vue'),
@@ -24,6 +25,7 @@ const defaultChildRoutes = (prefix) => [
             title: 'vendorProfile',
             icon: 'bookmark',
             noCache: false,
+            requiresAuth: true,
             permissions: ['vendor_profile']
         },
         hidden: true,
@@ -36,12 +38,14 @@ export default [
             template: 'panel',
             icon: 'icons',
             permissions: ['home_modules'],
-            title: 'homeModule'
+            title: 'homeModule',
+            requiresAuth: true,
         },
         path: "/vendor-dashboard/default-layouts",
         name: "home-vendor-dashboard",
         component: DefaultLayoutVendor,
         alwaysShow: true,
+        requiresAuth: true,
         // redirect: '/vendor-dashboard/default-layouts/dashboard',
         children: defaultChildRoutes('defaults'), 
     }

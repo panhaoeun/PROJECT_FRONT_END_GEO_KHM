@@ -1,5 +1,5 @@
 <template>
-    <div class="product-area pb-110">
+    <div class="product-area pt-110">
         <div class="container">
             <div class="section-title-tab-wrap border-bottom-3 mb-30 pb-20">
                 <div class="section-title-6">

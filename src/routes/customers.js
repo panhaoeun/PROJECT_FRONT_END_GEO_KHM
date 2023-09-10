@@ -1,3 +1,4 @@
+import { isLoggedIn } from "@/utils/auth/auth";
 export default [
     {
         path:'/',
@@ -50,8 +51,15 @@ export default [
                 component: () => import("../views/customers/sopping_cart/MainOfShoppingCart.vue"),
             },
            {
-               path: "/customer/my-account/shopping-cart/orders/checkout",
-               name: 'my-acc-checkouts',
+                path: "/customer/my-account/shopping-cart/orders/checkout",
+                name: 'my-acc-checkouts',
+                beforeEnter: (to, from, next)  => {
+                   if(isLoggedIn()){
+                     next();
+                   }else{
+                        next("/auth/login");
+                   }
+                },
                component: () => import("../views/customers/sopping_cart/MyAccCheckOut.vue"),
            },
           {
@@ -80,7 +88,7 @@ export default [
           },
           //Contact Info
           {
-              path: '/n',
+              path: '/contact-info',
               name: 'contact-info',
               component: () => import('../components/customers/home_frontend_component/contact_us/ContactInfo.vue'),
           },
