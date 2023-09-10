@@ -10,30 +10,17 @@ import { isLoggedIn } from "./utils/auth/auth";
 NProgress.configure({
     showSpinner: false
 }); // NProgress Configuration
-const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/']; // no redirect whitelist
+const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/', '/page/error/not-found']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
-    // start progress bar
-    const admin = store.state.users.permissions;
-    if (!admin) {
-        next("/error/401");
-    }else if(admin){
-        next();
-    }else{
-        next();
-    }
-    // set page title
-    // document.title
+    const userRoleAuth = localStorage.getItem('userRole');
     /**
-    * * @Check Permission for Only Vendor and Administrator Type of user
-    * */ 
-    // determine whether the user has logged in
-    const isUserLogged = localStorage.getItem('token');
-    if(isUserLogged){
+     * * @Check Permission for Only Vendor and Administrator Type of user
+     * */
+    if (isLoggedIn() && JSON.parse(userRoleAuth) === "Vendor" || JSON.parse(userRoleAuth) == "Admin" && userRoleAuth !== "Customer") {
         if (to.path === '/auth/login'){
             // if is logged in, redirect to the home page
             next({ path: '/' });
-            // NProgress.done();
         }else{
             // determine whether the user has obtained his permission roles through getInfo
             const hasRoles = store.getters['users/roles'] && store.getters['users/roles'].length > 0;
@@ -64,28 +51,51 @@ router.beforeEach(async (to, from, next) => {
                     await store.dispatch('users/resetToken');
                     ElMessage.error(error || 'Can not Access Module- Has Error');
                     next(`/auth/login`);
-                    NProgress.done();
                 }
             }
         }
     }else{
-        /*Has no token*/
-        if(whiteList.indexOf(to.matched[0] ? to.matched[0].path : '' ) !== -1){
-            // in the free login whitelist, go directly
-            next();
-        }else{
-            // other pages that do not have permission to access are redirected to the login page.
-            next(`/auth/login?redirect=${to.path}`);
-            NProgress.done();
-        }
+         /*Has no token*/
+         if (whiteList.indexOf(to.matched[0] ? to.matched[0].path : '') !== -1) {
+             // in the free login whitelist, go directly
+             next();
+         } else {
+             // other pages that do not have permission to access are redirected to the login page.
+             next(`/auth/login?redirect=${to.path}`);
+         }
     }
 });
+
 router.beforeEach((to, from, next) => {
     if (to.meta.allowAnonymous === true && isLoggedIn()) {
-       next({ path: '/' });
-    }else if (!to.meta.allowAnonymous && !isLoggedIn()) {
+        next({
+            path: '/'
+        });
+    } else if (!to.meta.allowAnonymous && !isLoggedIn()) {
         next();
-    }else{
+    } else {
         next();
     }
+    /**
+      * * @Check Permission for Vendors
+    * */
+     if (to.matched.some(record => record.meta.requiresAuth)) {
+         if (!isLoggedIn()) {
+             next(`/auth/login?redirect=${to.path}`);
+         } else {
+             const userRoleCustomer = localStorage.getItem('userRole')
+             if (to.matched.some(record => record.meta.isCustomer)) {
+                 if (JSON.parse(userRoleCustomer) === "Customer") {
+                     return next();
+                 } else {
+                     return next({
+                         name: 'auth-register'
+                     });
+                 }
+             }
+
+         }
+     } else {
+         next();
+     }
 });
