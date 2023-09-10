@@ -2,7 +2,7 @@
     <div class="flex flex-col relative justify-start items-start   w-screen h-screen color_default01 overflow-x-hidden">
         <!-- Header  -->
         <div
-            class="w-full flex py-3 md:px-10 px-5 items-center  z-20 justify-between color_default02 default_text sticky top-0">
+            class="w-full flex py-3 md:px-10 px-5 items-center justify-between color_default02 default_text sticky top-0">
             <!-- Left Site -->
             <div class=" flex default_text justify-start items-center w-full space-x-4 uppercase font-bold text-md">
                 <button class="uppercase default_text">Women</button>
@@ -42,32 +42,3 @@
         </div>
     </div>
 </template>
-<script>
-import MenuTab from './MenuTab.vue'
-import { useDark, useToggle } from '@vueuse/core'
-export default {
-    setup() {
-        const isDark = useDark()
-        const toggleDark = useToggle(isDark)
-        return {
-            toggleDark,isDark
-        }
-    },
-    components: {
-        MenuTab
-    },
-    data() {
-        return {
-            isOpen: false,
-        }
-    },
-    methods: {
-        onpenMe() {
-            this.isOpen = !this.isOpen
-            console.log(this.isOpen)
-        },
-
-    }
-}
-
-</script>

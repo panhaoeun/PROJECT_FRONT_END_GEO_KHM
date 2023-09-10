@@ -1,8 +1,8 @@
 <template>
     <!-- Tab Menu - Sidebar -->
-   <div class="px-4 py-4">
+   <div class="bg-white">
         <div class="container p-2 text-lg">
-                <!-- Breadcrumbs -->
+              <!-- Breadcrumbs -->       
               <div class="py-4">
                   <el-breadcrumb :separator-icon="ArrowRight">
                     <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
@@ -15,27 +15,52 @@
                             <div class="card-header">
                                 <h5 class="card-title mb-0">Settings</h5>
                             </div>
-                            <div class="list-group list-group-flush" role="tablist">
-                                <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account" role="tab">
+                            <div class="list-group p-2 px-4 py-4 my-2" role="tablist">
+                                <router-link class="list-group-item list-group-item-action active nav-link my-2"
+                                    data-bs-toggle="pill" data-bs-target="#account-tab" 
+                                    aria-selected="true" to="#account-tab" role="tab"
+                                >
                                     <i class="pi pi-user pl-2" style="font-size: 1.5rem"></i>
                                     Account
-                                </a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href="#password" role="tab">
+                                </router-link>
+                                <router-link class="list-group-item list-group-item-action nav-link" 
+                                    data-bs-toggle="pill" data-bs-target="#password" 
+                                    type="button" 
+                                    role="tab" aria-controls="password" aria-selected="false"
+                                    to="#password"
+                                >
                                       <i class="pi pi-lock  pl-2" style="font-size: 1.5rem"></i>
                                        Password
-                                </a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href="#shipaddress" role="tab">
-                                    <i class="pi pi-lock  pl-2" style="font-size: 1.5rem"></i>
+                                </router-link>
+                                <router-link 
+                                     class="list-group-item list-group-item-action nav-link my-2"
+                                       data-bs-toggle="pill" 
+                                      role="tab" aria-controls="shipaddress"
+                                        data-toggle="list" to="#shipaddress">
+                                    <i class="pi pi-map  pl-2" style="font-size: 1.5rem"></i>
                                     Shipping Address
-                                </a>
-                              
+                                </router-link>
+                                <!-- Wallet -->
+                                <div class="font-bold my-2 text-xl">
+                                    <p class="font-bold">Asset center</p>
+                                </div>
+                                <div class="my-2">
+                                    <router-link 
+                                        class="list-group-item list-group-item-action nav-link my-2"
+                                        data-bs-toggle="pill" 
+                                        role="tab" aria-controls="shipaddress"
+                                            data-toggle="list" to="#shipaddress">
+                                        <i class="pi pi-map  pl-2" style="font-size: 1.5rem"></i>
+                                        Wallet
+                                    </router-link>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-7 col-xl-8">
                         <div class="tab-content">
                                 <!-- My Profile Details -->
-                                <div class="tab-pane fade active show" id="account" role="tabpanel" aria-labelledby="account-tab">
+                                <div class="tab-pane fade active show" id="account-tab" role="tabpanel" aria-labelledby="account-tab">
                                    <div class="card">
                                         <h3 class="mb-4">Account Settings</h3>
                                         <!-- Account Settings -->
@@ -95,6 +120,10 @@
                                 <div class="tab-pane fade" id="shipaddress" role="tabpanel">
                                     <ShippingAddress/>
                                 </div>    
+                                <!-- Wallets -->
+                                <div class="tab-pane fade" id="wallets-customer" role="tabpanel">
+                                    <ShippingAddress/>
+                                </div>   
                         </div>
                         
                     </div>
@@ -104,7 +133,7 @@
 </template>
 
 
-
+<!-- Script -->
 <script setup>
     import UploadPreviewAvatar from "../../../components/component/UploadPreviewAvatar.vue";
     import ChangePassword from "../../../views/customers/my_profiles/subpage_order_detail/ChangePassword.vue";
@@ -121,38 +150,3 @@
     //Get Current Uer Profile login or registers
     
 </script>
-
-<style>
-.el-col {
-    border-radius: 4px;
-}
-.card-title{
-    font-size: 23px;
-}
-.card {
-    position: relative;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid #e5e9f2;
-    border-radius: .2rem;
-}
-.card-header:first-child {
-    border-radius: calc(.2rem - 1px) calc(.2rem - 1px) 0 0;
-}
-.card-header {
-    border-bottom-width: 1px;
-}
-.card-header {
-        padding: .80rem 1.30rem;
-        margin-bottom: 0;
-        color: inherit;
-        background-color: #fff;
-        /* border-bottom: 1px solid #e5e9f2; */
-}
-</style>

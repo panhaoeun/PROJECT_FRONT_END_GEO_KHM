@@ -101,16 +101,6 @@ export default [
             name:'more-product',
             component: () => import("../views/customers/sopping_cart/MoreProductRecommend.vue"),
           },
-          {
-            path: "/customer/order/account_detail",
-            name:'account-detail',
-            meta: {
-                isCustomer: true,
-                requiresAuth: true
-            },
-            beforeEnter: requireAuth,
-            component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"),
-          },
          /**
          * @Router Products
          * @Filter Product By Query Product
@@ -120,6 +110,17 @@ export default [
             name:'query-product-detail',
             component: () => import("../views/customers/product_filter/ProductFilters.vue"),
           },
+        /**
+         * @Router Customer 
+         * @Customer Profile
+         * 
+        * */
+           {
+               path: '/customer/my_profile/view-customer-detail',
+               name: "customer-view-profile",
+               component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"), 
+               
+           },
         ]
     },
 ]
