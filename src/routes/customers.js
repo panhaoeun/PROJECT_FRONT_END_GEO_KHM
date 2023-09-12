@@ -119,7 +119,6 @@ export default [
                path: '/customer/my_profile/view-customer-detail',
                name: "customer-view-profile",
                component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"), 
-               
            },
         ]
     },
