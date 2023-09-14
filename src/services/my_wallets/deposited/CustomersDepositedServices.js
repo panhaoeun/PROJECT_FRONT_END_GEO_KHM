@@ -22,7 +22,7 @@ export default class CustomerDepositedToWalletService {
             });
     }
     async getHistoryTransactionCurrentByCustomer(data) {
-        return await http.get("/user/transaction/my_wallet/get_transaction_history", data)
+        return await http.get("/user/transaction/my_wallet/get_transaction_history_deposited_customer", data)
             .then((result) => {
                 if (result.status == 200) {
                     if (result.data.success == true) {

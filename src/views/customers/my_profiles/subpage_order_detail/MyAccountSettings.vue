@@ -45,7 +45,7 @@
             </div>
             <!-- Button Submitted -->
             <div class="gap-3 py-4">
-                <Button label="UPDATE" severity="danger" style="width:12rem;" size="large"/>
+                <Button label="Updated" severity="danger" style="width:10rem;"/>
             </div>
         </div>
     </div>

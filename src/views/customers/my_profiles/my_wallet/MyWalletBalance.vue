@@ -10,10 +10,7 @@
                     <!--==== Recharge Deposit to wallet ===-->
                     <Button label="Deposit" severity="danger" style="width:8rem;" @click="dialogTableVisibleOpeDeposit = true" size="small"/>
                     <!-- Dialog of Recharge Deposits -->
-                    <el-dialog v-model="dialogTableVisibleOpeDeposit" width="50%" centerwidth="50%"  title="Deposit to Wallet">
-                        <!-- Contents of Recharge Deposit -->
-                        <PopupDepositToWallet/>
-                    </el-dialog>
+                    <PopupDepositToWallet :dialogPopupDeposited="dialogTableVisibleOpeDeposit"/>                
                     <!--==== Recharge Withdraw to wallet ===-->
                     <Button label="Withdraw" severity="success" style="width:8rem;" @click="dialogTableVisibleOpeWithdraw = true" size="small"/>
                     <!-- Dialog of Recharge Withdraw -->
@@ -88,8 +85,9 @@ export default {
             }).catch(err => {
                 this.$notify.error({
                     title: 'Error Get Amount Deposit to Wallet',
-                    message: err
+                    message: err.response.data?.error ?? '' 
                 });
+                return false;
             })
         },
     },

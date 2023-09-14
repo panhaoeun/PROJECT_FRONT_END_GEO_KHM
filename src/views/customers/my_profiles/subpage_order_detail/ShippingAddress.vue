@@ -1,12 +1,60 @@
 <template>
     <div class="card">
         <h3 class="mb-4">My Shipping Address</h3>
-        <Button label="Add New Address" class="py-3" @click="visible = true" style="width: 15rem;;"/>
-        <!-- Account Settings -->
-        <Dialog v-model:visible="visible" modal header="Add Shipping Address" :style="{ width: '50vw' }" :position="position">
-                <CrateShippingAddress/>
-        </Dialog>
-        <!-- List Shipping Address -->
+        <Button label="Add New Address" class="py-2" @click="visibleShippingDiaLog = true" style="width: 15rem;;"/>
+        <!--=============== Dialog My Shipping Address =================-->
+       <el-dialog v-model="visibleShippingDiaLog" title="Shipping address">
+            <!-- Form Submit Address and Billing -->
+            <el-form
+                ref="shippingBillingFormSubmit"
+                :model="addShippingFormModelSubmit"
+                :rules="rulesDepositedWallet"
+                class="demo-ruleForm"
+            >
+                <!-- Radio Choose Type Address Option -->
+                <el-form-item prop="typeAddrAddFormOption">
+                    <el-radio-group 
+                        autocomplete="off"  
+                        class="w-full"
+                        style="width: 100%"
+                        v-model="addShippingFormModelSubmit.typeAddrAddFormOption"
+                    >
+                        <el-radio border label="Shipping" name="shipping-addr-type"/>
+                        <el-radio border label="Billing"  name="billing-addr-type"/>
+                    </el-radio-group>
+                </el-form-item>
+                <!--Contact person name-->
+                <el-form-item prop="contactPerson" name="Please enter a Contact Name">
+                   <el-input v-model="addShippingFormModelSubmit.contactName"  placeholder="Please Enter Name"/>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="addShippingFormModelSubmit.phoneNumberContact" placeholder="Please Enter Phone Number"/>
+                </el-form-item>
+                <!--  -->
+                <el-form-item  prop="shippingAddressFormSubmitted" name="Please enter a Location">
+                    <el-input v-model="addShippingFormModelSubmit.addr01" placeholder="Address 01"/>
+                </el-form-item>
+                <el-form-item>
+                   <el-input v-model="addShippingFormModelSubmit.addr02" placeholder="Address 02"/>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="addShippingFormModelSubmit.cityAddr" placeholder="City"/>
+                    <el-col class="text-center" :span="1" style="margin: 0.5rem"></el-col>
+                    <el-input v-model="addShippingFormModelSubmit.postalCodeAddr" placeholder="Postal Code"/>
+                </el-form-item>
+            </el-form> 
+            <!-- Form Submit Address and Billing -->
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="dialogVisible = false">Cancel</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">
+                    Confirm
+                    </el-button>
+                </span>
+            </template>
+        </el-dialog>
+        <!--=============== Dialog My Shipping Address =================-->
+        <!--================ List Shipping Address ================-->
         <div class="py-4">
               <el-row :gutter="18">
                 <!-- Address -->
@@ -81,17 +129,33 @@
                 </el-col>
             </el-row>
         </div>
+        <!--================ List Shipping Address ================-->
     </div>
 </template>
 
 <!-- Scripts -->
-<script setup>
-import CrateShippingAddress from "./shippingAddress/CreateShippingAddr.vue";
-import { ref } from "vue";
-const position = ref('top');
-const visible = ref(false);
+<script>
+// import CrateShippingAddress from "./shippingAddress/CreateShippingAddr.vue";
+export default{
+    data(){
+        return {
+            visibleShippingDiaLog: false,
+            addShippingFormModelSubmit: [
+                {
+                    typeAddrAddFormOption: '',
+                    contactName: '',
+                    phoneNumberContact: '',
+                    cityAddr: '',
+                    postalCodeAddr: '',
+                    addr01: '',
+                    addr02: ''
+                }
+            ]
+        }
+    }
+}
 </script>
-
+<!-- Style Of Add Shipping -->
 <style>
 /* My Account */
 .box-card{

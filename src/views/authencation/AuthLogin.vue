@@ -80,12 +80,12 @@
 <script>
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
+import { ElLoading } from 'element-plus';
 // Components
 // import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
 import { mapActions } from "vuex";
 import Cookie from "js-cookie";
-
 export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
@@ -153,7 +153,15 @@ export default {
                                     this.$router.push({path: "/vendor-dashboard/default-layouts"});
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({path: "/"});
-                                }
+                                }   
+                                let loadingAuthLogin = ElLoading.service({ 
+                                        lock: true,
+                                        text: 'Please waiting...',
+                                        background: 'rgb(255,250,250)'
+                                });
+                                setTimeout(() => {
+                                    loadingAuthLogin.close();
+                                }, 2000)
                                 return;
                             }else{
                                 throw response;
