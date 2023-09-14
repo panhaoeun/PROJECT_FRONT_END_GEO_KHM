@@ -20,7 +20,9 @@ export default class ProductServices{
             });
     }
     async getCustomerProductsDetailByID(productId, data) {
-        return await http.get(`/customers/products/product_module/view_product_detail/products_detail?pid=${parseInt(productId) ?? []}`, data)
+        return await http.get(`/customers/products/product_module/view_product_detail/products_detail?pid=${parseInt(productId) ?? []}`, {
+            headers: authHeader()
+        }, data)
             .then((result) => {
                 if (result.status == '200') {
                     if (result.data.success == true) {

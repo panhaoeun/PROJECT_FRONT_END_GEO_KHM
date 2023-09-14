@@ -115,9 +115,11 @@
                                                         </div>
                                                     </el-dropdown-item>
                                                     <el-dropdown-item>
-                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/auth/register')">
+                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/customer/my_profile/view-customer-detail')">
                                                             <i class="icon-user-follow" style="font-size: 15px;"></i>   
-                                                            <p class="font-semibold pl-2">My Profile</p>      
+                                                            <p class="font-semibold pl-2">
+                                                                My Profile
+                                                            </p>      
                                                         </div>
                                                     </el-dropdown-item>
                                                     <!-- Logout -->
