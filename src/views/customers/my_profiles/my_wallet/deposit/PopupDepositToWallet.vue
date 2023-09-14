@@ -120,6 +120,7 @@
 </template>
 <!-- Script of Popup withdraw to wallets -->
 <script>
+import CustomerDepositedToWalletService from '../../../../../services/my_wallets/deposited/CustomersDepositedServices';
 export default {
     components: {},
     props: {},
@@ -199,7 +200,9 @@ export default {
             }
         };
     },
-    created() {},
+    created() {
+        this.customerDepositedWalletService = new CustomerDepositedToWalletService();
+    },
     methods: {
         handlePictureCardPreviewRecentUploadDeposit(file){
             // Preview Upload
@@ -250,23 +253,40 @@ export default {
         handleFileSuccessRecentUploadDeposited(file){
             this.$message.warning(file);
         },
-        /** @Handle Upload Receipt Deposit to Wallets */  
+        /** @Handle Upload Receipt Deposit to Wallets to server request by admin */  
         onSubmitUploadRecentDepositWallet(fromSubmitted){
             this.$refs[fromSubmitted].validate((valid) => {
                 if (valid) {
                     // Check Validation 
-                    console.log("sadsad",valid)
+                    const receiptUploadFile = this.formPopupDepositWallet.recentUploadDepositedBankInvoice ? this.formPopupDepositWallet.recentUploadDepositedBankInvoice : '';
+                    //Convert date 
+                    const convertDateTimeDeposit = new Date(this.formPopupDepositWallet.enterDepositedDateTime).getDay();
+                    console.log(convertDateTimeDeposit)
+                    const depositAmount = {
+                        depositBankCompany : 'ABA-BANK-PLC-COM-ADMIN-PANHA',
+                        accountNumberDepositedSendFrom: '500846342',
+                        accountNumberSendToAdminDeposited: '',
+                        depositAmountDeposited: this.formPopupDepositWallet.enterAmountWallet ? this.formPopupDepositWallet.enterAmountWallet : 0,
+                        depositDateTime: '2023-06-02 16:15:58',
+                        recentUploadPayReceipt: receiptUploadFile?.raw ? receiptUploadFile?.raw : 0,
+                        descriptionDeposited: this.formPopupDepositWallet.depositedNoted ? this.formPopupDepositWallet.depositedNoted : ''
+                    }
+                    // this.customerDepositedWalletService.addDepositedAmountToWalletByCustomer(depositAmount).then((deposit) => {
+                    //     console.log(deposit)
+                    // }).catch((error) => {
+                    //     console.log(error)
+                    // })
+                    console.log(depositAmount)
                 } else {
                     this.$notify.error({
-                        title: 'Deposit to Wallet',
+                        title: 'Error Deposit to Wallet',
                         message: 'Please enter deposit amount to wallet'
                     });
                     return false;
                 }
             });
         }
-    },
-    mounted() {},
+    }
 };
 </script>
 <!-- Style CSS -->

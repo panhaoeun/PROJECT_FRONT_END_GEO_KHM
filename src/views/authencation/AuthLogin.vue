@@ -84,7 +84,6 @@ import { useVuelidate } from "@vuelidate/core";
 // import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
 import { mapActions } from "vuex";
-import { ElMessage } from "element-plus";
 import Cookie from "js-cookie";
 
 export default {
@@ -163,12 +162,18 @@ export default {
                         (error) => {
                             this.userLoggedIn = false;
                             if(typeof(error.response.data.name)!== undefined){
-                                ElMessage.error(error.response.data.name);
+                                this.$notify.error({
+                                    title: 'Error SigIn',
+                                    setTimeout: 10,
+                                    message: error.response.data.error?.message
+                                });
                             }
                             if(typeof(error.response.data.error.error) !== undefined){
-                                ElMessage.error(error.response.data.message);
-                                ElMessage.error(error.response.data.error.error);
                                 this.loginError = error.response.data.error ?? '';
+                                this.$notify.error({
+                                    title:error.response.data?.message ?? 'Error Sign In',
+                                    message:  error.response.data.error.error.userPassword[0]  ??''
+                                });
                             }
                         }
                     );
