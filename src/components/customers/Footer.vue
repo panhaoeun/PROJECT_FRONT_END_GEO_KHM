@@ -9,11 +9,15 @@
                         </div>
                         <div class="single-contact-info">
                             <span>Our Location</span>
-                            <p>869 General Village Apt. 645, Moorebury, USA</p>
+                            <p>
+                                Sangkat Tuol Sangkae,
+                                Khan Russey Keo,
+                                Phnom Penh, Cambodia.
+                            </p>
                         </div>
                         <div class="single-contact-info">
                             <span>24/7 hotline:</span>
-                            <p>(+99) 052 128 2399</p>
+                            <p>(+855) 016 387 467</p>
                         </div>
                     </div>
                 </div>

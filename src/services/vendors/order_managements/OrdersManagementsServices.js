@@ -32,11 +32,6 @@ export default class CustomerOrderMSServices {
             });
     }
     async getViewCustomerOrderDetailByCustomerID(orderID,data) {
-        console.log(await http.get(
-                    `/vendor/order_management/detail-customer-orders-product-by-id/${parseInt(orderID)}`, {
-                        headers: authHeader()
-                    },
-                    data));
         return await http.get(
                 `/vendor/order_management/detail-customer-orders-product-by-id/${parseInt(orderID)}`, {
                     headers: authHeader()

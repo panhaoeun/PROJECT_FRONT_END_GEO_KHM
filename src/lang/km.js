@@ -1,6 +1,14 @@
 export default {
     route: {
         search: 'ស្វែងរក...',
+        option: "ជម្រើស",
+        select: "ជ្រើសរើស",
+        a: '១',
+        sub: "រង",
+        name: "ឈ្មោះ",
+        action: 'ផ្សេងៗ',
+        status: "ស្ថានភាព",
+        addNew: "បង្កើតថ្មី",
         homeModule: 'ផ្ទាំងខាងមុខ',
         proManagement: 'គ្រប់គ្រងផលិតផល',
         proSubCategories: 'ប្រភេទផលិតផលរង',
@@ -23,7 +31,7 @@ export default {
         dashboard: 'ផ្ទាំងគ្រប់គ្រង',
         introduction: 'សេចក្តីផ្តើម',
         documentation: 'Documentation',
-        guide: 'Guide',
+        guide: 'ណែនាំ',
         permission: 'ការអនុញ្ញាត',
         pagePermission: 'Page Permission',
         rolePermission: 'ការអនុញ្ញាតតួនាទី',
@@ -67,6 +75,28 @@ export default {
         administrator: 'Administrator',
         users: 'Users',
         userProfile: 'User Profile',
+    },
+    userinfo: {
+        generalInfo:"ពត៍មានទូទៅ",
+        editUser:"កែប្រែអ្នកប្រើប្រាស់",
+        sellerInfo: 'បំពេញពត៏មានអ្នកលក់',
+        firstName: "ត្រកូល",
+        khmerName:"ឈ្មោះជាភាសាខ្មែរ",
+        englishName:"ឈ្មោះជាភាសាអង់គ្លេស",
+        lastName: "ឈ្មោះ",
+        phone: "លេទទូរសព្ទ",
+        fullNameInKhmer: "ឈ្មោះជាភាសាខ្មែរ",
+        fullNameInEn: "ឈ្មោះជាភាសាឡាតាំង",
+        email: "Email",
+        role:"តួនាទី",
+        profileImage:"រូបភាពកម្រង",
+        password: "លេខកូដ",
+        confirmPassword: "បញ្ចូលលេខកូដម្ដងទៀត",
+        address1: 'អាសយដ្ឋានទី១',
+        address2: 'អាសយដ្ឋានទី២',
+        shopName: "ឈ្មោះហាង",
+        description: "ការពិពណ៍នា",
+        city: "ទីក្រុង",
     },
     navbar: {
         logOut: 'Log Out',
@@ -131,12 +161,12 @@ export default {
         imageUploadTips: 'Since I was using only the vue@1 version, and it is not compatible with mockjs at the moment, I modified it myself, and if you are going to use it, it is better to use official version.',
     },
     table: {
-        description: 'Description',
+        description: 'ការពិពណ៏នា',
         dynamicTips1: 'Fixed header, sorted by header order',
         dynamicTips2: 'Not fixed header, sorted by click order',
         dragTips1: 'The default order',
         dragTips2: 'The after dragging order',
-        name: 'Name',
+        name: 'ឈ្មោះ',
         title: 'Title',
         importance: 'Imp',
         type: 'Type',
@@ -211,4 +241,44 @@ export default {
             visitor: 'Visitor. Have access to static pages, should not have any writable permission',
         },
     },
+    order: {
+        allOrder: "តារាង​ នៃការកម្មង់",
+        showData: "បង្ហាញទិន្នន័យ"
+    },
+    message: {
+        noHaveData: "មិនមានរកឃើញទិន្នន័យទេ",
+        dataLoading: "កំពុងទាញយកទិន្នន័យ..."
+    },
+    category: {
+        category: 'ប្រភេទផលិតផល',
+        categoryList: "បញ្ជីប្រភេទផលិតផល",
+        addCategory: "បង្កើតប្រភេទផលិតផលថ្មី",
+        categoryName: "ឈ្មោះនៃប្រភេទផលិតផល",
+        categoryImage: "រូបភាព​​​ នៃប្រភេទផលិតផល",
+        // sub
+        subGategoryList: "តារាង នៃប្រភេទផលិតផលរង",
+        subGategoryName: "ឈ្មោះនៃផលិតផលរង",
+        selectCategory: "ជ្រើសរើសប្រភេទផលិតផល",
+        updateSubCategory: "កែប្រែប្រភេទផលិតផល"
+    },
+    product: {
+        productList: "តារាងផលិតផល",
+        productName: "ឈ្មោះផលិតផល",
+        purchasePrice: "តម្លៃទិញចូល",
+        qty: "ចំនួនសរុប",
+        loadingProduct: "កំពុងទាញយកផលិតផល..."
+    },
+    customer: {
+        customerList: "តារាង អតិថិជន",
+        customerNotFound: 'មិនមានអតិថិជនទេ',
+
+    },
+    seller: {
+        sellerList: "តារាង​អ្នកលក់",
+        shopName: "ឈ្មោះហាង",
+        author: "ម្ចាស់ហាង",
+        // create seller
+
+    },
+
 };

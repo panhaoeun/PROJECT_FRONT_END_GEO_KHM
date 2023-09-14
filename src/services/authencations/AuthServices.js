@@ -18,6 +18,7 @@ class AuthService {
             localStorage.setItem('expiresIn',response.data.expiresIn)
             localStorage.setItem('user', JSON.stringify(response.data.userResult));
             localStorage.setItem('userId', JSON.stringify(response.data.userId));
+            localStorage.setItem('userRole', JSON.stringify(response.data.userType));
             /*
             @Auth Store Token
             */ 
