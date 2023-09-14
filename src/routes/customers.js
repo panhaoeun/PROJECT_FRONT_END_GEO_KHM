@@ -105,7 +105,7 @@ export default [
          * @Router Products
          * @Filter Product By Query Product
          * */   
-         {n
+         {
             path: "/customer/search-product/query-product/filter-product-by-name",
             name:'query-product-detail',
             component: () => import("../views/customers/product_filter/ProductFilters.vue"),
@@ -118,6 +118,7 @@ export default [
            {
                path: '/customer/my_profile/view-customer-detail',
                name: "customer-view-profile",
+               beforeEnter: requireAuth,
                component: () => import("../views/customers/my_profiles/MyProfileDetails.vue"), 
            },
         ]

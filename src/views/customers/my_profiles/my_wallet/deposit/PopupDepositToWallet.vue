@@ -21,8 +21,8 @@
                             style="width: 100%"
                             v-model="formPopupDepositWallet.bankRecharge"
                         >
-                            <el-radio border label="ABA Bank" />
-                            <el-radio border label="ACLEDA Bank" />
+                            <el-radio border label="ABA Bank" name="aba-bank-company"/>
+                            <el-radio border label="ACLEDA Bank"  name="acleda-bank-company"/>
                         </el-radio-group>
                     </el-form-item>
                     <!-- Enter Amount -->
@@ -45,20 +45,14 @@
                             v-model="formPopupDepositWallet.enterDepositedDateTime"
                             type="datetime"
                             placeholder="Pick a day"
-                            :disabled-date="disabledDate"
-                            :shortcuts="shortcutsDateTimeDeposited"
-                            :size="size"
-                            :disabled-hours="disabledHours"
-                            :disabled-minutes="disabledMinutes"
-                            :disabled-seconds="disabledSeconds"
                             autocomplete="off"  
                         />
                     </el-form-item>
                     <!--============= Upload Your Payment Receipt ========-->
                     <el-form-item label="Recent Upload" prop="recentUploadDepositedBankInvoice"  style="width: 100%">
                             <el-upload 
-                                v-model="formPopupDepositWallet.recentUploadDepositedBankInvoice"
                                 action="#" 
+                                v-model="formPopupDepositWallet.recentUploadDepositedBankInvoice"
                                 accept=".jpg,.jpeg,.png"
                                 list-type="picture" 
                                 :on-preview="handlePictureCardPreviewRecentUploadDeposit"
@@ -81,18 +75,31 @@
                                 <el-image :initial-index="4" :preview-src-list="dialogImageUrl"  fit="cover" :zoom-rate="1.2" width="100%" :src="dialogImageUrl" alt="" />
                             </el-dialog>
                         </el-upload>
-                    </el-form-item>
-                    <!-- Title -->
-                    <el-from-item class="px-4">
                         <!-- Title Noted Upload -->
                         <div class="text-sm">
+                           <span class="p-error"> *</span>
                             <span>
                                 Please upload pictures according to the examples.
                                 Incorrect or unclear pictures will cause the review to be slow or incomplete.
                             </span>
                         </div>
-                    </el-from-item>
+                    </el-form-item>
                     <!--============= Upload Your Payment Receipt ========-->
+                    <!-- Image Validation Upload Deposited -->
+                    <div>
+                        <!-- Account ABA Bank -->
+                        <template v-if="formPopupDepositWallet.bankRecharge  === 'ABA Bank'">
+                                <div class="demo-image__preview flex justify-content-center pb-4">
+                                    <el-image 
+                                        style="width: 410px; height: 500px"
+                                        :src="urlABABankAcc" 
+                                        :zoom-rate="1.2"
+                                        fit="cover"
+                                        :preview-src-list="srcListAccountBankABA">
+                                    </el-image>
+                                </div>
+                        </template>
+                    </div>
                     <!--Deposited Noted -->
                     <el-form-item label="Deposited Noted" prop="depositedNoted">
                         <el-input 
@@ -134,6 +141,8 @@ export default {
             }, 1000);
         };
         return {
+            urlABABankAcc: process.env.VUE_APP_PATH_FILE + 'wallets/company_bank_aba.jpg',
+            srcListAccountBankABA: [process.env.VUE_APP_PATH_FILE + 'wallets/company_bank_aba.jpg'],
             dialogVisibleDeposit: false,
             dialogImageUrl:"",
             fileUploadUrl: "File upload URL address",
@@ -185,7 +194,7 @@ export default {
                     { type: 'date', required: true, message: 'Please select deposited time', trigger: 'change' }
                 ],
                 recentUploadDepositedBankInvoice: [
-                    { required: true, message: 'Please select file upload receipt', trigger: 'change' }
+                    { required: true, message: 'Please select file upload receipt', trigger: 'change' },
                 ]
             }
         };
@@ -197,14 +206,17 @@ export default {
             this.dialogVisibleDeposit = true;
             this.dialogImageUrl = file?.url;
         },
-        handleChangeRecentUploadDeposit(file){
+        handleChangeRecentUploadDeposit(file,fileList){
             this.beforeRecentUploadDeposit(file?.raw)
             this.objFileUploadDeposit.upLoadShowCat = true;
             this.objFileUploadDeposit.upLoadHideCat = false;
             // Hide
             this.showUpload = !this.showUpload
             // Check validation to upload receipt 
-            this.formPopupDepositWallet.formPopupDepositWallet = file;
+            this.formPopupDepositWallet.recentUploadDepositedBankInvoice = file;
+            if (fileList.length !== 0) {
+                this.$refs.formPopupDepositWallet.validateField('recentUploadDepositedBankInvoice');
+            }
         },
         beforeRecentUploadDeposit(rawFile){
             if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
@@ -229,9 +241,10 @@ export default {
             this.objFileUploadDeposit.upLoadShowCat = true;
             this.objFileUploadDeposit.upLoadHideCat = false;
             // Remove 
-            if (fileList.length === 0) {
-                this.formPopupDepositWallet.formPopupDepositWallet = null
-                this.$refs.formPopupDepositWalletRef.validateField('recentUploadDepositedBankInvoice')
+             // Check validation to upload receipt 
+            this.formPopupDepositWallet.recentUploadDepositedBankInvoice = uploadFile;
+            if (fileList.length !== 0) {
+                this.$refs.formPopupDepositWallet.validateField('recentUploadDepositedBankInvoice');
             }
         },  
         handleFileSuccessRecentUploadDeposited(file){
@@ -241,7 +254,8 @@ export default {
         onSubmitUploadRecentDepositWallet(fromSubmitted){
             this.$refs[fromSubmitted].validate((valid) => {
                 if (valid) {
-                    console.log("sadsad")
+                    // Check Validation 
+                    console.log("sadsad",valid)
                 } else {
                     this.$notify.error({
                         title: 'Deposit to Wallet',
@@ -257,7 +271,14 @@ export default {
 </script>
 <!-- Style CSS -->
 <style>
-    .hideUpload > div {
-        display: none;
+    .demo-image__error .image-slot {
+    font-size: 30px;
+    }
+    .demo-image__error .image-slot .el-icon {
+    font-size: 30px;
+    }
+    .demo-image__error .el-image {
+    width: 100%;
+    height: 200px;
     }
 </style>

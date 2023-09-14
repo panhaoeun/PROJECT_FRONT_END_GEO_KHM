@@ -172,7 +172,6 @@
                                        </template>
                                     </div>
                                 </div>
-                              <p @click="getCustomerCartOrderItem()">LAdd</p>
                             </div>
                         </div>
                     </div>
