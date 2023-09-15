@@ -1,4 +1,5 @@
 <template>
+    <Button label="Deposit" severity="danger" style="width:8rem;" @click="dialogTableVisibleOpeDeposit = true" size="small"/>   
     <el-dialog v-model="dialogTableVisibleOpeDeposit" width="50%" centerwidth="50%"  title="Deposit to Wallet"  @close="closeFromDeposit">
             <div class="py-2">
                 <!-- Toast Alert-->
@@ -33,6 +34,8 @@
                                     v-model="formPopupDepositWallet.enterAmountWallet"
                                     :min="1" 
                                     :max="5000" 
+                                    :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                    :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                                     :precision="2"
                                     autocomplete="off"  
                                 />
@@ -135,11 +138,8 @@
 <!-- Script of Popup withdraw to wallets -->
 <script>
 import CustomerDepositedToWalletService from '../../../../../services/my_wallets/deposited/CustomersDepositedServices';
+// import { mapGetters, mapActions } from "vuex";
 export default {
-    components: {},
-    props: {
-        dialogPopupDeposited: Boolean 
-    },
     data() {
         var checkValidationDepositedAmount = (rule, value, callback) => {
             if (!value) {
@@ -158,6 +158,7 @@ export default {
             }, 1000);
         };
         return {
+            dialogTableVisibleOpeDeposit: false,
             urlABABankAcc: process.env.VUE_APP_PATH_FILE + 'wallets/company_bank_aba.jpg',
             srcListAccountBankABA: [process.env.VUE_APP_PATH_FILE + 'wallets/company_bank_aba.jpg'],
             urlACLEDABankAcc: process.env.VUE_APP_PATH_FILE + 'wallets/company_bank_aclida.jpg',
@@ -289,6 +290,7 @@ export default {
                             //Close form -> Successfully to submitted
                             this.closeFromDeposit(); 
                             //Set timeout closed loading confirm deposited
+                            this.formPopupDepositWallet = {};
                         }else{
                             this.$notify.error({
                                 title: 'Error Deposited to deposited to wallet',
@@ -317,7 +319,7 @@ export default {
             });
         },
         closeFromDeposit(){
-            this.dialogTableVisibleOpeDeposit === false;
+            this.dialogTableVisibleOpeDeposit = false;
         },
         // Smart Way to truncate long string to short      
         truncateLongTextTransactionNumber(str, length, useWordBoundary){
@@ -326,17 +328,6 @@ export default {
             return (useWordBoundary
                 ? subString.slice(0, subString.lastIndexOf(" "))
                 : subString) + "...";
-        }
-    },
-    computed: {
-        dialogTableVisibleOpeDeposit:{
-            get() {
-                return this.dialogPopupDeposited;
-            },
-            set(value) {
-                var currentPopup = this;
-                currentPopup.$emit('input', value)
-            }
         }
     }
 };

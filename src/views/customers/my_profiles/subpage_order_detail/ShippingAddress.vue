@@ -46,9 +46,9 @@
             <!-- Form Submit Address and Billing -->
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">Cancel</el-button>
+                    <el-button @click="visibleShippingDiaLog = false">Cancel</el-button>
                     <el-button type="primary" @click="dialogVisible = false">
-                    Confirm
+                      Confirm
                     </el-button>
                 </span>
             </template>

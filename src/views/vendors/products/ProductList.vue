@@ -273,7 +273,6 @@ const routerFilterProductCategories = (catId) => {
             ElMessage.error(error.message || []);
         });
     } catch (error) {
-        console.log(error)
         ElMessage.error(error?.message || []);
     }
 }
@@ -290,7 +289,7 @@ const listFilterEmptyProductByCatID = () => {
             }
             );
     } catch (error) {
-        console.log(error)
+
         ElMessage.error(error?.message || []);
     }
 }

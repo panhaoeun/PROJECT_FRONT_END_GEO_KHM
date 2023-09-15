@@ -12,7 +12,7 @@
                 :element-loading-spinner="loadingDepositedSvg"
                 element-loading-svg-view-box="-10, -10, 50, 50"
             >
-                <el-table-column label="Time" width="100">
+                <el-table-column label="Time" width="190">
                     <template #default="scope">
                         <div style="display: flex; align-items: center">
                         <el-icon><timer /></el-icon>
@@ -20,10 +20,10 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="payments_transaction_id" label="Transaction Number" width="180"></el-table-column>
-                <el-table-column prop="transaction_amount" label="Recharge Amount" width="180"></el-table-column>
+                <el-table-column prop="payments_transaction_id" label="Transaction Number" width="230"></el-table-column>
+                <el-table-column prop="transaction_amount" label="Recharge Amount(៛)" width="180"></el-table-column>
+                <el-table-column prop="transaction_amount_dollar" label="Recharge Amount($)" width="180"></el-table-column>
                 <el-table-column prop="transaction_status" label="Status" width="120"></el-table-column>
-                <el-table-column prop="transaction_type" label="Recharge Channel" width="180"></el-table-column>
             </el-table>
        </template>
         <template v-else>
@@ -107,9 +107,15 @@ export default {
                     setTimeout(function(){
                         this.loadingWalletList = false;
                     }.bind(this),1000);
+                    // Event
+                    this.$nextTick() // waits for the next event tick before completeing function.
                     return;
                 }).catch((error)=> {
-                        console.log('Error', error, 'Error');
+                    this.$notify.error({
+                        title: 'Error Entries Deposited List',
+                        message: error?.message ?? ''
+                    });
+                    return false;
                 });
             }else{
                 this.depositWalletToList = Array.isArray();

@@ -8,9 +8,8 @@
             <div>
                 <div class="gap-2 flex justify-between px-2 py-2">
                     <!--==== Recharge Deposit to wallet ===-->
-                    <Button label="Deposit" severity="danger" style="width:8rem;" @click="dialogTableVisibleOpeDeposit = true" size="small"/>
                     <!-- Dialog of Recharge Deposits -->
-                    <PopupDepositToWallet :dialogPopupDeposited="dialogTableVisibleOpeDeposit"/>                
+                    <PopupDepositToWallet/>                
                     <!--==== Recharge Withdraw to wallet ===-->
                     <Button label="Withdraw" severity="success" style="width:8rem;" @click="dialogTableVisibleOpeWithdraw = true" size="small"/>
                     <!-- Dialog of Recharge Withdraw -->
