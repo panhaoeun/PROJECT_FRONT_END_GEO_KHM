@@ -39,12 +39,8 @@
                 </el-form-item>
                 <el-form-item prop="cityAddr" name="Please enter a city">
                     <el-input v-model="addShippingFormModelSubmit.cityAddr" placeholder="City"/>
-                    <el-col class="text-center" :span="1" style="margin: 0.5rem"></el-col>
-                    <el-input v-model="addShippingFormModelSubmit.postalCodeAddr" placeholder="Postal Code"/>
                 </el-form-item>
-                <el-form-item prop="cityAddr" name="Please enter a city">
-                    <el-input v-model="addShippingFormModelSubmit.cityAddr" placeholder="City"/>
-                    <el-col class="text-center" :span="1" style="margin: 0.5rem"></el-col>
+                <el-form-item>
                     <el-input v-model="addShippingFormModelSubmit.postalCodeAddr" placeholder="Postal Code"/>
                 </el-form-item>
             </el-form> 
@@ -174,6 +170,10 @@ export default{
                 ],
                 addr02: [
                     { required: true, message: 'Please enter address 02', trigger: 'blur' },
+                    { min: 3, max: 5, message: 'contact name should be 3 to 5', trigger: 'blur' }
+                ],
+                cityAddr: [
+                    { required: true, message: 'Please enter city', trigger: 'blur' },
                     { min: 3, max: 5, message: 'contact name should be 3 to 5', trigger: 'blur' }
                 ]
             }
