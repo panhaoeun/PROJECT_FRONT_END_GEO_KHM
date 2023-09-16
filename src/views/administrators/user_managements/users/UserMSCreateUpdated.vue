@@ -469,7 +469,6 @@ export default {
     mounted() {
         // User Arr Vuex
         this.isUserAuthArr = this.$store.state.auth.userArr;
-        console.log(this.$route.params.id)
         //List Permissions
         this.userMSServices.getListRolesData().then((data) => {
             if (!data) {
@@ -589,10 +588,10 @@ export default {
          * @Updated Users
          * */
         async editUserMSUpdated(id) {
-            console.log(id)
             this.userMSServices
                 .editedUserMSByID(id)
                 .then((userId) => {
+                    console.log(userId)
                     if (
                         this.isUserAuthArr[1].typeUser === "Vendor" &&
                         this.isUserAuthArr[1].typeUser !== "Customer"

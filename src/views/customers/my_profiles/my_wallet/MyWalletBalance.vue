@@ -39,8 +39,8 @@
 </template>
 <script>
 import MyWalletBalanceTotal from "./MyWalletsTotalBalance.vue";
-import DepositBalanceToWallets from "./deposit/DepositToWalletList";
-import PopupDepositToWallet from "./deposit/PopupDepositToWallet";
+import DepositBalanceToWallets from "./deposit/DepositToWalletList.vue";
+import PopupDepositToWallet from "./deposit/PopupDepositToWallet.vue";
 import WithDrawBalanceToWallets from "./withdraw/WithdrawToWalletsList.vue";
 import PopupWithDrawToWallet from "./withdraw/PopupWithDrawToWallet.vue";
 import CustomerDepositedToWalletService from '../../.././../services/my_wallets/deposited/CustomersDepositedServices';

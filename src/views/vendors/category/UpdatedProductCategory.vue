@@ -195,7 +195,12 @@ export default {
                         this.$router.push("/vendor/products/category/list");
                     }
                 }).catch((error) => {
-                    this.notifmsgCatUpdated = error.response.data;
+                    // this.no
+                    this.$notify.error({
+                        title: error.response.data?.message ?? '',
+                        message: error.response.data.message ? error.response.data.message : '' ,
+                        showClose: false
+                    });
                 });
             }catch(error){
                 ElMessage.error(error);

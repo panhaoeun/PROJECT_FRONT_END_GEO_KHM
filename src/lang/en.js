@@ -22,6 +22,7 @@ export default {
         proCategories: 'Categories',
         proProductMS: 'Products',
         userMSModule: 'User Managements',
+        walletCustomer: 'Customer Wallet',
         customerMS: 'Customers',
         sellerMS: 'Sellers',
         usersMS: 'Users',
@@ -249,6 +250,10 @@ export default {
         customerList: "Customer List",
         customerNotFound: 'Customer not found',
 
+    },
+    walletModule: {
+        walletList: 'Wallet List',
+        walletListNotFound: 'Transaction in wallet not found'
     },
     seller: {
         sellerList: "Seller List",
