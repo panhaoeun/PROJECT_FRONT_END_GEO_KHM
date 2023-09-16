@@ -29,13 +29,16 @@
 <script>
 import { ElMessage } from "element-plus";
 import ProductsDashboardServices from "../../services/dashboard_graph_service/ProductsDashboardService";
+import functionExchangeRateKHRUSD from "../../utils/functionExchangeRateKHRUSD";
 export default {
     props: {},
     data() {
         return {
-            totalCountProduct: 0
+            totalCountProduct: 0,
+            amountUSDTotalProduct: 0
         };
     },
+    
     created() {
         this.productMSDashboardService = new ProductsDashboardServices();
     },
@@ -43,6 +46,11 @@ export default {
         this.countProductsDashboard();
     },
     methods: {
+       async convertRielAmount(khrAmount){
+            const amountConvertRiel =  await functionExchangeRateKHRUSD.convertRielToUSDAmount(khrAmount);
+            const result = await Promise.resolve(amountConvertRiel)
+            return result;
+        },
         countProductsDashboard(){
             this.productMSDashboardService.getProductCountCurrentStock().then((productCount) => {
                 if(!productCount){
