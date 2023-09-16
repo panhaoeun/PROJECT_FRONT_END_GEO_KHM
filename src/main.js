@@ -208,7 +208,7 @@ app.component('RadioButton', RadioButton);
 app.component('Textarea', Textarea);
 app.use(ConfirmationService);
 app.component('FileUpload', FileUpload);
-app.component('ConfirmDialog', ConfirmDialog);
+app.component('ConfirmDialog', g);
 //Vue Uoloads
 app.component('file-upload', VueUploadComponent);
 app.component('TreeTable', TreeTable);

@@ -42,7 +42,7 @@
                             <a href="#"><i class="social_youtube"></i></a>
                         </div>
                         <div class="copyright">
-                            <p>Copyright © 2020 HasThemes | <a href="https://hasthemes.com/">Built with <span>Norda</span> by HasThemes</a>.</p>
+                            <p>Copyright © {{ new Date().getFullYear() }}  | C.A.I.T</p>
                         </div>
                     </div>
                 </div>

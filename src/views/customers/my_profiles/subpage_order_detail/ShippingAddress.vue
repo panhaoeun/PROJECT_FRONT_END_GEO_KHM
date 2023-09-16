@@ -6,13 +6,13 @@
        <el-dialog v-model="visibleShippingDiaLog" title="Shipping address">
             <!-- Form Submit Address and Billing -->
             <el-form
-                ref="shippingBillingFormSubmit"
+                ref="shippingBillingFormSubmitRef"
                 :model="addShippingFormModelSubmit"
                 :rules="rulesDepositedWallet"
                 class="demo-ruleForm"
             >
                 <!-- Radio Choose Type Address Option -->
-                <el-form-item prop="typeAddrAddFormOption">
+                <el-form-item prop="typeAddrAddFormOption" class="pb-2">
                     <el-radio-group 
                         autocomplete="off"  
                         class="w-full"
@@ -24,20 +24,25 @@
                     </el-radio-group>
                 </el-form-item>
                 <!--Contact person name-->
-                <el-form-item prop="contactPerson" name="Please enter a Contact Name">
+                <el-form-item prop="contactName"  name="Please enter a Contact Name">
                    <el-input v-model="addShippingFormModelSubmit.contactName"  placeholder="Please Enter Name"/>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="phoneNumberContact">
                     <el-input v-model="addShippingFormModelSubmit.phoneNumberContact" placeholder="Please Enter Phone Number"/>
                 </el-form-item>
                 <!--  -->
-                <el-form-item  prop="shippingAddressFormSubmitted" name="Please enter a Location">
+                <el-form-item  prop="addr01" name="Please enter a address 01">
                     <el-input v-model="addShippingFormModelSubmit.addr01" placeholder="Address 01"/>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="addr02" name="Please enter a address 02" >
                    <el-input v-model="addShippingFormModelSubmit.addr02" placeholder="Address 02"/>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="cityAddr" name="Please enter a city">
+                    <el-input v-model="addShippingFormModelSubmit.cityAddr" placeholder="City"/>
+                    <el-col class="text-center" :span="1" style="margin: 0.5rem"></el-col>
+                    <el-input v-model="addShippingFormModelSubmit.postalCodeAddr" placeholder="Postal Code"/>
+                </el-form-item>
+                <el-form-item prop="cityAddr" name="Please enter a city">
                     <el-input v-model="addShippingFormModelSubmit.cityAddr" placeholder="City"/>
                     <el-col class="text-center" :span="1" style="margin: 0.5rem"></el-col>
                     <el-input v-model="addShippingFormModelSubmit.postalCodeAddr" placeholder="Postal Code"/>
@@ -47,7 +52,7 @@
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="visibleShippingDiaLog = false">Cancel</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">
+                    <el-button type="primary" @click="submitShippingBillingAddress('shippingBillingFormSubmitRef')">
                       Confirm
                     </el-button>
                 </span>
@@ -150,7 +155,44 @@ export default{
                     addr01: '',
                     addr02: ''
                 }
-            ]
+            ],
+            rulesDepositedWallet: {
+                typeAddrAddFormOption: [
+                    { required: true, message: 'Please select type of address', trigger: 'change' },
+                ],
+                contactName: [
+                    { required: true, message: 'Please enter contact name', trigger: 'blur' },
+                    { min: 3, max: 5, message: 'contact name should be 3 to 5', trigger: 'blur' }
+                ],
+                phoneNumberContact: [
+                    { required: true, message: 'Please enter phone number for contact', trigger: 'blur' },
+                    { min: 3, max: 5, message: 'contact name should be 3 to 5', trigger: 'blur' }
+                ],
+                addr01: [
+                    { required: true, message: 'Please enter address 01', trigger: 'blur' },
+                    { min: 3, max: 5, message: 'contact name should be 3 to 5', trigger: 'blur' }
+                ],
+                addr02: [
+                    { required: true, message: 'Please enter address 02', trigger: 'blur' },
+                    { min: 3, max: 5, message: 'contact name should be 3 to 5', trigger: 'blur' }
+                ]
+            }
+        }
+    },
+    methods:{
+        submitShippingBillingAddress(submit) {
+            this.$refs[submit].validate((valid) => {
+                if (valid) {
+                    console.log('error submit!!');
+                } else {
+                    this.$notify.error({
+                        title: 'Error Add Shipping Address',
+                        message: 'Please enter address to shipping or billing',
+                        showClose: false
+                    });   
+                    return false;
+                }
+            });
         }
     }
 }
