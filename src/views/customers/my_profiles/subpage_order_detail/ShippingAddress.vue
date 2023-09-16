@@ -46,9 +46,9 @@
             <!-- Form Submit Address and Billing -->
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">Cancel</el-button>
+                    <el-button @click="visibleShippingDiaLog = false">Cancel</el-button>
                     <el-button type="primary" @click="dialogVisible = false">
-                    Confirm
+                      Confirm
                     </el-button>
                 </span>
             </template>
@@ -79,13 +79,13 @@
                                                 </span>
                                             </p>
                                             <p class="mb-0 text-black font-weight-bold">
-                                                <a class="text-primary mr-3" data-toggle="modal" data-target="#add-address-modal" href="#">
+                                                <router-link class="text-primary mr-3" to="#">
                                                     <i class="icofont-ui-edit"></i> EDIT
-                                                </a> 
-                                                <a class="text-danger" data-toggle="modal" data-target="#delete-address-modal" href="#">
+                                                </router-link> 
+                                                <router-link class="text-danger" to="#">
                                                     <i class="icofont-ui-delete"></i> 
                                                     DELETE
-                                                </a>
+                                                </router-link>
                                             </p>
                                         </div>
                                     </div>

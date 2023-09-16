@@ -18,11 +18,15 @@ const store = createStore({
         name: [],
         shareOffcanvas: false,
         userAuth: null,
-        language: getLanguage()
+        language: getLanguage(),
+        listWallet: []
     },
     getters: {
         shareOffcanvas: (state) => state.shareOffcanvas,
         language: (state) => state.language,
+        getDepositWallet(state) {
+            return state.listWallet;
+        }
     },
     mutations: {
         loginUser(state, payload) {
@@ -32,6 +36,9 @@ const store = createStore({
         openBottomCanvasCommit(state, payload) {
             state[payload.name] = payload.value
         },
+        updatedListWallet(state, listWallet) {
+            state.listWallet = listWallet;
+        }
     },
     actions: {
         set_user(context, payload) {
@@ -40,6 +47,9 @@ const store = createStore({
         openBottomCanvasAction({ commit }, payload) {
             commit('openBottomCanvasCommit', payload)
         },
+        updatedListDeposited({commit}, payload){
+            commit('updatedListWallet', payload)
+        }
     },
     plugins: debug ? [createLogger()] : [],
     modules: {

@@ -3,7 +3,7 @@ import DefaultLayoutVendor from "../../components/layouts/vendors/DefaultLayouts
 const defaultChildRoutesReportMS = (prefix) => [
     // Orders Managements
     {
-        path: "/vendor/order_managements/order_list",
+        path: "/vendor/order_managements/order_report_list",
         name: prefix + '.order-list',
         meta: {
             title: "orderProductModule",

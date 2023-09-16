@@ -26,7 +26,18 @@ const defaultChildRoutesUsersMS = (prefix) => [
              permissions: ['customers_module']
          },
          component: () => import("../../views/vendors/customers/ViewDetailCustomers.vue"),
-     },
+    },
+    {
+        path: "/vendor/user/list/admin/customer_wallet_list",
+        name: prefix + '.customer_wallet_list',
+        meta: {
+            title: "walletCustomer",
+            requiresAuth: true,
+            icon: 'wallet',
+            permissions: ['wallet_customer_module'],
+        },
+        component: () => import("../../views/vendors/customers/my_wallets/deposited/ListDepositToWalletsCustomer.vue"),
+    },
     /*
       @Sellers Managements
     */

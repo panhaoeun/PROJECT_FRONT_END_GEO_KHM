@@ -149,7 +149,8 @@
                                         <div class="field">
                                             <label for="discountType" class="text-sm font-semibold">Discount Type</label>
                                             <Dropdown v-model="discountType" placeholder="Select Discount Type"
-                                                optionLabel="disType" class="border-round-lg text-sm"
+                                                optionLabel="disType"
+                                                class="border-round-lg text-sm"
                                                 option-value="disType"
                                                 :options="disTypesOption" 
                                                 :showClear="true"
