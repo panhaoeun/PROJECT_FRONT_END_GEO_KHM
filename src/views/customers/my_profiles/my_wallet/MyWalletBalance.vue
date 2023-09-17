@@ -71,6 +71,9 @@ export default {
         isLoggedIn() {
             return isLoggedIn();
         },
+        mounted() {
+            this.getCurrentAmountDepositedByCustomerID();
+        },
         // Call the method
         getCurrentAmountDepositedByCustomerID(){
             this.customerDepositedWallet.getCustomerDepositedBalanceInCurrent()
@@ -89,10 +92,6 @@ export default {
                 return false;
             })
         },
-    },
-    mounted() {
-        const userId = this.$store.state.auth.userArr;
-        this.getCurrentAmountDepositedByCustomerID(userId);
     }
 };
 </script>
