@@ -46,6 +46,7 @@
                                                                 : 'https://img.business.com/rc/816x500/aHR0cHM6Ly93d3cuYnVzaW5lc3NuZXdzZGFpbHkuY29tL2ltYWdlcy9pLzAwMC8wMTcvMDg0L29yaWdpbmFsL21hY2Jvb2stcHJvLTE4LnBuZw==?_ga=2.200130154.557404650.1551883694-765115885.1551883694'
                                                                 " 
                                                             alt=""
+                                                            width="100"
                                                         />
                                                     </a>
                                                 </td>

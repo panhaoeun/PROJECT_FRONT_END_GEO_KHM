@@ -303,7 +303,7 @@ export default {
                         if(error){
                             this.$notify.error({
                                 title: 'Error Deposited to deposited to wallet',
-                                message: error.response.data.error ?? 'Unsuccessfully for deposited to wallet',
+                                message: error.response.data.error.message ?? 'Unsuccessfully for deposited to wallet',
                                 showClose: false
                              });   
                         }

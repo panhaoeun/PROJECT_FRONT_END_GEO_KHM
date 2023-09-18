@@ -56,125 +56,21 @@
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="billing-info-wrap mr-50">
-                                <h3>Billing Details</h3>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="billing-info mb-20">
-                                            <label>First Name <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
+                                <h3>Shipping And Billing Details</h3>
+                            </div>
+                            <!-- Shipping Address -->
+                            <div class="billing-info-wrap mr-50">
+                                <div class="card">
+                                    <div class="font-bold">
+                                        Shipping Address
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="billing-info mb-20">
-                                            <label>Last Name <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
+                                    <div class="my-2">
+                                        <P>asdasd</P>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Street Address <abbr class="required" title="required">*</abbr></label>
-                                            <input class="billing-address" placeholder="House number and street name" type="text">
-                                            <input placeholder="Apartment, suite, unit etc." type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Town / City <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Postcode / ZIP <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Phone <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Email Address <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="checkout-account-toggle open-toggle2 mb-30">
-                                    <label>Email Address</label>
-                                    <input placeholder="Password" type="password">
-                                </div>
-                                <div class="checkout-account mt-25">
-                                    <input class="checkout-toggle" type="checkbox">
-                                    <span>Ship to a different address?</span>
-                                </div>
-                                <div class="different-address open-toggle mt-30">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>First Name</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Last Name</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="billing-info mb-20">
-                                                <label>Company Name</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="billing-info mb-20">
-                                                <label>Street Address</label>
-                                                <input class="billing-address" placeholder="House number and street name" type="text">
-                                                <input placeholder="Apartment, suite, unit etc." type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="billing-info mb-20">
-                                                <label>Town / City</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>State / County</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Postcode / ZIP</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Phone</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Email Address</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="additional-info-wrap">
-                                    <label>Order notes</label>
-                                    <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
                                 </div>
                             </div>
                         </div>
+                        <!-- Order Detail -->
                         <div class="col-lg-5">
                             <div class="your-order-area">
                                 <h3>Your order</h3>
