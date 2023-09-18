@@ -155,7 +155,14 @@
                                        <template v-if="isLoggedIn()">
                                             <router-link class="cart-active" to="/customer/shopping-cart/product-list/cart-items">
                                                 <i class="icon-basket-loaded"></i>
-                                                <span class="pro-count black">0</span>
+                                                <span class="pro-count black">
+                                                    <template v-if="cart.length >=1">
+                                                        {{ cart.length ? cart.length : 0  }}
+                                                    </template>
+                                                    <template v-else>
+                                                        0
+                                                    </template>
+                                                </span>
                                             </router-link>
                                        </template>
                                        <!-- Cart item localstorage -->

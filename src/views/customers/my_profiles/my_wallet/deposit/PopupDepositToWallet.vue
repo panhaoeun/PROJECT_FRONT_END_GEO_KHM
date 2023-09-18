@@ -289,6 +289,7 @@ export default {
                             });
                             //Close form -> Successfully to submitted
                             this.closeFromDeposit(); 
+                            window.location.reload();
                             //Set timeout closed loading confirm deposited
                             this.formPopupDepositWallet = {};
                         }else{

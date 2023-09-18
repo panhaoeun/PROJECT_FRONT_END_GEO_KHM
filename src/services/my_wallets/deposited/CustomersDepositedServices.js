@@ -13,9 +13,8 @@ export default class CustomerDepositedToWalletService {
     async getCustomerDepositedBalanceInCurrent(data) {
         return await httpJson.get("/user/transaction/my_wallet/get_current_balance_wallet",{
             headers: authHeader()
-        },data)
+        }, data)
             .then((result) => {
-                console.log(result)
                 if (result.status == 200) {
                     if (result.data.success == true) {
                         return result.data.result.resultStatus;

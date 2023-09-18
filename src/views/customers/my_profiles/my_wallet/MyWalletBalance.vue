@@ -1,9 +1,9 @@
 <template>
     <!-- Auth Login -->
-   <div class="card" v-if="isLoggedIn()">
-        <div class="px-2 py-2"> 
+   <div class="myaccount-content" v-if="isLoggedIn()">
+        <MyWalletBalanceTotal :balanceKHR='totalBalanceKHR ? totalBalanceKHR : 0' :balanceUSD="totalBalanceByUSDConvert ? totalBalanceByUSDConvert : 0"/>
+        <div class="myaccount-table table-responsive"> 
             <!-- My Wallet total balance -->
-            <MyWalletBalanceTotal :balanceKHR='totalBalanceKHR ? totalBalanceKHR : 0' :balanceUSD="totalBalanceByUSDConvert ? totalBalanceByUSDConvert : 0"/>
             <!--Button Wallets-->
             <div>
                 <div class="gap-2 flex justify-between px-2 py-2">
@@ -66,13 +66,13 @@ export default {
     created() {
         this.customerDepositedWallet = new CustomerDepositedToWalletService();
     },
+    mounted() {
+        this.getCurrentAmountDepositedByCustomerID();
+    },
     methods: {
         // Check login
         isLoggedIn() {
             return isLoggedIn();
-        },
-        mounted() {
-            this.getCurrentAmountDepositedByCustomerID();
         },
         // Call the method
         getCurrentAmountDepositedByCustomerID(){

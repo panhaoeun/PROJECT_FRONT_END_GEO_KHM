@@ -16208,7 +16208,7 @@ textarea:focus {
 }
 
 .product-details-content .pro-details-price span.old-price {
-  text-decoration: line-through;
+  /* text-decoration: line-through; */
   font-size: 20px;
   color: #000000;
   margin-left: 15px;
@@ -19803,7 +19803,6 @@ h3.cart-page-title {
 
 .myaccount-content h3 {
   font-size: 20px;
-  border-bottom: 1px dashed #ccc;
   padding-bottom: 10px;
   margin-bottom: 25px;
   font-weight: 600;
