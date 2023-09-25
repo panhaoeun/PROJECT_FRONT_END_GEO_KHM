@@ -36,14 +36,15 @@
         </div>
         <div class="more-product-btn text-center">
             <!-- More Products -->
-            <a href="#" 
+            <router-link 
+                to="#"
                 @click="nextPage()"
                :disabled="!hasNextPage || isFetchingNextPage"
             >
                 <span v-if="isFetchingNextPage">Loading more...</span>
                 <span v-else-if="hasNextPage">Load More...</span>
                 <span v-else>Nothing more to load...</span>
-            </a>
+            </router-link >
         </div>
     </div>
 </div>

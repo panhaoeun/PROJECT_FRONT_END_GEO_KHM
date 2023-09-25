@@ -10,171 +10,41 @@
                         <li class="active">Checkout </li>
                     </ul>
                 </div>
-            </div>
+            </div>            
         </div>
-        <div class="checkout-main-area pt-80">
-            <div class="container">
-                <div class="customer-zone mb-20">
-                    <div class="checkout-login-info">
-                        <form action="#">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="sin-checkout-login">
-                                        <label>Username or email address <span>*</span></label>
-                                        <input type="text" name="user-name">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="sin-checkout-login">
-                                        <label>Passwords <span>*</span></label>
-                                        <input type="password" name="user-password">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="button-remember-wrap">
-                                <button class="button" type="submit">Login</button>
-                                <div class="checkout-login-toggle-btn">
-                                    <input type="checkbox">
-                                    <label>Remember me</label>
-                                </div>
-                            </div>
-                            <div class="lost-password">
-                                <a href="#">Lost your password?</a>
-                            </div>
-                        </form>
-                        <div class="checkout-login-social">
-                            <span>Login with:</span>
-                            <ul>
-                                <li><a href="#">Facebook</a></li>
-                                <li><a href="#">Twitter</a></li>
-                                <li><a href="#">Google</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <div class="checkout-main-area pt-10">
+            <div class="container pb-4">
                 <div class="checkout-wrap pt-30">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="billing-info-wrap mr-50">
-                                <h3>Billing Details</h3>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="billing-info mb-20">
-                                            <label>First Name <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="billing-info mb-20">
-                                            <label>Last Name <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Street Address <abbr class="required" title="required">*</abbr></label>
-                                            <input class="billing-address" placeholder="House number and street name" type="text">
-                                            <input placeholder="Apartment, suite, unit etc." type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Town / City <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Postcode / ZIP <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Phone <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="billing-info mb-20">
-                                            <label>Email Address <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
+                                <h3>Shipping And Billing Details</h3>
+                            </div>
+                            <div class="gap-3 my-2">
+                                <!-- Shipping Method -->
+                                <div class="my-2">
+                                    <!-- Shipping Method -->
+                                    <ShippingMethod/>
                                 </div>
-                                <div class="checkout-account-toggle open-toggle2 mb-30">
-                                    <label>Email Address</label>
-                                    <input placeholder="Password" type="password">
+                                <div class="my-2">
+                                    <!-- Shipping Address -->
+                                    <AddShippingAddress 
+                                        :allAddresses="shippingAddress" 
+                                        :selected="selectedAddressShip"
+                                        @selected="addressSelectedShipping"
+                                    />
                                 </div>
-                                <div class="checkout-account mt-25">
-                                    <input class="checkout-toggle" type="checkbox">
-                                    <span>Ship to a different address?</span>
-                                </div>
-                                <div class="different-address open-toggle mt-30">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>First Name</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Last Name</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="billing-info mb-20">
-                                                <label>Company Name</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="billing-info mb-20">
-                                                <label>Street Address</label>
-                                                <input class="billing-address" placeholder="House number and street name" type="text">
-                                                <input placeholder="Apartment, suite, unit etc." type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="billing-info mb-20">
-                                                <label>Town / City</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>State / County</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Postcode / ZIP</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Phone</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="billing-info mb-20">
-                                                <label>Email Address</label>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="additional-info-wrap">
-                                    <label>Order notes</label>
-                                    <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
-                                </div>
+                               <div class="my-2">
+                                    <!-- Billing Address -->
+                                    <BillingAddress
+                                        :allAddresses="billingAddressAll"   
+                                        :selected="selectedAddressBill"
+                                        @selected="addressSelectedBillingArr"
+                                    />
+                               </div>
                             </div>
                         </div>
+                        <!-- Order Detail -->
                         <div class="col-lg-5">
                             <div class="your-order-area">
                                 <h3>Your order</h3>
@@ -185,41 +55,36 @@
                                                 <li>Product <span>Total</span></li>
                                             </ul>
                                         </div>
-                                        <div class="your-order-middle">
-                                            <ul>
-                                                <li>Product Name X 1 <span>$329 </span></li>
-                                                <li>Product Name X 1 <span>$329 </span></li>
-                                            </ul>
-                                        </div>
-                                        <div class="your-order-info order-subtotal">
-                                            <ul>
-                                                <li>Subtotal <span>$329 </span></li>
-                                            </ul>
-                                        </div>
-                                        <div class="your-order-info order-shipping">
-                                            <ul>
-                                                <li>Shipping <p>Enter your full address </p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="your-order-info order-total">
-                                            <ul>
-                                                <li>Total <span>$273.00 </span></li>
-                                            </ul>
-                                        </div>
+                                       <!-- Order Payment -->
+                                       <OrderDetail/>
                                     </div>
-                                    <div class="payment-method">
-                                        <div class="pay-top sin-payment">
-                                            <input id="payment_method_1" class="input-radio" type="radio" value="cheque" checked="checked" name="payment_method">
-                                            <label for="payment_method_1"> Direct Bank Transfer </label>
-                                            <div class="payment-box payment_method_bacs">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
-                                            </div>
-                                        </div>
+                                    <!-- Payment Methods -->
+                                    <div class="pay-top sin-payment">
+                                        <transition
+                                            name="shipping-form-anim"
+                                            enter-active-class="animated slideInLeft faster"
+                                            leave-active-class="animated slideOutLeft faster"
+                                        >
+                                            <!-- Payment Method -->
+                                            <PaymentDetail 
+                                                v-if="isSessionActive()" 
+                                                :selected="selectPaymentMethod"
+                                                :currentBalanceUSD="currentBalanceUSD"
+                                                :currentBalanceKHR="currentBalanceKHR"
+                                            />
+                                        </transition>
+                                    </div>
+                                    <!-- Order Noted -->
+                                    <div class="additional-info-wrap pt-4">
+                                        <label>Order notes (Optional)</label>
+                                        <textarea placeholder="Notes about your order, e.g. special notes for delivery." v-model="customerOrderNoted" name="order_noted"></textarea>
                                     </div>
                                 </div>
-                                <div class="Place-order">
-                                    <router-link to="">Place Order</router-link>
+                                <div class="Place-order" v-if="isSessionActive() && carts.length > 0">
+                                    <router-link to="#" @click.prevent="handleCheckOutPayment()">Place Order</router-link>
+                                </div>
+                                <div v-else>
+                                    <p>You need to log in first before starting checkout process</p>
                                 </div>
                             </div>
                         </div>
@@ -231,8 +96,120 @@
 </template>
 <!-- Script od My account check out -->
 <script>
+    import { mapGetters } from 'vuex';
+    import AddShippingAddress from "./my_account_checkout/AddShippingAddress.vue";
+    import BillingAddress from "./my_account_checkout/AddBillingAddress.vue";
+    import ShippingMethod from "./my_account_checkout/ShippingMethod.vue";
+    import OrderDetail from "./my_account_checkout/OrderDetail.vue";
+    import PaymentDetail from "./my_account_checkout/PaymentDetail.vue";
+    import { isLoggedIn } from "@/utils/auth/auth";
     export default {
-        computed(){
-        }
+        data() {
+            return {
+                shippingAddress: [],
+                billingAddressAll: [],
+                selectedAddressShip: {},
+                selectedAddressBill: {},
+                paymentMethod: '',
+                customerOrderNoted: '',
+                shopId: null,
+                vendorId: null,
+                emailPhoneId: null
+            }
+        },          
+        components: {
+            AddShippingAddress,
+            BillingAddress,
+            ShippingMethod,
+            OrderDetail,
+            PaymentDetail
+        },
+        computed:{
+            currentUser() {
+                return this.currentUser ? this.currentUser : null;
+            },
+            ...mapGetters({
+                getSelectedAddressShip: 'shippingStore/getSelectedAddress',
+                selectedAddressBilling: 'billingStore/getSelectedBillingAddress',
+                carts: 'cart/getCart',
+                checkoutInitiated: 'cart/checkoutInitiated',
+                orderDetaiL: 'cart/getCartAuthItem',
+                currentUser: 'auth/currentUserAuth',
+                payMethod: 'cart/getPayMethod',
+                currentBalanceKHR: 'myWallet/getCurrentBalanceKHR',
+                currentBalanceUSD: 'myWallet/getCurrentBalanceUSD'
+            }),
+            shippingMethod: {
+                get() {
+                    return this.$store.getters['shippingStore/shippingMethod'];
+                },
+                set(val) {
+                    this.$store.commit('shippingStore/setShippingMethod', val);
+                },
+            },
+            formateCurrentBalanceKHR(){
+                const convertBalance = this.currentBalanceKHR.toString().replace(/[^0-9.]/g, '');
+                return convertBalance ? convertBalance : 0;
+            }
+        },
+        methods: {
+            isSessionActive(){
+                return isLoggedIn();
+            },
+            async selectPaymentMethod(selected){
+                if (!this.checkoutInitiated) return;
+                this.$store.commit('cart/selectPayMethodOrder', selected);
+            },
+            async addressSelectedShipping(selected) {
+                this.$store.commit('shippingStore/addressSelected', selected);
+                if (!this.checkoutInitiated) return;
+                this.selectedAddressShip = selected;
+            },
+           async addressSelectedBillingArr(selected){
+                this.$store.commit('billingStore/addressSelectedBilling', selected);
+                this.selectedAddressBill = selected;
+            },
+            getPaymentMethod(){
+                if(this.payMethod !== null){
+                    return {
+                        paymentMethod: this.payMethod.aliasName ? this.payMethod.aliasName : ''
+                    }
+                }
+            },
+            async handleCheckOutPayment(){
+                if(this.isSessionActive() !== null){
+                    if (!this.getSelectedAddressShip || !this.selectedAddressBilling ||  !this.shippingMethod) {
+                        this.$notify.warning({
+                            title: 'Please select shipping method first',
+                            message: 'The shipping method and address should be selected first.',
+                            showClose: false
+                        });
+                        return;
+                    } 
+                    console.log(this.getPayMethod)
+                    // Handle Checkout Payments 
+                    await this.$store.dispatch('cart/createCheckout', {
+                        shopId: this.shopId ? this.shopId : 0,
+                        vendorId: this.vendorId ? this.vendorId : 0,
+                        emailPhoneId: this.getCurrentUser().userEmail ? this.getCurrentUser().userEmail : '',
+                        phoneNumberId: this.getCurrentUser().userPhoneNumber ? this.getCurrentUser().userPhoneNumber : 0 ,
+                        customerOrderNoted: this.customerOrderNoted ? this.customerOrderNoted : 0,
+                        orderDetaiL: this.orderDetaiL ? this.orderDetaiL : 0,
+                        getSelectedAddressShip: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
+                        selectedAddressBilling: this.selectedAddressBilling ? this.selectedAddressBilling : '',
+                        shippingMethod: this.shippingMethod ? this.shippingMethod : '',
+                        paymentMethod: this.getPaymentMethod().paymentMethod ? this.getPaymentMethod().paymentMethod: ''
+                    });
+                }
+            },
+            getCurrentUser(){
+                if(this.currentUser !== null && this.currentUser.length > 0){
+                    return {
+                        userPhoneNumber: this.currentUser[0].user_phonenumber ?? '',
+                        userEmail: this.currentUser[0].user_email ?? ''
+                    }
+                }
+            },  
+        },
     }
 </script>

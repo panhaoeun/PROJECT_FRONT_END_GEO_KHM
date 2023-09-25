@@ -3,8 +3,8 @@
         <div class="single-product-wrap mb-60 product__card">
             <div class="product-img product-img-zoom mb-15">
                 <!-- Product Image -->
-                <a
-                    href="#"
+                <router-link
+                    to="#"
                     @click="$router.push({path: '/customer/product-details/product/view-product-detail',
                     query: {
                         pid: productId,
@@ -19,14 +19,7 @@
                         src="../../../../../assets/img/product/product-62.jpg" 
                         loading="lazy"
                     alt="">
-            </a>
-                <div class="product-action-2 tooltip-style-2">
-                    <button title="Wishlist"><i class="icon-heart"></i></button>
-                    <button title="Quick View" data-toggle="modal" data-target="#exampleModal">
-                            <i class="icon-size-fullscreen icons"></i>
-                    </button>
-                    <button title="Compare"><i class="icon-refresh"></i></button>
-                </div>
+                </router-link>
             </div>
             <div class="product-content-wrap-3">
                 <!-- Product Name -->
@@ -113,10 +106,7 @@ export default {
 
 <style scoped>
 .product__card {
-    border: 1px solid var(--grey);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.05s ease-in;
-    padding: 15px;
     text-align: left;
     border-radius: 15px;
     color: #222;

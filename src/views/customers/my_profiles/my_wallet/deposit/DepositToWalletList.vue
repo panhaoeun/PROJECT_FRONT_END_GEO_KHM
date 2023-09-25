@@ -6,12 +6,16 @@
        <template v-if="depositWalletToList.length > 0 && depositWalletToList !== ''">
             <el-table 
                 v-loading="loadingWalletList"
-                :data="depositWalletToList" 
+                :data="pagedTableData" 
                 style="width: 100%" 
                 element-loading-text="Loading..."
                 :element-loading-spinner="loadingDepositedSvg"
                 element-loading-svg-view-box="-10, -10, 50, 50"
             >
+                <el-table-column
+                    type="index"
+                    :index="indexMethod">
+                </el-table-column>
                 <el-table-column label="Time" width="190">
                     <template #default="scope">
                         <div style="display: flex; align-items: center">
@@ -25,6 +29,13 @@
                 <el-table-column prop="transaction_amount_dollar" label="Recharge Amount($)" width="180"></el-table-column>
                 <el-table-column prop="transaction_status" label="Status" width="120"></el-table-column>
             </el-table>
+            <!-- Wallet Deposited List -->
+            <div class="col-12">
+                <div class="pro-pagination-style text-center mt-10">
+                   <el-divider></el-divider>
+                    <el-pagination layout="prev, pager, next" :total="this.depositWalletToList.length" @current-change="handleCurrentChangePagination"></el-pagination>
+                </div>
+            </div>
        </template>
         <template v-else>
             <IconRielComponent/>
@@ -51,6 +62,8 @@ export default {
     },
     data() {
         return {
+            page: 1,
+            pageSize: 10,
             loadingWalletList: true,
             depositWalletToList: [],
             loadingDepositedSvg: `<path class="path" d="
@@ -67,9 +80,23 @@ export default {
         getListDepositedWallet: function(){
             const userId = this.$store.state.auth.userArr;
             return this.depositWalletToListByCustomerAuthTransaction(userId);
+        },
+        pagedTableData() {
+            const data = this.depositWalletToList.slice(
+                this.pageSize * this.page - this.pageSize,
+                    this.pageSize * this.page
+                );
+            return data;
         }
     },
     methods: {
+        handleCurrentChangePagination(val){
+            console.log(val)
+           this.page = val;
+        },
+        indexMethod(index) {
+            return index + 1;
+        },
         convertDateTimeFormateTransactionDate(dateString, formate){
             const date = new Date(dateString);
             if (date == "Invalid Date" && isNaN(date) || typeof date == 'number' && date != 0 && !date) {

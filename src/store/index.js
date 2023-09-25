@@ -7,7 +7,9 @@ import setting from './setting';
 import app from './modules/app';
 import usersPerm from './modules/usersPerm';
 import { getLanguage } from "../lang";
-
+import ShippingStore from './ecommerce/shipping';
+import BillingStore from './ecommerce/billing';
+import MyWalletStore from "./modules/my_wallet";
 const debug = process.env.NODE_ENV !== 'production';
 const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -57,9 +59,12 @@ const store = createStore({
         products: products,
         categories: categoriesModule,
         cart: carts,
+        myWallet: MyWalletStore,
         setting: setting,
         app: app,
         users: usersPerm,
+        shippingStore: ShippingStore,
+        billingStore: BillingStore
     },
 });
 // Load all modules.
@@ -140,8 +145,8 @@ function resolveStoreModules (moduleData, filename) {
     if (moduleData.namespaced === false) {
         delete storeModule.namespaced
     }
-    }
-    function normalizeState (moduleData, filePath) {
+}
+function normalizeState (moduleData, filePath) {
     if (typeof moduleData !== 'function') {
         console.warn(`${filePath} should export a method that returns an object`)
         const state = Object.assign({}, moduleData)
@@ -160,7 +165,6 @@ function normalizeModule (moduleData, filePath) {
   }
   return moduleData
 }
-
 function getStoreModule (storeModule, namespaces, { isProperty = false } = {}) {
   // If ./mutations.js
   if (!namespaces.length || (isProperty && namespaces.length === 1)) {
@@ -175,7 +179,6 @@ function getStoreModule (storeModule, namespaces, { isProperty = false } = {}) {
 
   return getStoreModule(storeModule.modules[namespace], namespaces, { isProperty })
 }
-
 function mergeProperty (storeModule, moduleData, property) {
   if (!moduleData) {
     return

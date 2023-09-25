@@ -155,7 +155,14 @@
                                        <template v-if="isLoggedIn()">
                                             <router-link class="cart-active" to="/customer/shopping-cart/product-list/cart-items">
                                                 <i class="icon-basket-loaded"></i>
-                                                <span class="pro-count black">0</span>
+                                                <span class="pro-count black">
+                                                    <template v-if="cart.length >=1">
+                                                        {{ cart.length ? cart.length : 0  }}
+                                                    </template>
+                                                    <template v-else>
+                                                        0
+                                                    </template>
+                                                </span>
                                             </router-link>
                                        </template>
                                        <!-- Cart item localstorage -->
@@ -245,6 +252,13 @@ export default {
     created() {
         this.customerCurrentId = new CustomerServicesBaseAdmin();
         this.customerCurrentOrder = new CustomerOrderCheckOutServices();
+        // Login
+        if(isLoggedIn()){
+            this.initiateApp();
+        }else{
+            this.$store.commit('shippingStore/resetAddresses');
+            this.$store.commit('cart/resetOrders');
+        }
     },
     mounted() {
         const userId = this.$store.state.auth.userArr;
@@ -254,6 +268,15 @@ export default {
         // Check login
         isLoggedIn() {
             return isLoggedIn();
+        },
+        async initiateApp(){
+            try{
+                await this.$store.dispatch('cart/getCartByCurrentCustomer');
+                // Get Current
+                await this.$store.dispatch('myWallet/myWalletCurrentBalance');
+            }catch(error){
+                return Promise.reject(error);
+            }
         },
         searchToggleProduct: function(){
             /*-------------------------------
@@ -349,7 +372,8 @@ export default {
                 type: 'new'
             }   
             this.customerCurrentOrder.createCartOrderItemCustomer(proItem).then((proItem) => console.log(proItem)).catch((error) => console.log(error));
-        }
+        },
+
     }
 };
 </script>

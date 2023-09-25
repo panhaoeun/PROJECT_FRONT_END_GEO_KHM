@@ -79,7 +79,27 @@
                             <!-- <span class="old-price">$95.72</span> -->
                         </div>
                         <!-- Product Spec -->
-                        <div class="pro-details-size" v-if="productSpec">
+                        <template v-if="productSpec">
+                            <template v-if="productSpec.length> 0 && productSpec !== ''" class="px-2 py-2">
+                                <template v-for="(proItem, index) in productSpec" :key="index" class="px-2 py-2 gap-3">
+                                    <span>{{ proItem?.item }}:</span>
+                                    <template v-if="proItem.additional" class="px-2 py-2">
+                                        <div class="flex flex-column w-20rem">
+                                            <el-select v-model="productSpecSelected" placeholder="Select" size="large" class="my-4">
+                                                <el-option
+                                                    v-for="(proType, index) in proItem?.additional"
+                                                    :key="index"
+                                                    :label="proType?.item"
+                                                    :value="proType?.item">
+                                                </el-option>
+                                            </el-select>
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                         
+                        </template>
+                        <!-- <div class="pro-details-size" v-if="productSpec">
                             <template v-if="productSpec.length> 0 && productSpec !== ''">
                                 <template v-for="(proItem, index) in productSpec" :key="index">
                                     <span>{{ proItem?.item }}:</span>
@@ -92,12 +112,22 @@
                                                     @click.stop="toggleActiveItemType(index,proItem?.item,proItem.additional)">
                                                 <a class="w-10rem">{{ proType?.item }}</a>
                                                 <input class="w-10rem hidden" :value="proType?.item ?? 0"/>
+                                              
                                             </li>
+                                            <el-select v-model="value" clearable placeholder="Select">
+                                                <el-option
+                                                v-for="(proType, index) in proItem.additional"
+                                                :key="index"
+                                                :label="proType?.item"
+                                                :value="proType?.item">
+                                                </el-option>
+                                            </el-select>
                                         </ul>
                                     </div>
                                 </template>
                             </template>
-                        </div>
+                        </div> -->
+
                         <!-- QTY -->
                         <div class="pro-details-quality">
                             <span>Quantity:</span>
@@ -149,6 +179,7 @@
         },
         data(){
             return{
+                productSpecSelected: '',
                 quantity: 1,
                 activeImageThumbnail: this.productThumbnail,
                 ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http"),

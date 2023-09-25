@@ -94,9 +94,12 @@ export const auth = {
     }
   },
   getters: {
-     isUserArr: state => {
+    isUserArr: state => {
         state.userArr = user;
-     }
+    },
+    currentUserAuth(state) {
+        return state.userArr;
+    },
   },
   mutations: {
     SET_TOKEN(state, token) {

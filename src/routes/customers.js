@@ -30,7 +30,7 @@ export default [
           },
         //Contact Info
         {
-            path: '/contact-info',
+            path: '/customer/admin_contact_info/contact_info',
             name: 'contact-info',
             component: () => import('../components/customers/home_frontend_component/contact_us/ContactInfo.vue'),
         },

@@ -1,60 +1,63 @@
 <template>
-    <div class="card">
-        <h3 class="mb-4">Account Settings</h3>
-        <!-- Account Settings -->
-        <div class="p-fluid">
-            <!-- User Profile -->
-            <div class="field gird">
-            <div class="row">
-                <div class="col-2 md:col-3 xl:col-2 lg:2 flex align-items-center justify-content-center">
-                    <span class="text-500 text-lg">Profile Picture</span>
+    <div class="myaccount-content">
+        <h3>Account Details</h3>
+        <div class="account-details-form">
+            <form action="#">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="single-input-item">
+                            <label for="first-name" class="required">First Name</label>
+                            <input type="text" id="first-name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="single-input-item">
+                            <label for="last-name" class="required">Last Name</label>
+                            <input type="text" id="last-name" />
+                        </div>
+                    </div>
                 </div>
-                <!-- Upload Image -->
-                <div class="col-6">
-                    <UploadPreviewAvatar imageData="imageFile"/>
+                <div class="single-input-item">
+                    <label for="display-name" class="required">Display Name</label>
+                    <input type="text" id="display-name" />
                 </div>
-            </div>
-            </div>
-            <!-- Name -->
-            <div class="field grid">
-                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Name</label>
-                <div class="col-12 md:col-12">
-                    <InputText id="name" v-model="value" />
+                <div class="single-input-item">
+                    <label for="email" class="required">Email Addres</label>
+                    <input type="email" id="email" />
                 </div>
-            </div>
-            <!--Date Of birth-->
-            <div class="field grid">
-                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Date of Birth</label>
-                <div class="col-12 md:col-12">
-                    <Calendar id="name" v-model="value" showIcon showButtonBar/>
+                <fieldset>
+                    <legend>Password change</legend>
+                    <div class="single-input-item">
+                        <label for="current-pwd" class="required">Current Password</label>
+                        <input type="password" id="current-pwd" />
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="single-input-item">
+                                <label for="new-pwd" class="required">New Password</label>
+                                <input type="password" id="new-pwd" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="single-input-item">
+                                <label for="confirm-pwd" class="required">Confirm Password</label>
+                                <input type="password" id="confirm-pwd" />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="single-input-item">
+                    <button class="check-btn sqr-btn ">Save Changes</button>
                 </div>
-            </div>
-            <!--Gender-->
-            <div class="field grid">
-                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Gender</label>
-                <div class="col-12 md:col-12">
-                    <Dropdown v-model="selectGenderCus" :options="genderCus" optionLabel="name" placeholder="Select a Gender" class="w-full" />
-                </div>
-            </div>
-            <!--Gender-->
-            <div class="field grid">
-                <label for="name" class="col-12 mb-2 xl:col-2 md:col-4 md:mb-0">Email</label>
-                <div class="col-12 md:col-12">
-                        <InputText id="name" v-model="value" type="email" />
-                </div>
-            </div>
-            <!-- Button Submitted -->
-            <div class="gap-3 py-4">
-                <Button label="Updated" severity="danger" style="width:10rem;"/>
-            </div>
+            </form>
         </div>
     </div>
 </template>
 <script>
-import UploadPreviewAvatar from "../../../../components/component/UploadPreviewAvatar.vue";
+// import UploadPreviewAvatar from "../../../../components/component/UploadPreviewAvatar.vue";
 export default {
     components: {
-        UploadPreviewAvatar
+        // UploadPreviewAvatar
     },
     props: {},
     data() {

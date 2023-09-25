@@ -641,7 +641,7 @@
                 this.proThumbnail = file.raw;
                 //Check Upload File
                 this.beforeAvatarUpload(file.raw);
-                this.objClass.upLoadHide = true;//上传图片后置upLoadHide为真，隐藏上传框
+                this.objClass.upLoadHide = true;
                 this.objClass.upLoadShow = false;
             },
             beforeAvatarUpload(rawFile) {
