@@ -29,7 +29,7 @@
 <script>
 import { ElMessage } from "element-plus";
 import ProductsDashboardServices from "../../services/dashboard_graph_service/ProductsDashboardService";
-import functionExchangeRateKHRUSD from "../../utils/functionExchangeRateKHRUSD";
+import convertUSDToRiel from '@/utils/convertUSDTORiel';
 export default {
     props: {},
     data() {
@@ -47,7 +47,7 @@ export default {
     },
     methods: {
        async convertRielAmount(khrAmount){
-            const amountConvertRiel =  await functionExchangeRateKHRUSD.convertRielToUSDAmount(khrAmount);
+            const amountConvertRiel =  await convertUSDToRiel(khrAmount);
             const result = await Promise.resolve(amountConvertRiel)
             return result;
         },

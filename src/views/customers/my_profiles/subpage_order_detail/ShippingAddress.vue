@@ -109,7 +109,7 @@
                 <el-input v-model="addShippingFormModelSubmit.contactName"  placeholder="Please Enter Name"/>
             </el-form-item>
             <el-form-item prop="phoneNumberContact">
-                <el-input v-model="addShippingFormModelSubmit.phoneNumberContact" placeholder="Please Enter Phone Number"/>
+                <el-input v-model="addShippingFormModelSubmit.phoneNumberContact" :formatter="(value) => value.replace(/\D/g, '')" placeholder="Please Enter Phone Number"/>
             </el-form-item>
             <!--  -->
             <el-form-item  prop="addr01" name="Please enter a address 01">
@@ -172,12 +172,10 @@ export default{
                     { required: true, message: 'Please select type of address', trigger: 'change' },
                 ],
                 contactName: [
-                    { required: true, message: 'Please enter contact name', trigger: 'blur' },
-                    { min: 3, max: 5, message: 'contact name should be 3 to 5', trigger: 'blur' }
+                    { required: true, message: 'Please enter contact name', trigger: 'blur' }
                 ],
                 phoneNumberContact: [
-                    { required: true, message: 'Please enter phone number for contact', trigger: 'blur' },
-                    { min: 9, message: 'contact phone number should be 10', trigger: 'blur' }
+                    { required: true, message: 'Please enter phone number for contact', trigger: 'blur' }
                 ],
                 addr01: [
                     { required: true, message: 'Please enter address 01', trigger: 'blur' },

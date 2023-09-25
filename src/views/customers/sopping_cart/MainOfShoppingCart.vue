@@ -79,31 +79,15 @@
                                     <div class="col-lg-12">
                                         <div class="cart-shiping-update-wrapper">
                                             <div class="cart-shiping-update">
-                                                <router-link to="/">Continue Shopping</router-link>
+                                                <router-link to="/" class="text-900 hover:text-white">Continue Shopping</router-link>
+                                            </div>
+                                            <div class="cart-shiping-update bg-red">
+                                                <router-link to="/customer/my-account/shopping-cart/orders/checkout" class="bg-red-500 text-white">Check Out</router-link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <div class="row">
-                                <div class="col-7"></div>
-                                <div class="col-lg-5 col-md-12">
-                                    <div class="grand-totall">
-                                        <div class="title-wrap">
-                                            <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
-                                        </div>
-                                        <h5>Total products <span> {{ cartTotalAmount ?? '0.00' }} ៛</span></h5>
-                                        <div class="total-shipping">
-                                            <h5>Total shipping</h5>
-                                            <ul>
-                                                <li><input type="checkbox"> Pick up <span>0.00 ៛</span></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="grand-totall-title">Grand Total <span>{{ cartSubTotal }} ៛</span></h4>
-                                        <router-link to="/customer/my-account/shopping-cart/orders/checkout">Proceed to Checkout</router-link>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

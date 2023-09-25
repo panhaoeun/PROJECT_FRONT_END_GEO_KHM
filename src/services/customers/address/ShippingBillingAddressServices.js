@@ -14,6 +14,19 @@ export default class ShippingBillingAddressServices {
                 Promise.reject(error);
             });
     }
+    async getBillingOrShippingAddressByQueriesByAddrType(addressTypeId, shipping) {
+         return await http.get(`/customers/my_account/overview/ship-address/queries-by-address-type?addressTypeId=${addressTypeId}`, shipping)
+             .then((result) => {
+                 if (result.status == 201) {
+                     if (result.data.success == true) {
+                         return result.data.result.resultStatus;
+                     }
+                 }
+             })
+             .catch((error) => {
+                 Promise.reject(error);
+             });
+     }
     async editBillingOrShippingAddress(shippingAddrId,shipping) {
         return await http.get(`/customers/my_account/overview/ship-address/edit/${shippingAddrId}`, shipping)
             .then((result) => {

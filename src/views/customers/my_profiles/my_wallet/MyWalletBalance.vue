@@ -1,6 +1,7 @@
 <template>
     <!-- Auth Login -->
    <div class="myaccount-content" v-if="isLoggedIn()">
+        <!-- Balance total in my wallets -->
         <MyWalletBalanceTotal :balanceKHR='totalBalanceKHR ? totalBalanceKHR : 0' :balanceUSD="totalBalanceByUSDConvert ? totalBalanceByUSDConvert : 0"/>
         <div class="myaccount-table table-responsive"> 
             <!-- My Wallet total balance -->

@@ -111,6 +111,10 @@ import MazBtn from 'maz-ui/components/MazBtn'
 import MazInput from 'maz-ui/components/MazInput'
 import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
 import MazInputTags from 'maz-ui/components/MazInputTags';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
+
+
 import {
     createPinia
 } from 'pinia';
@@ -214,6 +218,8 @@ app.component('file-upload', VueUploadComponent);
 app.component('TreeTable', TreeTable);
 app.component('Tree', Tree);
 app.component('ProgressSpinner', ProgressSpinner);
+app.component('Accordion', Accordion);
+app.component('AccordionTab', AccordionTab);
 /*
     @Front-End Library 
 */
