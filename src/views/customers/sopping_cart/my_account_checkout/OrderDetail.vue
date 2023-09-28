@@ -107,11 +107,13 @@
             async getConvertExchangeToRielTotal(exchangeRielTotal){
                 try {
                     const baseChangeToRielTotal = parseInt(exchangeRielTotal) ? parseInt(exchangeRielTotal) : 0;
-                    this.exchangeRateRielTotal = await convertUSDToRiel(baseChangeToRielTotal) ?? 0;
+                    const exchangeRate = await convertUSDToRiel(baseChangeToRielTotal) ?? 0;
+                    this.exchangeRateRielTotal = exchangeRate ? exchangeRate : 0;
                     // Total order to wallets
-                    if(baseChangeToRielTotal){
-                        console.log(baseChangeToRielTotal)
-                    }
+                    return this.$store.dispatch('myWallet/orderAmountTotal', {
+                        amountTotalKHR: exchangeRate ? exchangeRate : 0,
+                        amountTotalUSD: exchangeRielTotal ? exchangeRielTotal  : 0
+                    });
                 } catch (error) {
                     console.error('Error:', error);
                 } 

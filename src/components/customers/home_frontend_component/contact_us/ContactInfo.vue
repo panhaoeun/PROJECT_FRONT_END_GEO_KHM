@@ -20,13 +20,13 @@
                             <div class="single-contact-info-3 text-center mb-30">
                                 <i class="icon-location-pin "></i>
                                 <h4>Our address</h4>
-                                <p>Khan Mean Chey, Phnom Penh</p>
+                                <p>Sangkat Tuol Sangkae, Khan Russey Keo, Phnom Penh, Cambodia.</p>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="single-contact-info-3 extra-contact-info text-center mb-30">
                                 <ul>
-                                    <li><i class="icon-screen-smartphone"></i> 716-298-1822 </li>
+                                    <li><i class="icon-screen-smartphone"></i> (+855) 016 387 467 </li>
                                     <li><i class="icon-envelope "></i> <a href="#"> servenday@ecommerce.com</a></li>
                                 </ul>
                             </div>
@@ -35,7 +35,7 @@
                             <div class="single-contact-info-3 text-center mb-30">
                                 <i class="icon-clock "></i>
                                 <h4>opening hour</h4>
-                                <p>Monday - Friday. 9:00am - 5:00pm </p>
+                                <p>Monday - Saturday. 8:00am - 5:00pm </p>
                             </div>
                         </div>
                     </div>

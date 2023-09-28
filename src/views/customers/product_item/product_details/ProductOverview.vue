@@ -1,19 +1,6 @@
 <template>
     <!-- The toaster component -->
     <Toast />
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-area bg-bluegray-100">
-        <div class="container">
-            <div class="breadcrumb-content text-center">
-                <ul>
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li class="active">Product Details</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <!-- Product Detail Slider -->
     <div class="product-details-area pt-120 pb-115">
         <div class="container">
@@ -79,54 +66,24 @@
                             <!-- <span class="old-price">$95.72</span> -->
                         </div>
                         <!-- Product Spec -->
-                        <template v-if="productSpec">
-                            <template v-if="productSpec.length> 0 && productSpec !== ''" class="px-2 py-2">
-                                <template v-for="(proItem, index) in productSpec" :key="index" class="px-2 py-2 gap-3">
-                                    <span>{{ proItem?.item }}:</span>
-                                    <template v-if="proItem.additional" class="px-2 py-2">
-                                        <div class="flex flex-column w-20rem">
-                                            <el-select v-model="productSpecSelected" placeholder="Select" size="large" class="my-4">
-                                                <el-option
-                                                    v-for="(proType, index) in proItem?.additional"
-                                                    :key="index"
-                                                    :label="proType?.item"
-                                                    :value="proType?.item">
-                                                </el-option>
-                                            </el-select>
-                                        </div>
-                                    </template>
-                                </template>
-                            </template>
-                         
-                        </template>
-                        <!-- <div class="pro-details-size" v-if="productSpec">
+                        <div class="pro-details-size" v-if="productSpec">
                             <template v-if="productSpec.length> 0 && productSpec !== ''">
-                                <template v-for="(proItem, index) in productSpec" :key="index">
+                                <template v-for="proItem in productSpec" :key="proItem.variantId">
                                     <span>{{ proItem?.item }}:</span>
                                     <div class="pro-details-size-content">
                                         <ul ref="proTypeItem"   v-if="proItem.additional">
                                             <li
                                                  v-for="(proType, index) in proItem.additional" 
-                                                    :class="{'bg-red-500': (activeTypeId === index)}" 
                                                     :key="index"
                                                     @click.stop="toggleActiveItemType(index,proItem?.item,proItem.additional)">
                                                 <a class="w-10rem">{{ proType?.item }}</a>
                                                 <input class="w-10rem hidden" :value="proType?.item ?? 0"/>
-                                              
                                             </li>
-                                            <el-select v-model="value" clearable placeholder="Select">
-                                                <el-option
-                                                v-for="(proType, index) in proItem.additional"
-                                                :key="index"
-                                                :label="proType?.item"
-                                                :value="proType?.item">
-                                                </el-option>
-                                            </el-select>
                                         </ul>
                                     </div>
                                 </template>
                             </template>
-                        </div> -->
+                        </div>
 
                         <!-- QTY -->
                         <div class="pro-details-quality">
@@ -301,116 +258,67 @@
   </script>
 
 <!-- Style Cart Item -->
-<style scoped>
-.cart-item {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 5rem;
-    padding-bottom: 2rem;
-    margin-top: 10px;
-}
 
-.image-section {
-    width: 47%;
-}
+<style lang="scss" scoped>
+.description {
+  p {
+    padding: 5px 0px;
+    margin: 0px;
 
-.image-section,
-.product-details {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+    span {
+      margin-right: 10px;
+    }
 
-#back {
-    padding: 1rem 1.8rem;
-    font-size: 2rem;
-    border: none;
-    border-radius: 6px;
+    .icon {
+      font-size: 1.5em;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .color-select {
+    padding-left: 0px;
+    li,
+    div {
+      display: inline-block;
+      height: 30px;
+      width: 30px;
+      margin-right: 10px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .selected {
+        border: 2px solid black;
+      }
+    }
+  }
+
+  .custom-attributes {
+    margin-top: 1rem;
+  }
+  .section-title {
+    font-size: 1.2em;
+  }
+  .add-to-cart {
+    background-color: white; /*this for transparent button*/
+    border: 2px solid black; /* this is for button border*/
+    border-radius: 0px;
+    color: black;
+    padding: 10px 40px;
+  }
+  .add-to-cart:hover {
+    background-color: black; /*this for transparent button*/
+    border: 2px solid black; /* this is for button border*/
+    border-radius: 0px;
     color: white;
-    font-weight: 600;
-    background-color: var(--dark-blue);
-    transition: opacity 0.25s;
-    display: grid;
-    place-content: center;
-    width: fit-content;
-}
-
-#back:hover {
-    opacity: 0.85;
-}
-
-.main-img {
-    height: 55vh;
-    max-width: 100%;
-    object-fit: cover;
-}
-
-.img-thumbnails {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    padding-top: 1rem;
-    width: 100%;
-}
-
-.img-thumbnails .thumbnail {
-    height: auto;
-    max-width: 100%;
-    cursor: pointer;
-}
-
-.img-thumbnails .thumbnail:hover {
-    opacity: 0.7;
-}
-
-/* Product Details */
-.product-details {
-    width: 60%;
-    padding-block: 2.5rem;
-}
-
-.product-details span {
-    font-size: 1.4rem;
-}
-
-.product-details h4 {
-    padding: 1.5rem 0 1rem 0;
-}
-
-.product-details select {
-    max-width: 120px;
-    padding: 0.8rem 1rem;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.extra {
-    padding-block: 4.5rem;
-    text-align: center;
-}
-
-.product-description {
-    line-height: 2.5rem;
-}
-
-@media (max-width: 599px) {
-    .cart-item {
-        flex-direction: column;
-    }
-    .image-section,
-    .product-details {
-        width: 100%;
-    }
-
-    .image-section {
-        padding-top: 2rem;
-    }
-    .image-section a {
-        top: -2rem;
-        left: 0;
-    }
+  }
+  h3 {
+    color: black;
+  }
 }
 </style>
+

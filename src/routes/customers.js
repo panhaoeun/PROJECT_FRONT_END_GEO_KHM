@@ -63,7 +63,7 @@ export default [
                     }
                 }
             }
-          },
+        },
         /**
          * @Router My Order Payment & My Accounts
          * */
@@ -101,6 +101,16 @@ export default [
             name:'more-product',
             component: () => import("../views/customers/sopping_cart/MoreProductRecommend.vue"),
           },
+        {
+            path: '/customer/my-account/checkout-complete',
+            name: 'customer-checkout-completed',
+            meta: {
+                isCustomer: true,
+                requiresAuth: true
+            },
+            beforeEnter: requireAuth,  
+            component: () => import('../views/customers/sopping_cart/CustomerCheckOutCompleted.vue'),
+        },
          /**
          * @Router Products
          * @Filter Product By Query Product
