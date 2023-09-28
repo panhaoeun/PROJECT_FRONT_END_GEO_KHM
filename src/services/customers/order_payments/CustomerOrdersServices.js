@@ -27,8 +27,30 @@ export default class CustomerOrderServices {
                 Promise.reject(error);
             });
     }
-    /*@Customer Order Checkout**/
+    // Get 
+    async getCartOrderListCurrentCustomer(cartItem) {
+        return await http.get("/customer-cart/customer-cart-list", cartItem)
+            .then((result) => {
+                if (result.status == 201) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+    async createCartOrderItemCustomer(data) {
+        return http.post("/customer-cart/add-cart", data);
+    }
+    async deletedCartOrderItemCustomer(cartId,data) {
+         return http.delete(`/customer-cart/delete-cart-item?cartId=${parseInt(cartId) ? parseInt(cartId) : 0}`, data);
+    }
+    /**
+         @Customer Order Checkout
+    **/
     async createCustomerOrderCheckOut(order){
-        return http.post("/customer-cart/add-cart", order);
+        return http.post("/orders/customer-order/customer-checkout", order);
     }
 }

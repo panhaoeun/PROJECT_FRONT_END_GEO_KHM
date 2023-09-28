@@ -1,10 +1,11 @@
 // import { ElNotification } from 'element-plus';
 import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
-import CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
+import CustomerOrderCheckOutServices from "@/services/customers/order_payments/CustomerOrdersServices.js";
 import OrderDTO from '../../services/dto/Order.json';
 import _ from "lodash";
-import { ElNotification } from "element-plus";
+import { ElMessageBox, ElNotification } from "element-plus";
 const customerOrderCart = new CustomerOrderCheckOutServices();
+import { isLoggedIn } from "@/utils/auth/auth";
 
 const state = {
     cart: [],
@@ -35,8 +36,8 @@ const getters = {
     },
     getTotalItems(state) {
       let total = 0;
-      state.cart.forEach(item => {
-        total += parseInt(item.counts);
+      state.cartItem.forEach(item => {
+        total += parseInt(item.quantity);
       });
       return total;
     },
@@ -65,16 +66,27 @@ const getters = {
     getSubTotal(state) {
         let totalQty = 0;
         let totalAmount = 0;
+        let totalKHR = 0;
         let totalOrderItem = 0;
         let totalSubtotal = 0;
+        let totalOrderItemKHR = 0;
+        let totalSubtotalKHR = 0;
         state.cartItem.forEach((cart) => {
             totalQty += +cart.quantity;
             totalAmount += +cart.total;
+            totalKHR += +cart.totalKhRiel;
         });
         totalOrderItem  =+ totalAmount / totalQty;
         totalSubtotal = +totalOrderItem * totalQty;
-        if (totalSubtotal){
-            return totalSubtotal.toFixed(2,4);
+
+        totalOrderItemKHR = +totalKHR / totalQty;
+        totalSubtotalKHR = +totalOrderItemKHR * totalQty;
+
+        if (totalSubtotal && totalSubtotalKHR) {
+            return {
+                subTotalUSD: totalSubtotal.toFixed(10, 2),
+                subTotalKHR: totalSubtotalKHR.toFixed(10, 2)
+            };
         }else{
             return 0;
         }
@@ -105,15 +117,15 @@ const actions = {
     async getCartByCurrentCustomer({commit}){
         state.cartItem.splice(0, state.cartItem.length);
         await customerOrderCart.getCartOrderListCurrentCustomer()
-        .then((cart) => {
-            if(cart){
-                commit('setCart', cart);
-            } else throw new Error(cart);
-        })
-        .catch((error) => {
-            console.log(error)
-            throw new Error(error);
-        });
+            .then((cart) => {
+                if(cart){
+                    commit('setCart', cart);
+                } else throw new Error(cart);
+            })
+            .catch((error) => {
+                console.log(error)
+                throw new Error(error);
+            });
     },
     async createCheckout({
             commit
@@ -125,7 +137,7 @@ const actions = {
             getSelectedAddressShip,
             selectedAddressBilling,
             shippingMethod,
-            paymentMethod,
+            paymentMethods,
             orderDetaiL,
             customerOrderNoted
         }) {
@@ -137,7 +149,7 @@ const actions = {
             getSelectedAddressShip: getSelectedAddressShip,
             orderDetaiL: orderDetaiL,
             customerOrderNoted: customerOrderNoted,
-            paymentMethod: paymentMethod,
+            paymentMethods: paymentMethods,
             emailPhoneId: emailPhoneId,
             phoneNumberId: phoneNumberId,
         };
@@ -168,47 +180,49 @@ const actions = {
                     shippingCompanyId: reqData.shippingMethod?.ship_id ? reqData.shippingMethod?.ship_id : 0,
                     shopId: shopId ? shopId : 0,
                     vendorId: vendorId ? vendorId : 0,
-                    paymentMethod: reqData.paymentMethod ? reqData.paymentMethod : '',
+                    paymentMethod: reqData.paymentMethods ? reqData.paymentMethods : '',
                     shipAddr01: "",
                     shipAddr02: "",
                     shipAddrCity: "",
                     shipAddrZipCode: "",
                     otherNoted: customerOrderNoted ? customerOrderNoted : ''
                 }
-                await customerOrderCart.createCartOrderItemCustomer(customerOrder)
-                .then((result) => {
-                    if (result){
-                        if (result.data.success === true) {
-                            commit('setCheckoutInitiated', true);
-                            // Checkout with id
-                            commit('setCheckoutId', result.data.result.resultStatus.order?.order_id);
-                            ElNotification({
-                                title: 'Your order has been placed successfully! !',
-                                message: result.data?.message ? result.data?.message : '',
-                                type: 'success',
-                            });
-                            return true;
+                await customerOrderCart.createCustomerOrderCheckOut(customerOrder)
+                    .then((result) => {
+                        if (result){
+                            if (result.data.success === true) {
+                                commit('setCheckoutInitiated', true);
+                                // Checkout with id
+                                commit('setCheckoutId', result.data.result.resultStatus.order?.order_id);
+                                ElNotification({
+                                    title: 'Your order has been placed successfully! !',
+                                    message: result.data?.message ? result.data?.message : '',
+                                    type: 'success',
+                                });
+                                return true;
+                            }
+                        }else{
+                            commit('setCheckoutInitiated', false);
+                            commit('setCheckoutId', null);
                         }
-                    }else{
-                        commit('setCheckoutInitiated', false);
-                        commit('setCheckoutId', null);
-                    }
-                })
-                .catch((error) => {
-                    if (error){
-                        commit('setCheckoutInitiated', false);
-                        ElNotification({
-                            title: 'Unsuccessfully to order detail',
-                            message: error.response.data.error.message ?? 'Unsuccessfully for create address',
-                            showClose: false,
-                            type: 'error'
-                        });
-                    }
-                    throw new Error(error);
-                });
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        if (error){
+                            commit('setCheckoutInitiated', false);
+                            ElNotification({
+                                title: 'Unsuccessfully to order detail',
+                                message: error.response.data.error.message ?? 'Unsuccessfully for create address',
+                                showClose: false,
+                                type: 'error'
+                            });
+                        }
+                        throw new Error(error);
+                    });
             }
             
         }catch(error){
+            console.log(error)
             throw new Error(error);
         }
     },
@@ -216,14 +230,190 @@ const actions = {
         const cart = CartService.addItem(payload.productId, payload.product, payload.quantity, payload.productSpec,payload.unitPrice);
         context.commit('SET_CART_ITEMS', cart);
     },
-    updateCartQuantity: (context, payload) => {
-        context.dispatch('addToCart', {
-            productId: payload.productItemId,
-            product: payload.cartItem,
-            quantity: payload.quantity,
-            productSpec: payload.productSpec,
-            price: payload.productPrice
-        });
+    addToTheCart: async ({
+            state,
+            commit
+        }, products) =>
+    {
+        // Checks if the session is active. If not, it means that the user is not logged in. So, just do things locally.
+        if (!isLoggedIn()&& products.length > 0) {
+            const foundIndex = _.findIndex(state.cartItem, pr => _.isEqual(pr.product, products[0]));
+            console.log(foundIndex)
+            console.log('Add to cart is not possible because you are not logged in');
+            return;
+        }
+        const toSend = _.map(products, p => ({
+            productId: p.product_id,
+            counts: p.quantity === 0 ? 1 : p.quantity,
+            productPrice: p.productPrice,
+        }));
+        try {
+             await customerOrderCart.createCartOrderItemCustomer(toSend)
+                    .then((result) => {
+                        if (result.data.success === true) {
+                            commit('setCart', result.data.result.resultStatus);
+                            return Promise.resolve(toSend);
+                        }
+                        return true;
+                    }).catch((error) => {
+                        console.log(error)
+                        if(error){
+                            ElNotification.error({
+                                title: "Couldn't be added for some reason. Please try again later",
+                                message: error.response.data.message,
+                                showClose: false
+                            });   
+                        }
+                        // Validation Error
+                        if(error.response.data.error.error.errors){
+                            for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                ElNotification.error({
+                                    title: "Couldn't be added for some reason. Please try again later",
+                                    message: messageValidation,
+                                    showClose: true
+                                });   
+                            }
+                        }
+                    });
+            
+        } catch (err) {
+            throw new Error(err);
+        }
+    },
+    updateCartQuantity: ({
+      state, commit
+    }, payloadArray) => {
+        // Checks if the session is active. If not, it means that the user is not logged in. So, just do things locally.
+        if (!isLoggedIn()) {
+            // These commits don't do anything but are necessary because they help persist.
+            const updatedItem = payloadArray.length > 0 ? payloadArray[0] : null;
+            if (updatedItem) {
+                updatedItem.aggregatedPrice.amount = parseInt(updatedItem.quantity) * parseFloat(updatedItem.productPrice);
+                updatedItem.aggregatedPrice.amount = updatedItem.aggregatedPrice.amount.toFixed(2);
+                commit('setLocalCart');
+                return true;
+            }
+            console.log("Cannot send the request because the user is not logged in");
+            return false;
+        }
+        state.cartItem.forEach(async item => {
+            if (item ?.productInStock >= item?.quantity) {
+                // const updatedPrice = parseInt(item?.quantity) * parseFloat(item?.productPrice);
+                const orders = {
+                    productId: item?.product_id,
+                    productQty: parseInt(item.quantity),
+                    productPrice: parseFloat(item?.productPrice),
+                    type: 'new'
+                }
+                try {
+                    await customerOrderCart.createCartOrderItemCustomer(orders)
+                        .then((result) => {
+                            if (result.data.success === true) {
+                                commit('setCart', result.data.result.resultStatus);
+                                return Promise.resolve(orders);
+                            }
+                        }).catch((error) => {
+                            console.log(error)
+                            if(error){
+                                ElNotification.error({
+                                    title: 'Cart could not be updated at the moment. Please try again later.',
+                                    message: error.response.data.message ?? 'Cart could not be updated at the moment. Please try again later.',
+                                    showClose: false
+                                });   
+                            }
+                            // Validation Error
+                            if(error.response.data.error.error.errors){
+                                for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                    const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                    ElNotification.error({
+                                        title: 'Cart could not Updated Shipping at the moment',
+                                        message: messageValidation ?? 'Cart could not be updated at the moment. Please try again later.',
+                                        showClose: true
+                                    });   
+                                }
+                            }
+                        });
+                } catch (error) {
+                     console.log(error)
+                    throw new Error(error);
+                }
+            }  
+        })
+    },
+    async deleteCustomerCartOrder({
+      state, commit
+    }, cartItems)
+    {
+        const deletedIds = _.map(cartItems, 'id');
+        // Checks if the session is active. If not, it means that the user is not logged in. So, just do things locally.
+        if (!isLoggedIn()) {
+           console.log(_.remove(state.cartItem, order => deletedIds.indexOf(order.id) >= 0));
+            commit('setLocalCart');
+            return;
+        }
+        try {
+            ElMessageBox.confirm('Remove item from cart?','Remove product', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'info',
+                cancelButtonClass: 'surface-hover font-bold hover:surface-300 w-7rem',
+                confirmButtonClass: 'bg-red-500 border-none font-bold hover:surface-300 w-7rem',
+                beforeClose: (action, instance, done) => {
+                    if (action === 'confirm') {
+                        instance.confirmButtonLoading = true;
+                        instance.confirmButtonText = 'Loading...';
+                        setTimeout(() => {
+                            done();
+                            setTimeout(() => {
+                                instance.confirmButtonLoading = false;
+                            }, 300);
+                        }, 1000);
+                    } else {
+                        done();
+                    }
+                }
+            }).then(async() => {
+                await customerOrderCart.deletedCartOrderItemCustomer(deletedIds)
+                    .then((result) => {
+                        if (result.data.success === true) {
+                            ElNotification.success({
+                                title: 'Successfully deleted item from cart',
+                                showClose: true
+                            });
+                            commit('setCart', result.data.result.resultStatus);
+                        }
+                    }).catch((error) => {
+                        if(error){
+                            ElNotification.error({
+                                title: 'Unscesffully deleted item from cart',
+                                message: error.response.data.message ?? 'Unscesffully deleted item from cart',
+                                showClose: false
+                            });   
+                        }
+                        // Validation Error
+                        if(error.response.data.error.error.errors){
+                            for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                ElNotification.error({
+                                    title: 'Unscesffully deleted item from cart',
+                                    message: messageValidation ?? 'Unscesffully deleted item from cart',
+                                    showClose: true
+                                });   
+                            }
+                        }
+                    });
+            })
+            .catch(() => {
+                ElNotification.info({
+                    type: 'info',
+                    message: 'Delete canceled'
+                });
+                return false;
+            })
+        } catch (error) {
+            throw new Error(error);
+        }
     },
     removeCartItem: (context, payload) => {
         const cartItems = CartService.removeItem(payload);
@@ -314,7 +504,18 @@ const mutations = {
   removeCartItem: (state, payload) => {
       const index = state.cart.indexOf(payload)
       state.cart.splice(index, 1)
-  }
+  },
+  setLocalCart(state) {
+      state.cartItem = [...state.cartItem];
+      let amount = 0;
+      state.cartItem.forEach(item => {
+          amount += parseFloat(item.aggregatedPrice.amount);
+      });
+      amount = amount.toFixed(2);
+      state.total = {
+          amount
+      };
+  },
 }
 export default {
   namespaced: true,

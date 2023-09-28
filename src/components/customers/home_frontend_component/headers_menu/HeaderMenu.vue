@@ -9,7 +9,7 @@
                             <div class="header-quick-contect">
                                 <ul>
                                     <li><i class="icon-phone "></i> +016 387 467</li>
-                                    <li><i class="icon-envelope-open "></i> sevenday@gmail.com</li>
+                                    <li><i class="icon-envelope-open "></i>e-24market@gmail.com</li>
                                 </ul>
                             </div>
                         </div>
@@ -272,8 +272,6 @@ export default {
         async initiateApp(){
             try{
                 await this.$store.dispatch('cart/getCartByCurrentCustomer');
-                // Get Current
-                await this.$store.dispatch('myWallet/myWalletCurrentBalance');
             }catch(error){
                 return Promise.reject(error);
             }

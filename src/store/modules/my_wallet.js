@@ -5,7 +5,15 @@ const state = {
     walletBalanceKHR: null,
     walletBalanceUSD: null,
     ballanceInAccount: [],
-}
+    totalAmountOrder: {},
+    remainingBalanceUSD: 0,
+    remainingBalanceKHR: 0,
+    currentBalanceKHRNum: 0,
+    currentBalanceUSDNum: 0,
+    balanceAccountMS: '',
+    calRemainingCurrentBalanceAmount: {},
+    checkRemainingBalance: false
+}   
 // getters
 const getters = {
     getCurrentBalanceKHR(state) {
@@ -14,13 +22,21 @@ const getters = {
     getCurrentBalanceUSD(state) {
         return state.walletBalanceUSD ? state.walletBalanceUSD : 0;
     },
+    getTotalAmountOrderShip(state) {
+        return state.totalAmountOrder;
+    },
+    getRemainingAmountOrder(state){
+        return state.calRemainingCurrentBalanceAmount ? state.calRemainingCurrentBalanceAmount : {};
+    },
+    checkRemainingAccSubmit(state){
+        return state.checkRemainingBalance ? state.checkRemainingBalance : false;
+    }
 }
 // actions
 const actions = {
     async myWalletCurrentBalance({commit}){
        try{
         if (isLoggedIn()){
-            state.ballanceInAccount.splice(0, state.ballanceInAccount.length);
             await customerDepositedWithDrawService.getCustomerDepositedBalanceInCurrent()
                 .then((balance) => {
                     if (balance) {
@@ -37,13 +53,28 @@ const actions = {
           throw new Error(error);
        }
     },
-    async orderAmountTotal({commit}, amountTotalKHR, amountTotalUSD){
+    async orderAmountTotal({commit}, {amountTotalKHR, amountTotalUSD}){
         try {
-            const totalAmountTotal = {
-                amountTotalKHR: amountTotalKHR ? amountTotalKHR : '',
-                amountTotalUSD: amountTotalUSD ? amountTotalUSD : ''
-            }
-            commit('setTotalAmountOrder', totalAmountTotal ? totalAmountTotal : '');
+            commit('setTotalAmountOrder', {amountTotalKHR, amountTotalUSD});
+        } catch (error) {
+          throw new Error(error);
+        }
+    },
+    async remainingBalanceToOrder({
+            commit
+        }, {
+            currentBalanceKHR,
+            currentBalanceUSD,
+            balanceUSD,
+            balanceKHR
+        }) {
+        try {
+            commit('setRemainingBalanceOrder', {
+                currentBalanceKHR,
+                currentBalanceUSD,
+                balanceUSD,
+                balanceKHR
+            });
         } catch (error) {
           throw new Error(error);
         }
@@ -52,7 +83,6 @@ const actions = {
 // mutations
 const mutations = {
     setCurrentBalanceAccount(state, payload) {
-        console.log(payload)
         if (!payload) {
             state.walletBalanceKHR = '';
             state.walletBalanceUSD = '';
@@ -63,7 +93,92 @@ const mutations = {
         }
     },
     setTotalAmountOrder(state, payload){
-        console.log(state, payload)
+        if (!payload){
+            state.totalAmountOrder = {};
+        }else{
+            state.totalAmountOrder = {
+                amountTotalKHR: payload?.amountTotalKHR,
+                amountTotalUSD: payload?.amountTotalUSD
+            };
+        }
+    },
+    setRemainingBalanceOrder(state, payload) {
+        let totalBalanceRemainingUSD = 0;
+        let totalBalanceRemainingKHR = 0;
+        // Formate Money
+        function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+            try {
+                decimalCount = Math.abs(decimalCount);
+                decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+                const negativeSign = amount < 0 ? "-" : "";
+                let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+                let j = (i.length > 3) ? i.length % 3 : 0;
+
+                return negativeSign +
+                    (j ? i.substr(0, j) + thousands : '') +
+                    i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) +
+                    (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        if (Number.isNaN(payload.balanceUSD && payload.balanceKHR)) {
+            state.remainingBalanceKHR = 0;
+            state.remainingBalanceUSD = 0;
+            state.currentBalanceKHRNum = 0;
+            state.currentBalanceUSDNum = 0;
+            state.calRemainingCurrentBalanceAmount = {};
+        }
+        if (typeof payload.balanceUSD && payload.balanceKHR !== 'number') {
+            state.remainingBalanceKHR = 0;
+            state.remainingBalanceUSD = 0;
+            state.currentBalanceKHRNum = 0;
+            state.currentBalanceUSDNum = 0;
+            state.calRemainingCurrentBalanceAmount = {};
+        }
+        if (payload.balanceUSD >= 0){
+            state.balanceAccountMS = 'Insufficient balance';
+        }
+        const balanceCurrentUSD = payload.currentBalanceUSD.toString().replace(/[^0-9.]/g, '') ?? 0;
+        const balanceCurrentKHR = payload.currentBalanceKHR.toString().replace(/[^0-9.]/g, '') ?? 0;
+        const amountCurrentOrderUSD = payload.balanceUSD ? payload.balanceUSD : 0;
+        const amountCurrentOrderKHR = payload.balanceKHR ? payload.balanceKHR : 0;
+        if (amountCurrentOrderUSD >= balanceCurrentUSD) {
+            totalBalanceRemainingUSD = +balanceCurrentUSD - +amountCurrentOrderUSD;
+            totalBalanceRemainingKHR = +parseInt(amountCurrentOrderKHR) - parseInt(balanceCurrentKHR);
+            const remainingBalanceUSD = Number(parseFloat(totalBalanceRemainingUSD)).toFixed(2, 4);
+            const balanceUSD = formatMoney(remainingBalanceUSD) ? formatMoney(remainingBalanceUSD) : 0;
+            const remainingBalanceKHR = Number(parseFloat(totalBalanceRemainingKHR)).toFixed(2, 4);
+            const balanceKHR = formatMoney(remainingBalanceKHR) ? formatMoney(remainingBalanceKHR) : 0;
+            state.remainingBalanceKHR = balanceUSD ? balanceUSD : 0;
+            state.remainingBalanceUSD = balanceKHR ? balanceKHR : 0;
+            // Current Amount Orders
+            state.calRemainingCurrentBalanceAmount = {
+                remainingMoneyKHR: balanceKHR ? balanceKHR : 0,
+                remainingMoneyUSD: balanceUSD ? balanceUSD : 0,
+                balanceAccountMS: 'Balance is sufficient. You can place the order.'
+            }  
+            state.balanceAccountMS = 'Balance is sufficient. You can place the order.';
+            state.checkRemainingBalance = true;
+        } else {
+            totalBalanceRemainingUSD =+ balanceCurrentUSD - +amountCurrentOrderUSD;
+            totalBalanceRemainingKHR =+ parseInt(amountCurrentOrderKHR) - parseInt(balanceCurrentKHR);
+            const remainingBalanceUSD = Number(parseFloat(totalBalanceRemainingUSD)).toFixed(2, 4);
+            const balanceUSD = formatMoney(remainingBalanceUSD) ? formatMoney(remainingBalanceUSD) : 0;
+            const remainingBalanceKHR = Number(parseFloat(totalBalanceRemainingKHR)).toFixed(2, 4);
+            const balanceKHR = formatMoney(remainingBalanceKHR) ? formatMoney(remainingBalanceKHR) : 0;
+            state.remainingBalanceKHR = balanceUSD ? balanceUSD : 0;
+            state.remainingBalanceUSD = balanceKHR ? balanceKHR : 0;
+            // Current Remaining Order SubStract Amount 
+            state.calRemainingCurrentBalanceAmount = {
+                remainingMoneyKHR: balanceKHR ? balanceKHR : 0,
+                remainingMoneyUSD: balanceUSD ? balanceUSD : 0,
+                balanceAccountMS: 'Insufficient balance. Please add funds or choose a smaller order.',
+            }   
+            state.checkRemainingBalance = false;
+            state.balanceAccountMS = 'Insufficient balance. Please add funds or choose a smaller order.';
+        }
     }
 }
 export default {

@@ -49,10 +49,16 @@
                 <el-input v-model="getCurrentBalance" disabled />
             </el-form-item>
             <el-form-item label="Order amount">
-                <el-input v-model="frmPaymentMethod.orderAmount" />
+                <template v-if="getTotalAmount !== undefined">
+                    <el-input v-model="getTotalAmount" disabled/>
+                </template>
+                <template v-else>
+                    <el-input v-model="frmPaymentMethod.orderAmount" disabled/>
+                </template>
             </el-form-item>
             <el-form-item label="Remaining balance">
-                <el-input v-model="frmPaymentMethod.remainingBalance" />
+                <el-input v-model="getRemainingAmountBalanceWallet" disabled/>
+                {{ currentBalanceKHR.balanceAccountMS }}
                 <el-text class="mx-1" size="small">You do not have sufficient balance for pay this order!!</el-text>
             </el-form-item>
         </el-form>
@@ -60,7 +66,10 @@
         <template #footer>
             <span class="dialog-footer">
                 <el-button @click="dialogVisibleOpenWallet = false">Cancel</el-button>
-                <el-button @click="confirmToPaymentByWallet()">Confirm</el-button>
+                <template v-if="checkBalanceWallet === true">
+                    <el-button @click="confirmToPaymentByWallet()">Confirm</el-button>
+                </template>
+
             </span>
         </template>
     </el-dialog>
@@ -69,6 +78,7 @@
 <script>
 import { ElMessageBox, ElNotification } from "element-plus";
 import _ from "lodash";
+import {mapGetters} from "vuex";
 export default {
     components: {},
     props: {
@@ -110,15 +120,26 @@ export default {
             ],
             frmPaymentMethod: {
                 currentBalance: this.currentBalanceKHR ? this.currentBalanceKHR : 0,
-                orderAmount: '',
-                remainingBalance: ''
+                orderAmount: 0,
+                remainingBalance: 0
             }
         };
     },
     computed: {
         getCurrentBalance(){
-            return this.currentBalanceKHR + ' ' + '(' + this.currentBalanceUSD  + ')';
-        }
+            return this.currentBalanceKHR + ' ' + '(' + this.currentBalanceUSD + '$' + ')';
+        },
+        getTotalAmount(){
+            return '៛ ' + this.dynamicAmountOrder?.amountTotalKHR +' '+ '(' + ' $ ' + this.dynamicAmountOrder?.amountTotalUSD+ ')';
+        },
+        getRemainingAmountBalanceWallet(){
+            return '៛ ' + this.remainingAmountOrder.remainingMoneyKHR  +  ' ' + '(' + this.remainingAmountOrder.remainingMoneyUSD + ' $' + ')'  
+        },  
+        ...mapGetters({
+            dynamicAmountOrder:'myWallet/getTotalAmountOrderShip',
+            remainingAmountOrder: 'myWallet/getRemainingAmountOrder',
+            checkBalanceWallet: 'myWallet/checkRemainingAccSubmit'
+        }),
     },
     async created() {
         if (!this.paymentType) {
@@ -139,10 +160,19 @@ export default {
                 this.dialogVisibleOpenWallet = false;
             }
         },
-        dialogOpenMyWallet(item) {
+        async dialogOpenMyWallet(item) {
             this.dialogVisibleOpenWallet = true;
+            // Get Current Balance
+            await this.$store.dispatch('myWallet/myWalletCurrentBalance');
             const typePayment = item?.aliasName ? item?.aliasName : '';
-            console.log(typePayment)
+            if(typePayment === 'PayByWallet'){
+                await this.$store.dispatch('myWallet/remainingBalanceToOrder', {
+                    currentBalanceKHR: this.currentBalanceKHR ? this.currentBalanceKHR : 0,
+                    currentBalanceUSD: this.currentBalanceUSD ? this.currentBalanceUSD : 0,
+                    balanceUSD: this.dynamicAmountOrder?.amountTotalUSD ? this.dynamicAmountOrder?.amountTotalUSD : 0, 
+                    balanceKHR: this.dynamicAmountOrder?.amountTotalKHR ?  this.dynamicAmountOrder?.amountTotalKHR : 0
+                });
+            }
         },
         confirmToPaymentByWallet: function(){
             ElMessageBox.confirm('Are you confirm to payment by wallet?', {
