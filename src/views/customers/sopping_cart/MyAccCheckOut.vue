@@ -59,20 +59,27 @@
                                        <OrderDetail/>
                                     </div>
                                     <!-- Payment Methods -->
-                                    <div class="pay-top sin-payment">
-                                        <transition
-                                            name="shipping-form-anim"
-                                            enter-active-class="animated slideInLeft faster"
-                                            leave-active-class="animated slideOutLeft faster"
-                                        >
-                                            <!-- Payment Method -->
-                                            <PaymentDetail 
-                                                v-if="isSessionActive()" 
-                                                :selected="selectPaymentMethod"
-                                                :currentBalanceUSD="currentBalanceUSD"
-                                                :currentBalanceKHR="currentBalanceKHR"
-                                            />
-                                        </transition>
+                                    <div class="pay-top sin-payment" v-if="isSessionActive() && carts.length > 0">
+                                        <!-- Payment Type -->
+                                        <template v-if="getSelectedAddressShip !== null
+                                                && selectedAddressBilling !== null
+                                                && shippingMethods!== null 
+                                                && shippingMethods !== undefined
+                                            ">
+                                            <transition
+                                                name="shipping-form-anim"
+                                                enter-active-class="animated slideInLeft faster"
+                                                leave-active-class="animated slideOutLeft faster"
+                                            >
+                                                <!-- Payment Method -->
+                                                <PaymentDetail 
+                                                    v-if="isSessionActive()" 
+                                                    :selected="selectPaymentMethod"
+                                                    :currentBalanceUSD="currentBalanceUSD"
+                                                    :currentBalanceKHR="currentBalanceKHR"
+                                                />
+                                            </transition>
+                                        </template>
                                     </div>
                                     <!-- Order Noted -->
                                     <div class="additional-info-wrap pt-4">
@@ -128,6 +135,14 @@
             currentUser() {
                 return this.currentUser ? this.currentUser : null;
             },
+            shippingMethods: {
+                get() {
+                    return this.$store.getters['shippingStore/shippingMethod'];
+                },
+                set(val) {
+                    this.$store.commit('shippingStore/setShippingMethod', val);
+                },
+            },
             ...mapGetters({
                 getSelectedAddressShip: 'shippingStore/getSelectedAddress',
                 selectedAddressBilling: 'billingStore/getSelectedBillingAddress',
@@ -137,7 +152,9 @@
                 currentUser: 'auth/currentUserAuth',
                 payMethod: 'cart/getPayMethod',
                 currentBalanceKHR: 'myWallet/getCurrentBalanceKHR',
-                currentBalanceUSD: 'myWallet/getCurrentBalanceUSD'
+                currentBalanceUSD: 'myWallet/getCurrentBalanceUSD',
+                dynamicAmountOrder:'myWallet/getTotalAmountOrderShip',
+                remainingAmountOrder: 'myWallet/getRemainingAmountOrder'
             }),
             shippingMethod: {
                 get() {
@@ -150,6 +167,9 @@
             formateCurrentBalanceKHR(){
                 const convertBalance = this.currentBalanceKHR.toString().replace(/[^0-9.]/g, '');
                 return convertBalance ? convertBalance : 0;
+            },
+            paymentMethods(){
+                return this.getPaymentMethod();
             }
         },
         methods: {
@@ -170,10 +190,8 @@
                 this.selectedAddressBill = selected;
             },
             getPaymentMethod(){
-                if(this.payMethod !== null){
-                    return {
-                        paymentMethod: this.payMethod.aliasName ? this.payMethod.aliasName : ''
-                    }
+                if(this.payMethod !== null && this.payMethod !== undefined){    
+                    return this.payMethod.aliasName ? this.payMethod.aliasName : 'CashOnDelivery';
                 }
             },
             async handleCheckOutPayment(){
@@ -186,7 +204,6 @@
                         });
                         return;
                     } 
-                    console.log(this.getPayMethod)
                     // Handle Checkout Payments 
                     await this.$store.dispatch('cart/createCheckout', {
                         shopId: this.shopId ? this.shopId : 0,
@@ -198,7 +215,7 @@
                         getSelectedAddressShip: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
                         selectedAddressBilling: this.selectedAddressBilling ? this.selectedAddressBilling : '',
                         shippingMethod: this.shippingMethod ? this.shippingMethod : '',
-                        paymentMethod: this.getPaymentMethod().paymentMethod ? this.getPaymentMethod().paymentMethod: ''
+                        paymentMethods: this.paymentMethods ? this.paymentMethods: 'CashOnDelivery'
                     });
                 }
             },
