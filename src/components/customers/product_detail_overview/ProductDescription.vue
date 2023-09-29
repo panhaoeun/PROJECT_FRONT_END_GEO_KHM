@@ -5,7 +5,7 @@
         <div class="align-left description" style="padding: 10px">
             <h2>{{ data[0]?.product[0].product_eng  ?? ''}}</h2>
             <h6>By {{data[0]?.product[0].shop_eng}}</h6>
-            <h4>USD {{  data[0]?.product[0]?.product_unit_price }}</h4>
+            <h4>USD {{ parseFloat(data[0]?.product[0]?.product_unit_price).toFixed(2,4) }}</h4>
             <!-- Custom Attributes -->
             <div class="custom-attributes">
                <template v-if="data[0]?.product[0].product_spec !== null && data[0]?.product[0].product_spec !== undefined">
@@ -199,7 +199,9 @@ export default {
                         }
                     }); 
                     // Add to cart to order products
+                    // const addToCart = {
 
+                    // }
                 }
             }
         }

@@ -159,7 +159,7 @@
                                 <div>You have not ordered yet.
                                 <br>
                                 <br>
-                                <b-button @click="gotoDealPage()" class="primary-button">Go Get Orderin</b-button>
+                                <b-button @click="gotoDealPage()" class="primary-button">Go Get Order In</b-button>
                                 </div>
                             </div>
                         </div>
@@ -325,7 +325,6 @@ export default {
     },
     filters: {
         customDisplay(val) {
-            console.log(val)
             return val.indexOf('|') >= 0 ? val.split('|')[0] : val;
         },
     },

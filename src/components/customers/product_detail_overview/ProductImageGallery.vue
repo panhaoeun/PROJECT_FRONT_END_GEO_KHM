@@ -1,7 +1,7 @@
 <template>
     <div :class="zoomer_box">
         <b-row>
-            {{ baseImages }}
+            <!-- {{ baseImages }} -->
             <b-col md="2">
                 <div
                     class="control-box"

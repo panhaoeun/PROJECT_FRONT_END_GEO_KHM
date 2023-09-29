@@ -115,17 +115,22 @@ const actions = {
         }
      },
     async getCartByCurrentCustomer({commit}){
-        state.cartItem.splice(0, state.cartItem.length);
-        await customerOrderCart.getCartOrderListCurrentCustomer()
-            .then((cart) => {
-                if(cart){
-                    commit('setCart', cart);
-                } else throw new Error(cart);
-            })
-            .catch((error) => {
-                console.log(error)
-                throw new Error(error);
-            });
+        if(!isLoggedIn()){
+            state.cartItem.splice(0, state.cartItem.length);
+            await customerOrderCart.getCartOrderListCurrentCustomer()
+                .then((cart) => {
+                    if (cart) {
+                        commit('setCart', cart);
+                    } else throw new Error(cart);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    throw new Error(error);
+                });
+        }else{
+            state.cartItem = [];
+        }
+        
     },
     async createCheckout({
             commit
