@@ -77,18 +77,18 @@ export default class ProductServices{
     }
    //Create
    async createProduct(data){
-        return http.post("/vendors/product_management/products/create",data);
+        return await http.post("/vendors/product_management/products/create", data);
     }
     //Edited
     async editedProByID(proId){
-     return http.get(`/vendors/product_management/products/edit/${proId}`);
+     return await http.get(`/vendors/product_management/products/edit/${proId}`);
     }
     //Updated
    async updateProductID(data, proId){
-        return http.put(`/vendors/product_management/products/updated/${proId}`, data);
+        return await http.put(`/vendors/product_management/products/updated/${proId}`, data);
    }
     async productDetailByID(proId) {
-        return http.get(`/vendors/product_management/products-detail/${proId}`);
+        return await http.get(`/vendors/product_management/products-detail/${proId}`);
     }
    //Delete
    async deleteProByID(proId){

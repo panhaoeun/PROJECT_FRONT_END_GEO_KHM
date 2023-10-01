@@ -148,3 +148,70 @@
 .drift-bounding-box {
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+/* Control Image */
+@media (max-width: 768px) {
+    .control {
+        display: grid;
+        align-items: center;
+        font-size: x-large;
+        cursor: pointer;
+        justify-content: center;
+    }
+    .control-box {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-column-gap: 5px;
+    }
+    .control-box .thumb-list {
+        display: grid;
+        grid-column-gap: 4px;
+    }
+}
+
+.choosed-thumb {
+    border-radius: 0px;
+}
+.pane-container {
+    display: none;
+    position: absolute;
+    z-index: 100000;
+    pointer-events: none;
+}
+.responsive-image {
+    height: auto;
+    width: 100%;
+}
+
+.thumb-list > img {
+    margin-bottom: 10px;
+}
+
+
+.cz-thumblist-item.active {
+    border-color: #d600003b !important;
+    padding: 10%;
+    background: #fff!important
+}
+
+.cz-thumblist-item {
+    border-color: #8888883b!important;
+    background: #fff!important;
+    display: block;
+    position: relative;
+    /* width:64px; */
+    height: 100px;
+    margin: .625rem;
+    transition: border-color .2s ease-in-out;
+    border-radius: .3125rem;
+    text-decoration: none!important;
+    overflow: hidden
+}
+
+.cz-thumblist-item>img {
+    display: block;
+    width: 80%;
+    transition: opacity .2s ease-in-out;
+    max-height: 58px;
+    opacity: .6
+}

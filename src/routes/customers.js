@@ -21,6 +21,12 @@ export default [
             title: "Online Shopping | 7Day",
         },
         children:[
+            // Product Filters
+         {
+            path: '/customer/customer_filter/filter_product_name',
+            name: 'customer-filter-product',
+            component: () => import('../components/customers/home_frontend_component/shop_product_filter_by_category/ProductFilterByCategoryName.vue'),
+         },
           {
             path:'/', 
             meta: { 

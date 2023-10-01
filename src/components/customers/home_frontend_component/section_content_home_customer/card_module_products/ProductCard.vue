@@ -24,7 +24,7 @@
             <div class="product-content-wrap-3">
                 <!-- Product Name -->
                 <h3 class="mrg-none">
-                    <a class="product_name " href="#">{{ productName ?? 'Empty Name | 7Day' }}</a>
+                    <a class="product_name " href="#">{{ productName ?? 'E24-Market' }}</a>
                 </h3>
                 <!-- Ratings -->
                 <div class="product-rating-wrap-2">
@@ -34,7 +34,9 @@
                 </div>
                 <!-- Product Price -->
                 <div class="product-price-4">
-                    <span>{{ formattedPrice ?? [] }}</span>
+                    <span class="font-bold text-red-500">៛{{ exchangeRateRielMorePro }}</span>
+                    <input hidden :value="convertRielAmountMorePro(parseInt(productPrice))"/>
+                    <p class="font-bold">{{ formattedPrice ?? [] }}</p>
                 </div>
                 <!-- Product Stock -->
                 <div class="product-author">
@@ -44,7 +46,7 @@
             <div class="product-content-wrap-3 px-2 py-2 product-content-position-2 pro-position-2-padding-dec">
                 <!-- Product Name -->
                 <h3 class="mrg-none">
-                    <a class="blue" href="#">{{ productName ?? 'Empty Name | 7Day' }}</a>
+                    <a class="blue" href="#">{{ productName ?? 'E24-Market' }}</a>
                 </h3>
                 <!-- Ratings -->
                 <div class="product-rating-wrap-2">
@@ -54,7 +56,9 @@
                 </div>
                 <!-- Product Price -->
                 <div class="product-price-4">
-                    <span>{{ formattedPrice }} </span>
+                    <span class="font-bold text-red-500">៛{{ exchangeRateRielMorePro }}</span>
+                    <input hidden :value="convertRielAmountMorePro(parseInt(productPrice))"/>
+                    <p class="font-bold">{{ formattedPrice ?? [] }}</p>
                 </div>
                 <!-- Product Stock -->
                 <div class="product-author">
@@ -68,6 +72,7 @@
     </div>     
 </template>
 <script>
+import convertUSDToRiel from '@/utils/convertUSDTORiel';
 export default {
     components: {},
     props: [
@@ -82,7 +87,7 @@ export default {
     ],
     computed:{
         formattedPrice(){
-            return this.currency + " " + this.productPrice;
+            return this.currencyFormattedUSD(this.productPrice);
         },
         productImgRULFormate(){
             return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + this.imageUrl;
@@ -90,11 +95,33 @@ export default {
     },
     data() {
         return {
+            exchangeRateRielMorePro: 0,
             ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE.replace("https", "http")
         };
     },
     created() {},
-    methods: {},
+    methods: {
+        // Formate Currency 
+        currencyFormattedKHRiel: function(value) {
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD: function(value) {
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
+        async convertRielAmountMorePro(usdAmount){
+           try {
+                const amountConvertRiel =  parseInt(usdAmount) ? parseInt(usdAmount) : 0;
+                this.exchangeRateRielMorePro = await convertUSDToRiel(amountConvertRiel) ?? 0;
+                const result = await Promise.resolve(amountConvertRiel)
+                return result;
+           } catch (error) {
+                return Promise.reject(error);
+           }
+        },
+    },
     mounted() {},
 };
 </script>
@@ -108,7 +135,7 @@ export default {
 .product__card {
     transition: transform 0.05s ease-in;
     text-align: left;
-    border-radius: 15px;
+    border-radius: 2px;
     color: #222;
 }
 

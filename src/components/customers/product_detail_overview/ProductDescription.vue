@@ -1,11 +1,17 @@
- /* eslint-disable */
-
 <template>
     <div v-if="data != null">
         <div class="align-left description" style="padding: 10px">
             <h2>{{ data[0]?.product[0].product_eng  ?? ''}}</h2>
             <h6>By {{data[0]?.product[0].shop_eng}}</h6>
-            <h4>USD {{  data[0]?.product[0]?.product_unit_price }}</h4>
+            <div class="mb-3 my-4">
+                <span class="h3 font-weight-normal text-accent">
+                    <input hidden :value="convertRielAmountProductToCart(data[0]?.product[0]?.product_unit_price ? data[0]?.product[0]?.product_unit_price : 0)"/>
+                    ៛ {{ exchangeRateRielProPrice}} 
+                </span>
+                <span class="ml-2 text-lg font-regular text-red-500">
+                    (<span id="set-tax-amount ">{{ currencyFormattedUSD(data[0]?.product[0]?.product_unit_price)  }}</span>)
+                </span>
+            </div>
             <!-- Custom Attributes -->
             <div class="custom-attributes">
                <template v-if="data[0]?.product[0].product_spec !== null && data[0]?.product[0].product_spec !== undefined">
@@ -48,30 +54,29 @@
                 <button @click="decreaseCount()" class="btn-num-product-down border border-1 border-round">
                     <i class="pi pi-minus" aria-hidden="true"></i>
                 </button>
-                {{ index }}
                 <input 
                     class="size8 m-text18 t-center num-product w-10rem quantity" 
                     @keypress="isNumberQty($event)"
                     type="number" 
                     step="1"
                     name="num-product"
+                    v-model="quantityCart"
                     @input="updateQuantity(data[0]?.product[0], $event)" 
                     @blur="checkQuantity(data[0]?.product[0], $event)"
                     :min="minQuantityUpdated(data[0]?.product[0].product_qty)"
-                    :value="data[0]?.product[0].product_qty"
                 >
                 <button @click="increaseCount()" class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
                     <i class="pi pi-plus" aria-hidden="true"></i>
                 </button>
             </div>
             <!-- Add to cart -->
-            <p style="margin-top: 40px">
-                <b-button id="add-to-cart-sync" class="add-to-cart" @click="addToCart()">
-                    <i class="icon-basket-loaded"></i>
-                    &nbsp;
-                    Add to Cart
-                </b-button>
-            </p>
+             <p style="margin-top: 40px">
+                    <b-button id="add-to-cart-sync" class="add-to-cart" @click="addToCart(parseInt(data[0]?.product[0].productId),data[0]?.product[0]?.product_unit_price)">
+                        <i class="icon-basket-loaded"></i>
+                        &nbsp;
+                        Add to Cart
+                    </b-button>
+                </p>
             <hr>
             <div v-html="data[0]?.product[0].product_description_eng" class="description-wrap content-descriptions text-md"></div>
         </div>
@@ -79,8 +84,10 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
 import { isLoggedIn } from "@/utils/auth/auth";
 import _ from "lodash";
+import convertUSDToRiel from '@/utils/convertUSDTORiel';
 export default {
   name: 'ProductDescription',
   props: {
@@ -95,6 +102,7 @@ export default {
   },
   data() {
     return {
+      exchangeRateRielProPrice: null,
       product: null,
       selectedAddItem: null,
       selectedCustomizations: {},
@@ -104,7 +112,6 @@ export default {
       productDecs: {}
     };
   },
-
   created() {
     this.product = this.data;
     // Selected Customization is just used for the simplicity. The values are also changed in this.product.
@@ -118,7 +125,34 @@ export default {
       });
     }
   },
+ computed: {
+    ...mapGetters({
+        currentUser: 'auth/currentUserAuth',
+    }),
+    currentUserAuth() {
+        return this.currentUser ? this.currentUser : null;
+    },
+  },
   methods: {
+        currencyFormattedKHRiel: function(value) {
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD: function(value) {
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
+        async convertRielAmountProductToCart(usdAmount){
+           try {
+                const amountConvertRiel =  parseInt(usdAmount) ? parseInt(usdAmount) : 0;
+                this.exchangeRateRielProPrice = await convertUSDToRiel(amountConvertRiel) ?? 0;
+                const result = await Promise.resolve(amountConvertRiel)
+                return result;
+           } catch (error) {
+                return Promise.reject(error);
+           }
+        },
         updateQuantity: function(proQty, event) {
             var value = event.target.value;
             // parseInt(data[0]?.product[0].product_qty)
@@ -170,7 +204,7 @@ export default {
                 return true;
             }
        },
-        async addToCart() {
+        async addToCart(productId,productPrice) {
             if (!this.isLoggedIn()) {
                 this.$refs.popover.$emit('enable');
                 this.showLoginPopover = true;
@@ -178,7 +212,7 @@ export default {
             }
             if( Object.keys(this.selectedCustomizations).length === 0 
                 && this.selectedCustomizations.constructor === Object
-                && !Array.isArray(this.selectedCustomizations)){
+                && !Array.isArray(this.currentSelected)){
                     this.$notify.error({
                         title: `Please select product spec`,
                         showClose: true
@@ -199,7 +233,17 @@ export default {
                         }
                     }); 
                     // Add to cart to order products
-
+                    const addToCart = {
+                        productId: parseInt(productId) ? parseInt(productId): 1,
+                        productQty: parseInt(this.quantityCart) ? parseInt(this.quantityCart) : 1,
+                        productPrice: productPrice ? productPrice : 1,
+                        productVariantName: this.currentSelected ? this.currentSelected : '', 
+                        type: "new"
+                    }
+                    await this.$store.dispatch('cart/addToTheCart',{
+                        ...addToCart
+                    }); 
+                    
                 }
             }
         }

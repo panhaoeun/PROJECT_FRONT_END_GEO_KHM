@@ -1,5 +1,6 @@
 export default {
     route: {
+        withdrawVendor: 'ស្នើសុំដកប្រាក់',
         search: 'ស្វែងរក...',
         option: "ជម្រើស",
         select: "ជ្រើសរើស",
@@ -151,15 +152,10 @@ export default {
         description: 'The guide page is useful for some people who entered the project for the first time. You can briefly introduce the features of the project. Demo is based on ',
         button: 'Show Guide',
     },
-    components: {
-        documentation: 'Documentation',
-        tinymceTips: 'Rich text editor is a core part of management system, but at the same time is a place with lots of problems. In the process of selecting rich texts, I also walked a lot of detours. The common rich text editors in the market are basically used, and the finally chose Tinymce. See documentation for more detailed rich text editor comparisons and introductions.',
-        dropzoneTips: 'Because my business has special needs, and has to upload images to qiniu, so instead of a third party, I chose encapsulate it by myself. It is very simple, you can see the detail code in @/components/Dropzone.',
-        stickyTips: 'when the page is scrolled to the preset position will be sticky on the top.',
-        backToTopTips1: 'When the page is scrolled to the specified position, the Back to Top button appears in the lower right corner',
-        backToTopTips2: 'You can customize the style of the button, show / hide, height of appearance, height of the return. If you need a text prompt, you can use element-ui el-tooltip elements externally',
-        imageUploadTips: 'Since I was using only the vue@1 version, and it is not compatible with mockjs at the moment, I modified it myself, and if you are going to use it, it is better to use official version.',
-    },
+    withDrawModule: {
+       withdrawList: 'បញ្ជីដកប្រាក់',
+       withdrawListNotFound: 'រកមិនឃើញប្រតិបត្តិការដកប្រាក់នៅក្នុងកាបូបទេ'
+   },
     table: {
         description: 'ការពិពណ៏នា',
         dynamicTips1: 'Fixed header, sorted by header order',
