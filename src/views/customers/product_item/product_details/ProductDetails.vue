@@ -1,30 +1,32 @@
 <template>
-   <div class="bg-white">
+   <div class="bg-white my-4 px-2 py-2 gap-3">
         <div class="product-detail">
             <div class="space"></div>
             <div v-if="productDetailResultArr != null">
                 <p class="align-left">Shop &nbsp; / &nbsp; {{productDetailResultArr[0]?.product[0].product_eng}}</p>
                 <hr>
-                <div class="row">
-                    <div class="col-md-7 beginner">
+                <b-row>
+                    <b-col md="7" class="beginner">
                         <div>
                             <product-image-gallery
+                                v-if="productDetailResultArr !== ''"
                                 :base-images="productImages"
                                 :base-zoomer-options="zoomerOptions"
                             />
                         </div>
-                    </div>
-                    <div class="col-md-5">
+                    </b-col>
+                    <b-col md="5">
                         <product-description 
                             :countQty="parseInt(productDetailResultArr[0]?.product[0].product_qty) ?? 0" 
                             :data="productDetailResultArr"
                         />
-                    </div>
-                </div>
+                    </b-col>
+                </b-row>
             </div>
             <div v-else>
                 Product Not Found...
             </div>
+            <div class="space"></div>
         </div>
    </div>
 </template>
@@ -57,6 +59,7 @@
                     normal_size: [],
                 },
                 productDetailResultArr: [],
+                proResultImageMulti: [],
                 activeImage: ''
             }
         },
@@ -91,9 +94,7 @@
                                     id: pid,
                                     url:productImg ? productImg : ''
                                 });
-                            })
-                            proResult.productImages
-                           
+                            })                           
                             this.productDetailResultArr =  Array(proResult) ?? [];
                             this.loadingDataProDetail = true;
                             this.activeImage = proResult?.product[0].thumbnail ?? '';

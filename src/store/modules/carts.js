@@ -64,28 +64,18 @@ const getters = {
         return totalAmount;
     },
     getSubTotal(state) {
-        let totalQty = 0;
-        let totalAmount = 0;
-        let totalKHR = 0;
-        let totalOrderItem = 0;
+        // let totalAmount = 0;
         let totalSubtotal = 0;
-        let totalOrderItemKHR = 0;
+        // let totalOrderItemKHR = 0;
         let totalSubtotalKHR = 0;
         state.cartItem.forEach((cart) => {
-            totalQty += +cart.quantity;
-            totalAmount += +cart.total;
-            totalKHR += +cart.totalKhRiel;
+            totalSubtotalKHR += cart.totalKhRiel * parseInt(cart.quantity);
+            totalSubtotal += cart.total * parseInt(cart.quantity);
         });
-        totalOrderItem  =+ totalAmount / totalQty;
-        totalSubtotal = +totalOrderItem * totalQty;
-
-        totalOrderItemKHR = +totalKHR / totalQty;
-        totalSubtotalKHR = +totalOrderItemKHR * totalQty;
-
         if (totalSubtotal && totalSubtotalKHR) {
             return {
-                subTotalUSD: totalSubtotal.toFixed(10, 2),
-                subTotalKHR: totalSubtotalKHR.toFixed(10, 2)
+                subTotalUSD: totalSubtotal,
+                subTotalKHR: totalSubtotalKHR
             };
         }else{
             return 0;
@@ -115,7 +105,9 @@ const actions = {
         }
      },
     async getCartByCurrentCustomer({commit}){
-        if(!isLoggedIn()){
+        if (!isLoggedIn() && state.cartItem.length > 0) {
+            state.cartItem = [];
+        }else{
             state.cartItem.splice(0, state.cartItem.length);
             await customerOrderCart.getCartOrderListCurrentCustomer()
                 .then((cart) => {
@@ -127,10 +119,7 @@ const actions = {
                     console.log(error)
                     throw new Error(error);
                 });
-        }else{
-            state.cartItem = [];
         }
-        
     },
     async createCheckout({
             commit
@@ -248,20 +237,25 @@ const actions = {
             return;
         }
         const toSend = _.map(products, p => ({
-            productId: p.product_id,
-            counts: p.quantity === 0 ? 1 : p.quantity,
+            productId: p.productId,
+            productQty: p.productQty === 0 ? 1 : p.productQty,
             productPrice: p.productPrice,
+            productVariantName: p.productVariantName,
+            type: p.type
         }));
         try {
-             await customerOrderCart.createCartOrderItemCustomer(toSend)
+             await customerOrderCart.createCartOrderItemCustomer(products)
                     .then((result) => {
                         if (result.data.success === true) {
+                            // Notification 
+                            ElNotification.success({
+                                title: 'Added to Cart Successfully'
+                            });
                             commit('setCart', result.data.result.resultStatus);
                             return Promise.resolve(toSend);
                         }
                         return true;
                     }).catch((error) => {
-                        console.log(error)
                         if(error){
                             ElNotification.error({
                                 title: "Couldn't be added for some reason. Please try again later",
