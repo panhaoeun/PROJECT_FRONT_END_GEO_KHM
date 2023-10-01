@@ -55,7 +55,19 @@ export default {
     ],
     computed: {
         formattedPrice() {
-            return this.currency + " " + this.price.toFixed(2);
+            return this.currencyFormattedUSD(this.price);
+        },
+    },
+    methods:{
+        // Formate Currency 
+        currencyFormattedKHRiel: function(value) {
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD: function(value) {
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
         },
     }
 };

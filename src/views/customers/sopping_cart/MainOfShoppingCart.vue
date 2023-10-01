@@ -97,23 +97,28 @@
                                                 size="sm"
                                                 type="number"
                                                 min="1"
+                                                step="1" 
+                                                :max="item.quantity"
                                                 aria-describedby="qtyFeedback"
                                                 v-model="item.quantity"
-                                                @change.capture="updateCartItem(item)"
+                                                @change.capture="updateCartItem(item,itemIndex, $event)"
                                                 class="mb-3"
+                                                @input="updateQuantityAddToCart(itemIndex, $event)" 
+                                                @blur="checkQuantity(itemIndex, $event)" 
                                             ></b-form-input>
                                             <b-form-invalid-feedback v-if="editMode" id="qtyFeedback">0</b-form-invalid-feedback> 
                                         </div>
                                         <div class="col">
                                            <div class="flex flex-column" style="padding-left: 5rem;">
-                                                <span class="font-bold text-lg" style="color: #1455ac;"> ៛ {{ item ? parseFloat(item?.productPriceKHR).toFixed(2,4) : 0}}</span>
-                                                <span class="text-md text-lg"> ($ {{ item ? item?.productPrice : 0 }})</span>
+                                            {{ item?.productPriceKHR }}
+                                                <span class="font-bold text-lg" style="color: #1455ac;"> {{ item ? currencyFormattedKHRiel(item?.productPriceKHR) : 0}}</span>
+                                                <span class="text-md text-lg"> ($ {{ item ? currencyFormattedUSD(item?.productPrice) : 0 }})</span>
                                            </div>
                                         </div>
                                         <div class="col">
                                             <div class="flex flex-column" >
-                                                <span class="font-bold text-lg" style="color: #1455ac;"> ៛ {{ item ? parseFloat(item?.totalKhRiel).toFixed(2,4) : 0}}</span>
-                                                <span class="text-md text-lg"> ($ {{ item ? item?.total : 0 }})</span>
+                                                <span class="font-bold text-lg" style="color: #1455ac;"> {{ item ? currencyFormattedKHRiel(item?.totalKhRiel) : 0}}</span>
+                                                <span class="text-md text-lg"> ( {{ item ? currencyFormattedUSD(item?.total) : 0 }})</span>
                                            </div>
                                         </div>
                                         <div class="col my-4">
@@ -127,54 +132,51 @@
                             </el-card>
                             <!-- Total Customer Cart -->
                             <hr/>
-                            <div class="total-line" v-if="getCartAuthItem && getCartAuthItem.length > 0">
-                                <div class="row" v-if="getTotalItems !== null">
-                                    <div class="col-md-10 align-right">
-                                        <strong>Total Quantity: </strong>
+                            <div class="row">
+                                    <div class="col-lg-4 col-md-6">
                                     </div>
-                                    <div class="col-md-2 align-right">
-                                        <span class="font-bold text-md" style="color: #e22f35;">{{ getTotalItems }} Item</span>
+                                    <div class="col-lg-4 col-md-6">
                                     </div>
-                                </div>
-                       
-                                <div class="row" v-if="getSubTotal !== null">
-                                    <div class="col-10 align-right">
-                                        <strong>Sub Total: </strong>
+                                    <div class="col-lg-4 col-md-12"  v-if="getCartAuthItem && getCartAuthItem.length > 0">
+                                        <div class="grand-totall">
+                                            <div class="title-wrap">
+                                                <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
+                                            </div>
+                                            <h5 v-if="getTotalItems !== null">
+                                                Total products 
+                                                <span class="font-bold text-md" style="color: #e22f35;">{{ getTotalItems ? getTotalItems : 0 }} Item</span>
+                                            </h5>
+                                            <h5 v-if="getSubTotal !== null">
+                                                Sub Total 
+                                                <span class="font-bold text-md flex" style="color: #e22f35;">
+                                                    {{ currencyFormattedKHRiel(getSubTotal?.subTotalKHR) }}
+                                                    <label> ({{ currencyFormattedUSD(getSubTotal?.subTotalUSD) }})</label>
+                                                </span>
+                                            </h5>
+                                            <!-- <h4 class="grand-totall-title">Grand Total <span>$260.00</span></h4> -->
+                                        <router-link to="#" class="bg-red-500 text-white" @click="createCheckOutOrderProduct()">Proceed to Checkout</router-link>
                                     </div>
-                                    <div class="col-2 align-right">
-                                        <div class="flex flex-column" >                                     
-                                            <span class="font-bold text-md" style="color: #1455ac;"> 
-                                                ៛         
-                                                {{ parseFloat(getSubTotal?.subTotalKHR).toFixed(2,4) }}
-                                            </span>
-                                            <span class="text-md font-bold"> ($ {{ parseFloat(getSubTotal?.subTotalUSD).toFixed(2,4) }})</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Empty Cart -->
-                        <div v-if="getCartAuthItem && getCartAuthItem.length <= 0" class="order-empty">
-                            <div class="content">
-                                <div>You have not ordered yet.
-                                <br>
-                                <br>
-                                <b-button @click="gotoDealPage()" class="primary-button">Go Get Orderin</b-button>
                                 </div>
                             </div>
                         </div>
                 </div>
-                <!-- Cart Empty -->
-                <template v-else>
-                    <EmptyAddTOCart/>
-                </template>
+                <!-- Empty Cart -->
+                <div v-if="getCartAuthItem && getCartAuthItem.length <= 0" class="order-empty">
+                    <div class="content">
+                        <div>You have not ordered yet.
+                        <br>
+                        <br>
+                            <b-button @click="$router.push('/')" class="primary-button">Go Get Order In</b-button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
    </div>
 </template>
 
 <script>
-import EmptyAddTOCart from "./empty_add_to_cart/EmptyAddToCart.vue";
+// import EmptyAddTOCart from "./empty_add_to_cart/EmptyAddToCart.vue";
 import {mapGetters, mapActions} from "vuex";
 import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
 import {isLoggedIn} from '@/utils/auth/auth';
@@ -182,7 +184,6 @@ import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersS
 export default {
     name: 'ViewCart',
     components: {
-        EmptyAddTOCart
     },
     computed: {
         ...mapGetters('cart', [
@@ -221,6 +222,15 @@ export default {
         this.getCurrentCartItem = new CustomerOrderCheckOutServices();
     },
     methods: {
+        currencyFormattedKHRiel: function(value) {
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD: function(value) {
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
         customDisplay(val) {
             return val.indexOf('|') >= 0 ? val.split('|')[0] : val;
         },
@@ -270,15 +280,30 @@ export default {
                 return '';
             }
         },
-       async updateCartItem(cartItem){
-            // const quantity = parseInt(event.target.value) ?? 0;
+        updateQuantityAddToCart(index, event){
+            // const valueInt = parseInt(event);
+            const product = this.getCartAuthItem[index];
+            if(isNaN(event) || event === ""){
+                product.quantity = event;
+            }
+        },
+        checkQuantity(index, event) {
+            if (event.target.value === "") {
+                const product = this.getCartAuthItem[index];
+                product.quantity = 1;
+            }
+        },
+        async updateCartItem(cartItem, index,event){
             // const productItemId = cartItem?.productId ?? 0;
             // const productSpecItem = cartItem?.productSpec ?? '';
             // const productPrice = cartItem?.unitPrice ?? 0;
              this.$nextTick(async () => {
                 if(cartItem?.productInStock <= Number(cartItem?.quantity)){
+                    const product = this.getCartAuthItem[index];
+                    const quantity = parseInt(event.target.value) ?? 0;
+                    product.quantity = cartItem?.productInStock;
                     this.$notify.warning({
-                        title: 'Product limited on stock',
+                        title: `Product limited on stock on stock ${cartItem?.productInStock} : ${quantity} `,
                         showClose: true
                     });   
                 }else{
@@ -321,11 +346,13 @@ export default {
                     Promise.reject(error);
                 });
             }
+        },
+        createCheckOutOrderProduct(){
+
         }
     },
     filters: {
         customDisplay(val) {
-            console.log(val)
             return val.indexOf('|') >= 0 ? val.split('|')[0] : val;
         },
     },
@@ -360,30 +387,6 @@ export default {
       display: inline-block;
       vertical-align: middle;
       line-height: normal;
-    }
-  }
-
-  .orders {
-    list-style-type: none;
-    padding: 0px;
-    width: 100%;
-
-    .order-desc {
-      cursor: pointer;
-    }
-
-    .checkbox-item {
-      padding-top: 20px;
-    }
-
-    li {
-      padding: 10px;
-      margin-bottom: 10px;
-      width: 100%;
-
-      &:nth-child(even) {
-        background: #eeeeee;
-      }
     }
   }
 }

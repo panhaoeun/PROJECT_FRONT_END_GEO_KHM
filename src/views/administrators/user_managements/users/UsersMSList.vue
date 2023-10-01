@@ -7,7 +7,7 @@
                 {{ $t('users.listUsers') }}
             </h2>
             <!-- Permissions Modules -->
-            <div class="d-flex text-sm align-items-center gap-3"
+            <div class="d-flex text-sm align-items-center gap-3 flex justify-content-between"
                 v-permission="[{ functionName: 'users_modules', moduleName: 'fun_create' }]">
                 <router-link to="/vendor/user/list/crete-user-auth/ui-user-create"
                     class="text-center btn btn-primary d-flex gap-2">
