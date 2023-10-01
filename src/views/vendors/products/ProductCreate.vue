@@ -10,13 +10,10 @@
                 </div>
             </el-button>
         </div>
-        <!-- Form Submited -->
+        <!-- Form Submitted -->
         <form method="POST">    
             <!-- Toast Alert -->
             <Toast />
-            <Message severity="error" v-for="(errorArray, index) in notifmsg" :key="index">
-                {{ errorArray[0] }} 
-            </Message>
             <!--Create Products-->
             <div class="card card px-6 py-6">
                 <span class="block text-900 font-bold text-md mb-4">Create Product</span>
@@ -125,7 +122,7 @@
                                 <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-sm font-semibold">Discount</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="border-round-lg text-sm"  v-model="proDiscount"/>
+                                        <InputNumber mode="decimal" placeholder="Discount" inputClass="border-round-lg text-sm" inputId="minmaxfraction" :minFractionDigits="2" :maxFractionDigits="5"  v-model="proDiscount"/>
                                     </div>
                                 </div>
                                 <div class="col-4 lg:col-6 field">
@@ -138,7 +135,7 @@
                                 <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-sm font-semibold">Unit Price</label>
-                                        <InputNumber mode="decimal" placeholder="Unit Price" inputClass="border-round-lg text-sm"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
+                                        <InputNumber mode="decimal" placeholder="Unit Price" :minFractionDigits="2" :maxFractionDigits="5"  inputClass="border-round-lg text-sm"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
                                          <small v-if="(v$.proUnitPice.$invalid && submitted) || v$.proUnitPice.$pending.$response" class="p-error text-sm">{{ v$.proUnitPice.required.$message.replace('Value', 'Unit Price') }}</small>
                                     </div>
                                 </div>
@@ -147,8 +144,78 @@
                                     <div class="field">
                                         <label for="name_en" class="text-sm font-semibold">Total Quality</label>
                                         <InputNumber mode="decimal" placeholder="Unit Price" inputClass="border-round-lg text-sm"  v-model="v$.proQty.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proQty.$invalid && submitted }"/>
-                                         <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-sm">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
+                                        <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-sm">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
                                     </div>
+                                </div>
+                                <!-- =============Product Feature Package Shipping Price============== -->
+                                <div class="col-8 xl:col-12 lg:col-12 field">
+                                    <el-card class="box-card" shadow="hover" header="Shipping Information">
+                                        <div class="grid">
+                                            <!-- Delivery Company -->
+                                            <div class="col-4">
+                                                <div class="field">
+                                                    <label for="name_en" class="text-sm font-semibold">Delivery Company</label>
+                                                        <Dropdown 
+                                                            :options="deliveryShippingCompanyList" 
+                                                            filter 
+                                                            v-model="v$.selectedDeliveryCompany.$model" 
+                                                            :class="{ 'p-invalid border-round-lg border-round-lg p-error': v$.selectedDeliveryCompany.$invalid && submitted }"
+                                                            inputId="ship_id"
+                                                            optionLabel="ship_company" 
+                                                            placeholder="Select a Delivery Company" 
+                                                            aria-describedby="dd-error"
+                                                            class="w-full border-round-lg text-sm">
+                                                            <template #value="slotProps">
+                                                                <div v-if="slotProps.value" class="flex align-items-center">
+                                                                    <div>{{ slotProps.value?.ship_company }}</div>
+                                                                </div>
+                                                                <span v-else>
+                                                                    {{ slotProps.placeholder }}
+                                                                </span>
+                                                            </template>
+                                                            <template #option="slotProps">
+                                                                <div class="flex align-items-center">
+                                                                    <div>{{ slotProps.option?.ship_company }}</div>
+                                                                </div>
+                                                            </template>
+                                                        </Dropdown>
+                                                    <small v-if="(v$.selectedDeliveryCompany.$invalid && submitted) || v$.selectedDeliveryCompany.$pending.$response" class="p-error text-sm">{{ v$.selectedDeliveryCompany.required.$message.replace('Value', 'Delivery Company') }}</small>
+                                                </div>
+                                            </div>
+                                            <!--Express Delivery -->
+                                            <div class="col-4">
+                                                <div class="field">
+                                                    <label for="name_en" class="text-sm font-semibold">Express Delivery</label>
+                                                    <InputNumber mode="decimal" placeholder="Express Delivery" inputClass="border-round-lg text-sm" :minFractionDigits="2" :maxFractionDigits="5"   v-model="v$.expressDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.expressDeliveryShipping.$invalid && submitted }"/>
+                                                    <small v-if="(v$.expressDeliveryShipping.$invalid && submitted) || v$.expressDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.expressDeliveryShipping.required.$message.replace('Value', 'Express Delivery') }}</small>
+                                                </div>
+                                            </div>
+                                            <!--Normal Delivery -->
+                                            <div class="col-4">
+                                                <div class="field">
+                                                    <label for="name_en" class="text-sm font-semibold">Normal Delivery</label>
+                                                    <InputNumber mode="decimal" placeholder="Normal Delivery" inputClass="border-round-lg text-sm"  :minFractionDigits="2" :maxFractionDigits="5"  v-model="v$.normalDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.normalDeliveryShipping.$invalid && submitted }"/>
+                                                    <small v-if="(v$.normalDeliveryShipping.$invalid && submitted) || v$.normalDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.normalDeliveryShipping.required.$message.replace('Value', 'Normal Delivery') }}</small>
+                                                </div>
+                                            </div>
+                                            <!--Maximins Order Product -->
+                                            <div class="col">
+                                                <div class="field">
+                                                    <label for="name_en" class="text-sm font-semibold">Maximins</label>
+                                                    <InputNumber mode="decimal" placeholder="Maximins" inputClass="border-round-lg text-sm"  v-model="v$.maximinsOrderProduct.$model" :class="{ 'p-invalid border-round-lg p-error': v$.maximinsOrderProduct.$invalid && submitted }"/>
+                                                    <small v-if="(v$.maximinsOrderProduct.$invalid && submitted) || v$.maximinsOrderProduct.$pending.$response" class="p-error text-sm">{{ v$.maximinsOrderProduct.required.$message.replace('Value', 'Maximin Order') }}</small>
+                                                </div>
+                                            </div>
+                                            <!-- Packing Type -->
+                                             <div class="col">
+                                                <div class="field">
+                                                    <label for="name_en" class="text-sm font-semibold">Packing Type</label>
+                                                    <InputText placeholder="Packing Type" inputClass="border-round-lg text-sm"  v-model="v$.packingTypeShip.$model" :class="{ 'p-invalid border-round-lg p-error': v$.packingTypeShip.$invalid && submitted }"/>
+                                                    <small v-if="(v$.packingTypeShip.$invalid && submitted) || v$.packingTypeShip.$pending.$response" class="p-error text-sm">{{ v$.packingTypeShip.required.$message.replace('Value', 'Package Type') }}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </el-card>
                                 </div>
                                 <!--========Variations Type of Spec - Start=======-->
                                 <div class="col-12 field">
@@ -209,13 +276,7 @@
                                     <div class="col-12 lg:col-12">
                                         <!-- Form Layouts -->
                                         <div class="grid formgrid">
-                                            <!-- Link Video -->
-                                            <div class="col-12 lg:col-12">
-                                                    <div class="field">
-                                                    <label for="name_en" class="text-sm">Youtube Video Link</label>
-                                                    <InputText id="product_name" placeholder="New Products" type="text" class="text-sm border-round-lg"/>
-                                                </div>  
-                                            </div>
+                                           
                                             <!-- Upload Imag Multiple Product and Thumbnail -->
                                             <!---Uploads 10 Files--->
                                             <div class="col-6 lg:col-7 px-2 py-2">
@@ -238,7 +299,6 @@
                                                         :on-exceed="handleExceed"
                                                         :file-list="formUploadArr.resourceList"
                                                         :http-request="handleFileSuccess"
-                                                        :on-success="onSuccessMalFileUpload"
                                                     >
                                                         <!-- Icons -->
                                                         <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
@@ -351,6 +411,7 @@
 <script>
     import ProductServices from "../../../services/vendors/products/ProductServices";
     import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
+    import DeliveryTrackingServices from '../../../services/delivery_tracking/DeliveryTrackingService';
     import { ZoomIn, EditPen } from '@element-plus/icons-vue';
     import { ElMessage } from 'element-plus';
     import { useVuelidate } from '@vuelidate/core';
@@ -365,11 +426,17 @@
             EditPen
         },
         created() {
-            this.productSerClass = new ProductServices();
+            this.productServicesClass = new ProductServices();
             this.proSubCategoryService = new ProductCategoriesServices();
+            this.deliveryTrackShippingCompany = new DeliveryTrackingServices();
         },
         validations() {
             return {
+                selectedDeliveryCompany: {required},
+                expressDeliveryShipping: {required},
+                normalDeliveryShipping: {required},
+                maximinsOrderProduct: {required},
+                packingTypeShip: {required},
                 selectedProSubCat: {required},
                 selectedProCat: {required},
                 proNameEn: { required },
@@ -394,6 +461,7 @@
                 submitted: false,
                 proSpecTags: '',
                 catListSelectOpt:null,
+                deliveryShippingCompanyList: null,
                 selectedProSubCat: null,
                 selectedProCat: null,
                 proCatID : null,
@@ -448,11 +516,17 @@
                         item: "",
                         additional: []
                     }
-                ]
+                ],
+                selectedDeliveryCompany: null,
+                expressDeliveryShipping: '',
+                normalDeliveryShipping: '',
+                maximinsOrderProduct: '',
+                packingTypeShip: ''
             }
         },
         mounted() {
            this.getSelectOptCategories();
+           this.getDeliveryTrackingShippingCompany();
         },  
         methods: {
             randomNumberID(maxVal){
@@ -464,7 +538,15 @@
                     this.randomNumberID(maxVal);
                 }
             },
-
+            // Select Shipping Company
+            async getDeliveryTrackingShippingCompany(){
+                this.deliveryTrackShippingCompany.getListDeliveryTracking().then((shipping) => {
+                    if (!shipping && !Array.isArray(shipping)) {
+                        this.deliveryShippingCompanyList = [];
+                    }
+                    this.deliveryShippingCompanyList = shipping;
+                });
+            },
             // Select Categories and Sub Categories
             async getSelectOptCategories(){
                 this.proSubCategoryService.getProCategory().then((data) => {
@@ -633,9 +715,6 @@
                     this.fileListArrUploadMulti = [];
                 }
             },
-            onSuccessMalFileUpload(file, fileList){
-                console.log(file,fileList)
-            },
             //============Upload Files Single===========
             handleChange(file) {
                 this.proThumbnail = file.raw;
@@ -672,15 +751,25 @@
                         && this.discountType !== undefined 
                         && this.discountType !== null
                         && this.selectedProSubCat !== null
+                        &&  this.selectedDeliveryCompany !== null
                     ){
                         const validation = await this.v$.$validate();
                         if(validation === false){
                             const errorValidation = this.v$.$errors;
-                            this.$toast.add({ severity: 'error', summary: 'Error Message', detail: errorValidation[0]?.$message, life: 1000 });
+                            this.$notify.error({
+                                    title: 'Please input filed in required',
+                                    message: errorValidation[0]?.$message ? errorValidation[0]?.$message : '' ,
+                                    showClose: true
+                            });
                         }
                     }else{
                         if(this.v$.$invalid === true){
                             const dataPro = {
+                                shippingCompany : parseInt(this.selectedDeliveryCompany?.ship_id) ?? 1,
+                                expressPriceDelivery: this.expressDeliveryShipping ?? 0,
+                                normalPriceDelivery: this.normalDeliveryShipping ?? 0,
+                                maximinsOrder: this.maximinsOrderProduct ?? 1,
+                                packingType: this.packingTypeShip ?? '',
                                 proCategoryID: this.selectedProSubCat?.catID,
                                 proImgListID: Math.floor(Math.random() * 10) + this.selectedProSubCat?.catID ?? 1,
                                 proNameEng: this.proNameEn,
@@ -697,27 +786,37 @@
                                 proDisEng: this.desProEn,
                                 proDisKH: this.proDesKh,
                             }
-                            this.productSerClass.createProduct(dataPro).then((response) => { 
+                            console.log(dataPro)
+                            this.productServicesClass.createProduct(dataPro).then((response) => { 
                                 if (response.data.success === true) {
                                     this.submitted = false;
                                     this.errorValidateFile = [];
                                     this.isProcessingSubmit = true;
-                                        this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
+                                        this.$notify.success({
+                                                title: 'Please waiting confirm withdraw from wallet by Admin',
+                                                message: response.data?.message ? response.data?.message : '' ,
+                                                showClose: false
+                                        });
                                         // Push Router
                                         this.$router.push("/vendor/products/list");
                                     }
                             })
                             .catch(error => {
-                                console.log(error)
-                                this.$toast.add({ severity: 'error', summary: error?.response.data.message || error?.response.data.error.error.errors[0].message, detail: error?.response.data.message, life: 3000 });
-                                this.errorValidateFile = error?.response.data?.message;
-                                if (error.response.status == '401') {
-                                    //  Toast Alert 
-                                    this.message_pro_type = [
-                                        { severity: 'error', content: error.response.data.error },
-                                    ]
-                                    this.$toast.add({ severity: 'error', summary: error.response.data.message, detail: error.response.data.error, life: 3000 });
-                                }
+                                this.$notify.error({
+                                        title: 'Unsuccessfully create product',
+                                        message: error.response.data.error.message ?? 'Unsuccessfully create product',
+                                        showClose: false
+                                    });  
+                                    if(error.response.data.error.error.errors){
+                                        for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                            const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                            this.$notify.error({
+                                                title: 'Unsuccessfully create product',
+                                                message: messageValidation ?? 'Unsuccessfully create product',
+                                                showClose: true
+                                            });   
+                                        }
+                                    } 
                             });
                         }
                     }

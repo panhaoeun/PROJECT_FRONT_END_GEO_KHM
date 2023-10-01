@@ -1,5 +1,7 @@
 export default {
     route: {
+        withdrawVendor: 'Withdraw',
+        withdraw: 'Withdraw',
         search: 'Search...',
         option: "Options",
         select: "Select",
@@ -242,7 +244,7 @@ export default {
     product: {
         productList: "Product List",
         productName: "Product Name",
-        purchasePrice: "Phurchase Price",
+        purchasePrice: "Purchase Price",
         qty: "Quantity",
         loadingProduct: "fetching products..."
     },
@@ -254,6 +256,10 @@ export default {
     walletModule: {
         walletList: 'Wallet List',
         walletListNotFound: 'Transaction in wallet not found'
+    },
+    withDrawModule: {
+        withdrawList: 'Withdraw Method List',
+        withdrawListNotFound: 'Transaction in withdraw method not found'
     },
     seller: {
         sellerList: "Seller List",

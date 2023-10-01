@@ -1,7 +1,7 @@
 <template>
     <div class="px-2 py-2">
         <!-- Titles -->
-        <div class="flex justify-between my-4 px-4 py-4">
+        <div class="flex justify-content-between my-4 px-4 py-4">
             <h1 class=" text-2xl text-gray-800 font-medium">{{ $t('product.productList') }}</h1>
             <template v-if="user ? user[1].typeUser == 'Vendor' : '7Day-Vendor' == true && user[1].typeUser !== 'Admin'">
                 <el-button type="info" size="large" class="btn btn-primary"
@@ -244,11 +244,11 @@ const getSubCategoriesOptSelect = (parentCatID) => {
                 const queryCatIDSupCatId = datSubCatId.filter(categories => Array.isArray(categories?.superCatId) === Array.isArray(parentCatID?.catID));
                 subCatListSelectOptProList.value = Array.isArray(queryCatIDSupCatId) ? queryCatIDSupCatId.slice() : [];
             }).catch((err) => {
-                ElMessage.error(err.message);
+                Promise.reject(err?.message);
             });
         }
     } catch (error) {
-        ElMessage.error(error.message);
+        return Promise.reject(error?.message);
     }
 }
 // Search Filter Product Categories 
@@ -270,10 +270,10 @@ const routerFilterProductCategories = (catId) => {
             }
             products.value = Array.isArray(product) ? product.slice() : [];
         }).catch((error) => {
-            ElMessage.error(error.message || []);
+            return Promise.reject(error);
         });
     } catch (error) {
-        ElMessage.error(error?.message || []);
+       return Promise.reject(error);
     }
 }
 const listFilterEmptyProductByCatID = () => {
@@ -284,13 +284,16 @@ const listFilterEmptyProductByCatID = () => {
                     products.value = Array.isArray(data) ? data.slice() : [];
                     loadingProductList.value = false;
                 } catch (error) {
-                    ElMessage.error(`Fail Product Service: ${error.response.data?.message}`);
+                    this.$notify.error({
+                        title: 'Fail Product Service...',
+                        message: error.response.data?.message,
+                        showClose: true
+                    });
                 }
             }
             );
     } catch (error) {
-
-        ElMessage.error(error?.message || []);
+        return Promise.reject(error);
     }
 }
 // Deleted
@@ -300,13 +303,36 @@ const confirmDeleteProduct = (id) => {
 }
 const deleteProductSuccess = () => {
     if (!productId.value) {
-        ElMessage.error("Product Category Not Found...");
+         this.$notify.error({
+            title: 'Product Category Not Found...',
+            showClose: true
+        });
     }
     productService.deleteProByID(productId.value).then((del) => {
-        this.$toast.add({ severity: 'success', summary: 'Successful', detail: del.data.message, life: 3000 });
-        deleteProductDialog.value = false;
+        if(del.data.success === true){
+                this.$notify.success({
+                    title: 'Successfully deleted product',
+                    message: del.data?.message ? del.data?.message : '' ,
+                    showClose: false
+                });
+                //Close form -> Successfully to submitted   
+                this.centerDialogVisibleWalletRequest = false;
+                window.location.reload();
+                //Set timeout closed loading confirm deposited
+                deleteProductDialog.value = false;
+            }else{
+                this.$notify.error({
+                    title: 'Unsuccessfully deleted product',
+                    message: 'Please contact to admin',
+                    showClose: false
+                });
+            }
     }).catch((error) => {
-        ElMessage.error(error);
+        this.$notify.error({
+            title: 'Unsuccessfully Deleted Product',
+            message: error.response.data.error.message ?? 'Unsuccessfully Deleted Product',
+            showClose: true
+        }); 
     });
 }
 </script>

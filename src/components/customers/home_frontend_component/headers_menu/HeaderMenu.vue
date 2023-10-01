@@ -271,7 +271,9 @@ export default {
         },
         async initiateApp(){
             try{
-                await this.$store.dispatch('cart/getCartByCurrentCustomer');
+               if(!isLoggedIn()){
+                 await this.$store.dispatch('cart/getCartByCurrentCustomer');
+               }
             }catch(error){
                 return Promise.reject(error);
             }
