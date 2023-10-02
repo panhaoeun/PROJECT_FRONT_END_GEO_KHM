@@ -19,8 +19,9 @@
                     class="box-card py-2 px-2"
                     header="Seller Withdraw Information"
                 >
-                    <div class="row">
-                        <div class="col-md-4 mb-2 mb-md-0">
+                    <div class="column gpa-3">
+                        <div class="col-md-4 mb-2 mb-md-0 my-2">
+                            <!-- Amount -->
                             <div class="flex-start flex-wrap flex justify-content-between">
                                 <div>
                                     <h6 class="text-capitalize">Amount :</h6>
@@ -30,24 +31,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="flex-start justify-content-between">
+                        <!-- Request time -->
+                        <div class="col-md-4 mb-2 mb-md-0 my-4">
+                            <div class="flex-start flex-wrap flex justify-content-between">
                                 <div>
-                                    <h6>Request time :</h6>
+                                    <h6 class="text-capitalize">Request time :</h6>
                                 </div>
                                 <div class="mx-1">
-                                    2022-10-12 08:39:01
+                                    <h6>$500.00</h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-2 mb-md-0">
+                        <!-- Noted Withdraw -->
+                        <div class="col-md-12 mb-2 mb-md-0 my-4">
                             <div class="flex-start">
                                 <div class="title-color">Note :</div>
                                 <div class="mx-1"></div>
                             </div>
                         </div>
                         <!-- Button -->
-                        <div class="col-md-4">
+                        <div class="col-12">
                             <div class="text-center float-right">
                                  <el-button plain class="w-10rem hover:bg-red-500">Process</el-button>
                             </div>

@@ -31,7 +31,7 @@
                                 </template>
                                 <!-- Empty permissions -->
                                 <template #empty>
-                                   {{ $t('message.noHaveData') }}
+                                   <!-- {{ $t('message.noHaveData') }} -->
                                 </template>
                                 <!-- Loading permissions -->
                                 <template #loading>
