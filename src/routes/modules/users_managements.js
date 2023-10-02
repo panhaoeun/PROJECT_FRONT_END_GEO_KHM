@@ -27,6 +27,11 @@ const defaultChildRoutesUsersMS = (prefix) => [
          },
          component: () => import("../../views/vendors/customers/ViewDetailCustomers.vue"),
     },
+    /**
+     * @Wallet Customer Managements
+     * **/
+    /*
+    */
     {
         path: "/vendor/user/list/admin/customer_wallet_list",
         name: prefix + '.customer_wallet_list',
@@ -38,6 +43,37 @@ const defaultChildRoutesUsersMS = (prefix) => [
         },
         component: () => import("../../views/vendors/customers/my_wallets/deposited/ListDepositToWalletsCustomer.vue"),
     },
+    /**
+      * @Withdraw Wallet Vendor Managements
+      * **/
+     /*
+     */
+    {
+        path: "/vendor/user/list/admin/sellers/withdraw_request_balance_in_account/list",
+        name: prefix + '.withdraw_request_balanced_seller',
+        meta: {
+            title: "sellerWithdrawRequest",
+            requiresAuth: true,
+            icon: 'wallet',
+            permissions: ['withdraw_seller_module_request']
+        },
+        component: () => import("../../views/vendors/withdraw_vendor_wallets/WithdrawVendorWallets.vue"),
+    },
+     {
+        path: "/vendor/user/list/admin/sellers/withdraw_request_balance_in_account/confirm_to_wallet_vendor/:withdrawId",
+        name: prefix + '.withdraw_request_balanced_seller_request',
+        hidden: true,
+        meta: {
+            title: "sellerWithdrawRequest",
+            requiresAuth: true,
+            icon: 'wallet',
+            permissions: ['withdraw_seller_module_request']
+        },
+        component: () => import("../../views/vendors/withdraw_vendor_wallets/ConfirmDialogWithdrawWallet.vue"),
+     },
+    /**
+     * @Role and Permissions Managements
+     * **/
     /*
       @Sellers Managements
     */

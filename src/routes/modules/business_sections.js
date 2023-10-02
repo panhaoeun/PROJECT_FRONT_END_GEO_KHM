@@ -37,17 +37,6 @@ const defaultChildRoutesBusinessMS = (prefix) => [
         },
         component: () => import("../../views/vendors/withdraw_wallet/WithdrawWalletListVendor.vue"),
     },
-    {
-        path: "/vendor/sellers/shop/vendor_request_withdraw_balance",
-        name: prefix + '.vendor_withdraw_account_request',
-        meta: {
-            title: "withdrawVendor",
-            requiresAuth: true,
-            icon: 'wallet',
-            permissions: ['withdraw_wallet_module'],
-        },
-        component: () => import("../../views/vendors/withdraw_wallet/WithdrawWalletListVendor.vue"),
-    },
 ]
 const moduleProductManagementRouters = {
     path: '/vendor/product_managements/business_sections',
