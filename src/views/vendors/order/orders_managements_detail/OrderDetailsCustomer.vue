@@ -6,7 +6,7 @@
         </div>
         <!-- Data Details -->
         <div class="px-2 w-full">
-            <div class="row">npm run s
+            <div class="row">
                 <!-- List order item -->
                 <div class="col-lg-8 col-xl-9">
                     <el-card class="box-card h-100" v-if="customerDetailOrder.length > 0 && customerDetailOrder !== '' ">

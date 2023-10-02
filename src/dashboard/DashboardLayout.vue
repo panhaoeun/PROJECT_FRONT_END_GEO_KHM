@@ -7,6 +7,7 @@
             <total-orders-dashboard/>
             <!-- Total Revenue-->
             <total-revenue-dashboard/>
+            <!-- Admin Balances -->
             <!-- Seller Wallets -->
             <seller-account-balance-wallet-withdraw/>
         </b-row>

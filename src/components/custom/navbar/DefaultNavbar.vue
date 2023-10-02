@@ -181,10 +181,10 @@ function authVenAdLogout() {
              * */
             deleteAllCookies();
         }).catch((error) => {
-            ElMessage.error(error);
+            return Promise.reject(error);
         });
     } catch (error) {
-        ElMessage.error(error);
+       Promise.reject(error);
     }
 }
 function deleteAllCookies() {

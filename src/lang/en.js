@@ -27,6 +27,7 @@ export default {
         walletCustomer: 'Customer Wallet',
         customerMS: 'Customers',
         sellerMS: 'Sellers',
+        sellerWithdrawRequest: 'Seller Withdraw',
         usersMS: 'Users',
         permissionMS: 'Permissions',
         orderReportAnalysisMS: 'Reports',

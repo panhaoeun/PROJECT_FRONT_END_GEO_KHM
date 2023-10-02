@@ -6,6 +6,7 @@ export default {
         select: "ជ្រើសរើស",
         a: '១',
         sub: "រង",
+        sellerWithdrawRequest: 'ស្នើអាជីវករដកប្រាក់',
         name: "ឈ្មោះ",
         action: 'ផ្សេងៗ',
         status: "ស្ថានភាព",

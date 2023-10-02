@@ -793,7 +793,7 @@
                                     this.errorValidateFile = [];
                                     this.isProcessingSubmit = true;
                                         this.$notify.success({
-                                                title: 'Please waiting confirm withdraw from wallet by Admin',
+                                                title: 'Successful crate product',
                                                 message: response.data?.message ? response.data?.message : '' ,
                                                 showClose: false
                                         });
