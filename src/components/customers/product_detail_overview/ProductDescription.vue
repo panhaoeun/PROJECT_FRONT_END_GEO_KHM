@@ -206,7 +206,7 @@ export default {
        },
         async addToCart(productId,productPrice) {
             if (!this.isLoggedIn()) {
-                this.$refs.popover.$emit('enable');
+                // this.$refs.popover.$emit('enable');
                 this.showLoginPopover = true;
                 return;
             }

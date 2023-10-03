@@ -391,7 +391,7 @@ export default {
                                     ? this.formRequestBalanceMD.requestWithdrawDesc
                                     : "",
                             };
-                    // 
+                    // Confirm Request Bank Wallet
                     this.$confirm('Are you confirm to withdraw request amount in wallet?', 'Withdraw Request Amount from Wallet', {
                         confirmButtonText: 'OK',
                         cancelButtonText: 'Cancel',
@@ -457,8 +457,7 @@ export default {
                         });
                         return false;
                     });
-                    }
-                        
+                    }        
                 } else {
                     this.$notify.error({
                         title: "Error Withdraw from Wallet",

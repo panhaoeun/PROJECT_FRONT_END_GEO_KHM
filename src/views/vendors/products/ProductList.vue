@@ -147,7 +147,8 @@
                             </div>
                         </DataTable>
                         <!-- Dialog -->
-                        <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm"
+                        <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" 
+                            header="Confirm"
                             :modal="true">
                             <div class="confirmation-content">
                                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -316,7 +317,6 @@ const deleteProductSuccess = () => {
                     showClose: false
                 });
                 //Close form -> Successfully to submitted   
-                this.centerDialogVisibleWalletRequest = false;
                 window.location.reload();
                 //Set timeout closed loading confirm deposited
                 deleteProductDialog.value = false;

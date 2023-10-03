@@ -49,11 +49,10 @@
                                 <div class="mx-1"></div>
                             </div>
                         </div>
-                        <!-- Button -->
-                        <div class="col-12">
-                            <div class="text-center float-right">
-                                 <el-button plain class="w-10rem hover:bg-red-500">Process</el-button>
-                            </div>
+                        <!-- Button Request Payments -->
+                        <div class="col-md-12 mb-2 mb-md-0 my-4">
+                            <!-- Process Withdraw -->
+                            <DialogConfirmToRequestWithdrawAdmin/>
                         </div>
                     </div>
                 </el-card>
@@ -62,8 +61,11 @@
     </div>
 </template>
 <script>
+import DialogConfirmToRequestWithdrawAdmin from "./DialogConfirmToRequestWithdrawAdmin.vue"
 export default {
-    components: {},
+    components: {
+        DialogConfirmToRequestWithdrawAdmin
+    },
     props: {},
     data() {
         return {};
