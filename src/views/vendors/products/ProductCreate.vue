@@ -786,7 +786,6 @@
                                 proDisEng: this.desProEn,
                                 proDisKH: this.proDesKh,
                             }
-                            console.log(dataPro)
                             this.productServicesClass.createProduct(dataPro).then((response) => { 
                                 if (response.data.success === true) {
                                     this.submitted = false;

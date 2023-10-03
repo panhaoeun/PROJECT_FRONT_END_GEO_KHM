@@ -1,6 +1,5 @@
 import axios from "axios";
-import Cookies from "js-cookie";
-const token = Cookies.get('token');
+const token = localStorage.getItem('token');
 
 export default axios.create({
      baseURL: process.env.VUE_APP_URL,

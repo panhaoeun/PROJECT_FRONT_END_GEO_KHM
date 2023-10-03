@@ -77,7 +77,7 @@
                                                         <div 
                                                             style="font-size: 12px"
                                                             v-for="custom of JSON.parse(item?.variantName)"
-                                                            :key="custom.variantId"
+                                                            :key="custom"
                                                         >
                                                             <span>
                                                                 <label :for="custom.item" class="font-bold"> {{ custom.item ?? '' }}: </label>
@@ -110,7 +110,6 @@
                                         </div>
                                         <div class="col">
                                            <div class="flex flex-column" style="padding-left: 5rem;">
-                                            {{ item?.productPriceKHR }}
                                                 <span class="font-bold text-lg" style="color: #1455ac;"> {{ item ? currencyFormattedKHRiel(item?.productPriceKHR) : 0}}</span>
                                                 <span class="text-md text-lg"> ($ {{ item ? currencyFormattedUSD(item?.productPrice) : 0 }})</span>
                                            </div>
