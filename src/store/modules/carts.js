@@ -18,7 +18,11 @@ const state = {
     shippingPrice: {},
     tariffPrice: {},
     checkoutID: null,
-    selectPayMethod: null
+    selectPayMethod: null,
+    totalShippingUSD: 0,
+    totalShippingKHR: 0,
+    totalUSD: 0,
+    totalKHR: 0,
 }
 // getters
 const getters = {
@@ -96,6 +100,36 @@ const getters = {
     cartTotalOrder: (state) => {
        return state.totalOrder;
     },
+    cartTotalShipping: (state) => {
+        let totalQuantity = 0;
+        let totalShippingDayPrice = 0;
+        let totalMaxOrder=0;
+        let totalDayAmount = 0;
+        let totalDayAmountKHR = 0;
+        let totalAmountDayPrice =0;
+        let totalAmountDayPriceKHR = 0;
+        state.cartItem.forEach((cart) => {
+            totalQuantity += cart.quantity;
+            totalMaxOrder += cart.maxOrder;
+            totalDayAmount += cart.expressPriceUSD;
+            totalDayAmountKHR += cart?.expressPriceKHR;
+        });
+        // Total Shipping
+        totalShippingDayPrice = totalQuantity / totalMaxOrder;
+        // Calculate the number of packages that can be shipped
+        totalAmountDayPrice = totalShippingDayPrice * totalDayAmount;
+        totalAmountDayPriceKHR = totalShippingDayPrice * totalDayAmountKHR;
+
+        if (totalShippingDayPrice > 0) {
+           // Calculate the number of packages that can be shipped
+           totalAmountDayPrice = totalShippingDayPrice * totalDayAmount;
+           totalAmountDayPriceKHR = totalShippingDayPrice * totalDayAmountKHR;
+        }
+        return {
+            shippingAmountUSD: totalAmountDayPrice ? totalAmountDayPrice : 0,
+            shippingAmountKHR: totalAmountDayPriceKHR ? totalAmountDayPriceKHR : 0
+        }
+    }
 }
 // actions
 const actions = {
@@ -237,11 +271,16 @@ const actions = {
             return;
         }
         const toSend = _.map(products, p => ({
+            shipCompanyId: p.shipCompanyId,
+            vendorId: p.vendorId,
+            shopId: p.shopId,
             productId: p.productId,
             productQty: p.productQty === 0 ? 1 : p.productQty,
             productPrice: p.productPrice,
             productVariantName: p.productVariantName,
-            type: p.type
+            type: p.type,
+            expressDeliveryPriceUSD: parseFloat(products?.expressDeliveryPriceUSD),
+            expressDeliveryPriceKHR: parseFloat(products?.expressPriceKHR),
         }));
         try {
              await customerOrderCart.createCartOrderItemCustomer(products)

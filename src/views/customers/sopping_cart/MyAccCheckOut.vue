@@ -23,10 +23,6 @@
                             <div class="gap-3 my-2">
                                 <!-- Shipping Method -->
                                 <div class="my-2">
-                                    <!-- Shipping Method -->
-                                    <ShippingMethod/>
-                                </div>
-                                <div class="my-2">
                                     <!-- Shipping Address -->
                                     <AddShippingAddress 
                                         :allAddresses="shippingAddress" 
@@ -63,8 +59,6 @@
                                         <!-- Payment Type -->
                                         <template v-if="getSelectedAddressShip !== null
                                                 && selectedAddressBilling !== null
-                                                && shippingMethods!== null 
-                                                && shippingMethods !== undefined
                                             ">
                                             <transition
                                                 name="shipping-form-anim"
@@ -106,7 +100,6 @@
     import { mapGetters } from 'vuex';
     import AddShippingAddress from "./my_account_checkout/AddShippingAddress.vue";
     import BillingAddress from "./my_account_checkout/AddBillingAddress.vue";
-    import ShippingMethod from "./my_account_checkout/ShippingMethod.vue";
     import OrderDetail from "./my_account_checkout/OrderDetail.vue";
     import PaymentDetail from "./my_account_checkout/PaymentDetail.vue";
     import { isLoggedIn } from "@/utils/auth/auth";
@@ -127,7 +120,6 @@
         components: {
             AddShippingAddress,
             BillingAddress,
-            ShippingMethod,
             OrderDetail,
             PaymentDetail
         },
