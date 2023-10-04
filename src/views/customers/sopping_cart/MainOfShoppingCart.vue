@@ -17,6 +17,7 @@
             <div class="container">
                 <!-- Cart Item -->
                 <div v-if="getCartAuthItem.length > 0 && getCartAuthItem !== null">
+                    {{getCartAuthItem}}
                     <div class="order-detail">
                         <!-- Title -->
                         <h3>
@@ -31,7 +32,7 @@
                             </template>
                             <ul class="orders">
                                 <div class="row">
-                                    <li>
+                                    <li class="border-bottom-2"> 
                                         <div class="row font-bold">
                                             <div class="col font-bold align-center text-center">
                                                  <div class="justify-content-center font-bold">
@@ -69,24 +70,14 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
+                                            <!-- Variant Name -->
                                             <div class="order-desc pb-10">
                                                 <span class="font-bold text-md pt-4"> {{ item?.product_eng ? item?.product_eng : '' }} </span>
                                                 <br/>
-                                                <template v-if="item?.variantName">
-                                                    <template v-if="item?.variantName.length> 0 && item?.variantName !== ''">
-                                                        <div 
-                                                            style="font-size: 12px"
-                                                            v-for="custom of JSON.parse(item?.variantName)"
-                                                            :key="custom"
-                                                        >
-                                                            <span>
-                                                                <label :for="custom.item" class="font-bold"> {{ custom.item ?? '' }}: </label>
-                                                                <template v-if="custom.additional">
-                                                                    <template v-for="additionalItem in custom.additional" :key="additionalItem.itemId">
-                                                                        {{ customDisplay(additionalItem.item) ?? '' }}
-                                                                    </template>
-                                                            </template>
-                                                            </span>
+                                                <template v-if="item?.variantName && item?.variantName !== ''">
+                                                    <template v-for="([key, value], index) in Object.entries(item?.variantName)" :key="index">
+                                                        <div class="flex flex-column">
+                                                            <p class="text-blue-600">{{ key }} : {{value}}</p>
                                                         </div>
                                                     </template>
                                                 </template>
@@ -111,7 +102,7 @@
                                         <div class="col">
                                            <div class="flex flex-column" style="padding-left: 5rem;">
                                                 <span class="font-bold text-lg" style="color: #1455ac;"> {{ item ? currencyFormattedKHRiel(item?.productPriceKHR) : 0}}</span>
-                                                <span class="text-md text-lg"> ($ {{ item ? currencyFormattedUSD(item?.productPrice) : 0 }})</span>
+                                                <span class="text-md text-lg"> ({{ item ? currencyFormattedUSD(item?.productPrice) : 0 }})</span>
                                            </div>
                                         </div>
                                         <div class="col">
@@ -180,6 +171,8 @@ import {mapGetters, mapActions} from "vuex";
 import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
 import {isLoggedIn} from '@/utils/auth/auth';
 import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
+// import _ from "lodash";
+
 export default {
     name: 'ViewCart',
     components: {
@@ -213,6 +206,7 @@ export default {
             editMode: false,
             countOptions: [],
             title: 'Checkout',
+            productVariantName: [],
             ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE
         }
     },
@@ -221,6 +215,22 @@ export default {
         this.getCurrentCartItem = new CustomerOrderCheckOutServices();
     },
     methods: {
+        getProductSpecOwn(productSpec){
+            if(productSpec !== ''){
+                let variantsName = ''
+                let variantSpec = '';
+                for (var prop in productSpec) {
+                    if (Object.prototype.hasOwnProperty.call(productSpec, prop)) {
+                        variantsName = prop ? prop : '';
+                        variantSpec = productSpec[prop] ? productSpec[prop] : '';
+                        
+                        console.log(variantsName,variantSpec)
+                        // return `${variantsName ? variantsName : ''}: ${variantSpec ? variantSpec : ''}`;
+                    }
+                    // this.productVariantName = `${variantsName ? variantsName : ''}: ${variantSpec ? variantSpec : ''}`;
+                }
+            }
+        },
         currencyFormattedKHRiel: function(value) {
             return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
         },

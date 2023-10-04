@@ -303,17 +303,18 @@ const actions = {
                     productId: item?.product_id,
                     productQty: parseInt(item.quantity),
                     productPrice: parseFloat(item?.productPrice),
+                    expressDeliveryPriceUSD: parseFloat(item?.expressDeliveryPriceUSD),
+                    expressDeliveryPriceKHR:parseFloat(item?.expressPriceKHR),
                     type: 'new'
                 }
                 try {
                     await customerOrderCart.createCartOrderItemCustomer(orders)
                         .then((result) => {
-                            if (result.data.success === true) {
+                            if (result.data?.success === true) {
                                 commit('setCart', result.data.result.resultStatus);
                                 return Promise.resolve(orders);
                             }
                         }).catch((error) => {
-                            console.log(error)
                             if(error){
                                 ElNotification.error({
                                     title: 'Cart could not be updated at the moment. Please try again later.',

@@ -2,51 +2,126 @@
     <div v-if="data != null">
         <div class="align-left description" style="padding: 10px">
             <h2>{{ data[0]?.product[0].product_eng  ?? ''}}</h2>
+            <span class="pb-2"></span>
             <h6>By {{data[0]?.product[0].shop_eng}}</h6>
             <div class="mb-3 my-4">
                 <span class="h3 font-weight-normal text-accent">
                     <input hidden :value="convertRielAmountProductToCart(data[0]?.product[0]?.product_unit_price ? data[0]?.product[0]?.product_unit_price : 0)"/>
-                    ៛ {{ exchangeRateRielProPrice}} 
+                    ៛ {{exchangeRateRielProPrice}} 
                 </span>
                 <span class="ml-2 text-lg font-regular text-red-500">
                     (<span id="set-tax-amount ">{{ currencyFormattedUSD(data[0]?.product[0]?.product_unit_price)  }}</span>)
                 </span>
             </div>
+            <!-- Max Order -->
+            <div class="detail">
+                <div class="shipping-details-bottom-border pb-2">
+                    <img class="w-1" src="../../../assets/img/payments/box_726475.png" alt="">
+                    <span class="pl-2">Shipping Information</span>
+                </div>
+                <div class="d-flex flex-wrap align-items-center mb-2 pro">
+                    <p class="font-regular font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1 text-capitalize">
+                        Max Order:  {{ data[0]?.product[0].maxOrder }}         
+                    </p>
+                    <span class="px-2 py-2 ">|</span>
+                    <p class="font-regular font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1 text-capitalize">
+                        Packing Type:   {{ data[0]?.product[0].packingType }}              
+                    </p>
+                </div>
+            </div>
             <!-- Custom Attributes -->
-            <div class="custom-attributes">
+            <div class="custom-attributes my-4">
                <template v-if="data[0]?.product[0].product_spec !== null && data[0]?.product[0].product_spec !== undefined">
-                    <div class="custom-attributes">
+                    <div class="custom-attributes my-2 pb-2">
                         <div v-for="(attrib,aid) in data[0]?.product[0].product_spec" v-bind:key="attrib.variantId">
                             <!-- Show Color selection for colors -->
-                            <div class="field grid" :id="aid">
-                                <label :for="attrib?.item" class="col-fixed" style="width:100px">
+                            <div class="gap-3" :id="aid">
+                                <p :for="attrib?.item" class="col-fixed" style="width:100px">
                                     {{ attrib?.item }} : 
-                                </label>
-                                <div class="col">
-                                    <div class="form-group" >
-                                        <select class="form-control"
-                                            name="color"
-                                            style="max-width: 250px"
-                                            :label-for="attrib.item+aid"
-                                            :track-by="currentSelected.proSpecItem"
-                                            v-model="selectedCustomizations[attrib?.item]"
-                                        >
-                                            <option disabled value="not_choose">Choose an option</option>
-                                            <option 
-                                                v-for="(add,index) in attrib.additional"
-                                                :key="index"
-                                                :name="add?.item"
-                                                :value="add?.item"
-                                                
-                                            >
-                                                {{ add?.item }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
+                                </p>
+                                <select 
+                                    class="form-control  text-green-900 border-1 px-2 py-3"
+                                    name="color"
+                                    style="max-width: 230px;border: 1px solid red;"
+                                    :label-for="attrib.item+aid"
+                                    :track-by="currentSelected.proSpecItem"
+                                    v-model="selectedCustomizations[attrib?.item]"
+                                >
+                                    <!--  -->
+                                    <option disabled value="not_choose">Choose an option</option>
+                                    <option 
+                                        v-for="(add,index) in attrib.additional"
+                                        :key="index"
+                                        :name="add?.item"
+                                        :value="add?.item"
+                                        
+                                    >
+                                        {{ add?.item }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
+                    <!-- Shipping Company-->
+                    <div class="gpa-3">
+                        <div class="my-2 pb-4">
+                            <p class="text-color-secondary font-lg">Shipping Company: </p>
+                            <div class="text-blue-500">
+                               <p class="w-6 text-blue-500 border-1 px-2 py-3">
+                                    {{ data[0]?.product[0].shippingCompany }}
+                               </p>
+                            </div>
+                        </div>
+                        <!-- Shipping Price Express Delivery-->
+                        <div class="my-2 pb-4">
+                            <p class="text-color-secondary font-lg">Express Delivery: </p>
+                            <div class="text-indigo-900">
+                                <select 
+                                    class="form-control  text-green-900 border-1 px-2 py-3 cursor-pointer"
+                                    style="max-width: 350px;border: 1px solid rgb(4, 166, 190);"
+                                    :track-by="expressDelivery"
+                                    @change="selectExpressDeliveryShippingPrice"
+                                    v-model="selectedShippingExpressDelivery"
+                                >
+                                    <option disabled value="not_choose_express_delivery">Choose an option</option>
+                                    <option
+                                        value="Express (1-2 Day)"
+                                        :name="exchangeExpressDay && data[0]?.product[0]?.expressPrice"
+                                        :data-deliver-name="data[0]?.product[0].shippingCompany + ' | ' + 'Express (1-2 Day)'" 
+                                        :data-deliver-price="data[0]?.product[0]?.expressPrice"
+                                        :data-deliver-khr="exchangeExpressDay"
+                                        :selected="selectExpressDeliveryShippingPrice == 'Express (1-2 Day)'"
+
+                                    >
+                                        <div class="flex">
+                                            <p>
+                                                <span>៛ {{exchangeExpressDay ? exchangeExpressDay : 0 }}</span>
+                                                <input hidden :value="convertAmountRateExpressDay(data[0]?.product[0]?.expressPrice ? data[0]?.product[0]?.expressPrice : 0)"/>
+                                                ({{currencyFormattedUSD(data[0]?.product[0]?.expressPrice)}}) -                  
+                                            </p>
+                                            <span> Express (1-2 Day)</span>
+                                        </div>
+                                       
+                                    </option>
+                                    <option
+                                        value="Normal (3-4 Day)"
+                                        :name="exchangeNormalDay && data[0]?.product[0]?.normalPrice" 
+                                        :data-deliver-price="data[0]?.product[0]?.normalPrice"
+                                        :data-deliver-khr="exchangeNormalDay"
+                                        :data-deliver-name="data[0]?.product[0].shippingCompany + ' | ' + 'Express (3-4 Day)'" 
+                                        :selected="selectExpressDeliveryShippingPrice == 'Normal (3-4 Day)'"
+                                    >
+                                        <p>
+                                            <span>៛ {{ exchangeNormalDay }}</span>
+                                            <input hidden :value="convertAmountRateNormalDay(data[0]?.product[0]?.normalPrice ? data[0]?.product[0]?.normalPrice : 0)"/>
+                                            ({{ currencyFormattedUSD(data[0]?.product[0]?.normalPrice) }}) -
+                                        </p>
+                                        <span> Normal (3-4 Day)</span>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> 
                </template>
             </div>
             <!-- Product Quantity -->
@@ -71,7 +146,7 @@
             </div>
             <!-- Add to cart -->
              <p style="margin-top: 40px">
-                    <b-button id="add-to-cart-sync" class="add-to-cart" @click="addToCart(parseInt(data[0]?.product[0].productId),data[0]?.product[0]?.product_unit_price)">
+                    <b-button id="add-to-cart-sync" class="add-to-cart" @click="addToCart(parseInt(data[0]?.product[0].productId),data[0]?.product[0]?.product_unit_price, data[0]?.product[0]?.packingType,data[0]?.product[0]?.maxOrder)">
                         <i class="icon-basket-loaded"></i>
                         &nbsp;
                         Add to Cart
@@ -102,20 +177,27 @@ export default {
   },
   data() {
     return {
-      exchangeRateRielProPrice: null,
+      exchangeRateRielProPrice: 0,
+      exchangeExpressDay: 0,
+      exchangeNormalDay: 0,
       product: null,
       selectedAddItem: null,
       selectedCustomizations: {},
+      selectedCustomDeliveryExpress: {},
       showLoginPopover: false,
       currentSelected: {},
       quantityCart: 1,
-      productDecs: {}
+      productDecs: {},
+      expressDelivery: {},
+      selectedShippingExpressDelivery: 'Express (1-2 Day)',
+      expressOptionSelected: {}
     };
   },
   created() {
     this.product = this.data;
     // Selected Customization is just used for the simplicity. The values are also changed in this.product.
     this.selectedCustomizations = _.cloneDeep(this.currentSelected);
+
   },
   filters: {
     currencyFormatted : function(value) {
@@ -195,22 +277,64 @@ export default {
                 this.quantityCart = 1;
             }
         },
-       async isNumberQty(evt){
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-                evt.preventDefault();
-            } else {
-                return true;
+        async isNumberQty(evt){
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+        },
+        async convertAmountRateExpressDay(usdAmount){
+            try {
+                const amountConvertRielExpress =  parseInt(usdAmount) ? parseInt(usdAmount) : 0;
+                this.exchangeExpressDay = await convertUSDToRiel(amountConvertRielExpress) ?? 0;
+                const result = await Promise.resolve(amountConvertRielExpress)
+                return result;
+           } catch (error) {
+                return Promise.reject(error);
+           }
+        },
+        async convertAmountRateNormalDay(usdAmount){
+            try {
+                const amountConvertRielExpress =  parseInt(usdAmount) ? parseInt(usdAmount) : 0;
+                this.exchangeNormalDay = await convertUSDToRiel(amountConvertRielExpress) ?? 0;
+                const resultNormal = await Promise.resolve(amountConvertRielExpress)
+                return resultNormal;
+           } catch (error) {
+                return Promise.reject(error);
+           }
+        },
+        async selectExpressDeliveryShippingPrice($event){
+            if($event.target.options.selectedIndex > -1) {
+                const deliverPriceExpress =  $event.target.options[$event.target.options.selectedIndex].dataset.deliverPrice ?? 0;
+                const deliveryPriceKHR = $event.target.options[$event.target.options.selectedIndex].dataset.deliverKhr ?? 0;
+                const deliveryName = $event.target.options[$event.target.options.selectedIndex].dataset.deliverName ?? 0;
+                this.expressOptionSelected = {
+                    deliveryPriceUSD: parseFloat(deliverPriceExpress).toFixed(2,4) ? parseFloat(deliverPriceExpress).toFixed(2,4) : 0,
+                    deliveryPriceKHR: deliveryPriceKHR ? deliveryPriceKHR: 0,
+                    deliveryName: deliveryName ? deliveryName : ''
+                };
+                // Selected Customization is just used for the simplicity. The values are also changed in this.product.
+                this.selectedCustomDeliveryExpress = _.cloneDeep(this.expressOptionSelected);
             }
-       },
-        async addToCart(productId,productPrice) {
+          
+        },
+        async addToCart(productId,productPrice,packageType,maxOrder) {
             if (!this.isLoggedIn()) {
                 // this.$refs.popover.$emit('enable');
                 this.showLoginPopover = true;
                 return;
             }
-            if( Object.keys(this.selectedCustomizations).length === 0 
+            if(Object.keys(this.expressOptionSelected).length === 0 && !Array.isArray(this.expressOptionSelected)){
+                this.$notify.error({
+                    title: `Please select express delivery`,
+                    showClose: true
+                });   
+                return false;
+            }
+            if(Object.keys(this.selectedCustomizations).length === 0 
                 && this.selectedCustomizations.constructor === Object
                 && !Array.isArray(this.currentSelected)){
                     this.$notify.error({
@@ -238,6 +362,11 @@ export default {
                         productQty: parseInt(this.quantityCart) ? parseInt(this.quantityCart) : 1,
                         productPrice: productPrice ? productPrice : 1,
                         productVariantName: this.currentSelected ? this.currentSelected : '', 
+                        shippingDayCompanyName: this.expressOptionSelected.deliveryName ? this.expressOptionSelected.deliveryName : '',
+                        expressDeliveryPriceUSD: this.expressOptionSelected.deliveryPriceUSD ? this.expressOptionSelected.deliveryPriceUSD : 0,
+                        expressDeliveryPriceKHR: this.expressOptionSelected.deliveryPriceKHR ? this.expressOptionSelected.deliveryPriceKHR : 0,
+                        maxOrder: maxOrder ? maxOrder : 0,
+                        packageType: packageType ? packageType : '',
                         type: "new"
                     }
                     await this.$store.dispatch('cart/addToTheCart',{
