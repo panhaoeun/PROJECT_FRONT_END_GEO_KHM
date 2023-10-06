@@ -12,7 +12,7 @@
                 </div>
             </div>            
         </div>
-        <div class="checkout-main-area pt-10">
+        <div class="checkout-main-area pt-10" v-if="orderDetaiL.length > 0 && isSessionActive()">
             <div class="container pb-4">
                 <div class="checkout-wrap pt-30">
                     <div class="row">
@@ -55,7 +55,7 @@
                                        <OrderDetail/>
                                     </div>
                                     <!-- Payment Methods -->
-                                    <div class="pay-top sin-payment" v-if="isSessionActive() && carts.length > 0">
+                                    <div class="pay-top sin-payment" v-if="isSessionActive() && orderDetaiL.length > 0">
                                         <!-- Payment Type -->
                                         <template v-if="getSelectedAddressShip !== null
                                                 && selectedAddressBilling !== null
@@ -81,7 +81,8 @@
                                         <textarea placeholder="Notes about your order, e.g. special notes for delivery." v-model="customerOrderNoted" name="order_noted"></textarea>
                                     </div>
                                 </div>
-                                <div class="Place-order" v-if="isSessionActive() && carts.length > 0">
+                                <!-- Place Order -->
+                                <div class="Place-order" v-if="isSessionActive() && orderDetaiL.length > 0">
                                     <router-link to="#" @click.prevent="handleCheckOutPayment()">Place Order</router-link>
                                 </div>
                                 <div v-else>
@@ -92,6 +93,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-else>
+            <el-empty description="No Product Item" />
         </div>
    </div>
 </template>
@@ -188,7 +192,7 @@
             },
             async handleCheckOutPayment(){
                 if(this.isSessionActive() !== null){
-                    if (!this.getSelectedAddressShip || !this.selectedAddressBilling ||  !this.shippingMethod) {
+                    if (!this.getSelectedAddressShip || !this.selectedAddressBilling) {
                         this.$notify.warning({
                             title: 'Please select shipping method first',
                             message: 'The shipping method and address should be selected first.',

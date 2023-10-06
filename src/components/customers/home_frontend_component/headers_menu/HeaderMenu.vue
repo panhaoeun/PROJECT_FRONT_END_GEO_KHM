@@ -60,15 +60,19 @@
                                                 <a href="#">All Categories </a>
                                                 <ul class="mega-menu-style mega-menu-mrg-2">
                                                     <li>
-                                                        <ul>
-                                                            <li>
-                                                                <a class="dropdown-title" href="#">Shop Layout</a>                                                                                                                               <ul>
-                                                                    <li><a href="shop.html">standard style</a></li>
+                                                        <ul v-if="commonCategoriesList !== null">
+                                                            <li v-for="(category,index) in commonCategoriesList" :key="index">
+                                                                <a class="dropdown-title" href="#">{{ category.catNameEn }}</a>                                                                                                                               <ul>
+                                                                    <template v-if="commonSubCategoriesList !== null">
+                                                                        <li v-for="(subCat, index) in commonSubCategoriesList" :key="index" >
+                                                                            <router-link to="shop.#" v-if="subCat.superCatId === category.catID">
+                                                                                {{ subCat.categoryNameEng }}
+                                                                            </router-link>
+                                                                        </li>
+                                                                    </template>
                                                                 </ul>
                                                             </li>
-                                                            <li>
-                                                                <a href="#"><img src="../../../../assets/img/product/banner-12.png" alt=""></a>
-                                                            </li>
+                                                            
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -187,6 +191,7 @@
                 </div>
             </div>
         </div>
+        <!-- Categories -->
         <div class="header-small-device small-device-ptb-1 border-bottom-2">
             <div class="container">
                 <div class="row align-items-center">
@@ -237,6 +242,7 @@ import router from "../../../../routes/routes";
 import {isLoggedIn} from '@/utils/auth/auth';
 import { mapState } from "vuex";
 import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
+import  CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
 export default {
     components: { MobileMenu ,ProductCategoriesHeader},
     props: {},
@@ -244,6 +250,8 @@ export default {
         return {
             customerType: null,
             customerId: {},
+            commonCategoriesList: null,
+            commonSubCategoriesList: null
         };
     },
     computed: {
@@ -252,6 +260,7 @@ export default {
     created() {
         this.customerCurrentId = new CustomerServicesBaseAdmin();
         this.customerCurrentOrder = new CustomerOrderCheckOutServices();
+        this.commonServices = new CommonListPublicServices();
         // Login
         if(isLoggedIn()){
             this.initiateApp();
@@ -263,8 +272,22 @@ export default {
     mounted() {
         const userId = this.$store.state.auth.userArr;
         this.getProfileCurrentAccount(userId);
+        // Common Categories
+        this.getCommonCategories();
     },
     methods: {
+        // Categories
+        getCommonCategories(){
+            this.commonServices.getCommonCategoriesSubCategories()
+            .then((common)=> {
+                if (!common) {
+                    this.commonCategoriesList = Array.isArray() ?? [];
+                    this.commonSubCategoriesList = Array.isArray() ?? [];
+                }
+                this.commonCategoriesList = common?.categories;
+                this.commonSubCategoriesList = common?.subCategory;
+            })
+        },
         // Check login
         isLoggedIn() {
             return isLoggedIn();
@@ -364,7 +387,6 @@ export default {
         },
         // Get Current Order
         getCustomerCartOrderItem(){
-            console.log("getCustomerCartOrderItem")
             const proItem = {
                 productId: 10,
                 productQty: 1,
