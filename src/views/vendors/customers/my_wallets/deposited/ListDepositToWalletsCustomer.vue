@@ -14,7 +14,7 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                            <DataTable ref="dt" :value="customerTransactionArr" v-model:selection="selectedCategoriesList"
+                            <DataTable ref="dt" :value="customerTransactionArr" v-model:selection="selectedWalletDeposited"
                                 dataKey="id" :paginator="true" :rows="10" :filters="filters"
                                 class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -197,6 +197,7 @@ export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
         return {
+            selectedWalletDeposited: null,
             paymentReceiptPreviewURL: '',
             paymentReceiptPreviewListURL: [],
             usersID: '',

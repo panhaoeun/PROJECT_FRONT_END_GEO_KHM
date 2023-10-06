@@ -45,7 +45,7 @@ export default class CustomerOrderServices {
         return http.post("/customer-cart/add-cart", data);
     }
     async deletedCartOrderItemCustomer(cartId,data) {
-         return http.delete(`/customer-cart/delete-cart-item?cartId=${parseInt(cartId) ? parseInt(cartId) : 0}`, data);
+        return http.delete(`/customer-cart/delete-cart-item?cartId=${parseInt(cartId) ? parseInt(cartId) : 0}`, data);
     }
     /**
          @Customer Order Checkout

@@ -86,7 +86,7 @@
                                     <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
                                         <i class="pi pi-search" />
                                         <InputText v-model="filtersData['global'].value"
-                                            class="p-inputtext  p-component w-full text-sm"
+                                            class="p-inputtext p-component w-full text-sm"
                                             :placeholder="$t('route.search')" />
                                     </span>
                                 </div>

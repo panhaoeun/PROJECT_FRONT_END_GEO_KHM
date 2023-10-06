@@ -121,7 +121,6 @@ export default {
                                 const withdrawRequestId =  parseInt(this.$route.params.withdrawId) ? parseInt(this.$route.params.withdrawId) : 0;
                                 this.withdrawConfirmAdmin.createConfirmWithdrawRequestAdminToVendor(withdrawRequestId,confirmRequestAdmin)
                                         .then((withdraw) => {
-                                            console.log(withdraw)
                                             if(withdraw.data.success === true){
                                                 this.$notify.success({
                                                     title: 'Please waiting confirm withdraw from wallet by Admin',

@@ -1,10 +1,10 @@
 <template>
     <Button label="Deposit" severity="danger" style="width:8rem;" @click="dialogTableVisibleOpeDeposit = true" size="small"/>   
-    <el-dialog v-model="dialogTableVisibleOpeDeposit" width="50%" centerwidth="50%"  title="Deposit to Wallet"  @close="closeFromDeposit">
+    <el-dialog v-model="dialogTableVisibleOpeDeposit" width="38%" centerwidth="38%"  title="Deposit to Wallet"  @close="closeFromDeposit">
             <div class="py-2">
                 <!-- Toast Alert-->
                 <Toast />
-                <div class="px-2 flex justify-content-center">
+                <div class="px-2 flex">
                     <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"> 
                         <el-form 
                             ref="formPopupDepositWallet"
@@ -30,7 +30,7 @@
                             <!-- Enter Amount -->
                             <el-form-item label="Enter Amount" prop="enterAmountWallet">
                                 <el-input-number 
-                                    style="width: 100%"
+                                    style="width: 70%"
                                     v-model="formPopupDepositWallet.enterAmountWallet"
                                     :min="1" 
                                     :max="5000" 
@@ -45,7 +45,7 @@
                                 <el-date-picker
                                     arrow-control
                                     :action="fileUploadUrl"
-                                    style="width: 100%"
+                                    style="width: 70%"
                                     v-model="formPopupDepositWallet.enterDepositedDateTime"
                                     type="datetime"
                                     placeholder="Pick a day"
@@ -120,12 +120,13 @@
                             <el-form-item label="Deposited Noted" prop="depositedNoted">
                                 <el-input 
                                     v-model="formPopupDepositWallet.depositedNoted" 
-                                    style="width: 100%" type="textarea" 
+                                    style="width: 70%" 
+                                    type="textarea" 
                                 />
                             </el-form-item>
                             <!-- Form Submitted -->
                             <el-form-item class="flex flex-column">
-                                <el-button type="primary" @click="onSubmitUploadRecentDepositWallet('formPopupDepositWallet')">Upload Receipt</el-button>
+                                <el-button type="primary" style="width: 70%"  @click="onSubmitUploadRecentDepositWallet('formPopupDepositWallet')">Upload Receipt</el-button>
                             </el-form-item>
                         </el-form>
                     </div>

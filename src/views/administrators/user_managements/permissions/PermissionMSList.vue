@@ -13,7 +13,7 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                            <DataTable ref="dt" :value="permissionsListArr" v-model:selection="selectedCategoriesList"
+                            <DataTable ref="dt" :value="permissionsListArr" v-model:selection="selectedPermList"
                                 dataKey="id" :paginator="true" :rows="10" :filters="filters" class="p-datatable-scrollable"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
@@ -97,6 +97,7 @@ import { ElMessage } from "element-plus";
 export default {
     data() {
         return {
+            selectedPermList: "",
             permissionsID: "",
             permissionsListArr: "",
             statusPermissionsSwitch: false,

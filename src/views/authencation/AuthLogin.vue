@@ -151,13 +151,15 @@ export default {
                                 }
                                 if (response.userType === "Vendor") {
                                     this.$router.push({path: "/vendor-dashboard/default-layouts"});
+                                } if (response.userType === "Delivery") {
+                                    this.$router.push({path: "/vendor-dashboard/default-layouts"});
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({path: "/"});
                                 }   
                                 let loadingAuthLogin = ElLoading.service({ 
-                                        lock: true,
-                                        text: 'Please waiting...',
-                                        background: 'rgb(255,250,250)'
+                                    lock: true,
+                                    text: 'Please waiting...',
+                                    background: 'rgb(255,250,250)'
                                 });
                                 setTimeout(() => {
                                     loadingAuthLogin.close();
@@ -168,6 +170,7 @@ export default {
                             }         
                         },
                         (error) => {
+                            console.log(error)
                             this.userLoggedIn = false;
                             if(typeof(error.response.data.name)!== undefined){
                                 this.$notify.error({

@@ -66,7 +66,7 @@
                             <DataTable 
                               ref="dt" 
                                 :value="sellerOrderReport" 
-                                v-model:selection="selectedCategoriesList"
+                                v-model:selection="selectedOrderReportList"
                                 dataKey="id"
                                 :paginator="true" :rows="10" 
                                 :filters="filters"
@@ -130,6 +130,7 @@ import { ElMessage } from 'element-plus';
 export default {
     data() {
         return {
+            selectedOrderReportList: null,
             sellerOrderReport: [],
             orderListEndFilter: '',
             selectedAllShop: '',

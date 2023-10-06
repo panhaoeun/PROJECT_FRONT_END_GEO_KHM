@@ -22,6 +22,7 @@ export default {
         proManagement: 'Products Managements',
         proSubCategories: 'Sub Categories',
         proCategories: 'Categories',
+        shippingOrderMS: 'Product Delivery',
         proProductMS: 'Products',
         userMSModule: 'User Managements',
         walletCustomer: 'Customer Wallet',
@@ -223,6 +224,10 @@ export default {
         allOrder: "All Order",
         showData: "Show Data",
     },
+    productDelivery: {
+        allDelivery: "All Product Delivery",
+        showData: "Show Data",
+     },
 
     message: {
         noHaveData: "No have data !",
