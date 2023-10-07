@@ -56,17 +56,19 @@
                                             <li>
                                                 <router-link class="active" to="/">HOME </router-link>
                                             </li>
+                                            <!--All Categories -->
                                             <li>
-                                                <a href="#">All Categories </a>
+                                                <router-link to="#">All Categories </router-link>
                                                 <ul class="mega-menu-style mega-menu-mrg-2">
                                                     <li>
                                                         <ul v-if="commonCategoriesList !== null">
                                                             <li v-for="(category,index) in commonCategoriesList" :key="index">
-                                                                <a class="dropdown-title" href="#">{{ category.catNameEn }}</a>                                                                                                                               <ul>
+                                                                <a class="dropdown-title" href="#">{{ category.catNameEn }} {{ category.catID }}</a>                                                                                                                               <ul>
                                                                     <template v-if="commonSubCategoriesList !== null">
                                                                         <li v-for="(subCat, index) in commonSubCategoriesList" :key="index" >
-                                                                            <router-link to="shop.#" v-if="subCat.superCatId === category.catID">
+                                                                            <router-link to="#" v-if="subCat.superCatId === category.catID">
                                                                                 {{ subCat.categoryNameEng }}
+                                                                                {{ subCat.catID }}
                                                                             </router-link>
                                                                         </li>
                                                                     </template>
