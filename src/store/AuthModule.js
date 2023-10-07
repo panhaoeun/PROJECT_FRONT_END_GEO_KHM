@@ -19,10 +19,9 @@ export const auth = {
     login({ commit, dispatch}, user) {
       return AuthService.login(user).then(
         user => {
-               /*
-            @Auth Store Token
+            /*
+             @Auth Store Token
             */
-            document.cookie = `tokenJWT=${user.token}`;
           //Dispatch to autoLogout
           return Promise.resolve(user);
         },
@@ -108,6 +107,19 @@ export const auth = {
     },
     SET_CURRENT_USER(state, user) {
         state.currentUser = user;
+        if (Object.keys(user).length != 0) {
+            state.userType = user.userType;
+            state.userId = user.userId;
+            if (user.userType == "Vendor" && user.userType == "Admin") {
+                state.vendorAmin = true;
+            } else {
+                state.vendorAmin = false;
+                state.userId = null;
+            }
+        }else{
+            state.vendorAmin = false;
+            state.userId = null;
+        }
      },
     // Logout =>  on Logout clear all token
     autoExpiryTokenLogout() {

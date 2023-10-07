@@ -38,4 +38,26 @@ export default class CustomerServicesBaseAdmin {
                 ElMessage.error(error);
             });
     }
+    // Get Customer Profile API
+    /**
+     * @api {get} /api/customer/get-profile Get Profile API
+     * @apiGroup Store
+    */
+    async getProfileCurrentAuth(data) {
+        return await http.get("/customers/my_account/overview/view-my-account", {
+                headers: authHeader()
+            }, data)
+            .then((result) => {
+                console.log(result)
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        console.log(result.data.result.resultStatus)
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                ElMessage.error(error);
+            });
+    }
 }

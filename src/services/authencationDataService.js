@@ -10,6 +10,7 @@ class AuthenticationsDataService{
     authLogout(data) {
          return httpJsonRequest.post("/auth/logout", data);
     }
+    
 }
 
 export default new AuthenticationsDataService;

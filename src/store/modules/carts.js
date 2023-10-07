@@ -1,52 +1,63 @@
-import products from '../../data/products';
+import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
 const state = {
-  products: products.data,
   cart: []
 }
 // getters
 const getters = {
-  cartItems: (state) => {
-    return state.cart
-  },
-  // cartTotalAmount: (state) => {
-  //     return state.cart.reduce( (total, product) => {
-  //         return total + (product.price * product.quantity)
-  //       }, 0 )
-  // },
-  cartTotalAmount: (state) => {
-    return state.cart.reduce( (total, product) => {
-         return total + ( (product.price - ( product.price * product.discount / 100) ) * product.quantity)
-      }, 0 )
-  }
+  getProductsInCart: state => state.cart,
+   CLEAR_CART: (state) => {
+        state.cartItems = [];
+    },
+   cartTotalAmount: (state) => {
+       let totalAmount = 0;
+        state.cart.forEach((proItem) => {
+           totalAmount += proItem.price * proItem.quantity;
+           if (totalAmount)
+               return totalAmount.toFixed(2);
+           else {
+               return 0
+           }
+       });
+        return totalAmount;
+    },
+    cartSubTotal: (state) => {
+        let totalSubTotal = 0;
+        state.cart.forEach((proItem) => {
+            totalSubTotal += proItem.price * proItem.quantity;
+            if (totalSubTotal)
+                return totalSubTotal.toFixed(2);
+            else {
+                return 0
+            }
+        });
+        return totalSubTotal;
+    }
 }
 // actions
 const actions = {
   addToCart: (context, payload) => {
-    context.commit('addToCart', payload)
+    const cart = CartService.addItem(payload.productId, payload.product, payload.quantity, payload.productSpec,payload.unitPrice);
+    context.commit('SET_CART_ITEMS', cart);
   },
   updateCartQuantity: (context, payload) => {
-    context.commit('updateCartQuantity', payload)
+    context.dispatch('addToCart', {
+        productId: payload.productItemId,
+        product: payload.cartItem,
+        quantity: payload.quantity,
+        productSpec: payload.productSpec,
+        price: payload.productPrice
+    });
   },
   removeCartItem: (context, payload) => {
-      context.commit('removeCartItem', payload)
+    const cartItems = CartService.removeItem(payload);
+    context.commit('SET_CART_ITEMS', cartItems);
   }
 }
 
 // mutations
 const mutations = {
-  addToCart: (state, payload) => {
-    const product = state.products.find(item => item.id === payload.id)
-    const cartItems = state.cart.find(item => item.id === payload.id)
-    const qty = payload.quantity ? payload.quantity : 1
-    if (cartItems) {
-      cartItems.quantity = qty
-    } else {
-      state.cart.push({
-        ...product,
-        quantity: qty
-      })
-    }
-    product.stock--
+  SET_CART_ITEMS: (state, cart) => {
+    state.cart = cart;
   },
   updateCartQuantity: (state, payload) => {
     // Calculate Product Stock Counts

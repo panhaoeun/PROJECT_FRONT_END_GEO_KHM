@@ -12,6 +12,9 @@ export default [
             path: "/auth/login",
             name:'login',
             pathToRegexOptions: { strict: true },
+            meta: {
+                allowAnonymous: true
+            },
             component: () => import("../views/authencation/AuthLogin.vue"),
           },
         ]
@@ -23,6 +26,7 @@ export default [
         meta: {
             template: 'authencation-register',
             title: "Sign Up | 7Day",
+            allowAnonymous: true
         },
         children:[
           {
@@ -36,7 +40,10 @@ export default [
     {
         path:'/auth/opt-verify/:verify='+encodeURI('phone-5digit'),
         name:'auth/opt-verify?verify=phone-5-digit',
-        meta: {template: 'opt-verify-authentication'},
+        meta: {
+            template: 'opt-verify-authentication',
+            allowAnonymous: true
+        },
         hidden: true,
         children:[
           {
@@ -51,7 +58,11 @@ export default [
         path: "/customer/onboarding/multi-vendor/shop-info/preferences",
         name:'step-acc-vendor-reg',
         hidden: true,
-        meta: {template: 'step-acc-vendor-reg', title: "Seller Apply | 7Day"},
+        meta: {
+            template: 'step-acc-vendor-reg',
+            allowAnonymous: true,
+            title: "Seller Apply | 7Day"
+        },
         component: () => import("../views/authencation/steps_acc_register_seller/StepAccRegSeller.vue"),
     }
     

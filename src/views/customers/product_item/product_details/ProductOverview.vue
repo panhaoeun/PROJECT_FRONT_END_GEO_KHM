@@ -1,4 +1,6 @@
 <template>
+    <!-- The toaster component -->
+    <Toast />
     <!-- Breadcrumb -->
     <div class="breadcrumb-area bg-bluegray-100">
         <div class="container">
@@ -60,7 +62,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product-details-content pro-details-content-mrg">
-                        <h2>{{title ?? '7Day'}}</h2>
+                        <h2>{{title ?? 'Eleventh-day'}}</h2>
                         <div class="product-ratting-review-wrap" v-if="rating">
                             <div class="product-ratting-digit-wrap">
                                 <div class="product-ratting">
@@ -77,14 +79,25 @@
                         </div>
                         <!-- Product Spec -->
                         <div class="pro-details-size" v-if="productSpec">
-                            {{ productSpec }}
-                            <!-- <span>Size:</span>
-                            <div class="pro-details-size-content">
-                                <ul>
-                                    <li><a href="#">XS</a></li>
-                                </ul>
-                            </div> -->
+                            <template v-if="productSpec.length> 0 && productSpec !== ''">
+                                <template v-for="(proItem, index) in productSpec" :key="index">
+                                    <span>{{ proItem?.item }}:</span>
+                                    <div class="pro-details-size-content">
+                                        <ul ref="proTypeItem"   v-if="proItem.additional">
+                                            <li
+                                                 v-for="(proType, index) in proItem.additional" 
+                                                    :class="{'bg-red-500': (activeTypeId === index)}" 
+                                                    :key="index"
+                                                    @click.stop="toggleActiveItemType(index,proItem?.item,proItem.additional)">
+                                                <a class="w-10rem">{{ proType?.item }}</a>
+                                                <input class="w-10rem hidden" :value="proType?.item ?? 0"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </template>
                         </div>
+                        <!-- QTY -->
                         <div class="pro-details-quality">
                             <span>Quantity:</span>
                             <div class="cart-plus-minus">
@@ -104,7 +117,7 @@
                                 <MazBtn color="danger" size="lg"  class="font-bold btn-red" @click.prevent="addProductItemsToCart()" style="background-color:#0053a0; padding: 18px 50px 17px;border-radius: 0%;">Add To Cart</MazBtn>
                              </div>
                             <div class="pro-details-add-to-cart-red">
-                                <MazBtn color="danger" size="lg"  class="font-bold btn-red" style="background-color:red; padding: 18px 50px 17px; border-radius: 0%;">Buy It Now</MazBtn>
+                                <MazBtn color="danger" size="lg"  class="font-bold btn-red" @click.prevent="buyProductItemToCart()" style="background-color:red; padding: 18px 50px 17px; border-radius: 0%;">Buy It Now</MazBtn>
                             </div>
                         </div>
                     </div>
@@ -118,6 +131,7 @@
     import EmptyThumbnail from "../../../../components/error_page/EmptyThumbnail.vue";
     import { mapActions, mapState } from "vuex";
     import $ from "jquery";
+
     export default {
         components: {
             EmptyThumbnail
@@ -154,12 +168,41 @@
            async addProductItemsToCart(){
                const qtyItem =  document.getElementsByClassName('cart-plus-minus-box');
                 let itemProduct = {
-                    ...Array(this.productArrDetail ?? []),
+                    ...this.productArrDetail ?? '',
+                    product: this.productArrDetail[0].product ?? '',
+                    productId: this.productArrDetail[0].product[0].productId ?? 0,
                     quantity: parseInt((parseInt(qtyItem[0].value ?? 0))),
                     unitPrice: parseFloat((parseFloat(this.productUnitPrice))),
                     productSpec: this.productSpec ?? []
                 }
-                this.$store.dispatch("cart/addToCart", itemProduct);
+                if(!Array.isArray(itemProduct) || !itemProduct.length > 0){
+                    // Messgae
+                   this.$toast.add({ severity: 'info', summary: 'Successfully add to cart', detail: 'Successfully add to cart', life: 3000 });
+                    this.$store.dispatch("cart/addToCart", itemProduct);
+                }else{
+                   this.$toast.add({ severity: 'error', summary: 'Unsuccessfully add to cart', detail: 'Unsuccessfully add to cart', life: 3000 });
+                }
+               
+           },
+           async buyProductItemToCart(){
+                const qtyItem =  document.getElementsByClassName('cart-plus-minus-box');
+                let itemProduct = {
+                    ...this.productArrDetail ?? '',
+                    product: this.productArrDetail[0].product ?? '',
+                    productId: this.productArrDetail[0].product[0].productId ?? 0,
+                    quantity: parseInt((parseInt(qtyItem[0].value ?? 0))),
+                    unitPrice: parseFloat((parseFloat(this.productUnitPrice))),
+                    productSpec: this.productSpec ?? []
+                }
+                if(!Array.isArray(itemProduct) || !itemProduct.length > 0){
+                    this.$store.dispatch("cart/addToCart", itemProduct);
+                    // Message
+                   this.$toast.add({ severity: 'info', summary: 'Success', detail: 'Successfully process buy now', life: 3000 });
+                    this.$router.push({path: '/customer/shopping-cart/product-list/cart-items'});
+                }else{
+                  this.$toast.add({ severity: 'error', summary: 'Success', detail: 'Unsuccessfully add to cart', life: 3000 });
+                }
+              
            },
             /**
              * Product Thumbnail
@@ -175,15 +218,6 @@
             },
             productDesSliderSmall(){
                 $(document).ready(function() {
-                    /*------- Color active -----*/
-                    $('.pro-details-color-content').on('click', 'a', function(e){
-                        e.preventDefault();
-                        $(this).addClass('active').parent().siblings().children('a').removeClass('active');
-                    });
-                    $('.pro-details-size-content').on('click', 'a', function(e){
-                        e.preventDefault();
-                        $(this).addClass('bg-red-500').parent().siblings().children('a').removeClass('bg-red-500');
-                    });
                      /*----------------------------
                         Cart Plus Minus Button
                     ------------------------------ */
@@ -258,7 +292,7 @@
             * */   
         },
         computed: {
-            ...mapState('cart',['cart']),
+            ...mapState('cart', ['']),
             productThumbnailRULFormate(){
                 return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + String(this.productThumbnail) ?? '';
             },

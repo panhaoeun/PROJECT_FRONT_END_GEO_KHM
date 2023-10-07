@@ -4,5 +4,8 @@
     "vue.codeActions.enabled": false,
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
+    ],
+    "cSpell.words": [
+        "localstorage"
     ]
 }
