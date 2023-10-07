@@ -80,8 +80,8 @@
                                     </el-dialog>
                                 </el-upload>
                                 <!-- Title Noted Upload -->
-                                <div class="text-sm">
-                                <span class="p-error"> *</span>
+                                <div class="text-sm flex">
+                                    <span class="p-error"> *</span>
                                     <span>
                                         Please upload pictures according to the examples.
                                         Incorrect or unclear pictures will cause the review to be slow or incomplete.
@@ -90,32 +90,30 @@
                             </el-form-item>
                             <!--============= Upload Your Payment Receipt ========-->
                             <!-- Image Validation Upload Deposited -->
-                            <div>
-                                <!-- Account ABA Bank -->
-                                <template v-if="formPopupDepositWallet.bankRecharge  === 'ABA Bank'">
-                                        <div class="demo-image__preview flex justify-content-center pb-4">
-                                            <el-image 
-                                                style="width: 430px; height: 500px"
-                                                :src="urlABABankAcc" 
-                                                :zoom-rate="1.2"
-                                                fit="cover"
-                                                :preview-src-list="srcListAccountBankABA">
-                                            </el-image>
-                                        </div>
-                                </template>
-                                <!-- Account ACLEDA Bank -->
-                                <template v-if="formPopupDepositWallet.bankRecharge  === 'ACLEDA Bank'">
-                                        <div class="demo-image__preview flex justify-content-center pb-4">
-                                            <el-image 
-                                                style="width: 500px; height: 550px"
-                                                :src="urlACLEDABankAcc" 
-                                                :zoom-rate="1.2"
-                                                fit="cover"
-                                                :preview-src-list="srcListAccountBankACLEDA">
-                                            </el-image>
-                                        </div>
-                                </template>
-                            </div>
+                             <!-- Account ABA Bank -->
+                            <template v-if="formPopupDepositWallet.bankRecharge  === 'ABA Bank'">
+                                    <div class="demo-image__preview pb-4">
+                                        <el-image 
+                                            style="width: 450px; height: 500px;"
+                                            :src="urlABABankAcc" 
+                                            :zoom-rate="1.2"
+                                            fit="cover"
+                                            :preview-src-list="srcListAccountBankABA">
+                                        </el-image>
+                                    </div>
+                            </template>
+                            <!-- Account ACLEDA Bank -->
+                            <template v-if="formPopupDepositWallet.bankRecharge  === 'ACLEDA Bank'">
+                                    <div class="pb-4">
+                                        <el-image 
+                                            style="width: 300px; height: 400px"
+                                            :src="urlACLEDABankAcc" 
+                                            :zoom-rate="1.2"
+                                            fit="cover"
+                                            :preview-src-list="srcListAccountBankACLEDA">
+                                        </el-image>
+                                    </div>
+                            </template>
                             <!--Deposited Noted -->
                             <el-form-item label="Deposited Noted" prop="depositedNoted">
                                 <el-input 

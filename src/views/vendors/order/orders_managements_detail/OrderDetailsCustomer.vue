@@ -29,11 +29,6 @@
                                         <span class="text-sm mr-2">Payment Method:</span>
                                         <span class="h6 mr-2">{{ customerDetailOrder[0]?.payment_method ?? '' }}</span>
                                     </div>
-                                    <div class="text-sm p-2">
-                                        <span class="text-sm mr-2">Payment Status:</span>
-                                        <span class="h6 mr-2 text-danger">{{ customerDetailOrder[0]?.payment_status ?? ''
-                                        }}</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>

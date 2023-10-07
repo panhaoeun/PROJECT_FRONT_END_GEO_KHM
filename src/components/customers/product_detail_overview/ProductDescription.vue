@@ -296,7 +296,7 @@
             <hr />
             <div
                 v-html="data[0]?.product[0].product_description_eng"
-                class="description-wrap content-descriptions text-md"
+                class="description-wra"
             ></div>
         </div>
     </div>
@@ -359,6 +359,13 @@ export default {
         },
     },
     methods: {
+        truncateLongText(str, length, useWordBoundary){
+            if (str.length <= length) { return str; }
+            const subString = str.slice(0, length - 1); // the original check
+            return (useWordBoundary
+                ? subString.slice(0, subString.lastIndexOf(" "))
+                : subString) + "...";
+        },
         currencyFormattedKHRiel: function (value) {
             return new Intl.NumberFormat("km-KH", {
                 style: "currency",
