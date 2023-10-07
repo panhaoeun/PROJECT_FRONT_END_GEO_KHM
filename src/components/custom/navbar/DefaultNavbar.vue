@@ -152,13 +152,13 @@ export default {
 <!-- Script Setup -->
 <script setup>
 import AuthenticationsDataService from '../../../services/authencationDataService';
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import { storeToRefs } from 'pinia';
 import { ElMessage } from 'element-plus';
 import { useAuthStoreToken } from "../../../utils/auth/AuthStoreTokenJWT";
 const { user } = storeToRefs(useAuthStoreToken());
 const { setAuthUser } = useAuthStoreToken();
-const router = useRouter();
+// const router = useRouter();
 
 
 function authVenAdLogout() {
@@ -168,14 +168,14 @@ function authVenAdLogout() {
         */
         AuthenticationsDataService.authLogout().then((response) => {
             ElMessage.success(response.data.message);
+            window.location.reload();
             localStorage.clear('token');
             localStorage.clear('tokenExpiry');
             localStorage.clear('expiresIn')
             localStorage.clear('user');
             localStorage.clear('userId');
             setAuthUser(null);
-            router.push("/auth/login");
-            window.location.reload();
+            this.$route.push("/auth/login");
             /**
              * Delete Cookies
              * */
