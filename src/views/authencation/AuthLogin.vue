@@ -80,7 +80,7 @@
 <script>
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-import { ElLoading } from 'element-plus';
+// import { ElLoading } from 'element-plus';
 // Components
 // import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
@@ -156,14 +156,14 @@ export default {
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({path: "/"});
                                 }   
-                                let loadingAuthLogin = ElLoading.service({ 
-                                    lock: true,
-                                    text: 'Please waiting...',
-                                    background: 'rgb(255,250,250)'
-                                });
-                                setTimeout(() => {
-                                    loadingAuthLogin.close();
-                                }, 2000)
+                                // let loadingAuthLogin = ElLoading.service({ 
+                                //     lock: true,
+                                //     text: 'Please waiting...',
+                                //     background: 'rgb(255,250,250)'
+                                // });
+                                // setTimeout(() => {
+                                //     loadingAuthLogin.close();
+                                // }, 2000)
                                 return;
                             }else{
                                 throw response;
