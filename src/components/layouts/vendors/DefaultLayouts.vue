@@ -2,7 +2,7 @@
     <!-- Loader Components -->
     <loader-component :show="isLoader"></loader-component>
     <!-- Sidebar Component Start Here-->
-    <sidebar-component></sidebar-component>
+    <!-- <sidebar-component></sidebar-component> -->
     <!-- Sidebar Component End Here-->
     <main class="main-content">
         <div :class="`position-relative  ${isBanner ? 'iq-banner ' + bannerStyle : ''}`">
@@ -43,7 +43,7 @@
 
     // Components
     // import LoaderComponent from '../../../components/loader/LoaderComponent.vue';
-    import SidebarComponent from '../../../components/partials/SidebarComponent.vue';
+    // import SidebarComponent from '../../../components/partials/SidebarComponent.vue';
     import HeaderComponent from '../../../components/partials/HeaderComponent.vue';
     import SubHeader from '../../../components/custom/header/SubHeader.vue';
     import MainContentComponent from '../../../components/partials/MainContentComponent.vue';
