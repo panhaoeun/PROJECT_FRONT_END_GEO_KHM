@@ -2,6 +2,7 @@ import { ElMessage } from "element-plus";
 import authHeader from "../../authencations/AuthHeader";
 import httpCommon from "../../../../http-common";
 import http from "../../../../http-json-request";
+import httpAccess from "../../../../http-access-control-json";
 export default class CustomerOrderMSServices {
     /**
      * @Order Managements
@@ -51,5 +52,8 @@ export default class CustomerOrderMSServices {
             .catch((error) => {
                 ElMessage.error(error);
             });
+    }
+    async updatedConfirmToPaymentsOrderByVendor(confirmId, orderList) {
+        return await httpAccess.put(`/vendor/order_management/vendor-confirm-to-delivery-reject-pay/${parseInt(confirmId) ? parseInt(confirmId) : 0}`, orderList);
     }
 }

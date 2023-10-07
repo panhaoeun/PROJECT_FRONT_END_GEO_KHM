@@ -8,7 +8,7 @@ const defaultChildRoutesOrdersReportMS = (prefix) => [
         meta: {
             title: "ordersReportMS",
             requiresAuth: true,
-            // permissions: ['order_report_module']
+            permissions: ['order_report_module']
         },
         component: () => import('../../../views/vendors/reports_managements/OrdersReport.vue'),
     }
@@ -22,7 +22,7 @@ const moduleOrdersReportManagementRouters = {
         title: 'orderReportAnalysisMS',
         icon: 'admin',
         requiresAuth: true,
-        // permissions: ['reports_analysis_module'],
+        permissions: ['reports_analysis_module'],
         template: 'panel'
     },
     children: defaultChildRoutesOrdersReportMS('defaults')

@@ -8,8 +8,8 @@ const defaultChildRoutesOrdersMS = (prefix) => [
         meta: {
             title: "orderProductModule",
             requiresAuth: true,
-            icon: 'cart'
-            // permissions: ['orders_report_modules']
+            icon: 'cart',
+            permissions: ['report_managements_module']
         },
         component: () => import('../../views/vendors/order/OrderList.vue'),
     },
@@ -20,7 +20,7 @@ const defaultChildRoutesOrdersMS = (prefix) => [
             title: "orderProductModule",
             requiresAuth: true,
             icon: '',
-            // permissions: ['orders_report_modules']
+            permissions: ['report_managements_module']
         },
         hidden: true,
         component: () => import('../../views/vendors/order/orders_managements_detail/OrderDetailsCustomer.vue'),
@@ -35,7 +35,7 @@ const moduleOrdersManagementRouters = {
         title: 'ordersMSProduct',
         icon: 'admin',
         requiresAuth: true,
-        // permissions: ['report_managements_module'],
+        permissions: ['report_managements_module'],
         template: 'panel'
     },
     children: defaultChildRoutesOrdersMS('defaults')

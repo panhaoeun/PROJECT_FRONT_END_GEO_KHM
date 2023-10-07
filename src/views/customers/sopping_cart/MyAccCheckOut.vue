@@ -12,7 +12,7 @@
                 </div>
             </div>            
         </div>
-        <div class="checkout-main-area pt-10">
+        <div class="checkout-main-area pt-10" v-if="orderDetaiL.length > 0 && isSessionActive()">
             <div class="container pb-4">
                 <div class="checkout-wrap pt-30">
                     <div class="row">
@@ -22,10 +22,6 @@
                             </div>
                             <div class="gap-3 my-2">
                                 <!-- Shipping Method -->
-                                <div class="my-2">
-                                    <!-- Shipping Method -->
-                                    <ShippingMethod/>
-                                </div>
                                 <div class="my-2">
                                     <!-- Shipping Address -->
                                     <AddShippingAddress 
@@ -59,12 +55,10 @@
                                        <OrderDetail/>
                                     </div>
                                     <!-- Payment Methods -->
-                                    <div class="pay-top sin-payment" v-if="isSessionActive() && carts.length > 0">
+                                    <div class="pay-top sin-payment" v-if="isSessionActive() && orderDetaiL.length > 0">
                                         <!-- Payment Type -->
                                         <template v-if="getSelectedAddressShip !== null
                                                 && selectedAddressBilling !== null
-                                                && shippingMethods!== null 
-                                                && shippingMethods !== undefined
                                             ">
                                             <transition
                                                 name="shipping-form-anim"
@@ -87,7 +81,8 @@
                                         <textarea placeholder="Notes about your order, e.g. special notes for delivery." v-model="customerOrderNoted" name="order_noted"></textarea>
                                     </div>
                                 </div>
-                                <div class="Place-order" v-if="isSessionActive() && carts.length > 0">
+                                <!-- Place Order -->
+                                <div class="Place-order" v-if="isSessionActive() && orderDetaiL.length > 0">
                                     <router-link to="#" @click.prevent="handleCheckOutPayment()">Place Order</router-link>
                                 </div>
                                 <div v-else>
@@ -99,6 +94,9 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            <el-empty description="No Product Item" />
+        </div>
    </div>
 </template>
 <!-- Script od My account check out -->
@@ -106,7 +104,6 @@
     import { mapGetters } from 'vuex';
     import AddShippingAddress from "./my_account_checkout/AddShippingAddress.vue";
     import BillingAddress from "./my_account_checkout/AddBillingAddress.vue";
-    import ShippingMethod from "./my_account_checkout/ShippingMethod.vue";
     import OrderDetail from "./my_account_checkout/OrderDetail.vue";
     import PaymentDetail from "./my_account_checkout/PaymentDetail.vue";
     import { isLoggedIn } from "@/utils/auth/auth";
@@ -127,7 +124,6 @@
         components: {
             AddShippingAddress,
             BillingAddress,
-            ShippingMethod,
             OrderDetail,
             PaymentDetail
         },
@@ -196,7 +192,7 @@
             },
             async handleCheckOutPayment(){
                 if(this.isSessionActive() !== null){
-                    if (!this.getSelectedAddressShip || !this.selectedAddressBilling ||  !this.shippingMethod) {
+                    if (!this.getSelectedAddressShip || !this.selectedAddressBilling) {
                         this.$notify.warning({
                             title: 'Please select shipping method first',
                             message: 'The shipping method and address should be selected first.',

@@ -56,7 +56,7 @@
                                     scrollable
                                     ref="dt" 
                                     :value="ordersListArr" 
-                                    v-model:selection="selectedCategoriesList"
+                                    v-model:selection="selectedOrderList"
                                     dataKey="id"
                                     :paginator="true" :rows="10" 
                                     :filters="filters"
@@ -102,7 +102,7 @@
                                         <Column field="id" header="Order Status" sortable>
                                             <template #body="slotProps">
                                                 <div class="justify-content-center">
-                                                    <Tag :value="slotProps.data.payment_status" class="text-white" :severity="getSeverityPaymentStatus(slotProps.data?.payment_status)" />
+                                                    <Tag :value="slotProps.data.order_status" class="text-white" :severity="getSeverityPaymentStatus(slotProps.data?.order_status)" />
                                                 </div>
                                             </template>
                                         </Column>
@@ -110,8 +110,6 @@
                                             <template #body="slotProps">
                                                 <Button icon="pi pi-eye" outlined rounded class="mr-2"
                                                     @click="$router.push({ path: `/vendor/order_managements/customer_detail/customer_order/order_detail/${slotProps.data?.orderId }` })" />
-                                                <Button icon="pi pi-trash" outlined rounded severity="danger"
-                                                    @click="confirmDeleteUserMS(slotProps.data.id)" />
                                             </template>
                                         </Column>
                                     </template>
@@ -158,6 +156,7 @@ export default {
     }, 
     data() {
         return {
+            selectedOrderList: null,
             searchFilterOrder: '',
             lazyLoading: false,
             loadLazyTimeout: null,

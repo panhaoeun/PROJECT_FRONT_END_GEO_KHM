@@ -24,14 +24,39 @@
                         </h3>
                         <hr>
                         <el-card class="box-card">
+                            <!-- Today Exchange Rate -->
                             <template #header>
-                                <div class="card-header">
-                                    <span>Shop name : 6valley CMS</span>
+                                <div class="flex justify-content-between align-items-center">
+                                    <input :value="convertTodayExchangeRateUSDToRiel()" hidden/>
+                                    <span>
+                                        Exchange Rate : 
+                                       {{ currencyFormattedUSD(1) ? currencyFormattedUSD(1) : 0 }}  = ៛{{ todayExchangeRate ? todayExchangeRate : 0 }}
+                                    </span>
+                                    <!-- Source -->
+                                    <el-popover
+                                        placement="top-start"
+                                        :width="500"
+                                    >
+                                        <!-- Default Exchange  -->
+                                        <template #default >
+                                            <p >
+                                                API Exchange Rate: 
+                                                <a target="_blank" href="https://github.com/fawazahmed0/currency-api#free-currency-rates-api" class="font-bold text-red-500">Free Currency Rates API</a>
+                                            </p>
+                                            <p>
+                                                Follow Exchange Rate: 
+                                                <a target="_blank" href="https://www.xe.com/currencyconverter/convert/?Amount=4143&From=KHR&To=USD" class="font-bold text-red-500">XE Currency Converter</a>
+                                            </p>
+                                        </template>
+                                        <template #reference>
+                                            <el-button class="m-2 hover:bg-red-500">Exchange Rate Source</el-button>
+                                        </template>
+                                    </el-popover>
                                 </div>
                             </template>
                             <ul class="orders">
                                 <div class="row">
-                                    <li>
+                                    <li class="border-bottom-2"> 
                                         <div class="row font-bold">
                                             <div class="col font-bold align-center text-center">
                                                  <div class="justify-content-center font-bold">
@@ -58,6 +83,19 @@
                                     </li>
                                 </div>
                                 <li v-for="(item, itemIndex) in getCartAuthItem" v-bind:key="itemIndex">
+                                   <div class="my-3">
+                                        <!-- Shop Name  -->
+                                        <div class="font-bold">
+                                            <label class="text-purple-900"> {{ item?.shopName ? item?.shopName : '' }}</label>
+                                            <p class="text-primary-600">{{ item?.shippingCompanyDay ? item?.shippingCompanyDay : '' }}</p>
+                                        </div>
+                                        <!-- Shipping Price -->
+                                        <div class="shipping-price">
+                                            <span class="text-red-500">Shipping cost:</span>
+                                            <span class="pl-2">{{ currencyFormattedKHRiel(item?.expressPriceKHR) ? currencyFormattedKHRiel(item?.expressPriceKHR) : 0 }}</span>
+                                            <span>({{ currencyFormattedUSD(item?.expressPriceUSD) ? currencyFormattedUSD(item?.expressPriceUSD) : 0  }})</span>
+                                        </div>
+                                   </div>
                                     <div class="row">
                                         <div class="col-1">
                                             <div  
@@ -69,24 +107,14 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
+                                            <!-- Variant Name -->
                                             <div class="order-desc pb-10">
                                                 <span class="font-bold text-md pt-4"> {{ item?.product_eng ? item?.product_eng : '' }} </span>
                                                 <br/>
-                                                <template v-if="item?.variantName">
-                                                    <template v-if="item?.variantName.length> 0 && item?.variantName !== ''">
-                                                        <div 
-                                                            style="font-size: 12px"
-                                                            v-for="custom of JSON.parse(item?.variantName)"
-                                                            :key="custom"
-                                                        >
-                                                            <span>
-                                                                <label :for="custom.item" class="font-bold"> {{ custom.item ?? '' }}: </label>
-                                                                <template v-if="custom.additional">
-                                                                    <template v-for="additionalItem in custom.additional" :key="additionalItem.itemId">
-                                                                        {{ customDisplay(additionalItem.item) ?? '' }}
-                                                                    </template>
-                                                            </template>
-                                                            </span>
+                                                <template v-if="item?.variantName && item?.variantName !== ''">
+                                                    <template v-for="([key, value], index) in Object.entries(item?.variantName)" :key="index">
+                                                        <div class="flex flex-column">
+                                                            <p class="text-blue-600">{{ key }} : {{value}}</p>
                                                         </div>
                                                     </template>
                                                 </template>
@@ -111,7 +139,7 @@
                                         <div class="col">
                                            <div class="flex flex-column" style="padding-left: 5rem;">
                                                 <span class="font-bold text-lg" style="color: #1455ac;"> {{ item ? currencyFormattedKHRiel(item?.productPriceKHR) : 0}}</span>
-                                                <span class="text-md text-lg"> ($ {{ item ? currencyFormattedUSD(item?.productPrice) : 0 }})</span>
+                                                <span class="text-md text-lg"> ({{ item ? currencyFormattedUSD(item?.productPrice) : 0 }})</span>
                                            </div>
                                         </div>
                                         <div class="col">
@@ -145,6 +173,13 @@
                                                 Total products 
                                                 <span class="font-bold text-md" style="color: #e22f35;">{{ getTotalItems ? getTotalItems : 0 }} Item</span>
                                             </h5>
+                                            <h5 v-if="cartTotalShipping !== null">
+                                                Shipping 
+                                                <span class="font-bold text-md" style="color: #e22f35;">
+                                                    {{ currencyFormattedKHRiel(cartTotalShipping.shippingAmountKHR) ?? 0 }}
+                                                    {{ currencyFormattedUSD(cartTotalShipping?.shippingAmountUSD) ?? 0}}
+                                                </span>
+                                            </h5>
                                             <h5 v-if="getSubTotal !== null">
                                                 Sub Total 
                                                 <span class="font-bold text-md flex" style="color: #e22f35;">
@@ -152,7 +187,7 @@
                                                     <label> ({{ currencyFormattedUSD(getSubTotal?.subTotalUSD) }})</label>
                                                 </span>
                                             </h5>
-                                            <!-- <h4 class="grand-totall-title">Grand Total <span>$260.00</span></h4> -->
+                                            <h4 class="grand-totall-title">Total <span>$260.00</span></h4>
                                         <router-link to="#" class="bg-red-500 text-white" @click="createCheckOutOrderProduct()">Proceed to Checkout</router-link>
                                     </div>
                                 </div>
@@ -180,6 +215,9 @@ import {mapGetters, mapActions} from "vuex";
 import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
 import {isLoggedIn} from '@/utils/auth/auth';
 import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
+import convertUSDToRiel from "@/utils/convertUSDTORiel";
+// import _ from "lodash";
+
 export default {
     name: 'ViewCart',
     components: {
@@ -191,7 +229,8 @@ export default {
             'cartSubTotal',
             'getCartAuthItem',
             'getSubTotal',
-            'getTotalItems'
+            'getTotalItems',
+            'cartTotalShipping'
         ]),
         // Check product item cart in  api
         currentCartAuthToken(){
@@ -213,7 +252,9 @@ export default {
             editMode: false,
             countOptions: [],
             title: 'Checkout',
-            ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE
+            productVariantName: [],
+            ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE,
+            todayExchangeRate: 0
         }
     },
     created() {
@@ -221,6 +262,33 @@ export default {
         this.getCurrentCartItem = new CustomerOrderCheckOutServices();
     },
     methods: {
+        async convertTodayExchangeRateUSDToRiel() {
+            try {
+                const usdAmountExchange = parseInt(1) ? parseInt(1) : 0;
+                const todayExchangeRate = parseInt(usdAmountExchange)
+                    ? parseInt(usdAmountExchange)
+                    : 0;
+                this.todayExchangeRate =  (await convertUSDToRiel(todayExchangeRate)) ?? 0;
+                const resultExchangeRate = await Promise.resolve(todayExchangeRate);
+                return resultExchangeRate;
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        getProductSpecOwn(productSpec){
+            if(productSpec !== ''){
+                let variantsName = ''
+                let variantSpec = '';
+                for (var prop in productSpec) {
+                    if (Object.prototype.hasOwnProperty.call(productSpec, prop)) {
+                        variantsName = prop ? prop : '';
+                        variantSpec = productSpec[prop] ? productSpec[prop] : '';
+                        console.log(variantsName,variantSpec)
+                        // return `${variantsName ? variantsName : ''}: ${variantSpec ? variantSpec : ''}`;
+                    }
+                }
+            }
+        },
         currencyFormattedKHRiel: function(value) {
             return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
         },
@@ -346,9 +414,42 @@ export default {
                 });
             }
         },
+        // Confirm To Process to check out payments
         createCheckOutOrderProduct(){
-
-        }
+            if(isLoggedIn()){
+                this.$confirm('Are you confirm to process to checkout?', 'Process to checkout', {
+                    confirmButtonText: 'Check Out',
+                    cancelButtonText: 'Cancel',
+                    cancelButtonClass: 'surface-hover font-bold hover:surface-300 w-7rem',
+                    confirmButtonClass: 'bg-red-500 border-none font-bold hover:surface-300 w-15rem',
+                    type: 'info',
+                    beforeClose: (action, instance, done) => {
+                        if (action === 'confirm') {
+                        instance.confirmButtonLoading = true;
+                        instance.confirmButtonText = 'Process to checkout...';
+                        setTimeout(() => {
+                            done();
+                            setTimeout(() => {
+                                    instance.confirmButtonLoading = false;
+                                }, 300);
+                            }, 1000);
+                        } else {
+                                done();
+                        }
+                    }
+                }).then(() => {
+                    // Confirm To Process to check out payments
+                    this.$router.push('/customer/my-account/shopping-cart/orders/checkout');
+                }).catch(() => {
+                    this.$notify.warning({
+                        title: "Cancel to process check out order",
+                        showClose: true
+                    });
+                    return false;
+                });
+             }
+            
+        }   
     },
     filters: {
         customDisplay(val) {

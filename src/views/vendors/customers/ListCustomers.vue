@@ -14,7 +14,7 @@
                             <DataTable 
                               ref="dt" 
                                 :value="customerArrAdmin" 
-                                v-model:selection="selectedCategoriesList"
+                                v-model:selection="selectedCustomer"
                                 dataKey="id"
                                 :paginator="true" :rows="10" 
                                 :filters="filters"
@@ -112,6 +112,7 @@ import { ElMessage } from 'element-plus';
 export default {
     data() {
         return {
+            selectedCustomer: null,
             usersID: '',
             customerArrAdmin: '',
             statusUsersSwitch: '',

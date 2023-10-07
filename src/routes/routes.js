@@ -21,6 +21,8 @@ import moduleUsersManagementRouters from "./modules/users_managements";
 import moduleBusinessManagementRouters from "./modules/business_sections";
 import moduleOrderManagementRouters from "./modules/orders_managements";
 import moduleOrderReportManagementRouters from "./modules/report_managements/orders_report_managements";
+// Delivery Tracking
+import moduleDeliveryTracking from "./modules/delivery_company_shipping/delivery_company_management";
 /*
     Makes a new VueRouter that we will use to run all of the routes
     for the app.
@@ -46,7 +48,8 @@ export const asyncRoutes = [
     moduleUsersManagementRouters,
     moduleBusinessManagementRouters,
     moduleOrderManagementRouters,
-    moduleOrderReportManagementRouters
+    moduleOrderReportManagementRouters,
+    moduleDeliveryTracking
 ]
 const scrollBehavior = (to, from, savedPosition) => {
     if (savedPosition) {

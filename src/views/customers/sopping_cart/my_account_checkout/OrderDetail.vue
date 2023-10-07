@@ -2,10 +2,12 @@
     <div class="your-order-middle">
         <ul >
             <li v-for="(item, itemIndex) in orders" v-bind:key="itemIndex">
-                {{item.product_eng ? item.product_eng : '' }}
-                <label for="" class="font-bold text-red-500"> (x{{ item?.quantity }})</label>
-                <span>៛ {{ exchangeRateRiel ? exchangeRateRiel : 0}}  (${{ item.productPrice ? item.productPrice : 0 }})</span>
-                <input type="text" :value="getConvertExchangeToRiel(item?.productPrice ? item?.productPrice : 0)" hidden/>
+                <div class="text-sm">
+                    {{item.product_eng ? item.product_eng : '' }}
+                    <label class="font-bold text-red-500"> (x{{ item?.quantity }})</label>
+                    <span class="text-sm">៛{{ exchangeRateRiel ? exchangeRateRiel : 0}}  (${{ item.productPrice ? item.productPrice : 0 }})</span>
+                    <input type="text" :value="getConvertExchangeToRiel(item?.productPrice ? item?.productPrice : 0)" hidden/>
+                </div>
             </li>
         </ul>
     </div>
@@ -17,8 +19,8 @@
                     Subtotal 
                     <input type="text" :value="getConvertExchangeToRielSubtotal(subtotal ? subtotal : 0)" hidden/>
                     <span>
-                       ៛ {{ exchangeRateRielSubtotal ? exchangeRateRielSubtotal : 0 }}  
-                       (${{ parseFloat(subtotal).toFixed(2) ? parseFloat(subtotal).toFixed(2) : 0 }})
+                       {{ currencyFormattedKHRiel(subtotal.subTotalKHR) ? currencyFormattedKHRiel(subtotal.subTotalKHR) : 0 }}  
+                       ({{ currencyFormattedUSD(subtotal.subTotalUSD) ? currencyFormattedUSD(subtotal.subTotalUSD) : 0 }})
                     </span>
                 </li>
             </ul>
@@ -27,10 +29,8 @@
             <ul>
                 <li>
                     Shipping 
-                    <span>
-                        ៛ {{ exchangeRateRielShip ? exchangeRateRielShip: 0 }}
-                       (${{ priceShipping() ? priceShipping() : 0 }})
-                        <input type="text" hidden :value="getConvertExchangeToRielShipping(priceShipping() ? priceShipping() : 0)">
+                    <span>  
+                        1
                     </span>
                 </li>
             </ul>
@@ -81,6 +81,15 @@
             },
         },
         methods: {
+            currencyFormattedKHRiel: function(value) {
+                return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+            },
+            currencyFormattedUSD: function(value) {
+                return Number(value ? value : 0).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD"
+                });  
+            },
             async getConvertExchangeToRiel(exchangeRiel){
                 try {
                     const baseChangeToRiel = parseInt(exchangeRiel) ? parseInt(exchangeRiel) : 0;
@@ -126,13 +135,6 @@
                     console.error('Error:', error);
                 } 
             },
-            priceShipping(){
-                if(this.shippingMethod !== null){
-                    return this.shippingMethod.const_price ?? 0;
-                }else{
-                    return 0;
-                }    
-            }
         }
     }
 </script>
