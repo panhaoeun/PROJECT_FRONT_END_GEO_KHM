@@ -13,11 +13,11 @@ NProgress.configure({
 const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/', '/page/error/not-found']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
-    const userRoleAuth = localStorage.getItem('userRole');
+    // const userRoleAuth = localStorage.getItem('userRole');
     /**
      * * @Check Permission for Only Vendor and Administrator Type of user
      * */
-    if (isLoggedIn() && JSON.parse(userRoleAuth) === "Vendor" || JSON.parse(userRoleAuth) == "Admin" || JSON.parse(userRoleAuth) == "Delivery" && userRoleAuth !== "Customer") {
+    if (isLoggedIn() ) {
         if (to.path === '/auth/login'){
             // if is logged in, redirect to the home page
             next({ path: '/' });
@@ -66,36 +66,36 @@ router.beforeEach(async (to, from, next) => {
     }
 });
 
-router.beforeEach((to, from, next) => {
-    if (to.meta.allowAnonymous === true && isLoggedIn()) {
-        next({
-            path: '/'
-        });
-    } else if (!to.meta.allowAnonymous && !isLoggedIn()) {
-        next();
-    } else {
-        next();
-    }
-    /**
-      * * @Check Permission for Vendors
-    * */
-     if (to.matched.some(record => record.meta.requiresAuth)) {
-         if (!isLoggedIn()) {
-             next(`/auth/login?redirect=${to.path}`);
-         } else {
-             const userRoleCustomer = localStorage.getItem('userRole')
-             if (to.matched.some(record => record.meta.isCustomer)) {
-                 if (JSON.parse(userRoleCustomer) === "Customer") {
-                     return next();
-                 } else {
-                     return next({
-                         name: 'auth-register'
-                     });
-                 }
-             }
+// router.beforeEach((to, from, next) => {
+//     if (to.meta.allowAnonymous === true && isLoggedIn()) {
+//         next({
+//             path: '/'
+//         });
+//     } else if (!to.meta.allowAnonymous && !isLoggedIn()) {
+//         next();
+//     } else {
+//         next();
+//     }
+//     /**
+//       * * @Check Permission for Vendors
+//     * */
+//      if (to.matched.some(record => record.meta.requiresAuth)) {
+//          if (!isLoggedIn()) {
+//              next(`/auth/login?redirect=${to.path}`);
+//          } else {
+//              const userRoleCustomer = localStorage.getItem('userRole')
+//              if (to.matched.some(record => record.meta.isCustomer)) {
+//                  if (JSON.parse(userRoleCustomer) === "Customer") {
+//                      return next();
+//                  } else {
+//                      return next({
+//                          name: 'auth-register'
+//                      });
+//                  }
+//              }
 
-         }
-     } else {
-         next();
-     }
-});
+//          }
+//      } else {
+//          next();
+//      }
+// });
