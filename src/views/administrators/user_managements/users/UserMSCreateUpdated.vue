@@ -5,7 +5,7 @@
             <h2
                 class="relative text-black text-3xl section section-title:before"
             >
-                Edit User
+               {{ $t('userinfo.editUser') }}
             </h2>
             <el-button
                 type="info"
@@ -18,7 +18,7 @@
             >
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
-                    <span class="pl-2">BACK</span>
+                    <span class="pl-2">{{$t('route.routeBack')}}</span>
                 </div>
             </el-button>
         </div>
@@ -37,7 +37,7 @@
                         {{ notifMSGUser }}
                     </Message>
                     <el-tab-pane
-                        label="General Information"
+                        :label="$t('userinfo.generalInfo')"
                         name="english-tabs"
                     >
                         <!-- English -->
@@ -50,7 +50,7 @@
                                         <!-- Name Khmer -->
                                         <div class="field">
                                             <label for="name_en"
-                                                >Full Name in Khmer
+                                                >{{ $t('userinfo.fullNameInKhmer') }}
                                                 {{
                                                     this.userMSUpdatedArrFiled
                                                         .userMSNameKh
@@ -60,7 +60,7 @@
                                             >
                                             <InputText
                                                 id="product_name"
-                                                placeholder="Khmer Name"
+                                                :placeholder="$t('userinfo.khmerName')"
                                                 type="text"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -103,14 +103,14 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en"
-                                                >Full Name in Latin<span
+                                                >{{ $t('userinfo.fullNameInEn') }}<span
                                                     class="p-error"
                                                     >*</span
                                                 ></label
                                             >
                                             <InputText
                                                 id="userMSNameKh"
-                                                placeholder="English Name"
+                                                :placeholder="$t('userinfo.englishName')"
                                                 type="text"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -152,10 +152,10 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en">Email</label>
+                                            <label for="name_en">{{ $t('email') }}</label>
                                             <InputText
                                                 id="email_add"
-                                                placeholder="Email"
+                                                :placeholder="$t('email')"
                                                 type="email"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -169,14 +169,14 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en"
-                                                >Phone Number<span
+                                                >{{ $t('userinfo.phone') }}<span
                                                     class="p-error"
                                                     >*</span
                                                 ></label
                                             >
                                             <InputText
                                                 id="product_name"
-                                                placeholder="Phone Number"
+                                                :placeholder="$t('userinfo.phone')"
                                                 type="text"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -219,13 +219,13 @@
                                         <!-- Password -->
                                         <div class="field">
                                             <label for="name_en"
-                                                >Password<span class="p-error"
+                                                >{{ $t('userinfo.password') }}<span class="p-error"
                                                     >*</span
                                                 ></label
                                             >
                                             <Password
                                                 id="userMSPassword"
-                                                placeholder="Password"
+                                                :placeholder="$t('userinfo.password')"
                                                 type="text"
                                                 ref="MSPasswordRef"
                                                 class="border-round-lg"
@@ -269,14 +269,14 @@
                                         <!-- Confirm Password -->
                                         <div class="field">
                                             <label for="confirmPassword"
-                                                >Confirm Password<span
+                                                >{{ $t('userinfo.confirmPassword') }}<span
                                                     class="p-error"
                                                     >*</span
                                                 ></label
                                             >
                                             <Password
                                                 id="confirm_password"
-                                                placeholder="Confirm Password"
+                                                :placeholder="$t('userinfo.confirmPassword')"
                                                 type="text"
                                                 toggleMask
                                                 @input="validationConfirmPass"
@@ -322,7 +322,7 @@
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles"
-                                                >Roles<span class="p-error"
+                                                >{{ $t('userinfo.role') }}<span class="p-error"
                                                     >*</span
                                                 ></label
                                             >
@@ -331,7 +331,7 @@
                                                     @change="getPermissionCurrent"
                                                     v-model="selectUpdateOptValuePermission" 
                                                     filterable  
-                                                    placeholder="Select">
+                                                    :placeholder="$t('route.select')">
                                                     <el-option 
                                                             selected
                                                             v-for="(permList, index) in permissionListDropDownView"
@@ -350,7 +350,7 @@
                                         <!--Category Logo -->
                                         <div class="field">
                                             <label for="name_en"
-                                                >Profile Image<span
+                                                >{{ $t('userinfo.profileImage') }}<span
                                                     class="p-error"
                                                     >*</span
                                                 >

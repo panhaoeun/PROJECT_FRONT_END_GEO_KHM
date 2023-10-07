@@ -31,7 +31,7 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Khmer -->
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Full Name in Khmer<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">{{ $t('userinfor.fullNameInKhmer') }}<span class="p-error">*</span></label>
                                             <InputText id="userMSNameKh" placeholder="English Name" type="text"
                                                 class="py-3 border-round-lg text-sm" v-model="v$.userMSNameKh.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSNameKh.$invalid && submitted }" />
@@ -46,7 +46,7 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Full Name in Latin<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">{{ $t('userinfor.fullNameInEn') }}<span class="p-error">*</span></label>
                                              <InputText id="product_name" placeholder="Khmer Name" type="text"
                                                 class="py-3 border-round-lg text-sm" v-model="v$.userMSNameEng.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSNameEng.$invalid && submitted }" />

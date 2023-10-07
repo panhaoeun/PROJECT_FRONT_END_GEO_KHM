@@ -3,11 +3,11 @@
     <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h2 class="relative text-black text-xl section section-title:before">Customer Lists</h2>
+            <h2 class="relative text-black text-xl section section-title:before">{{ $t('customer.customerList') }}</h2>
         </div>
         <div class="gird">
             <div class="col-12">
-                <el-card slot="header" class="box-card py-2 px-2">
+                <el-card  class="box-card py-2 px-2">
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
@@ -31,12 +31,12 @@
                                         </h4>
                                         <span class="p-input-icon-left text-sm">
                                             <i class="pi pi-search" />
-                                            <InputText v-model="filters['global'].value" class=" text-sm" placeholder="Search..." />
+                                            <InputText v-model="filters['global'].value" class=" text-sm" :placeholder="$t('route.search')" />
                                         </span>
                                     </div>
                                 </template>
                                 <!-- Empty Users -->
-                                <template #empty> No Users found... </template>
+                                <template #empty>{{ $t('customer.customerNotFound') }} </template>
                                 <!-- Loading Users -->
                                 <template #loading> Loading Users data. Please wait... </template>
                                 <!--------------Check Existed Data ----------->

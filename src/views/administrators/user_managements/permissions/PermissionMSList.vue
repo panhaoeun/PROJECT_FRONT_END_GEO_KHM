@@ -25,13 +25,13 @@
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />
                                             <InputText v-model="filters['global'].value
-                                                " placeholder="Search..." />
+                                                " :placeholder="$t('route.search')" />
                                         </span>
                                     </div>
                                 </template>
                                 <!-- Empty permissions -->
                                 <template #empty>
-                                    No permissions found...
+                                   {{ $t('message.noHaveData') }}
                                 </template>
                                 <!-- Loading permissions -->
                                 <template #loading>

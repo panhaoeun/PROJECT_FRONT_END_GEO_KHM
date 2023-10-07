@@ -3,32 +3,20 @@
     <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h2
-                class="relative text-black text-xl section section-title:before"
-            >
+            <h2 class="relative text-black text-xl section section-title:before">
                 {{ $t('users.listUsers') }}
             </h2>
             <!-- Permissions Modules -->
-            <div class="d-flex text-sm align-items-center gap-3"  v-permission="[{functionName: 'users_modules', moduleName: 'fun_create'}]">
-                <router-link
-                    to="/vendor/user/list/crete-user-auth/ui-user-create"
-                    class="text-center btn btn-primary d-flex gap-2"
-                >
-                    <svg
-                        width="20"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        ></path>
+            <div class="d-flex text-sm align-items-center gap-3"
+                v-permission="[{ functionName: 'users_modules', moduleName: 'fun_create' }]">
+                <router-link to="/vendor/user/list/crete-user-auth/ui-user-create"
+                    class="text-center btn btn-primary d-flex gap-2">
+                    <svg width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
-                    <span class="text-sm">{{ $t('users.addUsers') }}</span>  
+                    <span class="text-sm">{{ $t('users.addUsers') }}</span>
                 </router-link>
             </div>
         </div>
@@ -38,159 +26,88 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                            <DataTable
-                                ref="dt"
-                                :value="usersListArr"
-                                v-model:selection="selectedCategoriesList"
-                                dataKey="id"
-                                :paginator="true"
-                                :rows="10"
-                                :globalFilterFields="['representative.name', 'userName', 'role_name','user_email', 'user_phonenumber']"
-                                :filters="filters"
-                                class="p-datatable-scrollable text-sm"
+                            <DataTable ref="dt" :value="usersListArr" v-model:selection="selectedCategoriesList"
+                                dataKey="id" :paginator="true" :rows="10"
+                                :globalFilterFields="['representative.name', 'userName', 'role_name', 'user_email', 'user_phonenumber']"
+                                :filters="filters" class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
-                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
-                            >
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
                                 <!-- Header -->
                                 <template #header>
-                                    <div
-                                        class="flex flex-wrap gap-2 align-items-center justify-content-between"
-                                    >
+                                    <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
                                         <h4 class="m-0"></h4>
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search" />
-                                            <InputText
-                                                v-model="
-                                                    filters['global'].value
-                                                "
-                                                :placeholder="$t('users.search')"
-                                            />
+                                            <InputText v-model="filters['global'].value
+                                                " :placeholder="$t('users.search')" />
                                         </span>
                                     </div>
                                 </template>
                                 <!-- Empty Users -->
-                                <template #empty> No Users found... </template>
+                                <template #empty>{{ $t('message.noHaveData') }} </template>
                                 <!-- Loading Users -->
                                 <template #loading>
-                                    Loading Users data. Please wait...
+                                    {{ $t('dataLoading') }}
                                 </template>
                                 <!--------------Check Existed Data ----------->
-                                <div
-                                    v-if="
-                                        usersListArr &&
-                                        usersListArr.length > 0 &&
-                                        usersListArr != ''
-                                    "
-                                >
+                                <div v-if="usersListArr &&
+                                    usersListArr.length > 0 &&
+                                    usersListArr != ''
+                                    ">
                                     <!-- Columns -->
-                                    <Column
-                                        field="full_latin_name"
-                                        :header="$t('users.userName')"
-                                        sortable
-                                        style="min-width: 20rem"
-                                    ></Column>
-                                    <Column
-                                        field="user_email"
-                                        :header="$t('users.userEmail')"
-                                        sortable
-                                        style="min-width: 20rem"
-                                    ></Column>
-                                    <Column
-                                        field="user_phonenumber"
-                                        :header="$t('users.userPhone')"
-                                        sortable
-                                        style="min-width: 20rem"
-                                    ></Column>
+                                    <Column field="full_latin_name" :header="$t('users.userName')" sortable
+                                        style="min-width: 20rem"></Column>
+                                    <Column field="user_email" :header="$t('users.userEmail')" sortable
+                                        style="min-width: 20rem"></Column>
+                                    <Column field="user_phonenumber" :header="$t('users.userPhone')" sortable
+                                        style="min-width: 20rem"></Column>
                                     <!-- <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column> -->
-                                    <Column 
-                                        field="role_name"
-                                        :header="$t('route.role')"
-                                        sortable
-                                        style="min-width: 20rem">
-                                    
+                                    <Column field="role_name" :header="$t('route.role')" sortable style="min-width: 20rem">
+
                                     </Column>
-                                    <Column
-                                        v-permission="[{functionName: 'permissions_module', moduleName: 'fun_edit'}]"
-                                        field="category"
-                                        header="Option Status"
-                                        sortable
-                                        style="min-width: 10rem"
-                                    >
+                                    <Column v-permission="[{ functionName: 'permissions_module', moduleName: 'fun_edit' }]"
+                                        field="category" :header="$t('route.status')" sortable style="min-width: 10rem">
                                         <template #body="slotProps">
                                             <div class="font-bold">
                                                 <el-switch
-                                                    v-permission="[{functionName: 'users_modules', moduleName: 'fun_edit'}]"
-                                                    @click="changeStatusUsers(slotProps.data.user_id,slotProps.data.user_status)"
-                                                    :key="slotProps?.data.user_id"
-                                                    id="slotProps?.data.user_id"
-                                                    v-model="slotProps.data.user_status"
-                                                />
+                                                    v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
+                                                    @click="changeStatusUsers(slotProps.data.user_id, slotProps.data.user_status)"
+                                                    :key="slotProps?.data.user_id" id="slotProps?.data.user_id"
+                                                    v-model="slotProps.data.user_status" />
                                             </div>
                                         </template>
                                     </Column>
-                                    <Column
-                                        :exportable="false"
-                                        header="Options"
-                                        style="min-width: 8rem"
-                                    >
+                                    <Column :exportable="false" header="Options" style="min-width: 8rem">
                                         <template #body="slotProps">
-                                            <Button
-                                                v-permission="[{functionName: 'users_modules', moduleName: 'fun_edit'}]"
-                                                icon="pi pi-pencil"
-                                                outlined
-                                                rounded
-                                                class="mr-2"
-                                                @click="
+                                            <Button v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
+                                                icon="pi pi-pencil" outlined rounded class="mr-2" @click="
                                                     $router.push({
                                                         path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data?.user_id}`,
                                                     })
-                                                "
-                                            />
+                                                    " />
                                             <Button
-                                                v-permission="[{functionName: 'users_modules', moduleName: 'fun_deleted'}]"
-                                                icon="pi pi-trash"
-                                                outlined
-                                                rounded
-                                                severity="danger"
-                                                @click="
+                                                v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"
+                                                icon="pi pi-trash" outlined rounded severity="danger" @click="
                                                     confirmDeleteUserMS(
                                                         slotProps.data.id
                                                     )
-                                                "
-                                            />
+                                                    " />
                                         </template>
                                     </Column>
                                 </div>
                             </DataTable>
                         </div>
                         <!-- ===============Dialog Delete Product Category======================= -->
-                        <Dialog
-                            v-model:visible="deleteUsersDialog"
-                            :style="{ width: '450px' }"
-                            header="Confirm"
-                            :modal="true"
-                        >
+                        <Dialog v-model:visible="deleteUsersDialog" :style="{ width: '450px' }" header="Confirm"
+                            :modal="true">
                             <div class="confirmation-content">
-                                <i
-                                    class="pi pi-exclamation-triangle mr-3"
-                                    style="font-size: 2rem"
-                                />
+                                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
                                 <span>Are you sure you want to delete?</span>
                             </div>
                             <template #footer>
-                                <Button
-                                    label="No"
-                                    icon="pi pi-times"
-                                    text
-                                    @click="deleteUsersDialog = false"
-                                />
-                                <Button
-                                    label="Yes"
-                                    icon="pi pi-check"
-                                    text
-                                    @click="deleteUserMSByID"
-                                />
+                                <Button label="No" icon="pi pi-times" text @click="deleteUsersDialog = false" />
+                                <Button label="Yes" icon="pi pi-check" text @click="deleteUserMSByID" />
                             </template>
                         </Dialog>
                     </div>
@@ -252,13 +169,13 @@ export default {
             this.usersID = userId;
             this.deleteUsersDialog = true;
         },
-        changeStatusUsers(userId, userStatus){
+        changeStatusUsers(userId, userStatus) {
             this.usersListArr.find((user) => {
-                if(user.user_id == userId){
+                if (user.user_id == userId) {
                     const userStatusId = {
-                        userStatus: userStatus? 'Active' : 'Inactive'
+                        userStatus: userStatus ? 'Active' : 'Inactive'
                     }
-                    this.userPerMSServices.changeUserStatusVerify(userId,userStatusId).then(response => {
+                    this.userPerMSServices.changeUserStatusVerify(userId, userStatusId).then(response => {
                         if (response.data.success == true) {
                             ElMessage.success('Update User Status Successfully...');
                         }
