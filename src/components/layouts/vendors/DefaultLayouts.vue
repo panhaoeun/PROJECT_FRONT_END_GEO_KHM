@@ -2,7 +2,12 @@
     <!-- Loader Components -->
     <loader-component :show="isLoader"></loader-component>
     <!-- Sidebar Component Start Here-->
-    <!-- <sidebar-component></sidebar-component> -->
+    <sidebar-component
+        v-for="route in routes"
+        :key="route.path"
+        :item="route"
+        :base-path="route.path"   
+    />
     <!-- Sidebar Component End Here-->
     <main class="main-content">
         <div :class="`position-relative  ${isBanner ? 'iq-banner ' + bannerStyle : ''}`">
@@ -40,10 +45,12 @@
     import { useRoute } from 'vue-router';
     import { useStore } from 'vuex';
     const isLoader = ref(null);
-
+    const routes = computed(() => {
+        return this.$store.state.users.routes;
+    });
     // Components
     // import LoaderComponent from '../../../components/loader/LoaderComponent.vue';
-    // import SidebarComponent from '../../../components/partials/SidebarComponent.vue';
+    import SidebarComponent from '../../../components/partials/SidebarComponent.vue';
     import HeaderComponent from '../../../components/partials/HeaderComponent.vue';
     import SubHeader from '../../../components/custom/header/SubHeader.vue';
     import MainContentComponent from '../../../components/partials/MainContentComponent.vue';

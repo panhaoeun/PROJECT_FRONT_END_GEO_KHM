@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <template>
     <!-- Sidebar Component Start Here-->
     <default-sidebar>
@@ -8,14 +7,7 @@
                     <app-link :to="resolvePath(onlyOneChild.path)">
                         <side-menu  :title="$te('route.' + routes?.meta.title) ? $t('route.'+routes?.meta.title) : $t('route.'+routes?.meta.title)" :static-item="true"></side-menu>  
                     </app-link>
-                </template>
-                <!-- Visible Children -->
-                <template v-for="(child,index) in routes.children" :key="index">
-                    <!-- Children -->
-                    <template v-if="!child.hidden">
-                        <side-menu isTag="router-link"  class="text-sm" :title="$te('route.' + child?.meta.title) ? $t('route.'+child?.meta.title) : $t('route.'+child?.meta.title)" :icon="child.meta?.icon" :icon-size="10" icon-type="solid" miniTitle="CAT" :route="{ to: `${child.name}` }"></side-menu>
-                    </template>
-                </template>
+                </template>               
             </template>
         </ul>
     </default-sidebar>  

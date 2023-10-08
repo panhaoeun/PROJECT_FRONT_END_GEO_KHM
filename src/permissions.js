@@ -17,7 +17,7 @@ router.beforeEach(async (to, from, next) => {
     /**
      * * @Check Permission for Only Vendor and Administrator Type of user
      * */
-    if (isLoggedIn() && JSON.parse(userRoleAuth) === "Vendor" || JSON.parse(userRoleAuth) == "Admin" || JSON.parse(userRoleAuth) == "Delivery" && userRoleAuth !== "Customer") {
+if (isLoggedIn() && JSON.parse(userRoleAuth) === "Vendor" || JSON.parse(userRoleAuth) == "Admin" || JSON.parse(userRoleAuth) == "Delivery" && userRoleAuth !== "Customer") {
         if (to.path === '/auth/login'){
             // if is logged in, redirect to the home page
             next({ path: '/' });
