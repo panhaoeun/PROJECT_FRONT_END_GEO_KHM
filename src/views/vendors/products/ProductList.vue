@@ -174,7 +174,7 @@ import { ref, onBeforeMount, computed } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import ProductService from '../../../services/vendors/products/ProductServices';
 import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElNotification } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { useAuthStoreToken } from '../../../utils/auth/AuthStoreTokenJWT';
 const { user } = storeToRefs(useAuthStoreToken());
@@ -304,14 +304,14 @@ const confirmDeleteProduct = (id) => {
 }
 const deleteProductSuccess = () => {
     if (!productId.value) {
-         this.$notify.error({
+         ElNotification.error({
             title: 'Product Category Not Found...',
             showClose: true
         });
     }
     productService.deleteProByID(productId.value).then((del) => {
         if(del.data.success === true){
-                this.$notify.success({
+                ElNotification.error({
                     title: 'Successfully deleted product',
                     message: del.data?.message ? del.data?.message : '' ,
                     showClose: false
@@ -321,14 +321,14 @@ const deleteProductSuccess = () => {
                 //Set timeout closed loading confirm deposited
                 deleteProductDialog.value = false;
             }else{
-                this.$notify.error({
+                ElNotification.error({
                     title: 'Unsuccessfully deleted product',
                     message: 'Please contact to admin',
                     showClose: false
                 });
             }
     }).catch((error) => {
-        this.$notify.error({
+        ElNotification.error({
             title: 'Unsuccessfully Deleted Product',
             message: error.response.data.error.message ?? 'Unsuccessfully Deleted Product',
             showClose: true
