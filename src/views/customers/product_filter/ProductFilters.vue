@@ -12,7 +12,7 @@
             </div>
         </div>
         <!-- Shop Area -->
-        <div class="shop-area pt-120 pb-120 bg-white">
+        <div class="shop-area pt-40 pb-120 bg-white">
             <div class="container">
                 <div class="row flex-row-reverse">
                     <div class="col-lg-9">

@@ -58,7 +58,7 @@
                                             </li>
                                             <!--All Categories -->
                                             <li>
-                                                <router-link to="#">All Categories </router-link>
+                                                <router-link to="/customer/search-product/query-product/filter-product-by-name">All Categories </router-link>
                                                 <ul class="mega-menu-style mega-menu-mrg-2">
                                                     <li>
                                                         <ul v-if="commonCategoriesList !== null">

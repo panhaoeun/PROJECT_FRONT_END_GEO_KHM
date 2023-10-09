@@ -9,13 +9,6 @@
 			</div>
 			<h2>we are sorry, but the page you requested was not found</h2>
 			<router-link to="/" class="home-btn">Go Home</router-link>
-			<router-link to="#" class="contact-btn">Contact us</router-link>
-			<div class="notfound-social">
-				<a href="#"><i class="fa fa-facebook"></i></a>
-				<a href="#"><i class="fa fa-twitter"></i></a>
-				<a href="#"><i class="fa fa-pinterest"></i></a>
-				<a href="#"><i class="fa fa-google-plus"></i></a>
-			</div>
 		</div>
 	</div>
 </template>
