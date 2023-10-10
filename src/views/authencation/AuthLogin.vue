@@ -11,7 +11,7 @@
                 <div class="px-4 py-4">
                     <div class="w-full surface-card py-6 px-12 sm:px-8" style="border-radius: 53px">
                         <div class="text-center mb-5">
-                            <div class="text-900 text-3xl font-medium mb-3">Welcome, PzharKhmer!</div>
+                            <div class="text-900 text-3xl font-medium mb-3">Welcome, E-24market!</div>
                             <span class="text-600 font-medium">Sign in to continue</span>
                         </div>
                         <!-- Form Submit -->
@@ -70,7 +70,7 @@
             - <a href="" class="no-underline hover:underline text-white hover:text-500">Sitemap</a> 
             - <a href="" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">Terms of Use</a> 
             - <a href="" class="no-underline hover:underline text-white hover:text-500" ref="nofollow">User Information Legal Enquiry Guide</a> 
-            ©️ {{ Date('YYYY') }} PzharKhmer.com. All rights reserved.
+            ©️ {{ Date('YYYY') }} E-24market.com. All rights reserved.
         </div>
     </footer>
     <!-- <AppConfig simple /> -->
@@ -80,7 +80,7 @@
 <script>
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-// import { ElLoading } from 'element-plus';
+import { ElLoading } from 'element-plus';
 // Components
 // import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
@@ -156,14 +156,14 @@ export default {
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({path: "/"});
                                 }   
-                                // let loadingAuthLogin = ElLoading.service({ 
-                                //     lock: true,
-                                //     text: 'Please waiting...',
-                                //     background: 'rgb(255,250,250)'
-                                // });
-                                // setTimeout(() => {
-                                //     loadingAuthLogin.close();
-                                // }, 2000)
+                                let loadingAuthLogin = ElLoading.service({ 
+                                    lock: true,
+                                    text: 'Please waiting...',
+                                    background: 'rgb(255,250,250)'
+                                });
+                                setTimeout(() => {
+                                    loadingAuthLogin.close();
+                                }, 2000)
                                 return;
                             }else{
                                 throw response;
