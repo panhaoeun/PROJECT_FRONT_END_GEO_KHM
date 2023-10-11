@@ -107,7 +107,17 @@ const getters = {
         let totalDayAmountKHR = 0;
         let totalAmountDayPrice = 0;
         let totalAmountDayPriceKHR = 0;
+        let shippingPriceAmount = 0;
         state.cartItem.forEach((cart) => {
+            // Shipping Price
+            let shippingCompany = cart?.shippingCompanyDay;
+            let maxItem = cart?.maxOrder;
+            let productQty = cart?.quantity;
+            if (shippingCompany){
+                shippingPriceAmount = Math.min(maxItem / productQty);
+                console.log(shippingPriceAmount, productQty)
+            }
+
             totalQuantity += cart.quantity;
             totalMaxOrder += cart.maxOrder;
             totalDayAmount += cart.expressPriceUSD;
