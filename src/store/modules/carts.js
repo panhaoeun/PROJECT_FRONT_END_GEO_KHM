@@ -24,6 +24,7 @@ const state = {
     totalShippingKHR: 0,
     totalUSD: 0,
     totalKHR: 0,
+    totalWithShippingPrice: []
 };
 // getters
 const getters = {
@@ -37,7 +38,20 @@ const getters = {
         return state.cartItem;
     },
     getTotal(state) {
-        return state.totalPrice;
+        let totalPriceKHR = 0;
+        let totalPriceUSD = 0;
+        state.totalWithShippingPrice.forEach((total) => {
+            totalPriceKHR += total.totalKHR;
+            totalPriceUSD += total.totalUSD;
+        });
+        if (totalPriceKHR && totalPriceUSD) {
+            return {
+                totalKHR: totalPriceKHR ? totalPriceKHR : 0,
+                totalUSD: totalPriceUSD ? totalPriceUSD : 0,
+            };
+        } else {
+            return 0;
+        }
     },
     getTotalItems(state) {
         let total = 0;
@@ -99,54 +113,62 @@ const getters = {
     cartTotalOrder: (state) => {
         return state.totalOrder;
     },
+    // Total With Shipping
     cartTotalShipping: (state) => {
-        let totalQuantity = 0;
-        let totalShippingDayPrice = 0;
-        let totalMaxOrder = 0;
-        let totalDayAmount = 0;
-        let totalDayAmountKHR = 0;
+        // let totalQuantity = 0;
+        let totalMaxOrderShippingKHR = 0;
+        let totalMaxOrderShippingUSD = 0;
         let totalAmountDayPrice = 0;
         let totalAmountDayPriceKHR = 0;
         let shippingPriceAmount = 0;
+        let maxAmountShipping =  0;
+        let maxAmountShippingUSD = 0;
         state.cartItem.forEach((cart) => {
             // Shipping Price
-            let shippingCompany = cart?.shippingCompanyDay;
+            let shippingCompanyDayExpress = cart?.shippingCompanyDay;
             let maxItem = cart?.maxOrder;
-            let productQty = cart?.quantity;
-            if (shippingCompany){
-                shippingPriceAmount = Math.min(maxItem / productQty);
-                console.log(shippingPriceAmount, productQty)
+            let productQty = cart?.quantity ? cart?.quantity : 1;
+            let expressPriceKHR = cart.expressPriceKHR;
+            let expressPriceUSD = cart.expressPriceUSD;
+            if (shippingCompanyDayExpress) {
+                shippingPriceAmount = Math.min(productQty / maxItem);
+                if (productQty < maxItem) {
+                    maxAmountShipping += parseFloat(expressPriceKHR);
+                    maxAmountShippingUSD += parseFloat(expressPriceUSD)
+                } else if (productQty > maxItem) {
+                    maxAmountShipping += parseFloat(expressPriceKHR + shippingPriceAmount) + 1;
+                    maxAmountShippingUSD += parseFloat(expressPriceUSD + shippingPriceAmount) + 1;
+                }
             }
 
-            totalQuantity += cart.quantity;
-            totalMaxOrder += cart.maxOrder;
-            totalDayAmount += cart.expressPriceUSD;
-            totalDayAmountKHR += cart?.expressPriceKHR;
+            const maxAmountShippingPrice = `${parseFloat(maxAmountShipping).toFixed(2,4)}`;
+            const totalShippingPriceMaxOrderKHR  = maxAmountShippingPrice.replace(/,/g, '');
+            const maxAmountShippingPriceUSD = `${parseFloat(maxAmountShippingUSD).toFixed(2,4)}`;
+            const totalShippingPriceMaxOrderUSD = maxAmountShippingPriceUSD.replace(/,/g, '');
+            // totalQuantity += cart.quantity;
+            totalMaxOrderShippingKHR += parseFloat(totalShippingPriceMaxOrderKHR);
+            totalMaxOrderShippingUSD += parseFloat(totalShippingPriceMaxOrderUSD);
         });
-        // Total Shipping
-        totalShippingDayPrice = totalQuantity / totalMaxOrder;
         // Calculate the number of packages that can be shipped
-        totalAmountDayPrice = totalShippingDayPrice * totalDayAmount;
-        totalAmountDayPriceKHR = totalShippingDayPrice * totalDayAmountKHR;
+        totalAmountDayPriceKHR += totalMaxOrderShippingKHR;
+        totalAmountDayPrice += totalMaxOrderShippingUSD;
 
-        if (totalShippingDayPrice > 0) {
-            // Calculate the number of packages that can be shipped
-            totalAmountDayPrice = totalShippingDayPrice * totalDayAmount;
-            totalAmountDayPriceKHR = totalShippingDayPrice * totalDayAmountKHR;
-        }
         return {
             shippingAmountUSD: totalAmountDayPrice ? totalAmountDayPrice : 0,
-            shippingAmountKHR: totalAmountDayPriceKHR
-                ? totalAmountDayPriceKHR
-                : 0,
+            shippingAmountKHR: totalAmountDayPriceKHR ? totalAmountDayPriceKHR: 0
         };
     },
 };
 // actions
 const actions = {
-    async totalOrder({ commit }, { shippingPrice }) {
-        if (shippingPrice !== null) {
-            commit("setTotalOderItem", shippingPrice);
+    async totalOrderWithSipping({ commit }, { shippingPriceKHR,shippingPriceUSD,subTotalKHR,subTotalUSD }) {
+        if (shippingPriceKHR !== null) {
+            commit("setTotalOderItem", {
+                shippingPriceKHR,
+                shippingPriceUSD,
+                subTotalKHR,
+                subTotalUSD
+            });
         }
     },
     async getCartByCurrentCustomer({ commit }) {
@@ -384,9 +406,6 @@ const actions = {
                 commit("setLocalCart");
                 return true;
             }
-            console.log(
-                "Cannot send the request because the user is not logged in"
-            );
             return false;
         }
         state.cartItem.forEach(async (item) => {
@@ -396,10 +415,6 @@ const actions = {
                     productId: item?.product_id,
                     productQty: parseInt(item.quantity),
                     productPrice: parseFloat(item?.productPrice),
-                    expressDeliveryPriceUSD: parseFloat(
-                        item?.expressDeliveryPriceUSD
-                    ),
-                    expressDeliveryPriceKHR: parseFloat(item?.expressPriceKHR),
                     type: "new",
                 };
                 try {
@@ -559,8 +574,8 @@ const actions = {
 
 // mutations
 const mutations = {
-    selectPayMethodOrder(state, address) {
-        state.selectPayMethod = address;
+    selectPayMethodOrder(state, methodPay) {
+        state.selectPayMethod = methodPay;
     },
     setCheckoutInitiated(state, val) {
         state.checkoutInitiated = val;
@@ -578,23 +593,17 @@ const mutations = {
         }
         state.cartItem.push(...transformed);
     },
-    setTotalOderItem(state, shipPrice) {
-        let total = 0;
-        let totalShipping = 0;
-        let totalQty = 0;
-        let totalAmount = 0;
-        let totalOrderItem = 0;
-        let totalSubtotal = 0;
-        state.cartItem.forEach((cart) => {
-            totalQty += +cart.quantity;
-            totalAmount += +cart.total;
-        });
-        totalOrderItem = +totalAmount / totalQty;
-        totalSubtotal = +totalOrderItem * totalQty;
-        totalShipping += Math.round(shipPrice * 100) / 100;
-        total += totalShipping + totalSubtotal;
-        if (total) {
-            return (state.totalPrice = total.toFixed(2, 4));
+    setTotalOderItem(state, {shippingPriceKHR, shippingPriceUSD, subTotalKHR, subTotalUSD}) {
+        let totalPriceKHR = 0;
+        let totalPriceUSD = 0;
+
+        totalPriceKHR += subTotalKHR + shippingPriceKHR;
+        totalPriceUSD += subTotalUSD + shippingPriceUSD;
+        if (totalPriceKHR) {
+            return state.totalWithShippingPrice = [{
+                totalKHR: totalPriceKHR ? totalPriceKHR : 0,
+                totalUSD: totalPriceUSD ? totalPriceUSD : 0
+            }];
         } else {
             return 0;
         }

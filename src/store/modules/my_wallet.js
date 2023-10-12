@@ -84,11 +84,11 @@ const actions = {
 const mutations = {
     setCurrentBalanceAccount(state, payload) {
         if (!payload) {
-            state.walletBalanceKHR = '';
-            state.walletBalanceUSD = '';
+            state.walletBalanceKHR = 0;
+            state.walletBalanceUSD = 0;
         }else{
-            state.walletBalanceKHR = payload?.balanceKHR ? payload?.balanceKHR : '';
-            state.walletBalanceUSD = payload?.balanceUSD ? payload?.balanceUSD : '';
+            state.walletBalanceKHR = payload?.balanceKHR ? payload?.balanceKHR : 0;
+            state.walletBalanceUSD = payload?.balanceUSD ? payload?.balanceUSD : 0;
             state.ballanceInAccount = payload;
         }
     },
@@ -144,9 +144,9 @@ const mutations = {
         const balanceCurrentKHR = payload.currentBalanceKHR.toString().replace(/[^0-9.]/g, '') ?? 0;
         const amountCurrentOrderUSD = payload.balanceUSD ? payload.balanceUSD : 0;
         const amountCurrentOrderKHR = payload.balanceKHR ? payload.balanceKHR : 0;
-        if (amountCurrentOrderUSD >= balanceCurrentUSD) {
-            totalBalanceRemainingUSD = +balanceCurrentUSD - +amountCurrentOrderUSD;
-            totalBalanceRemainingKHR = +parseInt(amountCurrentOrderKHR) - parseInt(balanceCurrentKHR);
+        if (amountCurrentOrderUSD <= balanceCurrentUSD) {
+            totalBalanceRemainingUSD =+ balanceCurrentUSD -amountCurrentOrderUSD;
+            totalBalanceRemainingKHR = +balanceCurrentKHR- amountCurrentOrderKHR;
             const remainingBalanceUSD = Number(parseFloat(totalBalanceRemainingUSD)).toFixed(2, 4);
             const balanceUSD = formatMoney(remainingBalanceUSD) ? formatMoney(remainingBalanceUSD) : 0;
             const remainingBalanceKHR = Number(parseFloat(totalBalanceRemainingKHR)).toFixed(2, 4);
@@ -162,22 +162,22 @@ const mutations = {
             state.balanceAccountMS = 'Balance is sufficient. You can place the order.';
             state.checkRemainingBalance = true;
         } else {
-            totalBalanceRemainingUSD =+ balanceCurrentUSD - +amountCurrentOrderUSD;
-            totalBalanceRemainingKHR =+ parseInt(amountCurrentOrderKHR) - parseInt(balanceCurrentKHR);
+            totalBalanceRemainingUSD =+ balanceCurrentUSD - amountCurrentOrderUSD;
+            totalBalanceRemainingKHR =+ balanceCurrentKHR - amountCurrentOrderKHR;
             const remainingBalanceUSD = Number(parseFloat(totalBalanceRemainingUSD)).toFixed(2, 4);
             const balanceUSD = formatMoney(remainingBalanceUSD) ? formatMoney(remainingBalanceUSD) : 0;
             const remainingBalanceKHR = Number(parseFloat(totalBalanceRemainingKHR)).toFixed(2, 4);
             const balanceKHR = formatMoney(remainingBalanceKHR) ? formatMoney(remainingBalanceKHR) : 0;
             state.remainingBalanceKHR = balanceUSD ? balanceUSD : 0;
             state.remainingBalanceUSD = balanceKHR ? balanceKHR : 0;
-            // Current Remaining Order SubStract Amount 
+            // Current Remaining Order Sub Strace Amount 
             state.calRemainingCurrentBalanceAmount = {
                 remainingMoneyKHR: balanceKHR ? balanceKHR : 0,
                 remainingMoneyUSD: balanceUSD ? balanceUSD : 0,
-                balanceAccountMS: 'Insufficient balance. Please add funds or choose a smaller order.',
+                balanceAccountMS: 'You do not have sufficient balance for pay this order!!',
             }   
             state.checkRemainingBalance = false;
-            state.balanceAccountMS = 'Insufficient balance. Please add funds or choose a smaller order.';
+            state.balanceAccountMS = 'You do not have sufficient balance for pay this order!!';
         }
     }
 }

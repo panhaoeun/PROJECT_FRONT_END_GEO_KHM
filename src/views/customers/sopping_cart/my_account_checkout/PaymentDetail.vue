@@ -58,18 +58,16 @@
             </el-form-item>
             <el-form-item label="Remaining balance">
                 <el-input v-model="getRemainingAmountBalanceWallet" disabled/>
-                {{ currentBalanceKHR.balanceAccountMS }}
-                <el-text class="mx-1" size="small">You do not have sufficient balance for pay this order!!</el-text>
+                <el-text class="mx-1" size="small">{{ remainingAmountOrder?.balanceAccountMS }}</el-text>
             </el-form-item>
         </el-form>
         <!-- Footer Wallet -->
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="dialogVisibleOpenWallet = false">Cancel</el-button>
+                <el-button @click="dialogVisibleOpenWallet = false" class="surface-hover font-bold hover:surface-300 w-7rem">Cancel</el-button>
                 <template v-if="checkBalanceWallet === true">
-                    <el-button @click="confirmToPaymentByWallet()">Confirm</el-button>
+                    <el-button @click="confirmToPaymentByWallet()" class="bg-red-500 border-none font-bold hover:surface-300 w-7rem text-white">Confirm</el-button>
                 </template>
-
             </span>
         </template>
     </el-dialog>
@@ -143,8 +141,11 @@ export default {
     },
     async created() {
         if (!this.paymentType) {
+            console.log(this.paymentType)
             this.$emit('selected', this.paymentType);
         }
+        // Get Current Balance
+        await this.$store.dispatch('myWallet/myWalletCurrentBalance');
     },
     methods: {
         selectedPaymentMethod(add){
@@ -155,15 +156,22 @@ export default {
             this.selectedActivePaymentMethod = add?.id; 
             this.$store.commit('cart/selectPayMethodOrder', add);
             if(add.aliasName === "PayByWallet"){
-                this.dialogOpenMyWallet(add);
+                const loading = this.$loading({
+                    lock: true,
+                    text: 'Please Waiting...',
+                    background: 'rgba(0, 0, 0, 0.1)'
+                });
+                setTimeout(() => {
+                    // Show Dialog
+                    this.dialogOpenMyWallet(add);
+                    loading.close();
+                }, 2000);
             }else{
                 this.dialogVisibleOpenWallet = false;
             }
         },
         async dialogOpenMyWallet(item) {
             this.dialogVisibleOpenWallet = true;
-            // Get Current Balance
-            await this.$store.dispatch('myWallet/myWalletCurrentBalance');
             const typePayment = item?.aliasName ? item?.aliasName : '';
             if(typePayment === 'PayByWallet'){
                 await this.$store.dispatch('myWallet/remainingBalanceToOrder', {
@@ -179,6 +187,8 @@ export default {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Cancel',
                 type: 'warning',
+                cancelButtonClass: "surface-hover font-bold hover:surface-300 w-7rem",
+                confirmButtonClass: "bg-red-500 border-none font-bold hover:surface-300 w-7rem",
                 beforeClose: (action, instance, done) => {
                     if (action === 'confirm') {
                         instance.confirmButtonLoading = true;
@@ -192,16 +202,15 @@ export default {
                     } else {
                          done();
                     }
-            }}).then((wallet) => {
-                console.log(wallet)
+            }}).then(() => {
                     ElNotification.success({
-                        title: 'Successfully to payment by wallet for order',
+                        title: 'Successfully to payment by e-wallet for order',
                         message: 'You have successfully placed order.'
                     })
             }).catch(() => {
-                ElNotification.error({
-                    title: 'Unsuccessfully to payment to wallet',
-                    message: 'You are cancel to payment to wallet',
+                ElNotification.warning({
+                    title: 'Unsuccessfully to payment by e-wallet',
+                    message: 'You are cancel to payment by e-wallet',
                 });
             })
         }

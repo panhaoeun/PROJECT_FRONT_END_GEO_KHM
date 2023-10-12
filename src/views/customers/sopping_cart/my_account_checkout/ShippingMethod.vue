@@ -67,13 +67,7 @@
                     return Promise.reject(error);
                 }
             },
-            calShippingPrice(val){
-                if(val !== null){
-                    return this.$store.dispatch('cart/totalOrder', {
-                        shippingPrice: val?.const_price ? val?.const_price : 0
-                    });
-                }
-            }
+            
         },
         computed: {
             shippingMethods: {
@@ -82,7 +76,6 @@
                 },
                 set(val) {
                     this.$store.commit('shippingStore/setShippingMethod', val);
-                    this.calShippingPrice(val);
                 },
             },
             ...mapGetters({
