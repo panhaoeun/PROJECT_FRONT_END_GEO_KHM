@@ -47,7 +47,7 @@
         >
             <el-form-item label="Your current balance">
                 <el-input v-model="getCurrentBalance" disabled />
-            </el-form-item>
+            </el-form-item> 
             <el-form-item label="Order amount">
                 <template v-if="getTotalAmount !== undefined">
                     <el-input v-model="getTotalAmount" disabled/>
@@ -58,7 +58,9 @@
             </el-form-item>
             <el-form-item label="Remaining balance">
                 <el-input v-model="getRemainingAmountBalanceWallet" disabled/>
-                <el-text class="mx-1" size="small">{{ remainingAmountOrder?.balanceAccountMS }}</el-text>
+                <el-text class="mx-1 text-red-500" size="small">
+                    <span>{{ remainingAmountOrder?.balanceAccountMS }}</span>
+                </el-text>
             </el-form-item>
         </el-form>
         <!-- Footer Wallet -->
@@ -125,13 +127,13 @@ export default {
     },
     computed: {
         getCurrentBalance(){
-            return this.currentBalanceKHR + ' ' + '(' + this.currentBalanceUSD + '$' + ')';
+            return this.currentBalanceKHR + ' ' + '(' + this.currentBalanceUSD+ ')';
         },
         getTotalAmount(){
-            return '៛ ' + this.dynamicAmountOrder?.amountTotalKHR +' '+ '(' + ' $ ' + this.dynamicAmountOrder?.amountTotalUSD+ ')';
+            return this.currencyFormattedKHRiel(this.dynamicAmountOrder?.amountTotalKHR) +' '+ '('+ this.currencyFormattedUSD(this.dynamicAmountOrder?.amountTotalUSD) +')';
         },
         getRemainingAmountBalanceWallet(){
-            return '៛ ' + this.remainingAmountOrder.remainingMoneyKHR  +  ' ' + '(' + this.remainingAmountOrder.remainingMoneyUSD + ' $' + ')'  
+            return '៛' + this.remainingAmountOrder.remainingMoneyKHR  +  ' ' + '(' + '$'+ this.remainingAmountOrder.remainingMoneyUSD + ')'  
         },  
         ...mapGetters({
             dynamicAmountOrder:'myWallet/getTotalAmountOrderShip',
@@ -148,6 +150,21 @@ export default {
         await this.$store.dispatch('myWallet/myWalletCurrentBalance');
     },
     methods: {
+        currencyFormattedKHRiel: function (value) {
+            return new Intl.NumberFormat("km-KH", {
+                style: "currency",
+                currency: "KHR",
+                currencyDisplay: "symbol",
+            })
+                .format(value ? value : 0)
+                .replace(/\b(\w*KHR\w*)\b/, "៛");
+        },
+        currencyFormattedUSD: function (value) {
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+            });
+        },
         selectedPaymentMethod(add){
             return _.isEqual(add, this.paymentType);
         },
@@ -186,27 +203,37 @@ export default {
             ElMessageBox.confirm('Are you confirm to payment by wallet?', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Cancel',
-                type: 'warning',
-                cancelButtonClass: "surface-hover font-bold hover:surface-300 w-7rem",
-                confirmButtonClass: "bg-red-500 border-none font-bold hover:surface-300 w-7rem",
+                type: 'info',
+                cancelButtonClass: "surface-hover font-bold hover:bg-pink-500 w-7rem",
+                confirmButtonClass: "bg-red-500 border-none font-bold hover:bg-teal-700 w-10rem",
                 beforeClose: (action, instance, done) => {
                     if (action === 'confirm') {
                         instance.confirmButtonLoading = true;
-                        instance.confirmButtonText = 'Loading...';
+                        instance.confirmButtonText = 'Waiting...';
+                        // Clear Loading
                         setTimeout(() => {
                             done();
                             setTimeout(() => {
                                 instance.confirmButtonLoading = false;
                             }, 300);
-                        }, 1000);
+                        }, 1500);
                     } else {
-                         done();
+                        done();
                     }
-            }}).then(() => {
-                    ElNotification.success({
-                        title: 'Successfully to payment by e-wallet for order',
-                        message: 'You have successfully placed order.'
-                    })
+            }}).then(async() => {
+                // Subtract Amount Order
+                const confirmOrderPaymentWallet = {
+                    remainingAmountBalanceKHR: this.remainingAmountOrder?.remainingMoneyKHR ?? 0,
+                    remainingAmountBalanceUSD: this.remainingAmountOrder?.remainingMoneyUSD ?? 0,
+                    orderAmountKHR: this.dynamicAmountOrder?.amountTotalKHR ?? 0,
+                    orderAmountUSD: this.dynamicAmountOrder?.amountTotalUSD ?? 0
+                };
+                await this.$store.dispatch('myWallet/confirmWithdrawMoneyOrderPayment', { confirmOrderPaymentWallet });
+
+                ElNotification.success({
+                    title: 'Successfully to payment by e-wallet for order',
+                    message: 'You have successfully placed order.'
+                });
             }).catch(() => {
                 ElNotification.warning({
                     title: 'Unsuccessfully to payment by e-wallet',

@@ -78,6 +78,9 @@ const actions = {
         } catch (error) {
           throw new Error(error);
         }
+    },
+    async confirmWithdrawMoneyOrderPayment({commit}, {confirmOrderPaymentWallet}){
+        console.log(commit, confirmOrderPaymentWallet)
     }
 }
 // mutations
