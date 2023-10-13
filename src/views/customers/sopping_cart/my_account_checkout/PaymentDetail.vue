@@ -79,12 +79,17 @@
 import { ElMessageBox, ElNotification } from "element-plus";
 import _ from "lodash";
 import {mapGetters} from "vuex";
+import { isLoggedIn } from "@/utils/auth/auth";
 export default {
     components: {},
     props: {
         currentBalanceUSD: {
             required: true,
             type: Number,
+        },
+        orderPayNoted: {
+            required: false,
+            type: String,
         },
         currentBalanceKHR: {
             required: true,
@@ -122,12 +127,32 @@ export default {
                 currentBalance: this.currentBalanceKHR ? this.currentBalanceKHR : 0,
                 orderAmount: 0,
                 remainingBalance: 0
-            }
+            },
+            shippingAddress: [],
+            billingAddressAll: [],
+            selectedAddressShip: {},
+            selectedAddressBill: {},
+            paymentMethod: '',
+            customerOrderNoted: '',
+            shopId: null,
+            vendorId: null,
+            emailPhoneId: null
         };
     },
     computed: {
         getCurrentBalance(){
             return this.currentBalanceKHR + ' ' + '(' + this.currentBalanceUSD+ ')';
+        },
+        currentUser() {
+            return this.currentUser ? this.currentUser : null;
+        },
+        shippingMethods: {
+            get() {
+                return this.$store.getters['shippingStore/shippingMethod'];
+            },
+            set(val) {
+                this.$store.commit('shippingStore/setShippingMethod', val);
+            },
         },
         getTotalAmount(){
             return this.currencyFormattedKHRiel(this.dynamicAmountOrder?.amountTotalKHR) +' '+ '('+ this.currencyFormattedUSD(this.dynamicAmountOrder?.amountTotalUSD) +')';
@@ -138,18 +163,31 @@ export default {
         ...mapGetters({
             dynamicAmountOrder:'myWallet/getTotalAmountOrderShip',
             remainingAmountOrder: 'myWallet/getRemainingAmountOrder',
-            checkBalanceWallet: 'myWallet/checkRemainingAccSubmit'
+            checkBalanceWallet: 'myWallet/checkRemainingAccSubmit',
+            getSelectedAddressShip: 'shippingStore/getSelectedAddress',
+            selectedAddressBilling: 'billingStore/getSelectedBillingAddress',
+            carts: 'cart/getCart',
+            checkoutInitiated: 'cart/checkoutInitiated',
+            orderDetaiL: 'cart/getCartAuthItem',
+            currentUser: 'auth/currentUserAuth',
+            payMethod: 'cart/getPayMethod',
+            currentBalanceKHR: 'myWallet/getCurrentBalanceKHR',
+            currentBalanceUSD: 'myWallet/getCurrentBalanceUSD',
         }),
+        paymentMethods(){
+            return this.getPaymentMethod();
+        }
     },
     async created() {
         if (!this.paymentType) {
             console.log(this.paymentType)
             this.$emit('selected', this.paymentType);
         }
-        // Get Current Balance
-        await this.$store.dispatch('myWallet/myWalletCurrentBalance');
     },
     methods: {
+        isSessionActive(){
+            return isLoggedIn();
+        },
         currencyFormattedKHRiel: function (value) {
             return new Intl.NumberFormat("km-KH", {
                 style: "currency",
@@ -164,6 +202,19 @@ export default {
                 style: "currency",
                 currency: "USD",
             });
+        },
+        getCurrentUser(){
+            if(this.currentUser !== null && this.currentUser.length > 0){
+                return {
+                    userPhoneNumber: this.currentUser[0].user_phonenumber ?? '',
+                    userEmail: this.currentUser[0].user_email ?? ''
+                }
+            }
+        }, 
+        getPaymentMethod(){
+            if(this.payMethod !== null && this.payMethod !== undefined){    
+                return this.payMethod.aliasName ? this.payMethod.aliasName : 'PayByWallet';
+            }
         },
         selectedPaymentMethod(add){
             return _.isEqual(add, this.paymentType);
@@ -189,6 +240,8 @@ export default {
         },
         async dialogOpenMyWallet(item) {
             this.dialogVisibleOpenWallet = true;
+            // Get Current Balance
+            await this.$store.dispatch('myWallet/myWalletCurrentBalance');
             const typePayment = item?.aliasName ? item?.aliasName : '';
             if(typePayment === 'PayByWallet'){
                 await this.$store.dispatch('myWallet/remainingBalanceToOrder', {
@@ -218,9 +271,20 @@ export default {
                             }, 300);
                         }, 1500);
                     } else {
+                        instance.confirmButtonLoading = false
                         done();
                     }
             }}).then(async() => {
+                if(this.isSessionActive() !== null){
+                    if (!this.getSelectedAddressShip || !this.selectedAddressBilling) {
+                        this.$notify.warning({
+                            title: 'Please select shipping method first',
+                            message: 'The shipping method and address should be selected first.',
+                            showClose: false
+                        });
+                        return;
+                    } 
+                }
                 // Subtract Amount Order
                 const confirmOrderPaymentWallet = {
                     remainingAmountBalanceKHR: this.remainingAmountOrder?.remainingMoneyKHR ?? 0,
@@ -228,12 +292,22 @@ export default {
                     orderAmountKHR: this.dynamicAmountOrder?.amountTotalKHR ?? 0,
                     orderAmountUSD: this.dynamicAmountOrder?.amountTotalUSD ?? 0
                 };
-                await this.$store.dispatch('myWallet/confirmWithdrawMoneyOrderPayment', { confirmOrderPaymentWallet });
-
-                ElNotification.success({
-                    title: 'Successfully to payment by e-wallet for order',
-                    message: 'You have successfully placed order.'
+                // Handle Checkout Orders
+                await this.$store.dispatch('cart/createCheckout', {
+                    shopId: this.shopId ? this.shopId : 0,
+                    vendorId: this.vendorId ? this.vendorId : 0,
+                    emailPhoneId: this.getCurrentUser().userEmail ? this.getCurrentUser().userEmail : '',
+                    phoneNumberId: this.getCurrentUser().userPhoneNumber ? this.getCurrentUser().userPhoneNumber : 0 ,
+                    customerOrderNoted: this.orderPayNoted ? this.orderPayNoted : 0,
+                    orderDetaiL: this.orderDetaiL ? this.orderDetaiL : 0,
+                    getSelectedAddressShip: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
+                    selectedAddressBilling: this.selectedAddressBilling ? this.selectedAddressBilling : '',
+                    shippingMethod: this.shippingMethod ? this.shippingMethod : '',
+                    paymentMethods: this.paymentMethods ? this.paymentMethods: 'PayByWallet'
                 });
+                // Payments with Wallets
+                await this.$store.dispatch('myWallet/confirmWithdrawMoneyOrderPayment', { confirmOrderPaymentWallet });
+                this.dialogVisibleOpenWallet = false;
             }).catch(() => {
                 ElNotification.warning({
                     title: 'Unsuccessfully to payment by e-wallet',

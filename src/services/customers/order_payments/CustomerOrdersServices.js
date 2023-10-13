@@ -53,4 +53,10 @@ export default class CustomerOrderServices {
     async createCustomerOrderCheckOut(order){
         return http.post("/orders/customer-order/customer-checkout", order);
     }
+    /**
+     @Customer Order Checkout Payment E-Wallet 
+    **/
+    async checkedOutPaymentOrderWallet(payment) {
+        return http.post("/customer/orders/customer-order/customer-checkout/payment-by-wallet", payment);
+     }
 }

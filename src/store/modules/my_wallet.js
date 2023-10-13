@@ -1,9 +1,13 @@
 import CustomerDepositedToWalletService from '@/services/my_wallets/deposited/CustomersDepositedServices';
+import CustomerOrderCheckOutServices from "@/services/customers/order_payments/CustomerOrdersServices.js";
+const customerOrderPayment = new CustomerOrderCheckOutServices();
 const customerDepositedWithDrawService = new CustomerDepositedToWalletService();
 import {isLoggedIn} from '@/utils/auth/auth';
+import { ElNotification } from "element-plus";
 const state = {
     walletBalanceKHR: null,
     walletBalanceUSD: null,
+    remainingCashPayment: {},
     ballanceInAccount: [],
     totalAmountOrder: {},
     remainingBalanceUSD: 0,
@@ -50,6 +54,7 @@ const actions = {
             state.ballanceInAccount = [];
         }
        }catch(error){
+        console.log(error)
           throw new Error(error);
        }
     },
@@ -80,11 +85,58 @@ const actions = {
         }
     },
     async confirmWithdrawMoneyOrderPayment({commit}, {confirmOrderPaymentWallet}){
-        console.log(commit, confirmOrderPaymentWallet)
+        try {
+            commit('setOderPaymentCashByWallet', {confirmOrderPaymentWallet});
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
 // mutations
 const mutations = {
+    async setOderPaymentCashByWallet(state, payload){
+        if(!isLoggedIn()){
+            state.remainingCashPayment = [];
+        }
+        // remainingAmountBalanceKHR: '3,939,279.70', remainingAmountBalanceUSD: '955.31', orderAmountKHR: 181435, orderAmountUSD: 44
+        if (isLoggedIn()) {
+            const withdrawPaymentAmount = {
+                remainingBalanceWallet: payload.confirmOrderPaymentWallet?.orderAmountKHR,
+                currentBalance: payload.confirmOrderPaymentWallet?.remainingAmountBalanceKHR
+            }
+            await customerOrderPayment.checkedOutPaymentOrderWallet(withdrawPaymentAmount)
+                .then((payment) => {
+                    if (payment) {
+                        ElNotification.success({
+                            title: payment.data?.message ? payment.data?.message : '',
+                            message: payment.data.result.resultStatus ? payment.data.result.resultStatus : ''
+                        });
+                    } else throw new Error(payment);
+                })
+                .catch((error) => {
+                    if (error) {
+                         ElNotification.error({
+                            title: error.response.data?.message ?? '',
+                            message: error.response.data?.resultStatus ?? '',
+                            showClose: false
+                         });
+                     }
+                     // Validation Error
+                     if (error.response.data.error.error.errors) {
+                         for (let index = 0; index <error.response.data.error.error.errors  .length; index++) {
+                            const messageValidation = error.response.data.error.error.errors[index].message ?? "";
+                            ElNotification.error({
+                                title: "Unscesffully order payment with e-wallet",
+                                message: messageValidation ? messageValidation : '',
+                                showClose: true
+                            });
+                         }
+                     }
+                });
+        } else {
+            state.ballanceInAccount = [];
+        }
+    },
     setCurrentBalanceAccount(state, payload) {
         if (!payload) {
             state.walletBalanceKHR = 0;

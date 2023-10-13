@@ -49,7 +49,7 @@ export default {
                     const addressType = "Billing" ?? '';
                     await shippingAddress.getBillingOrShippingAddressByQueriesByAddrType(addressType)
                         .then((billing) => {
-                            if (billing.length > 0) {
+                            if (billing) {
                                 commit('setGetAddrShippingBilling', billing);
                             } else throw new Error(!billing);
                         }).catch((error) => {

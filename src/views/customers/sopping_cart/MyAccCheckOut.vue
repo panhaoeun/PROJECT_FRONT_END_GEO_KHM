@@ -69,6 +69,7 @@
                                                 <PaymentDetail 
                                                     v-if="isSessionActive()" 
                                                     :selected="selectPaymentMethod"
+                                                    :orderPayNoted="customerOrderNoted"
                                                     :currentBalanceUSD="currentBalanceUSD"
                                                     :currentBalanceKHR="currentBalanceKHR"
                                                 />

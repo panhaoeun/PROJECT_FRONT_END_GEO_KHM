@@ -229,6 +229,8 @@ const actions = {
                     productDetails.push({
                         vendorId: el?.vendorId ? el?.vendorId : 0,
                         shopId: el.shopId ? el?.shopId : 0,
+                        packageType: el.packageType ? el.packageType : '',
+                        maxOrder: el.maxOrder ? el.maxOrder : '',
                         productId: productId ? productId : 0,
                         quantity: productQty ? productQty : 0,
                         deliveryPriceUSD: expressPriceUSD ? expressPriceUSD : 0,
@@ -237,6 +239,7 @@ const actions = {
                         productSpec: productSpec ? productSpec : 0,
                         productName: productName ? productName : 0,
                         productCode: productCode ? productCode : 0,
+                        shipCompanyDay: el.shippingCompanyDay ? el.shippingCompanyDay : ''
                     });
                 });
                 // Customer Orders
@@ -245,9 +248,9 @@ const actions = {
                         "," +
                         getSelectedAddressShip?.shipAdd02 +
                         "," +
-                        getSelectedAddressShip?.shipAddrCity +
+                        getSelectedAddressShip?.shipCity +
                         "," +
-                        getSelectedAddressShip?.shipAddrZipCode +".";
+                        getSelectedAddressShip?.shipZipCode +".";
                 const customerBillingAddr =
                         selectedAddressBilling?.billAdd01 +
                         "," +
@@ -262,14 +265,14 @@ const actions = {
                     phoneNumberId: phoneNumberId ? phoneNumberId : "",
                     productDetails: productDetails ? productDetails : [],
                     shippingCompanyId: 1,
-                    paymentMethod: reqData.paymentMethods ? reqData.paymentMethods : "CashOnDelivery",
+                    paymentMethod: reqData?.paymentMethods ? reqData?.paymentMethods : "CashOnDelivery",
                     shippingAddress: customerShippingAddr ? customerShippingAddr : '',
                     billingAddress: customerBillingAddr ? customerBillingAddr : '',
                     shippingPhoneNumber: getSelectedAddressShip?.phone_number_contact,
                     shippingName: getSelectedAddressShip?.contact_name,
                     billingName: selectedAddressBilling?.contact_name,
                     billingPhoneNumber: selectedAddressBilling?.phone_number_contact,
-                    otherNoted: customerOrderNoted ? customerOrderNoted : "",
+                    otherNoted: customerOrderNoted ? customerOrderNoted : '',
                 };
                 await customerOrderCart.createCustomerOrderCheckOut(customerOrder)
                     .then((result) => {
@@ -279,7 +282,6 @@ const actions = {
                                 // Checkout with id
                                 commit('setCheckoutId', result.data.result.resultStatus.order?.order_id);
                                 router.push('/customer/my-account/checkout-complete');
-
                                 ElNotification({
                                     title: 'Your order has been placed successfully! !',
                                     message: result.data?.message ? result.data?.message : '',

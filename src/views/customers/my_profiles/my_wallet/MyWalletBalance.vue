@@ -12,7 +12,7 @@
                     <!-- Dialog of Recharge Deposits -->
                     <PopupDepositToWallet/>                
                     <!--==== Recharge Withdraw to wallet ===-->
-                    <Button label="Withdraw" severity="success" style="width:8rem;" @click="dialogTableVisibleOpeWithdraw = true" size="small"/>
+                    <!-- <Button label="Withdraw" severity="success" style="width:8rem;" @click="dialogTableVisibleOpeWithdraw = true" size="small"/> -->
                     <!-- Dialog of Recharge Withdraw -->
                     <el-dialog v-model="dialogTableVisibleOpeWithdraw" width="50%" centerwidth="50%" title="Withdraw to Wallet">
                         <!-- Contents of Recharge Withdraw -->
@@ -26,9 +26,9 @@
                     <!-- Deposit money to be deposit my wallets -->
                     <DepositBalanceToWallets/>
                 </el-tab-pane>
-                <el-tab-pane label="Withdraw Record" name="deposit_withdraw_balance">
+                <el-tab-pane label="Payment Record" name="deposit_withdraw_balance">
                     <!-- Withdraw money to be withdraw my wallets -->
-                    <WithDrawBalanceToWallets/>
+                    <PaymentRecordHistory/>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -42,7 +42,8 @@
 import MyWalletBalanceTotal from "./MyWalletsTotalBalance.vue";
 import DepositBalanceToWallets from "./deposit/DepositToWalletList.vue";
 import PopupDepositToWallet from "./deposit/PopupDepositToWallet.vue";
-import WithDrawBalanceToWallets from "./withdraw/WithdrawToWalletsList.vue";
+// import WithDrawBalanceToWallets from "./withdraw/WithdrawToWalletsList.vue";
+import PaymentRecordHistory from "./PaymentRecordHistory.vue";
 import PopupWithDrawToWallet from "./withdraw/PopupWithDrawToWallet.vue";
 import CustomerDepositedToWalletService from '../../.././../services/my_wallets/deposited/CustomersDepositedServices';
 import {isLoggedIn} from '@/utils/auth/auth';
@@ -51,7 +52,7 @@ export default {
         MyWalletBalanceTotal,
         DepositBalanceToWallets,
         PopupDepositToWallet,
-        WithDrawBalanceToWallets,
+        PaymentRecordHistory,
         PopupWithDrawToWallet
     },
     props: {},
