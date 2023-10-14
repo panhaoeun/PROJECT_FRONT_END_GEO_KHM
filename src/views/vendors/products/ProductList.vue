@@ -111,15 +111,21 @@
                                     </template>
                                     <!-- Filter Products -->
                                     <template #filter="{ filterModel }">
-                                        <InputText v-model="filterModel.value" type="text" class="p-column-filter"
-                                            placeholder="Search by product name" />
+                                        <InputText v-model="filterModel.value"
+                                            type="text" 
+                                            class="p-column-filter"
+                                            placeholder="Search by product name" 
+                                        />
                                     </template>
                                 </Column>
 
                                 <Column field="id" :header="$t('product.purchasePrice')" sortField="product_unit_price"
                                     sortable>
                                     <template #body="{ data }">
-                                        {{ data?.product_unit_price }}
+                                        <div class="flex flex-column gap-2">
+                                            {{ currencyFormattedKHRiel(data?.product_unit_price_khr) }}
+                                            {{ currencyFormattedUSD(data?.product_unit_price) }}
+                                        </div>
                                     </template>
                                 </Column>
                                 <Column field="id" :header="$t('product.qty')" sortField="product_qty" sortable>
@@ -206,6 +212,16 @@ onBeforeMount(() => {
     // Filters
     initFilterData();
 });
+ // Convert Currency Amount
+const currencyFormattedKHRiel = (value) => {
+    return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+}
+const currencyFormattedUSD =  (value) => {
+    return Number(value ? value : 0).toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });  
+}
 // Initial Filter Data
 const initFilterData = () => {
     filtersData.value = {

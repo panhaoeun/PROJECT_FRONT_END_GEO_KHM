@@ -293,11 +293,6 @@
                     &nbsp; Add to Cart
                 </b-button>
             </p>
-            <hr />
-            <div
-                v-html="data[0]?.product[0].product_description_eng"
-                class="description-wra"
-            ></div>
         </div>
     </div>
 </template>

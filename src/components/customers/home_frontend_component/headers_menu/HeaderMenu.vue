@@ -242,7 +242,7 @@ import CustomerServicesBaseAdmin from '../../../../services/administrator/custom
 import AuthenticationsDataService from '@/services/authencationDataService';
 import router from "../../../../routes/routes";
 import {isLoggedIn} from '@/utils/auth/auth';
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
 import  CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
 export default {
@@ -257,7 +257,12 @@ export default {
         };
     },
     computed: {
-        ...mapState('cart', ['cart'])
+        ...mapGetters({
+            cart: 'cart/getCartAuthItem',  
+            cartTotal: 'cart/getTotal',
+            subtotal: 'cart/getSubTotal',
+            totalShipping: 'cart/cartTotalShipping',
+        }),
     },
     created() {
         this.customerCurrentId = new CustomerServicesBaseAdmin();

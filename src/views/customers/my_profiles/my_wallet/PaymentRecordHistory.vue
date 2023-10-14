@@ -17,7 +17,7 @@
    </div>
 </template>
 <script>
-import IconRielComponent from "@/components/icons/IconRielComponent.vue";
+import IconRielComponent from "@/components/icons/IconRielPayment.vue";
 export default {
     components: {
         IconRielComponent
