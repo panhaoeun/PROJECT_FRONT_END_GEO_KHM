@@ -16,11 +16,8 @@
             <Toast />
             <!-- Tabs -->
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
-                <form enctype="multipart/form-data" @submit.prevent="handleUserMSSubmit(!v$.$invalid)">
+                <form enctype="multipart/form-data" @submit.prevent="handleCreateVendorAccount(!v$.$invalid)">
                     <!--Form Submitted-->
-                    <Message severity="error" v-if="notifMSGUser">
-                        {{ notifMSGUser }}
-                    </Message>
                     <el-tab-pane :label='$t("route.routeGeneralInfo")' name="english-tabs">
                         <!-- English -->
                         <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
@@ -152,7 +149,7 @@
                                             <label for="roles" class="text-sm">Gender<span class="p-error">*</span></label>
                                            <div class="flex flex-column">
                                                 <Dropdown
-                                                 v-model="selectedUserGender"
+                                                v-model="selectedUserGender"
                                                 class="border-round-lg text-sm"
                                                 :options="userGender" 
                                                 optionLabel="name" placeholder="Select a Gender" />
@@ -212,7 +209,7 @@
                                                     v-model="selectOptValuePermission" 
                                                     inputId="id"
                                                     optionLabel="role_name" 
-                                                    placeholder="Select a Categories" 
+                                                    placeholder="Select a Role" 
                                                     aria-describedby="dd-error"
                                                     class="w-full border-round-lg text-sm">
                                                     <template #value="slotProps">
@@ -246,8 +243,15 @@
                                                 :file-list="fileList"
                                                 v-model="file" ref="file"
                                                 :limit="1"
+                                                accept=".jpg, .png, .jpeg"
+                                                :on-exceed="handleExceedVendorProfile"
                                             >
                                                 <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                <!-- Preview Image -->
+                                                <el-dialog v-model="dialogVisible">
+                                                    <img w-ful class="w-full" :src="this.dialogImageUrl"
+                                                        alt="Preview Image" />
+                                                </el-dialog>
                                             </el-upload>
                                             <div class="flex flex-column">
                                                 <small class="p-error" v-if="errMessageUploadFile">
@@ -291,13 +295,18 @@
 import { Plus } from '@element-plus/icons-vue';
 import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
+import VendorManagementsAccountServices from "@/services/vendors/vendor_managements/VendorManagementAccountServices";
+import UserPermissionsMSServices from "@/services/vendors/user_permissions/UserPermissionsMSServices";
 import { ElMessage } from 'element-plus';
+import {mapGetters} from "vuex";
+import { isLoggedIn } from "@/utils/auth/auth";
  
 export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
         return {
+            dialogVisible: false,
+            dialogImageUrl: null,
             activeName: 'english-tabs',
             activetab: 1,
             preview: null,
@@ -305,8 +314,7 @@ export default {
             optionsPerm: [],
             userGender: [
                 { name: 'Male', gender_name: 'male' },
-                { name: 'Female', gender_name: 'female' },
-                { name: 'Other', gender_name: 'other' },
+                { name: 'Female', gender_name: 'female' }
             ],
             image: null,
             userMSNameEng: '',
@@ -351,14 +359,15 @@ export default {
         Plus
     },
     created() {
-        this.userMSServices = new UserPermissionsMSServices();
+        this.vendorMSAccount = new VendorManagementsAccountServices();
+        this.userPerMSServices = new UserPermissionsMSServices();
         this.submit = true;
     },
     mounted() {
         // User Arr Vuex 
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
         //List Permissions
-        this.userMSServices.getListRolesData().then((data) => {
+        this.userPerMSServices.getListRolesData().then((data) => {
             if (!data) {
                 this.$notify.error({
                     title: 'Error Entries Users Role',
@@ -396,7 +405,18 @@ export default {
             }
         }
     },
+    computed:{
+         ...mapGetters({
+            currentUser: 'auth/currentUserAuth',
+        }),
+        currentUserAuth() {
+            return this.currentUser ? this.currentUser : null;
+        },
+    },
     methods: {
+        isSessionActiveVendor(){
+            return isLoggedIn();
+        },
         /*
             Get Permissions
         */
@@ -405,7 +425,7 @@ export default {
                 this.permissionList = {};
             }
             try {
-                this.userMSServices.editedPermMSByID(permissionID.value?.id).then((perMID) => {
+                this.userPerMSServices.editedPermMSByID(permissionID.value?.id).then((perMID) => {
                     if (!perMID) {
                         this.permissionList = Array.isArray() ?? [];
                     }
@@ -415,8 +435,7 @@ export default {
                     this.permissionList = {};
                 });
             } catch (error) {
-                ElMessage.error(error);
-                this.permissionList = [];
+               return Promise.reject(error);
             }
         },
         /*
@@ -439,20 +458,27 @@ export default {
             return true;
         },
         //============Uploads Files================
+        handleExceedVendorProfile(files,fileList){
+            this.$message.warning(
+                `Currently, 01 pictures are limited to be selected.
+                        This time, it is selected ${files.length} 
+                        Pictures selected ${files.length + fileList.length
+                } Pictures`
+            );
+        },
         handleChangeUser(file) {
             this.fileUserMS = file.raw;
             console.log(this.fileUserMS)
             //Check Upload File
             this.beforeAvatarUpload(file.raw);
-            this.objClassUserPer.upLoadHideUserMS = true;//上传图片后置upLoadHideUserMS为真，隐藏上传框
+            this.objClassUserPer.upLoadHideUserMS = true;
             this.objClassUserPer.upLoadShowUserMS = false;
         },
         handleRemove(file, fileList) {
             console.log(file, fileList)
-            this.objClassUserPer.upLoadShowUserMS = true;//删除图片后显示上传框
+            this.objClassUserPer.upLoadShowUserMS = true;
             this.objClassUserPer.upLoadHideUserMS = false;
         },
-        // 点击预览图的放大按钮后会触发handlePictureCardPreview
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
@@ -478,9 +504,9 @@ export default {
             };
             reader.readAsDataURL(fileObject);
         },
-        async handleUserMSSubmit(isFormValidUserMS) {
+        // Create Vendor Accounts
+        async handleCreateVendorAccount(isFormValidUserMS) {
             try {
-                // console.log(this.v$.proCategoryNameEng.required.$message.replace('Val)
                 this.submitted = true;
                 if (!isFormValidUserMS) {
                     if(!this.fileUserMS || this.fileUserMS !== ''){
@@ -497,46 +523,58 @@ export default {
                     || this.userMSPassword !== ''
                     || this.fileUserMS !== ''
                     || this.selectOptValuePermission !== ''
+                    || this.selectedUserGender !== ''
                 ) {
                     // Data Response
-                    const dataRes = {
-                        userRole: this.selectOptValuePermission?.id ?? 0,
+                    const dataVendorAccounts = {
+                        vendorRoleId: this.selectOptValuePermission?.id ?? 0,
                         userNameEng: this.userMSNameEng,
                         userNameKh: this.userMSNameKh,
                         userEmail: this.emailMSUser,
                         userPhone: this.userMSPhoneNum,
                         userPassword: this.userMSPassword,
-                        userType: 'Admin',
+                        userType: 'Vendor',
                         userProfile: this.fileUserMS,
                         userStatus: 'Active',
                         userDOB: this.userDateOfBirth,
-                        userGender: this.selectedUserGender.name,
-                        userAddress01:this.userAddress01,
-                        userAddress02:this.userAddress02,
-                        userCity: this.userAddrCity,
-                        userZipCode:this.userAddrZipCode,
-                        userNoted: this.userUserDescription,
+                        userGender: this.selectedUserGender?.name,
+                        vendorAddr01:this.userAddress01,
+                        vendorAddr02:this.userAddress02,
+                        vendorCity: this.userAddrCity,
+                        vendorZipCode:this.userAddrZipCode,
+                        vendorNoted: this.userUserDescription,
                     }
-                    this.userMSServices.createUserMS(dataRes).then((response) => {
+                    this.vendorMSAccount.createVendorAccountManagements(dataVendorAccounts).then((response) => {
                         if (response.data.success == true) {
-                            ElMessage.success(response.data.message);
+                            this.$notify.success({
+                                title: 'Successful crate vendor account',
+                                message: response.data?.message ? response.data?.message : '' ,
+                                showClose: true
+                            });
                             // Push Router
                             this.$router.push("/vendor/user/list/crete-user-auth/ui-user-list");
                         }
                     })
                     .catch(error => {
-                        console.log(error)
-                        ElMessage.error(error);
-                        if(error.response.data.success == false){
-                            this.notifMSGUser = (error.response.data.error.error.errors[0].message);
-                            ElMessage.error(error.response.data.error.error.errors[0].message);
-                        }
-                            return false;
-                        });
+                        this.$notify.error({
+                            title: 'Unsuccessfully create vendor account',
+                            message: error.response.data.error.message ?? 'Unsuccessfully vendor account',
+                            showClose: false
+                        });  
+                        if(error.response.data.error.error.errors){
+                            for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                this.$notify.error({
+                                    title: 'Unsuccessfully vendor account',
+                                    message: messageValidation ?? 'Unsuccessfully vendor account',
+                                    showClose: true
+                                });   
+                            }
+                        } 
+                    });
                 }
             } catch (error) {
-                //  Toast Alert 
-                ElMessage.error(error);
+                return Promise.reject(error);
             }
         },
         resetForm() {
@@ -549,21 +587,18 @@ export default {
   
 <!-- Style Upload Image -->
 <style>
-/*当upLoadShowUserMS为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
 .upLoadShowUserMS .el-upload {
     width: 15rem !important;
     height: 15rem !important;
     line-height: 15rem !important;
 }
 
-/*当upLoadHideUserMS为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
 .upLoadHideUserMS .el-upload-list--picture-card .el-upload-list__item {
     width: 15rem !important;
     height: 15rem !important;
     line-height: 15rem !important;
 }
 
-/*当upLoadHideUserMS为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
 .upLoadHideUserMS .el-upload {
     display: none;
 }

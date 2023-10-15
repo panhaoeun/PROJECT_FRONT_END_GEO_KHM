@@ -7,18 +7,16 @@
                 {{ $t('users.listUsers') }}
             </h2>
             <!-- Permissions Modules -->
-            <div class="d-flex text-sm align-items-center gap-3 flex justify-content-between"
-                v-permission="[{ functionName: 'users_modules', moduleName: 'fun_create' }]">
-                <router-link to="/vendor/user/list/crete-user-auth/ui-user-create"
-                    class="text-center btn btn-primary d-flex gap-2">
-                    <svg width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <span class="text-sm">{{ $t('users.addUsers') }}</span>
-                </router-link>
-            </div>
+            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                <el-button type="info" size="large" class="btn btn-primary"
+                    @click.prevent="$router.push('/vendor/vendor-list/create-account-vendor')"
+                    v-permission="[{ functionName: 'users_modules', moduleName: 'fun_create' }]">
+                    <div class="button">
+                        <i class="pi pi-plus" style="font-size: 1rem"></i>
+                        <span class="pl-2">{{ $t('users.addUsers') }}</span>
+                    </div>
+                </el-button>
+            </template>
         </div>
         <div class="gird">
             <div class="col-12">
@@ -80,12 +78,16 @@
                                     </Column>
                                     <Column :exportable="false" header="Options" style="min-width: 8rem">
                                         <template #body="slotProps">
-                                            <Button v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
+                                            <!-- Vendor Account Edited -->
+                                            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                                                <Button v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
                                                 icon="pi pi-pencil" outlined rounded class="mr-2" @click="
                                                     $router.push({
-                                                        path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data?.user_id}`,
+                                                        path: `/vendor/vendor-list/updated-account-vendor/${slotProps.data?.user_id}`,
                                                     })
-                                                    " />
+                                                " />
+                                            </template>
+                                            <!-- Admin Account Edited -->
                                             <Button
                                                 v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"
                                                 icon="pi pi-trash" outlined rounded severity="danger" @click="
@@ -123,6 +125,8 @@
 import { FilterMatchMode } from "primevue/api";
 import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
 import { ElMessage } from "element-plus";
+import { isLoggedIn } from "@/utils/auth/auth";
+import {mapGetters} from "vuex";
 export default {
     data() {
         return {
@@ -152,20 +156,18 @@ export default {
             this.usersListArr = data;
         });
     },
-    computed: {
-        dataUrl(preImg) {
-            return (
-                "data:image/jpeg;base64," +
-                btoa(
-                    new Uint8Array(preImg).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        ""
-                    )
-                )
-            );
+   computed:{
+         ...mapGetters({
+            currentUser: 'auth/currentUserAuth',
+        }),
+        currentUserAuth() {
+            return this.currentUser ? this.currentUser : null;
         },
     },
     methods: {
+         isSessionActiveVendor(){
+            return isLoggedIn();
+        },
         confirmDeleteUserMS(userId) {
             this.usersID = userId;
             this.deleteUsersDialog = true;

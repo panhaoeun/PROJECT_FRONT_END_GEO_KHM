@@ -366,10 +366,13 @@
                                                         <label for="name_en" class="text-sm font-semibold">Thumbnail
                                                             (Available 1 Image Uploads) <span class="p-error">*</span>
                                                         </label>
-                                                        <el-upload action="#" list-type="picture-card"
+                                                        <el-upload action="#"
+                                                            list-type="picture-card"
                                                             :on-preview="handlePictureCardPreview"
-                                                            :on-remove="handleRemoveThumbnail" :auto-upload="false"
-                                                            :on-change="handleChangeFileUpdated" accept=".jpg, .png, .jpeg"
+                                                            :on-remove="handleRemoveThumbnail" 
+                                                            :auto-upload="false"
+                                                            :on-change="handleChangeFileUpdated" 
+                                                            accept=".jpg, .png, .jpeg"
                                                             :on-exceed="handleExceedThumbnail" 
                                                             :file-list="fileListThumbnail"
                                                             v-model="proThumbnail" ref="proThumbnail" :limit="1">
