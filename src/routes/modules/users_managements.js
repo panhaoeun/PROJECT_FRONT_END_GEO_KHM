@@ -124,6 +124,31 @@ const defaultChildRoutesUsersMS = (prefix) => [
         hidden: true,
         component: () => import("../../views/administrators/user_managements/users/UserMSCreateUpdated.vue"),
     }, 
+    /*
+      @Vendor Managements
+    */
+    {
+         path: "/vendor/vendor-list/create-account-vendor",
+         name: prefix + '.create_vendor_account',
+         meta: {
+             title: "usersMS",
+             requiresAuth: true,
+             permissions: ['users_modules']
+         },
+         hidden: true,
+         component: () => import("../../views/vendors/vendor_management_account/CreateVendorAccount.vue"),
+    },
+    {
+        path: "/vendor/vendor-list/updated-account-vendor/:id",
+        name: prefix + '.updated_vendor_account',
+        meta: {
+            title: "usersMS",
+            requiresAuth: true,
+            permissions: ['users_modules']
+        },
+        hidden: true,
+        component: () => import("../../views/vendors/vendor_management_account/UpdatedVendorAccount.vue"),
+    },
     /**
      * @Role and Permissions Managements
     * **/

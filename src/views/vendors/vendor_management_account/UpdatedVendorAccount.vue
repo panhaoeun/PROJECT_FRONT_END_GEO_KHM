@@ -2,7 +2,7 @@
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
-            <h2 class="relative text-black text-xl section section-title:before">{{$t("users.addUsers")}}</h2>
+            <h2 class="relative text-black text-xl section section-title:before">{{$t("userinfo.editUser")}}</h2>
             <el-button class="btn btn-primary text-sm" type="info" size="default" @click.prevent="$router.push('/vendor/user/list/crete-user-auth/ui-user-list')">
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
@@ -16,7 +16,7 @@
             <Toast />
             <!-- Tabs -->
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
-                <form enctype="multipart/form-data" @submit.prevent="handleUserMSSubmit(!v$.$invalid)">
+                <form enctype="multipart/form-data" @submit.prevent="handleCreateVendorAccount(!v$.$invalid)">
                     <!--Form Submitted-->
                     <el-tab-pane :label='$t("route.routeGeneralInfo")' name="english-tabs">
                         <!-- English -->
@@ -29,7 +29,7 @@
                                         <!-- Name Khmer -->
                                         <div class="field">
                                             <label for="name_en" class="text-sm">{{ $t('userinfo.fullNameInKhmer') }}<span class="p-error">*</span></label>
-                                            <InputText id="userMSNameKh" placeholder="English Name" type="text"
+                                            <InputText id="userMSNameKh" placeholder="Khmer Name" type="text"
                                                 class="py-3 border-round-lg text-sm" v-model="v$.userMSNameKh.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSNameKh.$invalid && submitted }" />
                                             <small
@@ -44,7 +44,7 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en" class="text-sm">{{ $t('userinfo.fullNameInEn') }}<span class="p-error">*</span></label>
-                                             <InputText id="product_name" placeholder="Khmer Name" type="text"
+                                             <InputText id="product_name" placeholder="English Name" type="text"
                                                 class="py-3 border-round-lg text-sm" v-model="v$.userMSNameEng.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSNameEng.$invalid && submitted }" />
                                             <small
@@ -88,19 +88,27 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Password -->
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Password<span class="p-error">*</span></label>
+                                            <label for="name_en" class="text-sm">Current Password<span class="p-error">*</span></label>
                                             <Password id="userMSPassword" 
                                                 placeholder="Password" 
                                                 type="text"
                                                 toggleMask
                                                 ref="MSPasswordRef"
-                                                class="border-round-lg text-sm" v-model="v$.userMSPassword.$model"
-                                                :class="{ 'p-invalid p-error': v$.userMSPassword.$invalid && submitted }" />
-                                            <small
-                                                v-if="(v$.userMSPassword.$invalid && submitted) || v$.userMSPassword.$pending.$response"
-                                                class="p-error">{{ v$.userMSPassword.required.$message.replace('Value',
-                                                    'Password') || v$.userMSPassword.$params.min }}
-                                            </small>
+                                                class="border-round-lg text-sm" v-model="currentMSPassword"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 field">
+                                        <!-- Password -->
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">New Password<span class="p-error">*</span></label>
+                                            <Password id="userMSPassword" 
+                                                placeholder="Password" 
+                                                type="text"
+                                                toggleMask
+                                                ref="MSPasswordRef"
+                                                class="border-round-lg text-sm" v-model="userMSPassword"
+                                            />
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-4 field">
@@ -112,15 +120,9 @@
                                                 @input="validationConfirmPass"
                                                 class="border-round-lg text-sm"
                                                 v-model="confirmPassword"
-                                                :class="{'p-invalid p-error' : v$.confirmPassword.$invalid && submitted }"
                                             />
                                             <!-- Validations -->
                                             <div class="flex-column flex">
-                                                <small
-                                                    v-if="(v$.confirmPassword.$invalid && submitted) || v$.confirmPassword.$pending.$response"
-                                                    class="p-error">{{ v$.confirmPassword.required.$message.replace('Value',
-                                                        'Confirm Password') || v$.confirmPassword.$params.min }}
-                                                </small>
                                                 <small class="p-error" v-if="errMessageConfirm">
                                                     {{ errMessageConfirm }}
                                                 </small> 
@@ -133,29 +135,12 @@
                                             <label for="name_en" class="text-sm">Date Of Birth<span class="p-error">*</span></label>
                                             <Calendar 
                                                 placeholder="Date of birth" 
-                                                type="text"
                                                 class="border-round-lg text-sm" v-model="v$.userDateOfBirth.$model"
                                                 :class="{ 'p-invalid p-error': v$.userDateOfBirth.$invalid && submitted }" />
                                             <small
                                                 v-if="(v$.userDateOfBirth.$invalid && submitted) || v$.userDateOfBirth.$pending.$response"
                                                 class="p-error">{{ v$.userDateOfBirth.required.$message.replace('Value',
                                                     'Date of Birth') || v$.userDateOfBirth.$params.min }}
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <!-- Started Dated -->
-                                    <div class="col-12 col-lg-4 field">
-                                        <div class="field">
-                                            <label for="name_en" class="text-sm">Start Date<span class="p-error">*</span></label>
-                                            <Calendar 
-                                                placeholder="Start Date" 
-                                                type="text"
-                                                class="border-round-lg text-sm" v-model="v$.userStartDate.$model"
-                                                :class="{ 'p-invalid p-error': v$.userStartDate.$invalid && submitted }" />
-                                            <small
-                                                v-if="(v$.userStartDate.$invalid && submitted) || v$.userStartDate.$pending.$response"
-                                                class="p-error">{{ v$.userStartDate.required.$message.replace('Value',
-                                                    'Start Date') || v$.userStartDate.$params.min }}
                                             </small>
                                         </div>
                                     </div>
@@ -168,8 +153,11 @@
                                                     v-model="selectedUserGender"
                                                     class="border-round-lg text-sm"
                                                     :options="userGender" 
-                                                    optionLabel="name" placeholder="Select a Gender" 
-                                                    :class="{ 'p-invalid p-error': v$.selectedUserGender.$invalid && submitted }"
+                                                    :showClear="true"
+                                                    optionLabel="name" 
+                                                    option-value="name"
+                                                    placeholder="Select a Gender" 
+                                                    :class="{ 'p-invalid p-error': v$.selectedUserGender.$invalid && submitted }" 
                                                 />
                                                 <small
                                                     v-if="(v$.selectedUserGender.$invalid && submitted) || v$.selectedUserGender.$pending.$response"
@@ -179,21 +167,63 @@
                                            </div>
                                         </div>
                                     </div>
-                                    <!--User Roles -->
+                                    <!--=========User Address===========-->
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">Address 01<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddress01" 
+                                                placeholder="Address 01" 
+                                                type="text"
+                                                class="py-3 border-round-lg text-sm" v-model="userAddress01" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">Address 02<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddress02" 
+                                                placeholder="Address 02" 
+                                                type="text"
+                                                class="py-3 border-round-lg text-sm" v-model="userAddress02" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">City<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddrCity" 
+                                                placeholder="City" 
+                                                type="text"
+                                                class="py-3 border-round-lg text-sm" v-model="userAddrCity" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">Zip Code<span class="p-error">*</span></label>
+                                            <InputText 
+                                                id="userAddrZipCode" 
+                                                placeholder="Zip Code" 
+                                                type="text"
+                                                class="py-3 border-round-lg text-sm" v-model="userAddrZipCode" />
+                                        </div>
+                                    </div>
+                                <!--=========User Address===========-->
+                                    <!--User Permissions -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles" class="text-sm">Roles<span class="p-error">*</span></label>
                                             <Dropdown 
                                                 @change="getPermissionCurrent"
                                                 :options="permissionListDropDownView" 
-                                                filter  
+                                                :filter="true"  
                                                 v-model="selectOptValuePermission" 
                                                 inputId="id"
                                                 optionLabel="role_name" 
                                                 placeholder="Select a Role" 
                                                 aria-describedby="dd-error"
                                                 class="w-full border-round-lg text-sm"
-                                                :class="{ 'p-invalid p-error': v$.selectOptValuePermission.$invalid && submitted }"
+                                                :class="{ 'p-invalid p-error': v$.selectOptValuePermission.$invalid && submitted }" 
                                             >
                                                     <template #value="slotProps">
                                                         <div v-if="slotProps.value" class="flex align-items-center">
@@ -216,36 +246,32 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <!--=========User Address===========-->
-                                    <div class="col-12 col-lg-12 field">
-                                        <div class="field">
-                                            <label for="name_en" class="text-sm">Address</label>
-                                            <Textarea 
-                                                id="userAddress01" 
-                                                placeholder="Address" 
-                                                type="text"
-                                                class="py-3 border-round-lg text-sm" v-model="userAddress01" />
-                                        </div>
-                                    </div>
-                                    <!--=========User Address===========-->
                                     <!-- Upload Profile -->
                                     <div class="col-12 field">
                                         <!--Category Logo -->
                                         <div class="field">
                                             <label for="name_en" class="text-sm">Profile Image<span class="p-error">*</span> </label>
                                             <!-- Upload Files -->
-                                            <el-upload action="#" list-type="picture-card"
+                                            <el-upload 
+                                                action="#"
+                                                list-type="picture-card"
                                                 :on-preview="handlePictureCardPreview"
                                                 :on-remove="handleRemove"
                                                 :auto-upload="false" 
                                                 :on-change="handleChangeUser" 
                                                 :class="objClassUserPer"
-                                                :file-list="fileList"
-                                                v-model="file" ref="file"
+                                                :on-exceed="handleExceedVendorProfile"
+                                                :file-list="fileListVendorProfile"
+                                                ref="file"
                                                 :limit="1"
                                                 accept=".jpg, .png, .jpeg"
                                             >
                                                 <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                <!-- Preview Image -->
+                                                <el-dialog v-model="dialogVisible">
+                                                    <img w-ful class="w-full" :src="this.dialogImageUrl"
+                                                        alt="Preview Image" />
+                                                </el-dialog>
                                             </el-upload>
                                             <div class="flex flex-column">
                                                 <small class="p-error" v-if="errMessageUploadFile">
@@ -257,7 +283,7 @@
                                     <!--User Noted -->
                                     <div class="col-12 col-lg-12 field">
                                         <div class="field">
-                                            <label for="">Descriptions</label>
+                                            <label for="">Descriptions<span class="p-error">*</span></label>
                                             <Editor
                                                 editorStyle="height: 400px" 
                                                 id="userUserDescription" 
@@ -288,25 +314,29 @@
 import { Plus } from '@element-plus/icons-vue';
 import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
+import VendorManagementsAccountServices from "@/services/vendors/vendor_managements/VendorManagementAccountServices";
+import UserPermissionsMSServices from "@/services/vendors/user_permissions/UserPermissionsMSServices";
 import { ElMessage } from 'element-plus';
+import {mapGetters} from "vuex";
+import { isLoggedIn } from "@/utils/auth/auth";
  
 export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
         return {
+            ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE,
             activeName: 'english-tabs',
-            dialogImageUrl: null,
             dialogVisible: false,
+            dialogImageUrl: null,
             activetab: 1,
             preview: null,
             errMessageConfirm: '',
             optionsPerm: [],
             userGender: [
                 { name: 'Male', gender_name: 'male' },
-                { name: 'Female', gender_name: 'female' },
-                { name: 'Other', gender_name: 'other' },
+                { name: 'Female', gender_name: 'female' }
             ],
+            currentGender: '',
             image: null,
             userMSNameEng: '',
             userMSNameKh: '',
@@ -315,8 +345,8 @@ export default {
             userMSPhoneNum: '',
             userMSPassword: '',
             confirmPassword: '',
+            currentMSPassword: '',
             userMSDesEng: '',
-            userStartDate: '',
             userMSDesKh: '',
             userMSImgFileURL: null,
             submitted: false,
@@ -345,27 +375,41 @@ export default {
             notifMSGUser: '',
             permissionListDropDownView: [],
             permissionList: '',
+            userResultArr: [],
+            vendorResultArr: [],
+            fileListVendorProfile: [],
+            currentRoleId: 0
         }
     },
     components() {
         Plus
     },
     created() {
-        this.userMSServices = new UserPermissionsMSServices();
+        this.vendorMSAccount = new VendorManagementsAccountServices();
+        this.userPerMSServices = new UserPermissionsMSServices();
         this.submit = true;
+        // Edited Vendor Accounts
+        this.editUserMSUpdated(this.$route.params.id);
     },
     mounted() {
         // User Arr Vuex 
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
         //List Permissions
-        this.userMSServices.getListRolesData().then((perm) => {
-            if (!perm) {
+        this.userPerMSServices.getListRolesData().then((permission) => {
+             if (!Array.isArray(permission) || !permission.length > 0) {
                 this.$notify.error({
                     title: 'Error Entries Users Role',
                     showClose: false
                 });
             }
-            this.permissionListDropDownView = perm;
+            if (!Array.isArray(permission) || permission !== undefined || permission !== null) {
+                permission.forEach(perm => {
+                    this.permissionListDropDownView.push({
+                        id: perm?.id,
+                        role_name: perm?.role_name,
+                    });
+                });
+            }
         });
     },
     //Validations
@@ -374,7 +418,7 @@ export default {
             selectOptValuePermission: {
                 required
             },
-            selectedUserGender: {
+            selectedUserGender:{
                 required
             },
             userMSNameEng: {
@@ -384,9 +428,6 @@ export default {
             userDateOfBirth: {
                 required
             },
-            userStartDate: {
-                required
-            },
             userMSNameKh: {
                 required,
                 minLength: minLength(3)
@@ -394,18 +435,42 @@ export default {
             userMSPhoneNum: {
                 required,
                 minLength: minLength(6),
-            },
-            userMSPassword: {
-                required,
-                minLength: minLength(6),
-            },
-            confirmPassword: {
-                required,
-                minLength: minLength(6),
             }
         }
     },
+    computed:{
+         ...mapGetters({
+            currentUser: 'auth/currentUserAuth',
+        }),
+        currentUserAuth() {
+            return this.currentUser ? this.currentUser : null;
+        },
+        selectedIdRoleId: {
+           get() {
+                return this.permissionListDropDownView.find(perm => perm?.role_name);
+           },
+           set(permission) {
+                this.permissionListDropDownView.find(perm =>  perm?.id === permission?.id);
+                this.permissionListDropDownView.find(perm => perm?.role_name && perm?.id !== permission?.id);
+
+           }
+        }
+    },
     methods: {
+        formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+            return [month,day,year].join('/');
+        },
+        isSessionActiveVendor(){
+            return isLoggedIn();
+        },
         /*
             Get Permissions
         */
@@ -414,17 +479,17 @@ export default {
                 this.permissionList = {};
             }
             try {
-                this.userMSServices.editedPermMSByID(permissionID.value?.id).then((perMID) => {
+                this.userPerMSServices.editedPermMSByID(permissionID.value?.id).then((perMID) => {
                     if (!perMID) {
                         this.permissionList = Array.isArray() ?? [];
                     }
                     this.permissionList =  Array.isArray(perMID) ? perMID.slice() : [];
                 }).catch((err) => {
-                    ElMessage.error(err.message);
                     this.permissionList = {};
+                    return Promise.reject(err);
                 });
             } catch (error) {
-                this.permissionList = [];
+               return Promise.reject(error);
             }
         },
         /*
@@ -447,6 +512,14 @@ export default {
             return true;
         },
         //============Uploads Files================
+        handleExceedVendorProfile(files,fileList){
+            this.$message.warning(
+                `Currently, 01 pictures are limited to be selected.
+                        This time, it is selected ${files.length} 
+                        Pictures selected ${files.length + fileList.length
+                } Pictures`
+            );
+        },
         handleChangeUser(file) {
             this.fileUserMS = file.raw;
             console.log(this.fileUserMS)
@@ -456,7 +529,8 @@ export default {
             this.objClassUserPer.upLoadShowUserMS = false;
         },
         handleRemove(file, fileList) {
-            console.log(file, fileList)
+            const fileRemoveUpload = Array.from(file);
+            fileRemoveUpload.splice(fileList,0);
             this.objClassUserPer.upLoadShowUserMS = true;
             this.objClassUserPer.upLoadHideUserMS = false;
         },
@@ -477,14 +551,77 @@ export default {
         uploadFile() {
             this.file = this.$refs.file.files[0];
         },
-        createBase64Image(fileObject) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.file = e.target.result;
-            };
-            reader.readAsDataURL(fileObject);
+        //Vendor Profile 
+        async reListVendorProfile(profile){
+            const productImg = `${this.ENV_HOST_PATH_FILE}uploads/user_profile/vendor_seller/${profile}`;
+            // Push Thumbnail
+            this.fileListVendorProfile.push({
+                name: profile ? profile : '',
+                url: productImg
+            });
         },
-        async handleUserMSSubmit(isFormValidUserMS) {
+        /**
+         * @Edited Vendor Management
+         * @Updated Vendor Management
+        * */
+        async editUserMSUpdated(id) {
+            this.userPerMSServices
+                .editedUserMSByID(id)
+                .then((userId) => {
+                    if (
+                        this.currentUserAuth[1].typeUser === "Vendor" &&
+                        this.currentUserAuth[1].typeUser !== "Customer"
+                    ) {
+                        try {
+                            if (userId.data.success == true) {
+                                if (!Array.isArray(userId.data.result?.resultStatus) || !userId.data.result?.resultStatus.length > 0) {
+                                    this.userResultArr = [];
+                                    this.vendorResultArr = [];
+                                }
+                                if (!Array.isArray(userId.data.result?.resultStatus) || userId.data.result?.resultStatus !== undefined || userId.data.result?.resultStatus !== null) {
+                                    const userResult = userId.data.result.resultStatus.userResult;
+                                    const vendorResult = userId.data.result.resultStatus.empResult;
+                                    // Get Filed Updated Vendor
+                                    // Vendor Profile
+                                    this.reListVendorProfile(vendorResult?.profile ?? '');
+                                    this.userMSNameEng = vendorResult?.name_eng ?? '';
+                                    this.userMSNameKh = vendorResult?.name_kh ?? '';
+                                    this.emailMSUser = userResult?.user_email ?? '';
+                                    this.userMSPhoneNum = userResult?.user_phonenumber ?? 0;
+                                    this.userDateOfBirth = this.formatDate(vendorResult?.dob) ?? '';
+                                    this.userAddress01 = vendorResult?.address01 ?? '';
+                                    this.userAddress02 = vendorResult?.address02 ?? '';
+                                    this.userAddrCity = vendorResult?.vendor_city ?? '';
+                                    this.userAddrZipCode = vendorResult?.vendor_zipcode ?? '';
+                                    this.userUserDescription = vendorResult?.vendor_noted ?? '';
+                                    this.selectedUserGender = vendorResult?.gender ?? '';
+                                    // Current Gender
+                                    this.currentGender = vendorResult?.gender ?? '';
+                                    this.currentRoleId = userResult?.role_id; 
+                                    //   
+                                    if(userResult !== undefined){
+                                        userResult.forEach((result) => {
+                                            if(!result){
+                                                this.selectOptValuePermission = [];
+                                            }
+                                            this.selectOptValuePermission =  {id: result?.role_id, role_name: result?.role_name};
+                                        })
+                                    }else{
+                                        this.selectOptValuePermission = [];
+                                    }
+                                }                               
+                            }
+                        } catch (error) {
+                          return Promise.reject(error);
+                        }
+                    }
+                })
+                .catch((err) => {
+                    return Promise.reject(err);
+                });
+        },
+        // Create Vendor Accounts
+        async handleCreateVendorAccount(isFormValidUserMS) {
             try {
                 this.submitted = true;
                 if (!isFormValidUserMS) {
@@ -502,29 +639,33 @@ export default {
                     || this.userMSPassword !== ''
                     || this.fileUserMS !== ''
                     || this.selectOptValuePermission !== ''
+                    || this.selectedUserGender !== ''
                 ) {
                     // Data Response
-                    const dataRes = {
-                        empRoleId: this.selectOptValuePermission?.id ?? 0,
-                        empNameEng: this.userMSNameEng,
-                        empNameKh: this.userMSNameKh,
-                        empEmail: this.emailMSUser,
-                        empPhone: parseInt(this.userMSPhoneNum),
-                        empPassword: this.userMSPassword,
-                        empType: 'Admin',
+                    const dataVendorAccounts = {
+                        vendorRoleId: this.selectOptValuePermission?.id ?? 0,
+                        userNameEng: this.userMSNameEng,
+                        userNameKh: this.userMSNameKh,
+                        userEmail: this.emailMSUser,
+                        userPhone: parseInt(this.userMSPhoneNum),
+                        currentPassword: this?.currentMSPassword,
+                        newPassword: this?.userMSPassword,
+                        userType: 'Vendor',
                         userProfile: this.fileUserMS,
-                        empStatus: 'Approved',
-                        orgDepartId: 1,
-                        empStartDate: this.userStartDate,
-                        empDOB: this.userDateOfBirth,
-                        empGender: this.selectedUserGender?.name,
-                        empAddress:this.userAddress01,
-                        empNoted: this.userUserDescription,
+                        userStatus: 'Active',
+                        dobVendor: new Date(this.userDateOfBirth).toISOString(),
+                        vendorGender: this.selectedUserGender?.name ? this.selectedUserGender?.name : this.currentGender,
+                        vendorAddr01:this.userAddress01,
+                        vendorAddr02:this.userAddress02,
+                        vendorCity: this.userAddrCity,
+                        vendorZipCode:this.userAddrZipCode,
+                        vendorNoted: this.userUserDescription,
                     }
-                    this.userMSServices.createEmpAdminAccount(dataRes).then((response) => {
+                    const vendorId = this.$route.params?.id;
+                    this.vendorMSAccount.updatedVendorAccountManagements(vendorId,dataVendorAccounts).then((response) => {
                         if (response.data.success == true) {
-                           this.$notify.success({
-                                title: 'Successfully create employee account',
+                            this.$notify.success({
+                                title: 'Successful updated vendor account',
                                 message: response.data?.message ? response.data?.message : '' ,
                                 showClose: true
                             });
@@ -534,21 +675,20 @@ export default {
                     })
                     .catch(error => {
                         this.$notify.error({
-                            title: 'Unsuccessfully create employee account',
-                            message: error.response.data.error.message ?? 'Unsuccessfully create employee account',
-                            showClose: true
+                            title: 'Unsuccessfully updated vendor account',
+                            message: error.response.data.error.message ?? 'Unsuccessfully updated vendor account',
+                            showClose: false
                         });  
                         if(error.response.data.error.error.errors){
                             for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
                                 const messageValidation = error.response.data.error.error.errors[index].message ?? '';
                                 this.$notify.error({
-                                    title: 'Unsuccessfully create employee account',
-                                    message: messageValidation ?? 'Unsuccessfully create employee account',
+                                    title: 'Unsuccessfully updated vendor account',
+                                    message: messageValidation ?? 'Unsuccessfully updated vendor account',
                                     showClose: true
                                 });   
                             }
                         } 
-                        return false;
                     });
                 }
             } catch (error) {

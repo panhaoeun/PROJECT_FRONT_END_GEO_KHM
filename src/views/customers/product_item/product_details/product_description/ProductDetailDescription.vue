@@ -1,5 +1,5 @@
 <template>
-    <div class="description-review-wrapper pb-110">
+    <div class="description-review-wrapper bg-white pb-110">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -12,8 +12,7 @@
                     <div class="tab-content dec-review-bottom px-2 py-2">
                         <!-- Descriptions -->
                         <div id="des-details1" role="tabpanel" aria-labelledby="des-details1-tab" class="tab-pane active pt-20">
-                            <div class="description-wrap content-descriptions">
-                                {{ productDescEng ?? '' }}
+                            <div v-html="productDescEng ? productDescEng : ''" class="description-wrap overflow-auto  mt-2 line-height-3 content-descriptions flex-wrap">
                             </div>
                         </div>
                         <!-- <div id="des-details2" role="tabpanel" aria-labelledby="des-details2-tab" class="tab-pane pt-20">

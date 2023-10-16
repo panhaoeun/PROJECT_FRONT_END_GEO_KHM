@@ -130,7 +130,7 @@
                                         border: 1px solid rgb(4, 166, 190);
                                     "
                                     :track-by="expressDelivery"
-                                    @click="selectExpressDeliveryShippingPrice"
+                                    @change="selectExpressDeliveryShippingPrice"
                                     v-model="selectedShippingExpressDelivery"
                                 >
                                     <option
@@ -293,11 +293,6 @@
                     &nbsp; Add to Cart
                 </b-button>
             </p>
-            <hr />
-            <div
-                v-html="data[0]?.product[0].product_description_eng"
-                class="description-wra"
-            ></div>
         </div>
     </div>
 </template>
@@ -541,8 +536,6 @@ export default {
             } else {
                 // Check Empty Selected Product Spec
                 if (this.currentSelected) {
-                    console.log(this.expressOptionSelected
-                            .deliveryName)
                     // Disable the popover in case the add to cart is possible
                     Object.keys(this.selectedCustomizations).forEach((key) => {
                         if (

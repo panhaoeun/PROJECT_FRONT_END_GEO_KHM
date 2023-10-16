@@ -69,6 +69,7 @@
                                                 <PaymentDetail 
                                                     v-if="isSessionActive()" 
                                                     :selected="selectPaymentMethod"
+                                                    :orderPayNoted="customerOrderNoted"
                                                     :currentBalanceUSD="currentBalanceUSD"
                                                     :currentBalanceKHR="currentBalanceKHR"
                                                 />
@@ -83,7 +84,9 @@
                                 </div>
                                 <!-- Place Order -->
                                 <div class="Place-order" v-if="isSessionActive() && orderDetaiL.length > 0">
-                                    <router-link to="#" @click.prevent="handleCheckOutPayment()">Place Order</router-link>
+                                    <template v-if="paymentMethods === 'CashOnDelivery' || paymentMethods == '' || paymentMethods === null && paymentMethods !== 'PayByWallet'">
+                                        <router-link to="#" @click.prevent="handleCheckOutPayment()">Place Order</router-link>
+                                    </template>
                                 </div>
                                 <div v-else>
                                     <p>You need to log in first before starting checkout process</p>

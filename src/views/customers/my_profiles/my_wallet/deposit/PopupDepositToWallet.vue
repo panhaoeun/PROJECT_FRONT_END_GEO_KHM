@@ -82,9 +82,8 @@
                                 <!-- Title Noted Upload -->
                                 <div class="text-sm flex">
                                     <span class="p-error"> *</span>
-                                    <span>
+                                    <span class="flex flex-column">
                                         Please upload pictures according to the examples.
-                                        Incorrect or unclear pictures will cause the review to be slow or incomplete.
                                     </span>
                                 </div>
                             </el-form-item>

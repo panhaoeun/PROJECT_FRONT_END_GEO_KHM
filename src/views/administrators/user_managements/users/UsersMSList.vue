@@ -7,18 +7,28 @@
                 {{ $t('users.listUsers') }}
             </h2>
             <!-- Permissions Modules -->
-            <div class="d-flex text-sm align-items-center gap-3 flex justify-content-between"
-                v-permission="[{ functionName: 'users_modules', moduleName: 'fun_create' }]">
-                <router-link to="/vendor/user/list/crete-user-auth/ui-user-create"
-                    class="text-center btn btn-primary d-flex gap-2">
-                    <svg width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <span class="text-sm">{{ $t('users.addUsers') }}</span>
-                </router-link>
-            </div>
+            <!-- Vendor -->
+            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                <el-button type="info" size="large" class="btn btn-primary"
+                    @click.prevent="$router.push('/vendor/vendor-list/create-account-vendor')"
+                    v-permission="[{ functionName: 'users_modules', moduleName: 'fun_create' }]">
+                    <div class="button">
+                        <i class="pi pi-plus" style="font-size: 1rem"></i>
+                        <span class="pl-2">{{ $t('users.addUsers') }}</span>
+                    </div>
+                </el-button>
+            </template>
+            <!-- Admin -->
+            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
+                <el-button type="info" size="large" class="btn btn-primary"
+                    @click.prevent="$router.push('/vendor/user/list/crete-user-auth/ui-user-create')"
+                    v-permission="[{ functionName: 'users_modules', moduleName: 'fun_create' }]">
+                    <div class="button">
+                        <i class="pi pi-plus" style="font-size: 1rem"></i>
+                        <span class="pl-2">{{ $t('users.addUsers') }}</span>
+                    </div>
+                </el-button>
+            </template>
         </div>
         <div class="gird">
             <div class="col-12">
@@ -63,36 +73,61 @@
                                     <Column field="user_phonenumber" :header="$t('users.userPhone')" sortable
                                         style="min-width: 20rem"></Column>
                                     <!-- <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column> -->
-                                    <Column field="role_name" :header="$t('route.role')" sortable style="min-width: 20rem">
-
-                                    </Column>
+                                    <Column field="role_name" :header="$t('route.role')" sortable style="min-width: 20rem"></Column>
                                     <Column v-permission="[{ functionName: 'permissions_module', moduleName: 'fun_edit' }]"
-                                        field="category" :header="$t('route.status')" sortable style="min-width: 10rem">
+                                        field="status" :header="$t('route.status')" sortable style="min-width: 10rem">
                                         <template #body="slotProps">
-                                            <div class="font-bold">
-                                                <el-switch
-                                                    v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
-                                                    @click="changeStatusUsers(slotProps.data.user_id, slotProps.data.user_status)"
-                                                    :key="slotProps?.data.user_id" id="slotProps?.data.user_id"
-                                                    v-model="slotProps.data.user_status" />
-                                            </div>
+                                            <template v-if="slotProps.data?.role_name !== 'Owner' || slotProps.data?.role_name !== 'Super Admin' || slotProps.data?.role_name !== 'Admin'">
+                                                <div class="font-bold">
+                                                    {{ slotProps.data?.user_status === true }}
+                                                    <el-switch
+                                                        v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
+                                                        @click="changeStatusUsers(slotProps.data?.user_id, slotProps.data?.user_status, $event)"
+                                                        :key="slotProps?.data.user_id" id="slotProps?.data.user_id"
+                                                        v-model="slotProps.data.user_status" 
+                                                    />
+                                                </div>
+                                            </template>
                                         </template>
                                     </Column>
                                     <Column :exportable="false" header="Options" style="min-width: 8rem">
                                         <template #body="slotProps">
-                                            <Button v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
-                                                icon="pi pi-pencil" outlined rounded class="mr-2" @click="
-                                                    $router.push({
-                                                        path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data?.user_id}`,
-                                                    })
-                                                    " />
-                                            <Button
-                                                v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"
-                                                icon="pi pi-trash" outlined rounded severity="danger" @click="
+                                            <!-- Vendor Account Edited -->
+                                            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                                                <template v-if="slotProps.data?.role_name !== 'Owner'">
+                                                    <Button v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
+                                                        icon="pi pi-pencil" outlined rounded class="mr-2" 
+                                                        @click="$router.push({
+                                                            path: `/vendor/vendor-list/updated-account-vendor/${slotProps.data?.user_id}`,
+                                                        })" 
+                                                    />
+                                                    <Button
+                                                    v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"
+                                                    icon="pi pi-trash" outlined rounded severity="danger" @click="
                                                     confirmDeleteUserMS(
                                                         slotProps.data.id
-                                                    )
+                                                    )" />
+                                                </template>
+                                            </template>
+                                            <!-- Admin Account Edited -->
+                                            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
+                                                <template v-if="slotProps.data?.role_name !== 'Super Admin' && slotProps.data?.role_name !== 'Admin'">
+                                                    <Button v-permission="[{ functionName: 'users_modules', moduleName: 'fun_edit' }]"
+                                                         icon="pi pi-pencil" outlined rounded class="mr-2" @click="
+                                                        $router.push({
+                                                            path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data?.user_id}`,
+                                                        })
                                                     " />
+                                                    <Button
+                                                        v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"
+                                                        icon="pi pi-trash" outlined rounded severity="danger" @click="
+                                                        confirmDeleteUserMS(
+                                                            slotProps.data.id
+                                                        )" />
+                                                </template>
+                                               
+                                            </template>
+                                           
                                         </template>
                                     </Column>
                                 </div>
@@ -123,6 +158,8 @@
 import { FilterMatchMode } from "primevue/api";
 import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
 import { ElMessage } from "element-plus";
+import { isLoggedIn } from "@/utils/auth/auth";
+import {mapGetters} from "vuex";
 export default {
     data() {
         return {
@@ -144,51 +181,65 @@ export default {
     },
     mounted() {
         const userPerMSServices = new UserPermissionsMSServices();
-        userPerMSServices.getListUserData().then((data) => {
-            console.log(data);
-            if (!data) {
-                ElMessage.error("Internal Error...");
+        userPerMSServices.getListUserData().then((users) => {
+             if (!Array.isArray(users) || !users.length > 0) {
+                  this.$notify.error({
+                    title: 'Error Entries Users List',
+                    showClose: false
+                });
             }
-            this.usersListArr = data;
+            if (!Array.isArray(users) || users !== undefined || users !== null) {
+                this.usersListArr = users ? users : '';
+            }
         });
     },
-    computed: {
-        dataUrl(preImg) {
-            return (
-                "data:image/jpeg;base64," +
-                btoa(
-                    new Uint8Array(preImg).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        ""
-                    )
-                )
-            );
+   computed:{
+         ...mapGetters({
+            currentUser: 'auth/currentUserAuth',
+        }),
+        currentUserAuth() {
+            return this.currentUser ? this.currentUser : null;
         },
     },
     methods: {
+         isSessionActiveVendor(){
+            return isLoggedIn();
+        },
         confirmDeleteUserMS(userId) {
             this.usersID = userId;
             this.deleteUsersDialog = true;
         },
-        changeStatusUsers(userId, userStatus) {
+        changeStatusUsers(userId, statusId, $event) {
+            console.log($event.target)
             this.usersListArr.find((user) => {
                 if (user.user_id == userId) {
-                    const userStatusId = {
-                        userStatus: userStatus ? 'Active' : 'Inactive'
+                    const verifyUserStatus = {
+                        verifyStatus: statusId ? 'Active' : 'Inactive'
                     }
-                    this.userPerMSServices.changeUserStatusVerify(userId, userStatusId).then(response => {
+                    this.userPerMSServices.changeUserStatusVerify(userId, verifyUserStatus).then(response => {
                         if (response.data.success == true) {
-                            ElMessage.success('Update User Status Successfully...');
+                            this.$notify.success({
+                                title: 'Successful updated user status Successfully',
+                                message: response.data?.message ? response.data?.message : '' ,
+                                showClose: true
+                            });
                         }
                     }).catch((error) => {
-                        ElMessage.error(`Fail Update: ${error.response.data?.message}`);
+                        this.$notify.error({
+                            title: 'Unsuccessfully updated user status',
+                            message: error.response.data?.message,
+                            showClose: true
+                        });  
                     });
                 }
             });
         },
         deleteUserMSByID() {
             if (!this.usersID) {
-                ElMessage.error("Users Not Found...");
+                this.$notify.error({
+                    title: 'User account not found...!',
+                    showClose: true
+                }); 
             }
             this.userPerMSServices
                 .deleteUserMS(this.usersID)

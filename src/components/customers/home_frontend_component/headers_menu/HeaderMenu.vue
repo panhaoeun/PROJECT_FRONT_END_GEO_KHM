@@ -26,8 +26,6 @@
                                         <a href="#"><i class="icon-social-twitter"></i></a>
                                         <a href="#"><i class="icon-social-facebook"></i></a>
                                         <a href="#"><i class="icon-social-instagram"></i></a>
-                                        <a href="#"><i class="icon-social-youtube"></i></a>
-                                        <a href="#"><i class="icon-social-pinterest"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +56,7 @@
                                             </li>
                                             <!--All Categories -->
                                             <li>
-                                                <router-link to="#">All Categories </router-link>
+                                                <router-link to="/customer/search-product/query-product/filter-product-by-name">All Categories </router-link>
                                                 <ul class="mega-menu-style mega-menu-mrg-2">
                                                     <li>
                                                         <ul v-if="commonCategoriesList !== null">
@@ -114,20 +112,39 @@
                                             <!-- Dropdown menu for login successfully-->
                                             <template #dropdown v-if="isLoggedIn()">
                                                 <el-dropdown-menu>
-                                                    <el-dropdown-item>
-                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/auth/login')">
-                                                            <i class="icon-basket" style="font-size: 15px;"></i>   
-                                                            <p class="font-semibold pl-2">My Order</p>      
-                                                        </div>
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item>
-                                                        <div class="flex justify-content-center px-2 py-2" @click="$router.push('/customer/my_profile/view-customer-detail')">
-                                                            <i class="icon-user-follow" style="font-size: 15px;"></i>   
-                                                            <p class="font-semibold pl-2">
-                                                                My Profile
-                                                            </p>      
-                                                        </div>
-                                                    </el-dropdown-item>
+                                                    <!-- Customer -->
+                                                    <template v-if="customerRole === 'Customer' && customerRole !== 'Admin' && customerRole !== 'Vendor'">
+                                                        <el-dropdown-item>
+                                                            <div class="flex justify-content-center px-2 py-2" @click="$router.push('/auth/login')">
+                                                                <i class="icon-basket" style="font-size: 15px;"></i>   
+                                                                <p class="font-semibold pl-2">My Order</p>      
+                                                            </div>
+                                                        </el-dropdown-item>
+                                                        <el-dropdown-item>
+                                                            <div class="flex justify-content-center px-2 py-2" @click="$router.push('/customer/my_profile/view-customer-detail')">
+                                                                <i class="icon-user-follow" style="font-size: 15px;"></i>   
+                                                                <p class="font-semibold pl-2">
+                                                                    My Profile
+                                                                </p>      
+                                                            </div>
+                                                        </el-dropdown-item>
+                                                    </template>
+                                                    <!-- Vendor -->
+                                                    <template v-if="customerRole !== 'Customer' && customerRole === 'Admin' || customerRole === 'Vendor'">
+                                                        <el-dropdown-item>
+                                                            <div class="flex justify-content-center px-2 py-2" @click="$router.push('/vendor-dashboard/default-layouts')">
+                                                                <i class="icon-basket" style="font-size: 15px;"></i>   
+                                                                <p class="font-semibold pl-2">
+                                                                    <template v-if="customerRole === 'Admin'">
+                                                                        <label>Web Page</label>
+                                                                    </template>
+                                                                    <template v-if="customerRole === 'Vendor'">
+                                                                        <label>My Shop</label>
+                                                                    </template>
+                                                                </p>      
+                                                            </div>
+                                                        </el-dropdown-item>
+                                                    </template>
                                                     <!-- Logout -->
                                                     <el-dropdown-item divided>
                                                         <div class="flex justify-content-center px-2 py-2" @click="currentCustomerLogout()">
@@ -156,7 +173,7 @@
                                             </template>
                                         </el-dropdown>    
                                     </div>
-                                    <div class="same-style-2 same-style-2-font-inc header-cart">
+                                    <div class="same-style-2 same-style-2-font-inc header-cart" v-if="isLoggedIn() && customerRole === 'Customer' && customerRole !== 'Admin' && customerRole !== 'Vendor'">
                                        <!-- Item of cart -->
                                        <template v-if="isLoggedIn()">
                                             <router-link class="cart-active" to="/customer/shopping-cart/product-list/cart-items">
@@ -242,7 +259,7 @@ import CustomerServicesBaseAdmin from '../../../../services/administrator/custom
 import AuthenticationsDataService from '@/services/authencationDataService';
 import router from "../../../../routes/routes";
 import {isLoggedIn} from '@/utils/auth/auth';
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import  CustomerOrderCheckOutServices from "@/services/customers/CustomerOrdersServices.js";
 import  CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
 export default {
@@ -253,11 +270,17 @@ export default {
             customerType: null,
             customerId: {},
             commonCategoriesList: null,
-            commonSubCategoriesList: null
+            commonSubCategoriesList: null,
+            customerRole: null
         };
     },
     computed: {
-        ...mapState('cart', ['cart'])
+        ...mapGetters({
+            cart: 'cart/getCartAuthItem',  
+            cartTotal: 'cart/getTotal',
+            subtotal: 'cart/getSubTotal',
+            totalShipping: 'cart/cartTotalShipping',
+        }),
     },
     created() {
         this.customerCurrentId = new CustomerServicesBaseAdmin();
@@ -276,8 +299,20 @@ export default {
         this.getProfileCurrentAccount(userId);
         // Common Categories
         this.getCommonCategories();
+        this.customerRoleType();
     },
     methods: {
+        // User Type
+        customerRoleType(){
+            if(isLoggedIn()){
+                const userRoleAuth = localStorage.getItem('userRole');
+                if (JSON.parse(userRoleAuth) !== 'Vendor' && JSON.parse(userRoleAuth) !== 'Admin' && JSON.parse(userRoleAuth) === "Customer"){
+                    this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
+                }else{
+                   this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
+                }
+            }
+        },
         // Categories
         getCommonCategories(){
             this.commonServices.getCommonCategoriesSubCategories()
@@ -355,7 +390,6 @@ export default {
         },
         currentCustomerLogout(){
             AuthenticationsDataService.authLogout().then((response) => {
-                console.log(response)
                 this.$toast.add({ severity: 'Logout Successfully', summary: 'Info', detail: response.data.message, life: 3000 });
                 localStorage.clear('token');
                 localStorage.clear('tokenExpiry');

@@ -119,7 +119,7 @@
                                        <label class="font-bold text-red-500"> {{ orderList.orderItem?.product_name }}</label>
                                        <div class="flex flex-column">
                                           <span>
-                                                Price:  {{ currencyFormattedKHRiel(orderList.orderItem.product_price) }}
+                                                Price: <label class="font-bold"> {{ currencyFormattedKHRiel(orderList.orderItem.product_price) }}</label>
                                           </span>
                                           <span>
                                             Qty: {{ orderList.orderItem.quantity }}
@@ -129,9 +129,14 @@
                                 </ul>
                             </div>
                             <!-- Sub total -->
-                            <div class="your-order-info order-subtotal">
+                             <div class="your-order-info order-subtotal">
                                 <ul>
                                     <li>Subtotal <span>{{ currencyFormattedKHRiel(editOrderDetail?.subTotal) }} </span></li>
+                                </ul>
+                            </div>
+                            <div class="your-order-info order-subtotal">
+                                <ul>
+                                    <li>Shipping <span>{{ currencyFormattedKHRiel(editOrderDetail?.deliveryCost) }} </span></li>
                                 </ul>
                             </div>
                             <div class="your-order-info order-total">

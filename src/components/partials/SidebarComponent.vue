@@ -74,7 +74,7 @@ const routesModules = computed(() => {
     return store.state.users.routes;
 })
 //Showing on child
-const hasOneShowingChild = (children,parent) => {
+const hasOneShowingChild = (children) => {
    const showingChildren = children.filter(item => {
         if(item.hidden){
             return false;
@@ -84,10 +84,6 @@ const hasOneShowingChild = (children,parent) => {
             return true;
         }
    });
-    // When there is only one child router, the child router is displayed by default
-    if (showingChildren.length >0) {
-        return true;
-    }
    //Show parent if there are no child router to display
    if(showingChildren.length === 0){
         onlyOneChild.value = {... parent, path: '', noShowingChildren: ''};

@@ -24,6 +24,7 @@ const state = {
     totalShippingKHR: 0,
     totalUSD: 0,
     totalKHR: 0,
+    totalWithShippingPrice: []
 };
 // getters
 const getters = {
@@ -37,7 +38,20 @@ const getters = {
         return state.cartItem;
     },
     getTotal(state) {
-        return state.totalPrice;
+        let totalPriceKHR = 0;
+        let totalPriceUSD = 0;
+        state.totalWithShippingPrice.forEach((total) => {
+            totalPriceKHR += total.totalKHR;
+            totalPriceUSD += total.totalUSD;
+        });
+        if (totalPriceKHR && totalPriceUSD) {
+            return {
+                totalKHR: totalPriceKHR ? totalPriceKHR : 0,
+                totalUSD: totalPriceUSD ? totalPriceUSD : 0,
+            };
+        } else {
+            return 0;
+        }
     },
     getTotalItems(state) {
         let total = 0;
@@ -99,62 +113,87 @@ const getters = {
     cartTotalOrder: (state) => {
         return state.totalOrder;
     },
+    // Total With Shipping
     cartTotalShipping: (state) => {
-        let totalQuantity = 0;
-        let totalShippingDayPrice = 0;
-        let totalMaxOrder = 0;
-        let totalDayAmount = 0;
-        let totalDayAmountKHR = 0;
+        // let totalQuantity = 0;
+        let totalMaxOrderShippingKHR = 0;
+        let totalMaxOrderShippingUSD = 0;
         let totalAmountDayPrice = 0;
         let totalAmountDayPriceKHR = 0;
+        let shippingPriceAmount = 0;
+        let maxAmountShipping =  0;
+        let maxAmountShippingUSD = 0;
         state.cartItem.forEach((cart) => {
-            totalQuantity += cart.quantity;
-            totalMaxOrder += cart.maxOrder;
-            totalDayAmount += cart.expressPriceUSD;
-            totalDayAmountKHR += cart?.expressPriceKHR;
-        });
-        // Total Shipping
-        totalShippingDayPrice = totalQuantity / totalMaxOrder;
-        // Calculate the number of packages that can be shipped
-        totalAmountDayPrice = totalShippingDayPrice * totalDayAmount;
-        totalAmountDayPriceKHR = totalShippingDayPrice * totalDayAmountKHR;
+            // Shipping Price
+            let shippingCompanyDayExpress = cart?.shippingCompanyDay;
+            let maxItem = cart?.maxOrder;
+            let productQty = cart?.quantity ? cart?.quantity : 1;
+            let expressPriceKHR = cart.expressPriceKHR;
+            let expressPriceUSD = cart.expressPriceUSD;
+            if (shippingCompanyDayExpress) {
+                shippingPriceAmount = Math.min(productQty / maxItem);
+                if (productQty < maxItem) {
+                    maxAmountShipping += parseFloat(expressPriceKHR);
+                    maxAmountShippingUSD += parseFloat(expressPriceUSD)
+                } else if (productQty > maxItem) {
+                    maxAmountShipping += parseFloat(expressPriceKHR + shippingPriceAmount) + 1;
+                    maxAmountShippingUSD += parseFloat(expressPriceUSD + shippingPriceAmount) + 1;
+                }
+            }
 
-        if (totalShippingDayPrice > 0) {
-            // Calculate the number of packages that can be shipped
-            totalAmountDayPrice = totalShippingDayPrice * totalDayAmount;
-            totalAmountDayPriceKHR = totalShippingDayPrice * totalDayAmountKHR;
-        }
+            const maxAmountShippingPrice = `${parseFloat(maxAmountShipping).toFixed(2,4)}`;
+            const totalShippingPriceMaxOrderKHR  = maxAmountShippingPrice.replace(/,/g, '');
+            const maxAmountShippingPriceUSD = `${parseFloat(maxAmountShippingUSD).toFixed(2,4)}`;
+            const totalShippingPriceMaxOrderUSD = maxAmountShippingPriceUSD.replace(/,/g, '');
+            // totalQuantity += cart.quantity;
+            totalMaxOrderShippingKHR += parseFloat(totalShippingPriceMaxOrderKHR);
+            totalMaxOrderShippingUSD += parseFloat(totalShippingPriceMaxOrderUSD);
+        });
+        // Calculate the number of packages that can be shipped
+        totalAmountDayPriceKHR += totalMaxOrderShippingKHR;
+        totalAmountDayPrice += totalMaxOrderShippingUSD;
+
         return {
             shippingAmountUSD: totalAmountDayPrice ? totalAmountDayPrice : 0,
-            shippingAmountKHR: totalAmountDayPriceKHR
-                ? totalAmountDayPriceKHR
-                : 0,
+            shippingAmountKHR: totalAmountDayPriceKHR ? totalAmountDayPriceKHR: 0
         };
     },
 };
 // actions
 const actions = {
-    async totalOrder({ commit }, { shippingPrice }) {
-        if (shippingPrice !== null) {
-            commit("setTotalOderItem", shippingPrice);
+    async totalOrderWithSipping({ commit }, { shippingPriceKHR,shippingPriceUSD,subTotalKHR,subTotalUSD }) {
+        if (shippingPriceKHR !== null) {
+            commit("setTotalOderItem", {
+                shippingPriceKHR,
+                shippingPriceUSD,
+                subTotalKHR,
+                subTotalUSD
+            });
         }
     },
     async getCartByCurrentCustomer({ commit }) {
         if (!isLoggedIn() && state.cartItem.length > 0) {
             state.cartItem = [];
         } else {
-            state.cartItem.splice(0, state.cartItem.length);
-            await customerOrderCart
-                .getCartOrderListCurrentCustomer()
-                .then((cart) => {
-                    if (cart) {
-                        commit("setCart", cart);
-                    } else throw new Error(cart);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    throw new Error(error);
-                });
+            const userRoleAuth = localStorage.getItem('userRole');
+            if (userRoleAuth !== 'Vendor' && userRoleAuth !== 'Admin'){
+                state.cartItem.splice(0, state.cartItem.length);
+                await customerOrderCart
+                    .getCartOrderListCurrentCustomer()
+                    .then((cart) => {
+                        if (isLoggedIn() && userRoleAuth === "Customer") {
+                            if (cart) {
+                                 commit("setCart", cart);
+                            }
+                        }
+                       
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        throw new Error(error);
+                    });
+            }
+           
         }
     },
     // Check Out Payments
@@ -189,7 +228,7 @@ const actions = {
                     const expressPriceUSD = el?.expressPriceUSD ? el?.expressPriceUSD : 0;
                     const expressPriceKHR = el?.expressPriceKHR ? el?.expressPriceKHR : 0
                     const productId = el?.product_id;
-                    const productPrice = el?.productPrice;
+                    const productPrice = el?.productPriceKHR;
                     const productQty = el?.quantity;
                     const productName = el?.product_eng;
                     const productCode = el?.product_code;
@@ -197,6 +236,8 @@ const actions = {
                     productDetails.push({
                         vendorId: el?.vendorId ? el?.vendorId : 0,
                         shopId: el.shopId ? el?.shopId : 0,
+                        packageType: el.packageType ? el.packageType : '',
+                        maxOrder: el.maxOrder ? el.maxOrder : '',
                         productId: productId ? productId : 0,
                         quantity: productQty ? productQty : 0,
                         deliveryPriceUSD: expressPriceUSD ? expressPriceUSD : 0,
@@ -205,6 +246,7 @@ const actions = {
                         productSpec: productSpec ? productSpec : 0,
                         productName: productName ? productName : 0,
                         productCode: productCode ? productCode : 0,
+                        shipCompanyDay: el.shippingCompanyDay ? el.shippingCompanyDay : ''
                     });
                 });
                 // Customer Orders
@@ -213,9 +255,9 @@ const actions = {
                         "," +
                         getSelectedAddressShip?.shipAdd02 +
                         "," +
-                        getSelectedAddressShip?.shipAddrCity +
+                        getSelectedAddressShip?.shipCity +
                         "," +
-                        getSelectedAddressShip?.shipAddrZipCode +".";
+                        getSelectedAddressShip?.shipZipCode +".";
                 const customerBillingAddr =
                         selectedAddressBilling?.billAdd01 +
                         "," +
@@ -230,14 +272,14 @@ const actions = {
                     phoneNumberId: phoneNumberId ? phoneNumberId : "",
                     productDetails: productDetails ? productDetails : [],
                     shippingCompanyId: 1,
-                    paymentMethod: reqData.paymentMethods ? reqData.paymentMethods : "CashOnDelivery",
+                    paymentMethod: reqData?.paymentMethods ? reqData?.paymentMethods : "CashOnDelivery",
                     shippingAddress: customerShippingAddr ? customerShippingAddr : '',
                     billingAddress: customerBillingAddr ? customerBillingAddr : '',
                     shippingPhoneNumber: getSelectedAddressShip?.phone_number_contact,
                     shippingName: getSelectedAddressShip?.contact_name,
                     billingName: selectedAddressBilling?.contact_name,
                     billingPhoneNumber: selectedAddressBilling?.phone_number_contact,
-                    otherNoted: customerOrderNoted ? customerOrderNoted : "",
+                    otherNoted: customerOrderNoted ? customerOrderNoted : '',
                 };
                 await customerOrderCart.createCustomerOrderCheckOut(customerOrder)
                     .then((result) => {
@@ -247,7 +289,6 @@ const actions = {
                                 // Checkout with id
                                 commit('setCheckoutId', result.data.result.resultStatus.order?.order_id);
                                 router.push('/customer/my-account/checkout-complete');
-
                                 ElNotification({
                                     title: 'Your order has been placed successfully! !',
                                     message: result.data?.message ? result.data?.message : '',
@@ -275,7 +316,6 @@ const actions = {
                     });
             }
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         }
     },
@@ -375,9 +415,6 @@ const actions = {
                 commit("setLocalCart");
                 return true;
             }
-            console.log(
-                "Cannot send the request because the user is not logged in"
-            );
             return false;
         }
         state.cartItem.forEach(async (item) => {
@@ -387,10 +424,6 @@ const actions = {
                     productId: item?.product_id,
                     productQty: parseInt(item.quantity),
                     productPrice: parseFloat(item?.productPrice),
-                    expressDeliveryPriceUSD: parseFloat(
-                        item?.expressDeliveryPriceUSD
-                    ),
-                    expressDeliveryPriceKHR: parseFloat(item?.expressPriceKHR),
                     type: "new",
                 };
                 try {
@@ -550,8 +583,8 @@ const actions = {
 
 // mutations
 const mutations = {
-    selectPayMethodOrder(state, address) {
-        state.selectPayMethod = address;
+    selectPayMethodOrder(state, methodPay) {
+        state.selectPayMethod = methodPay;
     },
     setCheckoutInitiated(state, val) {
         state.checkoutInitiated = val;
@@ -569,23 +602,17 @@ const mutations = {
         }
         state.cartItem.push(...transformed);
     },
-    setTotalOderItem(state, shipPrice) {
-        let total = 0;
-        let totalShipping = 0;
-        let totalQty = 0;
-        let totalAmount = 0;
-        let totalOrderItem = 0;
-        let totalSubtotal = 0;
-        state.cartItem.forEach((cart) => {
-            totalQty += +cart.quantity;
-            totalAmount += +cart.total;
-        });
-        totalOrderItem = +totalAmount / totalQty;
-        totalSubtotal = +totalOrderItem * totalQty;
-        totalShipping += Math.round(shipPrice * 100) / 100;
-        total += totalShipping + totalSubtotal;
-        if (total) {
-            return (state.totalPrice = total.toFixed(2, 4));
+    setTotalOderItem(state, {shippingPriceKHR, shippingPriceUSD, subTotalKHR, subTotalUSD}) {
+        let totalPriceKHR = 0;
+        let totalPriceUSD = 0;
+
+        totalPriceKHR += subTotalKHR + shippingPriceKHR;
+        totalPriceUSD += subTotalUSD + shippingPriceUSD;
+        if (totalPriceKHR) {
+            return state.totalWithShippingPrice = [{
+                totalKHR: totalPriceKHR ? totalPriceKHR : 0,
+                totalUSD: totalPriceUSD ? totalPriceUSD : 0
+            }];
         } else {
             return 0;
         }

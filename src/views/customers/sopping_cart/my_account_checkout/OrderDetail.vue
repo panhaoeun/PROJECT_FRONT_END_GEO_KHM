@@ -26,22 +26,24 @@
             </ul>
         </div>
         <div class="your-order-info order-shipping">
-            <ul>
+            <ul v-if="totalShipping !== null">
                 <li>
                     Shipping 
-                    <span>  
-                        1
+                    <span class="font-bold text-md" style="color: #e22f35;">
+                        {{ currencyFormattedKHRiel(totalShipping.shippingAmountKHR) ?? 0 }}
+                        {{ currencyFormattedUSD(totalShipping?.shippingAmountUSD) ?? 0}}
                     </span>
                 </li>
             </ul>
         </div>
         <div class="your-order-info order-total">
-            <ul>
-                <li>Total 
+            <ul v-if="cartTotal !== null">
+                <li>
+                    Total 
                     <input type="text" :value="getConvertExchangeToRielTotal(cartTotal ? cartTotal : 0)" hidden/>
                     <span>
-                        ៛ {{ exchangeRateRielTotal ? exchangeRateRielTotal: 0 }}
-                        (${{ cartTotal ? cartTotal : 0 }})
+                        {{ currencyFormattedKHRiel(cartTotal.totalKHR) ?? 0 }}
+                        ({{ currencyFormattedUSD(cartTotal?.totalUSD) ?? 0}})
                     </span>
                 </li>
             </ul>
@@ -66,13 +68,14 @@
             };
         },
         created() {
+            this.totalWithShippingPrice();
         },
         computed: {
             ...mapGetters({
                 orders: 'cart/getCartAuthItem',  
                 cartTotal: 'cart/getTotal',
                 subtotal: 'cart/getSubTotal',
-                totalShipping: 'cart/cartTotalOrder'
+                totalShipping: 'cart/cartTotalShipping',
             }),
             shippingMethod: {
                 get() {
@@ -120,8 +123,8 @@
                     this.exchangeRateRielTotal = exchangeRate ? exchangeRate : 0;
                     // Total order to wallets
                     return this.$store.dispatch('myWallet/orderAmountTotal', {
-                        amountTotalKHR: exchangeRate ? exchangeRate : 0,
-                        amountTotalUSD: exchangeRielTotal ? exchangeRielTotal  : 0
+                        amountTotalKHR: this.cartTotal.totalKHR ? this.cartTotal.totalKHR : 0,
+                        amountTotalUSD: this.cartTotal.totalUSD ? this.cartTotal.totalUSD : 0
                     });
                 } catch (error) {
                     console.error('Error:', error);
@@ -135,6 +138,16 @@
                     console.error('Error:', error);
                 } 
             },
+            totalWithShippingPrice(){
+                if(this.totalShipping !== null){
+                    return this.$store.dispatch('cart/totalOrderWithSipping', {
+                        shippingPriceKHR: this.totalShipping.shippingAmountKHR ? this.totalShipping.shippingAmountKHR: 0,
+                        shippingPriceUSD: this.totalShipping.shippingAmountUSD ? this.totalShipping.shippingAmountUSD: 0,
+                        subTotalKHR: this.subtotal.subTotalKHR ? this.subtotal.subTotalKHR : 0,
+                        subTotalUSD: this.subtotal.subTotalUSD ? this.subtotal.subTotalUSD : 0,
+                    });
+                }
+            }
         }
     }
 </script>

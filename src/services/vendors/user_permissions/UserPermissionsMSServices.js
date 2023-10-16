@@ -7,6 +7,19 @@ import authHeader from "../../authencations/AuthHeader";
 
 export default class UserPermissionsMSServices {
     /**
+     * @Administrator Managements
+     * @List Administrator
+     * @Create Administrator
+     * @Updated Administrator
+     * @Delete Administrator
+    **/
+    async createEmpAdminAccount(emp) {
+     return httpAccessControl.post("/vendors/users_management/users/admin_staff/created", emp);
+    }
+    async updatedEmpAdminAccount(permId,emp) {
+        return httpAccessControl.put(`/vendors/users_management/users/admin_staff/updated/${permId ? permId : 0}`, emp);
+    }
+    /**
      * @Users Managements
      * @List Users
      * @Create Users
@@ -61,13 +74,8 @@ export default class UserPermissionsMSServices {
             }
         );
     }
-    async changeUserStatusVerify(userID, updatePerm) {
-        return httpAccessJson.put(
-            `/vendors/users_management/users/change-status/verify/${userID}`, {
-                headers: authHeader(),
-            },
-            updatePerm
-        );
+    async changeUserStatusVerify(userId, updatePerm) {
+        return httpAccessJson.put(`/vendors/users_management/users/change-status/verify/${userId ? userId : ''}`,updatePerm);
     }
     /**
      * @Roles Managements

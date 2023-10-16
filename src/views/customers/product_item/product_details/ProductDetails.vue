@@ -22,6 +22,8 @@
                         />
                     </b-col>
                 </b-row>
+                <!-- =======Product Descrition ============-->
+                <ProductOverDescritionDetail :productDescEng="productDetailResultArr[0]?.product[0].product_description_eng ?? ''"/>
             </div>
             <div v-else>
                 Product Not Found...
@@ -36,11 +38,13 @@
     import ProductImageGallery from '@/components/customers/product_detail_overview/ProductImageGallery.vue';
     import ProductDescription from '@/components/customers/product_detail_overview/ProductDescription.vue';
     import ProductServices from '../../../../services/vendors/products/ProductServices'; 
+    import ProductOverDescritionDetail from '@/views/customers/product_item/product_details/product_description/ProductDetailDescription.vue';
     // import StoreProductDetail from './StoreProductDetail.vue';
     export default{
         components: {
             ProductImageGallery,
-            ProductDescription
+            ProductDescription,
+            ProductOverDescritionDetail
         }, 
         data() {
             return {

@@ -791,14 +791,14 @@
                                     this.submitted = false;
                                     this.errorValidateFile = [];
                                     this.isProcessingSubmit = true;
-                                        this.$notify.success({
-                                                title: 'Successful crate product',
-                                                message: response.data?.message ? response.data?.message : '' ,
-                                                showClose: false
-                                        });
-                                        // Push Router
-                                        this.$router.push("/vendor/products/list");
-                                    }
+                                    this.$notify.success({
+                                            title: 'Successful crate product',
+                                            message: response.data?.message ? response.data?.message : '' ,
+                                            showClose: false
+                                    });
+                                    // Push Router
+                                    this.$router.push("/vendor/products/list");
+                                }
                             })
                             .catch(error => {
                                 this.$notify.error({
