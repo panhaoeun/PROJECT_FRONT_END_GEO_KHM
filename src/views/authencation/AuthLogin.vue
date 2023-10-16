@@ -163,6 +163,7 @@ export default {
                                 });
                                 setTimeout(() => {
                                     loadingAuthLogin.close();
+                                    window.location.reload();
                                 }, 2000)
                                 return;
                             }else{
@@ -170,7 +171,6 @@ export default {
                             }         
                         },
                         (error) => {
-                            console.log(error)
                             this.userLoggedIn = false;
                             if(typeof(error.response.data.name)!== undefined){
                                 this.$notify.error({

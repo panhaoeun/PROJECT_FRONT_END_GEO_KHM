@@ -273,20 +273,23 @@ app.directive("permission", async (el, binding) => {
                 moduleName
             });
             const permissionModule =  store.getters && store.getters['users/permissionModules'];
-            // console.log(permissionModule)
-            if (!resultModuleAcc){
-                ElMessage.error("Permission of Module Not Found...");
-            }
-            const requiredPermissions = value;
-            const hasPermission = permissionModule.some((permission) => {
-                if (!permission){
-                    return false;
+            if (!Array.isArray(permissionModule) || permissionModule !== undefined || permissionModule !== null) {
+                if (!resultModuleAcc) {
+                    ElMessage.error("Permission of Module Not Found...");
                 }
-                return requiredPermissions.push(permission)
-            });
-        if (!hasPermission) {
-            el.parentNode && el.parentNode.removeChild(el);
-        }
+                const requiredPermissions = value;
+                const hasPermission = permissionModule.some((permission) => {
+                    if (!permission) {
+                        return false;
+                    }
+                    return requiredPermissions.push(permission)
+                });
+                if (!hasPermission) {
+                    el.parentNode && el.parentNode.removeChild(el);
+                }
+            }
+            
+       
     } else {
         throw new Error(`Permissions are required! Example: v-permission="['dashboard','view create']"`);
     }

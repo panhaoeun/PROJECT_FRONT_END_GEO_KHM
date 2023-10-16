@@ -69,12 +69,15 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Phone Number<span class="p-error">*</span></label>
+                                            <label for="phoneNumber" class="text-sm">Phone Number<span class="p-error">*</span></label>
                                             <InputText 
                                                 id="product_name" 
                                                 placeholder="Phone Number" 
                                                 type="text"
                                                 @keypress="inputOnlyNumber"
+                                                numericFilter="this.value = this.value.replace(/[^\0-9]/ig"
+                                                onpaste="return false;"
+                                                pattern="^[0-9]*$"
                                                 class="py-3 border-round-lg text-sm" v-model="v$.userMSPhoneNum.$model"
                                                 :class="{ 'p-invalid p-error': v$.userMSPhoneNum.$invalid && submitted }" />
                                             <small
@@ -149,10 +152,17 @@
                                             <label for="roles" class="text-sm">Gender<span class="p-error">*</span></label>
                                            <div class="flex flex-column">
                                                 <Dropdown
-                                                v-model="selectedUserGender"
-                                                class="border-round-lg text-sm"
-                                                :options="userGender" 
-                                                optionLabel="name" placeholder="Select a Gender" />
+                                                    v-model="selectedUserGender"
+                                                    class="border-round-lg text-sm"
+                                                    :options="userGender" 
+                                                    optionLabel="name" placeholder="Select a Gender"
+                                                    :class="{ 'p-invalid p-error': v$.selectedUserGender.$invalid && submitted }"
+                                                />
+                                                <small
+                                                    v-if="(v$.selectedUserGender.$invalid && submitted) || v$.selectedUserGender.$pending.$response"
+                                                    class="p-error">{{ v$.selectedUserGender.required.$message.replace('Value',
+                                                        'Gender') || v$.selectedUserGender.$params.min }}
+                                                </small>
                                            </div>
                                         </div>
                                     </div>
@@ -211,7 +221,9 @@
                                                     optionLabel="role_name" 
                                                     placeholder="Select a Role" 
                                                     aria-describedby="dd-error"
-                                                    class="w-full border-round-lg text-sm">
+                                                    class="w-full border-round-lg text-sm"
+                                                    :class="{ 'p-invalid p-error': v$.selectOptValuePermission.$invalid && submitted }"
+                                            >
                                                     <template #value="slotProps">
                                                         <div v-if="slotProps.value" class="flex align-items-center">
                                                             <div>{{ slotProps.value?.role_name }}</div>
@@ -226,6 +238,11 @@
                                                         </div>
                                                     </template>
                                             </Dropdown>
+                                            <small
+                                                v-if="(v$.selectOptValuePermission.$invalid && submitted) || v$.selectOptValuePermission.$pending.$response"
+                                                class="p-error">{{ v$.selectOptValuePermission.required.$message.replace('Value',
+                                                    'Role') || v$.selectOptValuePermission.$params.min }}
+                                            </small>
                                         </div>
                                     </div>
                                     <!-- Upload Profile -->
@@ -279,7 +296,6 @@
                     <!-- Buttons Submits -->
                     <div class="col-12 flex justify-content-end mt-4">
                         <!--Buttons-->
-                        <Button icon="pi pi-times" class="p-button-lg py-3 w-10rem mr-3" label="Cancel" />
                         <Button icon="pi pi-check" type="submit" :disabled="isProcessingSubmit"
                             :label='isProcessingSubmit ? "Process..." : "Save"'
                             class="p-button-lg py-3 p-button-outlined w-10rem mr-3" />
@@ -380,6 +396,12 @@ export default {
     //Validations
     validations() {
         return {
+            selectOptValuePermission: {
+                required
+            },
+            selectedUserGender: {
+                required
+            },
             userMSNameEng: {
                 required,
                 minLength: minLength(3)
@@ -442,10 +464,13 @@ export default {
             Input Only Phone Number
         */
         inputOnlyNumber(event) {
-            let keyCode = event.keyCode ? event.keyCode : event.which;
-            if (keyCode < 48 || keyCode > 57) {
-                // 46 is dot
-                event.preventDefault();
+            var theEvent = event || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
             }
         },
         // Confirm Password

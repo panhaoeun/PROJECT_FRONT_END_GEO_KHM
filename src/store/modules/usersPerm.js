@@ -113,7 +113,11 @@ const actions = {
     async generateRoutes({commit}, {roles, permissions}){
         return new Promise(resolve => {
             let accessedRoutes;
+            if (roles.includes('admin')) {
+                accessedRoutes = asyncRoutes || [];
+            }
             accessedRoutes = filterAsyncRoutes(asyncRoutes, roles,permissions);
+
             commit('SET_ROUTES', accessedRoutes);   
             resolve(accessedRoutes);
         });

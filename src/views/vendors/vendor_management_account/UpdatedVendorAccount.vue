@@ -157,7 +157,13 @@
                                                     optionLabel="name" 
                                                     option-value="name"
                                                     placeholder="Select a Gender" 
+                                                    :class="{ 'p-invalid p-error': v$.selectedUserGender.$invalid && submitted }" 
                                                 />
+                                                <small
+                                                    v-if="(v$.selectedUserGender.$invalid && submitted) || v$.selectedUserGender.$pending.$response"
+                                                    class="p-error">{{ v$.selectedUserGender.required.$message.replace('Value',
+                                                        'Gender') || v$.selectedUserGender.$params.min }}
+                                                </small>
                                            </div>
                                         </div>
                                     </div>
@@ -207,20 +213,18 @@
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles" class="text-sm">Roles<span class="p-error">*</span></label>
-                                            <!-- {{ permissionListDropDownView }} -->
-                                            {{ currentRoleId }}
-                                            {{ selectOptValuePermission?.id }}
                                             <Dropdown 
-                                                    @change="getPermissionCurrent"
-                                                    :options="permissionListDropDownView" 
-                                                    filter  
-                                                    v-model="selectOptValuePermission" 
-                                                    inputId="id"
-                                                    optionLabel="role_name" 
-                                                    optionvalue="id"
-                                                    placeholder="Select a Role" 
-                                                    aria-describedby="dd-error"
-                                                    class="w-full border-round-lg text-sm">
+                                                @change="getPermissionCurrent"
+                                                :options="permissionListDropDownView" 
+                                                :filter="true"  
+                                                v-model="selectOptValuePermission" 
+                                                inputId="id"
+                                                optionLabel="role_name" 
+                                                placeholder="Select a Role" 
+                                                aria-describedby="dd-error"
+                                                class="w-full border-round-lg text-sm"
+                                                :class="{ 'p-invalid p-error': v$.selectOptValuePermission.$invalid && submitted }" 
+                                            >
                                                     <template #value="slotProps">
                                                         <div v-if="slotProps.value" class="flex align-items-center">
                                                             <div>{{ slotProps.value?.role_name }}</div>
@@ -235,6 +239,11 @@
                                                         </div>
                                                     </template>
                                             </Dropdown>
+                                            <small
+                                                v-if="(v$.selectOptValuePermission.$invalid && submitted) || v$.selectOptValuePermission.$pending.$response"
+                                                class="p-error">{{ v$.selectOptValuePermission.required.$message.replace('Value',
+                                                    'Role') || v$.selectOptValuePermission.$params.min }}
+                                            </small>
                                         </div>
                                     </div>
                                     <!-- Upload Profile -->
@@ -253,7 +262,6 @@
                                                 :class="objClassUserPer"
                                                 :on-exceed="handleExceedVendorProfile"
                                                 :file-list="fileListVendorProfile"
-                                                v-model="file" 
                                                 ref="file"
                                                 :limit="1"
                                                 accept=".jpg, .png, .jpeg"
@@ -388,18 +396,31 @@ export default {
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
         //List Permissions
         this.userPerMSServices.getListRolesData().then((permission) => {
-            if (!permission) {
+             if (!Array.isArray(permission) || !permission.length > 0) {
                 this.$notify.error({
                     title: 'Error Entries Users Role',
                     showClose: false
                 });
             }
-            this.permissionListDropDownView = permission ? permission : {};
+            if (!Array.isArray(permission) || permission !== undefined || permission !== null) {
+                permission.forEach(perm => {
+                    this.permissionListDropDownView.push({
+                        id: perm?.id,
+                        role_name: perm?.role_name,
+                    });
+                });
+            }
         });
     },
     //Validations
     validations() {
         return {
+            selectOptValuePermission: {
+                required
+            },
+            selectedUserGender:{
+                required
+            },
             userMSNameEng: {
                 required,
                 minLength: minLength(3)
@@ -429,7 +450,6 @@ export default {
                 return this.permissionListDropDownView.find(perm => perm?.role_name);
            },
            set(permission) {
-                console.log(permission.id)
                 this.permissionListDropDownView.find(perm =>  perm?.id === permission?.id);
                 this.permissionListDropDownView.find(perm => perm?.role_name && perm?.id !== permission?.id);
 
@@ -577,8 +597,18 @@ export default {
                                     this.selectedUserGender = vendorResult?.gender ?? '';
                                     // Current Gender
                                     this.currentGender = vendorResult?.gender ?? '';
-                                    this.currentRoleId = userResult?.role_id;
-                                    // this.selectOptValuePermission =  {id: userResult?.role_id};
+                                    this.currentRoleId = userResult?.role_id; 
+                                    //   
+                                    if(userResult !== undefined){
+                                        userResult.forEach((result) => {
+                                            if(!result){
+                                                this.selectOptValuePermission = [];
+                                            }
+                                            this.selectOptValuePermission =  {id: result?.role_id, role_name: result?.role_name};
+                                        })
+                                    }else{
+                                        this.selectOptValuePermission = [];
+                                    }
                                 }                               
                             }
                         } catch (error) {
@@ -631,7 +661,6 @@ export default {
                         vendorZipCode:this.userAddrZipCode,
                         vendorNoted: this.userUserDescription,
                     }
-                    console.log(dataVendorAccounts,"dataVendorAccounts")
                     const vendorId = this.$route.params?.id;
                     this.vendorMSAccount.updatedVendorAccountManagements(vendorId,dataVendorAccounts).then((response) => {
                         if (response.data.success == true) {
@@ -645,7 +674,6 @@ export default {
                         }
                     })
                     .catch(error => {
-                        console.log(error, "error")
                         this.$notify.error({
                             title: 'Unsuccessfully updated vendor account',
                             message: error.response.data.error.message ?? 'Unsuccessfully updated vendor account',

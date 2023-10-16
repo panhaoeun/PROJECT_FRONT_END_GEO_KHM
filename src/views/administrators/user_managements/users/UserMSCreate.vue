@@ -18,9 +18,6 @@
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
                 <form enctype="multipart/form-data" @submit.prevent="handleUserMSSubmit(!v$.$invalid)">
                     <!--Form Submitted-->
-                    <Message severity="error" v-if="notifMSGUser">
-                        {{ notifMSGUser }}
-                    </Message>
                     <el-tab-pane :label='$t("route.routeGeneralInfo")' name="english-tabs">
                         <!-- English -->
                         <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
@@ -146,75 +143,58 @@
                                             </small>
                                         </div>
                                     </div>
+                                    <!-- Started Dated -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">Start Date<span class="p-error">*</span></label>
+                                            <Calendar 
+                                                placeholder="Start Date" 
+                                                type="text"
+                                                class="border-round-lg text-sm" v-model="v$.userStartDate.$model"
+                                                :class="{ 'p-invalid p-error': v$.userStartDate.$invalid && submitted }" />
+                                            <small
+                                                v-if="(v$.userStartDate.$invalid && submitted) || v$.userStartDate.$pending.$response"
+                                                class="p-error">{{ v$.userStartDate.required.$message.replace('Value',
+                                                    'Start Date') || v$.userStartDate.$params.min }}
+                                            </small>
+                                        </div>
+                                    </div>
                                     <!-- Gender -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles" class="text-sm">Gender<span class="p-error">*</span></label>
                                            <div class="flex flex-column">
                                                 <Dropdown
-                                                 v-model="selectedUserGender"
-                                                class="border-round-lg text-sm"
-                                                :options="userGender" 
-                                                optionLabel="name" placeholder="Select a Gender" />
+                                                    v-model="selectedUserGender"
+                                                    class="border-round-lg text-sm"
+                                                    :options="userGender" 
+                                                    optionLabel="name" placeholder="Select a Gender" 
+                                                    :class="{ 'p-invalid p-error': v$.selectedUserGender.$invalid && submitted }"
+                                                />
+                                                <small
+                                                    v-if="(v$.selectedUserGender.$invalid && submitted) || v$.selectedUserGender.$pending.$response"
+                                                    class="p-error">{{ v$.selectedUserGender.required.$message.replace('Value',
+                                                        'Gender') || v$.selectedUserGender.$params.min }}
+                                                </small>
                                            </div>
                                         </div>
                                     </div>
-                                    <!--=========User Address===========-->
-                                    <div class="col-12 col-lg-4 field">
-                                        <div class="field">
-                                            <label for="name_en" class="text-sm">Address 01<span class="p-error">*</span></label>
-                                            <InputText 
-                                                id="userAddress01" 
-                                                placeholder="Address 01" 
-                                                type="text"
-                                                class="py-3 border-round-lg text-sm" v-model="userAddress01" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-4 field">
-                                        <div class="field">
-                                            <label for="name_en" class="text-sm">Address 02<span class="p-error">*</span></label>
-                                            <InputText 
-                                                id="userAddress02" 
-                                                placeholder="Address 02" 
-                                                type="text"
-                                                class="py-3 border-round-lg text-sm" v-model="userAddress02" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-4 field">
-                                        <div class="field">
-                                            <label for="name_en" class="text-sm">City<span class="p-error">*</span></label>
-                                            <InputText 
-                                                id="userAddrCity" 
-                                                placeholder="City" 
-                                                type="text"
-                                                class="py-3 border-round-lg text-sm" v-model="userAddrCity" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-4 field">
-                                        <div class="field">
-                                            <label for="name_en" class="text-sm">Zip Code<span class="p-error">*</span></label>
-                                            <InputText 
-                                                id="userAddrZipCode" 
-                                                placeholder="Zip Code" 
-                                                type="text"
-                                                class="py-3 border-round-lg text-sm" v-model="userAddrZipCode" />
-                                        </div>
-                                    </div>
-                                <!--=========User Address===========-->
-                                    <!--User Permissions -->
+                                    <!--User Roles -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="roles" class="text-sm">Roles<span class="p-error">*</span></label>
                                             <Dropdown 
-                                                    @change="getPermissionCurrent"
-                                                    :options="permissionListDropDownView" 
-                                                    filter  
-                                                    v-model="selectOptValuePermission" 
-                                                    inputId="id"
-                                                    optionLabel="role_name" 
-                                                    placeholder="Select a Categories" 
-                                                    aria-describedby="dd-error"
-                                                    class="w-full border-round-lg text-sm">
+                                                @change="getPermissionCurrent"
+                                                :options="permissionListDropDownView" 
+                                                filter  
+                                                v-model="selectOptValuePermission" 
+                                                inputId="id"
+                                                optionLabel="role_name" 
+                                                placeholder="Select a Role" 
+                                                aria-describedby="dd-error"
+                                                class="w-full border-round-lg text-sm"
+                                                :class="{ 'p-invalid p-error': v$.selectOptValuePermission.$invalid && submitted }"
+                                            >
                                                     <template #value="slotProps">
                                                         <div v-if="slotProps.value" class="flex align-items-center">
                                                             <div>{{ slotProps.value?.role_name }}</div>
@@ -229,8 +209,25 @@
                                                         </div>
                                                     </template>
                                             </Dropdown>
+                                            <small
+                                                v-if="(v$.selectOptValuePermission.$invalid && submitted) || v$.selectOptValuePermission.$pending.$response"
+                                                class="p-error">{{ v$.selectOptValuePermission.required.$message.replace('Value',
+                                                    'Role') || v$.selectOptValuePermission.$params.min }}
+                                            </small>
                                         </div>
                                     </div>
+                                    <!--=========User Address===========-->
+                                    <div class="col-12 col-lg-12 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm">Address</label>
+                                            <Textarea 
+                                                id="userAddress01" 
+                                                placeholder="Address" 
+                                                type="text"
+                                                class="py-3 border-round-lg text-sm" v-model="userAddress01" />
+                                        </div>
+                                    </div>
+                                    <!--=========User Address===========-->
                                     <!-- Upload Profile -->
                                     <div class="col-12 field">
                                         <!--Category Logo -->
@@ -246,6 +243,7 @@
                                                 :file-list="fileList"
                                                 v-model="file" ref="file"
                                                 :limit="1"
+                                                accept=".jpg, .png, .jpeg"
                                             >
                                                 <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
                                             </el-upload>
@@ -259,7 +257,7 @@
                                     <!--User Noted -->
                                     <div class="col-12 col-lg-12 field">
                                         <div class="field">
-                                            <label for="">Descriptions<span class="p-error">*</span></label>
+                                            <label for="">Descriptions</label>
                                             <Editor
                                                 editorStyle="height: 400px" 
                                                 id="userUserDescription" 
@@ -275,7 +273,6 @@
                     <!-- Buttons Submits -->
                     <div class="col-12 flex justify-content-end mt-4">
                         <!--Buttons-->
-                        <Button icon="pi pi-times" class="p-button-lg py-3 w-10rem mr-3" label="Cancel" />
                         <Button icon="pi pi-check" type="submit" :disabled="isProcessingSubmit"
                             :label='isProcessingSubmit ? "Process..." : "Save"'
                             class="p-button-lg py-3 p-button-outlined w-10rem mr-3" />
@@ -299,6 +296,8 @@ export default {
     data() {
         return {
             activeName: 'english-tabs',
+            dialogImageUrl: null,
+            dialogVisible: false,
             activetab: 1,
             preview: null,
             errMessageConfirm: '',
@@ -317,6 +316,7 @@ export default {
             userMSPassword: '',
             confirmPassword: '',
             userMSDesEng: '',
+            userStartDate: '',
             userMSDesKh: '',
             userMSImgFileURL: null,
             submitted: false,
@@ -358,24 +358,33 @@ export default {
         // User Arr Vuex 
         this.isUserAuthArrCreate = this.$store.state.auth.userArr;
         //List Permissions
-        this.userMSServices.getListRolesData().then((data) => {
-            if (!data) {
+        this.userMSServices.getListRolesData().then((perm) => {
+            if (!perm) {
                 this.$notify.error({
                     title: 'Error Entries Users Role',
                     showClose: false
                 });
             }
-            this.permissionListDropDownView = data;
+            this.permissionListDropDownView = perm;
         });
     },
     //Validations
     validations() {
         return {
+            selectOptValuePermission: {
+                required
+            },
+            selectedUserGender: {
+                required
+            },
             userMSNameEng: {
                 required,
                 minLength: minLength(3)
             },
             userDateOfBirth: {
+                required
+            },
+            userStartDate: {
                 required
             },
             userMSNameKh: {
@@ -415,7 +424,6 @@ export default {
                     this.permissionList = {};
                 });
             } catch (error) {
-                ElMessage.error(error);
                 this.permissionList = [];
             }
         },
@@ -444,15 +452,14 @@ export default {
             console.log(this.fileUserMS)
             //Check Upload File
             this.beforeAvatarUpload(file.raw);
-            this.objClassUserPer.upLoadHideUserMS = true;//上传图片后置upLoadHideUserMS为真，隐藏上传框
+            this.objClassUserPer.upLoadHideUserMS = true;
             this.objClassUserPer.upLoadShowUserMS = false;
         },
         handleRemove(file, fileList) {
             console.log(file, fileList)
-            this.objClassUserPer.upLoadShowUserMS = true;//删除图片后显示上传框
+            this.objClassUserPer.upLoadShowUserMS = true;
             this.objClassUserPer.upLoadHideUserMS = false;
         },
-        // 点击预览图的放大按钮后会触发handlePictureCardPreview
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
@@ -469,7 +476,6 @@ export default {
         },
         uploadFile() {
             this.file = this.$refs.file.files[0];
-            // this.createBase64Image(this.$refs.file.files[0]);
         },
         createBase64Image(fileObject) {
             const reader = new FileReader();
@@ -480,7 +486,6 @@ export default {
         },
         async handleUserMSSubmit(isFormValidUserMS) {
             try {
-                // console.log(this.v$.proCategoryNameEng.required.$message.replace('Val)
                 this.submitted = true;
                 if (!isFormValidUserMS) {
                     if(!this.fileUserMS || this.fileUserMS !== ''){
@@ -500,43 +505,54 @@ export default {
                 ) {
                     // Data Response
                     const dataRes = {
-                        userRole: this.selectOptValuePermission?.id ?? 0,
-                        userNameEng: this.userMSNameEng,
-                        userNameKh: this.userMSNameKh,
-                        userEmail: this.emailMSUser,
-                        userPhone: this.userMSPhoneNum,
-                        userPassword: this.userMSPassword,
-                        userType: 'Admin',
+                        empRoleId: this.selectOptValuePermission?.id ?? 0,
+                        empNameEng: this.userMSNameEng,
+                        empNameKh: this.userMSNameKh,
+                        empEmail: this.emailMSUser,
+                        empPhone: parseInt(this.userMSPhoneNum),
+                        empPassword: this.userMSPassword,
+                        empType: 'Admin',
                         userProfile: this.fileUserMS,
-                        userStatus: 'Active',
-                        userDOB: this.userDateOfBirth,
-                        userGender: this.selectedUserGender.name,
-                        userAddress01:this.userAddress01,
-                        userAddress02:this.userAddress02,
-                        userCity: this.userAddrCity,
-                        userZipCode:this.userAddrZipCode,
-                        userNoted: this.userUserDescription,
+                        empStatus: 'Approved',
+                        orgDepartId: 1,
+                        empStartDate: this.userStartDate,
+                        empDOB: this.userDateOfBirth,
+                        empGender: this.selectedUserGender?.name,
+                        empAddress:this.userAddress01,
+                        empNoted: this.userUserDescription,
                     }
-                    this.userMSServices.createUserMS(dataRes).then((response) => {
+                    this.userMSServices.createEmpAdminAccount(dataRes).then((response) => {
                         if (response.data.success == true) {
-                            ElMessage.success(response.data.message);
+                           this.$notify.success({
+                                title: 'Successfully create employee account',
+                                message: response.data?.message ? response.data?.message : '' ,
+                                showClose: true
+                            });
                             // Push Router
                             this.$router.push("/vendor/user/list/crete-user-auth/ui-user-list");
                         }
                     })
                     .catch(error => {
-                        console.log(error)
-                        ElMessage.error(error);
-                        if(error.response.data.success == false){
-                            this.notifMSGUser = (error.response.data.error.error.errors[0].message);
-                            ElMessage.error(error.response.data.error.error.errors[0].message);
-                        }
-                            return false;
-                        });
+                        this.$notify.error({
+                            title: 'Unsuccessfully create employee account',
+                            message: error.response.data.error.message ?? 'Unsuccessfully create employee account',
+                            showClose: true
+                        });  
+                        if(error.response.data.error.error.errors){
+                            for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                this.$notify.error({
+                                    title: 'Unsuccessfully create employee account',
+                                    message: messageValidation ?? 'Unsuccessfully create employee account',
+                                    showClose: true
+                                });   
+                            }
+                        } 
+                        return false;
+                    });
                 }
             } catch (error) {
-                //  Toast Alert 
-                ElMessage.error(error);
+                return Promise.reject(error);
             }
         },
         resetForm() {
@@ -549,21 +565,18 @@ export default {
   
 <!-- Style Upload Image -->
 <style>
-/*当upLoadShowUserMS为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
 .upLoadShowUserMS .el-upload {
     width: 15rem !important;
     height: 15rem !important;
     line-height: 15rem !important;
 }
 
-/*当upLoadHideUserMS为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
 .upLoadHideUserMS .el-upload-list--picture-card .el-upload-list__item {
     width: 15rem !important;
     height: 15rem !important;
     line-height: 15rem !important;
 }
 
-/*当upLoadHideUserMS为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
 .upLoadHideUserMS .el-upload {
     display: none;
 }
