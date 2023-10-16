@@ -1,6 +1,3 @@
-import {
-    ElMessage
-} from "element-plus";
 import http from "../../../../http-common";
 import httpAccessJson from "../../../../http-access-control-json";
 import authHeader from "../../authencations/AuthHeader";
@@ -25,7 +22,7 @@ export default class UserPermissionsModuleMSServices {
                 }
             })
             .catch((error) => {
-                ElMessage.error(error);
+              return Promise.reject(error);
             });
    }
    // Update Module Permissions
@@ -56,7 +53,7 @@ export default class UserPermissionsModuleMSServices {
                 }
             })
             .catch((error) => {
-                ElMessage.error(error);
+                return Promise.reject(error);
             });
     }
     async getDetailModuleRoleFunctionByRoleId(roleId) {
@@ -74,7 +71,7 @@ export default class UserPermissionsModuleMSServices {
                 }
             })
             .catch((error) => {
-                ElMessage.error(error);
+                return Promise.reject(error);
             });
     }
     async updatePermMSByID(userID, updatePerm) {
@@ -121,7 +118,7 @@ async checkPermissionsModuleCanAccess(functionAliasName, moduleFunAcc) {
             }
         })
         .catch((error) => {
-            ElMessage.error(error);
+           return Promise.reject(error);
     });
 }
 

@@ -9,11 +9,10 @@
             <div class="flex w-full justify-content-between my-2 px-4">
                 <h2 class="relative text-black text-2xl section section-title:before font-medium ">{{
                     $t('seller.sellerList') }}</h2>
-                <el-button type="primary" plain v-permission="[{ functionName: 'sellers_module', moduleName: 'fun_create' }]"
+                <el-button class="btn btn-primary text-sm" type="info" size="default" v-permission="[{ functionName: 'sellers_module', moduleName: 'fun_create' }]"
                     @click="openCreateSeller">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
                     <div class="pl-2">{{ $t('route.addNew') }}</div>
-
                 </el-button>
             </div>
             <div class="gird">
