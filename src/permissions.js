@@ -10,7 +10,7 @@ import { isLoggedIn } from "./utils/auth/auth";
 NProgress.configure({
     showSpinner: false
 }); // NProgress Configuration
-const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/', '/page/error/not-found']; // no redirect whitelist
+const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
     const userRoleAuth = localStorage.getItem('userRole');

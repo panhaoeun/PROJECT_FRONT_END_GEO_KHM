@@ -81,8 +81,8 @@
               <img src="../../../assets/img/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded" />
               <img src="../../../assets/img/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded" />
               <div class="caption ms-3 d-none d-md-block">
-                <h6 class="mb-0 caption-title">{{ user ? user[0]?.name_eng ?? user[0]?.full_latin_name : '7Day' }}</h6>
-                <p class="mb-0 caption-sub-title"> {{ user?user[1].typeUser : '7Day-Vendor' }}</p>
+                <h6 class="mb-0 caption-title">{{ user ? user[0]?.name_eng ?? user[0]?.full_latin_name : 'E-24market' }}</h6>
+                <p class="mb-0 caption-sub-title"> {{ user?user[1].typeUser : 'E-24market' }}</p>
               </div>
             </a>
             <ul v-if="user" class="dropdown-menu dropdown-menu-end px-2 py-2" aria-labelledby="navbarDropdown">

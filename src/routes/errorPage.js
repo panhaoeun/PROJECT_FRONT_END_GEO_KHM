@@ -3,7 +3,7 @@ import UnauthorizedError from "../components/error_page/UnauthorizedError.vue";
 
 export default [
     {
-        path: "/page/error/not-found",
+        path: "/404",
         meta: {template: 'error-page'},
         hidden: true,
         children: [
