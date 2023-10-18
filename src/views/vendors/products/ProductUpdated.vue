@@ -877,16 +877,14 @@ export default {
                         proDisKH: String(this.proDesKh) ?? '',
                         imageIds: 256
                     }
-                    console.log(updateProductArr,productId, "updateProductArr")
                     this.productSerClass.updateProductID(updateProductArr,productId).then((response) => {
-                            console.log(response)
                             if (response.data.success === true) {
                                 this.submitted = false;
                                 this.errorValidateFile = [];
                                 this.isProcessingSubmit = true;
                                 this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
                                 // Push Router
-                                // this.$router.push("/vendor/products/list");
+                                this.$router.push("/vendor/products/list");
                             }
                         }).catch(error => {
                             try {
