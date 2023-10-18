@@ -33,55 +33,6 @@
                             <!-- Data Table Header -->
                             <template #header>
                                 <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                                    <!-- Filters Product By Category and Sub Categories -->
-                                    <h4 class="m-0 flex">
-                                        <!-- Categories -->
-                                        <div class="flex">
-                                            <Dropdown :options="catListSelectOptProList" filter
-                                                v-model="selectedProCatFilter" inputId="catID" optionLabel="catNameEn"
-                                                :placeholder="$t('route.select') + $t('category.category')"
-                                                aria-describedby="dd-error" class="md:w-full border-round-lg text-sm">
-                                                <template #value="slotProps">
-                                                    <div v-if="slotProps.value" class="flex align-items-center">
-                                                        <div>{{ slotProps.value?.catNameEn }}</div>
-                                                    </div>
-                                                    <span v-else>
-                                                        {{ slotProps?.placeholder }}
-                                                    </span>
-                                                </template>
-                                                <template #option="slotProps">
-                                                    <div class="flex align-items-center">
-                                                        <div>{{ slotProps.option?.catNameEn }}</div>
-                                                    </div>
-                                                </template>
-                                            </Dropdown>
-                                        </div>
-                                        <!-- Sub Categories -->
-
-                                        <div class="pl-2 w-full">
-                                            <Dropdown :options="subCatListSelectOptProList" filter
-                                                v-model="selectedProSubCatProFilter"
-                                                @click="getSubCategoriesOptSelect(selectedProCatFilter)" inputId="catID"
-                                                optionLabel="categoryNameEng"
-                                                :placeholder="$t('route.select') + $t('category.category') + $t('route.sub')"
-                                                aria-describedby="dd-error" class="md:w-full border-round-lg text-sm">
-                                                <template #value="slotProps">
-                                                    <div v-if="slotProps.value" class="flex align-items-center">
-                                                        <div>{{ slotProps.value?.categoryNameEng }}</div>
-                                                    </div>
-                                                    <span v-else>
-                                                        {{ slotProps.placeholder }}
-                                                    </span>
-                                                </template>
-                                                <template #option="slotProps">
-                                                    <div class="flex align-items-center">
-                                                        <div>{{ slotProps.option?.categoryNameEng }}</div>
-                                                    </div>
-                                                </template>
-                                            </Dropdown>
-                                        </div>
-
-                                    </h4>
                                     <!-- Search Products -->
                                     <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
                                         <i class="pi pi-search" />
@@ -137,16 +88,15 @@
                                     :header="$t('route.action')" bodyStyle="text-align: center; overflow: visible">
                                     <template #body="{ data }">
                                         <div class="flex flex-wrap gap-2">
-
                                             <Button icon="pi pi-search" outlined rounded class="mr-2"
                                                 @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
-                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]" />
+                                            />
                                             <Button icon="pi pi-pencil" outlined rounded class="mr-2"
                                                 @click.prevent="$router.push(`/vendor/products/product_list/edit/${parseInt(data?.proId)}`)"
-                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_edit' }]" />
+                                            />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                 @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
-                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]" />
+                                            />
                                         </div>
                                     </template>
                                 </Column>
@@ -176,25 +126,19 @@
 <!-- Data Tables -->
 <script setup>
 
-import { ref, onBeforeMount, computed } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import ProductService from '../../../services/vendors/products/ProductServices';
-import ProductCategoriesServices from '../../../services/vendors/product_categories/ProductsCategoriesServices';
-import { ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { useAuthStoreToken } from '../../../utils/auth/AuthStoreTokenJWT';
 const { user } = storeToRefs(useAuthStoreToken());
+import { ElNotification } from 'element-plus';
 // Product Services
 const loadingProductList = ref(true);
 const products = ref(null);
 const filtersData = ref(null);
 const productService = new ProductService();
-const proCategory = new ProductCategoriesServices();
 const selectedProduct = ref();
-const selectedProCatFilter = ref();
-const catListSelectOptProList = ref(null);
-const selectedProSubCatProFilter = ref(null);
-const subCatListSelectOptProList = ref(null);
 const deleteProductDialog = ref(false);
 const productId = ref();
 const ENV_HOST_PATH_FILE = process.env.VUE_APP_PATH_FILE;
@@ -207,10 +151,10 @@ const truncateLongText = ((str, length, useWordBoundary) => {
         : subString) + "...";
 });
 onBeforeMount(() => {
-    //Get Product Categories
-    getSelectOptCategoriesFilter();
     // Filters
     initFilterData();
+    //Get Product Categories
+    listFilterEmptyProductByCatID();
 });
  // Convert Currency Amount
 const currencyFormattedKHRiel = (value) => {
@@ -236,75 +180,23 @@ const initFilterData = () => {
         }
     }
 }
-const getSelectOptCategoriesFilter = () => {
-    proCategory.getProCategory().then((data) => {
-        if (!Array.isArray(data)) {
-            ElMessage.error("Not Font Product Categories...");
-        }
-        catListSelectOptProList.value = Array.isArray(data) ? data.slice() : [];
-    });
-}
-const getSubCategoriesOptSelect = (parentCatID) => {
-    // Function Filter Product Categories
-    filterProductByCategoriesById();
-    if (!Array.isArray(parentCatID) || !parentCatID.length > 0) {
-        selectedProSubCatProFilter.value = null;
-        subCatListSelectOptProList.value = [];
-    }
-    try {
-        if (!Array.isArray(parentCatID) || parentCatID?.catID !== undefined || parentCatID?.catID !== null) {
-            proCategory.querySubProCategoryBySuperCatID(parentCatID?.catID).then((datSubCatId) => {
-                if (!datSubCatId) {
-                    subCatListSelectOptProList.value = Array.isArray() ?? [];
-                    ElMessage.error("Not Found Sub Categories...");
-                }
-                const queryCatIDSupCatId = datSubCatId.filter(categories => Array.isArray(categories?.superCatId) === Array.isArray(parentCatID?.catID));
-                subCatListSelectOptProList.value = Array.isArray(queryCatIDSupCatId) ? queryCatIDSupCatId.slice() : [];
-            }).catch((err) => {
-                Promise.reject(err?.message);
-            });
-        }
-    } catch (error) {
-        return Promise.reject(error?.message);
-    }
-}
-// Search Filter Product Categories 
-const productListFilterArr = computed(() => {
-    return listFilterEmptyProductByCatID();
-});
-const filterProductByCategoriesById = () => {
-    const categories = selectedProSubCatProFilter.value;
-    if (categories !== null && categories !== undefined) {
-        const categoriesId = categories?.catID ?? '';
-        return routerFilterProductCategories(categoriesId);
-    }
-}
-const routerFilterProductCategories = (catId) => {
-    try {
-        productService.searchFilterProductByCate(catId).then((product) => {
-            if (!product) {
-                products.value = [];
-            }
-            products.value = Array.isArray(product) ? product.slice() : [];
-        }).catch((error) => {
-            return Promise.reject(error);
-        });
-    } catch (error) {
-       return Promise.reject(error);
-    }
-}
 const listFilterEmptyProductByCatID = () => {
     try {
         productService.getDataProducts()
             .then((data) => {
                 try {
-                    products.value = Array.isArray(data) ? data.slice() : [];
-                    loadingProductList.value = false;
+                    if (!Array.isArray(data) || !data.length > 0) {
+                        products.value = [];
+                    }
+                    if (!Array.isArray(data) || data !== undefined || data !== null) {
+                        products.value = Array.isArray(data) ? data.slice() : [];
+                        loadingProductList.value = false;
+                    }
                 } catch (error) {
-                    this.$notify.error({
-                        title: 'Fail Product Service...',
-                        message: error.response.data?.message,
-                        showClose: true
+                    ElNotification({
+                        title: `Unsuccessfully get product list`,
+                        showClose: true,
+                        type: 'error'
                     });
                 }
             }
@@ -320,35 +212,39 @@ const confirmDeleteProduct = (id) => {
 }
 const deleteProductSuccess = () => {
     if (!productId.value) {
-         this.$notify.error({
-            title: 'Product Category Not Found...',
-            showClose: true
+        ElNotification({
+            title: `Product not found!`,
+            showClose: false,
+            type: 'warning'
         });
     }
     productService.deleteProByID(productId.value).then((del) => {
         if(del.data.success === true){
-                this.$notify.success({
-                    title: 'Successfully deleted product',
-                    message: del.data?.message ? del.data?.message : '' ,
-                    showClose: false
+                ElNotification({
+                    title: `Successfully Deleted Product`,
+                    message: del.data?.message ?? 'Unsuccessfully Deleted Product',
+                    showClose: true,
+                    type: 'success'
                 });
                 //Close form -> Successfully to submitted   
                 window.location.reload();
                 //Set timeout closed loading confirm deposited
                 deleteProductDialog.value = false;
             }else{
-                this.$notify.error({
-                    title: 'Unsuccessfully deleted product',
-                    message: 'Please contact to admin',
-                    showClose: false
+                ElNotification({
+                    title: `Successfully Deleted Product`,
+                    message:'Please contact to admin',
+                    showClose: true,
+                    type: 'success'
                 });
             }
     }).catch((error) => {
-        this.$notify.error({
-            title: 'Unsuccessfully Deleted Product',
-            message: error.response.data.error.message ?? 'Unsuccessfully Deleted Product',
-            showClose: true
-        }); 
+        ElNotification({
+            title: `Unsuccessfully Deleted Product`,
+            message: error.response.data.error?.message ?? 'Unsuccessfully Deleted Product',
+            showClose: true,
+            type: 'error'
+        });
     });
 }
 </script>

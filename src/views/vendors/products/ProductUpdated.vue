@@ -137,7 +137,7 @@
                                     <div class="col-4 lg:col-6 field">
                                         <div class="field">
                                             <label for="name_en" class="text-sm font-semibold">Discount</label>
-                                            <InputNumber mode="decimal" placeholder="Unit Price"
+                                            <InputNumber mode="decimal" placeholder="Discount"
                                                 inputClass="border-round-lg text-sm" v-model="proDiscount" />
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
                                     <!-- Product Prices -->
                                     <div class="col-4 lg:col-6 field">
                                         <div class="field">
-                                            <label for="name_en" class="text-sm font-semibold">Unit Price</label>
+                                            <label for="name_en" class="text-sm font-semibold">Unit Price (៛)</label>
                                             <InputNumber mode="decimal" placeholder="Unit Price"
                                                 inputClass="border-round-lg text-sm" v-model="v$.proUnitPice.$model"
                                                 :class="{ 'p-invalid border-round-lg p-error': v$.proUnitPice.$invalid && submitted }" />
@@ -216,7 +216,7 @@
                                             <!--Express Delivery -->
                                             <div class="col-4">
                                                 <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Express Delivery</label>
+                                                    <label for="name_en" class="text-sm font-semibold">Express Delivery (៛)</label>
                                                     <InputNumber mode="decimal" placeholder="Express Delivery" inputClass="border-round-lg text-sm" :minFractionDigits="2" :maxFractionDigits="5"   v-model="v$.expressDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.expressDeliveryShipping.$invalid && submitted }"/>
                                                     <small v-if="(v$.expressDeliveryShipping.$invalid && submitted) || v$.expressDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.expressDeliveryShipping.required.$message.replace('Value', 'Express Delivery') }}</small>
                                                 </div>
@@ -224,7 +224,7 @@
                                             <!--Normal Delivery -->
                                             <div class="col-4">
                                                 <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Normal Delivery</label>
+                                                    <label for="name_en" class="text-sm font-semibold">Normal Delivery (៛)</label>
                                                     <InputNumber mode="decimal" placeholder="Normal Delivery" inputClass="border-round-lg text-sm"  :minFractionDigits="2" :maxFractionDigits="5"  v-model="v$.normalDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.normalDeliveryShipping.$invalid && submitted }"/>
                                                     <small v-if="(v$.normalDeliveryShipping.$invalid && submitted) || v$.normalDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.normalDeliveryShipping.required.$message.replace('Value', 'Normal Delivery') }}</small>
                                                 </div>
@@ -336,8 +336,8 @@
                                                 <div class="col-6 lg:col-7 px-2 py-2">
                                                     <div class="field">
                                                         <label for="name_en" class="text-sm font-semibold pl-3">
-                                                            Product Images
-                                                            (Available 10 Image Uploads)
+                                                            Product Images (Available 10 Image Uploads)
+                                                            (600 x 600px)
                                                             <span class="p-error">*</span>
                                                         </label>
                                                         <!-- Upload Filed -->
@@ -363,7 +363,9 @@
                                                 <!-- Upload Thumbnail -->
                                                 <div class="col-6 lg:col-5 px-2 py-2">
                                                     <div class="field">
-                                                        <label for="name_en" class="text-sm font-semibold">Thumbnail
+                                                        <label for="name_en" class="text-sm font-semibold">
+                                                            Thumbnail
+                                                            (500 x 500px)
                                                             (Available 1 Image Uploads) <span class="p-error">*</span>
                                                         </label>
                                                         <el-upload action="#"
@@ -413,8 +415,6 @@
                 <!--Buttons Submits Updated-->
                 <div class="col-12 flex justify-content-end mt-4">
                     <!--Buttons-->
-                    <Button icon="pi pi-times" label="Cancel"
-                        class="p-button-lg btn btn-danger py-3 p-button-outlined w-10rem mr-3" />
                     <Button icon="pi pi-check" class="p-button-lg btn btn-primary py-3 w-10rem" type="submit" label="Save"
                         @click.prevent="submitFormProductUpdated(!v$.$invalid)" />
                 </div>
@@ -538,7 +538,8 @@ export default {
             normalDeliveryShipping: '',
             maximinsOrderProduct: '',
             packingTypeShip: '',
-            deliveryShippingCompanyList: []
+            deliveryShippingCompanyList: [],
+            proThumbnailSingle: null
         }
     },
     mounted() {
@@ -583,7 +584,6 @@ export default {
                     this.proSubCategoryService.querySubProCategoryBySuperCatID(parentCatID?.catID).then((datSubCatId) => {
                         if (!datSubCatId) {
                             this.catSubListDropDownPro = Array.isArray() ?? [];
-                            ElMessage.error("Not Found Sub Categories...");
                         }
                         const queryCatIDSupCatId = datSubCatId.filter(categories => Array.isArray(categories?.superCatId) === Array.isArray(parentCatID?.catID));
                         this.catSubListDropDownPro = Array.isArray(queryCatIDSupCatId) ? queryCatIDSupCatId.slice() : [];
@@ -736,7 +736,7 @@ export default {
         },
         //============Upload Files Single===========
         handleChangeFileUpdated(file) {
-            this.proThumbnail = file.raw;
+            this.proThumbnailSingle = file.raw;
             //Check Upload File
             this.beforeAvatarUpload(file.raw);
             this.objClass.upLoadHide = true;//上传图片后置upLoadHide为真，隐藏上传框
@@ -841,8 +841,6 @@ export default {
                 if (
                     !this.proNameEn !== ''
                     && !this.proUnitPice || !this.proCode
-                    && this.discountType !== undefined
-                    && this.discountType !== null
                     && this.selectedProCat !== null
                     && this.selectedProSubCat !== null
                     &&  this.selectedDeliveryCompany !== null
@@ -852,73 +850,70 @@ export default {
                         const errorValidation = this.v$.$errors;
                         this.$toast.add({ severity: 'error', summary: 'Error Message', detail: errorValidation[0]?.$message, life: 1000 });
                     }
-                } else {
-                    if (this.v$.$invalid === true) {
-                        const productId = parseInt(this.$route.params?.proId) ?? '';
-                        if(!this.selectedProCat && !this.selectedProSubCat){
-                            this.$toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please select categories and sub categories', life: 1000 });
-                        }else{
-                           const updateProductArr = {
-                            shippingCompany : parseInt(this.selectedDeliveryCompany?.ship_id) ?? 1,
-                            expressPriceDelivery: this.expressDeliveryShipping ?? 0,
-                            normalPriceDelivery: this.normalDeliveryShipping ?? 0,
-                            maximinsOrder: this.maximinsOrderProduct ?? 1,
-                            packingType: this.packingTypeShip ?? '',
-                            proCategoryID: parseInt(this.selectedProSubCat?.catID) ?? '',
-                            proNameEng: String(this.proNameEn) ?? '',
-                            proNameKh: String(this.proNameKh) ?? '',
-                            proCode: String(this.proCode) ?? '',
-                            proMeasure: String(this.measureUnit) ?? '',
-                            proTotalQty: parseInt(this.proQty) ?? '',
-                            proThumbnail: this.proThumbnail ?? '',
-                            proImgMalUpload: this.formUploadArr.resourceList ?? [],
-                            proUnitPrice: parseFloat(this.proUnitPice) ?? '',
-                            proSpecJson: this.sectionSpecPro ?? '',
-                            proDiscount: parseFloat(this.proDiscount) ?? 0,
-                            proDiscountType: this.discountType ?? '',
-                            proDisEng: String(this.desProEn) ?? '',
-                            proDisKH: String(this.proDesKh) ?? '',
-                        }
-                        this.productSerClass.updateProductID(updateProductArr,productId).then((response) => {
+                }
+                const productId = parseInt(this.$route.params?.proId) ?? '';
+                if(!this.selectedProCat && !this.selectedProSubCat){
+                        this.$toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please select categories and sub categories', life: 1000 });
+                }else{
+                    const updateProductArr = {
+                        shippingCompany : parseInt(this.selectedDeliveryCompany?.ship_id) ?? 1,
+                        expressPriceDelivery: this.expressDeliveryShipping ?? 0,
+                        normalPriceDelivery: this.normalDeliveryShipping ?? 0,
+                        maximinsOrder: this.maximinsOrderProduct ?? 1,
+                        packingType: this.packingTypeShip ?? '',
+                        proCategoryID: parseInt(this.selectedProSubCat?.catID) ?? '',
+                        proNameEng: String(this.proNameEn) ?? '',
+                        proNameKh: String(this.proNameKh) ?? '',
+                        proCode: String(this.proCode) ?? '',
+                        proMeasure: String(this.measureUnit) ?? '',
+                        proTotalQty: parseInt(this.proQty) ?? '',
+                        proThumbnail: this.proThumbnailSingle ? this.proThumbnailSingle:  '',
+                        proImgMalUpload: this.formUploadArr.resourceList ?? [],
+                        proUnitPrice: parseFloat(this.proUnitPice) ?? '',
+                        proSpecJson: this.sectionSpecPro ?? '',
+                        proDiscount: parseFloat(this.proDiscount) ?? 0,
+                        proDiscountType: this.discountType ?? '',
+                        proDisEng: String(this.desProEn) ?? '',
+                        proDisKH: String(this.proDesKh) ?? '',
+                        imageIds: 256
+                    }
+                    console.log(updateProductArr,productId, "updateProductArr")
+                    this.productSerClass.updateProductID(updateProductArr,productId).then((response) => {
+                            console.log(response)
                             if (response.data.success === true) {
                                 this.submitted = false;
                                 this.errorValidateFile = [];
                                 this.isProcessingSubmit = true;
                                 this.$toast.add({ severity: 'success', summary: 'Success Message', detail: response.data.message, life: 3000 });
                                 // Push Router
-                                this.$router.push("/vendor/products/list");
+                                // this.$router.push("/vendor/products/list");
                             }
-                        })
-                            .catch(error => {
-                                try {
-                                   this.$notify.error({
-                                        title: 'Unsuccessfully updated product',
-                                        message: error.response.data.error.message ?? 'Unsuccessfully updated product',
-                                        showClose: true
-                                    });  
-                                    if(error.response.data.error.error.errors){
-                                        for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
-                                            const messageValidation = error.response.data.error.error.errors[index].message ?? '';
-                                            this.$notify.error({
-                                                title: 'Unsuccessfully updated product',
-                                                message: messageValidation ?? 'Unsuccessfully updated product',
-                                                showClose: true
-                                            });   
-                                        }
-                                    } 
-                                } catch (error) {
-                                    if (error instanceof RangeError) {
-                                        // statements to handle this very common expected error
-                                    } else {
-                                        throw error;  // re-throw the error unchanged
+                        }).catch(error => {
+                            try {
+                            this.$notify.error({
+                                    title: 'Unsuccessfully updated product',
+                                    message: error.response.data.error.message ?? 'Unsuccessfully updated product',
+                                    showClose: true
+                                });  
+                                if(error.response.data.error.error.errors){
+                                    for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                        const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                        this.$notify.error({
+                                            title: 'Unsuccessfully updated product',
+                                            message: messageValidation ?? 'Unsuccessfully updated product',
+                                            showClose: true
+                                        });   
                                     }
+                                } 
+                            } catch (error) {
+                                if (error instanceof RangeError) {
+                                    // statements to handle this very common expected error
+                                } else {
+                                    throw error;  // re-throw the error unchanged
                                 }
-                            });
-                        }
-                        
+                            }
+                        });
                     }
-                }
-                this.v$.$touch();
                 if (!isFormValid) {
                     return;
                 }

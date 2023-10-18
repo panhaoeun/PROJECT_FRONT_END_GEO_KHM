@@ -7,7 +7,7 @@ export default class ProductCategoriesServices {
     async getProCategory(data) {
         return await httpJson.get("/vendors/product_management/product_category/list", data)
              .then((result) => {
-                 if (result.status == '201') {
+                 if (result.status == 201) {
                      if (result.data.success == true) {
                         //  console.log(result.data.result.resultStatus)
                          return result.data.result.resultStatus;

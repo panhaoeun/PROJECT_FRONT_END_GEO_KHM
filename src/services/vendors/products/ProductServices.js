@@ -1,6 +1,6 @@
 import http from "../../../../http-access-control";
 import httpFrom from "../../../../http-common";
-import authHeader from "../../authencations/AuthHeader";
+// import authHeader from "../../authencations/AuthHeader";
 export default class ProductServices{
     /**
      * @Customer of Products - Start
@@ -20,9 +20,7 @@ export default class ProductServices{
             });
     }
     async getCustomerProductsDetailByID(productId, data) {
-        return await http.get(`/customers/products/product_module/view_product_detail/products_detail?pid=${parseInt(productId) ?? []}`, {
-            headers: authHeader()
-        }, data)
+        return await http.get(`/customers/products/product_module/view_product_detail/products_detail?pid=${parseInt(productId) ?? []}`,data)
             .then((result) => {
                 if (result.status == '200') {
                     if (result.data.success == true) {
@@ -40,11 +38,7 @@ export default class ProductServices{
      // Get 
    async searchFilterProductByCate(categoryId, data) {
        return await http.get(
-               `/vendors/product_management/search/product-by-categories?category=${parseInt(categoryId) ?? 1}`, {
-                   headers: authHeader()
-               },
-               data
-           )
+            `/vendors/product_management/search/product-by-categories?category=${parseInt(categoryId) ?? 1}`, data)
            .then((result) => {
                if (!result) {
                    return;
@@ -60,11 +54,9 @@ export default class ProductServices{
            });
    }
     async getDataProducts(data){
-        return await http.get("/vendors/product_management/products/list",{
-            headers: authHeader()
-        },data)
+        return await http.get("/vendors/product_management/products/list",data)
             .then((result) => {
-               if(result.status == '201'){
+               if(result.status == 201){
                     if(result.data.success == true){
                       return result.data.result.resultStatus;
                     }   
@@ -72,7 +64,7 @@ export default class ProductServices{
             })
             .catch((error) => {
                return Promise.reject(error);
-            });
+        });
     }
    //Create
    async createProduct(data){

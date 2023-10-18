@@ -114,7 +114,8 @@
                                 <div class="col-4 lg:col-6 field">
                                     <div class="field">
                                         <label for="name_en" class="text-sm font-semibold">Measure</label>
-                                        <InputText class="p-inputtext p-component border-round-lg text-sm" type="text" v-model="measureUnit" placeholder="Measure" />
+                                        <InputText class="p-inputtext p-component border-round-lg text-sm" type="text" v-model="v$.measureUnit.$model" placeholder="Measure" :class="{ 'p-invalid border-round-lg p-error': v$.measureUnit.$invalid && submitted }" />
+                                    <small v-if="(v$.measureUnit.$invalid && submitted) || v$.measureUnit.$pending.$response" class="p-error text-lg">{{ v$.measureUnit.required.$message.replace('Value', 'Measure') }}</small>
                                     </div>
                                 </div>
                                 <!-- Discount Type  and Discount -->
@@ -134,7 +135,7 @@
                                 <!-- Product Prices -->
                                 <div class="col-4 lg:col-6 field">
                                     <div class="field">
-                                        <label for="name_en" class="text-sm font-semibold">Unit Price</label>
+                                        <label for="name_en" class="text-sm font-semibold">Unit Price (៛)</label>
                                         <InputNumber mode="decimal" placeholder="Unit Price" :minFractionDigits="2" :maxFractionDigits="5"  inputClass="border-round-lg text-sm"  v-model="v$.proUnitPice.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proUnitPice.$invalid && submitted }"/>
                                          <small v-if="(v$.proUnitPice.$invalid && submitted) || v$.proUnitPice.$pending.$response" class="p-error text-sm">{{ v$.proUnitPice.required.$message.replace('Value', 'Unit Price') }}</small>
                                     </div>
@@ -185,7 +186,7 @@
                                             <!--Express Delivery -->
                                             <div class="col-4">
                                                 <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Express Delivery</label>
+                                                    <label for="name_en" class="text-sm font-semibold">Express Delivery (៛)</label>
                                                     <InputNumber mode="decimal" placeholder="Express Delivery" inputClass="border-round-lg text-sm" :minFractionDigits="2" :maxFractionDigits="5"   v-model="v$.expressDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.expressDeliveryShipping.$invalid && submitted }"/>
                                                     <small v-if="(v$.expressDeliveryShipping.$invalid && submitted) || v$.expressDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.expressDeliveryShipping.required.$message.replace('Value', 'Express Delivery') }}</small>
                                                 </div>
@@ -193,7 +194,7 @@
                                             <!--Normal Delivery -->
                                             <div class="col-4">
                                                 <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Normal Delivery</label>
+                                                    <label for="name_en" class="text-sm font-semibold">Normal Delivery (៛)</label>
                                                     <InputNumber mode="decimal" placeholder="Normal Delivery" inputClass="border-round-lg text-sm"  :minFractionDigits="2" :maxFractionDigits="5"  v-model="v$.normalDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.normalDeliveryShipping.$invalid && submitted }"/>
                                                     <small v-if="(v$.normalDeliveryShipping.$invalid && submitted) || v$.normalDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.normalDeliveryShipping.required.$message.replace('Value', 'Normal Delivery') }}</small>
                                                 </div>
@@ -283,6 +284,7 @@
                                                 <div class="field">
                                                     <label for="name_en" class="text-sm font-semibold pl-3">
                                                         Product Images 
+                                                        (600 x 600px)
                                                         (Available 10 Image Uploads)
                                                         <span class="p-error">*</span>
                                                      </label>
@@ -341,7 +343,7 @@
                                             <!-- Upload Thumbnail -->
                                             <div class="col-6 lg:col-5 px-2 py-2">
                                                 <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Thumbnail (Available 1 Image Uploads)  <span class="p-error">*</span> </label>
+                                                    <label for="name_en" class="text-sm font-semibold">Thumbnail  (500 x 500px) (Available 1 Image Uploads)  <span class="p-error">*</span> </label>
                                                     <el-upload action="#" 
                                                         list-type="picture-card" 
                                                         :on-preview="handlePictureCardPreview"
@@ -391,10 +393,6 @@
                 <div class="col-12 flex justify-content-end mt-4"> 
                     <!--Buttons-->
                     <Button 
-                        icon="pi pi-times"
-                        label="Cancel"
-                        class="p-button-lg btn btn-danger py-3 p-button-outlined w-10rem mr-3" />
-                    <Button 
                         icon="pi pi-check" 
                         class="p-button-lg btn btn-primary py-3 w-10rem"
                         type="submit"
@@ -432,6 +430,7 @@
         },
         validations() {
             return {
+                measureUnit: {required},
                 selectedDeliveryCompany: {required},
                 expressDeliveryShipping: {required},
                 normalDeliveryShipping: {required},

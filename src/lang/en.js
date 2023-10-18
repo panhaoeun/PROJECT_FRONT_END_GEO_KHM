@@ -250,7 +250,7 @@ export default {
     product: {
         productList: "Product List",
         productName: "Product Name",
-        purchasePrice: "Purchase Price",
+        purchasePrice: "Product Price",
         qty: "Quantity",
         loadingProduct: "fetching products..."
     },
