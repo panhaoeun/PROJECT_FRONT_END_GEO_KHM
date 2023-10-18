@@ -27,12 +27,20 @@
                             <div class="col-12 lg:col-12">
                                 <!-- Form Layouts -->
                                 <div class="grid formgrid">
-                                    <div class="col-12 field">
+                                    <div class="col-12 col-lg-6 field">
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en">Shop Name (Eng)<span class="p-error">*</span></label>
                                             <InputText id="product_name" placeholder="Name" type="text" class="py-3 border-round-lg"
                                                 v-model="updateMyShopArrDataShop.shop_eng" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6 field">
+                                        <!-- Name Category -->
+                                        <div class="field">
+                                            <label for="name_en">Shop Type<span class="p-error">*</span></label>
+                                            <InputText id="product_name" placeholder="Name" type="text" class="py-3 border-round-lg"
+                                                v-model="updateMyShopTypeArrDataShop.shopEn" />
                                         </div>
                                     </div>
                                     <!--=========User Address===========-->
@@ -96,7 +104,7 @@
                                     <div class="col-12 field">
                                         <!--Category Logo -->
                                         <div class="field">
-                                            <label for="name_en">Shop Logo <span class="p-error">*</span> </label>
+                                            <label for="name_en">Shop Logo (500 x 500 px)<span class="p-error">*</span> </label>
                                             <!-- Upload Files -->
                                             <div>
                                                 <el-upload action="#" 
@@ -109,6 +117,7 @@
                                                     accept=".jpg, .png, .jpeg"
                                                     :class="objClass"
                                                     :file-list="fileShopLogoList" 
+                                                    :on-exceed="handleExceedEditShop" 
                                                     v-model="file"
                                                     ref="file"
                                                     :limit="1">
@@ -125,24 +134,26 @@
                                     <!-- Banner -->
                                     <div class="col-12 field">
                                         <div class="field">
-                                            <label for="name_en">Shop Banner <span class="p-error">*</span> </label>  
+                                            <label for="name_en">Shop Banner (9000 x 3000px) <span class="p-error">*</span> </label>  
                                             <el-upload action="#" 
-                                                    list-type="picture-card" 
+                                                    list-type="picture-card"
+                                                    class="avatar-uploader-cover"
                                                     :on-preview="handlePictureCardPreviewBanner"
                                                     :on-remove="handleRemoveBannerShop" 
                                                     :show-file-list="true"
                                                     :auto-upload="false"
                                                     :on-change="handleChangeShopBanner" 
                                                     accept=".jpg, .png, .jpeg"
+                                                    :on-exceed="handleExceedEditShop" 
                                                     :class="objClassBannerShop"
-                                                    :file-list="fileShopLogoList" 
+                                                    :file-list="fileShopBannerList" 
                                                     v-model="fileShopBanner"
                                                     ref="fileShopBanner"
                                                     :limit="1">
                                                     <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
                                                     <!-- Preview Image -->
-                                                    <el-dialog v-model="dialogImageUrlBanner">
-                                                        <img w-ful class="w-full" :src="dialogVisibleBanner"
+                                                    <el-dialog v-model="dialogVisibleBanner">
+                                                        <img w-ful class="w-full" :src="dialogImageUrlBanner"
                                                             alt="Preview Image" />
                                                     </el-dialog>
                                                 </el-upload>
@@ -169,7 +180,7 @@
                                     </div>
                                     <!-- Editor -->
                                     <div class="col-12 field">
-                                        <Editor v-model="editMyShopDesEng" placeholder="Descriptions *"
+                                        <Editor v-model="updateMyShopArrDataShop.sh_noted" placeholder="Descriptions *"
                                             editorStyle="height: 320px" />
                                     </div>
                                 </div>
@@ -236,6 +247,7 @@ export default {
             file: null,
             notifmsg: '',
             updateMyShopArrDataShop: [],
+            updateMyShopTypeArrDataShop: [],
             updateMyShopArrDataLocation: [],
             fileShopLogoList: [],
             fileShopBannerList: [],
@@ -259,10 +271,12 @@ export default {
            if (!Array.isArray(shop) || !shop.length > 0) {
                 this.updateMyShopArrDataShop = [];
                 this.updateMyShopArrDataLocation = [];
+                this.updateMyShopTypeArrDataShop = [];
             }
             if (!Array.isArray(shop) || shop !== undefined || shop !== null) {
-                this.updateMyShopArrDataShop = shop?.shop;
                 this.updateMyShopArrDataLocation = shop?.location;
+                this.updateMyShopArrDataShop = shop?.shop;
+                this.updateMyShopTypeArrDataShop = shop?.shopType;
                 // Logo Img
                 this.reListShopLogo(this.updateMyShopArrDataShop?.shop_logo);
                 this.reListShopBanner(this.updateMyShopArrDataShop?.sh_banner);
@@ -281,6 +295,14 @@ export default {
     },
     methods: {
         //============Uploads Files Logo================
+        handleExceedEditShop(files, fileList) {
+            this.$message.warning(
+                `Currently, 01 pictures are limited to be selected.
+                        This time, it is selected ${files.length} 
+                        Pictures selected ${files.length + fileList.length
+                } Pictures`
+            );
+        },
         async reListShopLogo(logo){
              const shopLogoImg = `${this.ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${logo ? logo : ''}`;
             // Push Logo
@@ -305,7 +327,9 @@ export default {
             this.objClass.upLoadShow = false;
         },
         handleRemove(file, fileList) {
-            console.log(file, fileList)
+            let fileBuffer = Array.from(file);
+            fileBuffer.splice(fileList, 1);
+            this.file = null;
             this.objClass.upLoadShow = true;
             this.objClass.upLoadHide = false;
         },
@@ -328,7 +352,11 @@ export default {
             this.dialogImageUrlBanner = file.url;
             this.dialogVisibleBanner = true;
         },
-        handleRemoveBannerShop(){
+        handleRemoveBannerShop(file, fileList){
+            let fileBuffer = Array.from(file);
+            fileBuffer.splice(fileList, 1);
+            this.fileShopBanner = null;
+
             this.objClassBannerShop.upLoadShoBanner = true;
             this.objClassBannerShop.upLoadHideBanner = false;
         },
@@ -339,30 +367,55 @@ export default {
             this.objClassBannerShop.upLoadShoBanner = false;
             this.objClassBannerShop.upLoadHideBanner = true;
         },
+        // Updated My Shop
         async handleCategorySubmit(isFormValidCategorySub) {
             try {
                 this.submitted = true;
-                if (!isFormValidCategorySub) {
-                    ElMessage.error('Name is required!');
-                    return;
-                }
                 if (!this.myShopEditNameEng != "" || this.myShopEditNameEng !== null) {
                     // Data Response
-                    const data = {
-                        productCatEng: this.myShopEditNameEng,
-                        file: this.file,
+                    const dataMyShopInfo = {
+                        shopNameEng: this.updateMyShopArrDataShop?.shop_eng ? this.updateMyShopArrDataShop?.shop_eng : '',
+                        shopNameKh: this.updateMyShopArrDataShop?.shop_kh ? this.updateMyShopArrDataShop?.shop_kh : '',
+                        shopTypeNameEng: this.updateMyShopTypeArrDataShop?.shopEn ? this.updateMyShopTypeArrDataShop?.shopEn: '',
+                        shopTypeNameKh: this.updateMyShopTypeArrDataShop?.shopKh ? this.updateMyShopTypeArrDataShop?.shopKh : '',
+                        billingAddressShop: this.updateMyShopArrDataLocation?.buildingAddress ? this.updateMyShopArrDataLocation?.buildingAddress : '',
+                        address01Shop: this.updateMyShopArrDataLocation?.shopAddr01 ? this.updateMyShopArrDataLocation?.shopAddr01 : '',
+                        address02Shop: this.updateMyShopArrDataLocation?.shopAddr02 ? this.updateMyShopArrDataLocation?.shopAddr02 : '',
+                        addressCityShop: this.updateMyShopArrDataLocation?.shop_city ? this.updateMyShopArrDataLocation?.shop_city : '',
+                        addressZipShop: this.updateMyShopArrDataLocation?.shop_zipcode ? this.updateMyShopArrDataLocation?.shop_zipcode : '',
+                        shopNoted: this.updateMyShopArrDataShop?.sh_noted ? this.updateMyShopArrDataShop?.sh_noted : '',
+                        myShopLogo: this.file ? this.file : null,
+                        myShopBanner: this.fileShopBanner ? this.fileShopBanner : '',
                     }
-                    this.proCategoryService.createProCategory(data).then((response) => {
-                        if(response.data.success == true){
-                            ElMessage.success(response.data.message);
-                            // Push Router
-                            this.$router.push("/vendor/sellers/shop/my_shop_vendor");
-                        }
+                    this.shopMGServices.updatedShopInformation(dataMyShopInfo).then(() => {
+                        this.$notify.success({
+                            title: 'Successful updated shop information',
+                            showClose: true
+                        });
+                        // Push Router
+                        this.$router.push("/vendor/sellers/shop/my_shop_vendor");
                     })
                     .catch(error => {
-                        this.notifmsg = error.response.data;
-                        return false;
+                        this.$notify.error({
+                            title: 'Unsuccessfully updated shop information',
+                            message: error.response.data.error?.message,
+                            showClose: true
+                        });  
+                        if(error.response.data.error.error.errors){
+                            for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                this.$notify.error({
+                                    title: 'Unsuccessfully updated shop information',
+                                    message: messageValidation ? messageValidation : '',
+                                    showClose: true
+                                });   
+                            }
+                        } 
                     });
+                }
+                // Validations
+                if (!isFormValidCategorySub) {
+                    return;
                 }
             } catch (error) {
                 //  Toast Alert 
@@ -396,6 +449,7 @@ export default {
 /* Banner */
 .upLoadShoBanner .el-upload {
     width: 20rem !important;
+    aspect-ratio: 3/1;
     height: 20rem !important;
     line-height: 20rem !important;
 }

@@ -10,19 +10,28 @@
                         <div class="px-2 py-2 profile-logo1">
                             <div class="flex-column justify-center align-items-center">
                                 <Avatar
-                                 :image="`${ENV_HOST_PATH_FILE}uploads/sellers/${myShopArrDataShop?.shop_logo}`"
+                                 :image="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${myShopArrDataShop?.shop_logo}`"
                                  class="mr-4 flex align-items-center" style="width: 300px; height: 300px;" shape="circle" size="xlarge" />
                             </div>
                         </div>
                         <div class="flex-column align-items-center mb-3 mb-sm-0 px-2 py-2 my-2">
-                            <h3 class="me-2 h3 mb-2">Name :  {{ myShopArrDataShop?.shop_eng }}</h3>
-                            <h5 class="px-2 py-2"> - Phone :01633333339</h5>
-                            <h5 class="px-2 py-2"> - Address :
-                                {{ myShopArrDataLocation?.shopAddr01}}, 
-                                {{ myShopArrDataLocation?.shopAddr02 }},
-                                {{ myShopArrDataLocation?.shop_city }},
-                                {{ myShopArrDataLocation?.shop_zipcode }}
-                            </h5>
+                            <p class="me-2 h3 mb-2">Shop Name :  {{ myShopArrDataShop?.shop_eng }}</p>
+                            <span class="me-2 h5 mb-2">Shop Type :  {{ myShopArrDataShopType?.shopEn }}</span>
+                            <div class="px-2 py-2"> 
+                                Address :
+                                <span>
+                                    {{ myShopArrDataLocation?.shopAddr01}}
+                                </span>, 
+                               <span>
+                                    {{ myShopArrDataLocation?.shopAddr02 }}
+                               </span>,
+                               <span>
+                                 {{ myShopArrDataLocation?.shop_city }}
+                               </span>,
+                               <span>
+                                 {{ myShopArrDataLocation?.shop_zipcode }}
+                               </span>
+                            </div>
                             <div class="d-flex align-items-center gap-3 px-2 py-2">
                                 <router-link to="/vendor/sellers/shop/my_shop_vendor/edit_my_shop" class="text-center btn btn-primary d-flex gap-2">
                                 <svg width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -42,14 +51,14 @@
 
 <!-- Script of JS -->
 <script>
-  import { ElMessage } from 'element-plus';
   import ShopManagementsServices from '../../../services/vendors/shop_management/ShopManagementInforServices';
   export default{
     data() {
         return {
             ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE,
-            myShopArrDataShop: '',
-            myShopArrDataLocation: '',
+            myShopArrDataShop: [],
+            myShopArrDataLocation: [],
+            myShopArrDataShopType: []
         }
     },
     created() {
@@ -57,12 +66,18 @@
     },
     mounted(){
         const myShopByVendor = new ShopManagementsServices();
-        myShopByVendor.myShopByID().then((data) => {
-            if (!data) {
-                ElMessage.error("Internal Error...",data);
+        myShopByVendor.myShopByID().then((shop) => {
+            if (!Array.isArray(shop) || !shop.length > 0) {
+                this.myShopArrDataShop = [];
+                this.myShopArrDataShopType = [];
+                 this.myShopArrDataLocation = [];
             }
-            this.myShopArrDataShop = data?.shop;
-             this.myShopArrDataLocation = data?.location;
+            if (!Array.isArray(shop) || shop !== undefined || shop !== null) {
+                this.myShopArrDataShop = shop?.shop;
+                this.myShopArrDataShopType = shop?.shopType;
+                this.myShopArrDataLocation = shop?.location;
+            }
+           
         });
     }
   }

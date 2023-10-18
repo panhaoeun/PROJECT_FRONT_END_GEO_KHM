@@ -331,7 +331,7 @@
                                         <!-- Upload Banner of Shoppings -->
                                         <div class="field">
                                             <!-- Logo -->
-                                            <label for="name">Logo: (100 x 100px)<span class="p-error">*</span></label>
+                                            <label for="name">Logo: (500 x 500px)<span class="p-error">*</span></label>
                                             <FileUpload mode="basic" name="uploadFileShopLogo[]" ref="uploadFileShopLogo"
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileLogo" :auto="true" chooseLabel="Browse" />
@@ -344,7 +344,7 @@
                                             </div>
                                         </div>
                                         <div class="field">
-                                            <label for="name">Banner: Ratio 4:1 (2000 x 500 px)<span class="p-error">*</span></label>
+                                            <label for="name">Banner: (9000 x 3000px)<span class="p-error">*</span></label>
                                             <FileUpload mode="basic" name="uploadFileBanner[]" ref="uploadFileBanner"
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileBanner" :auto="true" chooseLabel="Browse" />
@@ -560,7 +560,7 @@
                                         <!-- Upload Banner of Shoppings -->
                                         <div class="field">
                                             <!-- Logo -->
-                                            <label for="name">Logo (100*100)<span class="p-error">*</span></label>
+                                            <label for="name">Logo (500 x 500px)<span class="p-error">*</span></label>
                                             <FileUpload mode="basic" name="uploadFileShopLogo[]" ref="uploadFileShopLogo"
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileLogo" :auto="true" chooseLabel="Browse" />
@@ -574,7 +574,7 @@
                                             </div>
                                         </div>
                                         <div class="field">
-                                            <label for="name">Banner (297*203)<span class="p-error">*</span></label>
+                                            <label for="name">Banner: (9000 x 3000px)<span class="p-error">*</span></label>
                                             <FileUpload mode="basic" name="uploadFileBanner[]" ref="uploadFileBanner"
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileBanner" :auto="true" chooseLabel="Browse" />

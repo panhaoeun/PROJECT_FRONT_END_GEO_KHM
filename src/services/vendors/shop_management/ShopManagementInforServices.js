@@ -1,4 +1,5 @@
 import http from "../../../../http-common";
+import httpCommon from "../../../../http-access-control";
 import authHeader from "../../authencations/AuthHeader";
 
 export default class ShopManagementsServices {
@@ -11,7 +12,7 @@ export default class ShopManagementsServices {
                 }
             })
             .catch((error) => {
-                console.log(error)
+               return Promise.reject(error);
             });
     }
    //Create
@@ -41,7 +42,11 @@ export default class ShopManagementsServices {
             }
         })
         .catch((error) => {
-            console.log(error)
+            return Promise.reject(error);
         });
+    }
+    // Updated Shop Information
+    async updatedShopInformation(shopInfo) {
+       await httpCommon.put('/vendor/shop_management/my_shop_detail/vendor_shop/updated_shop_info/my_shop', shopInfo);
     }
 }
