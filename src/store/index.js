@@ -16,7 +16,9 @@ import usersPerm from './modules/usersPerm';
 import {
     getLanguage
 } from "../lang";
-
+import ShippingStore from './ecommerce/shipping';
+import BillingStore from './ecommerce/billing';
+import MyWalletStore from "./modules/my_wallet";
 const debug = process.env.NODE_ENV !== 'production';
 const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -50,9 +52,12 @@ const store = createStore({
         products: products,
         categories: categoriesModule,
         cart: carts,
+        myWallet: MyWalletStore,
         setting: setting,
         app: app,
         users: usersPerm,
+        shippingStore: ShippingStore,
+        billingStore: BillingStore
     },
 });
 // Load all modules.

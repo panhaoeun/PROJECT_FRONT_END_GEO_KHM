@@ -1,15 +1,8 @@
-import { ElMessage } from "element-plus";
 import router from "./routes/routes";
 import store from "./store";
-import NProgress from "nprogress";
 import 'nprogress/nprogress.css'; // progress bar style
 import { isLoggedIn } from "./utils/auth/auth";
-// import getPageTitle from '@/utils/getPageTitle';
-// import DefaultLayoutVendor from "./components/layouts/vendors/DefaultLayouts.vue";
-
-NProgress.configure({
-    showSpinner: false
-}); // NProgress Configuration
+import { ElNotification } from 'element-plus';
 const whiteList = ['/auth/login', '/auth/register', '/auth-redirect', '/']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
@@ -41,15 +34,30 @@ router.beforeEach(async (to, from, next) => {
                             path: route?.path,
                             component: route?.components,
                             alwaysShow: route?.alwaysShow,
-                            children:route?.children 
+                            children: route?.children
                         })
                     });
                     // NEXT
-                    next({ ...to,replace: true});
+                    next({
+                        ...to,
+                        replace: true
+                    });
+                   
                 } catch (error) {
                     // remove token and go to login page to re-login
                     await store.dispatch('users/resetToken');
-                    ElMessage.error(error || 'Can not Access Module- Has Error');
+                    window.localStorage.clear();
+                    const token = localStorage.getItem('token');
+                    const role = localStorage.getItem('userRole');
+                    localStorage.removeItem(token);
+                    localStorage.removeItem(role)
+                    window.localStorage.clear();
+                    // Message
+                    ElNotification.error({
+                        title: 'Unauthorized Access Module',
+                        message: error?.message ? error?.message : '',
+                        showClose: true
+                    });  
                     next(`/auth/login`);
                 }
             }

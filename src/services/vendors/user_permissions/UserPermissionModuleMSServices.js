@@ -118,6 +118,11 @@ async checkPermissionsModuleCanAccess(functionAliasName, moduleFunAcc) {
             }
         })
         .catch((error) => {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('userRole');
+            localStorage.removeItem(token);
+            localStorage.removeItem(role)
+            window.localStorage.clear();
            return Promise.reject(error);
     });
 }
