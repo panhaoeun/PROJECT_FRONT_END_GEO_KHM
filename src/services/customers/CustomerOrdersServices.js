@@ -12,7 +12,7 @@ export default class CustomerOrderCheckOutServices {
                 }
             })
             .catch((error) => {
-                console.log(error)
+                return Promise.reject(error);
             });
     }
     async createCartOrderItemCustomer(data) {

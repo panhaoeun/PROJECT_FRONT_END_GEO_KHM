@@ -98,25 +98,27 @@
                                         <div class="field">
                                             <label for="name_en">Shop Logo <span class="p-error">*</span> </label>
                                             <!-- Upload Files -->
-                                            <div v-if="updateMyShopArrDataShop?.shop_logo!== null">
-                                                <Avatar
-                                                    :image="`${ENV_HOST_PATH_FILE}uploads/sellers/${updateMyShopArrDataShop?.shop_logo}`"
-                                                    class="mr-4 flex align-items-center" style="width: 300px; height: 300px;" size="xlarge" />
-                                            </div>
-                                            <div v-else>
+                                            <div>
                                                 <el-upload action="#" 
                                                     list-type="picture-card" 
                                                     :on-preview="handlePictureCardPreview"
                                                     :on-remove="handleRemove" 
-                                                    :auto-upload="false" 
+                                                    :show-file-list="true"
+                                                    :auto-upload="false"
                                                     :on-change="handleChange" 
+                                                    accept=".jpg, .png, .jpeg"
                                                     :class="objClass"
-                                                    :file-list="fileList" 
+                                                    :file-list="fileShopLogoList" 
                                                     v-model="file"
                                                     ref="file"
                                                     :limit="1">
                                                     <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
-                                            </el-upload>
+                                                    <!-- Preview Image -->
+                                                    <el-dialog v-model="dialogVisible">
+                                                        <img w-ful class="w-full" :src="this.dialogImageUrl"
+                                                            alt="Preview Image" />
+                                                    </el-dialog>
+                                                </el-upload>
                                             </div>
                                         </div>
                                     </div>
@@ -124,9 +126,26 @@
                                     <div class="col-12 field">
                                         <div class="field">
                                             <label for="name_en">Shop Banner <span class="p-error">*</span> </label>  
-                                            <Avatar
-                                                :image="`${ENV_HOST_PATH_FILE}uploads/sellers/${updateMyShopArrDataShop?.sh_banner}`"
-                                                class="mr-4 flex align-items-center" style="width: 300px; height: 300px;" size="xlarge" />
+                                            <el-upload action="#" 
+                                                    list-type="picture-card" 
+                                                    :on-preview="handlePictureCardPreviewBanner"
+                                                    :on-remove="handleRemoveBannerShop" 
+                                                    :show-file-list="true"
+                                                    :auto-upload="false"
+                                                    :on-change="handleChangeShopBanner" 
+                                                    accept=".jpg, .png, .jpeg"
+                                                    :class="objClassBannerShop"
+                                                    :file-list="fileShopLogoList" 
+                                                    v-model="fileShopBanner"
+                                                    ref="fileShopBanner"
+                                                    :limit="1">
+                                                    <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                    <!-- Preview Image -->
+                                                    <el-dialog v-model="dialogImageUrlBanner">
+                                                        <img w-ful class="w-full" :src="dialogVisibleBanner"
+                                                            alt="Preview Image" />
+                                                    </el-dialog>
+                                                </el-upload>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +179,6 @@
                     <!-- Buttons Submits -->
                     <div class="col-12 flex justify-content-end mt-4">
                         <!--Buttons-->
-                        <Button icon="pi pi-times" class="p-button-lg py-3 w-10rem mr-3" label="Cancel" />
                         <Button icon="pi pi-check" 
                             type="submit"
                             :disabled="isProcessingSubmit" :label='isProcessingSubmit ? "Process..." : "Save"'
@@ -207,6 +225,10 @@ export default {
                 upLoadShow: true,
                 upLoadHide: false,
             },
+            objClassBannerShop: {
+                upLoadShoBanner: true,
+                upLoadHideBanner: false,
+            },
             fromList: {
                 myShopEditNameEng: '',
                 file: null,
@@ -215,6 +237,14 @@ export default {
             notifmsg: '',
             updateMyShopArrDataShop: [],
             updateMyShopArrDataLocation: [],
+            fileShopLogoList: [],
+            fileShopBannerList: [],
+            fileLogoRef: null,
+            dialogImageUrl: null,
+            dialogVisible: false,
+            dialogImageUrlBanner: null,
+            dialogVisibleBanner: false,
+            fileShopBanner: null
         }
     },
     components() {
@@ -225,12 +255,19 @@ export default {
     },
     mounted(){
         const myShopByVendor = new ShopManagementsServices();
-        myShopByVendor.myShopByID().then((data) => {
-            if (!data) {
-                ElMessage.error("Internal Error...",data);
+        myShopByVendor.myShopByID().then((shop) => {
+           if (!Array.isArray(shop) || !shop.length > 0) {
+                this.updateMyShopArrDataShop = [];
+                this.updateMyShopArrDataLocation = [];
             }
-            this.updateMyShopArrDataShop = data?.shop;
-            this.updateMyShopArrDataLocation = data?.location;
+            if (!Array.isArray(shop) || shop !== undefined || shop !== null) {
+                this.updateMyShopArrDataShop = shop?.shop;
+                this.updateMyShopArrDataLocation = shop?.location;
+                // Logo Img
+                this.reListShopLogo(this.updateMyShopArrDataShop?.shop_logo);
+                this.reListShopBanner(this.updateMyShopArrDataShop?.sh_banner);
+            }
+           
         });
     },
     //Validations
@@ -243,20 +280,35 @@ export default {
         }
     },
     methods: {
-        //============Uploads Files================
+        //============Uploads Files Logo================
+        async reListShopLogo(logo){
+             const shopLogoImg = `${this.ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${logo ? logo : ''}`;
+            // Push Logo
+            this.fileShopLogoList.push({
+                name: logo ?logo :  '',
+                url: shopLogoImg ? shopLogoImg : ''
+            });
+        },
+        async reListShopBanner(banner){
+            const shopBannerImg = `${this.ENV_HOST_PATH_FILE}uploads/sellers/shop_banner/${banner ? banner : ''}`;
+            // Push Banner
+            this.fileShopBannerList.push({
+                name: banner ? banner :  '',
+                url: shopBannerImg ? shopBannerImg : ''
+            });
+        },
         handleChange(file) {
             this.file = file.raw;
             //Check Upload File
             this.beforeAvatarUpload(file.raw);
-            this.objClass.upLoadHide = true;//上传图片后置upLoadHide为真，隐藏上传框
+            this.objClass.upLoadHide = true
             this.objClass.upLoadShow = false;
         },
         handleRemove(file, fileList) {
             console.log(file, fileList)
-            this.objClass.upLoadShow = true;//删除图片后显示上传框
+            this.objClass.upLoadShow = true;
             this.objClass.upLoadHide = false;
         },
-        // 点击预览图的放大按钮后会触发handlePictureCardPreview
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
@@ -271,16 +323,21 @@ export default {
             }
             return true
         },
-        uploadFile() {
-            this.file = this.$refs.file.files[0];
-            // this.createBase64Image(this.$refs.file.files[0]);
+        // =====Shop Banner========
+        handlePictureCardPreviewBanner(file){
+            this.dialogImageUrlBanner = file.url;
+            this.dialogVisibleBanner = true;
         },
-        createBase64Image(fileObject) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.file = e.target.result;
-            };
-            reader.readAsDataURL(fileObject);
+        handleRemoveBannerShop(){
+            this.objClassBannerShop.upLoadShoBanner = true;
+            this.objClassBannerShop.upLoadHideBanner = false;
+        },
+        handleChangeShopBanner(file) {
+            this.fileShopBanner = file.raw;
+            //Check Upload File
+            this.beforeAvatarUpload(file.raw);
+            this.objClassBannerShop.upLoadShoBanner = false;
+            this.objClassBannerShop.upLoadHideBanner = true;
         },
         async handleCategorySubmit(isFormValidCategorySub) {
             try {
@@ -299,12 +356,10 @@ export default {
                         if(response.data.success == true){
                             ElMessage.success(response.data.message);
                             // Push Router
-                            this.$router.push("/vendor/products/category/list");
+                            this.$router.push("/vendor/sellers/shop/my_shop_vendor");
                         }
                     })
                     .catch(error => {
-                        console.log(error)
-                        ElMessage.error(error);
                         this.notifmsg = error.response.data;
                         return false;
                     });
@@ -324,21 +379,32 @@ export default {
 </script>
   
 <style>
-/*当upLoadShow为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
+/* Shop */
 .upLoadShow .el-upload {
     width: 20rem !important;
     height: 20rem !important;
     line-height: 20rem !important;
 }
-
-    /*当upLoadHide为true时，启用如下样式，即缩略图的样式，若为false则不启用该样式*/
 .upLoadHide .el-upload-list--picture-card .el-upload-list__item {
     width: 20rem !important;
     height: 20rem !important;
     line-height: 20rem !important;
 }
-    /*当upLoadHide为true时，启用如下样式，即上传框的样式，若为false则不启用该样式*/
 .upLoadHide .el-upload {
+    display: none;
+}
+/* Banner */
+.upLoadShoBanner .el-upload {
+    width: 20rem !important;
+    height: 20rem !important;
+    line-height: 20rem !important;
+}
+.upLoadHideBanner .el-upload-list--picture-card .el-upload-list__item {
+    width: 20rem !important;
+    height: 20rem !important;
+    line-height: 20rem !important;
+}
+.upLoadHideBanner .el-upload {
     display: none;
 }
 .el-alert {

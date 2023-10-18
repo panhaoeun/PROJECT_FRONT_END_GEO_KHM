@@ -38,7 +38,7 @@ export default class CustomerOrderServices {
                 }
             })
             .catch((error) => {
-                console.log(error)
+                return Promise.reject(error);
             });
     }
     async createCartOrderItemCustomer(data) {

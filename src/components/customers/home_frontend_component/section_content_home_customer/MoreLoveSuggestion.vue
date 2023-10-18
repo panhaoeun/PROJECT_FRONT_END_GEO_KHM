@@ -30,6 +30,7 @@
                     :productName="product?.product_eng ?? []"
                     currency="KHR"
                     :productPrice="product?.product_unit_price ?? []"
+                    :productPriceKHR="product?.product_unit_price_khr ?? []"
                     :inStock="product?.product_qty ?? []"
                 />
             </template>
@@ -51,14 +52,12 @@
 </template>
 <!-- Script -->
 <script setup>
-import { ref } from 'vue';
-import ProductServices from '../../../../services/vendors/products/ProductServices'; 
-// import ProductPreloader from "../../../../components/preloaders/ProductPreloader.vue";
-import ProductCard from './card_module_products/ProductCard.vue';
-import { ElMessage } from 'element-plus';
-import {useInfiniteQuery} from "@tanstack/vue-query";
-// import React from 'react'
-// console.log(React)
+    import { ref } from 'vue';
+    import ProductServices from '../../../../services/vendors/products/ProductServices'; 
+    // import ProductPreloader from "../../../../components/preloaders/ProductPreloader.vue";
+    import ProductCard from './card_module_products/ProductCard.vue';
+    import { ElMessage } from 'element-plus';
+    import {useInfiniteQuery} from "@tanstack/vue-query";
     const totalPage = ref(0);
     const productMoreLove = ref([]);
     const productServicesMS = new ProductServices();
@@ -68,7 +67,6 @@ import {useInfiniteQuery} from "@tanstack/vue-query";
      * @param page - reactive variable
     */
     const getProductFlashDeal = async ({pageParam = 10 }) => {    
-        // var requestURL = 'https://api.exchangerate.host/symbols';
         try{
             await productServicesMS.getCustomerProductsData(pageParam)
                 .then(async(proResult) => {
@@ -95,6 +93,9 @@ import {useInfiniteQuery} from "@tanstack/vue-query";
         queryKey: ["productsMoreLove"],
         queryFn: getProductFlashDeal,
         getNextPageParam: (lastPage) => {
+            if(!lastPage){
+                return false;
+            }
             return lastPage.cursor;
         },
     });

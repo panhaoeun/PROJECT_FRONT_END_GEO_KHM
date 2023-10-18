@@ -186,7 +186,6 @@ export default {
                         })
                         .catch((error) => {
                             if(error){
-                                console.log(address)
                                 ElNotification.error({
                                     title: 'Error Updated Shipping Address',
                                     message: error.response.data.error.message ?? 'Unsuccessfully for updated shipping address',

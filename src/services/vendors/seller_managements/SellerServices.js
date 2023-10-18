@@ -1,6 +1,5 @@
-import http from "../../../../http-common";
-import { ElMessage } from 'element-plus';
-import httpJsonRequest from "../../../../http-json-request";
+import http from "../../../../http-access-control";
+import httpJsonRequest from "../../../../http-access-control-json";
 export default class SellerServices {
    async getListSellerAcc(data){
         return await http.get("/vendors/seller_management/seller/list", data)
@@ -12,7 +11,7 @@ export default class SellerServices {
                 }
             })
             .catch((error) => {
-                ElMessage.error({ message: error, grouping: true});
+                return Promise.reject(error);
             });
     }
     //Create

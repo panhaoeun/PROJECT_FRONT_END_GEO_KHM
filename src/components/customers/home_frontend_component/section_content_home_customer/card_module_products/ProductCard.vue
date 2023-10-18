@@ -34,8 +34,7 @@
                 </div>
                 <!-- Product Price -->
                 <div class="product-price-4">
-                    <span class="font-bold text-red-500">៛{{ exchangeRateRielMorePro }}</span>
-                    <input hidden :value="convertRielAmountMorePro(parseInt(productPrice))"/>
+                    <span class="font-bold text-red-500">{{ currencyFormattedKHRiel(productPriceKHR ? productPriceKHR : 0) }}</span>
                     <p class="font-bold">{{ formattedPrice ?? [] }}</p>
                 </div>
                 <!-- Product Stock -->
@@ -56,8 +55,7 @@
                 </div>
                 <!-- Product Price -->
                 <div class="product-price-4">
-                    <span class="font-bold text-red-500">៛{{ exchangeRateRielMorePro }}</span>
-                    <input hidden :value="convertRielAmountMorePro(parseInt(productPrice))"/>
+                    <span class="font-bold text-red-500">{{ currencyFormattedKHRiel(productPriceKHR ? productPriceKHR : 0) }}</span>
                     <p class="font-bold">{{ formattedPrice ?? [] }}</p>
                 </div>
                 <!-- Product Stock -->
@@ -81,6 +79,7 @@ export default {
         "brand",
         "productName",
         "productPrice",
+        "productPriceKHR",
         "currency",
         "ratings",
         "inStock",

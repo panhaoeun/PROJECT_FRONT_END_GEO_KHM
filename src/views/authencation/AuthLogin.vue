@@ -84,7 +84,7 @@ import { ElLoading } from 'element-plus';
 // Components
 // import socailMedia from "./socialmedia/SocialMedia.vue";
 import MazInput from 'maz-ui/components/MazInput';
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 import Cookie from "js-cookie";
 export default {
     setup: () => ({ v$: useVuelidate() }),
@@ -127,7 +127,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["set_user"]),
+        // ...mapActions(["set_user"]),
        // Handle Submit Business Account
        async handleSubmit(isFormValid) {
             try{
@@ -142,7 +142,7 @@ export default {
                         (response) => {
                             //Check validation  
                             if(response.success == true){
-                                this.set_user(response ?? []);
+                                // this.set_user(response ?? []);
                                 this.userLoggedIn = true;
                                 this.$store.dispatch("auth/setCurrentUser", response);
                                 this.$store.dispatch("auth/setToken", Cookie.get('token'));

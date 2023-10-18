@@ -19,12 +19,19 @@
                 <div class="col-12">
                     <el-card class="box-card py-2 px-2">
                         <div>
+                            <!-- ===============Seller List======================= -->
                             <div class="card">
                                 <!-- Data Table -->
-                                <DataTable ref="dt" :value="sellers" v-model:selection="selectedSeller" dataKey="id"
-                                    filterDisplay="menu" :loading="loading" :paginator="true" :rows="10" :filters="filters"
+                                <DataTable ref="dt" 
+                                    :value="sellers"
+                                    v-model:selection="selectedSeller" 
+                                    dataKey="id"
+                                    filterDisplay="menu" 
+                                    :loading="loading"
+                                    :paginator="true" 
+                                    :rows="10" :filters="filters"
                                     scrollable class="p-datatable-scrollable"
-                                    :globalFilterFields="['representative.name', 'shop_eng', 'shop_verify', 'vendorProfile', 'venNameEng', 'user_email', 'phoneNumber', 'shop_status']"
+                                    :globalFilterFields="['representative.name', 'shop_eng', 'shop_verify', 'venNameEng', 'user_email', 'phoneNumber', 'shop_status']"
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                     :rowsPerPageOptions="[5, 10, 25]"
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} sellers">
@@ -38,26 +45,26 @@
                                             </span>
                                         </div>
                                     </template>
-                                    <template #empty>{{ $t('message.noHaveDat') }}</template>
+                                    <template #empty>{{ $t('message.noHaveData') }}</template>
                                     <template #loading>{{ $t('message.dataLoading') }}</template>
                                     <!--------------Check Existed Data ----------->
                                     <div v-if="sellers && sellers.length > 0 && sellers != ''" data-id="sellers">
-                                        <Column :header="$t('seller.shopName')" sortable style="min-width:15rem">
+                                        <Column :header="$t('seller.shopName')"  sortField="shop_eng" filterField="shop_eng" sortable style="min-width:15rem">
                                             <template #body="slotProps">
                                                 <Avatar
-                                                    :image="`${ENV_HOST_PATH_FILE}uploads/sellers/${slotProps.data.shop_logo}`"
+                                                    :image="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${slotProps.data.shop_logo}`"
                                                     class="mr-2" size="large" shape="circle" />
                                                 <div class="flex flex-column ">
                                                     <span class="flex">
-                                                        {{ slotProps.data.shop_eng }}
+                                                        {{ slotProps.data?.shop_eng }}
                                                     </span>
                                                     <span class="font-bold">
-                                                        {{ slotProps.data.shop_verify }}
+                                                        {{ slotProps.data?.shop_verify }}
                                                     </span>
                                                 </div>
                                             </template>
                                         </Column>
-                                        <Column :header="$t('seller.author')" sortable style="min-width:15rem">
+                                        <Column :header="$t('seller.author')" sortField="venNameEng" filterField="venNameEng" sortable style="min-width:15rem">
                                             <template #body="slotProps">
                                                 <div v-if="slotProps.data?.vendorProfile !== null">
                                                     <Avatar
@@ -67,38 +74,38 @@
                                                 </div>
                                                 <div class="flex flex-column ">
                                                     <span class="flex font-bold">
-                                                        {{ slotProps.data.venNameEng }}
+                                                        {{ slotProps.data?.venNameEng }}
                                                     </span>
                                                     <span class="flex">
-                                                        {{ slotProps.data.user_email }}
+                                                        {{ slotProps.data?.user_email }}
                                                     </span>
                                                     <span class="flex">
-                                                        {{ slotProps.data.phoneNumber }}
+                                                        {{ slotProps.data?.phoneNumber }}
                                                     </span>
                                                 </div>
                                             </template>
                                         </Column>
-                                        <Column header="Shop Publish" sortable style="min-width:10rem">
+                                        <Column header="Shop Publish" sortable style="min-width:10rem" sortField="venStatus" filterField="venStatus">
                                             <template #body="slotProps">
                                                 <!-- Banned Seller Account -->
-                                                <div v-if="slotProps.data?.venStatus !== 'UnBanned'">
-                                                    <Tag severity="danger" value="Banned"></Tag>
-                                                </div>
-                                                <div v-if="slotProps.data.shop_verify == 'Verify'">
-                                                    <Tag severity="success" value="Verify"></Tag>
-                                                </div>
-                                                <div v-if="slotProps.data.shop_status !== 'Open'">
-                                                    <div class="font-bold" v-if="slotProps.data.shop_status">
-                                                        <div class="form-check form-switch">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                @click="changeStatusShop($event)" role="switch"
-                                                                :data-id="slotProps.data.user_id"
-                                                                v-model="slotProps.data.shop_status"
-                                                                :key="slotProps.data.user_id">
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                                <Tag severity="danger" :value="slotProps.data?.venStatus"></Tag>
+                                            </template>
+                                        </Column>
+                                        <Column header="Shop Verify" sortable style="min-width:10rem" sortField="shop_verify" filterField="shop_verify">
+                                            <template #body="slotProps">
+                                                <!-- Banned Seller Account -->
+                                             <Tag severity="success" :value="slotProps.data?.shop_verify"></Tag>
+                                            </template>
+                                        </Column>
+                                        <Column header="Open Shop" sortable style="min-width:10rem" sortField="shop_status" filterField="shop_status">
+                                            <template #body="slotProps">
+                                                <p>  {{ slotProps.data?.shop_status ? 'Open' : 'Close' }}</p>
+                                                <el-switch
+                                                    @click="changeStatusShop($event,slotProps.data?.user_id)" 
+                                                    active-color="#13ce66"
+                                                    v-model="slotProps.data.shop_status"
+                                                    inactive-color="#ff4949">
+                                                </el-switch>
                                             </template>
                                         </Column>
                                         <Column :exportable="false" :header="$t('route.action')" style="min-width:8rem">
@@ -123,25 +130,23 @@
                                     </div>
                                 </DataTable>
                             </div>
+
                             <!-- ===============Add New Sellers======================= -->
                             <Dialog v-model:visible="createSellerDialog" :style="{ width: '1000px' }" header="Seller Info"
                                 :modal="true" class="p-fluid">
                                 <!--===========================Upload Avatars==========-->
-                                <!-- Alert Message Validation -->
-                                <transition-group name="p-message" tag="div">
-                                    <Message v-for="msg of messageAlert" :key="msg.id" :severity="msg.severity">
-                                        <ul>
-                                            <li>{{ msg.content }}</li>
-                                        </ul>
-                                    </Message>
-                                </transition-group>
                                 <div class="px-2 py-2 text-center justify-center">
                                     <MazAvatar v-if="filePreview" :src="filePreview" size="3rem" class="pb-2" />
-                                    <MazAvatar v-if="!filePreview"
+                                    <MazAvatar v-if="!filePreview" 
                                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
-                                        size="3rem" class="pb-2 w-full" />
-                                    <UploadSingleFile v-model.trim="arrSeller.uploadFileLogo" required="true"
-                                        @file-updated="captureFile($event)" autofocus uploadName="Upload Avatar" />
+                                        size="3rem" class="pb-2 w-full" 
+                                    />
+                                    <UploadSingleFile 
+                                        v-model.trim="arrSeller.uploadFileLogo" required="true"
+                                        @file-updated="captureFile($event)" 
+                                        autofocus 
+                                        uploadName="Upload Avatar" 
+                                    />
                                     <small class="p-error" v-if="errorUploadAvatar">{{ errorUploadAvatar }}</small>
                                 </div>
                                 <!--===========================Upload Avatars==========-->
@@ -158,7 +163,7 @@
                                     </div>
                                     <div class="field col">
                                         <label for="name">Last Name <span class="p-error">*</span></label>
-                                        <InputText id="name" v-model.trim="arrSeller.lastNameSell" required="true" autofocus
+                                        <InputText id="name" v-model.trim="arrSeller.lastNameSell" autofocus
                                             :class="{ 'p-invalid': submitted && !arrSeller.lastNameSell }" />
                                         <small class="p-error" v-if="submitted && !arrSeller.lastNameSell">Last Name is
                                             required.</small>
@@ -240,7 +245,16 @@
                                             <InputText id="name" v-model.trim="arrSeller.shopName" required="true" autofocus
                                                 :class="{ 'p-invalid': submitted && !arrSeller.shopName }" />
                                             <small class="p-error" v-if="submitted && !arrSeller.shopName">Shop Name is
-                                                required.</small>
+                                                required.
+                                            </small>
+                                        </div>
+                                        <div class="field col">
+                                            <label for="shop_name">Shop Type<span class="p-error">*</span></label>
+                                            <InputText id="name" v-model.trim="arrSeller.shopTypeName" required="true" autofocus
+                                                :class="{ 'p-invalid': submitted && !arrSeller.shopTypeName }" />
+                                            <small class="p-error" v-if="submitted && !arrSeller.shopTypeName">
+                                                Shop Type is required.
+                                            </small>
                                         </div>
                                         <div class="field col">
                                             <label for="name">Phone<span class="p-error">*</span></label>
@@ -317,7 +331,7 @@
                                         <!-- Upload Banner of Shoppings -->
                                         <div class="field">
                                             <!-- Logo -->
-                                            <label for="name">Logo (72*72)<span class="p-error">*</span></label>
+                                            <label for="name">Logo: (100 x 100px)<span class="p-error">*</span></label>
                                             <FileUpload mode="basic" name="uploadFileShopLogo[]" ref="uploadFileShopLogo"
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileLogo" :auto="true" chooseLabel="Browse" />
@@ -330,16 +344,23 @@
                                             </div>
                                         </div>
                                         <div class="field">
-                                            <label for="name">Banner (297*203)<span class="p-error">*</span></label>
+                                            <label for="name">Banner: Ratio 4:1 (2000 x 500 px)<span class="p-error">*</span></label>
                                             <FileUpload mode="basic" name="uploadFileBanner[]" ref="uploadFileBanner"
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileBanner" :auto="true" chooseLabel="Browse" />
                                             <div class="pt-2">
-                                                <MazAvatar v-if="filePreviewBanner" :src="filePreviewBanner" size="3rem"
-                                                    class="pb-2" square no-size />
-                                                <MazAvatar v-if="!filePreviewBanner"
+                                                <img 
+                                                    v-if="filePreviewBanner" 
+                                                    :src="filePreviewBanner" 
+                                                    class="pb-2"
+                                                    style="aspect-ratio: 3/1; inline-size:auto; max-inline-size: 100%;object-fit: cover"
+                                                />
+                                                <img 
+                                                    v-if="!filePreviewBanner"
+                                                    style="aspect-ratio: 3/1; inline-size:auto; max-inline-size: 100%;object-fit: cover"
                                                     src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
-                                                    size="5rem" class="pb-2" square no-size />
+                                                    class="pb-2" square no-size 
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -349,6 +370,7 @@
                                     <Button label="Save" icon="pi pi-check" text @click.prevent="saveSellerCreate" />
                                 </template>
                             </Dialog>
+
                             <!-- ===============Edited New Sellers======================= -->
                             <Dialog v-model:visible="editedProductDialog" :style="{ width: '1000px' }" header="Seller Info"
                                 :modal="true" class="p-fluid">
@@ -364,7 +386,7 @@
                                 <div class="px-2 py-2 text-center justify-center">
                                     <MazAvatar v-if="filePreview" :src="filePreview" size="3rem" class="pb-2" />
                                     <MazAvatar v-if="!filePreview"
-                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+                                        :src="`${ENV_HOST_PATH_FILE}uploads/sellers/seller_profile/${editListSellerModule?.editVendorProfile}`"
                                         size="3rem" class="pb-2 w-full" />
                                     <UploadSingleFile v-model.trim="arrSeller.uploadFileLogo" required="true"
                                         @file-updated="captureFile($event)" autofocus uploadName="Upload Avatar" />
@@ -405,8 +427,9 @@
                                 <div class="formgrid grid">
                                     <div class="field col">
                                         <label for="name">Password</label>
-                                        <Password v-model.trim="arrSeller.passwordSeller" required="true" autofocus
-                                            :class="{ 'p-invalid': submitted && !arrSeller.passwordSeller }" toggleMask>
+                                        <Password v-model.trim="editListSellerModule.passwordSeller" 
+                                            required="true" autofocus
+                                            toggleMask>
                                             <template #header>
                                                 <h6>Pick a password</h6>
                                             </template>
@@ -421,14 +444,12 @@
                                                 </ul>
                                             </template>
                                         </Password>
-                                        <small class="p-error" v-if="submitted && !arrSeller.passwordSeller">Password is
-                                            required.</small>
                                     </div>
                                     <div class="field col">
                                         <label for="name">Confirm Password</label>
-                                        <Password v-model.trim="arrSeller.confirmPassword" required="true" autofocus
-                                            :class="{ 'p-invalid': submitted && !arrSeller.confirmPassword }"
-                                            @input="checkConfirmPassword" toggleMask>
+                                        <Password v-model.trim="editListSellerModule.confirmPassword" required="true" autofocus
+                                            @input="checkConfirmPasswordEdited" 
+                                        toggleMask>
                                             <template #header>
                                                 <h6>Pick a password</h6>
                                             </template>
@@ -443,8 +464,6 @@
                                                 </ul>
                                             </template>
                                         </Password>
-                                        <small class="p-error" v-if="submitted && !arrSeller.confirmPassword">Confirm
-                                            Password is required.</small>
                                         <small class="p-error" v-if="errorConfirmPass">{{ errorConfirmPass }}</small>
                                     </div>
                                 </div>
@@ -453,32 +472,32 @@
                                     <p class="font-bold text-black text-lg">Shop Details <span class="p-error">*</span></p>
                                     <!-- Shop Accounts -->
                                     <div class="formgrid grid">
-                                        <div class="field col">
-                                            <label for="shop_name">Shop Name <span class="p-error">*</span></label>
-                                            <InputText id="name" v-model.trim="editListSellerModule.editShopName"
-                                                required="true" autofocus
-                                                :class="{ 'p-invalid': submitted && !editListSellerModule.editShopName }" />
-                                            <small class="p-error"
-                                                v-if="submitted && !editListSellerModule.editShopName">Shop Name is
-                                                required.</small>
+                                            <div class="field col">
+                                                <label for="shop_name">Shop Name <span class="p-error">*</span></label>
+                                                <InputText id="name" v-model.trim="editListSellerModule.editShopName"
+                                                    required="true" autofocus
+                                                    :class="{ 'p-invalid': submitted && !editListSellerModule.editShopName }" />
+                                                <small class="p-error"
+                                                    v-if="submitted && !editListSellerModule.editShopName">Shop Name is
+                                                    required.</small>
+                                            </div>
+                                            <div class="field col">
+                                                <label for="shop_name">Shop Type <span class="p-error">*</span></label>
+                                                <InputText id="name" v-model.trim="editListSellerModule.editTypeName"
+                                                    required="true" autofocus
+                                                    :class="{ 'p-invalid': submitted && !editListSellerModule.editTypeName }" />
+                                                <small class="p-error"
+                                                    v-if="submitted && !editListSellerModule.editTypeName">
+                                                    Shop Type is required.
+                                                </small>
+                                            </div>
                                         </div>
-                                        <div class="field col">
-                                            <label for="name">Phone<span class="p-error">*</span></label>
-                                            <InputText id="name" v-model.trim="editListSellerModule.editShopPhone"
-                                                required="true" autofocus
-                                                :class="{ 'p-invalid': submitted && !editListSellerModule.editShopPhone }"
-                                                @keypress="inputOnlyNumber" />
-                                            <small class="p-error"
-                                                v-if="submitted && !editListSellerModule.editShopPhone">Phone Number field
-                                                cannot be empty.</small>
+                                        <!-- Slug URL -->
+                                        <div class="field">
+                                            <label for="slug">Slug<span class="p-error">*</span></label>
+                                            <InputText id="slug_seller" v-model.trim="editListSellerModule.editShopSlugURL" />
                                         </div>
-                                    </div>
-                                    <!-- Slug URL -->
-                                    <div class="field">
-                                        <label for="slug">Slug<span class="p-error">*</span></label>
-                                        <InputText id="slug_seller" v-model.trim="editListSellerModule.editShopSlugURL" />
-                                    </div>
-                                    <div>
+                                        <div>
                                         <!-- Address -->
                                         <div class="formgrid grid">
                                             <div class="field col">
@@ -541,15 +560,16 @@
                                         <!-- Upload Banner of Shoppings -->
                                         <div class="field">
                                             <!-- Logo -->
-                                            <label for="name">Logo (72*72)<span class="p-error">*</span></label>
+                                            <label for="name">Logo (100*100)<span class="p-error">*</span></label>
                                             <FileUpload mode="basic" name="uploadFileShopLogo[]" ref="uploadFileShopLogo"
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileLogo" :auto="true" chooseLabel="Browse" />
                                             <div class="pt-2">
                                                 <MazAvatar v-if="filePreviewLogo" :src="filePreviewLogo" size="3rem"
                                                     class="pb-2" square no-size />
+                                                    <!-- editListSellerModule.editShopLogo -->
                                                 <MazAvatar v-if="!filePreviewLogo"
-                                                    src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+                                                    :src="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${editListSellerModule?.editShopLogo}`"
                                                     size="3rem" class="pb-2" square no-size />
                                             </div>
                                         </div>
@@ -559,20 +579,27 @@
                                                 accept="image/*" customUpload :maxFileSize="2000000"
                                                 @uploader="onUploadFileBanner" :auto="true" chooseLabel="Browse" />
                                             <div class="pt-2">
-                                                <MazAvatar v-if="filePreviewBanner" :src="filePreviewBanner" size="3rem"
-                                                    class="pb-2" square no-size />
-                                                <MazAvatar v-if="!filePreviewBanner"
-                                                    src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
-                                                    size="5rem" class="pb-2" square no-size />
+                                                <img v-if="filePreviewBanner" 
+                                                    :src="filePreviewBanner" 
+                                                     style="aspect-ratio: 3/1; inline-size:auto; max-inline-size: 100%;object-fit: cover"
+                                                    class="pb-2" square no-size 
+                                                />
+                                                <img 
+                                                    v-if="!filePreviewBanner"
+                                                    :src="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_banner/${editListSellerModule?.editShopBanners}`"
+                                                    class="pb-2" 
+                                                    style="aspect-ratio: 3/1; inline-size:auto; max-inline-size: 100%;object-fit: cover"
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <template #footer>
                                     <Button label="No" icon="pi pi-times" text @click="editedProductDialog = false" />
-                                    <Button label="Yes" icon="pi pi-check" text @click="deleteProduct" />
+                                    <Button label="Yes" icon="pi pi-check" text @click="updatedSellerAccountCreate()" />
                                 </template>
                             </Dialog>
+
                             <!-- ===============Dialogs Deleted Sellers======================= -->
                             <Dialog v-model:visible="deleteProductsDialog" :style="{ width: '450px' }" header="Confirm"
                                 :modal="true">
@@ -607,6 +634,7 @@ export default {
     data() {
         return {
             errorSellerList: null,
+            sellerEditedId: 0,
             selectedSeller: '',
             createSellerDialog: false,
             editedProductDialog: false,
@@ -655,6 +683,7 @@ export default {
                             label: 'Verify Account',
                             icon: 'pi pi-verified',
                             command: (verifyAccSellId) => {
+                                console.log(verifyAccSellId)
                                 const userVerifyId = verifyAccSellId?.id.replace(/\/0/, "").split('_');
                                 this.verifyAccountSellerTogglePro(userVerifyId[0] ?? 0);
                             }
@@ -677,8 +706,12 @@ export default {
                 editShopRequestDate: '',
                 editShopApprovedDate: '',
                 editShopLogo: '',
+                editVendorProfile: '',
                 editShopBanners: '',
-                editShopSlugURL: ''
+                editShopSlugURL: '',
+                passwordSeller: '',
+                confirmPassword: '',
+                editTypeName: ''
             }
         }
     },
@@ -707,36 +740,85 @@ export default {
     methods: {
         /**Menu Option Toggle Provide of Sellers-Started**/
         bandAccountSellerTogglePro(userId, sellerStatus, shopStatus) {
+            let bannedAccount;
+            let shopStatusChange;
+            if(sellerStatus){
+                if(sellerStatus === 'Banned'){
+                    bannedAccount = 'UnBanned'
+                }else{
+                    bannedAccount = 'Banned'
+                }
+            }
+            if(shopStatus){
+                if(shopStatus === 'Open'){
+                    shopStatusChange = 'Close'
+                }else{
+                    shopStatusChange = 'Open'
+                }
+            }
+
             try {
                 const banAcc = {
-                    sellerBanStatus: sellerStatus ? "Banned" : "UnBanned",
-                    shopStatus: shopStatus ? "Open" : "Close"
+                    sellerBanStatus: bannedAccount ? bannedAccount : "UnBanned",
+                    shopStatus: shopStatusChange ? shopStatusChange: "Open"
                 }
                 this.sellerServices.banAccSellerByID(banAcc, userId).then((banUserId) => {
                     if (banUserId.data.success == true) {
-                        ElMessage.success('Update User Status Successfully...');
+                        this.$notify.success({
+                            title: 'Update Banned Status Successfully',
+                            message: banUserId.data?.message ? banUserId.data?.message : '' ,
+                            showClose: true
+                        });
                     }
                 }).catch((error) => {
-                    ElMessage.error(`Fail Update: ${error.response.data?.message}`);
+                    this.$notify.error({
+                        title: 'Unsuccessfully change banned status',
+                        message: error.data?.message ? error.data?.message : '' ,
+                        showClose: true
+                    });
                 });
             } catch (error) {
-                ElMessage.error(`Fail Banned Seller: ${error} ...`);
+                this.$notify.error({
+                    title: 'Fail Banned Seller',
+                    message: error.data?.message ? error.data?.message : '' ,
+                    showClose: true
+                });
             }
         },
         verifyShopPublic(userId, sellerStatus, shopStatus, shopVerify) {
             try {
-                const verifyShopPublic = {
-                    shopStatus: shopVerify ? "Verify" : "Unverified"
+                let accountShopVerify;
+                if(shopVerify){
+                    if(shopVerify === 'Verify'){
+                        accountShopVerify = 'Unverified'
+                    }else{
+                        accountShopVerify = 'Verify'
+                    }
                 }
-                this.sellerServices.verifyShopEnableBySellerID(verifyShopPublic, userId).then((verifyShop) => {
+                const verifyShop = {
+                    shopStatusVerify: accountShopVerify ? accountShopVerify :  "Verify"
+                }
+                this.sellerServices.verifyShopEnableBySellerID(verifyShop, userId).then((verifyShop) => {
                     if (verifyShop.data.success == true) {
-                        ElMessage.success('Update User Status Successfully...');
+                        this.$notify.success({
+                            title: 'Update Verify Shop Status Successfully',
+                            message: verifyShop.data?.message ? verifyShop.data?.message : '' ,
+                            showClose: true
+                        });
                     }
                 }).catch((error) => {
-                    ElMessage.error(`Fail Update: ${error.response.data?.message}`);
+                     this.$notify.error({
+                        title: 'Unsuccessfully verify shop status seller',
+                        message: error.data?.message ? error.data?.message : '' ,
+                        showClose: true
+                    });
                 });
             } catch (error) {
-                ElMessage.error(`Fail Banned Seller: ${error} ...`);
+                this.$notify.error({
+                    title: 'Fail verify shop status seller',
+                    message: error.data?.message ? error.data?.message : '' ,
+                    showClose: true
+                });
             }
         },
         verifyAccountSellerTogglePro(userId) {
@@ -747,13 +829,25 @@ export default {
                 }
                 this.sellerServices.verifySellerAccByID(verifyAccountSell, userId).then((verifyAcc) => {
                     if (verifyAcc.data.success == true) {
-                        ElMessage.success('Update User Status Successfully...');
+                        this.$notify.success({
+                            title: 'Update User Status Successfully',
+                            message: verifyAcc.data?.message ? verifyAcc.data?.message : '' ,
+                            showClose: true
+                        });
                     }
                 }).catch((error) => {
-                    ElMessage.error(`Fail verify account seller: ${error.response.data?.message}`);
+                    this.$notify.error({
+                        title: 'Unsuccessfully verify account seller',
+                        message: error.data?.message ? error.data?.message : '' ,
+                        showClose: true
+                    });
                 });
             } catch (error) {
-                ElMessage.error(`Fail verify account Seller: ${error} ...`);
+                this.$notify.error({
+                    title: 'Fail verify account Seller',
+                    message: error.data?.message ? error.data?.message : '' ,
+                    showClose: true
+                });
             }
         },
         toggleOptionSeller(events) {
@@ -765,39 +859,34 @@ export default {
                 'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
             }
         },
-        async changeStatusShop(evt) {
-            const dataId = evt.target.getAttribute('data-id');
+        async changeStatusShop(evt, dataVenId) {
+            const dataId = dataVenId ? dataVenId : 0;
             if (!dataId) {
-                ElMessage.error('Seller Account not found');
+                this.$notify.error({
+                    title: 'Seller Account Not Found',
+                    showClose: true
+                });
             }
             this.sellers.forEach((sellerId) => {
                 if (sellerId.user_id == dataId) {
-                    if (sellerId.user_id == dataId == true) {
-                        const dataUpdateShopStatus = {
-                            shopStatus: 'Open'
-                        }
-                        this.sellerServices.verifyShopBySellerID(dataUpdateShopStatus, dataId).then(response => {
-                            if (response.data.success == true) {
-                                ElMessage.success('Updated Public Shop Successfully...');
-                            }
-                        }).catch((error) => {
-                            ElMessage.error(`Fail Update Public Shop: ${error} ...`);
-                        });
+                    const dataUpdateShopStatus = {
+                        shopStatus: sellerId?.shop_status ? 'Open' : 'Close'
                     }
-                    if (sellerId.shop_status == 'Open') {
-                        console.log(sellerId.shop_status, sellerId.user_id)
-                        const dataUpdateShopStatus = {
-                            shopStatus: 'Close'
+                    this.sellerServices.verifyShopBySellerID(dataUpdateShopStatus, dataId).then(response => {
+                        if (response.data.success == true) {
+                            this.$notify.success({
+                                title: 'Updated UnPublic Shop Successfully',
+                                message: response.data?.message ? response.data?.message : '' ,
+                                showClose: true
+                            });
                         }
-                        this.sellerServices.verifyShopBySellerID(dataUpdateShopStatus, dataId).then(response => {
-                            if (response.data.success == true) {
-                                ElMessage.success('Updated UnPublic Shop Successfully...');
-                            }
-                        }).catch((error) => {
-                            console.log(error)
-                            ElMessage.error(`Fail Update UnPublic Shop: ${error} ...`);
+                    }).catch((error) => {
+                        this.$notify.error({
+                            title: 'Update UnPublic Shop',
+                            message: error.data?.message ? error.data?.message : '' ,
+                            showClose: true
                         });
-                    }
+                    });                        
                 }
             })
         },
@@ -878,6 +967,14 @@ export default {
             this.errorConfirmPass = '';
             return true;
         },
+        checkConfirmPasswordEdited() {
+            if (this.editListSellerModule.passwordSeller !== this.editListSellerModule.confirmPassword) {
+                this.errorConfirmPass = 'Password do not match...';
+                return false;
+            }
+            this.errorConfirmPass = '';
+            return true;
+        },
         // Save Sellers
         saveSellerCreate() {
             this.submitted = true;
@@ -894,7 +991,8 @@ export default {
                 addressCity,
                 addressZipCode,
                 sellerRequestDate,
-                sellerApprovedDate
+                sellerApprovedDate,
+                shopTypeName
             } = this.arrSeller;
             if (firstNameSell == undefined,
                 lastNameSell == undefined,
@@ -909,26 +1007,36 @@ export default {
                 addressCity == undefined,
                 addressZipCode == undefined,
                 sellerRequestDate == undefined,
-                sellerApprovedDate == undefined
+                sellerApprovedDate == undefined,
+                shopTypeName === undefined
             ) {
                 //Upload File
                 if (!this.avatarFileUpload) {
                     if (this.avatarFileUpload == null) {
-                        this.errorUploadAvatar = 'Please Profile Image...';
+                        this.errorUploadAvatar = 'Please Seller Profile';
                         return false;
                     }
                     this.errorUploadAvatar = '';
                     return true;
                 }
-                ElMessage.error('Please Input Field...')
+                this.$notify.error({
+                    title: 'Please Input Field',
+                    showClose: false
+                });  
             } else {
                 if (!this.avatarFileUpload) {
-                    ElMessage.error('Please Profile Image');
+                    ElMessage.error('Please Seller Profile');
+                    this.$notify.error({
+                        title: 'Please Seller Profile',
+                        showClose: false
+                    });  
                 } else {
                     //Data Response 
                     const dataSellAcc = {
                         shopNameEng: this.arrSeller.shopName,
                         shopNameKh: '',
+                        shopTypeNameEng: this.arrSeller.shopTypeName,
+                        shopTypeNameKh: this.arrSeller.shopTypeName,
                         shopPhone: this.arrSeller.shopPhoneNumber,
                         shopAddr01: this.arrSeller.addressLineShop1,
                         shopAddr02: this.arrSeller.addressLineShop2,
@@ -936,9 +1044,8 @@ export default {
                         shopZipCode: this.arrSeller.addressZipCode,
                         shopLogo: this.uploadFileShopLogo,
                         shopBanner: this.uploadFileBanner,
-                        shopTypeID: 2,
                         shopRequestDate: this.arrSeller.sellerRequestDate,
-                        shopApprovedDate: this.editListSellerModule.editShopApprovedDate,
+                        shopApprovedDate: this.arrSeller.sellerApprovedDate,
                         shopVerify: 'Unverified',
                         shopStatus: 'Close',
                         sellerNameEng: this.arrSeller.firstNameSell + ' ' + this.arrSeller.lastNameSell,
@@ -947,11 +1054,16 @@ export default {
                         sellerPassword: this.arrSeller.passwordSeller,
                         sellerPhoneNumber: this.arrSeller.phoneNumberSeller,
                         sellerLogo: this.avatarFileUpload,
+                        sellerURLSlug: this.arrSeller.slugURL
                     }
                     // Seller Services Accounts
                     this.sellerServices.createSellerAcc(dataSellAcc).then((response) => {
                         if (response.data.success == true) {
-                            ElMessage.success(response.data.message);
+                            this.$notify.success({
+                                title: 'Successful create seller',
+                                message: response.data?.message ? response.data?.message : '' ,
+                                showClose: true
+                            });
                         }
                         this.createSellerDialog = false;
                         this.arrSeller = {};
@@ -959,26 +1071,32 @@ export default {
                             location.reload(true)
                         }, 1500)
                     }).catch((error) => {
-                        console.log(error)
-                        ElMessage.error(error);
                         if (error.response.data.success == false) {
-                            ElMessage.error(error.response.data.error);
-                            this.messageAlert = [
-                                { severity: 'error', content: `${JSON.stringify(error.response.data.error.error)}` },
-                                { severity: 'error', content: `${JSON.stringify(error.response.data.error)}` }
-                            ]
+                            this.$notify.error({
+                                title: 'Unsuccessfully create seller',
+                                message: error.response.data.error?.message,
+                                showClose: false
+                            });  
+                            if(error.response.data.error.error.errors){
+                                for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                    const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                    this.$notify.error({
+                                        title: 'Unsuccessfully updated create seller',
+                                        message: messageValidation ? messageValidation : '',
+                                        showClose: true
+                                    });   
+                                }
+                            }
                         }
                     });
                 }
-            }
-            if (this.arrSeller.userId) {
-                console.log(this.arrSeller)
             }
         },
         // Update Seller
         editSellerData(arrSeller) {
             this.editedProductDialog = true;
             const sellerId = arrSeller ?? 0;
+            this.sellerEditedId = arrSeller ? arrSeller : 0;
             this.$nextTick(() => {
                 this.sellerServices.editedSellerAccByID(sellerId).then((moduleId) => {
                     if (!moduleId) {
@@ -986,30 +1104,96 @@ export default {
                     }
                     if (moduleId.data.success == true) {
                         const { user_phonenumber, user_email } = moduleId.data?.result?.resultStatus.users ?? '';
-                        const { name_eng } = moduleId.data?.result?.resultStatus.seller ?? '';
-                        const { shopAddr01, shopAddr02, shop_city, shop_zipcode } = moduleId.data?.result?.resultStatus.shopLocation ?? '';
-                        const { shop_eng, shop_logo, sh_banner, url_page, request_dated, approved_date } = moduleId.data?.result?.resultStatus.shops ?? '';
-                        this.editListSellerModule.editVendorEng = name_eng ?? '';
-                        this.editListSellerModule.editVendorEmail = user_email ?? '';
-                        this.editListSellerModule.editVendorPhone = user_phonenumber ?? '';
-                        this.editListSellerModule.editShopName = shop_eng ?? '';
-                        this.editListSellerModule.editShopPhone = user_phonenumber ?? '';
-                        this.editListSellerModule.editShopAddr01 = shopAddr01 ?? '';
-                        this.editListSellerModule.editShopAddr02 = shopAddr02 ?? '';
-                        this.editListSellerModule.editShopCity = shop_city ?? '';
-                        this.editListSellerModule.editShopPostalCode = shop_zipcode ?? '';
-                        this.editListSellerModule.editShopRequestDate = request_dated ?? '';
-                        this.editListSellerModule.editShopApprovedDate = approved_date ?? '';
-                        this.editListSellerModule.editShopLogo = shop_logo ?? '';
-                        this.editListSellerModule.editShopBanners = sh_banner ?? '';
-                        this.editListSellerModule.editShopSlugURL = url_page ?? ''
-                        console.log(name_eng)
+                        const { name_eng,profile } = moduleId.data?.result?.resultStatus.seller ?? '';
+                        const { shopAddr01, shopAddr02, shop_city, shop_zipcode } = moduleId.data?.result?.resultStatus.shops.shopLocation ?? '';
+                        const { shop_eng, shop_logo, sh_banner, url_page, request_dated, approved_date } = moduleId.data?.result?.resultStatus.shops.listShop ?? '';
+                        const { shopEn } = moduleId.data?.result?.resultStatus.shops.shopType ?? '';
+                        // Vendor 
+                        this.editListSellerModule.editVendorEng = name_eng ? name_eng : '';
+                        this.editListSellerModule.editVendorEmail = user_email ? user_email : '';
+                        this.editListSellerModule.editVendorPhone = user_phonenumber ? user_phonenumber :  0;
+                        this.editListSellerModule.editShopName = shop_eng ? shop_eng : '';
+                        this.editListSellerModule.editShopPhone = user_phonenumber ? user_phonenumber :  0;
+                        this.editListSellerModule.editShopAddr01 = shopAddr01 ? shopAddr01 :  '';
+                        this.editListSellerModule.editShopAddr02 = shopAddr01 ? shopAddr02 :  '';
+                        this.editListSellerModule.editShopCity = shop_city ? shop_city :  '';
+                        // Shop Type
+                        this.editListSellerModule.editTypeName  = shopEn ? shopEn : '';
+                        this.editListSellerModule.editShopPostalCode = shop_zipcode ? shop_zipcode :  '';
+                        this.editListSellerModule.editShopRequestDate = request_dated ? request_dated : '';
+                        this.editListSellerModule.editShopApprovedDate = approved_date ? approved_date : '';
+                        // Image
+                        this.editListSellerModule.editVendorProfile  = profile ? profile : '';
+                        this.editListSellerModule.editShopLogo = shop_logo ? shop_logo : '';
+                        this.editListSellerModule.editShopBanners = sh_banner ? sh_banner :  '';
+                        // URL Page
+                        this.editListSellerModule.editShopSlugURL = url_page ? url_page : ''
                     } else {
                         return this.editListSellerModule = [];
                     }
                 }).catch((error) => {
                     this.errorSellerList = error.response.data;
                 })
+            });
+        },
+        // Updated Save
+        async updatedSellerAccountCreate(){
+            this.submitted = true;
+            const sellerAccountId = this.sellerEditedId ? this.sellerEditedId : '';
+            this.$nextTick(() => {
+                const updatedShops = {
+                    shopNameEng: this.editListSellerModule?.editShopName ? this.editListSellerModule?.editShopName : '',
+                    shopNameKh: '',
+                    shopAddr01: this.editListSellerModule?.editShopAddr01 ? this.editListSellerModule?.editShopAddr01 : '',
+                    shopAddr02: this.editListSellerModule?.editShopAddr02 ? this.editListSellerModule?.editShopAddr02 : '',
+                    shopAddrCity: this.editListSellerModule?.editShopCity ? this.editListSellerModule?.editShopCity : '',
+                    shopZipCode: this.editListSellerModule?.editShopPostalCode ? this.editListSellerModule?.editShopPostalCode : '',
+                    shopRequestDate: new Date(this.editListSellerModule?.editShopRequestDate).toISOString() ? new Date(this.editListSellerModule?.editShopRequestDate).toISOString() : '',
+                    shopApprovedDate:new Date(this.editListSellerModule?.editShopApprovedDate).toISOString() ? new Date(this.editListSellerModule?.editShopApprovedDate).toISOString() : '',
+                    sellerNameEng: this.editListSellerModule?.editVendorEng ? this.editListSellerModule?.editVendorEng : '',
+                    sellerNameKh: '',
+                    sellerEmail: this.editListSellerModule.editVendorEmail ? this.editListSellerModule.editVendorEmail : '',
+                    sellerPassword: this.editListSellerModule?.passwordSeller ? this.editListSellerModule?.passwordSeller : '',
+                    sellerPhoneNumber: this.editListSellerModule?.editVendorPhone ? this.editListSellerModule?.editVendorPhone : 0,
+                    shopVerify: 'Verify',
+                    shopStatus: 'Open',
+                    shopTypeNameEng: this.editListSellerModule?.editTypeName ? this.editListSellerModule?.editTypeName : '',
+                    shopTypeNameKh: '',
+                    shopLogo: this.uploadFileShopLogo ? this.uploadFileShopLogo : '',
+                    shopBanner: this.uploadFileBanner ? this.uploadFileBanner : '',
+                    sellerLogo: this.avatarFileUpload ? this.avatarFileUpload : ''
+                }
+                // // Seller Updated Services Accounts
+                this.sellerServices.updateSellerAccID(updatedShops, sellerAccountId).then((response) => {
+                    if (response.data.success == true) {
+                        this.$notify.success({
+                            title: 'Successful updated seller',
+                            message: response.data?.message ? response.data?.message : '' ,
+                            showClose: true
+                        });
+                    }
+                    this.createSellerDialog = false;
+                    this.arrSeller = {};
+                    setTimeout(function () {
+                        location.reload(true)
+                    }, 1500)
+                }).catch((error) => {
+                    this.$notify.error({
+                        title: 'Unsuccessfully updated seller',
+                        message: error.response.data.error?.message,
+                        showClose: false
+                    });  
+                    if(error.response.data.error.error.errors){
+                        for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                            const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                            this.$notify.error({
+                                title: 'Unsuccessfully updated seller',
+                                message: messageValidation ? messageValidation : '',
+                                showClose: true
+                            });   
+                        }
+                    }
+                });
             });
         },
         findIndexByAccSellId(id) {

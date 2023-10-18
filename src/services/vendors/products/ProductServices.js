@@ -16,7 +16,7 @@ export default class ProductServices{
                 }
             })
             .catch((error) => {
-                this.$message.error(`Oops, this is a error message: ${error?.message}`);
+               return Promise.reject(error);
             });
     }
     async getCustomerProductsDetailByID(productId, data) {
@@ -26,12 +26,12 @@ export default class ProductServices{
             .then((result) => {
                 if (result.status == '200') {
                     if (result.data.success == true) {
-                        return result.data.result.resultStatus;
+                        return result.data.result?.resultStatus;
                     }
                 }
             })
             .catch((error) => {
-                this.$message.error(`Oops, this is a error message: ${error?.message}`);
+                return Promise.reject(error);
             });
     }
     /**
@@ -56,7 +56,7 @@ export default class ProductServices{
                }
            })
            .catch((error) => {
-                this.$message.error(`Oops, this is a error message: ${error?.message}`);
+               return Promise.reject(error);
            });
    }
     async getDataProducts(data){
@@ -71,8 +71,7 @@ export default class ProductServices{
                 }
             })
             .catch((error) => {
-                console.log(error)
-                this.$message.error(`Oops, this is a error message: ${error?.message}`);
+               return Promise.reject(error);
             });
     }
    //Create
