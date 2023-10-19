@@ -1,5 +1,6 @@
 import http from "../../../../http-access-control";
 import httpFrom from "../../../../http-common";
+import httpJson from "../../../../http-access-control-json";
 // import authHeader from "../../authencations/AuthHeader";
 export default class ProductServices{
     /**
@@ -53,8 +54,9 @@ export default class ProductServices{
                return Promise.reject(error);
            });
    }
+   //Product List
     async getDataProducts(data){
-        return await http.get("/vendors/product_management/products/list",data)
+        return await httpJson.get("/vendors/product_management/products/list", data)
             .then((result) => {
                if(result.status == 201){
                     if(result.data.success == true){
