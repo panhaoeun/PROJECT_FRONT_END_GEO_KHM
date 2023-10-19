@@ -36,7 +36,8 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                            <DataTable ref="dt" :value="usersListArr" v-model:selection="selectedUserList"
+                            <DataTable ref="dt" :value="usersListArr" 
+                                v-model:selection="selectedUserList"
                                 dataKey="id" :paginator="true" :rows="10"
                                 :globalFilterFields="['representative.name', 'userName', 'role_name', 'user_email', 'user_phonenumber']"
                                 :filters="filters" class="p-datatable-scrollable text-sm"
@@ -202,7 +203,7 @@ export default {
         },
     },
     methods: {
-         isSessionActiveVendor(){
+        isSessionActiveVendor(){
             return isLoggedIn();
         },
         confirmDeleteUserMS(userId) {
