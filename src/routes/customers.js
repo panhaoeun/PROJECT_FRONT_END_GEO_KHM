@@ -125,7 +125,16 @@ export default [
             path: "/customer/search-product/query-product/filter-product-by-name",
             name:'query-product-detail',
             component: () => import("../views/customers/product_filter/ProductFilters.vue"),
-          },
+        },
+        /**
+         * @Router Products Filter By Shop
+         * @Filter Filter By Shop
+         * */
+        {
+            path: "/customer/search-product/filter-product-shop/shop-type-search",
+            name: 'filter-search-product-detail',
+            component: () => import("../components/customers/seller_categories_section/FilterProductBySellerShopType.vue"),
+        },
         /**
          * @Router Customer 
          * @Customer Profile
