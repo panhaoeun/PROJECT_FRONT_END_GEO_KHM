@@ -5,19 +5,19 @@
         <HeroSectionBanner/>
         <!-- Banner By Categories -->
         <AdvertSection/>
-        <!-- Product Area -->
-        <!-- <ProductsAreaContent/> -->
-        <!-- SUGGUEST TODAY -->
+        <!-- Categories and List Sellers -->
+        <SectionSellerSection/>
+        <!-- SAGGIEST TODAY -->
         <MoreLoveSuggestion/>
     </div>
 </template>
 <script>
 import HeroSectionBanner from "@/components/customers/home_frontend_component/banner_home/HeroSectionBanner.vue";
 import AdvertSection from "@/components/customers/home_frontend_component/banner_home/AdvertSection.vue";
-// import ProductsAreaContent from "@/components/customers/home_frontend_component/section_content_home_customer/product_area_sections/ProductSectionArea";
+import SectionSellerSection from "@/components/customers/seller_categories_section/SellerCategoriesSection.vue";
 import MoreLoveSuggestion from "@/components/customers/home_frontend_component/section_content_home_customer/MoreLoveSuggestion.vue";
 export default {
-    components: {HeroSectionBanner,MoreLoveSuggestion,AdvertSection},
+    components: {HeroSectionBanner,MoreLoveSuggestion,AdvertSection,SectionSellerSection},
     props: {},
     data() {
         return {};

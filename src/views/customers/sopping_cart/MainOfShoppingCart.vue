@@ -187,7 +187,6 @@
                                                     <label> ({{ currencyFormattedUSD(getSubTotal?.subTotalUSD) }})</label>
                                                 </span>
                                             </h5>
-                                            <h4 class="grand-totall-title">Total <span>$260.00</span></h4>
                                         <router-link to="#" class="bg-red-500 text-white" @click="createCheckOutOrderProduct()">Proceed to Checkout</router-link>
                                     </div>
                                 </div>
@@ -230,7 +229,8 @@ export default {
             'getCartAuthItem',
             'getSubTotal',
             'getTotalItems',
-            'cartTotalShipping'
+            'cartTotalShipping',
+            'getTotal'
         ]),
         // Check product item cart in  api
         currentCartAuthToken(){
@@ -262,6 +262,20 @@ export default {
         this.getCurrentCartItem = new CustomerOrderCheckOutServices();
     },
     methods: {
+        async getConvertExchangeToRielTotal(exchangeRielTotal){
+            try {
+                const baseChangeToRielTotal = parseInt(exchangeRielTotal) ? parseInt(exchangeRielTotal) : 0;
+                const exchangeRate = await convertUSDToRiel(baseChangeToRielTotal) ?? 0;
+                this.exchangeRateRielTotal = exchangeRate ? exchangeRate : 0;
+                // Total order to wallets
+                return this.$store.dispatch('myWallet/orderAmountTotal', {
+                    amountTotalKHR: this.cartTotal.totalKHR ? this.cartTotal.totalKHR : 0,
+                    amountTotalUSD: this.cartTotal.totalUSD ? this.cartTotal.totalUSD : 0
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            } 
+        },
         async convertTodayExchangeRateUSDToRiel() {
             try {
                 const usdAmountExchange = parseInt(1) ? parseInt(1) : 0;

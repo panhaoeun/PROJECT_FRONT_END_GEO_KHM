@@ -26,7 +26,7 @@
                 </el-table-column>
                 <el-table-column prop="payments_transaction_id" label="Transaction Number" width="230"></el-table-column>
                 <el-table-column prop="transaction_amount" label="Recharge Amount(៛)" width="180"></el-table-column>
-                <el-table-column prop="transaction_amount_dollar" label="Recharge Amount($)" width="180"></el-table-column>
+                <el-table-column prop="transaction_amount_dollar" label="Exchange Rate($)" width="180"></el-table-column>
                 <el-table-column prop="transaction_status" label="Status" width="120"></el-table-column>
             </el-table>
             <!-- Wallet Deposited List -->
