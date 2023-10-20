@@ -57,7 +57,7 @@ import ThemeScheme from './sections/ThemeScheme.vue'
 import MenuColor from './sections/MenuColor.vue'
 import MenuStyle from './sections/MenuStyle.vue'
 import MenuActiveStyle from './sections/MenuActiveStyle.vue'
-import NavbarStyle from './sections/NavbarStyle.vue'
+// import NavbarStyle from './sections/NavbarStyle.vue'
 // Utilities
 import { copyToClipboard } from '../../utils/dom'
 export default {
@@ -68,7 +68,7 @@ export default {
     MenuColor,
     MenuStyle,
     MenuActiveStyle,
-    NavbarStyle
+    // NavbarStyle
   },
   setup() {
     // Store objects

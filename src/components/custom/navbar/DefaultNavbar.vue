@@ -1,5 +1,5 @@
 <template>
-  <nav :class="`nav navbar navbar-expand-xl navbar-light iq-navbar ${headerNavbar}`">
+  <nav :class="`nav navbar navbar-expand-xl navbar-light iq-navbar`">
     <!-- <nav :class="`nav navbar navbar-expand-xl navbar-light iq-navbar ${headerNavbar} ${navbarHide.join('')}`"> -->
     <div class="container-fluid navbar-inner">
       <slot></slot>
@@ -116,7 +116,7 @@ export default {
   },
   setup(props, { emit }) {
     const store = useStore()
-    const headerNavbar = computed(() => store.getters['setting/header_navbar'])
+    // const headerNavbar = computed(() => store.getters['setting/header_navbar'])
     const isHidden = ref(false)
 
     const onscroll = () => {
@@ -141,7 +141,7 @@ export default {
       window.removeEventListener('scroll', onscroll())
     })
     return {
-      headerNavbar,
+    //   headerNavbar,
       isHidden,
       carts,
       emit
