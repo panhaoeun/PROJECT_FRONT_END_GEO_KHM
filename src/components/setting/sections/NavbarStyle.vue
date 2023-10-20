@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+// import { computed } from 'vue'
 import { useStore } from 'vuex'
 import RadioInput from '@/components/custom/elements/RadioInput'
 export default {
@@ -36,12 +36,12 @@ export default {
   },
   setup() {
     const store = useStore()
-    const headerNavbar = computed(() => store.getters['setting/header_navbar'])
+    // const headerNavbar = computed(() => store.getters['setting/header_navbar'])
     const updateRadio = (value, name) => {
       store.dispatch(`setting/${name}`, value)
     }
     return {
-      headerNavbar,
+    //   headerNavbar,
       updateRadio
     }
   }
