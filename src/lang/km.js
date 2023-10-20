@@ -78,9 +78,9 @@ export default {
         users: 'Users',
         userProfile: 'User Profile',
     },
-    userInfo: {
+    userinfo: {
         generalInfo:"ពត៍មានទូទៅ",
-        editUser:"កែប្រែអ្នកប្រើប្រាស់",
+        editUser: "កែប្រែអ្នកប្រើប្រាស់",
         sellerInfo: 'បំពេញពត៏មានអ្នកលក់',
         firstName: "ត្រកូល",
         khmerName:"ឈ្មោះជាភាសាខ្មែរ",

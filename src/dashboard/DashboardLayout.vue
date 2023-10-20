@@ -9,9 +9,9 @@
             <total-revenue-dashboard/>
             <!-- Admin Balances -->
             <template v-if="isLoggedIn()">
-                <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
+                <!-- <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
                     <withdraw-confirm-by-admin-to-vendor-request/>
-                </template>
+                </template> -->
                 <!-- Seller Wallets -->
                 <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
                     <seller-account-balance-wallet-withdraw/>
@@ -26,7 +26,7 @@ import TotalProductsDashboard from './dashboard_manage_/TotalProductsDashboard.v
 import TotalOrdersDashboard from './dashboard_manage_/TotalOrdersDashboard.vue';
 import TotalRevenueDashboard from './dashboard_manage_/TotalRevenueDashboard.vue';
 import SellerAccountBalanceWalletWithdraw from './dashboard_manage_/SellerAccountBalanceWalletWithdraw.vue';
-import WithdrawConfirmByAdminToVendorRequest from './dashboard_manage_/admin/WithdrawConfirmByAdminToVendorRequest.vue';
+// import WithdrawConfirmByAdminToVendorRequest from './dashboard_manage_/admin/WithdrawConfirmByAdminToVendorRequest.vue';
 import {isLoggedIn} from '@/utils/auth/auth';
 
 export default {
@@ -36,7 +36,7 @@ export default {
         TotalOrdersDashboard,
         TotalRevenueDashboard,
         SellerAccountBalanceWalletWithdraw,
-        WithdrawConfirmByAdminToVendorRequest
+        // WithdrawConfirmByAdminToVendorRequest
     },
     computed:{
          ...mapGetters({

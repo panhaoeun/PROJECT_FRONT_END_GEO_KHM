@@ -6,7 +6,7 @@
             <h2 class="relative text-black text-3xl section section-title:before">Order Report</h2>
         </div>
         <div class="gird">
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <el-card slot="header" class="box-card">
                     <div class="relative pb-3 text-black text-sm section section-title:before">
                         <p class="h6">Filter Data</p>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </el-card>
-            </div>
+            </div> -->
             <!-- Data Table Orders Report -->
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">

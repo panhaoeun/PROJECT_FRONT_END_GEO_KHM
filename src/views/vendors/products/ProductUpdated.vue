@@ -323,14 +323,6 @@
                                         <div class="col-12 lg:col-12">
                                             <!-- Form Layouts -->
                                             <div class="grid formgrid">
-                                                <!-- Link Video -->
-                                                <div class="col-12 lg:col-12">
-                                                    <div class="field">
-                                                        <label for="name_en" class="text-sm">Youtube Video Link</label>
-                                                        <InputText id="product_name" placeholder="New Products" type="text"
-                                                            class="text-sm border-round-lg" />
-                                                    </div>
-                                                </div>
                                                 <!-- Upload Imag Multiple Product and Thumbnail -->
                                                 <!---Uploads 10 Files--->
                                                 <div class="col-6 lg:col-7 px-2 py-2">

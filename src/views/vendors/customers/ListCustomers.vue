@@ -72,8 +72,8 @@
                                         <template #body="slotProps">
                                             <Button icon="pi pi-eye" outlined rounded class="mr-2"
                                                 @click="$router.push({ path: `/vendor/user/customer_info/list/admin/customer_view_details/${slotProps.data?.customerId ?? ''}` })" />
-                                            <Button icon="pi pi-trash" outlined rounded severity="danger"
-                                                @click="confirmDeleteUserMS(slotProps.data.id)" />
+                                            <!-- <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                @click="confirmDeleteUserMS(slotProps.data.id)" /> -->
                                         </template>
                                     </Column>
                                 </div>

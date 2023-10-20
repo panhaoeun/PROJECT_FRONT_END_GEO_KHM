@@ -6,11 +6,9 @@
             <h2 class="relative text-black text-xl section section-title:before ">{{ $t('order.allOrder') }}</h2>
         </div>
         <div class="gird">
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <el-card  class="box-card">
-                    <!-- Hidden -->
                     <input hidden  v-model="orderListArrComputed"/>
-                    <!-- From Date to End Date -->
                     <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
                         <div class="flex flex-wrap gap-3 p-fluid">
                             <div class="flex-auto text-sm p-float-label">
@@ -46,7 +44,7 @@
                         </div>
                     </div>
                 </el-card>
-            </div>
+            </div> -->
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <div>
