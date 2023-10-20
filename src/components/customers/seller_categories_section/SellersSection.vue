@@ -8,14 +8,13 @@
         <div class="row gap-3 my-4">
             <template v-if="sellerShopBanner !== null">
                 <template v-if="sellerShopBanner && sellerShopBanner.length > 0 && sellerShopBanner!== ''">
-                    <div class="row gap-6">
+                    <div class="row">
                         <div class="col-md-3"  v-for="(seller, index) in sellerShopBanner" :key="index">
                             <div class="pl-2 flex justify-content-center align-content-center align-items-center">
                                 <router-link 
                                  to="#" 
                                  @click="goSellerMultipleProductFilterByShop(seller?.shop_type_id)">
                                     <MazAvatar
-                                    
                                        :src="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${seller?.shop_logo}`"
                                         size="2rem"
                                     />
@@ -101,6 +100,7 @@ export default {
                     }
                 }
             );
+  
         },
     },
 };

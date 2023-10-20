@@ -1,8 +1,8 @@
 <template>
-       <div class="register-header">
+       <div class="register-header bg-white border-bottom-1">
         <!-- Logo -->
             <header>
-                    <table class="">
+                    <table class="pl-10">
                         <tbody>
                                 <tr>
                                     <td>
@@ -16,13 +16,7 @@
             </header>
        </div>
        <!-- Create Account -->
-        <div class="container">
-            <div class="signInLink flex px-2 py-2 my-2">
-                <span>Already a number?</span>
-                <router-link to="/auth/login" class="px-2 hover:underline underline">
-                    Sign In
-                </router-link>
-            </div>
+        <div class="container my-4 px-4 py-4">
             <!-- For demo purpose -->
             <div class="row mb-4">
                 <div class="col-lg-8 mx-auto text-center">
@@ -42,11 +36,11 @@
                                                    <span class="text-lg"> Personal account </span>
                                             </button>
                                     </li>
-                                    <li class="nav-item"> 
+                                    <!-- <li class="nav-item"> 
                                             <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"> 
                                                 <span class="text-lg"> Business account </span>
                                             </button> 
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div> 
                             <!-- Tab Account Personal or Business account -->
@@ -56,9 +50,9 @@
                                         <personal-account-register/>
                                 </div>
                                  <!-- business account card form contents -->
-                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                <!-- <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                                     <business-account-register/>
-                                </div>
+                                </div> -->
                             </div>                           
                         </div>
                     </div>
@@ -66,7 +60,7 @@
             </div>
         </div>
         <!-- Footer info for register -->
-        <footer class="gfooter container-fluid flex justify-content-center" style="font-size: 10px;">
+        <!-- <footer class="gfooter container-fluid flex justify-content-center" style="font-size: 10px;">
             <div class="gf-box">
                 <div class="gf-footer" role="presentation">
                     <table class="gf-tfooter">
@@ -88,16 +82,16 @@
                     </table>
                 </div>
             </div>
-        </footer>
+        </footer> -->
 </template>
 <!-- Auth Register -->
 <script>
-    import BusinessAccountRegister from "./register/BusinessAccountRegister.vue";
+    // import BusinessAccountRegister from "./register/BusinessAccountRegister.vue";
     import PersonalAccountRegister from "./register/PersonalAccountRegister.vue";
     export default {
         components:{
             PersonalAccountRegister,
-            BusinessAccountRegister
+            // BusinessAccountRegister
         }
     }
 </script>

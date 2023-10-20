@@ -56,17 +56,16 @@
                                             </li>
                                             <!--All Categories -->
                                             <li>
-                                                <router-link to="/customer/search-product/query-product/filter-product-by-name">All Categories </router-link>
+                                                <router-link to="#">All Categories </router-link>
                                                 <ul class="mega-menu-style mega-menu-mrg-2">
                                                     <li>
                                                         <ul v-if="commonCategoriesList !== null">
                                                             <li v-for="(category,index) in commonCategoriesList" :key="index">
-                                                                <a class="dropdown-title" href="#">{{ category.catNameEn }} {{ category.catID }}</a>                                                                                                                               <ul>
+                                                                <a class="dropdown-title" href="#">{{ category.catNameEn }}</a>                                                                                                                               <ul>
                                                                     <template v-if="commonSubCategoriesList !== null">
                                                                         <li v-for="(subCat, index) in commonSubCategoriesList" :key="index" >
-                                                                            <router-link to="#" v-if="subCat.superCatId === category.catID">
+                                                                            <router-link to="#" @click="geToGetProductByCategoriesId(subCat.catID)" v-if="subCat.superCatId === category.catID">
                                                                                 {{ subCat.categoryNameEng }}
-                                                                                {{ subCat.catID }}
                                                                             </router-link>
                                                                         </li>
                                                                     </template>
@@ -204,40 +203,6 @@
                                        </template>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Categories -->
-        <div class="header-small-device small-device-ptb-1 border-bottom-2">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-5">
-                        <div class="mobile-logo">
-                            <a href="index.html">
-                                <img alt="" src="assets/images/logo/logo.png">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-7">
-                        <div class="header-action header-action-flex">
-                            <div class="same-style-2 same-style-2-font-inc">
-                                <a href="login-register.html"><i class="icon-user"></i></a>
-                            </div>
-                            <div class="same-style-2 same-style-2-font-inc">
-                                <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count black">03</span></a>
-                            </div>
-                            <div class="same-style-2 same-style-2-font-inc header-cart">
-                                <a class="cart-active" href="#">
-                                    <i class="icon-basket-loaded"></i><span class="pro-count black">02</span>
-                                </a>
-                            </div>
-                            <div class="same-style-2 main-menu-icon">
-                                <router-link to="#" class="mobile-header-button-active" @click.prevent="mobileHeaderActive()" >
-                                    <i class="icon-menu"></i> 
-                                </router-link>
                             </div>
                         </div>
                     </div>
@@ -431,7 +396,28 @@ export default {
             }   
             this.customerCurrentOrder.createCartOrderItemCustomer(proItem).then((proItem) => console.log(proItem)).catch((error) => console.log(error));
         },
-
+        // Go to Product By CateId
+        geToGetProductByCategoriesId(subCatId){
+            // Filters
+            if(subCatId){
+                this.$router.push(
+                    {
+                        path: "/customer/search-product/query-product/filter-product-by-name",
+                        query: {
+                            cateId: subCatId ? subCatId : 0
+                        }
+                    }
+                );
+            }
+            let routeing = this.$router.resolve({
+                name: 'query-product-detail', // put your route information in
+                query: {
+                   cateId: subCatId ? subCatId : 0 
+                }, // put your route information in,
+                params: '/customer/search-product/query-product/filter-product-by-name', // put your route information in
+            });
+            window.location.assign(routeing.href)   
+        }
     }
 };
 </script>

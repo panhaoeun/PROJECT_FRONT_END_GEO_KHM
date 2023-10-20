@@ -125,6 +125,26 @@ export default [
             path: "/customer/search-product/query-product/filter-product-by-name",
             name:'query-product-detail',
             component: () => import("../views/customers/product_filter/ProductFilters.vue"),
+            beforeEnter: (to, from, next) => {
+                // Check Empty Queries
+                let typeCatId = typeof to.query?.cateId;
+                if (Object.keys(to.query).length < 1 || typeCatId === 'undefined') {
+                     next({
+                         path: '/'
+                     });
+                     
+                }else if(to.query?.cateId === '' || to.query?.cateId === ''){
+                    next({
+                        path: '/'
+                    })
+                }
+                if (Object.keys(to.query).length > 0) {
+                    if (!Object.prototype.hasOwnProperty.call(to.query)) {
+                       next();
+                       return true;
+                    }
+                }
+            }
         },
         /**
          * @Router Products Filter By Shop
@@ -134,6 +154,26 @@ export default [
             path: "/customer/search-product/filter-product-shop/shop-type-search",
             name: 'filter-search-product-detail',
             component: () => import("../components/customers/seller_categories_section/FilterProductBySellerShopType.vue"),
+            beforeEnter: (to, from, next) => {
+                // Check Empty Queries
+                let typePID = typeof to.query?.sId;
+                if (Object.keys(to.query).length < 1 || typePID === 'undefined') {
+                     next({
+                         path: '/'
+                     });
+                     
+                }else if(to.query?.sId === '' || to.query?.sId === ''){
+                    next({
+                        path: '/'
+                    })
+                }
+                if (Object.keys(to.query).length > 0) {
+                    if (!Object.prototype.hasOwnProperty.call(to.query)) {
+                       next();
+                       return true;
+                    }
+                }
+            }
         },
         /**
          * @Router Customer 

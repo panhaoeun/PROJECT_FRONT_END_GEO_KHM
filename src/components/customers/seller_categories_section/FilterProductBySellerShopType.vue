@@ -1,11 +1,11 @@
 <template>
-     <div class="breadcrumb-area bg-gray-200">
+     <div class="breadcrumb-area bg-red-50">
             <div class="container">
                 <div class="breadcrumb-content text-center">
                     <div class="pb-5">
                         <div class="row rtl" v-if="filtersProductByShopBrand">
                             <div class="col-lg-12 mt-2">
-                                <div class="bg-white">
+                                <el-card class="bg-white border-red-500 border-round-lg">
                                     <!-- Banner -->
                                     <img 
                                         class="__shop-page-banner" 
@@ -13,37 +13,28 @@
                                         alt=""
                                         style="max-height: 14.75rem;"
                                     >
-                                </div>
+                                </el-card>
                             </div>
                             <div class="pb-3"></div>
                             <!-- Logo and Shop Detail -->
-                            <div class="col-lg-12 rtl">
-                                <div class="bg-white" style="padding-left:20px;">
-                                    <div class="row d-flex justify-content-between seller-details">
-                                        <div class="d-flex align-items-start p-2">
-                                            <div class="position-relative">
-                                                <img
-                                                    class="w-10rem h-12rem"
-                                                    :src="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${filtersProductByShopBrand?.shop_logo}`"
-                                                    width="100%"
-                                                />g
-                                            </div>
-                                            <div class="col-md-4">
-                                                <p class="ml-4 font-weight-bold h-3">
-                                                    {{ filtersProductByShopBrand?.shop_eng }}
-                                                </p>
-                                                <div>
-                                                    <p>Shop Location: </p>
-                                                    <span>
-                                                        {{ shopLocationSeller?.shopAddr01 }},
-                                                        {{ shopLocationSeller?.shopAddr02 }},
-                                                        {{ shopLocationSeller?.shop_city }}
-                                                    </span>
-                                                </div>
-                                            </div>
+                            <div class="col-lg-3 rtl gap3">
+                                <el-card :body-style="{ padding: '0px' }" class="bg-white-alpha-50 border-primary">
+                                    <img 
+                                        :src="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_logo/${filtersProductByShopBrand?.shop_logo}`"
+                                        class="w-5rem"
+                                    >
+                                    <div style="padding: 14px;">
+                                        <span class="text-lg h3">{{ filtersProductByShopBrand?.shop_eng }}</span>
+                                        <div class="bottom clearfix">
+                                            <span class="font-bold text-md">Shop Location: </span>
+                                            <span>
+                                                {{ shopLocationSeller?.shopAddr01 }},
+                                                {{ shopLocationSeller?.shopAddr02 }},
+                                                {{ shopLocationSeller?.shop_city }}
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
+                                </el-card>
                             </div>
                         </div>
                     </div>
@@ -67,10 +58,15 @@
                                                             to="#"
                                                             @click="gotoProductPageFilterById(productFilter?.id,productFilter?.product_eng)"
                                                         >
-                                                            <img 
-                                                                :src="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${productFilter?.product_picture}`" 
-                                                                :alt="productFilter?.product_eng"
-                                                            >
+                                                            <template v-if="productFilter?.product_picture !== undefined">
+                                                                <img 
+                                                                    :src="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${productFilter?.product_picture}`" 
+                                                                    :alt="productFilter?.product_eng"
+                                                                >
+                                                            </template>
+                                                            <template v-else>
+                                                                <img src="../../../assets/img/photos/not_image.jpeg"/>
+                                                            </template>
                                                         </router-link>
                                                     </div>
                                                 </div>
@@ -110,7 +106,7 @@
                                 </template>
                             </div>
                             <!-- Pagination's -->
-                            <template v-if="filtersProductByShopList!== null && filtersProductByShopList.length > 0">
+                            <!-- <template v-if="filtersProductByShopList!== null && filtersProductByShopList.length > 0">
                                 <div class="pro-pagination-style text-center mt-10">
                                     <ul>
                                         <li><a class="prev" href="#"><i class="icon-arrow-left"></i></a></li>
@@ -119,11 +115,11 @@
                                         <li><a class="next" href="#"><i class="icon-arrow-right"></i></a></li>
                                     </ul>
                                 </div>
-                            </template>
+                            </template> -->
                         </div>
                     </div>
                     <!-- Search and Categories -->
-                    <div class="col-lg-3">
+                    <!-- <div class="col-lg-3">
                         <div class="sidebar-wrapper sidebar-wrapper-mrg-right">
                             <div class="sidebar-widget mb-40">
                                 <h4 class="sidebar-widget-title">Search </h4>
@@ -147,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -205,15 +201,15 @@ export default {
         },
         gotoProductPageFilterById(productId, productName){
             if (!productId && !productName) return;
-                this.$router.push(
-                    {
-                        path: '/customer/product-details/product/view-product-detail',
-                        query: {
-                            pid: productId ? productId : 0,
-                            pname:encodeURIComponent(productName ? productName : '').replace(/[!'()]/g, escape).replace('\'', '%27')
-                        }
+            this.$router.push(
+                {
+                    path: '/customer/product-details/product/view-product-detail',
+                    query: {
+                        pid: productId ? productId : 0,
+                        pname:encodeURIComponent(productName ? productName : '').replace(/[!'()]/g, escape).replace('\'', '%27')
                     }
-                );
+                }
+            );  
         },
         // Get Seller By Product Type
         async getSellerProductTypeByShopFilter(){

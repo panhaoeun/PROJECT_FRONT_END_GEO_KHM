@@ -91,7 +91,6 @@ export default {
     },
     methods: {
         handleCurrentChangePagination(val){
-            console.log(val)
            this.page = val;
         },
         indexMethod(index) {

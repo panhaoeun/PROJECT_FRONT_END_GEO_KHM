@@ -43,23 +43,24 @@ export default class CommonPublicStoreServices {
             return Promise.reject(error);
         });
     }
-    async searchProductByCategories() {
-         return http.get(`/customer/search-product/filter-product-search-product-categories`).then((result) => {
-             if (!result) {
-                 return false;
-             }
-             if (result.status == 200) {
-                 if (result.data.success == true) {
-                     return result.data.result.resultStatus;
-                 }
-             }
+    // By Categories
+    async searchProductByCategories(categoriesId, proCat) {
+        return http.get(`/customer/search-product/filter-product-search-product-categories?categoriesId=${parseInt(categoriesId)}&order=desc&sortBy=product_unit_price_khr`, proCat)
+         .then((result) => {
+            if (!result) {
+                return false;
+            }
+            if (result.status == 200) {
+                if (result.data.success == true) {
+                    return result.data.result.resultStatus;
+                }
+            }
          }).catch((error) => {
              return Promise.reject(error);
          });
     }
     async searchProductByShopCategoriesSeller(shopId, sellerPro) {
          return http.get(`/customer/search-product/filter-product-search-product-shop-seller?shopTypeId=${parseInt(shopId)}`, sellerPro).then((result) => {
-            console.log(result)
              if (!result) {
                  return false;
              }
