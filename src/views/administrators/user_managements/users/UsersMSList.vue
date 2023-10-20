@@ -75,7 +75,7 @@
                                         style="min-width: 20rem"></Column>
                                     <!-- <Column field="user_id" header="Role" sortable style="min-width:20rem"></Column> -->
                                     <Column field="role_name" :header="$t('route.role')" sortable style="min-width: 20rem"></Column>
-                                    <Column v-permission="[{ functionName: 'permissions_module', moduleName: 'fun_edit' }]"
+                                    <!-- <Column v-permission="[{ functionName: 'permissions_module', moduleName: 'fun_edit' }]"
                                         field="status" :header="$t('route.status')" sortable style="min-width: 10rem">
                                         <template #body="slotProps">
                                             <template v-if="slotProps.data?.role_name !== 'Owner' || slotProps.data?.role_name !== 'Super Admin' || slotProps.data?.role_name !== 'Admin'">
@@ -90,7 +90,7 @@
                                                 </div>
                                             </template>
                                         </template>
-                                    </Column>
+                                    </Column> -->
                                     <Column :exportable="false" header="Options" style="min-width: 8rem">
                                         <template #body="slotProps">
                                             <!-- Vendor Account Edited -->
