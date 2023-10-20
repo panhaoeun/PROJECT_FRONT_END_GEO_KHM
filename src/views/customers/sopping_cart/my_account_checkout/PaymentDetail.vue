@@ -292,6 +292,8 @@ export default {
                     orderAmountKHR: this.dynamicAmountOrder?.amountTotalKHR ?? 0,
                     orderAmountUSD: this.dynamicAmountOrder?.amountTotalUSD ?? 0
                 };
+                // Payments with Wallets
+                await this.$store.dispatch('myWallet/confirmWithdrawMoneyOrderPayment', { confirmOrderPaymentWallet });
                 // Handle Checkout Orders
                 await this.$store.dispatch('cart/createCheckout', {
                     shopId: this.shopId ? this.shopId : 0,
@@ -305,8 +307,6 @@ export default {
                     shippingMethod: this.shippingMethod ? this.shippingMethod : '',
                     paymentMethods: this.paymentMethods ? this.paymentMethods: 'PayByWallet'
                 });
-                // Payments with Wallets
-                await this.$store.dispatch('myWallet/confirmWithdrawMoneyOrderPayment', { confirmOrderPaymentWallet });
                 this.dialogVisibleOpenWallet = false;
             }).catch(() => {
                 ElNotification.warning({

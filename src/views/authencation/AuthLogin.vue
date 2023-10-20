@@ -37,7 +37,9 @@
                                     </div>
                                 <!--Forgot Password?-->
                                 <div class="flex align-items-center justify-content-between mb-2 gap-2">
-                                    <a class="font-medium no-underline hover:underline text-right cursor-pointer" style="color: var(--primary-color);font-size: 11px;">Forgot password?</a>
+                                    <router-link to="/auth/register" class="font-medium no-underline hover:underline text-right cursor-pointer" style="color: var(--primary-color);font-size: 11px;"
+                                        >Don't have account?
+                                    </router-link>
                                 </div>
 
                                 <!-- Messages MazDialog -->

@@ -4,7 +4,7 @@
       <div class="ad1">
         <advert-card
           advertText="These are the best fits for the summer season"
-          advertTitle="spring/summer"
+          advertTitle="Online Shopping"
           buttonText="Learn More"
           backgroundImage="first"
         />
@@ -17,20 +17,14 @@
       </div>
       <div class="ad2">
         <advert-card
-          advertText="These are the best fits for the summer season"
-          advertTitle="spring/summer"
           backgroundImage="third"
           :haveButton="false"
         />
         <advert-card
-          advertText="These are the best fits for the summer season"
-          advertTitle="spring/summer"
           backgroundImage="fourth"
           :haveButton="false"
         />
         <advert-card
-          advertText="These are the best fits for the summer season"
-          advertTitle="spring/summer"
           backgroundImage="fifth"
           :haveButton="false"
         />

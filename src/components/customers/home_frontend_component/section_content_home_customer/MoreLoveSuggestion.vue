@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="btn-style-7">
-                <a href="#">All Product</a>
+                <!-- <a href="#">All Product</a> -->
             </div>
         </div> 
         <div class="row" >

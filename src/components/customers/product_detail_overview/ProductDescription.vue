@@ -274,24 +274,54 @@
             </div>
             <!-- Add to cart -->
             <p style="margin-top: 40px">
-                <b-button
-                    id="add-to-cart-sync"
-                    class="add-to-cart"
-                    @click="
-                        addToCart(
-                            parseInt(data[0]?.product[0].productId),
-                            data[0]?.product[0]?.product_unit_price,
-                            data[0]?.product[0]?.packingType,
-                            data[0]?.product[0]?.maxOrder,
-                            data[0]?.product[0]?.vendorId,
-                            data[0]?.product[0]?.shopId,
-                            data[0]?.product[0]?.shipCompanyId
-                        )
-                    "
-                >
-                    <i class="icon-basket-loaded"></i>
-                    &nbsp; Add to Cart
-                </b-button>
+                <template v-if="isLoggedIn()">
+                    <!-- Customer -->
+                    <template v-if="customerRole === 'Customer' && customerRole !== 'Admin' && customerRole !== 'Vendor'">
+                        <b-button
+                            id="add-to-cart-sync"
+                            class="add-to-cart"
+                            @click="
+                                addToCart(
+                                    parseInt(data[0]?.product[0].productId),
+                                    data[0]?.product[0]?.product_unit_price_khr,
+                                    data[0]?.product[0]?.packingType,
+                                    data[0]?.product[0]?.maxOrder,
+                                    data[0]?.product[0]?.vendorId,
+                                    data[0]?.product[0]?.shopId,
+                                    data[0]?.product[0]?.shipCompanyId
+                                )
+                            "
+                        >
+                            <i class="icon-basket-loaded"></i>
+                            &nbsp; Add to Cart
+                        </b-button>
+                    </template>
+                    <!-- Vendor -->
+                    <template v-if="customerRole !== 'Customer' && customerRole === 'Admin' || customerRole === 'Vendor'">
+                        <b-button
+                            id="add-to-cart-sync"
+                            class="add-to-cart"
+                            @click="$router.push('/vendor-dashboard/default-layouts')"
+                        >
+                            <template v-if="customerRole === 'Admin'">
+                                <label>Web Page</label>
+                            </template>
+                            <template v-if="customerRole === 'Vendor'">
+                                <label>My Shop</label>
+                            </template>
+                        </b-button>
+                    </template>
+                </template>
+                <!-- No Auth -->
+                <template v-if="!isLoggedIn()">
+                    <b-button
+                        id="add-to-cart-sync"
+                        class="add-to-cart"
+                        @click="$router.push('/auth/login')"
+                    >
+                        <label>Please Sign</label>
+                    </b-button>
+                </template>
             </p>
         </div>
     </div>
@@ -330,6 +360,7 @@ export default {
             expressDelivery: {},
             selectedShippingExpressDelivery: "Normal (3-4 Day)",
             expressOptionSelected: {},
+            customerRole: null
         };
     },
     created() {
@@ -345,6 +376,9 @@ export default {
             });
         },
     },
+    mounted() {
+        this.customerRoleType();
+    },
     computed: {
         ...mapGetters({
             currentUser: "auth/currentUserAuth",
@@ -354,6 +388,16 @@ export default {
         },
     },
     methods: {
+        customerRoleType(){
+            if(isLoggedIn()){
+                const userRoleAuth = localStorage.getItem('userRole');
+                if (JSON.parse(userRoleAuth) !== 'Vendor' && JSON.parse(userRoleAuth) !== 'Admin' && JSON.parse(userRoleAuth) === "Customer"){
+                    this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
+                }else{
+                   this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
+                }
+            }
+        },
         truncateLongText(str, length, useWordBoundary){
             if (str.length <= length) { return str; }
             const subString = str.slice(0, length - 1); // the original check

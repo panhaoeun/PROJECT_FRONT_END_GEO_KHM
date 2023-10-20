@@ -1,6 +1,6 @@
 <template>
     <article :class="backgroundImage">
-        <h5>{{ advertTitle }}</h5>
+        <h5 class="text-white">{{ advertTitle }}</h5>
         <p>{{ advertText }}</p>
         <button v-if="haveButton" :aria-label="buttonText">
             {{ buttonText }}

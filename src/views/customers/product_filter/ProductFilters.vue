@@ -6,7 +6,7 @@
                         <li>
                             <a href="#">Home</a>
                         </li>
-                        <li class="active">Shop List</li>
+                        <li class="active">Category Products</li>
                     </ul>
                 </div>
             </div>
@@ -18,83 +18,57 @@
                     <div class="col-lg-9">
                         <div class="shop-bottom-area">
                             <div class="tab-content jump">
-                                <div id="shop-2" class="tab-pane active">
-                                    <div class="shop-list-wrap mb-30">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6">
-                                                <div class="product-list-img">
-                                                    <a href="product-details.html">
-                                                        <img src="assets/images/product/product-13.jpg" alt="Product Style">
-                                                    </a>
-                                                    <div class="product-list-quickview">
-                                                        <button title="Quick View" data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i></button>
+                                <template v-if="filtersProductByCatProList.length > 0 && filtersProductByCatProList !== null || filtersProductByCatProList !== ''">
+                                    <div id="shop-2" class="tab-pane active" v-for="(proByCatId,index) in filtersProductByCatProList" :key="index">
+                                        <div class="shop-list-wrap mb-30">
+                                            <div class="row">
+                                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6">
+                                                    <div class="product-list-img">
+                                                       <router-link @click="goToURLPageProductDetailByCatId(proByCatId?.id,proByCatId?.product_eng)"  to="#">
+                                                            <template v-if="productFilter?.product_picture !== undefined">
+                                                                    <img
+                                                                        :src="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${productFilter?.product_picture}`" 
+                                                                        :alt="proByCatId?.product_eng"
+                                                                    >
+                                                            </template>
+                                                            <template v-else>
+                                                                <img src="../../../assets/img/photos/not_image.jpeg"/>
+                                                            </template>
+                                                            
+                                                       </router-link>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-8 col-lg-7 col-md-6 col-sm-6">
-                                                <div class="shop-list-content">
-                                                    <h3><a href="product-details.html">Basic Joggin Shorts</a></h3>
-                                                    <div class="pro-list-price">
-                                                        <span class="new-price">$35.45</span>
-                                                        <span class="old-price">$45.80</span>
-                                                    </div>
-                                                    <div class="product-list-rating-wrap">
-                                                        <div class="product-list-rating">
-                                                            <i class="icon_star"></i>
-                                                            <i class="icon_star"></i>
-                                                            <i class="icon_star"></i>
-                                                            <i class="icon_star gray"></i>
-                                                            <i class="icon_star gray"></i>
+                                                <div class="col-xl-8 col-lg-7 col-md-6 col-sm-6">
+                                                    <div class="shop-list-content">
+                                                        <h3>
+                                                            <router-link @click="goToURLPageProductDetailByCatId(proByCatId?.id,proByCatId?.product_eng)"  to="#">
+                                                                {{ proByCatId?.product_eng ? proByCatId?.product_eng : '' }}
+                                                            </router-link>
+                                                        </h3>
+                                                        <div class="pro-list-price">
+                                                            <span class="new-price">{{ currencyFormattedKHRiel(proByCatId?.product_unit_price_khr) }}
+                                                            </span>
+                                                            <span class="old-price">
+                                                                {{ currencyFormattedUSD(proByCatId?.product_unit_price) }}
+                                                            </span>
                                                         </div>
-                                                        <span>(3)</span>
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipic it, sed do eiusmod tempor labor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                                                    <div class="product-list-action">
-                                                        <button title="Add To Cart"><i class="icon-basket-loaded"></i></button>
-                                                        <button title="Wishlist"><i class="icon-heart"></i></button>
-                                                        <button title="Compare"><i class="icon-refresh"></i></button>
+                                                        <div class="product-list-rating-wrap">
+                                                        </div>
+                                                        <div class="product-list-action">
+                                                            <button title="Add To Cart"><i class="icon-eye"></i></button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </template>
+                                <template v-else>
+                                    <el-empty description="Not Product" />
+                                </template>
+                            </div>
+                            <!-- Pagination -->
                           
-                                </div>
-                            </div>
-                            <div class="pro-pagination-style text-center mt-10">
-                                <ul>
-                                    <li><a class="prev" href="#"><i class="icon-arrow-left"></i></a></li>
-                                    <li><a class="active" href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a class="next" href="#"><i class="icon-arrow-right"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Search and Categories -->
-                    <div class="col-lg-3">
-                        <div class="sidebar-wrapper sidebar-wrapper-mrg-right">
-                            <div class="sidebar-widget mb-40">
-                                <h4 class="sidebar-widget-title">Search </h4>
-                                <div class="sidebar-search">
-                                    <form class="sidebar-search-form" action="#">
-                                        <input type="text" placeholder="Search here...">
-                                        <button>
-                                            <i class="icon-magnifier"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="sidebar-widget shop-sidebar-border mb-35 pt-40">
-                                <h4 class="sidebar-widget-title">Categories </h4>
-                                <div class="shop-catigory">
-                                    <ul>
-                                        <li v-for="(categories, index) in commonCategoriesFilterList" :key="index">
-                                            <a href="#">{{ categories?.catNameEn }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,23 +78,41 @@
 <!-- Script of JS -->
 <script>
 import  CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
+import CommonPublicStoreServices from '../../../services/common_public/CommonPublicStoreServices';
+
 export default {
     data() {
         return {
             customerType: null,
             customerId: {},
             commonCategoriesFilterList: null,
-            commonSubCategoriesFilterList: null
+            commonSubCategoriesFilterList: null,
+            filtersProductByCatProList: [],
+            loadingProductCatList: false,
+            ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE,
         };
     },
     created(){
         this.commonServices = new CommonListPublicServices();
+        this.commonPublic = new CommonPublicStoreServices();
     },
     mounted() {
         // Common Categories
         this.getCommonCategoriesFIlter();
+        // Product By Categories
+        this.getProductByCategoriesId();
     },
     methods: {
+        // Convert Currency Amount
+        currencyFormattedKHRiel(value){
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD(value){
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
          // Categories
         getCommonCategoriesFIlter(){
             this.commonServices.getCommonCategoriesSubCategories()
@@ -133,6 +125,38 @@ export default {
                 this.commonSubCategoriesFilterList = common?.subCategory;
             })
         },
+         // Get Seller By Categories
+        async getProductByCategoriesId(){
+            const cateIdSearchId = this.$route.query.cateId ? this.$route.query.cateId : 0;
+            this.commonPublic.searchProductByCategories(cateIdSearchId,10)
+                .then((productCat) => {
+                    if (!Array.isArray(productCat) || !productCat.length > 0) {
+                        this.filtersProductByCatProList = [];
+                        this.loadingProductCatList = false;
+                    }
+                    if (!Array.isArray(productCat) || productCat !== undefined || productCat !== null) {
+                        this.filtersProductByCatProList = productCat ? productCat : '';
+                        this.loadingProductCatList = false;
+                    }
+                });
+        },
+        // Goto Page
+        async goToURLPageProductDetailByCatId(productId,productName){
+            if (!productId && !productName) return;
+                this.$router.push(
+                    {
+                        path: '/customer/product-details/product/view-product-detail',
+                        query: {
+                            pid: productId ? productId : 0,
+                            pname:encodeURIComponent(productName ? productName : '').replace(/[!'()]/g, escape).replace('\'', '%27')
+                        }
+                    }
+            );
+        },
+        // Filter
+        handleCurrentChangePaginationProductFilter(){
+
+        }
     }
 }
 </script>

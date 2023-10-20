@@ -15,7 +15,10 @@
                     <img width="34"
                         src="https://6valley-aster.6amtech.com/resources/themes/theme_aster/public/assets/img/icons/profile-icon5.png"
                         alt="" class="dark-support">
-                    <h3 class="fs-36 absolute-white">{{ balanceKHR ? balanceKHR : 0 }} ({{ balanceUSD ? balanceUSD : 0 }})</h3>
+                    <h3 class="fs-36 absolute-white">
+                        {{ balanceKHR ? balanceKHR : 0 }} 
+                        {{ balanceUSD ? balanceUSD : 0 }}
+                    </h3>
                     <p>Total Balance</p>
                 </div>
             </div>

@@ -175,24 +175,18 @@ const actions = {
         if (!isLoggedIn() && state.cartItem.length > 0) {
             state.cartItem = [];
         } else {
-            const userRoleAuth = localStorage.getItem('userRole');
-            if (userRoleAuth !== 'Vendor' && userRoleAuth !== 'Admin'){
-                state.cartItem.splice(0, state.cartItem.length);
+            if (isLoggedIn()) {
                 await customerOrderCart
-                    .getCartOrderListCurrentCustomer()
-                    .then((cart) => {
-                        if (isLoggedIn() && userRoleAuth === "Customer") {
-                            if (cart) {
-                                 commit("setCart", cart);
-                            }
+                .getCartOrderListCurrentCustomer()
+                .then((cart) => {
+                        if (cart) {
+                            commit("setCart", cart);
                         }
-                       
-                    })
-                    .catch((error) => {
-                        throw new Error(error);
-                    });
+                })
+                .catch((error) => {
+                    throw new Error(error);
+                });
             }
-           
         }
     },
     // Check Out Payments
