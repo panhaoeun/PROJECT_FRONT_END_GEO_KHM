@@ -86,7 +86,7 @@
                                     sortable>
                                     <template #body="{ data }">
                                         <p> {{ currencyFormattedKHRiel(data?.product_unit_price_khr) }}</p>
-                                        <span>{{ currencyFormattedUSD(data?.product_unit_price) }}</span>
+                                        (<span>{{ currencyFormattedUSD(data?.product_unit_price) }}</span>)
                                     </template>
                                 </Column>
                                 <Column field="id" :header="$t('product.qty')" sortField="product_qty" sortable>

@@ -139,6 +139,7 @@
                                     >
                                         Choose an option
                                     </option>
+                                    <!-- Express (1-2 Day) -->
                                     <option
                                         value="Express (1-2 Day)"
                                         :name="
@@ -152,9 +153,9 @@
                                             'Express (1-2 Day)'
                                         "
                                         :data-deliver-price="
-                                            data[0]?.product[0]?.expressPrice
+                                            exchangeExpressDay
                                         "
-                                        :data-deliver-khr="exchangeExpressDay"
+                                        :data-deliver-khr="data[0]?.product[0]?.expressPrice"
                                         :selected="
                                             selectExpressDeliveryShippingPrice ==
                                             'Express (1-2 Day)'
@@ -162,14 +163,12 @@
                                     >
                                         <div class="flex">
                                             <p>
-                                                <span
-                                                    >៛
-                                                    {{
-                                                        exchangeExpressDay
-                                                            ? exchangeExpressDay
-                                                            : 0
-                                                    }}</span
-                                                >
+                                                <span>
+                                                    {{ currencyFormattedKHRiel(
+                                                        data[0]?.product[0]
+                                                            ?.expressPrice
+                                                    ) }}
+                                                </span>
                                                 <input
                                                     hidden
                                                     :value="
@@ -183,26 +182,20 @@
                                                         )
                                                     "
                                                 />
-                                                ({{
-                                                    currencyFormattedUSD(
-                                                        data[0]?.product[0]
-                                                            ?.expressPrice
-                                                    )
-                                                }}) -
+                                                ({{ currencyFormattedUSD(exchangeExpressDay) }}) -
                                             </p>
                                             <span> Express (1-2 Day)</span>
                                         </div>
                                     </option>
+                                    <!-- Normal (4-4 Day) -->
                                     <option
                                         value="Normal (3-4 Day)"
                                         :name="
                                             exchangeNormalDay &&
                                             data[0]?.product[0]?.normalPrice
                                         "
-                                        :data-deliver-price="
-                                            data[0]?.product[0]?.normalPrice
-                                        "
-                                        :data-deliver-khr="exchangeNormalDay"
+                                        :data-deliver-price="exchangeNormalDay"
+                                        :data-deliver-khr="data[0]?.product[0]?.normalPrice"
                                         :data-deliver-name="
                                             data[0]?.product[0]
                                                 .shippingCompany +
@@ -215,9 +208,12 @@
                                         "
                                     >
                                         <p>
-                                            <span
-                                                >៛ {{ exchangeNormalDay }}</span
-                                            >
+                                            <span>
+                                                {{ currencyFormattedKHRiel(
+                                                    data[0]?.product[0]
+                                                        ?.normalPrice
+                                                ) }}
+                                            </span>
                                             <input
                                                 hidden
                                                 :value="
@@ -232,10 +228,7 @@
                                                 "
                                             />
                                             ({{
-                                                currencyFormattedUSD(
-                                                    data[0]?.product[0]
-                                                        ?.normalPrice
-                                                )
+                                                 currencyFormattedUSD(exchangeNormalDay)
                                             }}) -
                                         </p>
                                         <span> Normal (3-4 Day)</span>
@@ -331,7 +324,7 @@
 import { mapGetters } from "vuex";
 import { isLoggedIn } from "@/utils/auth/auth";
 import _ from "lodash";
-import convertUSDToRiel from "@/utils/convertUSDTORiel";
+import convertRielToUSDAmount from "@/utils/convertRielToUSD";
 export default {
     name: "ProductDescription",
     props: {
@@ -420,19 +413,6 @@ export default {
                 currency: "USD",
             });
         },
-        async convertRielAmountProductToCart(usdAmount) {
-            try {
-                const amountConvertRiel = parseInt(usdAmount)
-                    ? parseInt(usdAmount)
-                    : 0;
-                this.exchangeRateRielProPrice =
-                    (await convertUSDToRiel(amountConvertRiel)) ?? 0;
-                const result = await Promise.resolve(amountConvertRiel);
-                return result;
-            } catch (error) {
-                return Promise.reject(error);
-            }
-        },
         updateQuantity: function (proQty, event) {
             var value = event.target.value;
             // parseInt(data[0]?.product[0].product_qty)
@@ -488,34 +468,45 @@ export default {
                 return true;
             }
         },
-        async convertAmountRateExpressDay(usdAmount) {
+        
+        // Convert Amount Riel to USD
+        async convertRielAmountProductToCart(usdAmount) {
             try {
-                const amountConvertRielExpress = parseInt(usdAmount)
+                const amountConvertRiel = parseInt(usdAmount)
                     ? parseInt(usdAmount)
                     : 0;
-                this.exchangeExpressDay =
-                    (await convertUSDToRiel(amountConvertRielExpress)) ?? 0;
+                this.exchangeRateRielProPrice =
+                    (await convertRielToUSDAmount(amountConvertRiel)) ?? 0;
+                const result = await Promise.resolve(amountConvertRiel);
+                return result;
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        async convertAmountRateExpressDay(rielAmount) {
+            try {
+                const amountConvertRielExpress = parseInt(rielAmount)? parseInt(rielAmount): 0;
+                this.exchangeExpressDay = (await convertRielToUSDAmount(amountConvertRielExpress ? amountConvertRielExpress : 0)) ?? 0;
                 const result = await Promise.resolve(amountConvertRielExpress);
                 return result;
             } catch (error) {
                 return Promise.reject(error);
             }
         },
-        async convertAmountRateNormalDay(usdAmount) {
+        async convertAmountRateNormalDay(rielAmount) {
             try {
-                const amountConvertRielExpress = parseInt(usdAmount)
-                    ? parseInt(usdAmount)
-                    : 0;
-                this.exchangeNormalDay =
-                    (await convertUSDToRiel(amountConvertRielExpress)) ?? 0;
+                const amountConvertRielNormal = parseInt(rielAmount)? parseInt(rielAmount): 0;
+                this.exchangeNormalDay = (await convertRielToUSDAmount(amountConvertRielNormal ? amountConvertRielNormal : 0)) ?? 0;
                 const resultNormal = await Promise.resolve(
-                    amountConvertRielExpress
+                    amountConvertRielNormal
                 );
                 return resultNormal;
             } catch (error) {
                 return Promise.reject(error);
             }
         },
+
+
         async selectExpressDeliveryShippingPrice($event) {
             if ($event.target.options.selectedIndex > -1) {
                 const deliverPriceExpress =
