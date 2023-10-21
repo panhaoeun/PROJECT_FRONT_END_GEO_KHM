@@ -56,7 +56,6 @@
     import ProductServices from '../../../../services/vendors/products/ProductServices'; 
     // import ProductPreloader from "../../../../components/preloaders/ProductPreloader.vue";
     import ProductCard from './card_module_products/ProductCard.vue';
-    import { ElMessage } from 'element-plus';
     import {useInfiniteQuery} from "@tanstack/vue-query";
     const totalPage = ref(0);
     const productMoreLove = ref([]);
@@ -85,7 +84,7 @@
                 cursor: pageParam === 3 ? undefined : pageParam + 1,
             };
         }catch(error){
-           ElMessage.error(`Some Error Entries More Product Suggestion: ${error.message}`);
+           return Promise.reject(error);
         }
     } 
     

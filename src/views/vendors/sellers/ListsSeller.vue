@@ -68,7 +68,7 @@
                                             <template #body="slotProps">
                                                 <div v-if="slotProps.data?.vendorProfile !== null">
                                                     <Avatar
-                                                        :image="`${ENV_HOST_PATH_FILE}uploads/user_profile/${slotProps.data?.vendorProfile}`"
+                                                        :image="`${ENV_HOST_PATH_FILE}uploads/sellers/seller_profile/${slotProps.data?.vendorProfile}`"
                                                         class="mr-2" size="large" shape="circle"
                                                         :data-id="slotProps.data" />
                                                 </div>
@@ -97,7 +97,7 @@
                                              <Tag severity="success" :value="slotProps.data?.shop_verify"></Tag>
                                             </template>
                                         </Column>
-                                        <Column header="Open Shop" sortable style="min-width:10rem" sortField="shop_status" filterField="shop_status">
+                                        <!-- <Column header="Open Shop" sortable style="min-width:10rem" sortField="shop_status" filterField="shop_status">
                                             <template #body="slotProps">
                                                 <p>  {{ slotProps.data?.shop_status ? 'Open' : 'Close' }}</p>
                                                 <el-switch
@@ -107,7 +107,7 @@
                                                     inactive-color="#ff4949">
                                                 </el-switch>
                                             </template>
-                                        </Column>
+                                        </Column> -->
                                         <Column :exportable="false" :header="$t('route.action')" style="min-width:8rem">
                                             <template #body="slotProps">
                                                 <Button icon="pi pi-ellipsis-v" outlined rounded class="mr-2"
