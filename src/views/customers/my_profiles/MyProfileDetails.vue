@@ -18,13 +18,13 @@
                             <h5 class="card-title mb-0">Settings</h5>
                         </div>
                         <div class="list-group p-2 my-2 myaccount-tab-menu" role="tablist">
-                            <router-link class="list-group-item list-group-item-action active nav-link my-2"
+                            <!-- <router-link class="list-group-item list-group-item-action active nav-link my-2"
                                 data-bs-toggle="pill" data-bs-target="#account-tab" 
                                 aria-selected="true" to="#account-tab" role="tab"
                             >
                                 <i class="pi pi-user pl-2" style="font-size: 1.5rem"></i>
                                 Account
-                            </router-link>
+                            </router-link> -->
                             <router-link class="list-group-item list-group-item-action nav-link" 
                                 data-bs-toggle="pill" data-bs-target="#password" 
                                 type="button" 
@@ -48,7 +48,7 @@
                             </div>
                             <div class="my-2">
                                 <router-link 
-                                    class="list-group-item list-group-item-action nav-link my-2"
+                                    class="list-group-item list-group-item-action nav-link my-2 list-group-item list-group-item-action active nav-link my-2"
                                     data-bs-toggle="pill" 
                                     role="tab" aria-controls="wallets-customer"
                                         data-toggle="list" to="#wallets-customer">
@@ -62,11 +62,11 @@
                 <div class="col-lg-9 col-md-8">
                     <div class="tab-content">
                             <!-- My Profile Details -->
-                            <div class="tab-pane fade active show" id="account-tab" role="tabpanel" aria-labelledby="account-tab">
+                            <!-- <div class="tab-pane fade active show" id="account-tab" role="tabpanel" aria-labelledby="account-tab">
                                 <MyAccountSettings/>
-                            </div> 
+                            </div>  -->
                             <!-- Change Password -->
-                            <div class="tab-pane fade" id="password" role="tabpanel">
+                            <div class="tab-pane fade active show" id="password" role="tabpanel">
                                 <CustomerOrders/>
                             </div>    
                             <!-- Shipping Address -->
@@ -97,7 +97,7 @@
 </style>
 <!-- Script -->
 <script setup>
-    import MyAccountSettings from "../../../views/customers/my_profiles/subpage_order_detail/MyAccountSettings.vue";
+    // import MyAccountSettings from "../../../views/customers/my_profiles/subpage_order_detail/MyAccountSettings.vue";
     import CustomerOrders from "../../../views/customers/my_profiles/subpage_order_detail/CustomerOrders.vue";
     import ShippingAddress from "../../../views/customers/my_profiles/subpage_order_detail/ShippingAddress.vue";
     import MyWalletBalance from "../../../views/customers/my_profiles/my_wallet/MyWalletBalance.vue";

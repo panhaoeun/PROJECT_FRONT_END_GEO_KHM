@@ -1,137 +1,150 @@
 <template>
     <Button label="Deposit" severity="danger" style="width:8rem;" @click="dialogTableVisibleOpeDeposit = true" size="small"/>   
-    <el-dialog v-model="dialogTableVisibleOpeDeposit" width="38%" centerwidth="38%"  title="Deposit to Wallet"  @close="closeFromDeposit">
-            <div class="py-2">
-                <!-- Toast Alert-->
-                <Toast />
-                <div class="px-2 flex">
-                    <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"> 
-                        <el-form 
-                            ref="formPopupDepositWallet"
-                            :model="formPopupDepositWallet"
-                            label-width="200px"
-                            label-position="top"
-                            :rules="rulesDepositedWallet"
-                            status-icon
-                            class="demo-ruleForm"
-                        >
-                            <!-- Radio Choose bank accounts -->
-                            <el-form-item label="Bank recharged" prop="bankRecharge">
-                                <el-radio-group 
-                                    autocomplete="off"  
-                                    class="w-full"
-                                    style="width: 100%"
-                                    v-model="formPopupDepositWallet.bankRecharge"
+     <div class="px-2 flex justify-content-center">
+            <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"> 
+                <el-dialog v-model="dialogTableVisibleOpeDeposit"  
+                    width="17%"
+                    align-center
+                    :rules="rulesWithdrawWallet"
+                    status-icon
+                    class="demo-ruleForm"
+                    title="Deposit to Wallet"  @close="closeFromDeposit">
+        
+                    <div class="py-2">
+                        <!-- Toast Alert-->
+                        <Toast />
+                        <div class="px-2 flex">
+                            <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"> 
+                                <el-form 
+                                    ref="formPopupDepositWallet"
+                                    :model="formPopupDepositWallet"
+                                    label-position="top"
+                                    :rules="rulesDepositedWallet"
+                                    label-width="500px"
+                                    status-icon
                                 >
-                                    <el-radio border label="ABA Bank" name="aba-bank-company"/>
-                                    <el-radio border label="ACLEDA Bank"  name="acleda-bank-company"/>
-                                </el-radio-group>
-                            </el-form-item>
-                            <!-- Enter Amount -->
-                            <el-form-item label="Enter Amount" prop="enterAmountWallet">
-                                <el-input-number 
-                                    style="width: 70%"
-                                    v-model="formPopupDepositWallet.enterAmountWallet"
-                                    :min="1" 
-                                    :max="5000" 
-                                    :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                                    :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
-                                    :precision="2"
-                                    autocomplete="off"  
-                                />
-                            </el-form-item>
-                            <!-- Enter Date Time-->
-                            <el-form-item label="Enter Deposited Time" prop="enterDepositedDateTime">
-                                <el-date-picker
-                                    arrow-control
-                                    :action="fileUploadUrl"
-                                    style="width: 70%"
-                                    v-model="formPopupDepositWallet.enterDepositedDateTime"
-                                    type="datetime"
-                                    placeholder="Pick a day"
-                                    autocomplete="off"  
-                                />
-                            </el-form-item>
-                            <!--============= Upload Your Payment Receipt ========-->
-                            <el-form-item label="Recent Upload" prop="recentUploadDepositedBankInvoice"  style="width: 100%">
-                                    <el-upload 
-                                        action="#" 
-                                        v-model="formPopupDepositWallet.recentUploadDepositedBankInvoice"
-                                        accept=".jpg,.jpeg,.png"
-                                        list-type="picture" 
-                                        :on-preview="handlePictureCardPreviewRecentUploadDeposit"
-                                        :on-change="handleChangeRecentUploadDeposit" 
-                                        :auto-upload="false"
-                                        ref="fileUploadDeposit"
-                                        :on-exceed="handleExceedRecentUpload"
-                                        class="avatar-uploader-cover"
-                                        :limit= "parseInt('1')"
-                                        :http-request="handleFileSuccessRecentUploadDeposited"
-                                        autocomplete="off"  
-                                        :on-remove="fileRemoveReceiptUploadDeposited"
-                                    >
-                                    <div class="flex flex-column justify-content-center px-4 py-8 border-1 border"  style="width: 100%">
-                                        <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
-                                        <p class="font-bold text-sm">Upload Your Payment Receipt!</p>
-                                    </div>
-                                    <!--Dialogs-->
-                                    <el-dialog v-model="dialogVisibleDeposit">
-                                        <el-image :initial-index="4" :preview-src-list="dialogImageUrl"  fit="cover" :zoom-rate="1.2" width="100%" :src="dialogImageUrl" alt="" />
-                                    </el-dialog>
-                                </el-upload>
-                                <!-- Title Noted Upload -->
-                                <div class="text-sm flex">
-                                    <span class="p-error"> *</span>
-                                    <span class="flex flex-column">
-                                        Please upload pictures according to the examples.
-                                    </span>
-                                </div>
-                            </el-form-item>
-                            <!--============= Upload Your Payment Receipt ========-->
-                            <!-- Image Validation Upload Deposited -->
-                             <!-- Account ABA Bank -->
-                            <template v-if="formPopupDepositWallet.bankRecharge  === 'ABA Bank'">
-                                    <div class="demo-image__preview pb-4">
-                                        <el-image 
-                                            style="width: 450px; height: 500px;"
-                                            :src="urlABABankAcc" 
-                                            :zoom-rate="1.2"
-                                            fit="cover"
-                                            :preview-src-list="srcListAccountBankABA">
-                                        </el-image>
-                                    </div>
-                            </template>
-                            <!-- Account ACLEDA Bank -->
-                            <template v-if="formPopupDepositWallet.bankRecharge  === 'ACLEDA Bank'">
-                                    <div class="pb-4">
-                                        <el-image 
-                                            style="width: 300px; height: 400px"
-                                            :src="urlACLEDABankAcc" 
-                                            :zoom-rate="1.2"
-                                            fit="cover"
-                                            :preview-src-list="srcListAccountBankACLEDA">
-                                        </el-image>
-                                    </div>
-                            </template>
-                            <!--Deposited Noted -->
-                            <el-form-item label="Deposited Noted" prop="depositedNoted">
-                                <el-input 
-                                    v-model="formPopupDepositWallet.depositedNoted" 
-                                    style="width: 70%" 
-                                    type="textarea" 
-                                />
-                            </el-form-item>
-                            <!-- Form Submitted -->
-                            <el-form-item class="flex flex-column">
-                                <el-button type="primary" style="width: 70%"  @click="onSubmitUploadRecentDepositWallet('formPopupDepositWallet')">Upload Receipt</el-button>
-                            </el-form-item>
-                        </el-form>
+                                    <!-- Radio Choose bank accounts -->
+                                    <el-form-item label="Bank recharged" prop="bankRecharge">
+                                        <el-radio-group 
+                                            autocomplete="off"  
+                                            class="w-full"
+                                            v-model="formPopupDepositWallet.bankRecharge"
+                                        >
+                                            <el-radio border label="ABA Bank" name="aba-bank-company"/>
+                                            <el-radio border label="ACLEDA Bank"  name="acleda-bank-company"/>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <!-- Enter Amount -->
+                                    <el-form-item style="width: 100%;" label="Enter Amount (RIEL)" prop="enterAmountWallet">
+                                        <el-input-number 
+                                            v-model="formPopupDepositWallet.enterAmountWallet"
+                                            :min="1" 
+                                            style="width: 100%;" 
+                                            :max="5000" 
+                                            :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                            :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                                            :precision="2"
+                                            autocomplete="off"  
+                                        />
+                                    </el-form-item>
+                                    <!-- Enter Date Time-->
+                                    <el-form-item style="width: 100%;" label="Enter Deposited Time" prop="enterDepositedDateTime">
+                                        <el-date-picker
+                                            arrow-control
+                                            style="width: 100%;" 
+                                            :action="fileUploadUrl"
+                                            v-model="formPopupDepositWallet.enterDepositedDateTime"
+                                            type="datetime"
+                                            placeholder="Pick a day"
+                                            autocomplete="off"  
+                                        />
+                                    </el-form-item>
+                                    <!--============= Upload Your Payment Receipt ========-->
+                                    <el-form-item label="Recent Upload" prop="recentUploadDepositedBankInvoice">
+                                            <el-upload 
+                                                action="#" 
+                                                v-model="formPopupDepositWallet.recentUploadDepositedBankInvoice"
+                                                accept=".jpg,.jpeg,.png"
+                                                list-type="picture" 
+                                                :on-preview="handlePictureCardPreviewRecentUploadDeposit"
+                                                :on-change="handleChangeRecentUploadDeposit" 
+                                                :auto-upload="false"
+                                                ref="fileUploadDeposit"
+                                                :on-exceed="handleExceedRecentUpload"
+                                                class="avatar-uploader-cover"
+                                                :limit= "parseInt('1')"
+                                                :http-request="handleFileSuccessRecentUploadDeposited"
+                                                autocomplete="off"  
+                                                :on-remove="fileRemoveReceiptUploadDeposited"
+                                            >
+                                            <div class="flex flex-column justify-content-center px-4 py-8 border-1 border">
+                                                <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
+                                                <p class="font-bold text-sm">Upload Your Payment Receipt!</p>
+                                            </div>
+                                            <!--Dialogs-->
+                                            <el-dialog v-model="dialogVisibleDeposit">
+                                                <el-image :initial-index="4" :preview-src-list="dialogImageUrl"  fit="cover" :zoom-rate="1.2" :src="dialogImageUrl" alt="" />
+                                            </el-dialog>
+                                        </el-upload>
+                                        <!-- Title Noted Upload -->
+                                    
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <div class="text-sm flex">
+                                            <span class="p-error"> *</span>
+                                            <span class="flex flex-column">
+                                                Please upload pictures according to the examples.
+                                            </span>
+                                        </div>
+                                    </el-form-item>
+                                    <!--============= Upload Your Payment Receipt ========-->
+                                    <!-- Image Validation Upload Deposited -->
+                                    <!-- Account ABA Bank -->
+                                    <template v-if="formPopupDepositWallet.bankRecharge  === 'ABA Bank'">
+                                            <div class="demo-image__preview pb-4">
+                                                <el-image 
+                                                    style="width: 340px; height: 400px;"
+                                                    :src="urlABABankAcc" 
+                                                    :zoom-rate="1.2"
+                                                    fit="cover"
+                                                    :preview-src-list="srcListAccountBankABA">
+                                                </el-image>
+                                            </div>
+                                    </template>
+                                    <!-- Account ACLEDA Bank -->
+                                    <template v-if="formPopupDepositWallet.bankRecharge  === 'ACLEDA Bank'">
+                                            <div class="pb-4">
+                                                <el-image 
+                                                    style="width: 300px; height: 400px"
+                                                    :src="urlACLEDABankAcc" 
+                                                    :zoom-rate="1.2"
+                                                    fit="cover"
+                                                    :preview-src-list="srcListAccountBankACLEDA">
+                                                </el-image>
+                                            </div>
+                                    </template>
+                                    <!--Deposited Noted -->
+                                    <el-form-item label="Deposited Noted" prop="depositedNoted">
+                                        <el-input 
+                                            v-model="formPopupDepositWallet.depositedNoted"  
+                                            type="textarea" 
+                                        />
+                                    </el-form-item>
+                                    <!-- Form Submitted -->
+                                    <el-form-item class="flex flex-column">
+                                        <el-button type="primary" style="width: 100%"  @click="onSubmitUploadRecentDepositWallet('formPopupDepositWallet')">Upload Receipt</el-button>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        <!-- Toast Alert Message -->
+                            <Toast />
+                        </div>
                     </div>
-                <!-- Toast Alert Message -->
-                    <Toast />
-                </div>
+                </el-dialog>
+
             </div>
-    </el-dialog>
+    </div>
+    
 </template>
 <!-- Script of Popup withdraw to wallets -->
 <script>
