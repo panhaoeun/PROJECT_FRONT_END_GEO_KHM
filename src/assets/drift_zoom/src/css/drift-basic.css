@@ -200,7 +200,7 @@
     display: block;
     position: relative;
     /* width:64px; */
-    height: 100px;
+    height: 100%;
     margin: .625rem;
     transition: border-color .2s ease-in-out;
     border-radius: .3125rem;

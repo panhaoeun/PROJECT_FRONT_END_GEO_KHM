@@ -20,7 +20,7 @@
                             :src="thumb.url"
                             @click="chooseThumb(thumb, $event)"
                             v-for="(thumb, key) in thumbs"
-                            class="responsive-image cz-thumblist-item cz-image-zoom cursor-pointer img-responsive w-100 __max-h-323px hover:shadow-2"
+                            class="responsive-image cz-thumblist-item cz-image-zoom cursor-pointer img-responsive w-100 h-full __max-h-323px hover:shadow-2"
                             :style="{
                                 boxShadow:
                                     thumb.id === chooseProductActiveMulti(thumb.id) 
