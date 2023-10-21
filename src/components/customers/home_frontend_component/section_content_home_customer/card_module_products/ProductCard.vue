@@ -35,7 +35,7 @@
                 <!-- Product Price -->
                 <div class="product-price-4">
                     <span class="font-bold text-red-500">{{ currencyFormattedKHRiel(productPriceKHR ? productPriceKHR : 0) }}</span>
-                    <p class="font-bold">{{ formattedPrice ?? [] }}</p>
+                    <p class="font-bold">{{ formattedPrice ? formattedPrice :  0 }}</p>
                 </div>
                 <!-- Product Stock -->
                 <div class="product-author">
@@ -56,21 +56,27 @@
                 <!-- Product Price -->
                 <div class="product-price-4">
                     <span class="font-bold text-red-500">{{ currencyFormattedKHRiel(productPriceKHR ? productPriceKHR : 0) }}</span>
-                    <p class="font-bold">{{ formattedPrice ?? [] }}</p>
+                    <p class="font-bold">{{ formattedPrice ? formattedPrice : 0 }}</p>
                 </div>
                 <!-- Product Stock -->
                 <div class="product-author">
                     <span>Stock: <a href="#" class="text-red-500">{{ inStock ? "In Stock" : "Out of Stock" }}</a></span>
                 </div>
                 <div class="pro-add-to-cart-2">
-                    <button title="Add to Cart">Add To Cart</button>
+                    <button title="View Product"
+                        @click="$router.push({path: '/customer/product-details/product/view-product-detail',
+                        query: {
+                            pid: productId,
+                            pname:encodeURIComponent(productName).replace(/[!'()]/g, escape).replace('\'', '%27')}
+                        })"
+                    >View Product
+                    </button>
                 </div>
             </div>
         </div>
     </div>     
 </template>
 <script>
-import convertUSDToRiel from '@/utils/convertUSDTORiel';
 export default {
     components: {},
     props: [
@@ -109,16 +115,6 @@ export default {
                 style: "currency",
                 currency: "USD"
             });  
-        },
-        async convertRielAmountMorePro(usdAmount){
-           try {
-                const amountConvertRiel =  parseInt(usdAmount) ? parseInt(usdAmount) : 0;
-                this.exchangeRateRielMorePro = await convertUSDToRiel(amountConvertRiel) ?? 0;
-                const result = await Promise.resolve(amountConvertRiel)
-                return result;
-           } catch (error) {
-                return Promise.reject(error);
-           }
         },
     },
     mounted() {},

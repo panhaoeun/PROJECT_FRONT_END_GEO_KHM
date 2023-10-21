@@ -11,7 +11,7 @@
                                         class="__shop-page-banner" 
                                         :src="`${ENV_HOST_PATH_FILE}uploads/sellers/shop_banner/${filtersProductByShopBrand?.sh_banner}`"
                                         alt=""
-                                        style="max-height: 14.75rem;"
+                                        style="max-height: 100%;width:100%;"
                                     >
                                 </el-card>
                             </div>
