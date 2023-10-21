@@ -6,17 +6,11 @@
             <h6>By {{ data[0]?.product[0].shop_eng }}</h6>
             <div class="mb-3 my-4">
                 <span class="h3 font-weight-normal text-accent">
-                    <input
-                        hidden
-                        :value="
-                            convertRielAmountProductToCart(
-                                data[0]?.product[0]?.product_unit_price
-                                    ? data[0]?.product[0]?.product_unit_price
-                                    : 0
-                            )
-                        "
-                    />
-                    ៛ {{ exchangeRateRielProPrice }}
+                    {{
+                        currencyFormattedKHRiel(
+                            data[0]?.product[0]?.product_unit_price_khr
+                        )
+                    }}
                 </span>
                 <span class="ml-2 text-lg font-regular text-red-500">
                     (<span id="set-tax-amount ">{{
@@ -466,21 +460,6 @@ export default {
                 evt.preventDefault();
             } else {
                 return true;
-            }
-        },
-        
-        // Convert Amount Riel to USD
-        async convertRielAmountProductToCart(usdAmount) {
-            try {
-                const amountConvertRiel = parseInt(usdAmount)
-                    ? parseInt(usdAmount)
-                    : 0;
-                this.exchangeRateRielProPrice =
-                    (await convertRielToUSDAmount(amountConvertRiel)) ?? 0;
-                const result = await Promise.resolve(amountConvertRiel);
-                return result;
-            } catch (error) {
-                return Promise.reject(error);
             }
         },
         async convertAmountRateExpressDay(rielAmount) {

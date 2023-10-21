@@ -11,7 +11,7 @@
                                     <h4 class="status text-white pt-4">Your order has been placed successfully! !</h4>
                                 </div>
                                 <div id='lower-side'>
-                                    <h2 class="pb-4">Hello, Dev</h2>
+                                    <h2 class="pb-4">Hello, Customer</h2>
                                     <p id='message'>
                                         You order has been confirmed and will be shipped according to the method you selected!
                                     </p>
