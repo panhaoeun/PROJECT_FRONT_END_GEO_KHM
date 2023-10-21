@@ -787,7 +787,7 @@ export default {
                         const { 
                             product_eng, 
                             product_kh, 
-                            product_unit_price,
+                            product_unit_price_khr,
                             product_qty,
                             discount,
                             measure,
@@ -803,7 +803,7 @@ export default {
                         } = product.data.result?.resultStatus?.products;
                         this.proNameEn = String(product_eng) ?? '';
                         this.proNameKh = String(product_kh) ?? '';
-                        this.proUnitPice = parseFloat(product_unit_price) ?? '';
+                        this.proUnitPice = parseFloat(product_unit_price_khr) ?? '';
                         this.proQty = parseInt(product_qty) ?? '';
                         this.proDiscount = parseFloat(discount) ?? '';
                         this.measureUnit = String(measure) ?? '';
