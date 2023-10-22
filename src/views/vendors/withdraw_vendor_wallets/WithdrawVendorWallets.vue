@@ -36,13 +36,13 @@
                                             </div>
                                         </template>
                                         <!-- Empty Users -->
-                                        <template #empty>{{ $t('customer.customerNotFound') }} </template>
+                                        <template #empty>Withdraw vendor wallet not found...</template>
                                         <!-- Loading Users -->
                                         <template #loading> Loading withdraw methods data. Please wait... </template>
                                         <!--------------Check Existed Data ----------->
                                         <div v-if="adminWithdrawWalletMethod && adminWithdrawWalletMethod.length > 0 && adminWithdrawWalletMethod != ''">
                                             <!-- Columns -->
-                                            <Column field="balanceRiel" header="Amount" sortable style="min-width:10rem">
+                                            <Column field="balanceRiel" sortField="balanceRiel" header="Amount" sortable style="min-width:10rem">
                                                 <template #body="slotProps">
                                                     <div class="flex flex-column gap-2">
                                                         <span class="font-bold">{{ currencyFormattedKHRiel(slotProps.data?.balanceRiel) ?? 0}}</span>
@@ -50,13 +50,13 @@
                                                     </div>
                                                 </template>
                                             </Column>
-                                            <Column field="totalItem" header="Request Time" sortable style="min-width:10rem">
+                                            <Column field="transactionDate" sortField="transactionDate" header="Request Time" sortable style="min-width:10rem">
                                                 <template #body="slotProps">
                                                     <p>{{ slotProps?.data.transactionDate}}</p>
                                                 </template>
                                             </Column>
                                             <!-- Status -->
-                                            <Column field="transactionStatus" header="Status" sortable style="min-width:10rem">
+                                            <Column field="transactionStatus" header="Status"  sortField="transactionStatus" sortable style="min-width:10rem">
                                                 <template #body="slotProps">
                                                     <Tag :value="slotProps.data?.transactionStatus" :severity="getSeverityWithdrawStatus(slotProps.data?.transactionStatus)" />
                                                 </template>
