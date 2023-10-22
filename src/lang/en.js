@@ -238,6 +238,7 @@ export default {
         addCategory: "Add Category",
         categoryImage: "Category Image",
         category: 'Category',
+        categoryName: 'Category Name',
         // sub category
         subGategoryList: "Sub Gategories List",
         subGategoryName: "Sub gategory name",

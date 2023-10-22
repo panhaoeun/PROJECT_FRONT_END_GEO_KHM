@@ -76,7 +76,6 @@
                     <!-- Buttons Submits -->
                         <div class="col-12 flex justify-content-end mt-4">
                             <!--Buttons-->
-                            <Button icon="pi pi-times" class="p-button-lg py-3 w-10rem mr-3" label="Cancel" />
                             <Button icon="pi pi-check" 
                                 type="submit"
                                 :disabled="isProcessingSubmit" :label='isProcessingSubmit ? "Process..." : "Save"'

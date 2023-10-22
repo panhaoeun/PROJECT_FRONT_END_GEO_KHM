@@ -18,9 +18,6 @@
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
                 <form enctype="multipart/form-data" @submit.prevent="handleCategorySubmit(!v$.$invalid)">
                     <!--Form Submitted-->
-                   <Message severity="error" v-for="(errorArray, index) in notifmsg" :key="index">
-                        {{ errorArray }} 
-                   </Message>
                     <el-tab-pane label="English(EN)" name="english-tabs">
                         <!-- English -->
                         <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
@@ -57,6 +54,7 @@
                                                     :auto-upload="false" 
                                                     :on-change="handleChange" 
                                                     :class="objClass"
+                                                    accept=".jpg, .png, .jpeg"
                                                     :file-list="fileList" 
                                                     v-model="file"
                                                     ref="file"
@@ -96,7 +94,6 @@
                     <!-- Buttons Submits -->
                     <div class="col-12 flex justify-content-end mt-4">
                         <!--Buttons-->
-                        <Button icon="pi pi-times" class="p-button-lg py-3 w-10rem mr-3" label="Cancel" />
                         <Button icon="pi pi-check" 
                             type="submit"
                             :disabled="isProcessingSubmit" :label='isProcessingSubmit ? "Process..." : "Save"'
@@ -179,7 +176,6 @@ export default {
             this.objClass.upLoadShow = true;//删除图片后显示上传框
             this.objClass.upLoadHide = false;
         },
-        // 点击预览图的放大按钮后会触发handlePictureCardPreview
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
@@ -210,7 +206,6 @@ export default {
                 // console.log(this.v$.proCategoryNameEng.required.$message.replace('Val)
                 this.submitted = true;
                 if (!isFormValidCategorySub) {
-                    ElMessage.error('Name is required!');
                     return;
                 }
                 if (!this.proCategoryNameEng != "" || this.proCategoryNameEng !== null) {
@@ -221,15 +216,31 @@ export default {
                     }
                     this.proCategoryService.createProCategory(data).then((response) => {
                         if(response.data.success == true){
-                            ElMessage.success(response.data.message);
+                            this.$notify.success({
+                                    title: 'Successful crate category',
+                                    message: response.data?.message ? response.data?.message : '' ,
+                                    showClose: false
+                            });
                             // Push Router
                             this.$router.push("/vendor/products/category/list");
                         }
                     })
                     .catch(error => {
-                        console.log(error)
-                        ElMessage.error(error);
-                        this.notifmsg = error.response.data;
+                        this.$notify.error({
+                                title: 'Unsuccessfully create category',
+                                message: error.response.data.error.message ?? 'Unsuccessfully create category',
+                                showClose: false
+                            });  
+                            if(error.response.data.error.error.errors){
+                                for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                    const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                    this.$notify.error({
+                                        title: 'Unsuccessfully create category',
+                                        message: messageValidation ?? 'Unsuccessfully create category',
+                                        showClose: true
+                                    });   
+                                }
+                            } 
                         return false;
                     });
                 }

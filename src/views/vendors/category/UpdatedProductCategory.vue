@@ -1,4 +1,4 @@
-<template>
+qµ˜÷<template>
     <div class="layout-content px-4 py-4">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-2 py-2">
@@ -51,8 +51,10 @@
                                                     :on-preview="handlePictureCardPreviewUpdate"
                                                     :on-remove="handleRemoveCat" 
                                                     :auto-upload="false" 
+                                                    accept=".jpg, .png, .jpeg"
                                                     :on-change="handleChangeUpdateCat" 
                                                     :class="objClassUpdateCat"
+                                                    :file-list="fileListCat" 
                                                     ref="fileUpload"
                                                     :limit="1"
                                                     >
@@ -143,6 +145,7 @@ export default {
             loading: [false, false, false],
             //Upload Files
             fileListCatUpdated: '',
+            fileListCat: [],
             fileUpload: '',
             dataCatEdit: {
                 catNameEn: '',
@@ -196,11 +199,21 @@ export default {
                     }
                 }).catch((error) => {
                     // this.no
-                    this.$notify.error({
-                        title: error.response.data?.message ?? '',
-                        message: error.response.data.message ? error.response.data.message : '' ,
+                     this.$notify.error({
+                        title: 'Unsuccessfully updated category',
+                        message: error.response.data.error.message ?? 'Unsuccessfully updated category',
                         showClose: false
-                    });
+                    });  
+                    if(error.response.data.error.error.errors){
+                        for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                            const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                            this.$notify.error({
+                                title: 'Unsuccessfully updated category',
+                                message: messageValidation ?? 'Unsuccessfully updated category',
+                                showClose: true
+                            });   
+                        }
+                    } 
                 });
             }catch(error){
                 ElMessage.error(error);

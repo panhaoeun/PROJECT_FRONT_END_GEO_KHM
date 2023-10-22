@@ -1,7 +1,7 @@
 <template>
     <!-- Processing -->
     <div class="float-right">
-        <el-button plain class="w-10rem hover:bg-red-500" @click="processConfirmRequestWithdrawAdmin()">Process</el-button>                    
+        <el-button plain class="w-10rem bg-red-500 text-white hover:bg-red-500" @click="processConfirmRequestWithdrawAdmin()">Process</el-button>                    
     </div>
     <!-- Confirm Dialog To  refunds to vendor request -->
     <el-dialog
