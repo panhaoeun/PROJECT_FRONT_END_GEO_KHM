@@ -770,7 +770,7 @@
                                 maximinsOrder: this.maximinsOrderProduct ?? 1,
                                 packingType: this.packingTypeShip ?? '',
                                 proCategoryID: this.selectedProSubCat?.catID,
-                                proImgListID: Math.floor(Math.random() * 10) + this.selectedProSubCat?.catID ?? 1,
+                                proImgListID:  Math.floor((Math.random() * this.selectedProSubCat?.catID ?? 1) + 1),
                                 proNameEng: this.proNameEn,
                                 proNameKh: this.proNameKh,
                                 proCode: this.proCode,

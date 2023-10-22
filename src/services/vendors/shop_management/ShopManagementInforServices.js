@@ -33,9 +33,7 @@ export default class ShopManagementsServices {
    }
     //My Shops
     async myShopByID(data) {
-        return http.get(`/vendor/shop_management/my_shop_detail/vendor_shop`, {
-            headers: authHeader(),
-        }, data)
+        return httpCommon.get(`/vendor/shop_management/my_shop_detail/vendor_shop`, data)
         .then((result) => {
             if (result.data.success == true) {
                 return result.data.result.resultStatus;
