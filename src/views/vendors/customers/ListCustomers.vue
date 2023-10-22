@@ -21,7 +21,7 @@
                                 class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
-                                :globalFilterFields="['representative.name', 'full_latin_name','user_email','user_phonenumber']"
+                                :globalFilterFields="['representative.full_latin_name','totalItem', 'full_latin_name','user_email','user_phonenumber','status']"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
                                 <!-- Header -->
                                 <template #header>

@@ -39,7 +39,7 @@
                             <DataTable ref="dt" :value="usersListArr" 
                                 v-model:selection="selectedUserList"
                                 dataKey="id" :paginator="true" :rows="10"
-                                :globalFilterFields="['representative.name', 'userName', 'role_name', 'user_email', 'user_phonenumber']"
+                                :globalFilterFields="['representative.userName', 'userName', 'role_name', 'user_email', 'user_phonenumber']"
                                 :filters="filters" class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"

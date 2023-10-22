@@ -92,27 +92,23 @@
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="sellerOrderReport && sellerOrderReport.length > 0 && sellerOrderReport != ''">
                                     <!-- Columns -->
-                                    <Column field="orderId" header="Order ID" sortable style="min-width:20rem"></Column>
-                                    <Column field="totalsAmount" header="Total Amount" sortable style="min-width:20rem"></Column>
+                                    <Column field="orderId" header="Order ID" sortable style="min-width:10rem"></Column>
+                                    <Column field="orderDate" header="Order Date" sortable style="min-width:15rem"></Column>
+                                    <Column field="totalsAmount" header="Total Amount" sortable style="min-width:15rem">
+                                        <template #body="{ data }">
+                                            <p> {{ currencyFormattedKHRiel(data?.totalsAmount) }}</p>
+                                            <!-- (<span>{{ currencyFormattedUSD(data?.totalsAmount) }}</span>) -->
+                                        </template>
+                                    </Column>
+                                    <Column field="deliveryCost" header="Shipping Charge" sortable style="min-width:15rem">
+                                        <template #body="{ data }">
+                                            <p> {{ currencyFormattedKHRiel(data?.deliveryCost) }}</p>
+                                            <!-- (<span>{{ currencyFormattedUSD(data?.deliveryCost) }}</span>) -->
+                                        </template>
+                                    </Column>
                                 </div>
                             </DataTable>
                         </div>
-                        <!-- ===============Dialog Delete Product Category======================= -->
-                        <Dialog 
-                            v-model:visible="deleteUsersDialog" 
-                            :style="{ width: '450px' }"
-                            header="Confirm"
-                            :modal="true"
-                        >
-                            <div class="confirmation-content">
-                                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-                                <span>Are you sure you want to delete?</span>
-                            </div>
-                            <template #footer>
-                                <Button label="No" icon="pi pi-times" text @click="deleteUsersDialog = false" />
-                                <Button label="Yes" icon="pi pi-check" text @click="deleteUserMSByID" />
-                            </template>
-                        </Dialog>
                     </div>
                 </el-card>
             </div>
@@ -154,6 +150,16 @@ export default {
        this.getSellerShopOptArr();
     },
     methods: {
+        // Convert Currency Amount
+        currencyFormattedKHRiel(value){
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD(value){
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
         confirmDeleteUserMS(userId) {
             this.usersID = userId;
             this.deleteUsersDialog = true;

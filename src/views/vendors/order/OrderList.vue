@@ -6,10 +6,10 @@
             <h2 class="relative text-black text-xl section section-title:before ">{{ $t('order.allOrder') }}</h2>
         </div>
         <div class="gird">
-            <!-- <div class="col-12">
-                <el-card  class="box-card">
-                    <input hidden  v-model="orderListArrComputed"/>
-                    <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+            <div class="col-12">
+                <!-- <el-card  class="box-card"> -->
+                    <!-- <input hidden  v-model="orderListArrComputed"/> -->
+                    <!-- <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
                         <div class="flex flex-wrap gap-3 p-fluid">
                             <div class="flex-auto text-sm p-float-label">
                                 <label for="startDateFilter" class="text-sm"> Start Date </label>
@@ -42,9 +42,9 @@
                                 <Button icon="pi pi-search" class="text-sm btn btn-primary h-3rem w-10rem pl-3" :loading="isSearchLoading" @click.prevent="filterOrderItemByDateRange(!v$.$invalid)" :label="$t('order.showData')" />
                             </div>
                         </div>
-                    </div>
-                </el-card>
-            </div> -->
+                    </div> -->
+                <!-- </el-card> -->
+            </div>
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <div>
@@ -59,6 +59,7 @@
                                     :paginator="true" :rows="10" 
                                     :filters="filters"
                                     class="p-datatable-scrollable text-sm"
+                                    :globalFilterFields="['representative.orderDate', 'orderDate', 'name_eng', 'store','total_price','order_status']"
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                     :rowsPerPageOptions="[5, 10, 25]"
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
@@ -82,8 +83,8 @@
                                     <!--------------Check Existed Data ----------->
                                     <template v-if="ordersListArr && ordersListArr.length > 0 && ordersListArr != ''">
                                         <!-- Columns -->
-                                        <Column field="orderDate" header="Order Date" sortable></Column>
-                                        <Column field="id" header="Customer Info" sortable>
+                                        <Column field="orderDate" header="Order Date" sortable sortField="orderDate"></Column>
+                                        <Column field="name_eng" header="Customer Info" sortable sortField="name_eng">
                                             <template #body="slotProps">
                                                 <div class="justify-content-center">
                                                     <p class="font-bold text-sm"> {{slotProps.data?.name_eng}}</p>
@@ -91,13 +92,13 @@
                                                 </div>
                                             </template>
                                         </Column>
-                                        <Column field="store" header="Store" sortable></Column>
-                                        <Column field="id" header="Total Amount" sortable>
+                                        <Column field="store" header="Store" sortable sortField="store"></Column>
+                                        <Column field="id" header="Total Amount" sortable sortField="total_price">
                                             <template #body="slotProps">
-                                                <span>{{ slotProps.data.total_price ?? 0 }}</span>
+                                                <p>{{ currencyFormattedKHRiel(slotProps.data.total_price ?? 0) }}</p>
                                             </template>
                                         </Column>
-                                        <Column field="id" header="Order Status" sortable>
+                                        <Column field="id" header="Order Status" sortable sortField="order_status">
                                             <template #body="slotProps">
                                                 <div class="justify-content-center">
                                                     <Tag :value="slotProps.data.order_status" class="text-white" :severity="getSeverityPaymentStatus(slotProps.data?.order_status)" />
@@ -113,22 +114,6 @@
                                     </template>
                                 </DataTable>
                         </div>
-                        <!-- ===============Dialog Delete Product Category======================= -->
-                        <Dialog 
-                            v-model:visible="deleteUsersDialog" 
-                            :style="{ width: '450px' }"
-                            header="Confirm"
-                            :modal="true"
-                        >
-                            <div class="confirmation-content">
-                                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-                                <span>Are you sure you want to delete?</span>
-                            </div>
-                            <template #footer>
-                                <Button label="No" icon="pi pi-times" text @click="deleteUsersDialog = false" />
-                                <Button label="Yes" icon="pi pi-check" text @click="deleteUserMSByID" />
-                            </template>
-                        </Dialog>
                     </div>
                 </el-card>
             </div>
@@ -176,12 +161,23 @@ export default {
     created() {
         this.cusMSServices = new CustomerOrderMSServices();
     },
-    computed: {
-        orderListArrComputed(){
-            return this.listOrderEmptyFilterDate();
-        },
+    mounted() {
+        this.listOrderEmptyFilterDate();
+        // orderListArrComputed(){
+        //     return this.listOrderEmptyFilterDate();
+        // },
     },
     methods: {
+        // Convert Currency Amount
+        currencyFormattedKHRiel(value){
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD(value){
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
         /**
          * Date to timestamp
          * @param  string template
@@ -254,7 +250,6 @@ export default {
                     return this.orderListManagements(startDateFilter,endDateFilter);     
                 }
             }catch(err){
-                ElMessage.error(err.message);
                 return false;
             }
         },

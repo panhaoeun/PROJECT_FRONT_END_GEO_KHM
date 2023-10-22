@@ -39,10 +39,10 @@
                             <template #header>
                                 <div class="flex flex-wrap align-items-center justify-content-between gap-2">
                                     <span class="text-xl text-900 font-bold">Customer Orders</span>
-                                    <span class="p-input-icon-left">
+                                    <!-- <span class="p-input-icon-left">
                                         <i class="pi pi-search" />
                                         <InputText v-model="filters['global'].value" placeholder="Search..." />
-                                    </span>
+                                    </span> -->
                                 </div>
                             </template>
                             <!-- Empty Users -->
@@ -51,18 +51,18 @@
                             <template #loading> Loading customer order data. Please wait... </template>
                             <!--------------Check Existed Data ----------->
                             <div v-if="customerDetailOrder && customerDetailOrder.length > 0 && customerDetailOrder != ''">
-                                <Column field="id" header="Order ID" sortable style="min-width:20rem">
+                                <Column field="id" header="Order ID" sortable sortField="orderId" style="min-width:20rem">
                                     <template #body="body">
                                        <span>
                                         <router-link :to="`/vendor/order_managements/customer_detail/customer_order/order_detail/${parseInt(body.data?.orderId ?? '')}`">
-                                             {{ body?.data?.orderId }}
+                                            {{ body?.data?.orderId }}
                                         </router-link>
                                        </span>
                                     </template>
                                 </Column>
-                                <Column field="id" header="Total" sortable style="min-width:20rem">
+                                <Column field="total_price" header="Total" sortable sortField="total_price" style="min-width:20rem">
                                     <template #body="body">
-                                        {{ body?.data?.total_price }}
+                                        {{ currencyFormattedKHRiel(body?.data?.total_price) }}
                                     </template>
                                 </Column>
                                 <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;" header="Actions" bodyStyle="text-align: center; overflow: visible">
@@ -121,6 +121,18 @@
                 }
                 this.customerDetailOrder = Array.isArray(data) ? data.slice() : [];
             });
+        },
+        methods: {
+            // Convert Currency Amount
+            currencyFormattedKHRiel(value){
+                return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+            },
+            currencyFormattedUSD(value){
+                return Number(value ? value : 0).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD"
+                });  
+            },
         }
     }
 </script>

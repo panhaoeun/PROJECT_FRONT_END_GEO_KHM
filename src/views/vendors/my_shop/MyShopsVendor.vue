@@ -67,6 +67,7 @@
     mounted(){
         const myShopByVendor = new ShopManagementsServices();
         myShopByVendor.myShopByID().then((shop) => {
+            console.log(shop)
             if (!Array.isArray(shop) || !shop.length > 0) {
                 this.myShopArrDataShop = [];
                 this.myShopArrDataShopType = [];

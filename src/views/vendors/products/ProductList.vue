@@ -198,7 +198,7 @@
             isSessionActiveVendor(){
                 return isLoggedIn();
             },
-             // Convert Currency Amount
+            // Convert Currency Amount
             currencyFormattedKHRiel(value){
                 return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
             },

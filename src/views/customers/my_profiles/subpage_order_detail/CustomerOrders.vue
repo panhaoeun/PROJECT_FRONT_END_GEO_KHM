@@ -9,12 +9,12 @@
                         <el-table-column label="ID" type="index" width="50" />
                         <el-table-column prop="invoice_no" label="Invoice No" width="180" />
                         <el-table-column prop="orderDated" fixed label="Order Date" width="180" />
-                        <el-table-column label="Total">
+                        <el-table-column label="Total" width="200">
                             <template #default="scope">
                                 {{ currencyFormattedKHRiel(scope.row?.total_price) }}
                             </template>
                         </el-table-column>
-                        <el-table-column label="Status">
+                        <el-table-column label="Status" width="150" >
                             <template #default="scope">
                                 <el-tag class="ml-2" :type="getOrderStatusPay(scope.row?.order_status ? scope.row?.order_status : '')">{{ scope.row?.order_status }}</el-tag>
                             </template>

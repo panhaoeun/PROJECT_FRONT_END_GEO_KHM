@@ -3,7 +3,7 @@
      <div class="px-2 flex justify-content-center">
             <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"> 
                 <el-dialog v-model="dialogTableVisibleOpeDeposit"  
-                    width="17%"
+                    width="28%"
                     align-center
                     :rules="rulesWithdrawWallet"
                     status-icon
@@ -35,7 +35,7 @@
                                         </el-radio-group>
                                     </el-form-item>
                                     <!-- Enter Amount -->
-                                    <el-form-item style="width: 100%;" label="Enter Amount (RIEL)" prop="enterAmountWallet">
+                                    <el-form-item style="width: 100%;" label="Enter Amount (៛)" prop="enterAmountWallet">
                                         <el-input-number 
                                             v-model="formPopupDepositWallet.enterAmountWallet"
                                             :min="1" 

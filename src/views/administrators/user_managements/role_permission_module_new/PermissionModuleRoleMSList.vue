@@ -85,56 +85,116 @@
                                                 </el-table-column>
                                                 <el-table-column prop="functionView" label="View">
                                                     <template #default="scope">
-                                                        <input class="form-check-input cursor-pointer" type="checkbox"
-                                                            :value="scope.row?.functionView ? '1' : '0'"
-                                                            :id="scope.row?.functionView ? '1' : '0'"
-                                                            :checked="scope.row?.functionView == 1 ? true : false"
-                                                            :v-model="scope.row.functionView === 1 ? true : false"
-                                                            @change="changeSavePermissionModules($event, scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0)" />
+                                                        <input
+                                                            class="form-check-input cursor-pointer"
+                                                            type="checkbox"
+                                                            :value="
+                                                                scope.row?.functionView
+                                                                    ? '1'
+                                                                    : '0'
+                                                            "
+                                                            data-module-name=""
+                                                            :id="scope.row?.id"
+                                                            name="user_fun_view[]"
+                                                            v-model="
+                                                                scope.row.functionView
+                                                            "
+                                                            :checked="
+                                                                scope.row?.functionView ==
+                                                                1
+                                                                ? true
+                                                                : false
+                                                            "
+                                                            @change="
+                                                                changeSavePermissionModules($event,scope.row?.pModuleId, scope.row?.roleId, scope?.row?.rolePermId)
+                                                            "
+                                                        />
                                                     </template>
                                                 </el-table-column>
                                                 <el-table-column prop="functionEdited" label="Edit">
                                                     <template #default="scope">
-                                                        <input class="form-check-input cursor-pointer" type="checkbox"
-                                                            :value="scope.row?.functionEdited ? '1' : '0'"
-                                                            :id="scope.row?.functionEdited" name="user_fun_view[]"
-                                                            :v-model="scope.row.functionEdited === 1 ? true : false"
-                                                            :checked="scope.row?.functionEdited == 1 ? true : false"
-                                                            @change="changeSavePermissionModules($event, scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0)" />
+                                                        <input
+                                                            class="form-check-input cursor-pointer"
+                                                            type="checkbox"
+                                                            :value="
+                                                                scope.row?.functionEdited
+                                                                    ? '1'
+                                                                    : '0'
+                                                            "
+                                                            :id="scope.row?.id"
+                                                            name="functionCreated[]"
+                                                            v-model="
+                                                                scope.row.functionEdited
+                                                            "
+                                                            :checked="
+                                                                scope.row?.functionEdited ==
+                                                                1
+                                                                    ? true
+                                                                    : false
+                                                            "
+                                                            @change="
+                                                                changeSavePermissionModules($event,scope.row?.pModuleId, scope.row?.roleId, scope?.row?.rolePermId)
+                                                            "
+                                                        />
                                                     </template>
                                                 </el-table-column>
                                                 <el-table-column prop="functionCreated" label="Create">
                                                     <template #default="scope">
-                                                        <input class="form-check-input cursor-pointer" type="checkbox"
-                                                            :value="scope.row?.functionCreated ? '1' : '0'"
-                                                            :id="scope.row?.moduleParentName" name="user_fun_view[]"
-                                                            :v-model="scope.row.functionCreated === 1 ? true : false"
-                                                            :checked="scope.row?.functionCreated == 1 ? true : false"
-                                                            @change="changeSavePermissionModules($event, scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0)" />
+                                                        <input
+                                                            class="form-check-input cursor-pointer"
+                                                            type="checkbox"
+                                                            :value="
+                                                                scope.row?.functionCreated
+                                                                    ? '1'
+                                                                    : '0'
+                                                            "
+                                                            :id="scope.row?.id"
+                                                            name="functionCreated[]"
+                                                            v-model="
+                                                                scope.row.functionCreated
+                                                            "
+                                                            :checked="
+                                                                scope.row?.functionCreated ==
+                                                                1
+                                                                    ? true
+                                                                    : false
+                                                            "
+                                                            @change="
+                                                                changeSavePermissionModules($event,scope.row?.pModuleId, scope.row?.roleId, scope?.row?.rolePermId)
+                                                            "
+                                                        />
                                                     </template>
                                                 </el-table-column>
                                                 <el-table-column prop="functionDeleted" label="Remove">
                                                     <template #default="scope">
-                                                        <input class="form-check-input cursor-pointer" type="checkbox"
-                                                            :value="scope.row?.functionDeleted ? '1' : '0'"
-                                                            :id="scope.row?.moduleParentName" name="user_fun_view[]"
-                                                            :v-model="scope.row.functionDeleted === 1 ? true : false"
-                                                            :checked="scope.row?.functionDeleted == 1 ? true : false"
-                                                            @change="changeSavePermissionModules($event, scope.row?.pModuleId ?? 0, currentRole?.id ?? 0, scope.row?.rolePermId ?? 0)" />
+                                                        <input
+                                                            class="form-check-input cursor-pointer"
+                                                            type="checkbox"
+                                                            :value="
+                                                                scope.row?.functionDeleted
+                                                                    ? '1'
+                                                                    : '0'
+                                                            "
+                                                            :id="scope.row?.id"
+                                                            name="functionCreated[]"
+                                                            v-model="
+                                                                scope.row.functionDeleted
+                                                            "
+                                                            :checked="
+                                                                scope.row?.functionDeleted ==
+                                                                1
+                                                                    ? true
+                                                                    : false
+                                                            "
+                                                            @change="
+                                                                changeSavePermissionModules($event,scope.row?.pModuleId, scope.row?.roleId, scope?.row?.rolePermId)
+                                                            "
+                                                        />
                                                     </template>
                                                 </el-table-column>
                                             </el-table>
                                         </el-form>
                                     </div>
-                                    <!-- Button Dialog Actions -->
-                                    <!-- <div style="text-align:right;">
-                                        <el-button type="danger" @click="dialogVisible=false">
-                                            {{ $t('permission.cancel') }}
-                                        </el-button>
-                                        <el-button type="primary" @click="confirmPermission">
-                                            {{ $t('permission.confirm') }}
-                                        </el-button>
-                                    </div> -->
                                 </div>
                             </div>
                         </el-dialog>
@@ -332,19 +392,19 @@ export default {
                         const childModulePermCreate = tdElTagChidTrModulePerm[4].childNodes[0];
                         const childModulePermRemove = tdElTagChidTrModulePerm[5].childNodes[0];
                         // Child Modules
-                        const childModuleViewId = childModulePermView.children[0].value ? 1 : 0;
-                        const childModuleEditId = childModulePermEdit.children[0].value ? 1 : 0;
-                        const childModuleCreateId = childModulePermCreate.children[0].value ? 1 : 0;
-                        const childModuleRemoveId = childModulePermRemove.children[0].value ? 1 : 0;
+                        const childModuleViewId = childModulePermView.children[0].value?? 0;
+                        const childModuleEditId = childModulePermEdit.children[0].value?? 0;
+                        const childModuleCreateId = childModulePermCreate.children[0].value?? 0;
+                        const childModuleRemoveId = childModulePermRemove.children[0].value?? 0;
                         // Data Permissions Modules
                         const modulePermDetail = {
                             rolePermId: parseInt(rolePermId),
                             roleId: parseInt(roleIdModule),
                             permissionId: parseInt(permIdModule),
-                            funView: parseInt(childModuleViewId) ? 1 : 0,
-                            funEdited: parseInt(childModuleEditId) ? 1 : 0,
-                            funCreate: parseInt(childModuleCreateId) ? 1 : 0,
-                            funDeleted: parseInt(childModuleRemoveId) ? 1 : 0
+                            funView: parseInt(childModuleViewId)?? 0,
+                            funEdited: parseInt(childModuleEditId)?? 0,
+                            funCreate: parseInt(childModuleCreateId)?? 0,
+                            funDeleted: parseInt(childModuleRemoveId)?? 0
                         }
                         this.userPermModuleMSServices
                             .updateSavePermissionModulePermId(modulePermDetail)

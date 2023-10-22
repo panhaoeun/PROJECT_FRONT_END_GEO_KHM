@@ -26,10 +26,10 @@
                     <!-- Deposit money to be deposit my wallets -->
                     <DepositBalanceToWallets/>
                 </el-tab-pane>
-                <el-tab-pane label="Payment Record" name="deposit_withdraw_balance">
-                    <!-- Withdraw money to be withdraw my wallets -->
-                    <PaymentRecordHistory/>
-                </el-tab-pane>
+                <!-- <el-tab-pane label="Payment Record" name="deposit_withdraw_balance">
+                    Withdraw money to be withdraw my wallets
+                     <PaymentRecordHistory/> -->
+                <!-- </el-tab-pane> -->
             </el-tabs>
         </div>
    </div>
