@@ -38,6 +38,21 @@ export default class WithdrawWalletVendorBankAccountServices {
     async deletedRequestMethodWithdrawWalletVendor(withdrawMethodId,data) {
         return http.delete(`/user/seller/my_wallet/seller_withdraw_wallet/business_section/request_withdraw_vendor/deleted_pay_id/${parseInt(withdrawMethodId)}`, data);
     }
+    async editedRequestMethodWithdrawWalletVendor(withdrawMethodId, transaction) {
+        return http.get(`/user/seller/my_wallet/seller_withdraw_wallet/business_section/wallet_vendor_edited/${parseInt(withdrawMethodId)}`, {
+                headers: authHeader()
+            }, transaction)
+            .then((result) => {
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                Promise.reject(error)
+        });
+    }
     /***
      * @Withdraw Confirm Admin
     * **/ 

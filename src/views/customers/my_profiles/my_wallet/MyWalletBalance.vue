@@ -28,7 +28,7 @@
                 </el-tab-pane>
                 <!-- <el-tab-pane label="Payment Record" name="deposit_withdraw_balance">
                     Withdraw money to be withdraw my wallets
-                     <PaymentRecordHistory/> -->
+                    <- <PaymentRecordHistory/> -->
                 <!-- </el-tab-pane> -->
             </el-tabs>
         </div>
@@ -43,7 +43,7 @@ import MyWalletBalanceTotal from "./MyWalletsTotalBalance.vue";
 import DepositBalanceToWallets from "./deposit/DepositToWalletList.vue";
 import PopupDepositToWallet from "./deposit/PopupDepositToWallet.vue";
 // import WithDrawBalanceToWallets from "./withdraw/WithdrawToWalletsList.vue";
-import PaymentRecordHistory from "./PaymentRecordHistory.vue";
+// import PaymentRecordHistory from "./PaymentRecordHistory.vue";
 import PopupWithDrawToWallet from "./withdraw/PopupWithDrawToWallet.vue";
 import CustomerDepositedToWalletService from '../../.././../services/my_wallets/deposited/CustomersDepositedServices';
 import {isLoggedIn} from '@/utils/auth/auth';
@@ -52,7 +52,7 @@ export default {
         MyWalletBalanceTotal,
         DepositBalanceToWallets,
         PopupDepositToWallet,
-        PaymentRecordHistory,
+        // PaymentRecordHistory,
         PopupWithDrawToWallet
     },
     props: {},
