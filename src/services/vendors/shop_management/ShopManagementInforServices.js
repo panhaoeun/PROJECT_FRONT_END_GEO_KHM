@@ -1,6 +1,6 @@
 import http from "../../../../http-common";
 import httpCommon from "../../../../http-access-control";
-import authHeader from "../../authencations/AuthHeader";
+// import authHeader from "../../authencations/AuthHeader";
 
 export default class ShopManagementsServices {
     // Get 

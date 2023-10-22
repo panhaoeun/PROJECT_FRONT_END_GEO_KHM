@@ -21,7 +21,7 @@
             </div>
         </div>
         <div>
-            <h1>{{ resultTotalOrder }}</h1>
+            <h5>{{ resultTotalOrder }}</h5>
             <p class="mb-0">Total Orders</p>
         </div>
         <!-- Select Date -->
@@ -66,7 +66,7 @@ export default {
     data() {
         return {
             defaultSelectedDate: false,
-            selectedId : 1,
+            selectedId : 2,
             resultTotalOrder: 0,
             productItem: [
                 {

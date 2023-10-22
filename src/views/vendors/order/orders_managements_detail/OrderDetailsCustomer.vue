@@ -3,6 +3,12 @@
         <!-- Titles -->
         <div class="flex justify-content-between px-2 py-2">
             <h2 class="relative text-black text-3xl section section-title:before">Order Details</h2>
+            <el-button type="info" size="large" class="btn btn-primary" @click.prevent="$router.push('/vendor/order_managements/order_list')">
+                <div class="pl-2 justify-content-center">
+                    <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
+                    <span class="pl-2">{{$t("route.routeBack")}}</span>
+                </div>
+            </el-button>
         </div>
         <!-- Data Details -->
         <div class="px-2 w-full">
@@ -27,7 +33,7 @@
                                     </div>
                                     <div class="text-sm">
                                         <span class="text-sm mr-2">Payment Method:</span>
-                                        <span class="h6 mr-2">{{ customerDetailOrder[0]?.payment_method ?? '' }}</span>
+                                        <span class="h6 mr-2">{{ customerDetailOrder[0]?.payment_method ?? 'Pay By Cash' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -39,8 +45,7 @@
                                     <el-empty :image-size="150" />
                                 </template>
                                 <div v-if="orderItems && orderItems.length > 0 && orderItems !== ''">
-                                    <el-table :data="orderItems" class="text-sm" stripe style="width: 100%"
-                                        :summary-method="getSummariesOrderItem" show-summary>
+                                    <el-table :data="orderItems" class="text-sm" stripe style="width: 100%">
                                         <el-table-column type="index" label="ID" width="60" />
                                         <el-table-column label="Item Details">
                                             <template #default="{ row }">
@@ -79,9 +84,6 @@
                                         </el-table-column>
                                     </el-table>
                                 </div>
-                                <div v-else>
-                                    <el-empty description="Empty order item..." />
-                                </div>
                                 <!-- Shipping Total -->
                                 <div class="flex justify-content-end">
                                     <div class="flex flex-column py-3 my-2">
@@ -113,10 +115,11 @@
                                 </div>
                                 <!-- Options Orders Status-->
                                 <div class="grid formgrid text-sm">
-                                    <div class="col-12 field">
+                                    <div class="col-12" style="width: 20rem;">
                                         <div class="field">
                                             <label for="name_en" class="text-sm font-semibold">Order Status</label>
                                             <select class="form-select form-select-md w-full select-lg"
+                                                style="width: 10rem;"
                                                 aria-label="Default select example"
                                                 @change="changeStatusOrderConfirmByVendor($event)"
                                                 v-permission="[{ functionName: 'report_managements_module', moduleName: 'fun_edit' }]">
@@ -373,6 +376,7 @@ export default {
                 }
                 const values = data.map(item => Number(item[column.property]));
                 if (!values.every(value => isNaN(value))) {
+                    console.log(values)
                     sums[index] = '៛ ' + values.reduce((prev, curr) => {
                         const value = Number(curr);
                         if (!isNaN(value)) {
@@ -382,7 +386,7 @@ export default {
                         }
                     }, 0);
                 } else {
-                    sums[index] = 'N/A';
+                    sums[index] = '';
                 }
             });
             return sums;

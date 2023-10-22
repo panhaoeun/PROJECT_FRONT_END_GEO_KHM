@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div>
-                    <h1>{{ parseFloat(orderProductsTotalRevenue).toFixed(2,4) ?? 0 }}</h1>
+                    <h5>{{ currencyFormattedKHRiel(orderProductsTotalRevenue) ?? 0 }}</h5>
                     <span class="mb-0" style="font-weight: 400; color: #666;">Total Revenue</span>
                 </div>
                 <!-- Select Date -->
@@ -70,7 +70,7 @@ export default {
     data() {
         return {
             defaultSelectedDateRevenue: false,
-            selectedIdRevenue : 1,
+            selectedIdRevenue : 2,
             resultTotalRevenue: 0,
             orderCountRevenue: 0,
             orderProductsTotalRevenue: 0,
@@ -98,6 +98,16 @@ export default {
         this.productMSDashboardService = new ProductsDashboardServices();
     },
     methods: {
+        // Convert Currency Amount
+        currencyFormattedKHRiel(value){
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD(value){
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
         onChangeFilterOrderByDateRevenue(id){
             this.selectedIdRevenue = id;
             this.defaultSelectedDateRevenue = !this.defaultSelectedDateRevenue;

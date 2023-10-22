@@ -25,7 +25,7 @@
                                 <i class="pi pi-user pl-2" style="font-size: 1.5rem"></i>
                                 Account
                             </router-link> -->
-                            <router-link class="list-group-item list-group-item-action nav-link" 
+                            <router-link class="list-group-item list-group-item-action nav-link my-2 list-group-item list-group-item-action active nav-link my-2" 
                                 data-bs-toggle="pill" data-bs-target="#password" 
                                 type="button" 
                                 role="tab" aria-controls="password" aria-selected="false"
@@ -48,7 +48,7 @@
                             </div>
                             <div class="my-2">
                                 <router-link 
-                                    class="list-group-item list-group-item-action nav-link my-2 list-group-item list-group-item-action active nav-link my-2"
+                                    class="list-group-item list-group-item-action nav-link my-2"
                                     data-bs-toggle="pill" 
                                     role="tab" aria-controls="wallets-customer"
                                         data-toggle="list" to="#wallets-customer">

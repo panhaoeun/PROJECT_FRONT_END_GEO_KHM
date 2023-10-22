@@ -64,7 +64,10 @@
                                         <!-- Categories -->
                                         <div class="field">
                                             <label for="name_en" class="text-sm font-semibold">Category</label>
-                                            <Dropdown :options="catListSelectOpt" filter v-model="v$.selectedProCat.$model"
+                                            <Dropdown 
+                                                :options="catListSelectOpt"
+                                                filter 
+                                                v-model="v$.selectedProCat.$model"
                                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v$.selectedProCat.$invalid && submitted }"
                                                 inputId="catID" optionLabel="catNameEn"
                                                 placeholder="Select a Categories"
@@ -144,7 +147,9 @@
                                     <div class="col-4 lg:col-6 field">
                                         <div class="field">
                                             <label for="discountType" class="text-sm font-semibold">Discount Type</label>
-                                            <Dropdown v-model="discountType" placeholder="Select Discount Type"
+                                            <Dropdown 
+                                                v-model="discountType" 
+                                                placeholder="Select Discount Type"
                                                 optionLabel="disType"
                                                 class="border-round-lg text-sm"
                                                 option-value="disType"
@@ -163,7 +168,8 @@
                                             <small
                                                 v-if="(v$.proUnitPice.$invalid && submitted) || v$.proUnitPice.$pending.$response"
                                                 class="p-error text-sm">{{ v$.proUnitPice.required.$message.replace('Value',
-                                                    'Unit Price') }}</small>
+                                                    'Unit Price') }}
+                                            </small>
                                         </div>
                                     </div>
                                     <!-- Product Qty -->
@@ -496,6 +502,7 @@ export default {
             dialogVisible: false,
             disabled: false,
             //Upload Files
+            productVariantNameSpe: [],
             imageUrl: '',
             fileListThumbnail: [],
             fileAttachments: [],
@@ -580,11 +587,11 @@ export default {
                         const queryCatIDSupCatId = datSubCatId.filter(categories => Array.isArray(categories?.superCatId) === Array.isArray(parentCatID?.catID));
                         this.catSubListDropDownPro = Array.isArray(queryCatIDSupCatId) ? queryCatIDSupCatId.slice() : [];
                     }).catch((err) => {
-                        ElMessage.error(err.message);
+                        return Promise.reject(err);
                     });
                 }
             } catch (error) {
-                ElMessage.error(error);
+                return Promise.reject(error);
             }
         },
         /**
@@ -799,7 +806,8 @@ export default {
                             express_price_delivery,
                             normal_delivery_price,
                             maximins_order,
-                            packing_type
+                            packing_type,
+                            product_spec
                         } = product.data.result?.resultStatus?.products;
                         this.proNameEn = String(product_eng) ?? '';
                         this.proNameKh = String(product_kh) ?? '';
@@ -816,6 +824,7 @@ export default {
                         this.normalDeliveryShipping = normal_delivery_price ?  normal_delivery_price : 0;
                         this.maximinsOrderProduct = maximins_order ?  maximins_order : 0;
                         this.packingTypeShip = packing_type ?  packing_type : 0;
+                        this.productVariantNameSpe = product_spec ? product_spec : '';
                         // Product Picture 
                         this.reListThumbnail(product_picture);
                         // Gallery
