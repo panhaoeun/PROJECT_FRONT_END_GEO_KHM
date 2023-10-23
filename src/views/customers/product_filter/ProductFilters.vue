@@ -25,10 +25,15 @@
                                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6">
                                                     <div class="product-list-img">
                                                        <router-link @click="goToURLPageProductDetailByCatId(proByCatId?.id,proByCatId?.product_eng)"  to="#">
-                                                           <img
-                                                                :src="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${productFilter?.product_picture}`" 
-                                                                :alt="proByCatId?.product_eng"
-                                                            >
+                                                           <template v-if="proByCatId?.product_picture">
+                                                                <img
+                                                                    :src="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${proByCatId?.product_picture}`" 
+                                                                    :alt="proByCatId?.product_eng"
+                                                                >
+                                                           </template>
+                                                           <template v-else>
+                                                                Not Found
+                                                           </template>
                                                        </router-link>
                                                     </div>
                                                 </div>
