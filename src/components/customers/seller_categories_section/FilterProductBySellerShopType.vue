@@ -25,14 +25,14 @@
                                     >
                                     <div style="padding: 14px;">
                                         <span class="text-lg h3">{{ filtersProductByShopBrand?.shop_eng }}</span>
-                                        <div class="bottom clearfix">
+                                        <!-- <div class="bottom clearfix">
                                             <span class="font-bold text-md">Shop Location: </span>
                                             <span>
                                                 {{ shopLocationSeller?.shopAddr01 }},
                                                 {{ shopLocationSeller?.shopAddr02 }},
                                                 {{ shopLocationSeller?.shop_city }}
                                             </span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </el-card>
                             </div>
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <!-- Search and Categories -->
-                    <!-- <div class="col-lg-3">
+                    <div class="col-lg-3">
                         <div class="sidebar-wrapper sidebar-wrapper-mrg-right">
                             <div class="sidebar-widget mb-40">
                                 <h4 class="sidebar-widget-title">Search </h4>
@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>

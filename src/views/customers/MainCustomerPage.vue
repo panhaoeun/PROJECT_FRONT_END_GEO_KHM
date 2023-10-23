@@ -4,7 +4,7 @@
         <!-- Sidebar Menu -->
         <HeroSectionBanner/>
         <!-- Banner By Categories -->
-        <AdvertSection/>
+        <!-- <AdvertSection/> -->
         <!-- Categories and List Sellers -->
         <SectionSellerSection/>
         <!-- SAGGIEST TODAY -->
@@ -13,11 +13,11 @@
 </template>
 <script>
 import HeroSectionBanner from "@/components/customers/home_frontend_component/banner_home/HeroSectionBanner.vue";
-import AdvertSection from "@/components/customers/home_frontend_component/banner_home/AdvertSection.vue";
+// import AdvertSection from "@/components/customers/home_frontend_component/banner_home/AdvertSection.vue";
 import SectionSellerSection from "@/components/customers/seller_categories_section/SellerCategoriesSection.vue";
 import MoreLoveSuggestion from "@/components/customers/home_frontend_component/section_content_home_customer/MoreLoveSuggestion.vue";
 export default {
-    components: {HeroSectionBanner,MoreLoveSuggestion,AdvertSection,SectionSellerSection},
+    components: {HeroSectionBanner,MoreLoveSuggestion,SectionSellerSection},
     props: {},
     data() {
         return {};

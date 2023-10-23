@@ -125,7 +125,7 @@
             </div>
         </div>
     </div>
-    <div class="product-categories-area product-categories-border pt-50 pb-20">
+    <!-- <div class="product-categories-area product-categories-border pt-50 pb-20">
         <div class="container">
             <div class="product-categories-wrap-2">
                 <div class="single-product-categories-2 mb-30">
@@ -170,7 +170,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 <script>
 export default {

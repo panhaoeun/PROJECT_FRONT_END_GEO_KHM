@@ -53,8 +53,10 @@
                                                     <Avatar
                                                         :image="`${VUE_APP_HOST_URL}uploads/products_img/thumbnail/${row?.thumbnail}`"
                                                         size="large" :data-id="row?.product_eng" />
-                                                    <span class="text-sm text-semibold">{{ truncateLongText(
-                                                        row?.product_eng, 20, '\b') }}</span>
+                                                    <span class="text-sm text-semibold">
+                                                        {{ truncateLongText(
+                                                        row?.product_eng, 40, '\b') }}
+                                                    </span>
                                                     <span class="text-sm">Price: {{
                                                         currencyFormattedKHRiel(row?.product_price) }}</span>
                                                     <span class="text-sm">Qty: {{ parseInt(row?.quantity) }}</span>
@@ -74,8 +76,16 @@
                                                 </template>
                                             </template>
                                         </el-table-column>
+                                        <!-- Shipping Price -->
+                                        <el-table-column prop="delivery_price_khr" label="Shipping Price">
+                                            <template #default="{ row }">
+                                                <template v-if="row?.total">
+                                                    <p>{{ currencyFormattedKHRiel(row?.delivery_price_khr) }}</p>
+                                                </template>
+                                            </template>
+                                        </el-table-column>
                                         <!-- Price -->
-                                        <el-table-column prop="total" label="Price">
+                                        <el-table-column prop="total" label="Sub Total">
                                             <template #default="{ row }">
                                                 <template v-if="row?.total">
                                                     <p>{{ currencyFormattedKHRiel(row?.total) }}</p>
@@ -94,14 +104,25 @@
                                             </span>
                                         </div>
                                         <div class="border-round">
+                                            <span class="mr-3">Sub Total:</span>
+                                            <span class="font-bold">
+                                                {{ currencyFormattedKHRiel(customerDetailOrder[0]?.subTotal) }}
+                                            </span>
+                                        </div>
+                                        <div class="border-round">
                                             <span class="mr-3 font-bold">Total:</span>
                                             <span class="font-bold">{{
-                                                currencyFormattedKHRiel(customerDetailOrder[0]?.subTotal) }}</span>
+                                                currencyFormattedKHRiel(customerDetailOrder[0]?.totalSubShipping) }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </el-card>
+                    <!-- Empty Product Item -->
+                    <el-card class="box-card h-100" v-else>
+                        <el-empty :image-size="300" />
                     </el-card>
                 </div>
                 <!-- Detail of Orders -->
@@ -176,16 +197,16 @@
                             <!-- Options Orders -->
                             <div class="px-2 py-2">
                                 <div class="mb-4 d-flex align-items-center gap-2">
-                                    <img class="justify" v-if="customerDetailOrder[0]?.cusProfile !== ''"
+                                    <!-- <img class="justify" v-if="customerDetailOrder[0]?.cusProfile !== ''"
                                         src="../../../../../src/assets/img/product_icons/customer_icon_default_order.png"
                                         alt="Image" width="50" />
                                     <img class="justify" v-else
                                         src="../../../../../src/assets/img/product_icons/customer_icon_default_order.png"
-                                        alt="Image" width="50" />
+                                        alt="Image" width="50" /> -->
                                     <div class="flex flex-column title-customer-information">
-                                        <span>{{ customerDetailOrder[0]?.name_eng ?? '' }}</span>
-                                        <span>{{ customerDetailOrder[0]?.user_email ?? '' }}</span>
-                                        <span>{{ customerDetailOrder[0]?.user_phonenumber ?? '' }}</span>
+                                        <span>Name: {{ customerDetailOrder[0]?.name_eng ?? '' }}</span>
+                                        <span>Email: {{ customerDetailOrder[0]?.user_email ?? '' }}</span>
+                                        <span>Phone: {{ customerDetailOrder[0]?.user_phonenumber ?? '' }}</span>
                                     </div>
                                 </div>
                             </div>
