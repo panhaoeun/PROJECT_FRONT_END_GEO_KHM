@@ -3,8 +3,8 @@
         <div class="single-product-wrap mb-60 product__card">
             <div class="product-img product-img-zoom mb-15">
                 <!-- Product Image -->
-                <router-link
-                    to="#"
+                <div
+                    class="cursor-pointer"
                     @click="$router.push({path: '/customer/product-details/product/view-product-detail',
                     query: {
                         pid: productId,
@@ -19,12 +19,18 @@
                         src="../../../../../assets/img/product/product-62.jpg" 
                         loading="lazy"
                     alt="">
-                </router-link>
+                </div>
             </div>
             <div class="product-content-wrap-3">
                 <!-- Product Name -->
                 <h3 class="mrg-none">
-                    <a class="product_name " href="#">{{ productName ?? 'E24-Market' }}</a>
+                    <div class="product_name" @click="$router.push({path: '/customer/product-details/product/view-product-detail',
+                    query: {
+                        pid: productId,
+                        pname:encodeURIComponent(productName).replace(/[!'()]/g, escape).replace('\'', '%27')}
+                    })">
+                        {{ productName ?? 'E24-Market' }}
+                    </div>
                 </h3>
                 <!-- Ratings -->
                 <div class="product-rating-wrap-2">
@@ -45,7 +51,13 @@
             <div class="product-content-wrap-3 px-2 py-2 product-content-position-2 pro-position-2-padding-dec">
                 <!-- Product Name -->
                 <h3 class="mrg-none">
-                    <a class="blue" href="#">{{ productName ?? 'E24-Market' }}</a>
+                    <div class="blue"
+                        @click="$router.push({path: '/customer/product-details/product/view-product-detail',
+                        query: {
+                            pid: productId,
+                            pname:encodeURIComponent(productName).replace(/[!'()]/g, escape).replace('\'', '%27')}
+                        })">{{ productName ?? 'E24-Market' }}
+                    </div>
                 </h3>
                 <!-- Ratings -->
                 <div class="product-rating-wrap-2">

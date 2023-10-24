@@ -30,16 +30,14 @@
                                     <li><a href="shop.html">Shop</a></li>
                                     <li><a href="shop.html">Product </a></li>
                                     <li><a href="contact.html">Contact</a></li>
-                                    <li><a href="blog.html">Blog.</a></li>
+                                    <!-- <li><a href="blog.html">Blog.</a></li> -->
                                 </ul>
                             </nav>
                         </div>
                         <div class="social-style-2 social-style-2-hover-black social-style-2-mrg">
                             <a href="#"><i class="social_twitter"></i></a>
                             <a href="#"><i class="social_facebook"></i></a>
-                            <a href="#"><i class="social_googleplus"></i></a>
                             <a href="#"><i class="social_instagram"></i></a>
-                            <a href="#"><i class="social_youtube"></i></a>
                         </div>
                         <div class="copyright">
                             <p>Copyright © {{ new Date().getFullYear() }}  | C.A.I.T</p>

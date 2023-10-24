@@ -18,10 +18,6 @@ qµ˜÷<template>
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
                 <form enctype="multipart/form-data" @submit.prevent="handleCategoryUpdated()" class="py-4">
                     <el-tab-pane label="English(EN)" name="english-tabs">
-                        <!--Form Submitted-->
-                        <Message severity="error" v-for="(errorArray, index) in notifmsgCatUpdated" :key="index">
-                            {{ errorArray }} 
-                       </Message>
                         <!-- English -->
                         <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
                             <div class="col-12 lg:col-12">
@@ -94,7 +90,6 @@ qµ˜÷<template>
                     <!-- Buttons Submits -->
                         <div class="col-12 flex justify-content-end mt-4">
                             <!--Buttons-->
-                            <Button icon="pi pi-times" class="p-button-lg py-3 w-10rem mr-3" label="Cancel" />
                             <Button icon="pi pi-check" 
                                 type="submit"
                                 :disabled="isProcessingSubmit" :label='isProcessingSubmit ? "Process..." : "Save"'
@@ -167,6 +162,14 @@ export default {
         Plus
     },
     methods: {
+        async reListProductCat(logoCat){
+            const productImg = `${this.ENV_HOST_PATH_FILE}uploads/${logoCat}`;
+            // Push Thumbnail
+            this.fileListCat.push({
+                name: logoCat ? logoCat :  '',
+                url: productImg
+            });
+        },
         // Show Category Data
         async editDataCategories(id){
             this.proCategoryService.editedProCategory(id)
@@ -176,7 +179,7 @@ export default {
                         this.dataCatEditUpdated = data.data.data;
                         this.dataCatEdit.catNameEn = catNameEn;
                         this.dataCatEdit.catNameKh = catNameKh;
-                        this.dataCatEdit.catLogo = catLogo;
+                        this.reListProductCat(catLogo);
                     } catch (error) {
                        ElMessage.error(error);
                     }

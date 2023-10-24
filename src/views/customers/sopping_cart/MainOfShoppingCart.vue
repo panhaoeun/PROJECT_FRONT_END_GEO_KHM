@@ -160,11 +160,11 @@
                             <!-- Total Customer Cart -->
                             <hr/>
                             <div class="row">
-                                    <div class="col-lg-4 col-md-6">
+                                    <div class="col-lg-3 col-md-6">
                                     </div>
-                                    <div class="col-lg-4 col-md-6">
+                                    <div class="col-lg-3 col-md-6">
                                     </div>
-                                    <div class="col-lg-4 col-md-12"  v-if="getCartAuthItem && getCartAuthItem.length > 0">
+                                    <div class="col-lg-6 col-md-12"  v-if="getCartAuthItem && getCartAuthItem.length > 0">
                                         <div class="grand-totall">
                                             <div class="title-wrap">
                                                 <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
@@ -182,7 +182,7 @@
                                             </h5>
                                             <h5 v-if="getSubTotal !== null">
                                                 Sub Total 
-                                                <span class="font-bold text-md flex" style="color: #e22f35;">
+                                                  <span class="font-bold text-md" style="color: #e22f35;">
                                                     {{ currencyFormattedKHRiel(getSubTotal?.subTotalKHR) }}
                                                     <label> ({{ currencyFormattedUSD(getSubTotal?.subTotalUSD) }})</label>
                                                 </span>

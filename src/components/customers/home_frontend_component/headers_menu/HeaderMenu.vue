@@ -76,12 +76,12 @@
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="/">BECOME SELLER </a>
+                                            <!-- <li><a href="/">BECOME SELLER </a>
                                                 <ul class="sub-menu-style">
                                                     <li><router-link to="/auth/register">Become Seller </router-link></li>
                                                     <li><router-link to="/auth/login">Seller Login </router-link></li>
                                                 </ul>
-                                            </li>
+                                            </li> -->
                                             <li><router-link to="/customer/admin_contact_info/contact_info">CONTACT </router-link></li>
                                         </ul>
                                     </nav>

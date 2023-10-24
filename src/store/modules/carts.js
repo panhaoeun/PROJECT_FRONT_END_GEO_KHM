@@ -363,6 +363,7 @@ const actions = {
                     return true;
                 })
                 .catch((error) => {
+                    console.log(error, "error")
                     if (error) {
                         ElNotification.error({
                             title: "Couldn't be added for some reason. Please try again later",
@@ -390,6 +391,7 @@ const actions = {
                     }
                 });
         } catch (err) {
+            console.log(err)
             throw new Error(err);
         }
     },
@@ -414,9 +416,12 @@ const actions = {
             if (item?.productInStock >= item?.quantity) {
                 // const updatedPrice = parseInt(item?.quantity) * parseFloat(item?.productPrice);
                 const orders = {
-                    productId: item?.product_id,
+                    productId: parseInt(item?.product_id),
                     productQty: parseInt(item.quantity),
-                    productPrice: parseFloat(item?.productPrice),
+                    productPrice: parseFloat(item?.productPriceKHR).toFixed(2,4),
+                    shippingDayCompanyName: item?.shippingCompanyDay,
+                    expressDeliveryPriceUSD:item?.expressPriceUSD,
+                    expressDeliveryPriceKHR: item?.expressPriceKHR,
                     type: "new",
                 };
                 try {
@@ -465,7 +470,6 @@ const actions = {
                             }
                         });
                 } catch (error) {
-                    console.log(error);
                     throw new Error(error);
                 }
             }
