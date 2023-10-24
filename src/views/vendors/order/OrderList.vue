@@ -284,14 +284,16 @@ export default {
             switch (payStatus) {
                 case 'Complete':
                     return 'success';
+                case 'Processing':
+                    return 'warning';
 
                 case 'Padding':
                     return 'warning';
 
                 case 'Incomplete':
-                    return 'danger';
-                case 'Declined':
                     return 'info';
+                case 'Declined':
+                    return 'danger';
 
                 default:
                     return null;

@@ -14,7 +14,8 @@
                         <div class="px-2">
                             <!-- Data Tables -->
                             <DataTable ref="dt" :value="permissionsRoleModuleListArr"
-                                v-model:selection="selectedPermModule" dataKey="id" :paginator="true" :rows="10"
+                                v-model:selection="selectedPermModule" dataKey="id" 
+                                :paginator="true" :rows="10"
                                 :filters="filters" class="p-datatable-scrollable text-sm"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"

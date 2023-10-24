@@ -58,9 +58,9 @@
                                                     <span class="flex">
                                                         {{ slotProps.data?.shop_eng }}
                                                     </span>
-                                                    <span class="font-bold">
+                                                    <!-- <span class="font-bold">
                                                         {{ slotProps.data?.shop_verify }}
-                                                    </span>
+                                                    </span> -->
                                                 </div>
                                             </template>
                                         </Column>
@@ -85,16 +85,16 @@
                                                 </div>
                                             </template>
                                         </Column>
-                                        <Column header="Shop Publish" sortable style="min-width:10rem" sortField="venStatus" filterField="venStatus">
+                                        <Column header="Online/Offline" sortable style="min-width:10rem" sortField="venStatus" filterField="venStatus">
                                             <template #body="slotProps">
                                                 <!-- Banned Seller Account -->
-                                                <Tag severity="danger" :value="slotProps.data?.venStatus"></Tag>
+                                                <Tag :value="slotProps?.data.venStatus" class="text-white" :severity="getSeverityVendorStatus(slotProps.data?.venStatus)" />
                                             </template>
                                         </Column>
                                         <Column header="Shop Verify" sortable style="min-width:10rem" sortField="shop_verify" filterField="shop_verify">
                                             <template #body="slotProps">
                                                 <!-- Banned Seller Account -->
-                                             <Tag severity="success" :value="slotProps.data?.shop_verify"></Tag>
+                                                <Tag :value="slotProps?.data.shop_verify" class="text-white" :severity="getSeverityVerifyShop(slotProps.data?.shop_verify)" />
                                             </template>
                                         </Column>
                                         <!-- <Column header="Open Shop" sortable style="min-width:10rem" sortField="shop_status" filterField="shop_status">
@@ -738,6 +738,27 @@ export default {
         });
     },
     methods: {
+        getSeverityVendorStatus(vendorStatus){
+            switch (vendorStatus) {
+                case 'Banned':
+                    return 'danger';
+                case 'UnBanned':
+                    return 'info';
+
+                default:
+                    return null;
+            }
+        },
+        getSeverityVerifyShop(shopStatus){
+            switch (shopStatus) {
+                case 'Unverified':
+                    return 'danger';
+                case 'Verify':
+                    return 'info';
+                default:
+                    return null;
+            }
+        },
         /**Menu Option Toggle Provide of Sellers-Started**/
         bandAccountSellerTogglePro(userId, sellerStatus, shopStatus) {
             let bannedAccount;

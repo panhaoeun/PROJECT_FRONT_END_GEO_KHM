@@ -271,6 +271,6 @@ export default {
     seller: {
         sellerList: "Seller List",
         shopName: "Shop Name",
-        author: "Author",
+        author: "Contact Info",
     }
 };

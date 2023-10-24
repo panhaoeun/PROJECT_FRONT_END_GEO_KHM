@@ -56,7 +56,7 @@
                                             </li>
                                             <!--All Categories -->
                                             <li>
-                                                <router-link to="#">All Categories </router-link>
+                                                <div class="" style="color: #000000;">ALL CATEGORIES </div>
                                                 <ul class="mega-menu-style mega-menu-mrg-2">
                                                     <li>
                                                         <ul v-if="commonCategoriesList !== null">
