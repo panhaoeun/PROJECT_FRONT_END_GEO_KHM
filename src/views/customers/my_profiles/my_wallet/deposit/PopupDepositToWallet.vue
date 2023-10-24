@@ -38,9 +38,8 @@
                                     <el-form-item style="width: 100%;" label="Enter Amount (៛)" prop="enterAmountWallet">
                                         <el-input-number 
                                             v-model="formPopupDepositWallet.enterAmountWallet"
-                                            :min="1" 
+                                            :min="4100" 
                                             style="width: 100%;" 
-                                            :max="5000" 
                                             :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                                             :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                                             :precision="2"

@@ -5,8 +5,8 @@
                 <div class="text-sm">
                     {{item.product_eng ? item.product_eng : '' }}
                     <label class="font-bold text-red-500"> (x{{ item?.quantity }})</label>
-                    <span class="text-sm">៛{{ exchangeRateRiel ? exchangeRateRiel : 0}}  (${{ item.productPrice ? item.productPrice : 0 }})</span>
-                    <input type="text" :value="getConvertExchangeToRiel(item?.productPrice ? item?.productPrice : 0)" hidden/>
+                    <span class="text-sm">{{currencyFormattedKHRiel(item?.productPriceKHR)}}  ({{ currencyFormattedUSD(item.productPrice ? item.productPrice : 0) }})</span>
+                    <!-- <input type="text" :value="getConvertExchangeToRiel(item?.productPrice ? item?.productPrice : 0)" hidden/> -->
                 </div>
             </li>
         </ul>
@@ -17,10 +17,10 @@
             <ul>
                 <li>
                     Subtotal 
-                    <input type="text" :value="getConvertExchangeToRielSubtotal(subtotal ? subtotal : 0)" hidden/>
+                    <!-- <input type="text" :value="getConvertExchangeToRielSubtotal(subtotal ? subtotal : 0)" hidden/> -->
                     <span>
-                       {{ currencyFormattedKHRiel(subtotal.subTotalKHR) ? currencyFormattedKHRiel(subtotal.subTotalKHR) : 0 }}  
-                       ({{ currencyFormattedUSD(subtotal.subTotalUSD) ? currencyFormattedUSD(subtotal.subTotalUSD) : 0 }})
+                       {{ currencyFormattedKHRiel(subtotal?.subTotalKHR) ? currencyFormattedKHRiel(subtotal?.subTotalKHR) : 0 }}  
+                       ({{ currencyFormattedUSD(subtotal?.subTotalUSD) ? currencyFormattedUSD(subtotal?.subTotalUSD) : 0 }})
                     </span>
                 </li>
             </ul>
@@ -40,7 +40,7 @@
             <ul v-if="cartTotal !== null">
                 <li>
                     Total 
-                    <input type="text" :value="getConvertExchangeToRielTotal(cartTotal ? cartTotal : 0)" hidden/>
+                    <!-- <input type="text" :value="getConvertExchangeToRielTotal(cartTotal ? cartTotal : 0)" hidden/> -->
                     <span>
                         {{ currencyFormattedKHRiel(cartTotal.totalKHR) ?? 0 }}
                         ({{ currencyFormattedUSD(cartTotal?.totalUSD) ?? 0}})
@@ -53,7 +53,7 @@
 <!-- Script -->
 <script>
     import convertUSDToRiel from '../../../../utils/convertUSDTORiel';
-    import convertRielToUSDAmount from '../../../../utils/convertRielToUSD';
+    // import convertRielToUSDAmount from '../../../../utils/convertRielToUSD';
     import { mapGetters } from 'vuex';
     export default{
         name: 'OrderDetail',
@@ -93,29 +93,29 @@
                     currency: "USD"
                 });  
             },
-            async getConvertExchangeToRiel(exchangeRiel){
-                try {
-                    const baseChangeToRiel = parseInt(exchangeRiel) ? parseInt(exchangeRiel) : 0;
-                    this.exchangeRateRiel = await convertUSDToRiel(baseChangeToRiel) ?? 0;
-                } catch (error) {
-                    console.error('Error:', error.message);
-                }
-            },
-            async getConvertExchangeToUSD(exchangeUSD){
-                try {
-                    this.exchangeRateUSD = await convertRielToUSDAmount(exchangeUSD) ?? 0;
-                } catch (error) {
-                    console.error('Error:', error.message);
-                }
-            },
-            async getConvertExchangeToRielSubtotal(exchangeRielSubTotal){
-                try {
-                    const baseChangeToRiel = parseInt(exchangeRielSubTotal) ? parseInt(exchangeRielSubTotal) : 0;
-                    this.exchangeRateRielSubtotal = await convertUSDToRiel(baseChangeToRiel) ?? 0;
-                } catch (error) {
-                    console.error('Error:', error);
-                } 
-            },
+            // async getConvertExchangeToRiel(exchangeRiel){
+            //     try {
+            //         const baseChangeToRiel = parseInt(exchangeRiel) ? parseInt(exchangeRiel) : 0;
+            //         this.exchangeRateRiel = await convertUSDToRiel(baseChangeToRiel) ?? 0;
+            //     } catch (error) {
+            //         console.error('Error:', error.message);
+            //     }
+            // },
+            // async getConvertExchangeToUSD(exchangeUSD){
+            //     try {
+            //         this.exchangeRateUSD = await convertRielToUSDAmount(exchangeUSD) ?? 0;
+            //     } catch (error) {
+            //         console.error('Error:', error.message);
+            //     }
+            // },
+            // async getConvertExchangeToRielSubtotal(exchangeRielSubTotal){
+            //     try {
+            //         const baseChangeToRiel = parseInt(exchangeRielSubTotal) ? parseInt(exchangeRielSubTotal) : 0;
+            //         this.exchangeRateRielSubtotal = await convertUSDToRiel(baseChangeToRiel) ?? 0;
+            //     } catch (error) {
+            //         console.error('Error:', error);
+            //     } 
+            // },
             async getConvertExchangeToRielTotal(exchangeRielTotal){
                 try {
                     const baseChangeToRielTotal = parseInt(exchangeRielTotal) ? parseInt(exchangeRielTotal) : 0;

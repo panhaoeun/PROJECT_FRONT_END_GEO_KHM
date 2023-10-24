@@ -13,9 +13,9 @@
                                 <h4 class="animated">Lookbook</h4>
                                 <h1 class="animated">{{sliderItem?.title }}</h1>
                                 <p class="animated">{{ sliderItem?.description }}</p>
-                                <div class="btn-style-1">
+                                <!-- <div class="btn-style-1">
                                     <a class="animated btn-1-padding-1" href="product-details.html">Explore Now</a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

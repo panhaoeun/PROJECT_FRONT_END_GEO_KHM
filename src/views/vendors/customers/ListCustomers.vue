@@ -53,7 +53,8 @@
                                     </Column>
                                     <Column field="totalItem" header="Total Order" sortable style="min-width:10rem">
                                         <template #body="slotProps">
-                                            <Tag class="font-bold" :value="parseInt(slotProps.data?.totalItem) ?? 0" :style="{ background: 'linear-gradient(-225deg,#AC32E4 0%,#7918F2 48%,#4801FF 100%)' }"/>
+                                            <Tag class="font-bold" :value="isNaN(parseInt(slotProps.data?.totalItem)) ? 0 : parseInt(slotProps.data?.totalItem)" :style="{ background: 'linear-gradient(-225deg,#AC32E4 0%,#7918F2 48%,#4801FF 100%)' }"/>
+                                        
                                         </template>
                                     </Column>
                                     <Column header="Status">

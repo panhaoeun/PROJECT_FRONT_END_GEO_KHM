@@ -71,6 +71,7 @@
                                 :paginator="true" :rows="10" 
                                 :filters="filters"
                                 class="p-datatable-scrollable"
+                                :globalFilterFields="['representative.orderId', 'totalsAmount', 'subTotal', 'shopName','orderDate','paymentStatus']"
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 :rowsPerPageOptions="[5, 10, 25]"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
@@ -92,18 +93,33 @@
                                 <!--------------Check Existed Data ----------->
                                 <div v-if="sellerOrderReport && sellerOrderReport.length > 0 && sellerOrderReport != ''">
                                     <!-- Columns -->
-                                    <Column field="orderId" header="Order ID" sortable style="min-width:10rem"></Column>
-                                    <Column field="orderDate" header="Order Date" sortable style="min-width:15rem"></Column>
-                                    <Column field="totalsAmount" header="Total Amount" sortable style="min-width:15rem">
+                                    <Column field="orderId" sortField="orderId" header="Order ID" sortable style="min-width:10rem"></Column>
+                                    <Column field="shopName" sortField="shopName" header="Store" sortable style="min-width:10rem"></Column>
+                                    <Column field="customerName" sortField="customerName" header="Customer Name" sortable style="min-width:10rem"></Column>
+                                    <Column field="orderDate" sortField="orderDate" header="Order Date" sortable style="min-width:15rem"></Column>
+                                    <Column field="total" sortField="total" header="Sub Total" sortable style="min-width:15rem">
+                                        <template #body="{ data }">
+                                            <p> {{ currencyFormattedKHRiel(data?.subTotal) }}</p>
+                                            <!-- (<span>{{ currencyFormattedUSD(data?.totalsAmount) }}</span>) -->
+                                        </template>
+                                    </Column>
+                                    <Column field="deliveryCost" sortField="deliveryCost" header="Shipping Charge" sortable style="min-width:15rem">
+                                        <template #body="{ data }">
+                                            <p> {{ currencyFormattedKHRiel(data?.deliveryCost) }}</p>
+                                            <!-- (<span>{{ currencyFormattedUSD(data?.deliveryCost) }}</span>) -->
+                                        </template>
+                                    </Column>
+                                    <Column field="totalsAmount" sortField="totalsAmount" header="Total Amount" sortable style="min-width:15rem">
                                         <template #body="{ data }">
                                             <p> {{ currencyFormattedKHRiel(data?.totalsAmount) }}</p>
                                             <!-- (<span>{{ currencyFormattedUSD(data?.totalsAmount) }}</span>) -->
                                         </template>
                                     </Column>
-                                    <Column field="deliveryCost" header="Shipping Charge" sortable style="min-width:15rem">
-                                        <template #body="{ data }">
-                                            <p> {{ currencyFormattedKHRiel(data?.deliveryCost) }}</p>
-                                            <!-- (<span>{{ currencyFormattedUSD(data?.deliveryCost) }}</span>) -->
+                                    <Column field="paymentStatus" sortField="paymentStatus" header="Order Status" sortable style="min-width:15rem">
+                                        <template #body="{data}">
+                                                <div class="justify-content-center">
+                                                    <Tag :value="data?.paymentStatus" class="text-white" :severity="getSeverityPaymentStatus(data?.paymentStatus)" />
+                                                </div>
                                         </template>
                                     </Column>
                                 </div>
@@ -170,8 +186,25 @@ export default {
             if(!Array.isArray(orderReport)){
                 ElMessage.error("Not found sellers...");
             }
-            this.sellerOrderReport = Array.isArray(orderReport) ? orderReport.slice() : [];
-        });
+                this.sellerOrderReport = Array.isArray(orderReport) ? orderReport.slice() : [];
+            });
+        },
+        getSeverityPaymentStatus(payStatus){
+            switch (payStatus) {
+                case 'Complete':
+                    return 'success';
+                case 'Processing':
+                    return 'warning';
+                case 'Padding':
+                    return 'warning';
+                case 'Incomplete':
+                    return 'info';
+                case 'Declined':
+                    return 'danger';
+
+                default:
+                    return null;
+            }
         }
     }
 }

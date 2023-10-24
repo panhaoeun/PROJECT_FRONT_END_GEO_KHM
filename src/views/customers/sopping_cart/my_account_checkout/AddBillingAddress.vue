@@ -4,11 +4,11 @@
         <div class="font-bold text-xl pb-2 text-black">
             Choose billing address
         </div>
-        <div class="font-bold text-xl pb-2 text-black">
+        <!-- <div class="font-bold text-xl pb-2 text-black">
             <el-checkbox v-model="showHideElCollapseAddBilling" label="Same as shipping address" size="large"/>
-        </div>
+        </div> -->
         <!-- Check Show/Hide Same address or New Billing Address -->
-        <template v-if="showHideElCollapseAddBilling === false">
+        <!-- <template v-if="showHideElCollapseAddBilling === false"> -->
             <!-- Choose Billing Address--->
             <div v-if="allBillingAddresses.length > 0" class="addresses">
                 <ul class="shipping-list list-group">
@@ -139,7 +139,7 @@
                         </el-form>
                     </div>
             </transition>
-        </template>
+        <!-- </template> -->
     </div>
 </template>
 <script>

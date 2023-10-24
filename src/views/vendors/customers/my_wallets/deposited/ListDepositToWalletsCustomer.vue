@@ -54,11 +54,11 @@
                                         </template>
                                     </Column>
                                     <Column field="customerName" header="Customer Name" sortable></Column>
-                                    <Column field="balanceDollar" header="Balance Dollar" sortable>
+                                    <Column field="balanceDollar" header="Balance" sortable>
                                         <template #body="slotProps">
                                             <div class="flex flex-column gap-2">
-                                                <span class="font-bold">{{ slotProps.data?.balanceRiel ?? '' }}</span>
-                                                <span>{{ slotProps.data?.balanceDollar ?? '' }}</span>
+                                                <span class="font-bold">{{ currencyFormattedKHRiel(slotProps.data?.balanceRiel ?? 0) }}</span>
+                                                <span>({{ currencyFormattedUSD(slotProps.data?.balanceDollar) ?? 0 }})</span>
                                             </div>
                                         </template>
                                     </Column>
@@ -125,14 +125,13 @@
                                     </div>
                                     <div class="col-12 field">
                                         <div class="flex justify-content-between">
-                                            <div>
-                                                <label for="name_en">Transaction Balance Dollar:</label>
-                                                <span class="font-bold pl-2">{{ transactionArrConfirm?.transactionBalanceDollarConfirmTransaction }} $</span>
-                                            </div>
                                             <!-- Deposited Amount -->
                                             <div>
-                                                <label for="name_en">Transaction Balance Riel:</label>
-                                                <span class="font-bold pl-2">{{ transactionArrConfirm?.transactionBalanceRielConfirmTransaction }} ៛</span>
+                                                <label for="name_en">Transaction Balance:</label>
+                                                <span class="font-bold pl-2">
+                                                    {{ currencyFormattedKHRiel(transactionArrConfirm?.transactionBalanceRielConfirmTransaction) }}
+                                                    ({{ currencyFormattedUSD(transactionArrConfirm?.transactionBalanceDollarConfirmTransaction) }})
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -159,6 +158,7 @@
                                        <div class="flex justify-content-center demo-image__preview">
                                             <template v-if="paymentReceiptPreviewURL">
                                                 <el-image  
+                                                    class="z-5"
                                                     style="width: 350px;"
                                                     :src="paymentReceiptPreviewURL" 
                                                     alt="Image"
@@ -255,6 +255,16 @@ export default {
         });
     },
     methods: {
+        // Convert Currency Amount
+        currencyFormattedKHRiel(value){
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD(value){
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
         // Smart Way to truncate long string to short      
         convertTruncateLongText(str, length, useWordBoundary) {
             if (str.length <= length) { return str; }

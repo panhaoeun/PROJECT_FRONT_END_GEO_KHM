@@ -47,12 +47,6 @@
                     <div class="your-order-wrap gray-bg-4">
                         <div class="your-order-info-wrap">
                             <div class="your-order-info">
-                                <ul>
-                                    <li>
-                                        Product
-                                        <span>Total</span>
-                                    </li>
-                                </ul>
                                 <!-- My Order Information -->
                                 <div class="your-order-info">
                                     <el-row :gutter="12">

@@ -50,6 +50,7 @@
                                                     </div>
                                                 </template>
                                             </Column>
+                                            <Column field="vendorNameEng" sortField="vendorNameEng" header="Vendor Name" sortable style="min-width:10rem"></Column>
                                             <Column field="transactionDate" sortField="transactionDate" header="Request Time" sortable style="min-width:10rem">
                                                 <template #body="slotProps">
                                                     <p>{{ slotProps?.data.transactionDate}}</p>
@@ -73,9 +74,6 @@
                                                             severity="danger"
                                                             @click="$router.push(`/vendor/user/list/admin/sellers/withdraw_request_balance_in_account/confirm_to_wallet_vendor/${parseInt(slotProps.data?.payTransactionId)}`)" 
                                                         />
-                                                    </template>
-                                                    <template v-else>
-                                                        <Tag icon="pi pi-times" outlined severity="danger" value="Action disabled"></Tag>
                                                     </template>
                                                 </template>
                                             </Column>
@@ -154,10 +152,10 @@ export default {
         getSeverityWithdrawStatus(withdrawStatus) {
             switch (withdrawStatus) {
                 case 'Pending':
-                    return 'success';
+                    return 'warning';
 
                 case 'Completed':
-                    return 'warning';
+                    return 'success';
 
                 case 'Reject':
                     return 'danger';

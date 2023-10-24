@@ -114,8 +114,27 @@ export default [
                 isCustomer: true,
                 requiresAuth: true
             },
-            beforeEnter: requireAuth,  
             component: () => import('../views/customers/sopping_cart/CustomerCheckOutCompleted.vue'),
+            beforeEnter: (to, from, next) => {
+                 // Check Empty Queries
+                 let typeOrderId = typeof to.query?.orderId;
+                 if (Object.keys(to.query).length < 1 || typeOrderId === 'undefined') {
+                     next({
+                         path: '/'
+                     });
+
+                 } else if (to.query?.orderId === '' || to.query?.orderId === '') {
+                     next({
+                         path: '/'
+                     })
+                 }
+                 if (Object.keys(to.query).length > 0) {
+                     if (!Object.prototype.hasOwnProperty.call(to.query)) {
+                         next();
+                         return true;
+                     }
+                 }
+             }
         },
          /**
          * @Router Products

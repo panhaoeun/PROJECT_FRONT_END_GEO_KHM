@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <!-- Search and Categories -->
-                    <div class="col-lg-3">
+                    <!-- <div class="col-lg-3">
                         <div class="sidebar-wrapper sidebar-wrapper-mrg-right">
                             <div class="sidebar-widget mb-40">
                                 <h4 class="sidebar-widget-title">Search </h4>
@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
