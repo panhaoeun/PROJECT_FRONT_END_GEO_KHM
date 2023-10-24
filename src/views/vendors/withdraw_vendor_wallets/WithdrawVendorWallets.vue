@@ -50,6 +50,7 @@
                                                     </div>
                                                 </template>
                                             </Column>
+                                            <Column field="vendorNameEng" sortField="vendorNameEng" header="Vendor Name" sortable style="min-width:10rem"></Column>
                                             <Column field="transactionDate" sortField="transactionDate" header="Request Time" sortable style="min-width:10rem">
                                                 <template #body="slotProps">
                                                     <p>{{ slotProps?.data.transactionDate}}</p>
