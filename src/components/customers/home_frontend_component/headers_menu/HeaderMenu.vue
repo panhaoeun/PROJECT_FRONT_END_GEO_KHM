@@ -56,7 +56,7 @@
                                             </li>
                                             <!--All Categories -->
                                             <li>
-                                                <div class="" style="color: #000000;">ALL CATEGORIES </div>
+                                                <div class="cursor-pointer" style="color: #000000;">ALL CATEGORIES </div>
                                                 <ul class="mega-menu-style mega-menu-mrg-2">
                                                     <li>
                                                         <ul v-if="commonCategoriesList !== null">
@@ -90,7 +90,7 @@
                             <!-- Menu Sidebar Right -->
                             <div class="col-xl-3 col-lg-3">
                                 <div class="header-action header-action-flex header-action-mrg-right">
-                                    <div class="same-style-2 header-search-1">
+                                    <!-- <div class="same-style-2 header-search-1">
                                         <p class="search-toggle cursor-pointer" style="font-size: 1.4rem" @click.prevent="searchToggleProduct()" href="#">
                                             <i class="icon-magnifier s-open"></i>
                                             <i class="icon_close s-close"></i>
@@ -101,7 +101,7 @@
                                                 <button class="button-search"><i class="icon-magnifier"></i></button>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- Menu Dropdown -->
                                     <div class="same-style-2 same-style-2-font-inc">
                                         <el-dropdown :hide-on-click="false">

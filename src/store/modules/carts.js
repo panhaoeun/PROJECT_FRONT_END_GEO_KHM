@@ -281,7 +281,15 @@ const actions = {
                                 commit('setCheckoutInitiated', true);
                                 // Checkout with id
                                 commit('setCheckoutId', result.data.result.resultStatus.order?.order_id);
-                                router.push('/customer/my-account/checkout-complete');
+                                // Push Page 
+                                let routeing = router.resolve({
+                                    name: 'customer-checkout-completed', // put your route information in
+                                    query: {
+                                        orderId: result.data.result.resultStatus.order?.order_id ? result.data.result.resultStatus.order?.order_id : 0
+                                    }, // put your route information in,
+                                    params: '/customer/my-account/checkout-complete', // put your route information in
+                                });
+                                window.location.assign(routeing.href)
                                 ElNotification({
                                     title: 'Your order has been placed successfully! !',
                                     message: result.data?.message ? result.data?.message : '',
