@@ -141,7 +141,7 @@ export default {
     },
     computed: {
         getCurrentBalance(){
-            return this.currentBalanceKHR + ' ' + '(' + this.currentBalanceUSD+ ')';
+            return this.currentBalanceKHR + this.currentBalanceUSD;
         },
         currentUser() {
             return this.currentUser ? this.currentUser : null;
@@ -180,7 +180,6 @@ export default {
     },
     async created() {
         if (!this.paymentType) {
-            console.log(this.paymentType)
             this.$emit('selected', this.paymentType);
         }
     },
