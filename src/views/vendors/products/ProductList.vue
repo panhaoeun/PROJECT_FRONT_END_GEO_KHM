@@ -104,7 +104,7 @@
                                             />
                                             <Button 
                                                 icon="pi pi-pencil" outlined rounded class="mr-2"
-                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
+                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_edit' }]"
                                                 @click.prevent="$router.push(`/vendor/products/product_list/edit/${parseInt(data?.proId)}`)"
                                             />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
