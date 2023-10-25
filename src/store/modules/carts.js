@@ -84,11 +84,11 @@ const getters = {
     getSubTotal(state) {
         // let totalAmount = 0;
         let totalSubtotal = 0;
-        // let totalOrderItemKHR = 0;
+        // // let totalOrderItemKHR = 0;
         let totalSubtotalKHR = 0;
         state.cartItem.forEach((cart) => {
-            totalSubtotalKHR += cart.totalKhRiel * parseInt(cart.quantity);
-            totalSubtotal += cart.total * parseInt(cart.quantity);
+            totalSubtotalKHR += parseFloat(cart.totalKhRiel);
+            totalSubtotal += parseFloat(cart.total);
         });
         if (totalSubtotal && totalSubtotalKHR) {
             return {

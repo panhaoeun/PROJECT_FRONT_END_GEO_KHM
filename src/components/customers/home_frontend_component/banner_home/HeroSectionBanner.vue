@@ -38,22 +38,22 @@ export default {
             sliderHeroSectionItems: [
                 {
                     id: 1,
-                    imagePath: require('@/assets/img/banner/brown_fashion.png'),
-                    title: 'Fashion Style',
+                    imagePath: require('@/assets/img/banner/banner_01.jpg'),
+                    title: 'Special Offer',
                     subTitle: 'NEW TRANDING',
                     description: 'Brown Minimalist Fashion Sale Banner'
                 },
                 {
                     id: 2,
-                    imagePath: require('@/assets/img/banner/fashion_sale.png'),
-                    title: 'New Fashion',
+                    imagePath: require('@/assets/img/banner/banner_02.jpg'),
+                    title: 'Time to go shopping',
                     subTitle: 'NEW TRANDING',
                     description: '+123-456-7890 / www.reallygreatsite.com / @reallygreatsite'
                 },
                 {
                     id: 3,
-                    imagePath: require('@/assets/img/banner/promotion_banner.png'),
-                    title: 'Fresh Sale',
+                    imagePath: require('@/assets/img/banner/banner_03.jpg'),
+                    title: 'Online Store',
                     subTitle: 'NEW TRANDING',
                     description: 'Flash Sale 9.9 Promotion'
                 },
