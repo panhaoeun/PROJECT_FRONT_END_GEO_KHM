@@ -11,7 +11,7 @@
                         <el-table-column prop="orderDated" fixed label="Order Date" width="180" />
                         <el-table-column label="Total" width="200">
                             <template #default="scope">
-                                {{ currencyFormattedKHRiel(scope.row?.total_price) }}
+                                {{ currencyFormattedKHRiel(parseFloat(scope.row?.total_price).toFixed(2,4)) }}
                             </template>
                         </el-table-column>
                         <el-table-column label="Status" width="150" >
