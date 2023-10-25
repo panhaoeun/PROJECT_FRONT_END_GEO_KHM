@@ -69,6 +69,7 @@
         },
         created() {
             this.totalWithShippingPrice();
+            this.getConvertExchangeToRielTotal();
         },
         computed: {
             ...mapGetters({
@@ -116,9 +117,10 @@
             //         console.error('Error:', error);
             //     } 
             // },
-            async getConvertExchangeToRielTotal(exchangeRielTotal){
+            async getConvertExchangeToRielTotal(){
                 try {
-                    const baseChangeToRielTotal = parseInt(exchangeRielTotal) ? parseInt(exchangeRielTotal) : 0;
+                    const getTotalItem = this.cartTotal ? this.cartTotal: '';
+                    const baseChangeToRielTotal = parseInt(getTotalItem) ? parseInt(getTotalItem) : 0;
                     const exchangeRate = await convertUSDToRiel(baseChangeToRielTotal) ?? 0;
                     this.exchangeRateRielTotal = exchangeRate ? exchangeRate : 0;
                     // Total order to wallets

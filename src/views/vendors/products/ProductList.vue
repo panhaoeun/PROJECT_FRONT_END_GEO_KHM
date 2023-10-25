@@ -99,12 +99,16 @@
                                     <template #body="{ data }">
                                         <div class="flex flex-wrap gap-2">
                                             <Button icon="pi pi-search" outlined rounded class="mr-2"
+                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
                                                 @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
                                             />
-                                            <Button icon="pi pi-pencil" outlined rounded class="mr-2"
+                                            <Button 
+                                                icon="pi pi-pencil" outlined rounded class="mr-2"
+                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
                                                 @click.prevent="$router.push(`/vendor/products/product_list/edit/${parseInt(data?.proId)}`)"
                                             />
                                             <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
                                                 @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
                                             />
                                         </div>
