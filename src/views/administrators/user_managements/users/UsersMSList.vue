@@ -102,11 +102,12 @@
                                                             path: `/vendor/vendor-list/updated-account-vendor/${slotProps.data?.user_id}`,
                                                         })" 
                                                     />
+                                                    <!-- v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"   -->
                                                     <Button
-                                                    v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"
+                                                    
                                                     icon="pi pi-trash" outlined rounded severity="danger" @click="
                                                     confirmDeleteUserMS(
-                                                        slotProps.data.id
+                                                        slotProps.data?.user_id
                                                     )" />
                                                 </template>
                                             </template>
@@ -123,7 +124,7 @@
                                                         v-permission="[{ functionName: 'users_modules', moduleName: 'fun_deleted' }]"
                                                         icon="pi pi-trash" outlined rounded severity="danger" @click="
                                                         confirmDeleteUserMS(
-                                                            slotProps.data.id
+                                                            slotProps.data?.user_id
                                                         )" />
                                                 </template>
                                                
@@ -158,7 +159,6 @@
 // import { useToast } from 'primevue/usetoast';
 import { FilterMatchMode } from "primevue/api";
 import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
-import { ElMessage } from "element-plus";
 import { isLoggedIn } from "@/utils/auth/auth";
 import {mapGetters} from "vuex";
 export default {
@@ -244,12 +244,16 @@ export default {
             }
             this.userPerMSServices
                 .deleteUserMS(this.usersID)
-                .then((del) => {
-                    ElMessage.success(del.data.message);
+                .then(() => {
+                    this.$notify.error({
+                        title: 'Account Deleted Successfully...!',
+                        showClose: true
+                    }); 
                     this.deleteCatDialog = false;
+                    window.location.reload();
                 })
                 .catch((error) => {
-                    ElMessage.error(error);
+                    return Promise.reject(error);
                 });
         },
     },
