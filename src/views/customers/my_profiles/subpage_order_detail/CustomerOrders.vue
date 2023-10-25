@@ -135,7 +135,7 @@
                             </div>
                             <div class="your-order-info order-total">
                                 <ul>
-                                    <li>Total <span>{{ currencyFormattedKHRiel(editOrderDetail?.totalPrice) }}</span></li>
+                                    <li>Total <span>{{ currencyFormattedKHRiel(editOrderDetail?.unitPrice) }}</span></li>
                                 </ul>
                             </div>
                         </div>
