@@ -1,14 +1,14 @@
 <template>
   <div
     class="main-slider"
-    v-if="slider && slider.main.length"
+    v-if="slider && slider.length"
   >
     <div
       class="slider-wrapper"
       :class="{'has-right': rightTop || rightBottom}"
     >
       <div
-        class="left flow-hidden"
+        class="left "
       >
         <div
           class="pos-rel"
@@ -16,8 +16,7 @@
           <client-only>
             <image-slider
               class="opacity-0"
-              :class="{'img-loading': imgLoaded}"
-              :image-count="slider.main.length"
+              :image-count="slider.length"
               :bullets="true"
               :autoplay="6000"
               :loop="true"
@@ -26,49 +25,24 @@
               @loaded="firstImgLoaded"
               @change="changed"
             >
-              <template v-slot:content>
-                <li
-                  v-for="(value, index) in slider.main"
-                  :key="index"
-                >
-                  <router-link
-                    :to="sourceUrl(value)"
-                    class="slider-content block"
-                  >
-                    <div
-                      class="slider-content-inner"
-                    >
-                      <img
-                        :id="generateElemId(index)"
-                        class="full-dimen"
-                        alt="Slider image"
-                        :data-source="imageURL(value)"
-                        height="100"
-                        width="100"
-                      >
-                    </div>
-                  </router-link>
-                </li>
-              </template>
+              <img alt="Slider image" height="100" width="100" src="https://cdn.ishop.cholobangla.com/uploads/slider-1.webp" class="full-dimen placeholder-img img-loaded"> 
             </image-slider>
           </client-only>
-
           <img
             class="full-dimen placeholder-img"
             :class="{'img-loaded': imgLoaded}"
             alt="Slider image"
             height="100"
             width="100"
-            :src="imageURL(slider.main[0])"
+            :src="slider[0].imagePath"
           >
         </div>
-
-      </div><!--left-->
+      </div>
+      <!--left-->
       <div
         v-if="rightTop || rightBottom"
         class="right"
       >
-
         <router-link
           v-if="rightTop"
           :to="sourceUrl(slider.right_top)"
@@ -102,8 +76,10 @@
             />
           </template>
         </router-link>
-      </div><!--right-->
-    </div><!--main-slider-->
+      </div>
+      <!--right-->
+    </div>
+    <!--main-slider-->
   </div>
   <!--main-slider-->
 </template>
@@ -111,7 +87,7 @@
 <script>
   import util from '@/mixin/util'
   import sliderHelper from '@/mixin/sliderHelper'
-  import ImageSlider from '@/ImageSlider'
+  import ImageSlider from './ImageSlider'
 //   import LazyImage from '~/components/LazyImage'
 
   export default {

@@ -69,7 +69,6 @@
       },
     },
     mounted() {
-
       const setLoadingState = () => {
         this.loading = false
         this.$el.style.opacity = 1
