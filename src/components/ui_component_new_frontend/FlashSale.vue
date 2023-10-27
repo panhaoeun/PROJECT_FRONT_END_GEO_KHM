@@ -40,16 +40,15 @@
             class="area-content"
           >
             <!-- <client-only> -->
-              <!-- <image-slider
-                v-if="flashSale && flashSale.length"
-                :image-count="flashSale.length"
+              <image-slider
+                v-if="flashSales && flashSales.length"
+                :image-count="flashSales.length"
                 :per-view="7"
                 :gap="20"
                 :responsive="[5, 4, 3, 2, 1]"
                 @loaded="glideLoaded"
-              > -->
-              {{ flashSale }}
-                <template>
+              >
+                <template v-slot:content>
                   <li
                     v-for="(value, index) in flashSale"
                     :key="index"
@@ -62,7 +61,7 @@
                     />
                   </li>
                 </template>
-              <!-- </image-slider> -->
+              </image-slider>
 
             <!-- </client-only> -->
           </div>
@@ -75,7 +74,7 @@
 
 <script>
   import util from '@/mixin/util'
-//   import ImageSlider from './ImageSlider'
+  import ImageSlider from './ImageSlider'
 //   import LazyImage from '~/components/LazyImage'
   import FlashProductTile from "./FlashProductTile";
 
@@ -101,7 +100,7 @@
     },
     components: {
       FlashProductTile,
-    //   ImageSlider,
+      ImageSlider,
     //   LazyImage,
     //   Countdown
     },
