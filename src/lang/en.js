@@ -1,4 +1,12 @@
 export default {
+    header: {
+        searchHere: "Search Here",
+        trackOrder: "Track Order",
+        account: "My Account",
+        login: "Login",
+        register: "Register",
+        profile: "Profile",
+     },
     route: {
         withdrawVendor: 'Withdraw',
         withdraw: 'Withdraw',

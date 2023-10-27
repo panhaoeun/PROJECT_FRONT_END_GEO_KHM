@@ -63,9 +63,9 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import util from '~/mixin/util'
-  import productPriceHelper from '~/mixin/productPriceHelper'
-  import compareHelper from '~/mixin/compareHelper'
+  import util from '@/mixin/util'
+  import productPriceHelper from '@/mixin/productPriceHelper'
+  import compareHelper from '@/mixin/compareHelper'
   import LazyImage from "./LazyImage";
   import PriceFormat from "./PriceFormat";
 

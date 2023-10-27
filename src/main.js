@@ -1,22 +1,29 @@
 import {createApp} from 'vue'
 import App from './App.vue';
 import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
+/**
+ **@ECommerce Project - Customize New E-Commerce Website 
+ * 
+* **/ 
+import "./assets/customer_ecommerce_web_new/styles/styles.styl";
+
+
 /*
    @E-Commerces
    @Library E-Commerces
 */
-import "./assets/commerce_frontend_/css/commerce_frontend.css";
-// Global Font and Icons
-import "./assets/commerce_frontend_/css/icon_font_global.css";
-// Customize Plugins
-import "./assets/commerce_frontend_/css/plugins/animate.css";
-import "./assets/commerce_frontend_/css/plugins/easyzoom.css";
-import "./assets/commerce_frontend_/css/plugins/slick.css";
-// Slick Slider
-import "./assets/commerce_frontend_/js/slick.js";
-// Global Functions
-// import "./assets/commerce_frontend_/js/main_global_functions.js";
-import "./assets/commerce_frontend_/css/plugins/magnific-popup.css";
+// import "./assets/commerce_frontend_/css/commerce_frontend.css";
+// // Global Font and Icons
+// import "./assets/commerce_frontend_/css/icon_font_global.css";
+// // Customize Plugins
+// import "./assets/commerce_frontend_/css/plugins/animate.css";
+// import "./assets/commerce_frontend_/css/plugins/easyzoom.css";
+// import "./assets/commerce_frontend_/css/plugins/slick.css";
+// // Slick Slider
+// import "./assets/commerce_frontend_/js/slick.js";
+// // Global Functions
+// // import "./assets/commerce_frontend_/js/main_global_functions.js";
+// import "./assets/commerce_frontend_/css/plugins/magnific-popup.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
 import VueSidebarMenu from 'vue-sidebar-menu';
 /**

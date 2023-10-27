@@ -1,6 +1,6 @@
-import json from '~/config.json'
+import json from '@/config.json'
 
-const apiBase = !process.env.apiBase.trim() ? window.location.origin + '/' : process.env.apiBase
+const apiBase = !process.env.VUE_APP_PATH_FILE.trim() ? window.location.origin + '/' : process.env.VUE_APP_PATH_FILE;
 
 export default {
   data() {

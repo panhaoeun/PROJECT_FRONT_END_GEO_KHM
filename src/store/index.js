@@ -18,6 +18,8 @@ import {
 import ShippingStore from './ecommerce/shipping';
 import BillingStore from './ecommerce/billing';
 import MyWalletStore from "./modules/my_wallet";
+import Common from "./common";
+import Listing from "./listing";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -56,7 +58,9 @@ const store = createStore({
         app: app,
         users: usersPerm,
         shippingStore: ShippingStore,
-        billingStore: BillingStore
+        billingStore: BillingStore,
+        common: Common,
+        listing: Listing
     },
 });
 // Load all modules.

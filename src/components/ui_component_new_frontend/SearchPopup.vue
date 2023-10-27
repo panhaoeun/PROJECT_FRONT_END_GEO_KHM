@@ -40,7 +40,7 @@
             class="mb-15"
           >
             <h4 class="bold">
-              {{ $t('searchPopup.categories') }}
+              Categories
             </h4>
             <div class="search-section category-wrapper">
               <router-link
@@ -95,7 +95,7 @@
             class="mb-15"
           >
             <h4 class="bold">
-              {{ $t('searchPopup.products') }}
+                Products
             </h4>
             <div
               class="search-section search-product-tile"
@@ -110,7 +110,7 @@
         </div>
 
         <div v-else>
-          <h4>{{ $t('searchPopup.nothingFound') }} "<span class="color-primary semi-bold">{{ searchedText }}</span>"</h4>
+          <h4>Noting found For"<span class="color-primary semi-bold">{{ searchedText }}</span>"</h4>
         </div>
 
       </div>
@@ -120,7 +120,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import util from 'fa-flip-horizontal/mixin/util'
+//   import util from 'fa-flip-horizontal/mixin/util'
   import {debounce} from "debounce";
   import SearchedProductTile from "./SearchedProductTile";
   import LazyImage from "./LazyImage";
@@ -136,7 +136,7 @@
         default: '',
       }
     },
-    mixins: [util],
+    // mixins: [util],
     watch: {
       searchedText: debounce(function (value) {
         if(value){

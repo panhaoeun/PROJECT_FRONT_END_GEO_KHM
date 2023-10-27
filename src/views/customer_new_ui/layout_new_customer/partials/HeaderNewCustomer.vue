@@ -13,27 +13,33 @@
       <div class="container-fluid">
 
         <div class="wrap flex sided">
-          <div class="left wrap flex gap-10">
-            <dropdown
+          <div class="left wrap flex gap-1">
+            <!-- <dropdown
               v-if="Object.keys(languages).length > 1"
               :selected-key="currentLanguage.code"
               :options="languages"
               key-name="name"
               class="lang-dropdown"
               @clicked="selectedLanguage"
-            />
+            /> -->
 
             <a
               :href="`mailto:${email}`"
-              class="flex gap-5"
+              class="flex gap-1"
+              style="color: #222222;"
             >
               <i
                 class="icon email-icon"
               />
-              <span><span>{{ $t('home.mail') }}</span> {{ email }}</span>
+                <span>
+                    Mail:
+                </span>
+                <span>
+                    e-24market@gmail.com
+                </span>
             </a>
 
-            <template v-if="phone">
+            <template>
               <span>|</span>
               <a
                 :href="`tel:${phone}`"
@@ -42,7 +48,7 @@
                 <i
                   class="icon phone-icon"
                 />
-                <span><span>{{ $t('home.helpline') }}</span> {{ phone }}</span>
+                <span><span>Helpline:</span> 016387467</span>
               </a>
             </template>
 
@@ -51,22 +57,22 @@
           <div class="flex right text-upper">
 
             <div
-              class="flex gap-5"
+              class="flex gap-2"
               v-if="!isLoggedIn"
             >
               <router-link
-                to="/login"
-                class="flex gap-5"
+                to="/auth/login"
+                class="flex gap-2"
               >
                 <i
                   class="icon login-icon"
                 />
-                {{ $t('header.login') }}
+                Login
               </router-link>
               <span>|</span>
               <router-link
-                to="/register"
-                class="flex gap-5"
+                to="/auth/register"
+                class="flex gap-2"
               >
                 <i
                   class="icon register-icon"
@@ -78,7 +84,7 @@
             <router-link
               v-else
               to="/user/profile"
-              class="flex gap-5"
+              class="flex gap-2"
             >
               <i
                 class="icon user-icon"
@@ -97,9 +103,9 @@
           class="logo"
         >
           <img
-            :src="imageURL({'image': site_setting.header_logo})"
-            :alt="$t('footer.siteLogo')"
-            height="40"
+            src="../../../../assets/company_logo/ecommerce_logo.png"
+            alt="E-24market"
+            height="60"
             width="139"
           >
         </router-link>
@@ -184,7 +190,7 @@
         </div>
         <router-link
           to="/cart"
-          class="cart-btn flex pos-rel h-40x gap-5"
+          class="cart-btn flex pos-rel h-40x gap-1"
         >
           <span
             v-if="cartCount"
@@ -194,7 +200,7 @@
           <i
             class="icon cart-icon black"
           />
-          <span class="title">{{ $t('header.cart') }}</span>
+          <span class="title">Cart</span>
         </router-link>
       </div>
     </div>
@@ -238,7 +244,7 @@
   import { mapGetters, mapActions} from 'vuex'
   import SearchPopup from "@/components/ui_component_new_frontend/SearchPopup";
   import Banner from "@/components/ui_component_new_frontend/Banner";
-  import Dropdown from "@/components/ui_component_new_frontend/Dropdown";
+//   import Dropdown from "@/components/ui_component_new_frontend/Dropdown";
 
   export default {
     data() {
@@ -276,7 +282,7 @@
       phone(){
         return this.setting?.phone
       },
-      ...mapGetters('language', ['languages', 'currentLanguage']),
+    //   ...mapGetters('language', ['languages', 'currentLanguage']),
       ...mapGetters('common', ['site_setting', 'setting', 'topBanner', 'headerLinks']),
       ...mapGetters('listing', ['searched']),
       ...mapGetters('cart', ['cartCount'])
@@ -297,7 +303,7 @@
       }
     },
     directives: {outsideClick},
-    components: {Dropdown, Banner, SearchPopup},
+    components: {Banner, SearchPopup},
     mixins: [util],
     methods: {
       async selectedLanguage(data){

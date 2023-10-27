@@ -13,7 +13,7 @@
 
 <script>
   import lozad from 'lozad'
-  import util from '~/mixin/util'
+  import util from '@/mixin/util'
 
   export default {
     name: 'LazyImage',
@@ -76,6 +76,7 @@
       }
 
       this.$el.addEventListener('load', setLoadingState)
+      // eslint-disable-next-line vue/no-deprecated-events-api
       this.$once('hook:destroyed', () => {
         this.$el.removeEventListener('load', setLoadingState)
       })
