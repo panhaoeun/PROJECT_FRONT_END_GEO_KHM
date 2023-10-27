@@ -83,15 +83,16 @@ const actions = {
 //       return Promise.reject({statusCode: data?.status, message: data?.message })
 //     }
 //   },
-//   async fetchSearchedSuggestion ({ commit }, {params, lang}) {
-//     const {data} = await Service.search(params, lang)
+  async fetchSearchedSuggestion ({ commit }, {params, lang}) {
+    console.log(commit, params, lang)
+    // const {data} = await Service.search(params, lang)
 
-//     if(data?.status === 200){
-//       commit('SET_SEARCHED_SUGGESTION', data?.data)
-//     }else {
-//       return Promise.reject({statusCode: data?.status, message: data?.message })
-//     }
-//   }
+    // if(data?.status === 200){
+    //   commit('SET_SEARCHED_SUGGESTION', data?.data)
+    // }else {
+    //   return Promise.reject({statusCode: data?.status, message: data?.message })
+    // }
+  }
 }
 
 export default {

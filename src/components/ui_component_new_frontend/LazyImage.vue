@@ -76,9 +76,9 @@
 
       this.$el.addEventListener('load', setLoadingState)
       // eslint-disable-next-line vue/no-deprecated-events-api
-      this.$once('hook:destroyed', () => {
-        this.$el.removeEventListener('load', setLoadingState)
-      })
+    //   this.$root.$on('hook:destroyed', () => {
+    //     this.$el.removeEventListener('load', setLoadingState)
+    //   })
 
       const observer = lozad(this.$el, {
         load: function(el) {
@@ -87,6 +87,9 @@
         }
       })
       observer.observe()
+    },
+    beforeUnmount(){
+
     },
     methods: {
 

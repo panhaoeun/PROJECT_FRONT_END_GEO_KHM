@@ -5,6 +5,11 @@
                 :slider="sliderContent"
                 class="home-section"
             />
+            <!-- Seller -->
+            <flashSale
+             :flash-sales="sellerShopBanner"
+            />
+
         </div>
     </div>
     <!-- <div class="main-wrapper bg-white">
@@ -18,18 +23,26 @@
 // // import AdvertSection from "@/components/customers/home_frontend_component/banner_home/AdvertSection.vue";
 // import SectionSellerSection from "@/components/customers/seller_categories_section/SellerCategoriesSection.vue";
 // import MoreLoveSuggestion from "@/components/customers/home_frontend_component/section_content_home_customer/MoreLoveSuggestion.vue";
-
 import HomeHero from '@/components/ui_component_new_frontend/HomeHero.vue'
 import {mapGetters} from 'vuex';
-import util from '@/mixin/util'
+import util from '@/mixin/util';
+import FlashSale from '@/components/ui_component_new_frontend/FlashSale.vue';
+import CommonPublicStoreServices from '@/services/common_public/CommonPublicStoreServices';
+import CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
 
 export default {
-    components: {HomeHero},
+    components: {HomeHero,FlashSale},
     mixins: [util],
     props: {},
     middleware: ['common-middleware'],
     data() {
         return {
+            sellerShopBanner: [],
+            commonCategoriesList: [],
+            loadingSellerList: false,
+            ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE,
+            loadingProductList: false,
+            filtersProductByShopList: [],
             sliderContent: [
                 {
                     id: 1,
@@ -65,6 +78,10 @@ export default {
             ]
         }
     },  
+    created() {
+        this.commonPublic = new CommonPublicStoreServices();
+        this.commonServices = new CommonListPublicServices();
+    },
     computed: {
       heroMain() {
         return this.slider.main[0]
@@ -136,8 +153,40 @@ export default {
         ],
       }
     },
-    methods: {},
-    mounted() {},
+    mounted() {
+        this.getCommonCategories();
+        // ProductList
+        this.getCommonSellerPublic();
+    },
+    methods: {
+        getCommonCategories(){
+            this.commonServices.getCommonCategoriesSubCategories()
+            .then((common)=> {
+                if (!common) {
+                    this.commonCategoriesList = Array.isArray() ?? [];
+                    this.commonSubCategoriesList = Array.isArray() ?? [];
+                }
+                this.commonCategoriesList = common?.categories ? common?.categories : '';
+            })
+        },
+        getCommonSellerPublic(){
+            this.commonPublic.getCommonSellerCategories()
+                .then((data) => {
+                    try {
+                        if (!Array.isArray(data) || !data.length > 0) {
+                            this.sellerShopBanner = [];
+                        }
+                        if (!Array.isArray(data) || data !== undefined || data !== null) {
+                            this.sellerShopBanner = data ? data : '';
+                            this.loadingSellerList = false;
+                        }
+                    } catch (error) {
+                       return Promise.reject(error);
+                    }
+                }
+            );
+        },
+    },
 };
 </script>
 <style scoped>
