@@ -57,12 +57,12 @@
           <div class="flex right text-upper">
 
             <div
-              class="flex gap-2"
+              class="flex gap-2 font-bold text-black"
               v-if="!isLoggedIn"
             >
               <router-link
                 to="/auth/login"
-                class="flex gap-2"
+                class="flex gap-2 font-bold text-black"
               >
                 <i
                   class="icon login-icon"
@@ -72,7 +72,7 @@
               <span>|</span>
               <router-link
                 to="/auth/register"
-                class="flex gap-2"
+                class="flex gap-2 font-bold text-black"
               >
                 <i
                   class="icon register-icon"
@@ -105,7 +105,7 @@
           <img
             src="../../../../assets/company_logo/ecommerce_logo.png"
             alt="E-24market"
-            height="60"
+            height="150"
             width="139"
           >
         </router-link>
@@ -239,7 +239,8 @@
   </header>
 </template>
 <script>
-  import outsideClick from '@/directive/outside-click'
+  import outsideClick from '@/directive/outside-click';
+  import { isLoggedIn } from "@/utils/auth/auth";
   import util from '@/mixin/util'
   import { mapGetters, mapActions} from 'vuex'
   import SearchPopup from "@/components/ui_component_new_frontend/SearchPopup";
@@ -268,7 +269,7 @@
         return parseInt(this.topBanner?.status) === this.status.PUBLIC
       },
       isLoggedIn(){
-        return this.$auth?.loggedIn || false
+        return isLoggedIn() || false
       },
       cartCountCom(){
         return this.$auth?.user?.cart_count

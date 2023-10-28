@@ -1,6 +1,11 @@
 <template>
   <div class="p-tile">
-    {{ product }}
+     <img
+            src="https://cdn.ishop.cholobangla.com/uploads/product-22-1.webp"
+            :title="product.title"
+            :alt="product.title"
+            
+            />
     <router-link
       :to="productLink(product)"
       class="block page-link"
@@ -12,8 +17,6 @@
           class="badge"
         >
         </span>
-
-
         <button
           aria-label="submit"
           class="compare-btn"
@@ -23,11 +26,7 @@
           <i class="icon reload-icon"/>
         </button>
 
-        <lazy-image
-          data-src="https://cdn.ishop.cholobangla.com/uploads/product-22-1.webp"
-          :title="product.title"
-          :alt="product.title"
-        />
+           
       </div>
 
       <div class="flex wrap sided align-end item-title mt-0">
@@ -59,7 +58,7 @@
 
 <script>
   import util from '@/mixin/util'
-  import LazyImage from './LazyImage'
+//   import LazyImage from './LazyImage'
   import {mapGetters, mapActions} from 'vuex'
   import productPriceHelper from '@/mixin/productPriceHelper'
   import compareHelper from '@/mixin/compareHelper'
@@ -81,7 +80,7 @@
     },
     components: {
       PriceFormat,
-      LazyImage
+    //   LazyImage
     },
     mixins: [util, productPriceHelper, compareHelper],
     computed: {

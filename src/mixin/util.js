@@ -218,7 +218,7 @@ export default {
     },
     categoryLink(item) {
       if (item) {
-        return `/all/${item?.slug}`
+        return `/all/${item?.catID}`
       }
     },
     subCategoryLink(item, category) {

@@ -6,10 +6,26 @@
                 class="home-section"
             />
             <!-- Seller -->
-            <flashSale
-             :flash-sales="sellerShopBanner"
+            <div
+            class="brands-wrapper full-screen"
+            >
+                <div
+                    class="brands-inner"
+                    >
+                    <FeatureSeller
+                        class="featured-brands"
+                        :item-list="sellerShopBanner"
+                    />
+                </div>
+            </div>
+            <!-- Featured Categories -->
+            <featured-categories 
+                class="category-wrapper"
+                :title="$t('searchPopup.categories')"
+                type="subCategory"
+                :item-list="commonCategoriesList"
             />
-
+           
         </div>
     </div>
     <!-- <div class="main-wrapper bg-white">
@@ -26,12 +42,13 @@
 import HomeHero from '@/components/ui_component_new_frontend/HomeHero.vue'
 import {mapGetters} from 'vuex';
 import util from '@/mixin/util';
-import FlashSale from '@/components/ui_component_new_frontend/FlashSale.vue';
+import FeatureSeller from '@/components/ui_component_new_frontend/feature_seller/FeatureSeller.vue';
+import FeaturedCategories from '@/components/ui_component_new_frontend/feature_categories/FeatureCategories';
 import CommonPublicStoreServices from '@/services/common_public/CommonPublicStoreServices';
 import CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
 
 export default {
-    components: {HomeHero,FlashSale},
+    components: {HomeHero,FeatureSeller,FeaturedCategories},
     mixins: [util],
     props: {},
     middleware: ['common-middleware'],

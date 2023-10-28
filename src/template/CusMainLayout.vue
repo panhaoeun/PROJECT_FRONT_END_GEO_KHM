@@ -30,13 +30,13 @@
         <!-- Footer -->
         <Footer/>
         <transition name="fade" mode="out-in">
-        <toast-message
-            v-if="toastMessageStatus"
-            :is-error="toastError"
-            @hide="hideToast"
-            :message="toastMessage"
-        />
-    </transition>
+            <toast-message
+                v-if="toastMessageStatus"
+                :is-error="toastError"
+                @hide="hideToast"
+                :message="toastMessage"
+            />
+        </transition>
   </div>
 </template>
 

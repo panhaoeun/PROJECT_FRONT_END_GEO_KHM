@@ -32,6 +32,7 @@ export default {
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
         proProductMS: 'Products',
+        contentProduct: 'Product Listings',
         userMSModule: 'User Managements',
         walletCustomer: 'Customer Wallet',
         customerMS: 'Customers',

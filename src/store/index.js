@@ -30,7 +30,7 @@ const store = createStore({
         name: [],
         shareOffcanvas: false,
         language: getLanguage(),
-        imgSrcUrl: '',
+        imgSrcUrl: process.env.VUE_APP_PATH_FILE,
         defaultImage: '',
         thumbPrefix: '',
     },

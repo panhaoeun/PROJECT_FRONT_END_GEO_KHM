@@ -1,11 +1,6 @@
 import {createApp} from 'vue'
 import App from './App.vue';
 import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
-/**
- **@ECommerce Project - Customize New E-Commerce Website 
- * 
-* **/ 
-import "./assets/customer_ecommerce_web_new/styles/styles.styl";
 
 
 /*
@@ -47,11 +42,19 @@ import "primeicons/primeicons.css";
 import 'maz-ui/css/main.css';
 import CounterUp from 'vue3-autocounter';
 
+
+/**
+ **@ECommerce Project - Customize New E-Commerce Website 
+ * 
+ * **/
+import "./assets/customer_ecommerce_web_new/styles/styles.styl";
+
+
 // style scss
-import "./assets/scss/product_detail_front/global_pro_detail.scss";
+// import "./assets/scss/product_detail_front/global_pro_detail.scss";
 //global registration Vue3FormWizard
-import Vue3FormWizard from 'vue3-form-wizard'
-import 'vue3-form-wizard/dist/style.css'
+// import Vue3FormWizard from 'vue3-form-wizard'
+// import 'vue3-form-wizard/dist/style.css'
 /*
    @E-Commerces Dashboard
    @Library E-Commerces Dashboard
@@ -150,7 +153,7 @@ app.use(VueGoogleMaps, {
     }
 });
 // app.use(Vue3FormWizard);
-app.use(Vue3FormWizard);
+// app.use(Vue3FormWizard);
 
 /*
    @Vue I18n: Vue - Languages 
