@@ -26,7 +26,7 @@
                     <h5 class="mb-0 text-white">All Notifications</h5>
                   </b-card-title>
                 </div>
-                <b-card-body class="p-0">
+                <!-- <b-card-body class="p-0">
                   <a href="#" class="iq-sub-card">
                     <div class="d-flex align-items-center">
                       <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/01.png" alt="" />
@@ -39,7 +39,7 @@
                       </div>
                     </div>
                   </a>
-                </b-card-body>
+                </b-card-body> -->
               </b-card>
             </div>
           </li>
@@ -99,7 +99,8 @@
 <script>
 import Languagesi18N from "./languages_i18n/Languagesi18n";
 import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
+import { isLoggedIn } from "@/utils/auth/auth";
 export default {
   components: {
     Languagesi18N
@@ -114,6 +115,11 @@ export default {
       default: false
     }
   },
+  methods: {
+    isSessionActiveVendor(){
+        return isLoggedIn();
+    },
+  },    
   setup(props, { emit }) {
     const store = useStore()
     // const headerNavbar = computed(() => store.getters['setting/header_navbar'])

@@ -23,7 +23,7 @@
                 <el-card class="box-card py-2 px-2 text-sm">
                     <div class="px-2">
                         <DataTable :paginator="true" 
-                            :value="productsArrList" 
+                            :value="messageContentAlertProduct" 
                             class="p-datatable-scrollable text-sm"
                             :rows="10"
                             dataKey="id" :rowHover="true" 
@@ -59,7 +59,7 @@
                             <!-- Loading Products -->
                             <template #loading> Loading products data. Please wait... </template>
                             <!--------------Columns----------->
-                            <div v-if="productsArrList && productsArrList.length > 0 && productsArrList != ''">
+                            <div v-if="messageContentAlertProduct && messageContentAlertProduct.length > 0 && messageContentAlertProduct != ''">
                                 <Column field="id" :header="$t('product.productName')" filterField="product_eng"
                                     sortField="product_eng" sortable>
                                     <template #body="{ data }">
@@ -81,19 +81,14 @@
                                         />
                                     </template>
                                 </Column>
-
-                                <Column field="id" :header="$t('product.purchasePrice')" sortField="product_unit_price"
-                                    sortable>
-                                    <template #body="{ data }">
-                                        <p> {{ currencyFormattedKHRiel(data?.product_unit_price_khr) }}</p>
-                                        (<span>{{ currencyFormattedUSD(data?.product_unit_price) }}</span>)
+                                <Column field="statusWaring" header="Status" sortable sortField="statusWaring">
+                                    <template #body="slotProps">
+                                        <div class="justify-content-center">
+                                            <Tag :value="slotProps.data?.statusWaring" class="text-white" :severity="getSeverityProductRejectStatus(slotProps.data?.statusWaring)" />
+                                        </div>
                                     </template>
                                 </Column>
-                                <Column field="id" :header="$t('product.qty')" sortField="product_qty" sortable>
-                                    <template #body="{ data }">
-                                        {{ data?.product_qty }}
-                                    </template>
-                                </Column>
+                                <Column field="notedFeedback" header="Feedback Admin" sortable sortField="notedFeedback"></Column>
                                 <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;"
                                     :header="$t('route.action')" bodyStyle="text-align: center; overflow: visible">
                                     <template #body="{ data }">
@@ -102,25 +97,31 @@
                                                 v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
                                                 @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
                                             />
-                                            <Button 
-                                                icon="pi pi-pencil" outlined rounded class="mr-2"
-                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_edit' }]"
-                                                @click.prevent="$router.push(`/vendor/products/product_list/edit/${parseInt(data?.proId)}`)"
-                                            />
-                                            <!-- Vendor -->
-                                            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
-                                                <Button icon="pi pi-trash" outlined rounded severity="danger"
-                                                    v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
-                                                    @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
-                                                />
+                                            <!--Vendor-->
+                                            <template v-if="data?.statusWaring === 'REJECT'">
+                                                <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                                                    <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                            v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
+                                                            @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
+                                                    />
+                                                </template>
                                             </template>
+                                            <template v-if="data?.statusWaring === 'FEEDBACK'">
+                                                <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                                                        <Button 
+                                                            icon="pi pi-pencil" outlined rounded class="mr-2"
+                                                            v-permission="[{ functionName: 'product_module', moduleName: 'fun_edit' }]"
+                                                            @click.prevent="$router.push(`/vendor/products/product_list/edit/${parseInt(data?.proId)}`)"
+                                                        />
+                                                </template>
+                                            </template>
+                                            <!-- Admin -->
                                             <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
-                                                <Button icon="pi pi-undo" outlined rounded severity="danger"
-                                                    v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
-                                                    @click="confirmWaringDetachProductsByVendor(parseInt(data?.proId) ?? '')"
+                                                <Button icon="pi pi-search" outlined rounded class="mr-2"
+                                                    v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
+                                                    @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
                                                 />
                                             </template>
-                                           
                                         </div>
                                     </template>
                                 </Column>
@@ -151,40 +152,8 @@
                             <div class="confirmation-content">
                                 <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
                                     <div class="col-12 lg:col-12">
-                                        <div class="p-input-icon-right fei">
-                                            <Dropdown id="transactionType"
-                                                placeholder="Please Select Status"
-                                                :options="optionSelectStatusListArr" 
-                                                optionLabel="statusReject" 
-                                                option-value="statusReject"
-                                                v-model="v$.statusRejectProduct.$model"
-                                                :input="v$.statusRejectProduct.$touch"
-                                                :class="{ 'p-invalid border-round-lg p-error': v$.statusRejectProduct.$invalid && submitted }"
-                                                aria-describedby="dd-error"
-                                                class="text-sm border-round-lg" 
-                                            />
-                                            <!-- Validation -->
-                                            <small v-if="(v$.statusRejectProduct.$invalid && submitted) 
-                                                || v$.statusRejectProduct.$pending.$response" 
-                                                class="p-error text-lg">
-                                                    {{ v$.statusRejectProduct.required.$message.replace('Value', 'Status') }}
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 lg:col-12">
-                                        <div class="p-input-icon-right fei">
-                                            <Textarea id="input"   
-                                                v-model="v$.messageContentReject.$model" 
-                                                :class="{ 'p-invalid border-round-lg p-error': v$.messageContentReject.$invalid && submitted }" 
-                                                type="text" 
-                                                placeholder="Please send a Feedback" 
-                                                autofocus 
-                                                class="w-full"
-                                            />
-                                            <small v-if="(v$.messageContentReject.$invalid && submitted) || v$.messageContentReject.$pending.$response"
-                                                class="p-error text-sm">{{ v$.messageContentReject.required.$message.replace('Value',
-                                                'Feedback to vendor') }}
-                                            </small>
+                                        <div class="p-input-icon-right">
+                                            <Textarea id="input" v-model="messageContentReject" type="text" placeholder="Please send a Feedback" autofocus class="w-full"/>
                                         </div>
                                     </div>
 
@@ -193,7 +162,7 @@
                             <!-- Footer Request By Vendor -->
                             <template #footer>
                                 <Button label="No" icon="pi pi-times" text @click="deleteRequestByAdmin = false" />
-                                <Button label="Yes" icon="pi pi-check" text @click="requestAndRejectByVendorApproved(!v$.$invalid)" />
+                                <Button label="Yes" icon="pi pi-check" text @click="requestAndRejectByVendorApproved()" />
                             </template>
                         </Dialog>
                     </div>
@@ -206,7 +175,7 @@
 <script>
     import {mapGetters} from "vuex";
     import { FilterMatchMode, FilterOperator } from 'primevue/api';
-    import ProductService from '../../../services/vendors/products/ProductServices';
+    import ProductService from '@/services/vendors/products/ProductServices';
     import { ElNotification } from 'element-plus';
     import { isLoggedIn } from "@/utils/auth/auth";
     import { useVuelidate } from '@vuelidate/core';
@@ -216,23 +185,12 @@
         setup() {
             return { v$: useVuelidate() }
         },
-        validations() {
-            return {
-                messageContentReject: {required},
-                statusRejectProduct: {required},
-            }
-        },
         data(){
             return{
-                optionSelectStatusListArr: [
-                    { statusReject: 'Reject',id: 1 },
-                    { statusReject: 'Feedback', id: 2 },
-                ],
-                statusRejectProduct: '',
                 messageContentReject: '',
                 deleteRequestByAdmin: false,
                 loadingProductList: null,
-                productsArrList: null,
+                messageContentAlertProduct: null,
                 selectedProduct: null,
                 deleteProductDialog: false,
                 productId: 0,
@@ -250,16 +208,22 @@
                 }
             }
         },
+        validations() {
+            return {
+                selectedDeliveryCompany: {required},
+                expressDeliveryShipping: {required},
+            }
+        },
         mounted() {
             // ProductList
-            this.productService.getDataProducts()
+            this.productService.getProductMessageByAdminAndVendorRejectProducts()
                 .then((data) => {
                     try {
                         if (!Array.isArray(data) || !data.length > 0) {
-                            this.productsArrList = [];
+                            this.messageContentAlertProduct = [];
                         }
                         if (!Array.isArray(data) || data !== undefined || data !== null) {
-                            this.productsArrList = data ? data : '';
+                            this.messageContentAlertProduct = data ? data : '';
                             this.loadingProductList = false;
                         }
                     } catch (error) {
@@ -284,6 +248,19 @@
             this.productService = new ProductService();
         },
         methods: {
+            getSeverityProductRejectStatus(statusReject){
+                switch (statusReject) {
+                    case 'CONFIRM':
+                        return 'success';
+                    case 'FEEDBACK':
+                        return 'warning';
+                    case 'REJECT':
+                        return 'danger';
+
+                    default:
+                        return null;
+                }
+            },
             isSessionActiveVendor(){
                 return isLoggedIn();
             },
@@ -351,81 +328,8 @@
                 this.deleteRequestByAdmin = true;
                 this.productIdAdmin = parseInt(productId) ? parseInt(productId)  : 0;
             },
-            // Request Approved
-            requestAndRejectByVendorApproved(isFormValid){
-                try {
-                    this.submitted = true;
-                    this.v$.$touch();
-                    if (!isFormValid) {    
-                        return;
-                    }
-                     this.$confirm('Are you feedback or request vendor deleted this product','Feedback or Reject Product', {
-                            showCancelButton: true,
-                            confirmButtonText: 'OK',
-                            cancelButtonText: 'Cancel',
-                            type: 'warning',
-                            center: true,
-                            beforeClose: (action, instance, done) => {
-                                if (action === 'confirm') {
-                                    instance.confirmButtonLoading = true;
-                                    instance.confirmButtonText = 'Loading...';
-                                    setTimeout(() => {
-                                        done();
-                                        setTimeout(() => {
-                                        instance.confirmButtonLoading = false;
-                                        }, 300);
-                                    }, 1000);
-                                } else {
-                                    done();
-                                }
-                            }
-                    }).then(() => {
-       
-                        const productIdRejectId = parseInt(this.productIdAdmin) ? parseInt(this.productIdAdmin) : 1; 
-                        const dataUpdateReject = {
-                            notedSendFeedBack: this.messageContentReject ? this.messageContentReject : '',
-                            statusProduct: this.statusRejectProduct ? this.statusRejectProduct  : 'Feedback',
-                        }
-                        this.productService.updatedRejectProduct(dataUpdateReject,productIdRejectId).then(response => {
-                            if (response.data.success == true) {
-                                // Push Router
-                                this.$router.push("/vendor/products/list");
-                                this.$notify.success({
-                                        title: 'Successfully updated feedback to send vendor',
-                                        message: response.data?.message ? response.data?.message : '' ,
-                                        showClose: false
-                                });
-                                window.location.reload();
-                                this.transactionArrConfirm = {};
-                                this.confirmDialogTransaction = false;
-                            }
-                        }).catch((error) => {
-                            // this.no
-                            this.$notify.error({
-                                title: 'Unsuccessfully updated feedback product',
-                                message: error.response.data.error.message ?? 'Unsuccessfully updated feedback product',
-                                showClose: false
-                            });  
-                            if(error.response.data.error.error.errors){
-                                for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
-                                    const messageValidation = error.response.data.error.error.errors[index].message ?? '';
-                                    this.$notify.error({
-                                        title: 'Unsuccessfully updated category',
-                                        message: messageValidation ?? 'Unsuccessfully updated feedback product',
-                                        showClose: true
-                                    });   
-                                }
-                            } 
-                        });
-                    }).catch(() => {
-                            this.$message({
-                                type: 'info',
-                                message: 'Deposit to wallet was canceled'
-                            });
-                    });
-                } catch (error) {
-                    return Promise.reject(error);
-                }
+            requestAndRejectByVendorApproved(){
+                console.log(this.productIdAdmin)
             }
         },
     }

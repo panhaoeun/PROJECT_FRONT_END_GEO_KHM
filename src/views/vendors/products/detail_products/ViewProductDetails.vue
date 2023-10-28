@@ -33,15 +33,14 @@
                                                     
                                                         class="avatar w-2 h-10rem mr-4" 
                                                     :src="`${ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${productListDetailID?.product_picture}`" 
-                                                        :alt="productListDetailID?.product_eng ?? '7Day'"
+                                                        :alt="productListDetailID?.product_eng ?? 'E-24market'"
                                                     />
                                             </template>
                                           <template v-else>
                                                     <img 
-                                                    
                                                     class="avatar w-2 h-10rem mr-4" 
                                                     src="../../../../../src/assets/img/product_icons/package.png" 
-                                                :alt="productListDetailID?.product_eng ?? '7Day'"/>
+                                                    :alt="productListDetailID?.product_eng ?? 'E-24market'"/>
                                           </template>
                                            
                                             <!-- <div class="d-block">
@@ -66,7 +65,10 @@
                                     </div>
                                     <div class="flex-start">
                                         <span class="font-bold">Price : </span>
-                                        <span class="mx-1">{{ parseFloat(productListDetailID?.product_unit_price) ?? 0 }}</span>
+                                        <span class="mx-1">
+                                            {{ currencyFormattedKHRiel(productListDetailID?.product_unit_price_khr) ?? 0 }}
+                                            ({{ currencyFormattedUSD(productListDetailID?.product_unit_price) ?? 0 }})
+                                        </span>
                                     </div>
                                 </b-col>
                                 <b-col cols="8" col-lg="7" class="gap-1 d-flex border-lg-left">
@@ -134,6 +136,16 @@
             this.getViewProductDetails();
         },
         methods: {
+            // Convert Currency Amount
+            currencyFormattedKHRiel(value){
+                return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+            },
+            currencyFormattedUSD(value){
+                return Number(value ? value : 0).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD"
+                });  
+            },
             async getViewProductDetails() {
                 const productId = this.$route.params?.proId ?? '';
                 // Product Services

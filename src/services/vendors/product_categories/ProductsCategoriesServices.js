@@ -78,7 +78,7 @@ export default class ProductCategoriesServices {
     async updateSubProCategory(data, proCateId){
         return httpJson.put(`/vendors/product_management/product_sub_category/update/${proCateId}`, data);
     }
-    async deleteSubProCategory(data,proCateId){
-       return httpJson.delete(`/vendors/product_management/product_sub_category/delete/${proCateId}`, data);
+    async deleteSubProCategory(proCateId) {
+       return httpJson.delete(`/vendors/product_management/product_sub_category/delete/${proCateId}`);
    }
 }

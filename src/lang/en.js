@@ -32,7 +32,7 @@ export default {
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
         proProductMS: 'Products',
-        contentProduct: 'Product Listings',
+        contentProduct: 'Message Contents',
         userMSModule: 'User Managements',
         walletCustomer: 'Customer Wallet',
         customerMS: 'Customers',
@@ -262,7 +262,8 @@ export default {
         productName: "Product Name",
         purchasePrice: "Product Price",
         qty: "Quantity",
-        loadingProduct: "fetching products..."
+        loadingProduct: "fetching products...",
+        messageProductList: 'Products Message Table'
     },
     customer: {
         customerList: "Customer List",
