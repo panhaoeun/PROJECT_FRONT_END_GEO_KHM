@@ -71,6 +71,19 @@ export default [
             }
         },
         /**
+         * @Router New Customer Order cart
+        * **/ 
+        {
+            path: "/customer/shopping-cart/new-custom-cart-item-order",
+            name: 'shopping-cart-customer-item',
+            component: () => import("../views/customer_new_ui/customer_cart_item/CustomerCartItemNew.vue"),
+        },
+        {
+            path: "/:slug-url-name/product/:productId",
+            name: 'view-customer-detail-by-id-slug',
+            component: () => import("../views/customer_new_ui/product/_id.vue"),
+        },
+        /**
          * @Router My Order Payment & My Accounts
          * */
         /**

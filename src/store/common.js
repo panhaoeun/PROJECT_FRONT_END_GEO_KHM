@@ -5,6 +5,7 @@ const state = {
   site_setting: {},
   setting: {
     currency: 'USD',
+    currency_icon_riel: '៛',
     currency_icon: '$',
     decimal_format: 'en-US',
     currency_position: 1,
@@ -36,6 +37,7 @@ const getters = {
   topBanner: ({ topBanner }) => topBanner,
   popupBanner: ({ popupBanner }) => popupBanner,
   currencyPosition: ({ setting }) => setting.currency_position,
+  currencyIconRiel: ({ setting }) => setting.currency_icon_riel,
   currencyIcon: ({ setting }) => setting.currency_icon,
   currency: ({ setting }) => setting.currency,
   categories: ({ categories }) => categories,

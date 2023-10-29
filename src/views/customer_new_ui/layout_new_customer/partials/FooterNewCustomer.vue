@@ -7,13 +7,14 @@
             <ul class="table-tree">
              <!-- List all categories -->
               <footer-tree-node
-                v-for="value in categories"
+                v-for="value in commonCategoriesList"
                 :node="value"
                 :key="value.id"
               />
             <!-- List all categories -->
             </ul>
-
+        
+         <!-- Logo E-Commerce -->
           <div class="ptb-15 mt-20 mt-sm-15 b-t center-text">
             <router-link
               to="/" class="logo"
@@ -85,7 +86,7 @@
               </h4>
               <a :href="item.link" target="_blank" v-for="(item, i) in socialAbout" :key="i">
                 <lazy-image
-                  :data-src="imageURL(item.socialIcon)"
+                  :data-src="item.socialIcon"
                   :alt="item.title"
                   :title="item.title"
                 />
@@ -105,8 +106,8 @@
 </template>
 
 <script>
+  import  CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
   import util from '@/mixin/util'
-  import {mapGetters} from 'vuex'
   import LazyImage from "@/components/ui_component_new_frontend/LazyImage";
 //   import Subscription from "@/components/ui_component_new_frontend/Subscription";
 //   import TreeNode from "@/components/ui_component_new_frontend/TreeNode";
@@ -114,23 +115,26 @@
   export default {
     data() {
       return {
+        commonCategoriesList: null,
+        commonSubCategoriesList: null,
         socialAbout: [
             {
                 index: 1,
                 title: 'Instagram',
                 link: '/',
                 socialIcon: 'https://cdn.ishop.cholobangla.com/uploads/instagram.png',
-                
             },
             {
                 index: 2,
                 link: '/',
-                title: 'Twitter'
+                title: 'Twitter',
+                socialIcon: 'https://cdn.ishop.cholobangla.com/uploads/twitter.png',
             },
             {
                 index: 3,
                 link: '/',
-                title: 'Facebook'
+                title: 'Facebook',
+                socialIcon: 'https://cdn.ishop.cholobangla.com/uploads/facebook.png'
             }
         ],
         aboutFooter: [
@@ -174,10 +178,28 @@
         ]
       }
     },
+    mounted(){
+        // Common Categories
+        this.getCommonCategories();
+    },
+    created() {
+        this.commonServices = new CommonListPublicServices();
+    },
     mixins: [util],
     components: { LazyImage,FooterTreeNode},
-    computed: {
-      ...mapGetters('common', ['site_setting', 'categories', 'services', 'about', 'payment', 'social'])
-    },
+    methods: {
+        // Categories
+        getCommonCategories(){
+            this.commonServices.getCommonCategoriesSubCategories()
+            .then((common)=> {
+                if (!common) {
+                    this.commonCategoriesList = Array.isArray() ?? [];
+                    this.commonSubCategoriesList = Array.isArray() ?? [];
+                }
+                this.commonCategoriesList = common?.categories;
+                this.commonSubCategoriesList = common?.subCategory;
+            })
+        },
+    }
   }
 </script>

@@ -21,14 +21,14 @@ export default {
         PRE: 1,
         POST: 2
       },
-      orderMethodsIn: {
-        1: this.$t('util.creditDebit'),
-        2: this.$t('orderTabbing.cod'),
-        3: this.$t('util.creditDebit'),
-        4: this.$t('util.paypal'),
-        5: this.$t('util.flutterwave'),
-        6: this.$t('filter.iyzicoPayment'),
-      },
+    //   orderMethodsIn: {
+    //     1: this.$t('util.creditDebit'),
+    //     2: this.$t('orderTabbing.cod'),
+    //     3: this.$t('util.creditDebit'),
+    //     4: this.$t('util.paypal'),
+    //     5: this.$t('util.flutterwave'),
+    //     6: this.$t('filter.iyzicoPayment'),
+    //   },
       priceType: {
         FLAT: 1,
         PERCENT: 2
@@ -41,21 +41,21 @@ export default {
         location: 1,
         pickup: 2
       },
-      paymentStatus: {
-        1: this.$t('orderTabbing.paid'),
-        0: this.$t('orderTabbing.unPaid')
-      },
+    //   paymentStatus: {
+    //     1: this.$t('orderTabbing.paid'),
+    //     0: this.$t('orderTabbing.unPaid')
+    //   },
       paymentStatusIn: {
         PAID: 1,
         UNPAID: 0,
       },
-      orderStatus: {
-        1: {title: this.$t('util.pending')},
-        2: {title: this.$t('util.confirmed')},
-        3: {title: this.$t('util.pickedUp')},
-        4: {title: this.$t('util.onWay')},
-        5: {title: this.$t('util.delivered')}
-      },
+    //   orderStatus: {
+    //     1: {title: this.$t('util.pending')},
+    //     2: {title: this.$t('util.confirmed')},
+    //     3: {title: this.$t('util.pickedUp')},
+    //     4: {title: this.$t('util.onWay')},
+    //     5: {title: this.$t('util.delivered')}
+    //   },
       orderStatusIn: {
         PENDING: 1,
         CONFIRMED: 2,
@@ -64,10 +64,10 @@ export default {
         DELIVERED: 5
       },
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      shippingTypes: {
-        1: this.$t('util.location'),
-        2: this.$t('util.pickup')
-      },
+    //   shippingTypes: {
+    //     1: this.$t('util.location'),
+    //     2: this.$t('util.pickup')
+    //   },
       bannerType: {
         BANNER_1: 1,
         BANNER_2: 2,
@@ -106,6 +106,22 @@ export default {
     }
   },
   methods: {
+    priceFormatKHR(currencyPosition, currencyIcon, price, setting) {
+        if (parseInt(currencyPosition) === this.currencyPositionsIn.PRE) {
+            return currencyIcon + this.decimalSeparatorKHR(price, setting.decimal_format)
+        }
+        return this.decimalSeparatorKHR(price, setting.decimal_format) + currencyIcon
+    },
+    decimalSeparatorKHR(price, decimalSeparator = 'km-KH') {
+        if (!decimalSeparator) {
+            decimalSeparator = 'km-KH'
+        }
+        return parseFloat(price)
+            .toLocaleString(
+                decimalSeparator, {
+                    maximumFractionDigits: 2,
+                })
+    },
     priceFormat(currencyPosition, currencyIcon, price, setting) {
       if (parseInt(currencyPosition) === this.currencyPositionsIn.PRE) {
         return currencyIcon + this.decimalSeparator(price, setting.decimal_format)
@@ -228,7 +244,7 @@ export default {
     },
     productLink(item) {
       if (item) {
-        return `/${item?.slug}/product/${item?.id}`
+        return `/${item?.slug}/product/${item?.productId}`
       }
     },
     socialRedirect(service) {

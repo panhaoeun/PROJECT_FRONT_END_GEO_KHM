@@ -8,7 +8,7 @@ export default class ProductServices{
     * */ 
     async getCustomerProductsData(proFilterPage , proSize, data) {
         const page = parseInt(proFilterPage) ?? 3;
-        return await httpFrom.get(`/customers/products/product_module/customer_products_list?page=${page ?? 4}&size=${page ?? 4}`,data)
+        return await httpFrom.get(`/customers/products/product_module/customer_products_list?page=${page ?? 10}&size=${proSize ?? 10}`, data)
             .then((result) => {
                 if (result.status == '200') {
                     if (result.data.success == true) {

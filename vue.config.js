@@ -3,7 +3,6 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
    //... some other config here
-
    devServer: {
     proxy: {
       '/api': {

@@ -25,6 +25,13 @@
                 type="subCategory"
                 :item-list="commonCategoriesList"
             />
+            <!-- Daily discover - More Love -->
+            <lazy-area
+                v-slot:default="{renderArea}"
+                class="mn-h-400x"
+            >
+                <daily-discover-more-love v-if="renderArea"/>
+            </lazy-area>
            
         </div>
     </div>
@@ -46,9 +53,12 @@ import FeatureSeller from '@/components/ui_component_new_frontend/feature_seller
 import FeaturedCategories from '@/components/ui_component_new_frontend/feature_categories/FeatureCategories';
 import CommonPublicStoreServices from '@/services/common_public/CommonPublicStoreServices';
 import CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
+// More Loved
+import LazyArea from "@/components/ui_component_new_frontend/LazyArea.vue";
+import DailyDiscoverMoreLove from "@/components/ui_component_new_frontend/daily_discover_morelove/DailyDiscoverMoreLove.vue";
 
 export default {
-    components: {HomeHero,FeatureSeller,FeaturedCategories},
+    components: {HomeHero,FeatureSeller,FeaturedCategories,DailyDiscoverMoreLove,LazyArea},
     mixins: [util],
     props: {},
     middleware: ['common-middleware'],

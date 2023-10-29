@@ -20,6 +20,8 @@ import BillingStore from './ecommerce/billing';
 import MyWalletStore from "./modules/my_wallet";
 import Common from "./common";
 import Listing from "./listing";
+import Home from "./home";
+import Detail from "./details";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -30,7 +32,7 @@ const store = createStore({
         name: [],
         shareOffcanvas: false,
         language: getLanguage(),
-        imgSrcUrl: process.env.VUE_APP_PATH_FILE,
+        imgSrcUrl: '',
         defaultImage: '',
         thumbPrefix: '',
     },
@@ -75,7 +77,9 @@ const store = createStore({
         shippingStore: ShippingStore,
         billingStore: BillingStore,
         common: Common,
-        listing: Listing
+        listing: Listing,
+        home: Home,
+        detail: Detail
     },
 });
 // Load all modules.

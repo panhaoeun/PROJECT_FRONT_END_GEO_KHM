@@ -48,6 +48,8 @@ import CounterUp from 'vue3-autocounter';
  * 
  * **/
 import "./assets/customer_ecommerce_web_new/styles/styles.styl";
+import "@glidejs/glide/dist/css/glide.core.min.css";
+import ProductZoomer from 'vue-product-zoomer';
 
 
 // style scss
@@ -239,6 +241,10 @@ app.use(VueSidebarMenu);
 app.component('inner-image-zoom', InnerImageZoom);
 app.component('counter-up', CounterUp);
 app.use(VueCookies);
+/**
+ * @New Library Front - end
+ * */ 
+app.use(ProductZoomer);
 /*
    @E-Commerces Dashboard
    @Library E-Commerces Dashboard

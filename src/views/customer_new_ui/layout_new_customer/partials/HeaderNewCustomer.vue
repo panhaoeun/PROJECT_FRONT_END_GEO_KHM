@@ -55,7 +55,7 @@
           </div>
 
           <div class="flex right text-upper">
-
+            <!-- Login -->
             <div
               class="flex gap-2 font-bold text-black"
               v-if="!isLoggedIn"
@@ -80,17 +80,37 @@
                 {{ $t('header.register') }}
               </router-link>
             </div>
-
-            <router-link
-              v-else
-              to="/user/profile"
-              class="flex gap-2"
-            >
-              <i
-                class="icon user-icon"
-              />
-              {{ $t('header.profile') }}
-            </router-link>
+            <!-- User Profile -->
+            <!-- Vendor Or Admin -->
+            <template v-if="customerRole !== 'Customer' && customerRole === 'Admin' || customerRole === 'Vendor'">
+                    <router-link
+                        to="/vendor-dashboard/default-layouts"
+                        class="flex gap-2 font-bold text-black"
+                    >
+                    <i
+                        class="icon user-icon"
+                    />
+                        <template v-if="customerRole === 'Admin'">
+                            <label>Web Page</label>
+                        </template>
+                        <template v-if="customerRole === 'Vendor'">
+                            <label>My Shop</label>
+                        </template>
+                    </router-link>
+            </template>
+            <!-- Customer -->
+            <template v-if="customerRole === 'Customer' && customerRole !== 'Admin' && customerRole !== 'Vendor'">
+                    <router-link
+                        to="/vendor-dashboard/default-layouts"
+                        class="flex gap-2 fold-bold text-black"
+                    >
+                    <i
+                        class="icon user-icon"
+                    />
+                        {{ $t('header.profile') }}
+                    </router-link>
+            </template>
+           
           </div>
         </div>
       </div>
@@ -110,7 +130,7 @@
           >
         </router-link>
       </div>
-
+      <!-- Form Search -->
       <form
         class="search-input grow"
         @submit.prevent="search"
@@ -138,7 +158,7 @@
           @close="closeSearchPopup"
         />
       </form>
-
+      <!-- My Accounts -->
       <div class="right-area flex gap-15 right">
         <div
           class="pos-rel"
@@ -161,22 +181,7 @@
             <router-link
               to="/user/orders"
             >
-              {{ $t('header.orders') }}
-            </router-link>
-            <router-link
-              to="/user/wishlists"
-            >
-              {{ $t('header.wishList') }}
-            </router-link>
-            <router-link
-              to="/user/compared"
-            >
-              {{ $t('header.comparedList') }}
-            </router-link>
-            <router-link
-              to="/user/vouchers"
-            >
-              {{ $t('header.vouchers') }}
+                Orders
             </router-link>
             <button
               aria-label="Logout"
@@ -184,18 +189,19 @@
               class="clear-btn"
               @click.prevent="loggingOut"
             >
-              {{ $t('header.logout') }}
+                Logout
             </button>
           </div>
         </div>
+        <!-- Carts -->
         <router-link
-          to="/cart"
+          to="/customer/shopping-cart/new-custom-cart-item-order"
           class="cart-btn flex pos-rel h-40x gap-1"
         >
           <span
-            v-if="cartCount"
+            v-if="isLoggedIn && getCartAuthItem.length >=1"
             class="cart-badge">
-            {{ cartCount }}
+              {{ getCartAuthItem.length ? getCartAuthItem.length : 0  }}
           </span>
           <i
             class="icon cart-icon black"
@@ -203,6 +209,7 @@
           <span class="title">Cart</span>
         </router-link>
       </div>
+      <!--  -->
     </div>
     <div class="bottom-area text-nowrap">
       <div class="container-fluid">
@@ -245,6 +252,8 @@
   import { mapGetters, mapActions} from 'vuex'
   import SearchPopup from "@/components/ui_component_new_frontend/SearchPopup";
   import Banner from "@/components/ui_component_new_frontend/Banner";
+  import AuthenticationsDataService from '@/services/authencationDataService';
+  import axios from 'axios'
 //   import Dropdown from "@/components/ui_component_new_frontend/Dropdown";
 
   export default {
@@ -255,7 +264,8 @@
         dropdown: false,
         searchPopup: false,
         searchFocused: false,
-        searchedText: ''
+        searchedText: '',
+        customerRole: null
       }
     },
     computed: {
@@ -286,13 +296,13 @@
     //   ...mapGetters('language', ['languages', 'currentLanguage']),
       ...mapGetters('common', ['site_setting', 'setting', 'topBanner', 'headerLinks']),
       ...mapGetters('listing', ['searched']),
-      ...mapGetters('cart', ['cartCount'])
+      ...mapGetters('cart', ['getCartAuthItem'])
     },
     watch: {
       cartCountCom(value){
         this.setCartCount(value)
       },
-      '$route'() {
+      '$route'() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         this.setQFromRoute()
         this.closeDropdown()
       },
@@ -307,6 +317,51 @@
     components: {Banner, SearchPopup},
     mixins: [util],
     methods: {
+        // Logout
+        currentCustomerLogout(){
+            AuthenticationsDataService.authLogout().then((response) => {
+                this.$toast.add({ severity: 'Logout Successfully', summary: 'Info', detail: response.data.message, life: 3000 });
+                localStorage.clear('token');
+                localStorage.clear('tokenExpiry');
+                localStorage.clear('expiresIn')
+                localStorage.clear('user');
+                localStorage.clear('userId');
+                this.$router.push("/auth/login");
+                window.location.reload();
+                /**
+                 * Delete Cookies
+                 * */
+                this.deleteAllCookies();
+                // Remove token
+                axios.defaults.headers.common['Authorization'] = ''
+                const token = localStorage.getItem('token');
+                localStorage.removeItem(token);
+            }).catch((error) => {
+                Promise.reject(error);
+            });
+        },
+        deleteAllCookies() {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i];
+                const eqPos = cookie.indexOf("=");
+                const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + `=;expires=${new Date(
+                    0
+                ).toUTCString()}`;
+            }
+        },
+        // User Type
+        customerRoleType(){
+            if(isLoggedIn()){
+                const userRoleAuth = localStorage.getItem('userRole');
+                if (JSON.parse(userRoleAuth) !== 'Vendor' && JSON.parse(userRoleAuth) !== 'Admin' && JSON.parse(userRoleAuth) === "Customer"){
+                    this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
+                }else{
+                    this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
+                }
+            }
+        },
       async selectedLanguage(data){
         document.cookie = 'currentLanguage=' + data.key + '; path=/; expires=' + 365 * 60 * 60 * 24
         location.reload()
@@ -341,11 +396,11 @@
       },
       async loggingOut(){
         try {
-          this.$auth.logout()
-          this.closeDropdown()
+          this.closeDropdown();
+          this.currentCustomerLogout();
           //this.emptyCartProduct()
         } catch (e) {
-          return this.$nuxt.error(e)
+          return Promise.reject(e);
         }
       },
       closeDropdown() {
@@ -361,11 +416,13 @@
 
     },
     mounted() {
-      this.setQFromRoute()
-      this.updateSearch(this.searchedText)
-      if(this.cartCountCom){
-        this.setCartCount(this.cartCountCom)
-      }
+        // Role
+        this.customerRoleType();
+        this.setQFromRoute()
+        this.updateSearch(this.searchedText)
+        if(this.cartCountCom){
+            this.setCartCount(this.cartCountCom)
+        }
 
       const self = this
       this.$nextTick(() => {
@@ -377,6 +434,6 @@
           self.topBannerLoaded = true
         }
       })
-    }
+    },
   }
 </script>

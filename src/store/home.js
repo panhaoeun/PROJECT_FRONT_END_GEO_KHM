@@ -1,4 +1,5 @@
-import Service from '@/services/service.js'
+import ProductServices from '@/services/vendors/products/ProductServices';
+const productServicesMS = new ProductServices();
 
 const state = {
   slider: null,
@@ -9,7 +10,7 @@ const state = {
   flash_sales: null,
   products: null,
   hasHomeData: false
-})
+}
 const getters = {
   hasHomeData: ({ hasHomeData }) => hasHomeData,
   slider: ({ slider }) => slider,
@@ -34,73 +35,34 @@ const mutations = {
     state.featured_brands =  home?.featured_brands
     state.flash_sales =  home?.flash_sales
   },
-  SET_PRODUCTS(state, data){
-    state.products = data?.data?.result
+  SET_PRODUCTS(state, proResult) {
+    state.products = proResult ? proResult : [];
   }
-}
-
+}   
 const actions = {
-  async fetchHome ({ commit }, {payload, lang}) {
-    commit('common/SET_LOADING', true, {root: true})
-
+  async fetchProducts ({ commit }, {payload}) {
     try {
-      const {data} = await Service.home(payload, lang)
-
-      if(data?.status){
-
-        if(data?.status === 200) {
-          commit('SET_HOME_DATA', data)
-          commit('common/SET_LOADING', false, {root: true})
-
-        }else if(data?.status === 201){
-
-          return Promise.reject({
-            statusCode: data.status, message: data.message
-          })
-        }
-      } else {
-        return Promise.reject({
-          message: "API is down."
+        await productServicesMS.getCustomerProductsData(payload)
+        .then(async (proResult) => {
+                if (!Array.isArray(proResult) || !proResult.length > 0) {
+                    state.products = [];
+                }
+                const result = Array.isArray(proResult?.products) ? proResult?.products.slice() : [];
+                commit('SET_PRODUCTS', result);
+                commit('common/SET_LOADING', false, {root: true})
+                return result;
         })
-      }
+        .catch((data) => {
+             return Promise.reject({
+                 statusCode: data.status,
+                 message: data.message
+             })
+        })
     }catch (e) {
-
       return Promise.reject({
         message: e.message
       })
     }
-  },
-  async fetchProducts ({ commit }, {payload, lang}) {
-
-    try {
-      const {data} = await Service.products(payload, lang)
-
-      if(data?.status){
-
-        if(data?.status === 200){
-          commit('SET_PRODUCTS', data)
-
-          return data?.data?.result
-        } else {
-
-          return Promise.reject({
-            statusCode: data.status, message: data.message
-          })
-        }
-
-      } else {
-
-        return Promise.reject({
-          message: "API is down."
-        })
-      }
-    }catch (e) {
-
-      return Promise.reject({
-        message: e.message
-      })
-    }
-
   }
 }
 export default {
