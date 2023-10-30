@@ -82,7 +82,7 @@
 
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import util from '~/mixin/util'
+  import util from '@/mixin/util'
   import ToastMessage from "~/components/ToastMessage";
   import metaHelper from "~/mixin/metaHelper";
 

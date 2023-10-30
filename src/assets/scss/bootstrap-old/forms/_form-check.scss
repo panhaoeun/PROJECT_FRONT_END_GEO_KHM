@@ -44,10 +44,10 @@
     @include border-radius($form-check-input-border-radius);
   }
 
-  &[type="radio"] {
-    // stylelint-disable-next-line property-disallowed-list
-    border-radius: $form-check-radio-border-radius;
-  }
+//   &[type="radio"] {
+//     // stylelint-disable-next-line property-disallowed-list
+//     border-radius: $form-check-radio-border-radius;
+//   }
 
   &:active {
     filter: $form-check-input-active-filter;

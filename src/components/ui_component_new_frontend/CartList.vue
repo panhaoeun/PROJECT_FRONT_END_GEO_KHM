@@ -88,29 +88,58 @@
     },
     mixins: [util],
     methods: {
+        ...mapActions('common', ['setToastMessage', 'setToastError']),
       updateCartShipping(){
         this.$emit('shipping-changed', this.cartShipping)
       },
-      async valueChanged({bundleDeal, product, inventory, direction}){
+      async valueChanged({ product, inventory, direction}){
         try {
-          await this.cartAction({
-            payload: {
-              apiVal:{
-                user_token: await this.getUserToken(),
-                product_id: product.id,
-                inventory_id: inventory.id,
-                quantity: direction
-              },
-              storeVal:{
-                product: product,
-                inventory: inventory,
-                quantity: direction,
-                selected: '1'
-              },
-              isBundle: !!bundleDeal
-            },
-            lang: this.langCode
-          })
+            console.log(inventory)
+            // Trick
+            this.$nextTick(async () => {
+                if(product.productInStock <= direction){
+                    this.$notify.warning({
+                        title: `Product limited on stock on stock ${product?.productInStock} : ${direction} `,
+                        showClose: true
+                    });   
+                }else{
+                    if (product?.productInStock >= direction){
+                        try{
+                            await this.$store.dispatch('cart/updateCartQuantity', {
+                                quantity: direction ? direction : 1, 
+                                productInStock: product?.productInStock,
+                                product_id: product?.product_id,
+                                productPriceKHR: product?.productPriceKHR,
+                                shippingCompanyDay: product?.shippingCompanyDay,
+                                expressPriceKHR: product?.expressPriceKHR,
+                                expressPriceUSD: product?.expressPriceUSD
+                            });
+                            this.setToastMessage('The cart has been successfully updated');
+                        }catch(error){
+                            this.setToastError(`!!! Cart could not be updated at the moment. Please try again later..,${error}`)
+                            return
+                        }
+                    }   
+                }
+            });
+        //   await this.cartAction({
+        //     payload: {
+        //       apiVal:{
+        //         user_token: await this.getUserToken(),
+        //         product_id: product.id,
+        //         inventory_id: inventory.id,
+        //         quantity: direction
+        //       },
+        //       storeVal:{
+        //         product: product,
+        //         inventory: inventory,
+        //         quantity: direction,
+        //         selected: '1'
+        //       },
+        //       isBundle: !!bundleDeal
+        //     },
+        //     lang: this.langCode
+        //   })
         }catch (e) {
             throw new Error(e);
         }

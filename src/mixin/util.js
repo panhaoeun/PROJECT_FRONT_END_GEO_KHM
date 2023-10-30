@@ -168,7 +168,7 @@ export default {
         message = data.data?.form[0]
       }
 
-      return this.$nuxt.error({
+      return Promise.reject({
         statusCode: 400,
         message: message
       })

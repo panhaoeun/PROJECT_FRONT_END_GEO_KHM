@@ -37,7 +37,8 @@
                     class="dropdown-wrapper"
                     :label-for="value?.item + aid"
                     style="border: 1px solid #bbb;justify-content:space-between;padding:15px 30px 20px 30px;transition:all .1s;"
-                    v-model="selectedCustomizations[attrib?.item]"
+                    v-model="selectedCustomizations[value?.item]"
+                    :track-by="currentSelected.proSpecItem"
                 >
                     <!--  -->
                     <option disabled value="not_choose">
@@ -322,6 +323,7 @@
           attribute: null,
           quantity: null,
         },
+        currentSelected: {},
         selectedCustomizations: {},
         productInventory: {},
         currentAttributes: [],
@@ -550,9 +552,7 @@
                         ? parseInt(this.quantity)
                         : 1,
                     productPrice: this.product.product_unit_price_khr ? this.product.product_unit_price_khr : 1,
-                    productVariantName: this.currentSelected
-                        ? this.currentSelected
-                        : "",
+                    productVariantName: this.currentSelected,
                     shippingDayCompanyName: this.expressOptionSelected
                         .deliveryName
                         ? this.expressOptionSelected.deliveryName

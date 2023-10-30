@@ -26,27 +26,19 @@
       <div class="flex align-start grow block-sm gap-15">
         <div class="grow">
           <div>
-            <h5 class="semi-bold mb-5 text-black font-bold">
+            <h6 class="semi-bold  text-blue-800 font-bold">
               <router-link
-                class="ellipsis-1 text-black font-bold text-md"
+                class="ellipsis-1 text-blue-800 font-bold text-md"
                 :to="productLink(product)"
                 :title="title"
               >
                 {{ title }}
               </router-link>
-            </h5>
-            <h5>
-            <span class="mr-15" v-for="i in currentAttr" :key="i">
-              <span class="mr-10">{{i[0]}}</span> : {{i[1]}}
-            </span>
-            </h5>
-            <p
-              v-if="hasBundleDeal"
-              class="ellipsis-1"
-            >
-              <span>{{ $t('cartProductTile.bundleOffer') }}: </span>
-              {{ bundleDeal.title }}
-            </p>
+            </h6>
+            <!-- Product Variant Name -->
+            <h6 class="mr-15 text-md" v-for="([key, value], index) in currentAttr" :key="index">
+                <span class="mr-10">{{key}}</span>: {{ value }}
+            </h6>
           </div>
 
           <form
@@ -95,25 +87,25 @@
             <quantity-nav
               class="mtb-5"
               :quantity="parseInt(productQuantity)"
-              :product-inventory="cart.updated_inventory"
+              :product-inventory="cart"
               :max="maxQuantity"
               @value-changed="valueChanged"
+              @blur="checkQuantity(index, $event)" 
             />
             <ajax-button
               class="outline-btn plr-20 mtb-5"
               type="button"
               text="Delete"
               color="primary"
-              @clicked="deleting"
+              @clicked="deleting(cart)"
             />
           </div>
         </div>
-
+        <!-- Price -->
         <div class="mt-sm-10 mn-w-90x right-text">
           <h5 class="price inl-b-sm">
-            <price-format
-              :price="productPrice"
-            />
+            {{ currencyFormattedKHRiel(productPrice) }}
+            ({{ currencyFormattedUSD(productPriceUSD) }})
           </h5>
           <p class="inl-b-sm">x {{ productQuantity }}</p>
           <p class="inl-b-sm" v-if="hasBundleDeal">(-) x {{ bundleDeal.free }}</p>
@@ -197,12 +189,10 @@
         return this.cart?.variantName;
       },
       productPrice() {
-        if (this.productInventory?.inventory_attributes?.length > 0 && this.productInventory?.price > 0) {
-          return this.productInventory?.price
-        }
-        return this.product.price > 0
-          ? this.product.price : this.product.offered > 0
-            ? this.product.offered : this.product.selling
+         return this.cart?.productPriceKHR;
+      },
+      productPriceUSD(){
+        return this.cart?.productPrice;
       },
       currentShipRule(){
         let matched = null
@@ -230,14 +220,10 @@
         return matched
       },
       inventoryAttributes(){
-        return this.productInventory?.variantName
+        return this.productInventory;
       },
       currentAttr(){
-        console.log(this.inventoryAttributes)
-        return this.inventoryAttributes?.map(i => {
-            console.log(i)
-        //   return [i?.attribute_value?.attribute?.title, i?.attribute_value?.title]
-        })
+        return Object.entries(this.inventoryAttributes);        
       },
       title(){
         return this.product?.product_eng || ''
@@ -256,29 +242,51 @@
     },
     mixins: [util, productPriceHelper],
     methods: {
-      getThumbImageURLThumbnail(pathName){
-        if (typeof pathName !== undefined) {
-                return `${this.ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${pathName}`
-            } else {
-                return '';
+        // Currency Formate
+        currencyFormattedKHRiel: function(value) {
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD: function(value) {
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
+        // Thumbnail URL Image
+        getThumbImageURLThumbnail(pathName){
+            if (typeof pathName !== undefined) {
+                    return `${this.ENV_HOST_PATH_FILE}uploads/products_img/thumbnail/${pathName}`
+                } else {
+                    return '';
+                }
+        },
+        updateCartShipping(){
+            this.$emit('shipping-changed', this.cartShipping)
+        },
+        //Deleted on Cart 
+        async deleting(productItem){
+            try {
+                await this.$store.dispatch('cart/deleteCustomerCartOrder', [productItem]);
+            } catch (err) {
+                Promise.reject(err);
             }
-      },
-      updateCartShipping(){
-        this.$emit('shipping-changed', this.cartShipping)
-      },
-      deleting(){
-        if (confirm(this.$t('cartProductTile.deleteAlert'))) {
-          this.$emit('deleting', {id: this.cartId, isBundle: !!this.bundleDeal})
-        }
-      },
-      valueChanged(evt){
-        this.$emit('quantity', {
-          bundleDeal: this.bundleDeal,
-          product: this.product,
-          inventory: this.productInventory,
-          direction: evt.direction}
-          )
-      }
+        },
+        //Value Change Input Quantity
+        valueChanged(evt){
+                this.$emit('quantity', {
+                    product: this.product,
+                    inventory: this.productInventory,
+                    direction: evt?.value
+                }
+            )
+        },
+        //Check Value in stock 
+        checkQuantity(index, event) {
+                if (event.target.value === "") {
+                    const product = this.cart[index];
+                    product.quantity = 1;
+                }
+            },
     },
     created() {
     },

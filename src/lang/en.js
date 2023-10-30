@@ -6,7 +6,17 @@ export default {
         login: "Login",
         register: "Register",
         profile: "Profile",
-     },
+    },
+    userAddress: {
+        noAddress: 'No address found.',
+        edit: 'Edit',
+        delete: 'Delete'
+    },
+    addressPopup: {
+        thisAddress: 'Save this address',
+        update: 'Update',
+        save: 'Save'
+    },
     route: {
         withdrawVendor: 'Withdraw',
         withdraw: 'Withdraw',

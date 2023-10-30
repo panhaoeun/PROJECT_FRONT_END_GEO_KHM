@@ -1,45 +1,63 @@
 <template>
     <client-only>
     <div class="container-fluid mtb-20 mtb-sm-15">
-      <div class="product-detail">
-        <div
-          class="detail-left ptb-10 plr-20 plr-sm-15 mr-sm area mr-20 mb-sm-15"
-        >   
-            <!-- Select All -->
-            <div class="b-b pb-10 mb-10 flex sided">
-                <h5 class="bold">
-                    Shopping cart
-                </h5>
-                <!-- Check Item -->
-                <!-- <p v-if="!checked.length">
-                    {{ $t('cart.noSelected') }}
-                    <button
-                        aria-label="submit"
-                        class="link ml-10 f-9"
-                        @click.prevent="selectAllItems"
-                    >
-                        {{ $t('cart.selectItems') }}
-                    </button>
-                    </p>
-                    <p v-else>
-                    <button
-                        aria-label="submit"
-                        class="link f-9"
-                        @click.prevent="deselectAllItems"
-                    >
-                        {{ $t('cart.deselectItems') }}
-                    </button>
-                </p> -->
-               
+        <div class="product-detail">
+            <!-- Total Item -->
+            <div
+            class="detail-left ptb-10 plr-20 plr-sm-15 mr-sm area mr-20 mb-sm-15"
+            >   
+                <!-- Select All -->
+                <div class="b-b pb-10 mb-10 flex sided">
+                    <h5 class="bold">
+                        Shopping cart
+                    </h5>
+                    <!-- Check Item -->
+                    <!-- <p v-if="!checked.length">
+                        {{ $t('cart.noSelected') }}
+                        <button
+                            aria-label="submit"
+                            class="link ml-10 f-9"
+                            @click.prevent="selectAllItems"
+                        >
+                            {{ $t('cart.selectItems') }}
+                        </button>
+                        </p>
+                        <p v-else>
+                        <button
+                            aria-label="submit"
+                            class="link f-9"
+                            @click.prevent="deselectAllItems"
+                        >
+                            {{ $t('cart.deselectItems') }}
+                        </button>
+                    </p> -->
+                
 
+                </div>
+                <!-- Cart List Item -->
+                <cart-list
+                    :cart-products="cart"
+                    :ajaxing="ajaxing"
+                    :checked="checked"
+                />
+                <!-- Total Product List -->
+                <div class="flex sided" v-if="cart && cart.length >0">
+                    <h5 class="price">
+                        Total Item ({{ parseInt(cartItem) }} items)
+                    </h5>
+                    <!-- Price -->
+                    <!-- <h4 class="price">
+                        {{cartPrice}}
+                    </h4> -->
+                </div>
             </div>
-             <!-- Cart List Item -->
-            <cart-list
-                :cart-products="cart"
-                :ajaxing="ajaxing"
-                :checked="checked"
+            <!--Sub Total-->
+            <checkout-right
+                :disabled="preventGoing"
+                :checked-product="checkedProduct"
+                @calculated-price="cartPrice = $event"
+                @go-next="goToAddress"
             />
-          </div>
         </div>
       </div>
     </client-only>
@@ -50,12 +68,12 @@ import util from '@/mixin/util'
 import productHelper from "@/mixin/productHelper";
 import CartList from '@/components/ui_component_new_frontend/CartList';
 import {isLoggedIn} from '@/utils/auth/auth';
-// import AjaxButton from '@/components/ui_component_new_frontend/AjaxButton'
+import CheckoutRight from '@/components/ui_component_new_frontend/CheckoutRight'
 export default {
     middleware: ['common-middleware'],
     components: {
         CartList,
-        // AjaxButton
+        CheckoutRight
     },
     props: {},
     mixins: [util, productHelper],
@@ -79,12 +97,16 @@ export default {
             cartTotal: 'cart/getTotal',
             subtotal: 'cart/getSubTotal',
             totalShipping: 'cart/cartTotalShipping',
+            cartItem: 'cart/getTotalItems'
         }),
     },
     async mounted() {
         this.fetchingData();
     },
     methods: {
+        goToAddress() {
+            this.$router.push({path: '/customer/shipping-address/check-out-customer'})
+        },
          // Check login
         isLoggedIn() {
             return isLoggedIn();
@@ -96,10 +118,9 @@ export default {
                     await this.cart ? this.cart : [];
                 }catch(e){
                     throw new Error(e);
-                }
+                } 
                 this.ajaxing = false
             }
-           
         }
     },
 };

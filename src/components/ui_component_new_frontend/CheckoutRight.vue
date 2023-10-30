@@ -1,76 +1,44 @@
 <template>
-
   <div class="detail-right">
     <div class="area pt-10 plr-20 plr-sm-15 pb-20 pb-sm-15">
       <h5 class="bold b-b pb-10 mb-15">
-        {{ $t('filter.ckout') }}
+         Checkout
       </h5>
-      <div class="flex sided mb-15">
-        <h5 class="fw-400">{{ $t('checkoutRight.subtotalItems', {itemCount: cartPrice.totalItems}) }}</h5>
-        <h5 class="price">
-          <price-format
-            :price="formatPrice(cartPrice.totalPrice)"
-          />
+     <!-- Cart Total CheckOut -->
+     <div class="flex sided mb-15 gap-10" v-if="getSubTotal">
+        <h5 class="fw-400 text-sm w-full text-bluegray-900">
+            Sub Total 
         </h5>
-      </div>
-      <div
-        v-if="cartPrice.totalPrice !== cartPrice.totalPriceWithOffer"
-        class="flex sided pb-10">
-
-        <h5 class="fw-400">{{ $t('cartProductTile.bundleOffer') }}</h5>
-        <h5 class="price">
-          <price-format
-            :price="formatPrice(cartPrice.totalPrice - cartPrice.totalPriceWithOffer)"
-          />
+        <h5 class="price text-sm text-right">
+           {{ currencyFormattedKHRiel(getSubTotal?.subTotalKHR) }}
+           ({{ currencyFormattedUSD(getSubTotal?.subTotalUSD) }})
         </h5>
-      </div>
-      <div
-        v-if="hasShipping"
-        class="flex sided pb-10">
-        <h5 class="fw-400">{{ $t('checkoutRight.shipping') }}</h5>
-        <h5 class="price">
-          <price-format
-            :price="formatPrice(cartPrice.shippingPrice)"
-          />
+    </div>
+    <!-- Shipping -->
+    <div
+        v-if="cartTotalShipping"
+        class="flex sided pb-10 gap-10">
+        <h5 class="fw-400 text-sm text-bluegray-900">Shipping</h5>
+        <h5 class="price text-sm text-right">
+            {{ currencyFormattedKHRiel(cartTotalShipping.shippingAmountKHR) ?? 0 }}
+            ({{ currencyFormattedUSD(cartTotalShipping?.shippingAmountUSD) ?? 0}})
         </h5>
-      </div>
-      <div
-        v-if="voucherResult"
-        class="flex sided pb-10">
-        <h5 class="fw-400">{{ $t('checkoutRight.voucher') }}</h5>
-        <h5 class="price">
-          <price-format
-            :price="formatPrice(voucherResult.offered)"
-          />
-        </h5>
-      </div>
-
-      <div
-        v-if="cartPrice.tax"
-        class="flex sided mb-10"
-      >
-        <h5 class="fw-400">{{ $t('cart.tax') }}</h5>
-        <h5 class="price">
-          <price-format
-            :price="formatPrice(cartPrice.tax)"
-          />
-        </h5>
-      </div>
-      <div class="flex sided mb-20 mb-sm-15 b-t pt-10">
-        <h5 class="fw-400">{{ $t('checkoutRight.total') }}</h5>
-        <h4 class="price">
-          <price-format
-            :price="formatPrice(totalPrice)"
-          />
+    </div>
+    <!-- Total With Shipping -->
+    <div class="flex sided mb-20 mb-sm-15 b-t pt-10">
+        <h5 class="fw-400 text-md">Total</h5>
+        <h4 class="price text-sm text-right">
+            {{ currencyFormattedKHRiel(totalPriceKHR) }}
+            ({{ currencyFormattedUSD(totalPriceUSD) }})
         </h4>
-      </div>
+    </div>
+     <!-- Button Check Out Payments -->
       <ajax-button
         v-if="!hideBtn"
-        class="primary-btn  w-100"
+        class="primary-btn w-100"
         type="button"
         :fetching-data="submitting"
-        :loading-text="$t('checkoutRight.submitting')"
-        :disabled="disabled"
+        loading-text="Submitting"
         :text="btnText"
         @clicked="$emit('go-next')"
       />
@@ -87,8 +55,7 @@
   import { mapGetters } from 'vuex'
   import productHelper from "@/mixin/productHelper"
   import productPriceHelper from "@/mixin/productPriceHelper"
-  import AjaxButton from '@/AjaxButton'
-  import PriceFormat from "./PriceFormat";
+  import AjaxButton from './AjaxButton'
 
   export default {
     name: 'CheckoutRight',
@@ -105,7 +72,7 @@
       btnText: {
         type: String,
         default: function () {
-          return this.$t('checkoutRight.proceedToCheckout')
+          return 'Proceed To Checkout'
         }
       },
       hasShipping: {
@@ -132,56 +99,51 @@
       }
     },
     components: {
-      PriceFormat,
       AjaxButton
     },
     computed: {
-      totalPrice(){
-        return this.cartPrice.totalPriceWithOffer
-          + this.cartPrice.shippingPrice
-          - this.cartPrice.voucher
-          + this.cartPrice.tax
-      },
-      cartPrice(){
-        let cp = {
-          totalItems: 0,
-          totalPriceWithOffer: 0,
-          totalPrice: 0,
-          tax: 0,
-          shippingPrice: 0,
-          voucher: 0
+       ...mapGetters('common', ['currencyIcon', 'setting']),
+       ...mapGetters('cart', [
+            'getProductsInCart',
+            'cartTotalAmount',
+            'cartSubTotal',
+            'getCartAuthItem',
+            'getSubTotal',
+            'getTotalItems',
+            'cartTotalShipping',
+            'getTotal'
+        ]),
+        // Total With Shipping
+        totalPriceKHR(){
+            return this.getSubTotal?.subTotalKHR + this.cartTotalShipping.shippingAmountKHR;
+        },
+        totalPriceUSD(){
+            return this.getSubTotal?.subTotalUSD + this.cartTotalShipping.shippingAmountUSD;
         }
-        this.checkedProduct.forEach((curr) => {
-
-          if(parseInt(curr.shipping_type) === 1 && this.hasShipping){
-            cp.shippingPrice += parseInt(curr?.shipping_place?.price || 0)
-          }else if(parseInt(curr.shipping_type) === 2 && this.hasShipping) {
-            cp.shippingPrice += parseInt(curr?.shipping_place?.pickup_price || 0)
-          }
-
-          const qty = parseInt(curr?.quantity || 0)
-          const bundleDeal = curr?.flash_product?.bundle_deal
-          cp.totalItems += qty
-          const currentInventoryPrice = this.currentInventoryPriceCalc(curr?.updated_inventory, curr?.flash_product)
-          const bundleOffer = (bundleDeal?.buy <= qty) ? (currentInventoryPrice * parseInt(bundleDeal?.free || 0)) : 0
-          cp.totalPriceWithOffer += qty * currentInventoryPrice - bundleOffer
-          const taxRule = curr?.flash_product?.tax_rules
-          cp.tax += qty * this.priceByType(currentInventoryPrice, taxRule?.price || 0, taxRule?.type)
-          cp.totalPrice += qty * currentInventoryPrice
-        })
-        cp.voucher = this.voucherResult?.offered || 0
-
-        this.$emit('calculated-price', cp)
-        return cp
-      },
-      ...mapGetters('common', ['currencyIcon', 'setting']),
     },
     mixins: [util, productHelper, productPriceHelper],
-    methods: {
-    },
     created() {
+        this.totalWithShippingPriceCheckOut();
     },
-    mounted() {
+    methods: {
+        currencyFormattedKHRiel: function(value) {
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD: function(value) {
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
+        // Total With Shipping Price
+        totalWithShippingPriceCheckOut(){
+            return this.$store.dispatch('cart/totalOrderWithSipping', {
+                shippingPriceKHR: this.cartTotalShipping.shippingAmountKHR ? this.cartTotalShipping.shippingAmountKHR: 0,
+                shippingPriceUSD: this.cartTotalShipping.shippingAmountUSD ? this.cartTotalShipping.shippingAmountUSD: 0,
+                subTotalKHR: this.getSubTotal.subTotalKHR ? this.getSubTotal.subTotalKHR : 0,
+                subTotalUSD: this.getSubTotal.subTotalUSD ? this.getSubTotal.subTotalUSD : 0,
+            });
+        }
     }
   }
 </script>

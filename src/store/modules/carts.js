@@ -361,16 +361,15 @@ const actions = {
                 .then((result) => {
                     if (result.data.success === true) {
                         // Notification
-                        ElNotification.success({
-                            title: "Added to Cart Successfully",
-                        });
+                        commit('common/SET_TOAST_MESSAGE', 'Product added to cart successfully', {
+                            root: true
+                        })
                         commit("setCart", result.data.result.resultStatus);
                         return Promise.resolve(toSend);
                     }
                     return true;
                 })
                 .catch((error) => {
-                    console.log(error, "error")
                     if (error) {
                         ElNotification.error({
                             title: "Couldn't be added for some reason. Please try again later",
@@ -402,12 +401,11 @@ const actions = {
             throw new Error(err);
         }
     },
-    updateCartQuantity: ({ state, commit }, payloadArray) => {
+    updateCartQuantity: async ({ commit }, payloadArray) => {
         // Checks if the session is active. If not, it means that the user is not logged in. So, just do things locally.
         if (!isLoggedIn()) {
             // These commits don't do anything but are necessary because they help persist.
-            const updatedItem =
-                payloadArray.length > 0 ? payloadArray[0] : null;
+            const updatedItem = payloadArray.length > 0 ? payloadArray : null;
             if (updatedItem) {
                 updatedItem.aggregatedPrice.amount =
                     parseInt(updatedItem.quantity) *
@@ -416,21 +414,20 @@ const actions = {
                     updatedItem.aggregatedPrice.amount.toFixed(2);
                 commit("setLocalCart");
                 return true;
-            }
+             }
             return false;
         }
-        state.cartItem.forEach(async (item) => {
-            if (item?.productInStock >= item?.quantity) {
-                // const updatedPrice = parseInt(item?.quantity) * parseFloat(item?.productPrice);
+        if (payloadArray?.productInStock >= payloadArray?.quantity) {
                 const orders = {
-                    productId: parseInt(item?.product_id),
-                    productQty: parseInt(item.quantity),
-                    productPrice: parseFloat(item?.productPriceKHR).toFixed(2,4),
-                    shippingDayCompanyName: item?.shippingCompanyDay,
-                    expressDeliveryPriceUSD:item?.expressPriceUSD,
-                    expressDeliveryPriceKHR: item?.expressPriceKHR,
+                    productId: parseInt(payloadArray?.product_id),
+                    productQty: parseInt(payloadArray.quantity),
+                    productPrice: parseFloat(payloadArray.productPriceKHR).toFixed(2, 4),
+                    shippingDayCompanyName: payloadArray.shippingCompanyDay,
+                    expressDeliveryPriceUSD:payloadArray?.expressPriceUSD,
+                    expressDeliveryPriceKHR: payloadArray?.expressPriceKHR,
                     type: "new",
                 };
+                // Updated Module Orders
                 try {
                     await customerOrderCart
                         .createCartOrderItemCustomer(orders)
@@ -445,12 +442,8 @@ const actions = {
                         })
                         .catch((error) => {
                             if (error) {
-                                ElNotification.error({
-                                    title: "Cart could not be updated at the moment. Please try again later.",
-                                    message:
-                                        error.response.data.message ??
-                                        "Cart could not be updated at the moment. Please try again later.",
-                                    showClose: false,
+                                commit('common/SET_TOAST_ERROR', 'Cart could not be updated at the moment. Please try again later.', {
+                                    root: true
                                 });
                             }
                             // Validation Error
@@ -462,15 +455,13 @@ const actions = {
                                         .length;
                                     index++
                                 ) {
-                                    const messageValidation =
-                                        error.response.data.error.error.errors[
-                                            index
-                                        ].message ?? "";
+                                    const messageValidation = error.response.data.error.error.errors[index].message ?? "";
+                                    commit('common/SET_TOAST_ERROR', 'Cart could not Updated Shipping at the moment.', {
+                                        root: true
+                                    });
                                     ElNotification.error({
                                         title: "Cart could not Updated Shipping at the moment",
-                                        message:
-                                            messageValidation ??
-                                            "Cart could not be updated at the moment. Please try again later.",
+                                        message:messageValidation ?? "Cart could not be updated at the moment. Please try again later.",
                                         showClose: true,
                                     });
                                 }
@@ -479,8 +470,7 @@ const actions = {
                 } catch (error) {
                     throw new Error(error);
                 }
-            }
-        });
+        }
     },
     async deleteCustomerCartOrder({ state, commit }, cartItems) {
         const deletedIds = _.map(cartItems, "id");

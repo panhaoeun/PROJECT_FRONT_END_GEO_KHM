@@ -22,6 +22,7 @@ import Common from "./common";
 import Listing from "./listing";
 import Home from "./home";
 import Detail from "./details";
+import Resource from "./resource";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -79,7 +80,8 @@ const store = createStore({
         common: Common,
         listing: Listing,
         home: Home,
-        detail: Detail
+        detail: Detail,
+        resource: Resource
     },
 });
 // Load all modules.
