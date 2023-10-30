@@ -303,7 +303,6 @@ const actions = {
                         }
                     })
                     .catch((error) => {
-                        console.log(error)
                         if (error){
                             commit('setCheckoutInitiated', false);
                             ElNotification({

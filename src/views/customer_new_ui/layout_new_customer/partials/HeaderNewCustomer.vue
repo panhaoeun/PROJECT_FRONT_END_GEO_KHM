@@ -29,7 +29,7 @@
               style="color: #222222;"
             >
               <i
-                class="icon email-icon"
+                class="icon-ms email-icon"
               />
                 <span>
                     Mail:
@@ -46,7 +46,7 @@
                 class="flex gap-5"
               >
                 <i
-                  class="icon phone-icon"
+                  class="icon-ms phone-icon"
                 />
                 <span><span>Helpline:</span> 016387467</span>
               </a>
@@ -88,7 +88,7 @@
                         class="flex gap-2 font-bold text-black"
                     >
                     <i
-                        class="icon user-icon"
+                        class="icon-ms user-icon"
                     />
                         <template v-if="customerRole === 'Admin'">
                             <label>Web Page</label>
@@ -105,7 +105,7 @@
                         class="flex gap-2 fold-bold text-black"
                     >
                     <i
-                        class="icon user-icon"
+                        class="icon-ms user-icon"
                     />
                         {{ $t('header.profile') }}
                     </router-link>
@@ -148,7 +148,7 @@
           class="flex"
         >
           <i
-            class="icon search-icon"
+            class="icon-ms search-icon"
           />
         </button>
 
@@ -171,7 +171,7 @@
           >
             {{ $t('header.account') }}
             <i
-              class="icon arrow-down black"
+              class="icon-ms arrow-down black"
             />
           </button>
           <div
@@ -204,7 +204,7 @@
               {{ getCartAuthItem.length ? getCartAuthItem.length : 0  }}
           </span>
           <i
-            class="icon cart-icon black"
+            class="icon-ms cart-icon black"
           />
           <span class="title">Cart</span>
         </router-link>
@@ -316,7 +316,26 @@
     directives: {outsideClick},
     components: {Banner, SearchPopup},
     mixins: [util],
+    created(){
+         // Login
+        if(isLoggedIn()){
+            this.initiateApp();
+        }else{
+            this.$store.commit('shippingStore/resetAddresses');
+            this.$store.commit('cart/resetOrders');
+        }
+    },
     methods: {
+        // Current Customer Cart
+        async initiateApp(){
+            try{
+               if(isLoggedIn()){
+                 await this.$store.dispatch('cart/getCartByCurrentCustomer');
+               }
+            }catch(error){
+                return Promise.reject(error);
+            }
+        },
         // Logout
         currentCustomerLogout(){
             AuthenticationsDataService.authLogout().then((response) => {

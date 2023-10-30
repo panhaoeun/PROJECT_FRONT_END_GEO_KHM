@@ -1,6 +1,5 @@
 <template>
   <div class="detail-image shimmer-wrapper">
-
       <template v-if="key">
         <client-only>
           <div
@@ -80,7 +79,7 @@
       <img
 
         class="preload-img"
-        :src="getThumbImageURL(this.mainImage)"
+        :src="productThumbnailRULFormate(this.mainImage)"
         :alt="title"
         height="100"
         width="100"
@@ -107,6 +106,7 @@
     name: 'ProductImages',
     data() {
       return {
+        ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE,
         key: 0,
         loaded: false,
         noScroll: true,
@@ -169,6 +169,16 @@
       }
     },
     methods: {
+        /**
+         * Product Thumbnail
+         * Product Small Carousel 
+        * */ 
+        productMultiImgURLFormate(filePath){ 
+            return this.ENV_HOST_PATH_FILE + `uploads/products_img/list_img_products/` + String(filePath);
+        },
+        productThumbnailRULFormate(thumbnail){
+            return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + thumbnail;
+        },
       closePopup() {
         if (!this.isSmallerDevice) {
           this.imagePopup = false
@@ -182,6 +192,7 @@
         const childList = [...this.$el.querySelectorAll('.thumb-list')[0].children]
 
         childList.forEach((obj, index) => {
+            console.log(obj)
           if (obj.className.includes('choosed-thumb')) {
             this.activeId = index - 1
           }
@@ -197,8 +208,6 @@
       },
     },
     async mounted() {
-
-
 
       if (this.isSmallerDevice) {
         this.imagePopup = true
@@ -237,10 +246,10 @@
             }
 
             thumbImg.onerror = function () {
-              resolve(self.generateImageObj(this.dataset.index, self.getThumbImageURL()))
+              resolve(self.generateImageObj(this.dataset.index, self.productMultiImgURLFormate()))
             }
 
-            thumbImg.src = this.getThumbImageURL(obj.image);
+            thumbImg.src = this.productMultiImgURLFormate(obj.image);
             thumbImg.setAttribute('data-index', imageId)
           }))
 
@@ -252,7 +261,7 @@
             }
 
             thumbImg.onerror = function () {
-              resolve(self.generateImageObj(this.dataset.index, self.getImageURL()))
+              resolve(self.generateImageObj(this.dataset.index, self.productMultiImgURLFormate()))
             }
 
             thumbImg.src = this.getImageURL(obj.image);

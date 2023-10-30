@@ -4,13 +4,14 @@
       <div class="product-detail">
         <div
           class="detail-left ptb-10 plr-20 plr-sm-15 mr-sm area mr-20 mb-sm-15"
-        >
-          <div class="b-b pb-10 mb-10 flex sided">
+        >   
+            <!-- Select All -->
+            <div class="b-b pb-10 mb-10 flex sided">
                 <h5 class="bold">
                     Shopping cart
                 </h5>
                 <!-- Check Item -->
-                <p v-if="!checked.length">
+                <!-- <p v-if="!checked.length">
                     {{ $t('cart.noSelected') }}
                     <button
                         aria-label="submit"
@@ -28,26 +29,34 @@
                     >
                         {{ $t('cart.deselectItems') }}
                     </button>
-                </p>
-                <!-- Cart List Item -->
-                <cart-list
-                    :cart-products="cartProducts"
-                    :ajaxing="ajaxing"
-                    :checked="checked"
-                />
+                </p> -->
+               
 
             </div>
+             <!-- Cart List Item -->
+            <cart-list
+                :cart-products="cart"
+                :ajaxing="ajaxing"
+                :checked="checked"
+            />
           </div>
         </div>
       </div>
     </client-only>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import util from '@/mixin/util'
 import productHelper from "@/mixin/productHelper";
+import CartList from '@/components/ui_component_new_frontend/CartList';
+import {isLoggedIn} from '@/utils/auth/auth';
+// import AjaxButton from '@/components/ui_component_new_frontend/AjaxButton'
 export default {
     middleware: ['common-middleware'],
-    components: {},
+    components: {
+        CartList,
+        // AjaxButton
+    },
     props: {},
     mixins: [util, productHelper],
     data() {
@@ -64,9 +73,35 @@ export default {
             }
         };
     },
-    created() {},
-    methods: {},
-    mounted() {},
+    computed: {
+        ...mapGetters({
+            cart: 'cart/getCartAuthItem',  
+            cartTotal: 'cart/getTotal',
+            subtotal: 'cart/getSubTotal',
+            totalShipping: 'cart/cartTotalShipping',
+        }),
+    },
+    async mounted() {
+        this.fetchingData();
+    },
+    methods: {
+         // Check login
+        isLoggedIn() {
+            return isLoggedIn();
+        },
+        async fetchingData() {
+            if(isLoggedIn()){
+                this.ajaxing = true
+                try{
+                    await this.cart ? this.cart : [];
+                }catch(e){
+                    throw new Error(e);
+                }
+                this.ajaxing = false
+            }
+           
+        }
+    },
 };
 </script>
 <style scoped>

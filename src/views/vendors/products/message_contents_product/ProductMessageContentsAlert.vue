@@ -93,16 +93,16 @@
                                     :header="$t('route.action')" bodyStyle="text-align: center; overflow: visible">
                                     <template #body="{ data }">
                                         <div class="flex flex-wrap gap-2">
-                                            <Button icon="pi pi-search" outlined rounded class="mr-2"
-                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
-                                                @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
-                                            />
                                             <!--Vendor-->
                                             <template v-if="data?.statusWaring === 'REJECT'">
                                                 <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
                                                     <Button icon="pi pi-trash" outlined rounded severity="danger"
                                                             v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
                                                             @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
+                                                    />
+                                                    <Button icon="pi pi-search" outlined rounded class="mr-2"
+                                                        v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
+                                                        @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
                                                     />
                                                 </template>
                                             </template>
@@ -112,6 +112,10 @@
                                                             icon="pi pi-pencil" outlined rounded class="mr-2"
                                                             v-permission="[{ functionName: 'product_module', moduleName: 'fun_edit' }]"
                                                             @click.prevent="$router.push(`/vendor/products/product_list/edit/${parseInt(data?.proId)}`)"
+                                                        />
+                                                        <Button icon="pi pi-search" outlined rounded class="mr-2"
+                                                            v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
+                                                            @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
                                                         />
                                                 </template>
                                             </template>

@@ -1,4 +1,5 @@
-import json from '@/config.json'
+import json from '@/config.json';
+
 
 const apiBase = !process.env.VUE_APP_PATH_FILE.trim() ? window.location.origin + '/' : process.env.VUE_APP_PATH_FILE;
 
@@ -244,7 +245,7 @@ export default {
     },
     productLink(item) {
       if (item) {
-        return `/${item?.slug}/product/${item?.productId}`
+        return `/product-details/product/${item?.slug}/${item?.productId}`
       }
     },
     socialRedirect(service) {

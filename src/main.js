@@ -50,6 +50,7 @@ import CounterUp from 'vue3-autocounter';
 import "./assets/customer_ecommerce_web_new/styles/styles.styl";
 import "@glidejs/glide/dist/css/glide.core.min.css";
 import ProductZoomer from 'vue-product-zoomer';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 
 // style scss
@@ -244,6 +245,11 @@ app.use(VueCookies);
 /**
  * @New Library Front - end
  * */ 
+app.use(VueDOMPurifyHTML, {
+default: {
+    ADD_TAGS: ['iframe']
+}
+});
 app.use(ProductZoomer);
 /*
    @E-Commerces Dashboard

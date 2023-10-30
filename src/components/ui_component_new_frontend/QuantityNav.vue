@@ -51,7 +51,7 @@
     methods: {
       qty(direction) {
         if(!Object.keys(this.productInventory).length) {
-          this.setToastError(this.$t('detailRight.requiredAttributes'))
+          this.setToastError('!!! Please select all required attributes.')
           return
         }
 
@@ -61,7 +61,7 @@
           return
         }
         if (this.qtyVal + direction === 0) {
-          this.setToastError(this.$t('quantityNav.min'))
+          this.setToastError('!!! Please select all required attributes.')
           return
         }
         this.qtyVal += direction

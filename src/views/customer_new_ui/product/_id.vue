@@ -1,29 +1,26 @@
 <template>
-  <div>
-    {{ product }}
+  <div class="bg-white">
     <div v-if="product">
       <div
         class="detail-menu hide-sm"
-        v-if="currentCategories && currentCategories.length"
       >
         <div class=" container-fluid">
           <div class="mlr--15">
             <router-link
-              v-for="(value, i) in currentCategories"
-              :title="value.title"
-              :to="categoryLink(value, category)"
-              :key="i"
+                to="#"
+                class="font-bold text-black"
             >
-              {{ value.title }}
+              {{ product[0]?.product[0]?.catNameEn }}
             </router-link>
           </div>
         </div>
       </div>
       <div class="container-fluid mtb-15 mt-sm-10 mn-h-400x">
         <div>
+         <!--Bread crumb-->
           <breadcrumb
             class="mb-20 mb-sm-15"
-            :slugs="preparedSlug"
+            slugs="preparedSlug"
             :page="productTitle"
           />
           <div class="product-detail">
@@ -35,29 +32,45 @@
                       class="detail-image-inner"
                       :class="{'z-2': imagePopup}"
                     >
+                    <!-- Product Image and Image Detail 10 images -->
                       <product-images
-                        v-if="productImage || productImageList"
+                        v-if="productImageThumbnail || productImageList"
                         :title="productTitle"
                         :product="product"
-                        :main-image="productImage"
+                        :main-image="productImageThumbnail"
                         :images="productImageList"
                         @image-popup="imagePopup = $event"
                         @add-to-wishlist="$refs.detailRight.wishListAction()"
                       />
                     </div>
                   </div>
-
+                  <!-- Products -->
                   <div class="pl-30 pl-md grow">
                     <h1 class="f-16">
                       {{ productTitle }}
                     </h1>
                     <div class="mt-10">
-                      <rating-star
-                        :rating="parseFloat(productRating)"
-                      />
                       <span
                         class="f-10 ml-5 semi-bold color-lite">
-                        {{ $t('productReview.reviews', {count: reviewCount}) }}
+                        <img
+                            src="@/assets/img/payments/box_726475.png"
+                            alt=""
+                            style="width: 20px;"
+                        />
+                        Shipping Information:
+                        <div>
+                            <label
+                                class="font-regular font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1 text-capitalize"
+                            >
+                                Max Order: {{ product[0]?.product[0]?.maxOrder }}
+                            </label>
+                            <span class="p-2">|</span>
+                            <label
+                                class="font-regular font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1 text-capitalize"
+                            >
+                                Packing Type: {{ product[0]?.product[0]?.packingType }}
+                            </label>
+                        </div>
                       </span>
                     </div>
 
@@ -88,7 +101,7 @@
                     >
                       {{ inStock }}
                     </h4>
-                    <div
+                    <!-- <div
                       v-if="vouchers && vouchers.length"
                       class="two-sided mb-15 ">
                       <h6 class="left">
@@ -123,16 +136,14 @@
                           </template>
                         </pop-over>
                       </div>
-                    </div>
-
+                    </div> -->
                     <div
-                      v-if="bundleDeal"
                       class="two-sided mb-15">
                       <h6 class="left">
-                        {{ $t('product.bundleDeal') }}
+                        Shipping Company:
                       </h6>
                       <div class="right bundle-deal">
-                        {{ bundleDeal.title }}
+                        {{ product[0]?.product[0]?.shippingCompany }}
                       </div>
                     </div>
 
@@ -153,7 +164,7 @@
                       </div>
                     </div>
 
-                    <div
+                    <!-- <div
                       class="two-sided mb-15 align-start">
                       <h6 class="left">
                         {{ $t('product.refundWarranty') }}
@@ -175,45 +186,43 @@
                           {{ $t('product.authentic') }}
                         </div>
                       </div>
-                    </div>
-
-                    <div
+                    </div> -->
+                    <!-- Product Overview detail of product -->
+                    <!-- <div
                       class="editor mt-30 mt-sm-15"
                       v-dompurify-html="overview"
-                    />
+                    /> -->
                   </div><!-- plr-30 grow -->
                 </div><!-- flex -->
               </div>
-              <client-only>
-                <div
-                  class="ellipsis-para editor mt-30 mt-sm-15"
-                  :class="{'expanded': descriptionExpand}"
-                  v-dompurify-html="description"
-                />
+            <!-- Product Descriptions -->
+            <div
+                class="ellipsis-para editor mt-30 mt-sm-15"
+                :class="{'expanded': descriptionExpand}"
+                v-dompurify-html="description"
+            />
                 <button
-                  @click.prevent="descriptionToggle"
-                  aria-label="Read less"
-                  class="link mt-15 mb-5"
+                    @click.prevent="descriptionToggle"
+                    aria-label="Read less"
+                    class="link mt-15 mb-5"
                 >
-                  {{ descriptionExpand ? $t('product.readLess') : $t('product.readMore') }}
+                    {{ descriptionExpand ? 'Read Less' : 'Read More' }}
                 </button>
-              </client-only>
             </div>
             <!-- product-detail -->
-
             <detail-right
               ref="detailRight"
               :disabled="!statusPublic"
-              :product="product"
+              :product="product[0]?.product[0]"
               @option-changed="optionChanged"
             />
-          </div><!-- product-detail -->
+          </div>
+          <!-- product-detail -->
         </div>
-
-      </div><!-- container-fluid mtb-15 -->
-
+      </div>
+      <!-- container-fluid mtb-15 -->
       <client-only>
-        <div
+        <!-- <div
           :class="{'mx-h-0': !hasReview, 'review-loaded': !reviewLoaded}"
           class="container-fluid suggested-container mn-h-400x"
         >
@@ -227,8 +236,7 @@
               @has-review="fetchedReview"
             />
           </lazy-area>
-        </div>
-
+        </div> -->
 
         <div
           class="container-fluid suggested-container mn-h-400x"
@@ -260,11 +268,11 @@
   import DetailRight from '@/components/ui_component_new_frontend/DetailRight'
   import LazyArea from '@/components/ui_component_new_frontend/LazyArea'
   import SuggestedProducts from '@/components/ui_component_new_frontend/SuggestedProducts'
-  import ProductReview from '@/components/ui_component_new_frontend/ProductReview';
-  import Vouchers from "@/components/ui_component_new_frontend/Vouchers";
-  import PopOver from "@/components/ui_component_new_frontend/PopOver";
+//   import ProductReview from '@/components/ui_component_new_frontend/ProductReview';
+//   import Vouchers from "@/components/ui_component_new_frontend/Vouchers";
+//   import PopOver from "@/components/ui_component_new_frontend/PopOver";
   import Countdown from "@/components/ui_component_new_frontend/Countdown";
-  import RatingStar from "@/components/ui_component_new_frontend/RatingStar";
+//   import RatingStar from "@/components/ui_component_new_frontend/RatingStar";
   import Breadcrumb from "@/components/ui_component_new_frontend/Breadcrumb";
 
   export default {
@@ -282,7 +290,7 @@
           {
             rel: 'preload',
             as: 'image',
-            href: this.getThumbImageURL(this.productImage)
+            href: this.productThumbnailRULFormate(this.productImage)
           },
         ],
 
@@ -299,24 +307,25 @@
         reviewLoaded: true,
         activatedPage: false,
         voucherPopOver: false,
+        ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE,
       }
     },
     components: {
       Breadcrumb,
-      RatingStar,
+    //   RatingStar,
       Countdown,
-      PopOver,
-      Vouchers,
+    //   PopOver,
+    //   Vouchers,
       ProductImages,
       LazyArea,
       SuggestedProducts,
       DetailRight,
-      ProductReview
+    //   ProductReview
     },
     mixins: [util, metaHelper, productHelper, productPriceHelper],
     computed: {
       description() {
-        return this.product?.description || null
+        return this.product[0]?.product[0]?.product_description_eng || null
       },
       overview() {
         return this.product?.overview || null
@@ -328,10 +337,20 @@
         return this.product?.rating || 0
       },
       productImage() {
-        return this.product?.image || null
+        return this.product[0]?.product[0].thumbnail || null
+      },
+      productImageThumbnail() {
+        return this.product[0]?.product[0].thumbnail || null
       },
       productImageList() {
-        return this.product?.images || null
+        let productImgMal = [];
+        this.product[0].productImages.forEach((product) => {
+            // const productImg = this.productMultiImgURLFormate(product?.fileName) ?? '';
+            productImgMal.push({
+                image:product?.fileName ? product?.fileName : ''
+            });
+        });
+        return productImgMal || null
       },
       timeDifference() {
         const len = this.product.id.toString()?.length
@@ -348,7 +367,7 @@
         return this.$route.params.id
       },
       statusPublic() {
-        return parseInt(this.product?.status) === 1
+        return parseInt(this.product[0].product[0]?.in_stock_no) === 1
       },
       category() {
         return this.product?.category
@@ -357,7 +376,7 @@
         return this.product?.current_categories
       },
       productTitle() {
-        return this.product?.title || ''
+        return this.product[0].product[0]?.product_eng || ''
       },
       preparedSlug() {
         return this.categoryData?.map(i => {
@@ -386,7 +405,7 @@
         return this.optionChange ? this.productInventory?.quantity > 0 : this.product.in_stock
       },
       inStock() {
-        return this.isInStock ? this.$t('detail.inStock') : this.$t('detail.outOfStock')
+        return this.isInStock ? 'In Stock' : 'In Stock'
       },
       vouchers() {
         return this.product?.vouchers;
@@ -398,6 +417,27 @@
       ...mapGetters('detail', ['product']),
     },
     methods: {
+        /**
+         * Product Thumbnail
+         * Product Small Carousel 
+        * */ 
+        productMultiImgURLFormate(filePath){ 
+            return this.ENV_HOST_PATH_FILE + `uploads/products_img/list_img_products/` + String(filePath);
+        },
+        productThumbnailRULFormate(thumbnail){
+            return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + thumbnail;
+        },
+        async asyncData() {
+            try {
+                await this.$store.dispatch('detail/fetchProduct', {
+                    params: {
+                        id: this.$route.params?.productId
+                    },
+                })
+            } catch (e) {
+                return Promise.reject(e);
+            }
+        },
       descriptionToggle() {
         this.descriptionExpand = !this.descriptionExpand
       },
@@ -425,25 +465,14 @@
     beforeUnmount() {
       document.body.classList.remove('detail-page')
     },
-    async asyncData({store, route, $auth, error}) {
-      try {
-        await store.dispatch('detail/fetchProduct', {
-          params: {
-            id: route.params.id,
-            user_id: $auth?.user?.id || ''
-          },
-          lang: store.state?.language?.langCode,
-        })
-      } catch (e) {
-        error(e)
-      }
-    },
     async mounted() {
       this.emptyVoucher()
       this.emptySuggestedProducts()
+      document.body.classList.add('detail-page');
+       //Product Detail
+       this.asyncData();
+    },
 
-      document.body.classList.add('detail-page')
-    }
   }
 </script>
 

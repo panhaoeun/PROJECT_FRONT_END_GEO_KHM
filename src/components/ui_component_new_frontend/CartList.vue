@@ -10,9 +10,9 @@
         />
       </div>
       <div v-else>
-        <cart-product-tile
+      <cart-product-tile
           v-for="(value) in cartProducts"
-          :key="value.id"
+          :key="value?.id"
           :cart="value"
           :checked="checked"
           :is-shipping="isShipping"
@@ -31,11 +31,9 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import LazyImage from '~/components/LazyImage'
-  import util from '~/mixin/util'
-  import QuantityNav from '~/components/QuantityNav'
-  import CartProductTile from "~/components/CartProductTile";
-  import Spinner from "~/components/Spinner";
+  import util from '@/mixin/util'
+  import CartProductTile from "./CartProductTile";
+  import Spinner from "./Spinner";
 
   export default {
     name: 'CartList',
@@ -83,9 +81,7 @@
     },
     components: {
       Spinner,
-      CartProductTile,
-      QuantityNav,
-      LazyImage
+      CartProductTile
     },
     computed: {
       ...mapGetters('language', ['langCode']),
@@ -116,7 +112,7 @@
             lang: this.langCode
           })
         }catch (e) {
-          this.$nuxt.error(e)
+            throw new Error(e);
         }
       },
       async deleting(evt){
@@ -124,10 +120,9 @@
         try {
           await this.cartDelete({
             payload: evt,
-            lang: this.langCode
           })
         }catch (e) {
-          this.$nuxt.error(e)
+            throw new Error(e);
         }
       },
       async cbChangedFn(evt){

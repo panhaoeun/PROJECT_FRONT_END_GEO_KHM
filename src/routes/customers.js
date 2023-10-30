@@ -79,7 +79,7 @@ export default [
             component: () => import("../views/customer_new_ui/customer_cart_item/CustomerCartItemNew.vue"),
         },
         {
-            path: "/:slug-url-name/product/:productId",
+            path: "/product-details/product/:slugName/:productId",
             name: 'view-customer-detail-by-id-slug',
             component: () => import("../views/customer_new_ui/product/_id.vue"),
         },

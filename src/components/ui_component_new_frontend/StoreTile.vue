@@ -2,8 +2,8 @@
   <div class="store-info">
     <div class="btn-wrap">
       <div class="w-100">
-        <p class="store-name">{{store.name}}</p>
-        <h6 class="store-date">{{$t('store.memberSince')}} <b class="block">{{storeDate}}</b></h6>
+        <p class="store-name">{{store.shop_eng}}</p>
+        <h6 class="store-date">Member since <b class="block">{{storeDate}}</b></h6>
       </div>
 
       <div class="action-btn">
@@ -11,12 +11,12 @@
           name="followBtn"
         />
 
-        <nuxt-link
-          class="visit-btn ajax-btn"
+        <router-link
+          class="visit-btn ajax-btn font-bold text-black"
           :to="storeLink(store)"
         >
-          {{$t('store.visitStore')}}
-        </nuxt-link>
+            Visit Store
+        </router-link>
       </div>
     </div>
 

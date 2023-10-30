@@ -96,21 +96,18 @@
       defaultValue: {
         type: Object,
         default() {
-          // eslint-disable-next-line vue/no-deprecated-props-default-this
-          return {key: '0', value: this.$t('dropdown.choose') }
+          return {key: '0', value: 'Choose' }
         }
       },
       options: {
         type: Object,
         default() {
-          // eslint-disable-next-line vue/no-deprecated-props-default-this
-          return {'0': {title: this.$t('dropdown.choose') }}
+          return {'0': {title: 'Choose' }}
         }
       },
       selectedKey: {
         default() {
-          // eslint-disable-next-line vue/no-deprecated-props-default-this
-          return Object.keys(this.options)[0]
+        
         }
       },
       keyName: {
@@ -150,7 +147,7 @@
         if (this.opt && this.opt[this.currentKey] && this.opt[this.currentKey][this.keyName])
           return this.opt[this.currentKey][this.keyName]
         else
-          return this.$t('dropdown.choose')
+          return 'Choose'
       }
     },
     methods: {

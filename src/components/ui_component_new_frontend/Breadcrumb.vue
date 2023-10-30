@@ -6,18 +6,17 @@
       itemtype="https://schema.org/BreadcrumbList"
     >
 
-      <li
+      <!-- <li
         itemprop="itemListElement"
         itemscope
         itemtype="https://schema.org/ListItem"
       >
-        <nuxt-link
+        <router-link
           to="/"
           itemprop="item"
         >
-          <span itemprop="name">{{ $t('product.home') }}</span>
-        </nuxt-link>
-
+          <span itemprop="name">Home</span>
+        </router-link>
         <meta itemprop="position" content="1">
       </li>
 
@@ -28,16 +27,16 @@
         itemtype="https://schema.org/ListItem"
         :key="i"
       >
-        <nuxt-link
+        <router-link
           :title="value.title"
           :to="value.link"
           itemprop="item"
         >
           <span itemprop="name">{{ value.title }}</span>
-        </nuxt-link>
+        </router-link>
 
         <meta itemprop="position" :content="i+2">
-      </li>
+      </li> -->
 
 
       <li class="breadcrumb-item"

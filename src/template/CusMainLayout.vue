@@ -45,6 +45,8 @@
     import ToastMessage from '@/components/ui_component_new_frontend/ToastMessage.vue'
     import Header from "../views/customer_new_ui/layout_new_customer/partials/HeaderNewCustomer.vue";
     import Footer from "../views/customer_new_ui/layout_new_customer/partials/FooterNewCustomer.vue";
+    import {mapGetters} from 'vuex'
+
     export default {
         components: {
             Header,
@@ -65,6 +67,7 @@
             routeName() {
                 return this.$route?.name?.split('___')[0] || 'error'
             },
+            ...mapGetters('common', ['popupBanner', 'toastMessage', 'toastError', 'toastMessageStatus']),
         }
     };
 </script>
