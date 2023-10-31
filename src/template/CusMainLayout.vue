@@ -22,7 +22,7 @@
         <Header
             @going-next="goingNext"
         />
-        <main>
+        <main style="min-height:500px">
             <router-view
                 :ref_key="componentId"
             />
@@ -45,7 +45,7 @@
     import ToastMessage from '@/components/ui_component_new_frontend/ToastMessage.vue'
     import Header from "../views/customer_new_ui/layout_new_customer/partials/HeaderNewCustomer.vue";
     import Footer from "../views/customer_new_ui/layout_new_customer/partials/FooterNewCustomer.vue";
-    import {mapGetters} from 'vuex'
+    import {mapGetters,mapActions} from 'vuex'
 
     export default {
         components: {
@@ -61,7 +61,10 @@
         methods: {
             openBasic(){
                 this.displayBasic = true;
-            }
+            },
+            ...mapActions('common', ['hideToast', 'getRequest']),
+            ...mapActions('error', ['emptyError']),
+            ...mapActions('user', ['setProfile', 'getUserToken']),
         },
         computed: {
             routeName() {

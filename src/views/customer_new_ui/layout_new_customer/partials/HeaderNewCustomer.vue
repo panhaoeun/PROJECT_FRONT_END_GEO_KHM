@@ -1,17 +1,19 @@
 <template>
   <header
     :class="{'no-banner': (topBannerLoaded && isTopBannerClosed) || !isPublic}"
+    class="bg-red-50"
   >
-      <banner
+    <!-- Banner -->
+    <banner
         v-if="!isTopBannerClosed"
         class="top-banner"
         :banner="topBanner"
         @close="topBannerClosed"
-      />
+    />
 
-    <div class="top-wrapper">
-      <div class="container-fluid">
-
+    <!-- Top Email -->
+    <div class="top-wrapper bg-gray-100">
+      <div class="container-fluid ">
         <div class="wrap flex sided">
           <div class="left wrap flex gap-1">
             <!-- <dropdown
@@ -38,8 +40,7 @@
                     e-24market@gmail.com
                 </span>
             </a>
-
-            <template>
+            <template class="font-bold">
               <span>|</span>
               <a
                 :href="`tel:${phone}`"
@@ -115,8 +116,8 @@
         </div>
       </div>
     </div>
-
-    <div class="container-fluid flex pos-rel">
+    <!-- Search and Filter Product by Categories -->
+    <div class="container-fluid flex align-items-center justify-content-center pos-rel">
       <div class="left-area">
         <router-link
           to="/"
@@ -161,7 +162,7 @@
       <!-- My Accounts -->
       <div class="right-area flex gap-15 right">
         <div
-          class="pos-rel"
+          class="pos-rel font-bold text-black"
           v-outside-click="closeDropdown"
         >
           <button
@@ -179,14 +180,21 @@
             :class="{active: dropdown}"
           >
             <router-link
-              to="/user/orders"
+              class="font-bold text-black"
+              to="/user/profile"
+            >
+                User Profile
+            </router-link>
+            <router-link
+              class="font-bold text-black"
+              to="/user/profile"
             >
                 Orders
             </router-link>
             <button
               aria-label="Logout"
               v-show="isLoggedIn"
-              class="clear-btn"
+              class="clear-btn font-bold text-black"
               @click.prevent="loggingOut"
             >
                 Logout

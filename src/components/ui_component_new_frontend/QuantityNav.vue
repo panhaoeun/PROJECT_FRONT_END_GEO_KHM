@@ -1,5 +1,5 @@
 <template>
-  <span class="quantity-area ">
+  <span class="quantity-area">
     <button
       aria-label="subtract"
       @click.prevent="qty(-1)"

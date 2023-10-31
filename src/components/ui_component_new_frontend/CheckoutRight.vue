@@ -40,6 +40,7 @@
         :fetching-data="submitting"
         loading-text="Submitting"
         :text="btnText"
+        :disabled="disabled"
         @clicked="$emit('go-next')"
       />
       <slot

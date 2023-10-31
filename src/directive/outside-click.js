@@ -1,5 +1,6 @@
 export default {
     bind: function (el, binding, vnode) {
+        console.log(vnode)
         el.eventSetDrag = function () {
             el.setAttribute('data-dragging', 'yes');
         }

@@ -1,8 +1,7 @@
 <!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <template>
-  <div class="detail-right">
-    <div class="sticky-right">
-      <div class="content">
+  <div class="two-sided mb-15">
+    <div class="content">
         <h2 class="price-wrapper mb-2 text-xl">
           <span
             class="color-deep price"
@@ -34,9 +33,9 @@
           <!-- Product Detail Dropdown -->
           <dvi>
                 <select
-                    class="dropdown-wrapper"
+                    class="start flex mb-10 wrap w-full"
                     :label-for="value?.item + aid"
-                    style="border: 1px solid #bbb;justify-content:space-between;padding:15px 30px 20px 30px;transition:all .1s;"
+                    style="border: 1px solid #bbb;justify-content:space-between;padding:15px 15px 15px 15px;transition:all .1s;"
                     v-model="selectedCustomizations[value?.item]"
                     :track-by="currentSelected.proSpecItem"
                 >
@@ -174,15 +173,14 @@
         >
           {{cartError.attribute}}</p>
         <div
-          class="start flex gap-10 mb-2 wrap"
+          class="start flex align-items-center flex gap-10 mb-2 wrap"
         >
           <span
-            class="mt-5 mn-w-70x font-bold text-black"
+            class="mn-w-70x font-bold text-black"
           >
             Quantity
           </span>
           <quantity-nav
-            class="mt-5"
             :quantity="quantity"
             :product-inventory="product"
             :max="maxQuantity"
@@ -278,22 +276,9 @@
           /> -->
         </client-only>
       </div>
-
-      <!-- <client-only>
-        <social-share
-          class="hide-sm mb-15"
-          :product="product"
-        />
-      </client-only> -->
-
-      <!-- Store -->
-      <store-tile
-        class="mt-10"
-        :store="product"
-      />
-
-    </div><!-- detail-right -->
-  </div><!-- detail-right -->
+    <!-- detail-right -->
+  </div>
+  <!-- detail-right -->
 </template>
 
 <script>
@@ -308,7 +293,7 @@
   import AjaxButton from './AjaxButton'
   import {mapGetters, mapActions} from 'vuex'
   import PriceFormat from "./PriceFormat"
-  import StoreTile from "./StoreTile";
+//   import StoreTile from "./StoreTile";
   import _ from "lodash";
   import convertRielToUSDAmount from "@/utils/convertRielToUSD";
   import { isLoggedIn } from "@/utils/auth/auth";
@@ -353,7 +338,7 @@
       }
     },
     components: {
-      StoreTile,
+    //   StoreTile,
       PriceFormat,
     //   Dropdown,
     //   PopOver,

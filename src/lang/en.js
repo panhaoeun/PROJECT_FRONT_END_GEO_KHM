@@ -12,6 +12,42 @@ export default {
         edit: 'Edit',
         delete: 'Delete'
     },
+    contact: {
+        errorOccurred: "Following error occurred",
+        email: "email",
+        name: "name",
+        your: "Your {type}",
+        invalidEmail: "Invalid email",
+        success: "Success",
+        successMessage: "We have received your message. We are going to contact you as soon as possible.",
+        goToHome: "Go to home",
+        now: "now",
+        contactUs: "Love to hear from you",
+        feelFree: "Feel free to contact us. We will get back to as soon as we can."
+    },
+    orderTabbing: {
+        cancelled: "Cancelled",
+        cardPayment: "Card payment",
+        paid: "Paid",
+        unPaid: "Unpaid",
+        cod: "Cash on delivery"
+    },
+    accountLayout:{
+        myProfile: 'My profile',
+        updateProfile: 'Update Profile',
+        loggedWith: 'Logged in with',
+        updatePassword: 'Updated Password',
+        currentPassword: 'Current password',
+        password: 'Password',
+        confirmPassword: 'Confirm Password',
+        yourCurrentPassword: "Your current password",
+        newPassword: "New password",
+        invalidLength: "Invalid Password Length",
+        noMatch: "Password didn't match",
+        google: "Google",
+        facebook: "Facebook",
+        updatingPassword: "Updating Password"
+    },
     checkoutRight: {
         proceedToCheckout: "Proceed to checkout",
         submitting: "Submitting"

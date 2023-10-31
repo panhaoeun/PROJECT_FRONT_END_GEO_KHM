@@ -15,6 +15,7 @@
           </div>
         </div>
       </div>
+      <!-- Products -->
       <div class="container-fluid mtb-15 mt-sm-10 mn-h-400x">
         <div>
          <!--Bread crumb-->
@@ -24,6 +25,7 @@
             :page="productTitle"
           />
           <div class="product-detail">
+            <!-- Detail Left -->
             <div class="detail-left pr-30 pr-sm-0">
               <div class="flex start align-start block-md">
                 <div class="product-main">
@@ -139,68 +141,32 @@
                     </div> -->
                     <div
                       class="two-sided mb-15">
-                      <h6 class="left">
+                      <h6 class="left-50">
                         Shipping Company:
                       </h6>
                       <div class="right bundle-deal">
                         {{ product[0]?.product[0]?.shippingCompany }}
                       </div>
                     </div>
-
-                    <div
-                      v-if="brand"
-                      class="two-sided mb-15">
-                      <h6 class="left">
-                        {{ $t('product.brand') }}
-                      </h6>
-                      <div class="right">
-
-                        <nuxt-link
-                          class="link"
-                          :to="brandLink(product.brand)"
-                        >
-                          {{ brand }}
-                        </nuxt-link>
-                      </div>
+                    <!-- Product  Detail Add to Cart -->
+                    <div class="two-sided mb-15">
+                        <!-- product-detail -->
+                        <detail-right
+                            ref="detailRight"
+                            :disabled="!statusPublic"
+                            :product="product[0]?.product[0]"
+                            @option-changed="optionChanged"
+                        />
                     </div>
-
-                    <!-- <div
-                      class="two-sided mb-15 align-start">
-                      <h6 class="left">
-                        {{ $t('product.refundWarranty') }}
-                      </h6>
-                      <div class="right">
-                        <div class="mb-5">
-
-                          <template v-if="refundable(product)">
-                            <div>{{ $t('productHelper.refundable') }}</div>
-                            <div class="mb-10 mt-5 block color-lite">{{ $t('productHelper.mindChange') }}</div>
-                          </template>
-                          <template v-else>
-                            {{ this.$t('productHelper.notRefundable') }}
-                          </template>
-                        </div>
-
-                        <div v-if="product.warranty">{{ warranty(product) }}</div>
-                        <div class="mt-5">
-                          {{ $t('product.authentic') }}
-                        </div>
-                      </div>
-                    </div> -->
-                    <!-- Product Overview detail of product -->
-                    <!-- <div
-                      class="editor mt-30 mt-sm-15"
-                      v-dompurify-html="overview"
-                    /> -->
-                  </div><!-- plr-30 grow -->
-                </div><!-- flex -->
+                  </div>
+                </div>
               </div>
-            <!-- Product Descriptions -->
-            <div
-                class="ellipsis-para editor mt-30 mt-sm-15"
-                :class="{'expanded': descriptionExpand}"
-                v-dompurify-html="description"
-            />
+                <!-- Product Descriptions -->
+                <div
+                    class="ellipsis-para editor mt-30 mt-sm-15"
+                    :class="{'expanded': descriptionExpand}"
+                    v-dompurify-html="description"
+                />
                 <button
                     @click.prevent="descriptionToggle"
                     aria-label="Read less"
@@ -209,18 +175,17 @@
                     {{ descriptionExpand ? 'Read Less' : 'Read More' }}
                 </button>
             </div>
-            <!-- product-detail -->
-            <detail-right
-              ref="detailRight"
-              :disabled="!statusPublic"
-              :product="product[0]?.product[0]"
-              @option-changed="optionChanged"
+            <!-- Product Details Right -->
+            <detail-right-store-item
+                ref="detailRight"
+                :disabled="!statusPublic"
+                :product="product[0]?.product[0]"
+                @option-changed="optionChanged"
             />
           </div>
-          <!-- product-detail -->
         </div>
-      </div>
-      <!-- container-fluid mtb-15 -->
+      </div> 
+      <!-- Suggested Product -->
       <client-only>
         <!-- <div
           :class="{'mx-h-0': !hasReview, 'review-loaded': !reviewLoaded}"
@@ -251,8 +216,6 @@
           </lazy-area>
         </div>
       </client-only>
-
-
     </div>
   </div>
 </template>
@@ -266,6 +229,7 @@
   import productHelper from '@/mixin/productHelper'
   import ProductImages from '@/components/ui_component_new_frontend/ProductImages'
   import DetailRight from '@/components/ui_component_new_frontend/DetailRight'
+  import DetailRightStoreItem from '@/components/ui_component_new_frontend/DetailRightStoreItem'
   import LazyArea from '@/components/ui_component_new_frontend/LazyArea'
   import SuggestedProducts from '@/components/ui_component_new_frontend/SuggestedProducts'
 //   import ProductReview from '@/components/ui_component_new_frontend/ProductReview';
@@ -316,6 +280,7 @@
       Countdown,
     //   PopOver,
     //   Vouchers,
+      DetailRightStoreItem,
       ProductImages,
       LazyArea,
       SuggestedProducts,

@@ -1,6 +1,6 @@
 <template>
     <client-only>
-    <div class="container-fluid mtb-20 mtb-sm-15">
+        <div class="container-fluid mtb-20 mtb-sm-15">
         <div class="product-detail">
             <!-- Total Item -->
             <div
@@ -59,7 +59,7 @@
                 @go-next="goToAddress"
             />
         </div>
-      </div>
+        </div>
     </client-only>
 </template>
 <script>
@@ -99,6 +99,17 @@ export default {
             totalShipping: 'cart/cartTotalShipping',
             cartItem: 'cart/getTotalItems'
         }),
+         checkedProduct() {
+            let checkedP = []
+            this.cart.forEach(obj => {
+                if (parseInt(obj.id)) {
+                    this.checked.push(obj.id)
+                    checkedP.push(obj)
+                }
+                this.preventGoing = checkedP.length === 0;
+            })
+            return checkedP;
+        },
     },
     async mounted() {
         this.fetchingData();

@@ -198,7 +198,7 @@
         btn-text="Set Shipping Option"
         :loading-text="$t('checkoutRight.submitting')"
         :text="$t('checkoutRight.proceedToCheckout')"
-        :disabled="fetchingAddressData || Object.keys(cartShipping).length === 0 || !selectedCurrentAddress"
+        :disabled="fetchingAddressData || Object.keys(getCartAuthItem).length === 0 || !selectedCurrentAddress"
         @go-next="goToShipping"
       />
     </div>

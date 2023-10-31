@@ -75,7 +75,7 @@
                         :value="orderMethods.PAY_BY_WALLET"
                         v-model="paymentType"
                         >
-                        <i class="icon-ms cod-icon"/>
+                        <i class="icon-ms card-icon"/>
                         <span>Payment By Wallet</span>
                     </label>
                 </div>
@@ -117,7 +117,7 @@
     import convertUSDToRiel from '@/utils/convertUSDTORiel';
     import { isLoggedIn } from "@/utils/auth/auth";
     import util from '@/mixin/util'
-    import {mapGetters} from 'vuex'
+    import {mapGetters,mapActions} from 'vuex'
     import productHelper from "@/mixin/productHelper"
     import productPriceHelper from "@/mixin/productPriceHelper"
     import paymentHelper from '@/mixin/paymentHelper'
@@ -206,7 +206,9 @@
             },
         },
         methods: {
-             async getConvertExchangeToRielTotal(){
+            ...mapActions('common', ['setToastMessage', 'setToastError']),
+            ...mapActions('cart', ['getCartByUser', 'subtractCartProductCount', 'emptyCartProduct']),
+            async getConvertExchangeToRielTotal(){
                 try {
                     const getTotalItem = this.cartTotal ? this.cartTotal: '';
                     const baseChangeToRielTotal = parseInt(getTotalItem) ? parseInt(getTotalItem) : 0;
@@ -248,7 +250,8 @@
                 return new Promise(resolve => {
                     if (this.isCheckout) {
                         if (parseInt(this.paymentType) === this.orderMethods.CASH_ON_DELIVERY) {
-                            this.orderError = ''
+                            this.orderError = '';
+                            this.orderPlaced('success', this.paymentType);
                             this.placeOrderCashDelivery()
                                 .then(result => {
                                     const data = result?.data;
@@ -260,7 +263,8 @@
                                 resolve(data)
                             })
                         }else if (parseInt(this.paymentType) === this.orderMethods.PAY_BY_WALLET) {
-                            this.orderError = ''
+                            this.orderError = '';
+                            this.orderPlaced('success', this.paymentType)
                             this.placeOrderByWallet()
                                 .then(result => {
                                     const data = result?.data;

@@ -1,65 +1,65 @@
 <template>
-<client-only>
-    <div class="container-fluid mtb-20 mtb-sm-15">
+    <client-only>
+        <div class="container-fluid mtb-20 mtb-sm-15">
 
-      <div class="product-detail">
-        <div
-          class="area detail-left pt-10 plr-20 plr-sm-15 pb-20 pb-sm-15 mr-20 mr-sm mb-sm-15"
-        >
-          <h5
-            class="b-b pb-10 mb-15 bold"
-          >
-            Select payment method
-          </h5>
-
-          <payment-gateways
-            ref="paymentGateways"
-            :total-price="totalPrice"
-            :voucher="voucherResult"
-          />
-        </div>
-        <!-- Check out Payments -->
-        <checkout-right
-          route-link="checkout"
-          :checked-product="checkedProduct"
-          :has-shipping="true"
-          :voucher-result="voucherResult"
-          :hide-btn="true"
-          @calculated-price="calculatedPrice"
-        >
-          <!-- <template v-slot:checkout>
-            <div :class="{invalid: !!voucherError}">
-              <form
-                class="mt-15 btn-input"
-              >
-                <input
-                  class="pl-15 pr-80"
-                  :placeholder="$t('checkout.voucherCode')"
-                  type="text"
-                  v-model="voucher">
-
-                <ajax-button
-                  class="primary-btn plr-15"
-                  type="button"
-                  :fetching-data="submitting"
-                  loading-text=""
-                  :disabled="!voucher || !!voucherError || !!voucherResult"
-                  :text="$t('checkout.apply')"
-                  @clicked="checkVoucher"
-                />
-              </form>
-            </div>
-            <span
-              v-if="voucherError"
-              class="error"
+        <div class="product-detail">
+            <div
+            class="area detail-left pt-10 plr-20 plr-sm-15 pb-20 pb-sm-15 mr-20 mr-sm mb-sm-15"
             >
-            {{ voucherError }}
-          </span>
-          </template> -->
-        </checkout-right>
-      </div>
-    </div>
-</client-only>
+            <h5
+                class="b-b pb-10 mb-15 bold"
+            >
+                Select payment method
+            </h5>
+
+            <payment-gateways
+                ref="paymentGateways"
+                :total-price="cartTotal"
+                :voucher="voucherResult"
+            />
+            </div>
+            <!-- Check out Payments -->
+            <checkout-right
+            route-link="checkout"
+            :checked-product="checkedProduct"
+            :has-shipping="true"
+            :voucher-result="voucherResult"
+            :hide-btn="true"
+            @calculated-price="calculatedPrice"
+            >
+            <!-- <template v-slot:checkout>
+                <div :class="{invalid: !!voucherError}">
+                <form
+                    class="mt-15 btn-input"
+                >
+                    <input
+                    class="pl-15 pr-80"
+                    :placeholder="$t('checkout.voucherCode')"
+                    type="text"
+                    v-model="voucher">
+
+                    <ajax-button
+                    class="primary-btn plr-15"
+                    type="button"
+                    :fetching-data="submitting"
+                    loading-text=""
+                    :disabled="!voucher || !!voucherError || !!voucherResult"
+                    :text="$t('checkout.apply')"
+                    @clicked="checkVoucher"
+                    />
+                </form>
+                </div>
+                <span
+                v-if="voucherError"
+                class="error"
+                >
+                {{ voucherError }}
+            </span>
+            </template> -->
+            </checkout-right>
+        </div>
+        </div>
+    </client-only>
 </template>
 <script>
 import CheckoutRight from '@/components/ui_component_new_frontend/CheckoutRight'
@@ -93,6 +93,23 @@ export default {
             }
             return 0
         },
+        ...mapGetters({
+            getSelectedAddressShip: 'shippingStore/getSelectedAddress',
+            selectedAddressBilling: 'billingStore/getSelectedBillingAddress',
+            carts: 'cart/getCart',
+            checkoutInitiated: 'cart/checkoutInitiated',
+            orderDetaiL: 'cart/getCartAuthItem',
+            currentUser: 'auth/currentUserAuth',
+            payMethod: 'cart/getPayMethod',
+            currentBalanceKHR: 'myWallet/getCurrentBalanceKHR',
+            currentBalanceUSD: 'myWallet/getCurrentBalanceUSD',
+            dynamicAmountOrder:'myWallet/getTotalAmountOrderShip',
+            remainingAmountOrder: 'myWallet/getRemainingAmountOrder',
+            orders: 'cart/getCartAuthItem',  
+            cartTotal: 'cart/getTotal',
+            subtotal: 'cart/getSubTotal',
+            totalShipping: 'cart/cartTotalShipping',
+        }),
         ...mapGetters('cart', ['getCartAuthItem']),
     },
     props: {},
@@ -112,7 +129,6 @@ export default {
     created() {},
     methods: {
         calculatedPrice(evt) {
-            console.log(evt)
             this.cartPrice = evt
         },
 

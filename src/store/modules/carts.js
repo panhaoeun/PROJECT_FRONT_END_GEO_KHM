@@ -6,11 +6,12 @@ import _ from "lodash";
 import { ElMessageBox, ElNotification } from "element-plus";
 const customerOrderCart = new CustomerOrderCheckOutServices();
 import { isLoggedIn } from "@/utils/auth/auth";
-import router from "../../routes/routes";
+// import router from "../../routes/routes";
 
 const state = {
     cart: [],
     cartItem: [],
+    cartCount: 0,
     checkoutInitiated: false,
     totalPrice: {},
     totalOrder: 0,
@@ -161,6 +162,16 @@ const getters = {
 };
 // actions
 const actions = {
+    emptyCartProduct ({ commit }) {
+        commit('EMPTY_CART_PRODUCT')
+    },
+    subtractCartProductCount ({ commit }, payload) {
+        commit('EMPTY_CART_PRODUCT_ONLY', payload?.status)
+        commit('SUBTRACT_CART_COUNT', payload.qty)
+    },
+    setCartCount ({ commit }, count) {
+        commit('SET_CART_COUNT', count)
+    },
     async updateCartShipping ({ commit }, payload) {
         console.log(commit, payload)
         // const {data} = await 
@@ -290,19 +301,17 @@ const actions = {
                                 // Checkout with id
                                 commit('setCheckoutId', result.data.result.resultStatus.order?.order_id);
                                 // Push Page 
-                                let routeing = router.resolve({
-                                    name: 'customer-checkout-completed', // put your route information in
-                                    query: {
-                                        orderId: result.data.result.resultStatus.order?.order_id ? result.data.result.resultStatus.order?.order_id : 0
-                                    }, // put your route information in,
-                                    params: '/customer/my-account/checkout-complete', // put your route information in
-                                });
-                                window.location.assign(routeing.href)
-                                ElNotification({
-                                    title: 'Your order has been placed successfully! !',
-                                    message: result.data?.message ? result.data?.message : '',
-                                    type: 'success',
-                                });
+                                // let routeing = router.resolve({
+                                //     name: 'customer-checkout-completed', // put your route information in
+                                //     query: {
+                                //         orderId: result.data.result.resultStatus.order?.order_id ? result.data.result.resultStatus.order?.order_id : 0
+                                //     }, // put your route information in,
+                                //     params: '/customer/my-account/checkout-complete', // put your route information in
+                                // });
+                                // window.location.assign(routeing.href)
+                                commit('common/SET_TOAST_MESSAGE', 'Your order has been placed successfully', {
+                                    root: true
+                                })
                                 return true;
                             }
                         }else{
@@ -313,11 +322,8 @@ const actions = {
                     .catch((error) => {
                         if (error){
                             commit('setCheckoutInitiated', false);
-                            ElNotification({
-                                title: 'Unsuccessfully to order detail',
-                                message: error.response.data.error.message ?? 'Unsuccessfully for create address',
-                                showClose: false,
-                                type: 'error'
+                            commit('common/SET_TOAST_ERROR', 'Unsuccessfully for create address.', {
+                                 root: true
                             });
                         }
                         throw new Error(error);
@@ -379,10 +385,8 @@ const actions = {
                 })
                 .catch((error) => {
                     if (error) {
-                        ElNotification.error({
-                            title: "Couldn't be added for some reason. Please try again later",
-                            message: error.response.data.message,
-                            showClose: false,
+                        commit('common/SET_TOAST_ERROR', "Couldn't be added for some reason. Please try again later.", {
+                            root: true
                         });
                     }
                     // Validation Error
@@ -393,13 +397,9 @@ const actions = {
                             error.response.data.error.error.errors.length;
                             index++
                         ) {
-                            const messageValidation =
-                                error.response.data.error.error.errors[index]
-                                    .message ?? "";
-                            ElNotification.error({
-                                title: "Couldn't be added for some reason. Please try again later",
-                                message: messageValidation,
-                                showClose: true,
+                            const messageValidation = error.response.data.error.error.errors[index].message ?? "";
+                            commit('common/SET_TOAST_ERROR', `Couldn't be added for some reason. Please try again later: ${messageValidation}`, {
+                                root: true
                             });
                         }
                     }
@@ -464,13 +464,8 @@ const actions = {
                                     index++
                                 ) {
                                     const messageValidation = error.response.data.error.error.errors[index].message ?? "";
-                                    commit('common/SET_TOAST_ERROR', 'Cart could not Updated Shipping at the moment.', {
+                                    commit('common/SET_TOAST_ERROR', `Cart could not Updated Shipping at the moment. ${messageValidation}`, {
                                         root: true
-                                    });
-                                    ElNotification.error({
-                                        title: "Cart could not Updated Shipping at the moment",
-                                        message:messageValidation ?? "Cart could not be updated at the moment. Please try again later.",
-                                        showClose: true,
                                     });
                                 }
                             }
@@ -522,24 +517,16 @@ const actions = {
                         .deletedCartOrderItemCustomer(deletedIds)
                         .then((result) => {
                             if (result.data.success === true) {
-                                ElNotification.success({
-                                    title: "Successfully deleted item from cart",
-                                    showClose: true,
-                                });
-                                commit(
-                                    "setCart",
-                                    result.data.result.resultStatus
-                                );
+                                commit('common/SET_TOAST_MESSAGE', 'Successfully deleted item from cart', {
+                                    root: true
+                                })
+                                commit( "setCart",result.data.result.resultStatus);
                             }
                         })
                         .catch((error) => {
                             if (error) {
-                                ElNotification.error({
-                                    title: "Unscesffully deleted item from cart",
-                                    message:
-                                        error.response.data.message ??
-                                        "Unscesffully deleted item from cart",
-                                    showClose: false,
+                                commit('common/SET_TOAST_ERROR', `Unscesffully deleted item from cart: ${error.response.data.message}`, {
+                                    root: true
                                 });
                             }
                             // Validation Error
@@ -555,12 +542,8 @@ const actions = {
                                         error.response.data.error.error.errors[
                                             index
                                         ].message ?? "";
-                                    ElNotification.error({
-                                        title: "Unscesffully deleted item from cart",
-                                        message:
-                                            messageValidation ??
-                                            "Unscesffully deleted item from cart",
-                                        showClose: true,
+                                    commit('common/SET_TOAST_ERROR', `Unscesffully deleted item from cart: ${messageValidation}`, {
+                                        root: true
                                     });
                                 }
                             }
@@ -585,6 +568,16 @@ const actions = {
 
 // mutations
 const mutations = {
+    SUBTRACT_CART_COUNT(state, cartCount) {
+        state.cartCount = parseInt(state.cartCount) - parseInt(cartCount)
+    },
+    EMPTY_CART_PRODUCT(state) {
+        state.cartItem = []
+        state.cartCount = 0
+    },
+    EMPTY_CART_PRODUCT_ONLY(state) {
+        state.cartProducts = [];
+    },
     selectPayMethodOrder(state, methodPay) {
         state.selectPayMethod = methodPay;
     },

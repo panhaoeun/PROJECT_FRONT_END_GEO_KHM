@@ -95,6 +95,25 @@ export default [
             beforeEnter: requireAuth,
             component: () => import("../views/customer_new_ui/checkout_payment/PaymentMethodCheckOut.vue"),
         },
+        // My Profile
+        {
+             path: "/user/profile",
+             name: 'my-account-profile',
+             beforeEnter: requireAuth,
+             component: () => import("../views/customer_new_ui/my_customer_profile/users_profile/UsersProfile.vue"),
+        },
+        {
+            path: "/user/orders",
+            name: 'my-account-order-history',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/customer_orders/CustomerOrderHistory.vue"),
+         },
+        {
+            path: "/user/addresses",
+            name: 'my-account-user-address',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/users_profile/AccountUserAddress.vue"),
+        },
         /**
          * @Router My Order Payment & My Accounts
          * */

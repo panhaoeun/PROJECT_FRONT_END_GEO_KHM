@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <subscription /> -->
-    <footer class="link-hover">
+    <footer class="link-hover bg-red-50">
       <div class="top-area section pb-0">
         <div class="container">
             <ul class="table-tree">

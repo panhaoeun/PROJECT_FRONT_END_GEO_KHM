@@ -32,8 +32,6 @@
             class="full-dimen placeholder-img"
             :class="{'img-loaded': imgLoaded}"
             alt="Slider image"
-            height="100"
-            width="100"
             :src="slider[0].imagePath"
           >
         </div>
