@@ -3,7 +3,7 @@
   <div class="vouchers-wrapper">
     <transition name="fade" mode="out-in">
       <div
-        class="spinner-wrapper flex"
+        class="spinner-wrapper flex justify-content-center flex-wrap"
         v-if="fetchingVoucherData"
       >
         <spinner

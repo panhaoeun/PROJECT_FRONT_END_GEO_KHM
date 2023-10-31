@@ -103,10 +103,10 @@
         </div>
         <!-- Price -->
         <div class="mt-sm-10 mn-w-90x right-text">
-          <h5 class="price inl-b-sm">
+          <h6 class="price inl-b-sm">
             {{ currencyFormattedKHRiel(productPrice) }}
             ({{ currencyFormattedUSD(productPriceUSD) }})
-          </h5>
+          </h6>
           <p class="inl-b-sm">x {{ productQuantity }}</p>
           <p class="inl-b-sm" v-if="hasBundleDeal">(-) x {{ bundleDeal.free }}</p>
         </div>

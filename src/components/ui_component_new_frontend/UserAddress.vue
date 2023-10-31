@@ -2,7 +2,7 @@
   <div>
     <transition name="fade" mode="out-in">
       <div
-        class="spinner-wrapper flex"
+        class="spinner-wrapper flex justify-content-center flex-wrap"
         v-if="fetchingAddressData"
       >
         <spinner
@@ -64,6 +64,7 @@
         v-for="(value, index) in currentAddresses"
         :key="index"
       >
+
         <p>{{ formatAddress(value) }}</p>
         <div class="flex mt-15 mb-5 start">
           <ajax-button
@@ -107,7 +108,7 @@
     data() {
       return {
         ajaxDeleting: 0,
-        selectedAddress: -1,
+        selectedAddress: 0,
         selectedAddressObj: null
       }
     },
@@ -120,11 +121,11 @@
     watch: {
       selectedAddressObj(value) {
         if (this.currentAddresses.length) {
-          this.$emit('selected-address', {...value})
-
+          this.$emit('selected-address', {...value});
+        this.$store.commit('shippingStore/addressSelected', {...value});
         } else {
-
-          this.$emit('selected-address', null)
+            this.$store.commit('shippingStore/addressSelected', null);
+           this.$emit('selected-address', null)
         }
       },
       currentAddresses(value) {
@@ -134,7 +135,6 @@
             this.selectedAddressObj = value[this.selectedAddress]
           }
         } else {
-
           this.selectedAddress = -1
           this.selectedAddressObj = null
         }
@@ -156,10 +156,7 @@
         ...mapGetters('language', ['langCode']),
         ...mapGetters('resource', ['countryList', 'phoneList']),
         ...mapGetters('user', ['allAddress']),
-        ...mapGetters({
-            allAddresses: 'shippingStore/allAddresses',
-            selectedAddress: 'shippingStore/getSelectedAddress'
-        }),  
+        ...mapGetters('shippingStore',['allAddresses']),  
     },
     methods: {
       async loadData() {

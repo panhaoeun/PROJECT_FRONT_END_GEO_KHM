@@ -25,7 +25,7 @@
           @click.prevent="closePopOver"
         >
           <i
-            class="icon close-icon"
+            class="icon-ms close-icon"
           />
         </button>
       </div>

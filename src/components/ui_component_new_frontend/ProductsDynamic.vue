@@ -15,7 +15,7 @@
           @click.prevent="change(-1)"
         >
           <i
-            class="icon arrow-left black m-0"
+            class="icon-ms arrow-left black m-0"
           />
         </button>
         <button
@@ -24,7 +24,7 @@
           @click.prevent="change(1)"
         >
           <i
-            class="icon arrow-right black m-0"
+            class="icon-ms arrow-right black m-0"
           />
         </button>
       </div>

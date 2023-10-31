@@ -59,7 +59,7 @@ const mutations = {
   SET_LOCATION (state, location) {
     state.location = JSON.parse(location)
   },
-  SET_TOAST_MESSAGE (state, toastMessage = this.$i18n.t('filter.success')) {
+  SET_TOAST_MESSAGE(state, toastMessage = 'Success') {
     state.toastError = false
     state.toastMessageStatus = true
     state.toastMessage = toastMessage

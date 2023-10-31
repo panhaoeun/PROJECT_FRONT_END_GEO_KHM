@@ -26,7 +26,7 @@
         data-glide-dir="<"
       >
         <i
-          class="m-0 icon arrow-left"
+          class="m-0 icon-ms arrow-left"
         />
       </button>
       <button
@@ -35,7 +35,7 @@
         data-glide-dir=">"
       >
         <i
-          class="m-0 icon arrow-right"
+          class="m-0 icon-ms arrow-right"
         />
       </button>
     </div>

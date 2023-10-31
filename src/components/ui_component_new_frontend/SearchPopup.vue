@@ -4,7 +4,7 @@
       <div class="pop-over-content ">
 
         <div
-          class="spinner-wrapper flex layer-white"
+          class="spinner-wrapper flex justify-content-center flex-wrap layer-white"
           v-if="fetchingData"
         >
           <spinner

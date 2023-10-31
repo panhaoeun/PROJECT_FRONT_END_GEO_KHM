@@ -89,6 +89,12 @@ export default [
             beforeEnter: requireAuth,
             component: () => import("../views/customer_new_ui/checkout_payment/shipping_billing_address/ShippingAddressCheckout.vue"),
         },
+        {
+            path: "/customer/checkout-payment/payment-method",
+            name: 'payment-check-gate-way',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/checkout_payment/PaymentMethodCheckOut.vue"),
+        },
         /**
          * @Router My Order Payment & My Accounts
          * */

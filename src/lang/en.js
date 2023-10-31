@@ -12,10 +12,30 @@ export default {
         edit: 'Edit',
         delete: 'Delete'
     },
+    checkoutRight: {
+        proceedToCheckout: "Proceed to checkout",
+        submitting: "Submitting"
+    },
     addressPopup: {
-        thisAddress: 'Save this address',
-        update: 'Update',
-        save: 'Save'
+        country: "Country",
+        order: "Order",
+        state: "State",
+        email: "Email",
+        name: "Name",
+        address: "Address",
+        city: "City",
+        zipCode: "Zip code",
+        isRequired: "{type} is required",
+        phone: "Phone",
+        cancel: "Cancel",
+        update: "Update",
+        thisAddress: "{type} this address",
+        saving: "Saving",
+        save: "Save",
+        message: "Message",
+        addressPlaceholder: "Street address or P.O. Box",
+        address2Placeholder: "Apt, suite, unit, building, floor, etc.",
+        subject: "Subject"
     },
     route: {
         withdrawVendor: 'Withdraw',

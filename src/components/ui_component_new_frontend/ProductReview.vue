@@ -35,7 +35,7 @@
       <div class="all-review mlr--15">
         <div class="mlr-15">
           <div
-            class="spinner-wrapper flex"
+            class="spinner-wrapper flex justify-content-center flex-wrap"
             v-if="fetchingReviews"
           >
             <spinner

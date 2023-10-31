@@ -1,17 +1,15 @@
 <template>
   <div class="container-fluid mtb-20 mtb-sm-15">
-
     <div class="product-detail">
-
       <div
-        class="detail-left p-20 p-sm-15 area mr-20 mr-sm mb-sm-15 flex align-start gap-15"
+        class="detail-left  p-20 p-sm-15 area mr-20 mr-sm mb-sm-15 flex justify-content-center align-start gap-15"
       >
         <transition
           name="fade"
           mode="out-in"
         >
           <div
-            class="spinner-wrapper flex layer-white"
+            class="spinner-wrapper flex justify-content-center flex-wrap align-items-center layer-white"
             v-if="loading"
           >
             <spinner
@@ -19,7 +17,7 @@
             />
           </div>
         </transition>
-
+        <!-- Shipping Address -->
         <div class="address-wrapper">
           <user-address
             ref="shippingAddress"
@@ -47,52 +45,47 @@
               @clicked="selectCountry"
             />
           </div>
-
-
+          <!-- Phone Number -->
+            <div
+              class="input-wrap input-text"
+              :class="{invalid: !addressData.phone_number_contact && hasAddressErrors}"
+            >
+                <label>
+                    Phone Number
+                </label>
+                <input
+                  type="text"
+                  v-model="addressData.phone_number_contact"
+                  @keypress="isNumber($event)"
+                />
+              <span
+                class="error"
+                v-if="!addressData.phone_number_contact && hasAddressErrors"
+              >
+                  {{ $t('addressPopup.isRequired', {type: $t('addressPopup.phone')}) }}
+              </span>
+            </div>
           <div class="flex">
-            <div class="input-wrap" :class="{invalid: !addressData.name && hasAddressErrors}">
+            <div class="input-wrap" :class="{invalid: !addressData.contact_name && hasAddressErrors}">
               <label>
                     Name
               </label>
               <input
                 type="text"
-                v-model="addressData.name"
+                v-model="addressData.contact_name"
               />
               <span
                 class="error"
-                v-if="!addressData.name && hasAddressErrors"
+                v-if="!addressData.contact_name && hasAddressErrors"
               >
                 {{ $t('addressPopup.isRequired', {type: $t('addressPopup.name')}) }}
-              </span>
-            </div>
-
-            <div
-              v-if="phoneList"
-              class="input-wrap"
-              :class="{invalid: !addressData.phone && hasAddressErrors}"
-            >
-              <label>&nbsp;</label>
-              <div class="input-text">
-                  <span>
-                    {{ phoneList[addressData.country] }}
-                  </span>
-                <input
-                  type="text"
-                  v-model="addressData.phone"
-                />
-              </div>
-              <span
-                class="error"
-                v-if="!addressData.phone && hasAddressErrors"
-              >
-                  {{ $t('addressPopup.isRequired', {type: $t('addressPopup.phone')}) }}
               </span>
             </div>
           </div>
 
           <div
             class="input-wrap"
-            :class="{invalid: !addressData.address_1 && hasAddressErrors}"
+            :class="{invalid: !addressData.shipAdd01 && hasAddressErrors}"
           >
             <label>
                 Address
@@ -100,17 +93,17 @@
             <input
               class="mb-10"
               type="text"
-              v-model="addressData.address_1"
+              v-model="addressData.shipAdd01"
               placeholder="Street address or P.O. Box"
             />
             <input
               type="text"
-              v-model="addressData.address_2"
+              v-model="addressData.shipAdd02"
               placeholder="Apt, suite, unit, building, floor, etc."
             />
             <span
               class="error"
-              v-if="!addressData.address_1 && hasAddressErrors"
+              v-if="!addressData.shipAdd01 && hasAddressErrors"
             >
               {{ $t('addressPopup.isRequired', {type: $t('addressPopup.address')}) }}
             </span>
@@ -119,18 +112,18 @@
           <div class="flex block-xxs">
             <div
               class="input-wrap"
-              :class="{invalid: !addressData.city && hasAddressErrors}"
+              :class="{invalid: !addressData.shipCity && hasAddressErrors}"
             >
               <label>
                     City
               </label>
               <input
                 type="text"
-                v-model="addressData.city"
+                v-model="addressData.shipCity"
               />
               <span
                 class="error"
-                v-if="!addressData.city && hasAddressErrors"
+                v-if="!addressData.shipCity && hasAddressErrors"
               >
                  {{ $t('addressPopup.isRequired', {type: $t('addressPopup.city')}) }}
               </span>
@@ -138,18 +131,18 @@
 
             <div
               class="input-wrap"
-              :class="{invalid: !addressData.zip && hasAddressErrors}"
+              :class="{invalid: !addressData.shipZipCode && hasAddressErrors}"
             >
               <label>
                     Zip Code
               </label>
               <input
                 type="text"
-                v-model="addressData.zip"
+                v-model="addressData.shipZipCode"
               />
               <span
                 class="error"
-                v-if="!addressData.zip && hasAddressErrors"
+                v-if="!addressData.shipZipCode && hasAddressErrors"
               >
                 {{ $t('addressPopup.isRequired', {type: $t('addressPopup.zipCode')}) }}
               </span>
@@ -171,14 +164,14 @@
             </div>
           </div>
 
-          <div class="input-wrap">
+          <!-- <div class="input-wrap">
             <label>
                 Delivery instruction
             </label>
             <textarea
               v-model="addressData.delivery_instruction"
             />
-          </div>
+          </div> -->
 
           <div class="flex start mlr-0 gap-10">
             <button
@@ -198,22 +191,23 @@
           </div>
         </form>
       </div>
-
-
+      <!-- Checkout Right -->
       <checkout-right
         route-link="checkout"
         :checked-product="checkedProduct"
         btn-text="Set Shipping Option"
+        :loading-text="$t('checkoutRight.submitting')"
+        :text="$t('checkoutRight.proceedToCheckout')"
         :disabled="fetchingAddressData || Object.keys(cartShipping).length === 0 || !selectedCurrentAddress"
         @go-next="goToShipping"
       />
     </div>
 
     <!-- Process Checkout -->
-    <!-- <transition name="fade" mode="out-in">
+    <transition name="fade" mode="out-in">
       <pop-over
         v-if="cartPopOver"
-        :title="$t('shipping.ordered')"
+        title="Ordered Products"
         @close="cartPopOver = false"
         elem-id="cart-pop-over"
         :layer="true"
@@ -224,10 +218,9 @@
         >
           <cart-list
             :error-from-api="errorFromApi"
-            :cart-products="checkedProduct"
+            :cart-products="getCartAuthItem"
             :cart-shipping="cartShipping"
             :checked="checked"
-            :is-shipping="true"
             :address="selectedCurrentAddress"
             @shipping-changed="cartShipping = $event"
             @cart-changed="cartChanged"
@@ -240,28 +233,28 @@
               class="outline-btn plr-30 plr-sm-15"
               @click="cartPopOver = false"
             >
-              {{ $t('addressPopup.cancel') }}
+                Cancel
             </button>
             <ajax-button
               class="primary-btn  plr-30 plr-sm-15"
               type="button"
               :fetching-data="checkingOut"
-              :loading-text="$t('checkoutRight.submitting')"
-              :text="$t('checkoutRight.proceedToCheckout')"
+              loading-text="Submitting"
+              text="Proceed to checkout"
               @clicked="goToCheckout"
             />
           </div>
         </template>
       </pop-over>
-    </transition> -->
+    </transition>
 
   </div>
 </template>
 <script>
-//   import CartList from '@/components/ui_component_new_frontend/CartList'
+  import CartList from '@/components/ui_component_new_frontend/CartList';
   import AjaxButton from '@/components/ui_component_new_frontend/AjaxButton'
   import Dropdown from '@/components/ui_component_new_frontend/Dropdown'
-//   import PopOver from '@/components/ui_component_new_frontend/PopOver'
+  import PopOver from '@/components/ui_component_new_frontend/PopOver'
   import CheckoutRight from '@/components/ui_component_new_frontend/CheckoutRight'
   import util from '@/mixin/util'
   import {mapGetters, mapActions} from 'vuex'
@@ -318,8 +311,8 @@
       CheckoutRight,
       Dropdown,
       AjaxButton,
-    //   CartList,
-    //   PopOver,
+      CartList,
+      PopOver,
       UserAddress
     },
     mixins: [
@@ -335,7 +328,7 @@
         return this.addressData.email && !this.invalidEmail
       },
       currentAddresses() {
-        return this.allAddress?.data
+        return this.allAddresses;
       },
       ...mapGetters('resource', ['countryList', 'phoneList']),
       ...mapGetters('language', ['langCode']),
@@ -344,18 +337,27 @@
       ...mapGetters('cart', ['getCartAuthItem']),
     },
     methods: {
+        isNumber: function(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();
+            } else {
+                return true;
+            }
+        },
       initAddress() {
         this.addressData = {
           id: '',
           email: '',
-          name: '',
-          phone: '',
-          city: '',
+          contact_name: '',
+          phone_number_contact: '',
+          shipCity: '',
           country: '',
           state: '',
-          zip: '',
-          address_1: '',
-          address_2: '',
+          shipZipCode: '',
+          shipAdd01: '',
+          shipAdd02: '',
           delivery_instruction: ''
         }
       },
@@ -370,9 +372,8 @@
       getCheckedProducts() {
         this.checked = []
         this.checkedProduct = []
-
         this.getCartAuthItem.forEach(obj => {
-          if (parseInt(obj.selected) === 1) {
+          if (obj) {
             this.checked.push(obj.id)
             this.checkedProduct.push(obj)
 
@@ -389,57 +390,41 @@
         })
       },
       async goToCheckout() {
-        let unableToShip = false
-
-        Object.values(this.cartShipping).forEach((obj) => {
-          if (!obj.shipping_place) {
-            unableToShip = true
-            return
-          }
-        })
-        if (unableToShip) {
-          this.setToastError(this.$t('shipping.unableShipped'))
-          return
-        }
-        if (!this.checkedProduct.length) {
-          this.cartPopOver = false
-          this.setToastError(this.$t('shipping.noProductSelected'))
-          this.$router.push({path: 'cart'})
-          return
-        }
-        try {
-          this.checkingOut = true
-          const data = await this.updateCartShipping({
-            cart: this.cartShipping,
-            user_token: await this.getUserToken(),
-            selected_address: this.selectedCurrentAddress?.id
-          })
-          this.checkingOut = false
-          if (data?.status === 200) {
-            this.cartPopOver = false
-            this.$router.push({path: 'checkout'})
-          } else {
-            if (data.data?.form) {
-              this.setToastError(data.data?.form[0])
-            } else if (data.data?.product) {
-              this.errorFromApi = data.data?.product[0]
+            //Shipping
+            // let unableToShip = false
+            if (!this.selectedCurrentAddress) {
+                // unableToShip = true;
+                this.setToastError('Product is unable to be shipped.')
+                return
             }
-          }
-        } catch (e) {
-          return Promise.reject(e);
-        }
+            if (!this.getCartAuthItem.length) {
+                this.cartPopOver = false
+                this.$router.push({path: 'cart'});
+                this.setToastError("You don't have any product selected. Please a select a product first.")
+                return
+            }
+            try {
+                this.checkingOut = true
+                // CheckOut Payments
+                setTimeout(() => {
+                    this.$router.push({path: '/customer/checkout-payment/payment-method'});
+                    this.checkingOut = false
+                }, 1000);
+            } catch (e) {
+                return Promise.reject(e);
+            }
       },
       goToShipping() {
         if (!this.currentAddresses.length) {
-          this.setToastError(this.$t('shipping.addAddress'))
+          this.setToastError('Add new address')
           return
         }
-        if (!this.checkedProduct.length) {
-          this.cartPopOver = false
-          this.setToastError(this.$t('shipping.noProductSelected'))
-          this.$router.push({path: 'cart'})
-          return
-        }
+        // if (!this.checkedProduct.length) {
+        //   this.cartPopOver = false
+        //   this.setToastError("You don't have any product selected. Please a select a product first.")
+        // //   this.$router.push({path: 'cart'})
+        //   return
+        // }
         this.cartPopOver = true
       },
       clearData() {
@@ -456,7 +441,6 @@
         }
       },
       selectCountry(evt) {
-
         this.addressData = {...this.addressData, ...{country: evt.value?.code2}}
         this.states = evt.value?.states
         this.addressData.state = Object.keys(evt.value?.states).length ? Object.values(evt.value?.states)[0]?.code : ''
@@ -487,7 +471,7 @@
       editAddress(value) {
         this.editing = value.id
         this.addressData = Object.assign({}, value)
-        this.states = this.countryList[value.country].states
+        // this.states = this.countryList[value.country].states
       },
       ...mapActions('resource', ['setCountryList', 'setPhoneList']),
       ...mapActions('user', ['userAddressAction', 'getUserToken']),

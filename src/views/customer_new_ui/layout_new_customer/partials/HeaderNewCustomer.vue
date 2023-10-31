@@ -145,7 +145,7 @@
         <button
           aria-label="submit"
           type="submit"
-          class="flex"
+          class="flex align-items-center justify-content-center"
         >
           <i
             class="icon-ms search-icon"
@@ -196,7 +196,7 @@
         <!-- Carts -->
         <router-link
           to="/customer/shopping-cart/new-custom-cart-item-order"
-          class="cart-btn flex pos-rel h-40x gap-1"
+          class="cart-btn flex pos-rel h-40x gap-1 flex justify-content-center"
         >
           <span
             v-if="isLoggedIn && getCartAuthItem.length >=1"
@@ -204,9 +204,9 @@
               {{ getCartAuthItem.length ? getCartAuthItem.length : 0  }}
           </span>
           <i
-            class="icon-ms cart-icon black"
+            class="flex align-items-center icon-ms cart-icon black"
           />
-          <span class="title">Cart</span>
+          <span class="title pl-2">Cart</span>
         </router-link>
       </div>
       <!--  -->

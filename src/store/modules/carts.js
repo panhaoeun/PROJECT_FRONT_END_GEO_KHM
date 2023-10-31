@@ -161,6 +161,14 @@ const getters = {
 };
 // actions
 const actions = {
+    async updateCartShipping ({ commit }, payload) {
+        console.log(commit, payload)
+        // const {data} = await 
+        // if(data?.status === 200){
+        //     commit('INSERT_CART_SHIPPING', data.data)
+        // }
+        // return data
+    },
     async totalOrderWithSipping({ commit }, { shippingPriceKHR,shippingPriceUSD,subTotalKHR,subTotalUSD }) {
         if (shippingPriceKHR !== null) {
             commit("setTotalOderItem", {

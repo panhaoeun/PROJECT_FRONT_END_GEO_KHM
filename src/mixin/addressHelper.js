@@ -1,4 +1,5 @@
 import store from "../store";
+import _ from "lodash";
 import { isLoggedIn } from "@/utils/auth/auth";
 
 export default {
@@ -9,53 +10,41 @@ export default {
     },
     methods: {
         async addressAction() {
-            console.log(this.addressData)
-            // if (this.addressData.email && this.addressData.city && this.addressData.phone && this.addressData.name &&
-            //     this.addressData.zip && this.addressData.country && this.addressData.address_1) {
+            if (this.addressData.shipCity && this.addressData.phone_number_contact && this.addressData.contact_name &&
+                this.addressData.shipZipCode && this.addressData.shipAdd01 && this.addressData.shipAdd02) {
 
-            //     this.submittingAddressData = true
-            //     const data = await this.userAddressAction({
-            //         ...this.addressData,
-            //         ...{
-            //             user_token: await this.getUserToken()
-            //         }
-            //     })
+                this.submittingAddressData = true;
+                const data = this.$store.dispatch('shippingStore/addressAction', {
+                     address: this.addressData,
+                     action: this.isUpdate ? 'put' : 'post',
+                });
+                // This Data
+                if (data) {
+                    this.hasAddressErrors = false
+                    this.setToastMessage(data.message)
+                }else {
+                    this.hasError(data)
+                }
+                this.submittingAddressData = false
 
-            //     if (data ? .status === 200) {
-            //         this.hasAddressErrors = false
-            //         this.setToastMessage(data.message)
-
-            //     } else if (data ? .status === 201) {
-            //         this.setToastError(data.data ? .form ? .join(', '))
-
-            //     } else {
-            //         this.hasError(data)
-            //     }
-            //     this.submittingAddressData = false
-
-            // } else {
-            //     this.hasAddressErrors = true
-            // }
+            } else {
+                this.hasAddressErrors = true
+            }
         },
-        async deleting() {
-            console.log(this.addressData)
-            // if (confirm(this.$t('cartProductTile.deleteAlert'))) {
-            //     this.ajaxDeleting = address.id
-            //     const data = await this.userAddressDelete({
-            //         id: address.id,
-            //         params: {
-            //             user_token: await this.getUserToken()
-            //         }
-            //     })
-
-            //     if (data ? .status === 200) {
-            //         this.setToastMessage(data.message)
-            //         await this.fetchingData()
-            //     } else {
-            //         this.setToastError(data.data.form.join(', '))
-            //     }
-            //     this.ajaxDeleting = 0
-            // }
+        async deleting(address) {
+            const cloned = _.cloneDeep(address);
+            this.ajaxDeleting = address?.id
+            const data = store.dispatch('shippingStore/addressAction', {
+                address: cloned,
+                action: 'delete',
+            });
+            if (data) {
+                this.setToastMessage(data.message)
+                await this.fetchingData()
+            } else {
+                this.setToastError(data.data.form.join(', '))
+            }
+            this.ajaxDeleting = 0
         },
         formatAddress(obj, onlyAddress = false) {
             let addArr = []
@@ -85,14 +74,19 @@ export default {
             }).join(', ')
         },
         async fetchingData() {
-            this.fetchingAddressData = true
+            this.fetchingAddressData = false;
             setTimeout(async () => {
                 try {
                     this.settingRouteParam()
                     // Get Address Authentications
                     if (isLoggedIn()) {
-                        await store.dispatch('shippingStore/getAddressShipping');
+                        const data = await store.dispatch('shippingStore/getAddressShipping');
+                        if (!data) {
+                             this.fetchingAddressData = false
+                            this.hasError(data)
+                        }
                     }
+                    
                 } catch (e) {
                     return Promise.reject(e);
                 }

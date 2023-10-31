@@ -22,7 +22,7 @@
       />
     </div>
     <div
-      class="spinner-wrapper flex "
+      class="spinner-wrapper flex justify-content-center flex-wrap "
       v-else
     >
       <spinner

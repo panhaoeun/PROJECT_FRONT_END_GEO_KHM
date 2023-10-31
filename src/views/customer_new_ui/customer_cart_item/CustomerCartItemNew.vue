@@ -121,7 +121,17 @@ export default {
                 } 
                 this.ajaxing = false
             }
-        }
+        },
+        totalWithShippingPrice(){
+                if(this.totalShipping !== null){
+                    return this.$store.dispatch('cart/totalOrderWithSipping', {
+                        shippingPriceKHR: this.totalShipping.shippingAmountKHR ? this.totalShipping.shippingAmountKHR: 0,
+                        shippingPriceUSD: this.totalShipping.shippingAmountUSD ? this.totalShipping.shippingAmountUSD: 0,
+                        subTotalKHR: this.subtotal.subTotalKHR ? this.subtotal.subTotalKHR : 0,
+                        subTotalUSD: this.subtotal.subTotalUSD ? this.subtotal.subTotalUSD : 0,
+                    });
+                }
+            }
     },
 };
 </script>

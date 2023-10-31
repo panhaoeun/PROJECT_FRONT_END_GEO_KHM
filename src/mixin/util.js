@@ -13,10 +13,11 @@ export default {
       orderMethods: {
         RAZORPAY: 1,
         CASH_ON_DELIVERY: 2,
-        STRIPE: 3,
-        PAYPAL: 4,
-        FLUTTERWAVE: 5,
-        IYZICO_PAYMENT: 6,
+        PAY_BY_WALLET: 3,
+        STRIPE: 4,
+        PAYPAL: 5,
+        FLUTTERWAVE: 6,
+        IYZICO_PAYMENT: 7,
       },
       currencyPositionsIn: {
         PRE: 1,
@@ -163,6 +164,7 @@ export default {
     },
     hasError(data) {
       let message = data?.message
+      console.log(data)
 
       if (data?.status === 201) {
         message = data.data?.form[0]
