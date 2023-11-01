@@ -107,12 +107,24 @@ export default [
             name: 'my-account-order-history',
             beforeEnter: requireAuth,
             component: () => import("../views/customer_new_ui/my_customer_profile/customer_orders/CustomerOrderHistory.vue"),
-         },
+        },
+        {
+            path: "/user/orders/:orderId",
+            name: 'my-account-order-history-by-detail-by-id',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/customer_orders/CustomerOrderHistoryDetailByID.vue"),
+        },
         {
             path: "/user/addresses",
             name: 'my-account-user-address',
             beforeEnter: requireAuth,
             component: () => import("../views/customer_new_ui/my_customer_profile/users_profile/AccountUserAddress.vue"),
+        },
+        {
+            path: "/user/wallet-order-pay",
+            name: 'my-account-e-wallet-order-payments',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/e_wallet_payments/MyWalletPaymentOrderCurrent.vue"),
         },
         /**
          * @Router My Order Payment & My Accounts

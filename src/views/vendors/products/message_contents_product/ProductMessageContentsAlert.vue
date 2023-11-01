@@ -84,11 +84,10 @@
                                 <Column field="statusWaring" header="Status" sortable sortField="statusWaring">
                                     <template #body="slotProps">
                                         <div class="justify-content-center">
-                                            <Tag :value="slotProps.data?.statusWaring" class="text-white" :severity="getSeverityProductRejectStatus(slotProps.data?.statusWaring)" />
+                                            <Tag :value="slotProps.data?.statusWaring === 'REJECT' ? 'WARNING' : 'FEEDBACK'"  class="text-white" :severity="getSeverityProductRejectStatus(slotProps.data?.statusWaring)" />
                                         </div>
                                     </template>
                                 </Column>
-                                <Column field="notedFeedback" header="Feedback Admin" sortable sortField="notedFeedback"></Column>
                                 <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;"
                                     :header="$t('route.action')" bodyStyle="text-align: center; overflow: visible">
                                     <template #body="{ data }">
@@ -96,9 +95,9 @@
                                             <!--Vendor-->
                                             <template v-if="data?.statusWaring === 'REJECT'">
                                                 <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
-                                                    <Button icon="pi pi-trash" outlined rounded severity="danger"
-                                                            v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
-                                                            @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
+                                                     <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                        v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
+                                                        @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
                                                     />
                                                     <Button icon="pi pi-search" outlined rounded class="mr-2"
                                                         v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
@@ -119,11 +118,28 @@
                                                         />
                                                 </template>
                                             </template>
+                                            <!-- Confirm Admin -->
+                                            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                                                <template v-if="data?.statusWaring === 'FEEDBACK' || data?.statusWaring === 'REJECT'">
+                                                    <Button icon="pi pi-send" outlined rounded severity="danger"
+                                                        v-permission="[{ functionName: 'product_module', moduleName: 'fun_edit' }]"
+                                                        @click.prevent="$router.push(`/vendor/message-content/view-detail-by-vendor/${parseInt(data?.proId) ?? 0}`)"
+                                                    />
+                                                </template>
+                                            </template>
+                                            
                                             <!-- Admin -->
                                             <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
                                                 <Button icon="pi pi-search" outlined rounded class="mr-2"
                                                     v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
                                                     @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
+                                                />
+                                                <!-- View Details -->
+                                                <Button 
+                                                    v-if="messageContentArrContent"
+                                                    icon="pi pi-eye"  severity="help" outlined rounded class="mr-2"
+                                                    v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
+                                                    @click.prevent="viewMessageContentMessageSendAdmin(parseInt(data?.proId))"
                                                 />
                                             </template>
                                         </div>
@@ -169,6 +185,33 @@
                                 <Button label="Yes" icon="pi pi-check" text @click="requestAndRejectByVendorApproved()" />
                             </template>
                         </Dialog>
+                        <!-- Message View Detail By Admin -->
+                        <Dialog 
+                            v-model:visible="viewContentDialogMessage" 
+                            :style="{ width: '600px' }"   
+                            header="Message Content By Admin"
+                            :modal="true">
+                            <div class="confirmation-content" v-if="messageContentArrContent.length > 0 || messageContentArrContent !== ''">
+                                <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"  v-for="(content, index) in messageContentArrContent" :key="index">
+                                    <div class="col-12 lg:col-12">
+                                        <div class="p-input-icon-right">
+                                            <h5><b>Subject</b></h5>
+                                            <Input id="input" disabled v-model="content.titleFeedbackVendor" type="text" placeholder="Please send a Feedback" autofocus class="w-full"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 lg:col-12">
+                                        <div class="p-input-icon-right">
+                                            <h5><b>Message</b></h5>
+                                            <Textarea id="input" disabled v-model="content.notedFeedbackVendor" type="text" placeholder="Please send a Feedback" autofocus class="w-full"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Footer Request By Vendor -->
+                            <template #footer>
+                                <Button label="No" icon="pi pi-times" text @click="viewContentDialogMessage = false" />
+                            </template>
+                        </Dialog>
                     </div>
                 </el-card>
             </div>
@@ -191,6 +234,8 @@
         },
         data(){
             return{
+                messageContentArrContent: [],
+                viewContentDialogMessage: false,
                 messageContentReject: '',
                 deleteRequestByAdmin: false,
                 loadingProductList: null,
@@ -332,8 +377,25 @@
                 this.deleteRequestByAdmin = true;
                 this.productIdAdmin = parseInt(productId) ? parseInt(productId)  : 0;
             },
-            requestAndRejectByVendorApproved(){
-                console.log(this.productIdAdmin)
+            viewMessageContentMessageSendAdmin(productId){
+                this.viewContentDialogMessage = true;
+                // Product Services
+               this.productService.viewDetailContentMessageAdminVendor(productId)
+                .then((data) => {
+                    try {
+                        if (!Array.isArray(data) || !data.length > 0) {
+                            this.messageContentArrContent = [];
+                        }
+                        if (!Array.isArray(data) || data !== undefined || data !== null) {
+                            this.messageContentArrContent = data ? data : '';
+                            this.loadingProductList = false;
+                        }
+                    } catch (error) {
+                        return Promise.reject(error);
+                    }
+                }
+            );
+                console.log(productId)
             }
         },
     }

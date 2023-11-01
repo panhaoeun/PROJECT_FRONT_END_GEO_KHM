@@ -1,26 +1,26 @@
 <template>
-    <form @submit.prevent="savingAddressData">
+    <form @submit.prevent="savingPopupDepositedAmountWallet">
         <transition
             name="fade"
             mode="out-in"
         >
-        <div
-            class="spinner-wrapper flex layer-white"
-            v-if="loading"
-        >
-            <spinner
-            :radius="100"
-            />
-        </div>
+            <div
+                class="spinner-wrapper flex layer-white"
+                v-if="loading"
+            >
+                <spinner
+                :radius="100"
+                />
+            </div>
         </transition>
-        <!-- Pop Over Dialogs -->
+        <!-- Pop Over Dialogs Wallet -->
         <pop-over
-        v-if="addressData"
-        title="User Address"
-        @close="$emit('close')"
-        elem-id="user-address-pop-over"
-        :layer="true"
-        class="address-popup popup-top-auto"
+            v-if="addressData"
+            title="User Address"
+            @close="$emit('close')"
+            elem-id="user-address-pop-over"
+            :layer="true"
+            class="address-popup popup-top-auto"
         >
         <template
             v-slot:content
@@ -158,115 +158,34 @@
         </pop-over>
     </form>
 </template>
-
+<!-- Script -->
 <script>
-  import util from '@/mixin/util'
-  import validation from '@/mixin/validation'
-  import PopOver from './PopOver'
-//   import Dropdown from './Dropdown'
-  import {mapGetters, mapActions} from 'vuex'
-  import addressHelper from '@/mixin/addressHelper'
-  import AjaxButton from "./AjaxButton"
-  import Spinner from "./Spinner";
-
-  export default {
-    name: 'AddressPopup',
-    data() {
-      return {
-        states: {},
-        addressData: null,
-        loading: false,
-        hasAddressErrors: false,
-        dropdownOpen: false,
-        submittingAddressData: false
-      }
-    },
-    watch: {
-      profile() {
-        this.addressData.name = this.profile.name
-        this.addressData.email = this.profile.email
-      },
-    },
-    props: {
-      address: {
-        type: Object,
-        default() {
-          return null
-        }
-      }
-    },
+import Spinner from "@/components/ui_component_new_frontend/Spinner";
+import util from '@/mixin/util'
+import validation from '@/mixin/validation'
+export default {
+    mixins: [util, validation],
     components: {
-      Spinner,
-      AjaxButton,
-      PopOver,
-    //   Dropdown
+        Spinner
     },
-    computed: {
-      invalidEmail() {
-        return !this.isValidEmail(this.addressData?.email)
-      },
-      emailValid() {
-        return this.addressData.email && !this.invalidEmail
-      },
-    //   phoneCode() {
-    //     return this.phoneList[this.addressData?.country]
-    //   },
-      editing() {
-        return this.addressData && this.addressData.id
-      },
-      ...mapGetters('user', ['profile']),
-      ...mapGetters('language', ['langCode']),
-      ...mapGetters('resource', ['countryList', 'phoneList']),
-      ...mapGetters('common', ['location'])
+    props: {},
+    data() {
+        return {
+            loading: false,
+        };
     },
-    mixins: [util, validation, addressHelper],
+    created() {},
     methods: {
-      async savingAddressData() {
-        await this.addressAction()
-
-        if (!this.hasAddressErrors) {
-          this.$emit('close')
+        async savingPopupDepositedAmountWallet(){
+            if (!this.hasAddressErrors) {
+            this.$emit('close')
+            }
         }
-      },
-      async inputNumberOnly(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-            evt.preventDefault();
-        } else {
-            return true;
-        }
-      },
-      ...mapActions('resource', ['setCountryList', 'setPhoneList']),
-      ...mapActions('user', ['userAddressAction', 'getUserToken']),
-      ...mapActions('common', ['fetchLocation', 'setToastMessage', 'setToastError', 'getRequest']),
-      ...mapActions('order', ['ratingReviewAction', 'ratingReviewFind']),
     },
-    created() {
-    },
-    async mounted() {
-      if(this.address){
-        this.addressData = {...this.addressData, ...this.address}
-      } else {
-        this.addressData = {
-          id: '',
-          contact_name: '',
-          phone_number_contact: '',
-          shipZipCode: '',
-          shipAdd01: '',
-          shipAdd02: '',
-          shipCity: ''
-        }
-
-        this.$nextTick(() => {
-          if (this.profile) {
-            this.addressData.name = this.profile.name
-            this.addressData.email = this.profile.email
-          }
-        })
-      }
-    }
-
-
-  }
+    mounted() {},
+};
 </script>
+<style scoped>
+</style>
+<style lang='scss' scoped>
+</style>

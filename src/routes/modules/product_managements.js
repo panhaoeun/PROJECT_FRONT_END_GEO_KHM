@@ -124,7 +124,19 @@ const defaultChildRoutesProMS = (prefix) => [
           },
           requiresAuth: true,
           component: () => import("../../views/vendors/products/detail_products/ViewProductDetails.vue"),
-      },
+    },
+    // Message Content By Admin View Detail
+     {
+         path: "/vendor/message-content/view-detail-by-vendor/:proId",
+         name: prefix + '.products-view-details',
+         hidden: true,
+         meta: {
+             title: 'proProductViewDetailMS',
+             permissions: ['product_module']
+         },
+         requiresAuth: true,
+         component: () => import("../../views/vendors/products/message_contents_product/ViewDetailMessageContentVendor.vue"),
+     },
 ]
 const moduleProductManagementRouters = {
     path: '/vendor/product_managements',

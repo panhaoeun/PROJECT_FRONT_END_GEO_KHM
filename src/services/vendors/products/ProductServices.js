@@ -109,4 +109,23 @@ export default class ProductServices{
     async updatedRejectProduct(data,proId) {
         return httpJson.put(`/product-admin-reject-product-issue/product-problem/${proId}`, data);
     }
+    async viewDetailContentMessageAdminVendor(proId) {
+        return httpJson.get(`/product-vendor-confirm-reject-product/detail-product-problem/${proId}`)
+        .then((result) => {
+                if (!result) {
+                    return;
+                }
+                if (result.status == 201) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+        });
+    }
+    async updatedDetailContentMessageAdminVendor(data, proId) {
+        return httpJson.put(`/product-vendor-confirm-reject-product/product-no-have-problem/${proId}`, data);
+    }
 }

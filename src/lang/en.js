@@ -98,7 +98,7 @@ export default {
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
         proProductMS: 'Products',
-        contentProduct: 'Message Contents',
+        contentProduct: 'Message',
         userMSModule: 'User Managements',
         walletCustomer: 'Customer Wallet',
         customerMS: 'Customers',

@@ -36,6 +36,17 @@
                My Orders
             </router-link>
           </li>
+            <li
+            :class="{active: activeRoute === 'wallet'}"
+          >
+            <router-link
+                to="/user/wallet-order-pay"
+                class="text-black"
+                @click.capture="goingNext('/user/wallet-order-pay')"
+            >
+               My Wallet
+            </router-link>
+          </li>
         </ul>
         <div class="right-area grow pos-rel">
           <slot

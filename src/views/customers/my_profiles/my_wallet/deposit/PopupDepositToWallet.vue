@@ -1,7 +1,13 @@
 <template>
-    <Button label="Deposit" severity="danger" style="width:8rem;" @click="dialogTableVisibleOpeDeposit = true" size="small"/>   
-     <div class="px-2 flex justify-content-center">
-            <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"> 
+    <button
+        aria-label="submit"
+        class="primary-btn plr-20 mb-15 text-sm"
+        @click.prevent="dialogTableVisibleOpeDeposit = true"
+    >
+            Deposited to wallet
+    </button>
+     <div class="flex justify-content-center flex-wrap">
+            <div class="grid gap-3 p-fluid"> 
                 <el-dialog v-model="dialogTableVisibleOpeDeposit"  
                     width="28%"
                     align-center
@@ -35,11 +41,11 @@
                                         </el-radio-group>
                                     </el-form-item>
                                     <!-- Enter Amount -->
-                                    <el-form-item style="width: 100%;" label="Enter Amount (៛)" prop="enterAmountWallet">
+                                    <el-form-item style="width: 100%; border: none;" label="Enter Amount (៛)" prop="enterAmountWallet">
                                         <el-input-number 
                                             v-model="formPopupDepositWallet.enterAmountWallet"
                                             :min="4100" 
-                                            style="width: 100%;" 
+                                            style="width: 100%; border: none;" 
                                             :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                                             :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                                             :precision="2"
@@ -50,7 +56,7 @@
                                     <el-form-item style="width: 100%;" label="Enter Deposited Time" prop="enterDepositedDateTime">
                                         <el-date-picker
                                             arrow-control
-                                            style="width: 100%;" 
+                                            style="width: 100%; outline: none;border: none;" 
                                             :action="fileUploadUrl"
                                             v-model="formPopupDepositWallet.enterDepositedDateTime"
                                             type="datetime"
@@ -76,9 +82,9 @@
                                                 autocomplete="off"  
                                                 :on-remove="fileRemoveReceiptUploadDeposited"
                                             >
-                                            <div class="flex flex-column justify-content-center px-4 py-8 border-1 border">
+                                            <div class="flex align-items-center justify-content-center px-4 py-8 border-1 border">
                                                 <i class="pi pi-cloud-upload" style="font-size: 2rem"></i>
-                                                <p class="font-bold text-sm">Upload Your Payment Receipt!</p>
+                                                <p class="font-bold text-sm pl-4">Upload Your Payment Receipt!</p>
                                             </div>
                                             <!--Dialogs-->
                                             <el-dialog v-model="dialogVisibleDeposit">
@@ -88,14 +94,14 @@
                                         <!-- Title Noted Upload -->
                                     
                                     </el-form-item>
-                                    <el-form-item>
+                                    <!-- <el-form-item>
                                         <div class="text-sm flex">
                                             <span class="p-error"> *</span>
                                             <span class="flex flex-column">
                                                 Please upload pictures according to the examples.
                                             </span>
                                         </div>
-                                    </el-form-item>
+                                    </el-form-item> -->
                                     <!--============= Upload Your Payment Receipt ========-->
                                     <!-- Image Validation Upload Deposited -->
                                     <!-- Account ABA Bank -->
@@ -131,7 +137,13 @@
                                     </el-form-item>
                                     <!-- Form Submitted -->
                                     <el-form-item class="flex flex-column">
-                                        <el-button type="primary" style="width: 100%"  @click="onSubmitUploadRecentDepositWallet('formPopupDepositWallet')">Upload Receipt</el-button>
+                                        <button
+                                            aria-label="submit"
+                                            class="primary-btn plr-20 mb-15 text-sm w-full"
+                                           @click.prevent="onSubmitUploadRecentDepositWallet('formPopupDepositWallet')"
+                                        >
+                                                Upload Receipt
+                                        </button>
                                     </el-form-item>
                                 </el-form>
                             </div>
@@ -143,7 +155,6 @@
 
             </div>
     </div>
-    
 </template>
 <!-- Script of Popup withdraw to wallets -->
 <script>

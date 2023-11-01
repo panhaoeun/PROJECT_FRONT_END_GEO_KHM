@@ -66,7 +66,7 @@
                 class="flex gap-2 font-bold text-black"
               >
                 <i
-                  class="icon login-icon"
+                  class="icon-ms login-icon"
                 />
                 Login
               </router-link>
@@ -76,7 +76,7 @@
                 class="flex gap-2 font-bold text-black"
               >
                 <i
-                  class="icon register-icon"
+                  class="icon-ms register-icon"
                 />
                 {{ $t('header.register') }}
               </router-link>
@@ -140,6 +140,7 @@
           @focus="openSearchPopup"
           @blur="blurSearchInput"
           type="text"
+          class="border-1"
           :placeholder="$t('header.searchHere')"
           v-model="searchedText"
         >
@@ -176,6 +177,7 @@
             />
           </button>
           <div
+            v-if="isLoggedIn"
             class="dropdown"
             :class="{active: dropdown}"
           >
@@ -187,7 +189,7 @@
             </router-link>
             <router-link
               class="font-bold text-black"
-              to="/user/profile"
+              to="/user/orders"
             >
                 Orders
             </router-link>
@@ -217,7 +219,6 @@
           <span class="title pl-2">Cart</span>
         </router-link>
       </div>
-      <!--  -->
     </div>
     <div class="bottom-area text-nowrap">
       <div class="container-fluid">

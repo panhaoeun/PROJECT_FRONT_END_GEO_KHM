@@ -172,6 +172,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 lg:col-12">
+                                        <InputText id="title" placeholder="Subject"  :input="v$.subjectContentRejectVendor.$touch"  v-model="v$.subjectContentRejectVendor.$model" :class="{ 'p-invalid border-round-lg p-error': v$.subjectContentRejectVendor.$invalid && submitted }" type="text" class="text-sm border-round-lg"/>
+                                        <small v-if="(v$.subjectContentRejectVendor.$invalid && submitted) || v$.subjectContentRejectVendor.$pending.$response" class="p-error text-lg">{{ v$.subjectContentRejectVendor.required.$message.replace('Value', 'Subject') }}</small>
+                                    </div>
+                                    <div class="col-12 lg:col-12">
                                         <div class="p-input-icon-right fei">
                                             <Textarea id="input"   
                                                 v-model="v$.messageContentReject.$model" 
@@ -220,14 +224,16 @@
             return {
                 messageContentReject: {required},
                 statusRejectProduct: {required},
+                subjectContentRejectVendor: {required}
             }
         },
         data(){
             return{
                 optionSelectStatusListArr: [
-                    { statusReject: 'Reject',id: 1 },
+                    { statusReject: 'Warning',id: 1 },
                     { statusReject: 'Feedback', id: 2 },
                 ],
+                subjectContentRejectVendor: '',
                 statusRejectProduct: '',
                 messageContentReject: '',
                 deleteRequestByAdmin: false,
@@ -359,7 +365,7 @@
                     if (!isFormValid) {    
                         return;
                     }
-                     this.$confirm('Are you feedback or request vendor deleted this product','Feedback or Reject Product', {
+                     this.$confirm('Are you feedback or request vendor deleted this product','Feedback or Warning Product', {
                             showCancelButton: true,
                             confirmButtonText: 'OK',
                             cancelButtonText: 'Cancel',
@@ -382,9 +388,23 @@
                     }).then(() => {
        
                         const productIdRejectId = parseInt(this.productIdAdmin) ? parseInt(this.productIdAdmin) : 1; 
+                        const subjectContent = this.statusRejectProduct ? this.statusRejectProduct : '';
+                        let contentStatus;
+                        switch (subjectContent) {
+                            case 'FEEDBACK':
+                                contentStatus = 'Feedback';
+                            break;
+                            case 'WARNING':
+                                contentStatus = 'Reject';
+                            break;
+                            default:
+                                contentStatus = null;
+                            break;
+                        }
                         const dataUpdateReject = {
+                            titleContent: this.subjectContentRejectVendor ? this.subjectContentRejectVendor : '',
                             notedSendFeedBack: this.messageContentReject ? this.messageContentReject : '',
-                            statusProduct: this.statusRejectProduct ? this.statusRejectProduct  : 'Feedback',
+                            statusProduct: contentStatus ? contentStatus  : 'Feedback',
                         }
                         this.productService.updatedRejectProduct(dataUpdateReject,productIdRejectId).then(response => {
                             if (response.data.success == true) {

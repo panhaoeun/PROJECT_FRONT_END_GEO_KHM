@@ -147,7 +147,7 @@
                 });  
             },
             async getViewProductDetails() {
-                const productId = this.$route.params?.proId ?? '';
+                const productId = this.$route.params?.proId ? this.$route.params?.proId : 0;
                 // Product Services
                 this.productServiceClass.productDetailByID(productId).then((product) => {
                     if (product.data.success) {

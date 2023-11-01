@@ -62,9 +62,8 @@
     </div>
   </div>
 </template>
-
+<!-- Script Order Tabbing -->
 <script>
-
   export default {
     name: 'OrderTabbing',
     components: {},
@@ -180,7 +179,7 @@
       window.addEventListener('popstate', this.resetting)
       this.resetting()
     },
-    destroyed() {
+    unmounted() {
       window.removeEventListener('popstate', this.resetting)
     }
   }

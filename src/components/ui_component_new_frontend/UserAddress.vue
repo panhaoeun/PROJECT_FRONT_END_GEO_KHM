@@ -39,14 +39,14 @@
         </label>
         <div class="flex mt-15 mb-5 start">
           <ajax-button
-            class="outline-btn plr-20"
+            class="outline-btn plr-20 text-black"
             :type="'button'"
             :text="$t('userAddress.edit')"
             color="primary"
             @clicked="$emit('editing', value)"
           />
           <ajax-button
-            class="outline-btn plr-20 mlr-10"
+            class="outline-btn plr-20 mlr-10 text-black"
             :type="'button'"
             :fetching-data="ajaxDeleting === value.id"
             :loading-text="$t('userAddress.deleting')"
@@ -68,14 +68,14 @@
         <p>{{ formatAddress(value) }}</p>
         <div class="flex mt-15 mb-5 start">
           <ajax-button
-            class="outline-btn plr-20"
+            class="outline-btn plr-20 text-black"
             :type="'button'"
             :text="$t('userAddress.edit')"
             color="primary"
             @clicked="$emit('editing', value)"
           />
           <ajax-button
-            class="outline-btn plr-20 mlr-10"
+            class="outline-btn plr-20 mlr-10 text-black"
             :type="'button'"
             :fetching-data="ajaxDeleting === value.id"
             :loading-text="$t('userAddress.deleting')"
@@ -164,7 +164,7 @@
       },
       ...mapActions('resource', ['setCountryList', 'setPhoneList']),
       ...mapActions('common', ['setToastMessage', 'setToastError', 'getRequest']),
-      ...mapActions('user', ['userAddressAll', 'userAddressDelete', 'getUserToken']),
+      ...mapActions('user', ['userAddressAll', 'userAddressDelete', 'getUserToken'])
     },
     async mounted() {
     //   if (!this.countryList || !this.phoneList) {

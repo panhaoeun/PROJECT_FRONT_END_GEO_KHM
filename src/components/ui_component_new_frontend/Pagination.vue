@@ -5,7 +5,7 @@
       @click.prevent="navigate(-1)"
     >
       <i
-        class="icon arrow-left black"
+        class="icon-ms arrow-left black"
       />
     </li>
     <li
@@ -23,7 +23,7 @@
       @click.prevent="navigate(1)"
     >
       <i
-        class="icon arrow-right black"
+        class="icon-ms arrow-right black"
       />
     </li>
   </ul>
