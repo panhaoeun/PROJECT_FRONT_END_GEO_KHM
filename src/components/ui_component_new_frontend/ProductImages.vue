@@ -1,6 +1,17 @@
 <template>
   <div class="detail-image shimmer-wrapper">
-      <template v-if="key">
+    <div class="pleceholder-zoomer-base-container center-text">
+            <img
+
+            class="preload-img"
+            :src="productThumbnailRULFormate(this.mainImage)"
+            :alt="title"
+            height="100"
+            width="100"
+        >
+    </div>
+   
+      <!-- <template v-if="key">
         <client-only>
           <div
             class="hide-md mx-h-100"
@@ -43,30 +54,7 @@
           </p>
 
 
-          <!-- <template
-             slot="placeholder"
-           >
-             <img
-               class="preload-img"
-               :src="productThumbnailRULFormate(this.mainImage)"
-               :alt="title"
-             >
-           </template>
-
-
-           <template
-             v-if="!key"
-           >
-             <div class="pleceholder-zoomer-base-container shimmer">
-             </div>
-             <div class="pleceholder-thumb-list">
-               <div class="responsive-image shimmer hide-sm"/>
-               <div class="responsive-image shimmer hide-sm"/>
-               <div class="responsive-image shimmer hide-sm"/>
-               <div class="responsive-image shimmer hide-sm"/>
-               <div class="responsive-image shimmer hide-sm"/>
-             </div>
-           </template>-->
+    
         </client-only>
       </template>
 
@@ -91,7 +79,7 @@
       <div class="responsive-image shimmer hide-sm"/>
       <div class="responsive-image shimmer hide-sm"/>
     </div>
-    </template>
+    </template> -->
 
 
   </div>
@@ -99,7 +87,7 @@
 </template>
 
 <script>
-  import ImagePopup from './ImagePopup'
+//   import ImagePopup from './ImagePopup'
   import util from '@/mixin/util'
 
   export default {
@@ -134,7 +122,7 @@
       }
     },
     components: {
-      ImagePopup
+    //   ImagePopup
     },
     mixins: [util],
     props: {
