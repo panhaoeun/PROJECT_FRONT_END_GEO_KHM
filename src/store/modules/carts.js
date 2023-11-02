@@ -6,7 +6,7 @@ import _ from "lodash";
 import { ElMessageBox, ElNotification } from "element-plus";
 const customerOrderCart = new CustomerOrderCheckOutServices();
 import { isLoggedIn } from "@/utils/auth/auth";
-// import router from "../../routes/routes";
+import router from "../../routes/routes";
 
 const state = {
     cart: [],
@@ -301,17 +301,18 @@ const actions = {
                                 // Checkout with id
                                 commit('setCheckoutId', result.data.result.resultStatus.order?.order_id);
                                 // Push Page 
-                                // let routeing = router.resolve({
-                                //     name: 'customer-checkout-completed', // put your route information in
-                                //     query: {
-                                //         orderId: result.data.result.resultStatus.order?.order_id ? result.data.result.resultStatus.order?.order_id : 0
-                                //     }, // put your route information in,
-                                //     params: '/customer/my-account/checkout-complete', // put your route information in
-                                // });
-                                // window.location.assign(routeing.href)
+                                let routeing = router.resolve({
+                                    name: 'my-account-order-history', // put your route information in
+                                    // query: {
+                                    //     orderId: result.data.result.resultStatus.order?.order_id ? result.data.result.resultStatus.order?.order_id : 0
+                                    // }, // put your route information in,
+                                    params: '/user/order', // put your route information in
+                                });
+                                window.location.assign(routeing.href)
                                 commit('common/SET_TOAST_MESSAGE', 'Your order has been placed successfully', {
                                     root: true
                                 })
+                                
                                 return true;
                             }
                         }else{

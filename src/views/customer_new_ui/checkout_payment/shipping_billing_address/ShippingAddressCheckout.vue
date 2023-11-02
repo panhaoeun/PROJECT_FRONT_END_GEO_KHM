@@ -45,6 +45,23 @@
               @clicked="selectCountry"
             />
           </div>
+          <div class="flex">
+            <div class="input-wrap" :class="{invalid: !addressData.contact_name && hasAddressErrors}">
+              <label>
+                    Name
+              </label>
+              <input
+                type="text"
+                v-model="addressData.contact_name"
+              />
+              <span
+                class="error"
+                v-if="!addressData.contact_name && hasAddressErrors"
+              >
+                {{ $t('addressPopup.isRequired', {type: $t('addressPopup.name')}) }}
+              </span>
+            </div>
+          </div>
           <!-- Phone Number -->
             <div
               class="input-wrap input-text"
@@ -65,23 +82,7 @@
                   {{ $t('addressPopup.isRequired', {type: $t('addressPopup.phone')}) }}
               </span>
             </div>
-          <div class="flex">
-            <div class="input-wrap" :class="{invalid: !addressData.contact_name && hasAddressErrors}">
-              <label>
-                    Name
-              </label>
-              <input
-                type="text"
-                v-model="addressData.contact_name"
-              />
-              <span
-                class="error"
-                v-if="!addressData.contact_name && hasAddressErrors"
-              >
-                {{ $t('addressPopup.isRequired', {type: $t('addressPopup.name')}) }}
-              </span>
-            </div>
-          </div>
+        
 
           <div
             class="input-wrap"

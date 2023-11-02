@@ -226,12 +226,12 @@
   import util from '@/mixin/util'
 //   import productPriceHelper from '@/mixin/productPriceHelper'
 //   import metaHelper from '@/mixin/metaHelper'
-//   import productHelper from '@/mixin/productHelper'
+  import productHelper from '@/mixin/productHelper'
   import ProductImages from '@/components/ui_component_new_frontend/ProductImages'
   import DetailRight from '@/components/ui_component_new_frontend/DetailRight'
   import DetailRightStoreItem from '@/components/ui_component_new_frontend/DetailRightStoreItem'
   import LazyArea from '@/components/ui_component_new_frontend/LazyArea'
-  import SuggestedProducts from '@/components/ui_component_new_frontend/SuggestedProducts'
+//   import SuggestedProducts from '@/components/ui_component_new_frontend/SuggestedProducts'
 //   import ProductReview from '@/components/ui_component_new_frontend/ProductReview';
 //   import Vouchers from "@/components/ui_component_new_frontend/Vouchers";
 //   import PopOver from "@/components/ui_component_new_frontend/PopOver";
@@ -240,8 +240,7 @@
   import Breadcrumb from "@/components/ui_component_new_frontend/Breadcrumb";
 
   export default {
-    middleware: ['common-middleware'],
-    mixins: [util],
+    mixins: [util,productHelper],
     head() {
       return {
         title: this.product?.meta_title,
@@ -284,7 +283,7 @@
       DetailRightStoreItem,
       ProductImages,
       LazyArea,
-      SuggestedProducts,
+    //   SuggestedProducts,
       DetailRight,
     //   ProductReview
     },
@@ -379,7 +378,7 @@
       brand() {
         return this.product?.brand?.title || ''
       },
-      ...mapGetters('common', ['currencyIcon', 'currencyPosition', 'setting']),
+    //   ...mapGetters('common', ['currencyIcon', 'currencyPosition', 'setting']),
       ...mapGetters('detail', ['product']),
     },
     methods: {

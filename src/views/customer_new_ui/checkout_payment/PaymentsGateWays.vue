@@ -359,7 +359,7 @@
                         this.setToastMessage('Your order has been placed successfully.')
                     }
                     if (redirect) {
-                        this.$router.push({path: '/user/order/' + event})
+                        this.$router.push({path: '/user/order'})
                     }
                     this.$emit('order-status', true)
                 } else if (type === 'error') {
