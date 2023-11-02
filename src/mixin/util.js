@@ -231,9 +231,8 @@ export default {
       }
     },
     storeLink(item) {
-        console.log(item?.shop_eng)
       if (item) {
-        return `/customer/search-product/filter-product-shop/shop-by-name-filter/${item?.shopId}/${this.convertToSlug(item?.shop_eng)}`
+        return `/customer/search-product/filter-product-shop/shop-by-name-filter/${item?.shop_type_id}/${this.convertToSlug(item?.shop_eng)}`
       }
     },
     categoryLink(item) {

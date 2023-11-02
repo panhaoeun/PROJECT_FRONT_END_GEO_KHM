@@ -48,7 +48,7 @@
            >
              <img
                class="preload-img"
-               :src="getThumbImageURL(this.mainImage)"
+               :src="productThumbnailRULFormate(this.mainImage)"
                :alt="title"
              >
            </template>
@@ -179,35 +179,36 @@
         productThumbnailRULFormate(thumbnail){
             return this.ENV_HOST_PATH_FILE + `uploads/products_img/thumbnail/` + thumbnail;
         },
-      closePopup() {
-        if (!this.isSmallerDevice) {
-          this.imagePopup = false
-        }
-        this.$emit('image-popup', this.imagePopup)
-      },
-      imagePopupOpen(evt) {
-        if (evt.target.classList.contains("zoomer-control") || evt.target.classList.contains("video-thumb")) {
-          return false
-        }
-        const childList = [...this.$el.querySelectorAll('.thumb-list')[0].children]
+        closePopup() {
+            if (!this.isSmallerDevice) {
+            this.imagePopup = false
+            }
+            this.$emit('image-popup', this.imagePopup)
+        },
+        imagePopupOpen(evt) {
+            if (evt.target.classList.contains("zoomer-control") || evt.target.classList.contains("video-thumb")) {
+            return false
+            }
+            const childList = [...this.$el.querySelectorAll('.thumb-list')[0].children]
 
-        childList.forEach((obj, index) => {
-            console.log(obj)
-          if (obj.className.includes('choosed-thumb')) {
-            this.activeId = index - 1
-          }
-        })
-        this.imagePopup = true
-        this.$emit('image-popup', this.imagePopup)
-      },
-      generateImageObj(id, imageLink) {
-        return {
-          id: id,
-          url: imageLink
-        }
-      },
+            childList.forEach((obj, index) => {
+            if (obj.className.includes('choosed-thumb')) {
+                this.activeId = index - 1
+            }
+            })
+            this.imagePopup = true
+            this.$emit('image-popup', this.imagePopup)
+        },
+        generateImageObj(id, imageLink) {
+            return {
+            id: id,
+            url: imageLink
+            }
+        },
     },
-    async mounted() {
+     async mounted() {
+
+
 
       if (this.isSmallerDevice) {
         this.imagePopup = true
@@ -232,7 +233,7 @@
         if (obj) {
           imageId++
 
-         /* thumbs.push(this.generateImageObj(imageId, this.getThumbImageURL(obj.image)))
+         /* thumbs.push(this.generateImageObj(imageId, this.productThumbnailRULFormate(obj.image)))
           normals.push(this.generateImageObj(imageId, this.getImageURL(obj.image)))
           larges.push(this.generateImageObj(imageId, this.getImageURL(obj.image)))*/
 
@@ -246,10 +247,10 @@
             }
 
             thumbImg.onerror = function () {
-              resolve(self.generateImageObj(this.dataset.index, self.productMultiImgURLFormate()))
+              resolve(self.generateImageObj(this.dataset.index, self.productThumbnailRULFormate()))
             }
 
-            thumbImg.src = this.productMultiImgURLFormate(obj.image);
+            thumbImg.src = this.productThumbnailRULFormate(obj.image);
             thumbImg.setAttribute('data-index', imageId)
           }))
 
@@ -261,7 +262,7 @@
             }
 
             thumbImg.onerror = function () {
-              resolve(self.generateImageObj(this.dataset.index, self.productMultiImgURLFormate()))
+              resolve(self.generateImageObj(this.dataset.index, self.getImageURL()))
             }
 
             thumbImg.src = this.getImageURL(obj.image);
@@ -312,7 +313,7 @@
 
 
             img.onerror = function () {
-              img.src = self.getThumbImageURL()
+              img.src = self.productThumbnailRULFormate()
             }
 
 
@@ -331,7 +332,6 @@
         }, 1000)
       })
     }
-
   }
 </script>
 

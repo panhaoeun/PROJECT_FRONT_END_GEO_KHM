@@ -10,7 +10,6 @@
         <slot
           name="followBtn"
         />
-
         <router-link
           class="visit-btn ajax-btn bg-red-500 font-bold text-white"
           :to="storeLink(store)"

@@ -23,7 +23,7 @@
                                 <div class="card-header flex justify-content-between">
                                     <span>Message Log (Admin)</span>
                                     <!-- View Product Detail By Id -->
-                                    <el-button type="info" size="large" @click="$router.push(`/vendor/products/view-detail/${parseInt(proId)}`)" class="btn btn-primary">View This Product</el-button>
+                                    <!-- <el-button type="info" size="large" @click="$router.push(`/vendor/products/view-detail/${parseInt(proId)}`)" class="btn btn-primary">View This Product</el-button> -->
                                 </div>
                             </template>
                             <!-- Card Title -->
