@@ -4,16 +4,14 @@
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class="relative text-black text-xl section section-title:before">{{ $t('category.subGategoryList') }}</h2>
-            <div v-if="selectOptValueCat !== null">
-                <el-button type="info" size="large" class="btn btn-primary"
-                    @click="$router.push(`/vendor/products/sub-category/create/${parseInt(computedQuerySubByCatID)}`)"
-                    v-permission="[{ functionName: 'sub_categories', moduleName: 'fun_create' }]">
-                    <div class="flex justify-between pl-2 text-sm">
-                        <i class="pi pi-plus" style="font-size: 1rem"></i>
-                        <span class="pl-2">{{ $t('route.addNew') }}</span>
-                    </div>
-                </el-button>
-            </div>
+            <el-button type="info" size="large" class="btn btn-primary"
+                @click="$router.push(`/vendor/products/sub-category/create/${parseInt(computedQuerySubByCatID)}`)"
+                v-permission="[{ functionName: 'sub_categories', moduleName: 'fun_create' }]">
+                <div class="flex justify-between pl-2 text-sm">
+                    <i class="pi pi-plus" style="font-size: 1rem"></i>
+                    <span class="pl-2">{{ $t('route.addNew') }}</span>
+                </div>
+            </el-button>
         </div>
         <div class="gird">
             <div class="col-12">

@@ -1,22 +1,24 @@
 import {createApp} from 'vue'
 import App from './App.vue';
 import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
+
+
 /*
    @E-Commerces
    @Library E-Commerces
 */
-import "./assets/commerce_frontend_/css/commerce_frontend.css";
-// Global Font and Icons
-import "./assets/commerce_frontend_/css/icon_font_global.css";
-// Customize Plugins
-import "./assets/commerce_frontend_/css/plugins/animate.css";
-import "./assets/commerce_frontend_/css/plugins/easyzoom.css";
-import "./assets/commerce_frontend_/css/plugins/slick.css";
-// Slick Slider
-import "./assets/commerce_frontend_/js/slick.js";
-// Global Functions
-// import "./assets/commerce_frontend_/js/main_global_functions.js";
-import "./assets/commerce_frontend_/css/plugins/magnific-popup.css";
+// import "./assets/commerce_frontend_/css/commerce_frontend.css";
+// // Global Font and Icons
+// import "./assets/commerce_frontend_/css/icon_font_global.css";
+// // Customize Plugins
+// import "./assets/commerce_frontend_/css/plugins/animate.css";
+// import "./assets/commerce_frontend_/css/plugins/easyzoom.css";
+// import "./assets/commerce_frontend_/css/plugins/slick.css";
+// // Slick Slider
+// import "./assets/commerce_frontend_/js/slick.js";
+// // Global Functions
+// // import "./assets/commerce_frontend_/js/main_global_functions.js";
+// import "./assets/commerce_frontend_/css/plugins/magnific-popup.css";
 import InnerImageZoom from 'vue-inner-image-zoom';
 import VueSidebarMenu from 'vue-sidebar-menu';
 /**
@@ -40,11 +42,22 @@ import "primeicons/primeicons.css";
 import 'maz-ui/css/main.css';
 import CounterUp from 'vue3-autocounter';
 
+
+/**
+ **@ECommerce Project - Customize New E-Commerce Website 
+ * 
+ * **/
+import "./assets/customer_ecommerce_web_new/styles/styles.styl";
+import "@glidejs/glide/dist/css/glide.core.min.css";
+import ProductZoomer from 'vue-product-zoomer';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+
+
 // style scss
-import "./assets/scss/product_detail_front/global_pro_detail.scss";
+// import "./assets/scss/product_detail_front/global_pro_detail.scss";
 //global registration Vue3FormWizard
-import Vue3FormWizard from 'vue3-form-wizard'
-import 'vue3-form-wizard/dist/style.css'
+// import Vue3FormWizard from 'vue3-form-wizard'
+// import 'vue3-form-wizard/dist/style.css'
 /*
    @E-Commerces Dashboard
    @Library E-Commerces Dashboard
@@ -143,7 +156,7 @@ app.use(VueGoogleMaps, {
     }
 });
 // app.use(Vue3FormWizard);
-app.use(Vue3FormWizard);
+// app.use(Vue3FormWizard);
 
 /*
    @Vue I18n: Vue - Languages 
@@ -229,6 +242,15 @@ app.use(VueSidebarMenu);
 app.component('inner-image-zoom', InnerImageZoom);
 app.component('counter-up', CounterUp);
 app.use(VueCookies);
+/**
+ * @New Library Front - end
+ * */ 
+app.use(VueDOMPurifyHTML, {
+default: {
+    ADD_TAGS: ['iframe']
+}
+});
+app.use(ProductZoomer);
 /*
    @E-Commerces Dashboard
    @Library E-Commerces Dashboard

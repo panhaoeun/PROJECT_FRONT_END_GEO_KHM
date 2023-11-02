@@ -107,16 +107,27 @@
                                                 v-permission="[{ functionName: 'product_module', moduleName: 'fun_edit' }]"
                                                 @click.prevent="$router.push(`/vendor/products/product_list/edit/${parseInt(data?.proId)}`)"
                                             />
-                                            <Button icon="pi pi-trash" outlined rounded severity="danger"
-                                                v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
-                                                @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
-                                            />
+                                            <!-- Vendor -->
+                                            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Vendor'">
+                                                <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                                    v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
+                                                    @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
+                                                />
+                                            </template>
+                                            <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
+                                                <Button icon="pi pi-undo" outlined rounded severity="danger"
+                                                    v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
+                                                    @click="confirmWaringDetachProductsByVendor(parseInt(data?.proId) ?? '')"
+                                                />
+                                            </template>
+                                           
                                         </div>
                                     </template>
                                 </Column>
                             </div>
                         </DataTable>
-                        <!-- Dialog -->
+
+                        <!-- Dialog Confirm Deleted By Vendor-->
                         <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" 
                             header="Confirm"
                             :modal="true">
@@ -127,6 +138,66 @@
                             <template #footer>
                                 <Button label="No" icon="pi pi-times" text @click="deleteProductDialog = false" />
                                 <Button label="Yes" icon="pi pi-check" text @click="deleteProductSuccess()" />
+                            </template>
+                        </Dialog>
+
+
+                        <!-- Confirm Deleted By Admin Send Request -->
+                        <Dialog 
+                            v-model:visible="deleteRequestByAdmin" 
+                            :style="{ width: '600px' }"   
+                            header="Do you want to request removal or improvement of product issues for the store owner?"
+                            :modal="true">
+                            <div class="confirmation-content">
+                                <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
+                                    <div class="col-12 lg:col-12">
+                                        <div class="p-input-icon-right fei">
+                                            <Dropdown id="transactionType"
+                                                placeholder="Please Select Status"
+                                                :options="optionSelectStatusListArr" 
+                                                optionLabel="statusReject" 
+                                                option-value="statusReject"
+                                                v-model="v$.statusRejectProduct.$model"
+                                                :input="v$.statusRejectProduct.$touch"
+                                                :class="{ 'p-invalid border-round-lg p-error': v$.statusRejectProduct.$invalid && submitted }"
+                                                aria-describedby="dd-error"
+                                                class="text-sm border-round-lg" 
+                                            />
+                                            <!-- Validation -->
+                                            <small v-if="(v$.statusRejectProduct.$invalid && submitted) 
+                                                || v$.statusRejectProduct.$pending.$response" 
+                                                class="p-error text-lg">
+                                                    {{ v$.statusRejectProduct.required.$message.replace('Value', 'Status') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 lg:col-12">
+                                        <InputText id="title" placeholder="Subject"  :input="v$.subjectContentRejectVendor.$touch"  v-model="v$.subjectContentRejectVendor.$model" :class="{ 'p-invalid border-round-lg p-error': v$.subjectContentRejectVendor.$invalid && submitted }" type="text" class="text-sm border-round-lg"/>
+                                        <small v-if="(v$.subjectContentRejectVendor.$invalid && submitted) || v$.subjectContentRejectVendor.$pending.$response" class="p-error text-lg">{{ v$.subjectContentRejectVendor.required.$message.replace('Value', 'Subject') }}</small>
+                                    </div>
+                                    <div class="col-12 lg:col-12">
+                                        <div class="p-input-icon-right fei">
+                                            <Textarea id="input"   
+                                                v-model="v$.messageContentReject.$model" 
+                                                :class="{ 'p-invalid border-round-lg p-error': v$.messageContentReject.$invalid && submitted }" 
+                                                type="text" 
+                                                placeholder="Please send a Feedback" 
+                                                autofocus 
+                                                class="w-full"
+                                            />
+                                            <small v-if="(v$.messageContentReject.$invalid && submitted) || v$.messageContentReject.$pending.$response"
+                                                class="p-error text-sm">{{ v$.messageContentReject.required.$message.replace('Value',
+                                                'Feedback to vendor') }}
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Footer Request By Vendor -->
+                            <template #footer>
+                                <Button label="No" icon="pi pi-times" text @click="deleteRequestByAdmin = false" />
+                                <Button label="Yes" icon="pi pi-check" text @click="requestAndRejectByVendorApproved(!v$.$invalid)" />
                             </template>
                         </Dialog>
                     </div>
@@ -142,10 +213,30 @@
     import ProductService from '../../../services/vendors/products/ProductServices';
     import { ElNotification } from 'element-plus';
     import { isLoggedIn } from "@/utils/auth/auth";
+    import { useVuelidate } from '@vuelidate/core';
+    import { required } from '@vuelidate/validators';
     export default{
         name:"Products",
+        setup() {
+            return { v$: useVuelidate() }
+        },
+        validations() {
+            return {
+                messageContentReject: {required},
+                statusRejectProduct: {required},
+                subjectContentRejectVendor: {required}
+            }
+        },
         data(){
             return{
+                optionSelectStatusListArr: [
+                    { statusReject: 'Warning',id: 1 },
+                    { statusReject: 'Feedback', id: 2 },
+                ],
+                subjectContentRejectVendor: '',
+                statusRejectProduct: '',
+                messageContentReject: '',
+                deleteRequestByAdmin: false,
                 loadingProductList: null,
                 productsArrList: null,
                 selectedProduct: null,
@@ -260,6 +351,101 @@
                             type: 'error'
                         });
                 });
+            },
+            //Send Request By Admin to vendor deleted product
+            confirmWaringDetachProductsByVendor(productId){
+                this.deleteRequestByAdmin = true;
+                this.productIdAdmin = parseInt(productId) ? parseInt(productId)  : 0;
+            },
+            // Request Approved
+            requestAndRejectByVendorApproved(isFormValid){
+                try {
+                    this.submitted = true;
+                    this.v$.$touch();
+                    if (!isFormValid) {    
+                        return;
+                    }
+                     this.$confirm('Are you feedback or request vendor deleted this product','Feedback or Warning Product', {
+                            showCancelButton: true,
+                            confirmButtonText: 'OK',
+                            cancelButtonText: 'Cancel',
+                            type: 'warning',
+                            center: true,
+                            beforeClose: (action, instance, done) => {
+                                if (action === 'confirm') {
+                                    instance.confirmButtonLoading = true;
+                                    instance.confirmButtonText = 'Loading...';
+                                    setTimeout(() => {
+                                        done();
+                                        setTimeout(() => {
+                                        instance.confirmButtonLoading = false;
+                                        }, 300);
+                                    }, 1000);
+                                } else {
+                                    done();
+                                }
+                            }
+                    }).then(() => {
+       
+                        const productIdRejectId = parseInt(this.productIdAdmin) ? parseInt(this.productIdAdmin) : 1; 
+                        const subjectContent = this.statusRejectProduct ? this.statusRejectProduct : '';
+                        let contentStatus;
+                        switch (subjectContent) {
+                            case 'FEEDBACK':
+                                contentStatus = 'Feedback';
+                            break;
+                            case 'WARNING':
+                                contentStatus = 'Reject';
+                            break;
+                            default:
+                                contentStatus = null;
+                            break;
+                        }
+                        const dataUpdateReject = {
+                            titleContent: this.subjectContentRejectVendor ? this.subjectContentRejectVendor : '',
+                            notedSendFeedBack: this.messageContentReject ? this.messageContentReject : '',
+                            statusProduct: contentStatus ? contentStatus  : 'Feedback',
+                        }
+                        this.productService.updatedRejectProduct(dataUpdateReject,productIdRejectId).then(response => {
+                            if (response.data.success == true) {
+                                // Push Router
+                                this.$router.push("/vendor/products/list");
+                                this.$notify.success({
+                                        title: 'Successfully updated feedback to send vendor',
+                                        message: response.data?.message ? response.data?.message : '' ,
+                                        showClose: false
+                                });
+                                window.location.reload();
+                                this.transactionArrConfirm = {};
+                                this.confirmDialogTransaction = false;
+                            }
+                        }).catch((error) => {
+                            // this.no
+                            this.$notify.error({
+                                title: 'Unsuccessfully updated feedback product',
+                                message: error.response.data.error.message ?? 'Unsuccessfully updated feedback product',
+                                showClose: false
+                            });  
+                            if(error.response.data.error.error.errors){
+                                for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                    const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                    this.$notify.error({
+                                        title: 'Unsuccessfully updated category',
+                                        message: messageValidation ?? 'Unsuccessfully updated feedback product',
+                                        showClose: true
+                                    });   
+                                }
+                            } 
+                        });
+                    }).catch(() => {
+                            this.$message({
+                                type: 'info',
+                                message: 'Deposit to wallet was canceled'
+                            });
+                    });
+                } catch (error) {
+                    return Promise.reject(error);
+                }
             }
         },
     }

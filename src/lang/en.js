@@ -1,4 +1,78 @@
 export default {
+    header: {
+        searchHere: "Search Here",
+        trackOrder: "Track Order",
+        account: "My Account",
+        login: "Login",
+        register: "Register",
+        profile: "Profile",
+    },
+    userAddress: {
+        noAddress: 'No address found.',
+        edit: 'Edit',
+        delete: 'Delete'
+    },
+    contact: {
+        errorOccurred: "Following error occurred",
+        email: "email",
+        name: "name",
+        your: "Your {type}",
+        invalidEmail: "Invalid email",
+        success: "Success",
+        successMessage: "We have received your message. We are going to contact you as soon as possible.",
+        goToHome: "Go to home",
+        now: "now",
+        contactUs: "Love to hear from you",
+        feelFree: "Feel free to contact us. We will get back to as soon as we can."
+    },
+    orderTabbing: {
+        cancelled: "Cancelled",
+        cardPayment: "Card payment",
+        paid: "Paid",
+        unPaid: "Unpaid",
+        cod: "Cash on delivery"
+    },
+    accountLayout:{
+        myProfile: 'My profile',
+        updateProfile: 'Update Profile',
+        loggedWith: 'Logged in with',
+        updatePassword: 'Updated Password',
+        currentPassword: 'Current password',
+        password: 'Password',
+        confirmPassword: 'Confirm Password',
+        yourCurrentPassword: "Your current password",
+        newPassword: "New password",
+        invalidLength: "Invalid Password Length",
+        noMatch: "Password didn't match",
+        google: "Google",
+        facebook: "Facebook",
+        updatingPassword: "Updating Password"
+    },
+    checkoutRight: {
+        proceedToCheckout: "Proceed to checkout",
+        submitting: "Submitting"
+    },
+    addressPopup: {
+        country: "Country",
+        order: "Order",
+        state: "State",
+        email: "Email",
+        name: "Name",
+        address: "Address",
+        city: "City",
+        zipCode: "Zip code",
+        isRequired: "{type} is required",
+        phone: "Phone",
+        cancel: "Cancel",
+        update: "Update",
+        thisAddress: "{type} this address",
+        saving: "Saving",
+        save: "Save",
+        message: "Message",
+        addressPlaceholder: "Street address or P.O. Box",
+        address2Placeholder: "Apt, suite, unit, building, floor, etc.",
+        subject: "Subject"
+    },
     route: {
         withdrawVendor: 'Withdraw',
         withdraw: 'Withdraw',
@@ -24,6 +98,7 @@ export default {
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
         proProductMS: 'Products',
+        contentProduct: 'Message',
         userMSModule: 'User Managements',
         walletCustomer: 'Customer Wallet',
         customerMS: 'Customers',
@@ -253,7 +328,8 @@ export default {
         productName: "Product Name",
         purchasePrice: "Product Price",
         qty: "Quantity",
-        loadingProduct: "fetching products..."
+        loadingProduct: "fetching products...",
+        messageProductList: 'Products Message Table'
     },
     customer: {
         customerList: "Customer List",

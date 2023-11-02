@@ -69,16 +69,16 @@ const defaultChildRoutesProMS = (prefix) => [
      /*
      @Products Managements
     */
-     {
-        path: "/vendor/products/list",
-        name: prefix + '.products-list',
-        meta: {
-            title: 'proProductMS',
-            icon: 'ticket',
-            permissions: ['product_module']
-        },
-        component: () => import("../../views/vendors/products/ProductList.vue"),
-     }, 
+    {
+         path: "/vendor/products/list",
+         name: prefix + '.products-list',
+         meta: {
+             title: 'proProductMS',
+             icon: 'ticket',
+             permissions: ['product_module']
+         },
+         component: () => import("../../views/vendors/products/ProductList.vue"),
+     },
      {
         path: "/vendor/products/create",
         name: prefix + '.product_create',
@@ -101,6 +101,19 @@ const defaultChildRoutesProMS = (prefix) => [
             permissions: ['product_module']
         },
      },
+    /**
+     * @Content Product Managements
+     * **/
+    {
+        path: "/vendor/message-admin-vendor-confirm-deleted-product",
+        name: prefix + '.admin-vendor-confirm-deleted',
+        meta: {
+            title: 'contentProduct',
+            icon: 'ticket',
+            permissions: ['product_module']
+        },
+        component: () => import("../../views/vendors/products/message_contents_product/ProductMessageContentsAlert.vue"),
+    },
      {
           path: "/vendor/products/view-detail/:proId",
           name: prefix + '.products-view-details',
@@ -111,7 +124,19 @@ const defaultChildRoutesProMS = (prefix) => [
           },
           requiresAuth: true,
           component: () => import("../../views/vendors/products/detail_products/ViewProductDetails.vue"),
-      },
+    },
+    // Message Content By Admin View Detail
+     {
+         path: "/vendor/message-content/view-detail-by-vendor/:proId",
+         name: prefix + '.products-view-details',
+         hidden: true,
+         meta: {
+             title: 'proProductViewDetailMS',
+             permissions: ['product_module']
+         },
+         requiresAuth: true,
+         component: () => import("../../views/vendors/products/message_contents_product/ViewDetailMessageContentVendor.vue"),
+     },
 ]
 const moduleProductManagementRouters = {
     path: '/vendor/product_managements',

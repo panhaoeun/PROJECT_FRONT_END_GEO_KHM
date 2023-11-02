@@ -1,0 +1,186 @@
+<template>
+  <div>
+    <transition name="fade" mode="out-in">
+      <div
+        class="spinner-wrapper flex justify-content-center flex-wrap"
+        v-if="fetchingAddressData"
+      >
+        <spinner
+          :radius="100"
+        />
+      </div>
+
+      <div
+        v-else-if="currentAddresses && !currentAddresses.length"
+        class="info-msg"
+      >
+        {{ $t('userAddress.noAddress') }}
+      </div>
+
+    </transition>
+
+    <div v-if="hasRadio">
+      <div
+        v-for="(value, key) in currentAddresses"
+        :key="key"
+        class="mb-20 mb-sm-15"
+      >
+        <label
+          class="card ptb-15 pr-10 select-input"
+          :class="{active: selectedAddress === key}"
+        >
+          <input
+            type="radio"
+            name="user_address"
+            :value="key"
+            v-model="selectedAddress"
+          />
+          <p>{{ formatAddress(value) }}</p>
+        </label>
+        <div class="flex mt-15 mb-5 start">
+          <ajax-button
+            class="outline-btn plr-20 text-black"
+            :type="'button'"
+            :text="$t('userAddress.edit')"
+            color="primary"
+            @clicked="$emit('editing', value)"
+          />
+          <ajax-button
+            class="outline-btn plr-20 mlr-10 text-black"
+            :type="'button'"
+            :fetching-data="ajaxDeleting === value.id"
+            :loading-text="$t('userAddress.deleting')"
+            :text="$t('userAddress.delete')"
+            color="primary"
+            @clicked="deleting(value)"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="flex wrap start align-start m--7-5">
+      <div
+        class="card plr-20 ptb-15 pb-sm-10 plr-sm-15 m-7-5 mx-w-400x"
+        v-for="(value, index) in currentAddresses"
+        :key="index"
+      >
+
+        <p>{{ formatAddress(value) }}</p>
+        <div class="flex mt-15 mb-5 start">
+          <ajax-button
+            class="outline-btn plr-20 text-black"
+            :type="'button'"
+            :text="$t('userAddress.edit')"
+            color="primary"
+            @clicked="$emit('editing', value)"
+          />
+          <ajax-button
+            class="outline-btn plr-20 mlr-10 text-black"
+            :type="'button'"
+            :fetching-data="ajaxDeleting === value.id"
+            :loading-text="$t('userAddress.deleting')"
+            :text="$t('userAddress.delete')"
+            color="primary"
+            @clicked="deleting(value)"
+          />
+        </div>
+      </div>
+    </div>
+    <pagination
+      ref="addressPagination"
+      :total-page="totalPage"
+      @fetching-data="fetchingData"
+    />
+  </div>
+</template>
+
+<script>
+  import util from '@/mixin/util'
+  import Pagination from '@/components/ui_component_new_frontend/Pagination'
+  import addressHelper from '@/mixin/addressHelper'
+  import routeParamHelper from '@/mixin/routeParamHelper'
+  import {mapGetters, mapActions} from 'vuex'
+  import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton"
+  import Spinner from "@/components/ui_component_new_frontend/Spinner"
+
+  export default {
+    name: 'UserAddress',
+    data() {
+      return {
+        ajaxDeleting: 0,
+        selectedAddress: 0,
+        selectedAddressObj: null
+      }
+    },
+    props: {
+      hasRadio: {
+        type: Boolean,
+        default: false
+      }
+    },
+    watch: {
+      selectedAddressObj(value) {
+        if (this.currentAddresses.length) {
+          this.$emit('selected-address', {...value});
+        this.$store.commit('shippingStore/addressSelected', {...value});
+        } else {
+            this.$store.commit('shippingStore/addressSelected', null);
+           this.$emit('selected-address', null)
+        }
+      },
+      currentAddresses(value) {
+        if (value.length) {
+          if (this.hasRadio) {
+            this.selectedAddress = 0
+            this.selectedAddressObj = value[this.selectedAddress]
+          }
+        } else {
+          this.selectedAddress = -1
+          this.selectedAddressObj = null
+        }
+      },
+      selectedAddress(value) {
+        this.selectedAddressObj = this.currentAddresses[value]
+      }
+    },
+    directives: {},
+    components: {Spinner, AjaxButton, Pagination},
+    mixins: [util, addressHelper, routeParamHelper],
+    computed: {
+        totalPage() {
+            return this.allAddress?.last_page
+        },
+        currentAddresses() {
+            return this.allAddresses || []
+        },
+        ...mapGetters('language', ['langCode']),
+        ...mapGetters('resource', ['countryList', 'phoneList']),
+        ...mapGetters('user', ['allAddress']),
+        ...mapGetters('shippingStore',['allAddresses']),  
+    },
+    methods: {
+      async loadData() {
+        this.$refs.addressPagination.routeParam()
+      },
+      ...mapActions('resource', ['setCountryList', 'setPhoneList']),
+      ...mapActions('common', ['setToastMessage', 'setToastError', 'getRequest']),
+      ...mapActions('user', ['userAddressAll', 'userAddressDelete', 'getUserToken'])
+    },
+    async mounted() {
+    //   if (!this.countryList || !this.phoneList) {
+    //     this.fetchingAddressData = true
+
+    //     const {data} = await this.getRequest({
+    //       params: null,
+    //       lang: this.langCode,
+    //       api: 'countriesPhones'
+    //     })
+
+    //     this.setCountryList(data?.countries)
+    //     this.setPhoneList(data?.phones)
+    //     this.fetchingAddressData = false
+    //   }
+      await this.fetchingData()
+    }
+  }
+</script>

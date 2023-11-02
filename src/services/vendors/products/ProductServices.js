@@ -5,10 +5,10 @@ import httpJson from "../../../../http-access-control-json";
 export default class ProductServices{
     /**
      * @Customer of Products - Start
-     * */ 
+    * */ 
     async getCustomerProductsData(proFilterPage , proSize, data) {
         const page = parseInt(proFilterPage) ?? 3;
-        return await httpFrom.get(`/customers/products/product_module/customer_products_list?page=${page ?? 4}&size=${page ?? 4}`,data)
+        return await httpFrom.get(`/customers/products/product_module/customer_products_list?page=${page ?? 10}&size=${proSize ?? 10}`, data)
             .then((result) => {
                 if (result.status == '200') {
                     if (result.data.success == true) {
@@ -87,4 +87,45 @@ export default class ProductServices{
    async deleteProByID(proId){
        return http.delete(`/vendors/product_management/products/product-image/delete/${proId}`);
    }
+    /**
+     * @Product of Vendor And Customer Request - Start
+    * */
+    async getProductMessageByAdminAndVendorRejectProducts() {
+        return http.get(`/get-product-reject-problem-message-feedback-product-module`)
+            .then((result) => {
+                if (result.status == '201') {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+     }
+    async editedVendorDetailProducts(proId) {
+        return http.get(`/product-vendor-confirm-reject-product/detail-product-problem/${proId}`);
+    }
+    async updatedRejectProduct(data,proId) {
+        return httpJson.put(`/product-admin-reject-product-issue/product-problem/${proId}`, data);
+    }
+    async viewDetailContentMessageAdminVendor(proId) {
+        return httpJson.get(`/product-vendor-confirm-reject-product/detail-product-problem/${proId}`)
+        .then((result) => {
+                if (!result) {
+                    return;
+                }
+                if (result.status == 201) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+        });
+    }
+    async updatedDetailContentMessageAdminVendor(data, proId) {
+        return httpJson.put(`/product-vendor-confirm-reject-product/product-no-have-problem/${proId}`, data);
+    }
 }

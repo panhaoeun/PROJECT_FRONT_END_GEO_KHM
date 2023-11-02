@@ -143,81 +143,12 @@
                                 <!-- Product Qty -->
                                 <div class="col-4 lg:col-6 field">
                                     <div class="field">
-                                        <label for="name_en" class="text-sm font-semibold">Total Quality</label>
+                                        <label for="name_en" class="text-sm font-semibold">Total Quantity</label>
                                         <InputNumber mode="decimal" placeholder="Unit Price" inputClass="border-round-lg text-sm"  v-model="v$.proQty.$model" :class="{ 'p-invalid border-round-lg p-error': v$.proQty.$invalid && submitted }"/>
                                         <small v-if="(v$.proQty.$invalid && submitted) || v$.proQty.$pending.$response" class="p-error text-sm">{{ v$.proQty.required.$message.replace('Value', 'Total Quantity') }}</small>
                                     </div>
                                 </div>
-                                <!-- =============Product Feature Package Shipping Price============== -->
-                                <div class="col-8 xl:col-12 lg:col-12 field">
-                                    <el-card class="box-card" shadow="hover" header="Shipping Information">
-                                        <div class="grid">
-                                            <!-- Delivery Company -->
-                                            <div class="col-4">
-                                                <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Delivery Company</label>
-                                                        <Dropdown 
-                                                            :options="deliveryShippingCompanyList" 
-                                                            filter 
-                                                            v-model="v$.selectedDeliveryCompany.$model" 
-                                                            :class="{ 'p-invalid border-round-lg border-round-lg p-error': v$.selectedDeliveryCompany.$invalid && submitted }"
-                                                            inputId="ship_id"
-                                                            optionLabel="ship_company" 
-                                                            placeholder="Select a Delivery Company" 
-                                                            aria-describedby="dd-error"
-                                                            class="w-full border-round-lg text-sm">
-                                                            <template #value="slotProps">
-                                                                <div v-if="slotProps.value" class="flex align-items-center">
-                                                                    <div>{{ slotProps.value?.ship_company }}</div>
-                                                                </div>
-                                                                <span v-else>
-                                                                    {{ slotProps.placeholder }}
-                                                                </span>
-                                                            </template>
-                                                            <template #option="slotProps">
-                                                                <div class="flex align-items-center">
-                                                                    <div>{{ slotProps.option?.ship_company }}</div>
-                                                                </div>
-                                                            </template>
-                                                        </Dropdown>
-                                                    <small v-if="(v$.selectedDeliveryCompany.$invalid && submitted) || v$.selectedDeliveryCompany.$pending.$response" class="p-error text-sm">{{ v$.selectedDeliveryCompany.required.$message.replace('Value', 'Delivery Company') }}</small>
-                                                </div>
-                                            </div>
-                                            <!--Express Delivery -->
-                                            <div class="col-4">
-                                                <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Express Delivery (៛)</label>
-                                                    <InputNumber mode="decimal" placeholder="Express Delivery" inputClass="border-round-lg text-sm" :minFractionDigits="2" :maxFractionDigits="5"   v-model="v$.expressDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.expressDeliveryShipping.$invalid && submitted }"/>
-                                                    <small v-if="(v$.expressDeliveryShipping.$invalid && submitted) || v$.expressDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.expressDeliveryShipping.required.$message.replace('Value', 'Express Delivery') }}</small>
-                                                </div>
-                                            </div>
-                                            <!--Normal Delivery -->
-                                            <div class="col-4">
-                                                <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Normal Delivery (៛)</label>
-                                                    <InputNumber mode="decimal" placeholder="Normal Delivery" inputClass="border-round-lg text-sm"  :minFractionDigits="2" :maxFractionDigits="5"  v-model="v$.normalDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.normalDeliveryShipping.$invalid && submitted }"/>
-                                                    <small v-if="(v$.normalDeliveryShipping.$invalid && submitted) || v$.normalDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.normalDeliveryShipping.required.$message.replace('Value', 'Normal Delivery') }}</small>
-                                                </div>
-                                            </div>
-                                            <!--Maximins Order Product -->
-                                            <div class="col">
-                                                <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Maximins</label>
-                                                    <InputNumber mode="decimal" placeholder="Maximins" inputClass="border-round-lg text-sm"  v-model="v$.maximinsOrderProduct.$model" :class="{ 'p-invalid border-round-lg p-error': v$.maximinsOrderProduct.$invalid && submitted }"/>
-                                                    <small v-if="(v$.maximinsOrderProduct.$invalid && submitted) || v$.maximinsOrderProduct.$pending.$response" class="p-error text-sm">{{ v$.maximinsOrderProduct.required.$message.replace('Value', 'Maximin Order') }}</small>
-                                                </div>
-                                            </div>
-                                            <!-- Packing Type -->
-                                             <div class="col">
-                                                <div class="field">
-                                                    <label for="name_en" class="text-sm font-semibold">Packing Type</label>
-                                                    <InputText placeholder="Packing Type" inputClass="border-round-lg text-sm"  v-model="v$.packingTypeShip.$model" :class="{ 'p-invalid border-round-lg p-error': v$.packingTypeShip.$invalid && submitted }"/>
-                                                    <small v-if="(v$.packingTypeShip.$invalid && submitted) || v$.packingTypeShip.$pending.$response" class="p-error text-sm">{{ v$.packingTypeShip.required.$message.replace('Value', 'Package Type') }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </el-card>
-                                </div>
+
                                 <!--========Variations Type of Spec - Start=======-->
                                 <div class="col-12 field">
                                     <div class="field">
@@ -363,6 +294,93 @@
                                         </div> 
                                     </div>
                                 </div>
+                            </div>
+                            <!-- =============Product Feature Package Shipping Price============== -->
+                            <div class="col-12 xl:col-12 lg:col-12 field">
+                                
+                                <el-card class="box-card" shadow="hover">
+                                    <template #header>
+                                        <div>
+                                            <span>Shipping Information</span>
+                                            <el-tooltip
+                                                class="box-item"
+                                                effect="dark"
+                                                content="ការកំណត់តម្លៃដឹកជញ្ជូន តម្លៃមានការប្រែប្រួលក្នុងល័ក្ខខណ្ខម្ចាស់អាជីវកម្មបានចុះអនុស្សរណៈនៃការយោគយល់គ្នាជាមួយនឹងក្រុមដឹកជញ្ជូន"
+                                                placement="top-start"
+                                            >
+                                                <span class="input-label-secondary cursor-pointer pl-2">
+                                                    <i class="pi pi-question-circle" style="font-size: 1rem"></i>
+                                                </span>
+                                            </el-tooltip>
+                                            
+                                        </div>
+                                    </template>
+                                    <div class="grid">
+                                        <!-- Delivery Company -->
+                                        <div class="col-4">
+                                            <div class="field">
+                                                <label for="name_en" class="text-sm font-semibold">Delivery Company</label>
+                                                    <Dropdown 
+                                                        :options="deliveryShippingCompanyList" 
+                                                        filter 
+                                                        v-model="v$.selectedDeliveryCompany.$model" 
+                                                        :class="{ 'p-invalid border-round-lg border-round-lg p-error': v$.selectedDeliveryCompany.$invalid && submitted }"
+                                                        inputId="ship_id"
+                                                        optionLabel="ship_company" 
+                                                        placeholder="Select a Delivery Company" 
+                                                        aria-describedby="dd-error"
+                                                        class="w-full border-round-lg text-sm">
+                                                        <template #value="slotProps">
+                                                            <div v-if="slotProps.value" class="flex align-items-center">
+                                                                <div>{{ slotProps.value?.ship_company }}</div>
+                                                            </div>
+                                                            <span v-else>
+                                                                {{ slotProps.placeholder }}
+                                                            </span>
+                                                        </template>
+                                                        <template #option="slotProps">
+                                                            <div class="flex align-items-center">
+                                                                <div>{{ slotProps.option?.ship_company }}</div>
+                                                            </div>
+                                                        </template>
+                                                    </Dropdown>
+                                                <small v-if="(v$.selectedDeliveryCompany.$invalid && submitted) || v$.selectedDeliveryCompany.$pending.$response" class="p-error text-sm">{{ v$.selectedDeliveryCompany.required.$message.replace('Value', 'Delivery Company') }}</small>
+                                            </div>
+                                        </div>
+                                        <!--Express Delivery -->
+                                        <div class="col-4">
+                                            <div class="field">
+                                                <label for="name_en" class="text-sm font-semibold">Express Delivery (៛)</label>
+                                                <InputNumber mode="decimal" placeholder="Express Delivery" inputClass="border-round-lg text-sm" :minFractionDigits="2" :maxFractionDigits="5"   v-model="v$.expressDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.expressDeliveryShipping.$invalid && submitted }"/>
+                                                <small v-if="(v$.expressDeliveryShipping.$invalid && submitted) || v$.expressDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.expressDeliveryShipping.required.$message.replace('Value', 'Express Delivery') }}</small>
+                                            </div>
+                                        </div>
+                                        <!--Normal Delivery -->
+                                        <div class="col-4">
+                                            <div class="field">
+                                                <label for="name_en" class="text-sm font-semibold">Normal Delivery (៛)</label>
+                                                <InputNumber mode="decimal" placeholder="Normal Delivery" inputClass="border-round-lg text-sm"  :minFractionDigits="2" :maxFractionDigits="5"  v-model="v$.normalDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.normalDeliveryShipping.$invalid && submitted }"/>
+                                                <small v-if="(v$.normalDeliveryShipping.$invalid && submitted) || v$.normalDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.normalDeliveryShipping.required.$message.replace('Value', 'Normal Delivery') }}</small>
+                                            </div>
+                                        </div>
+                                        <!--Maximins Order Product -->
+                                        <div class="col">
+                                            <div class="field">
+                                                <label for="name_en" class="text-sm font-semibold">Maximins</label>
+                                                <InputNumber mode="decimal" placeholder="Maximins" inputClass="border-round-lg text-sm"  v-model="v$.maximinsOrderProduct.$model" :class="{ 'p-invalid border-round-lg p-error': v$.maximinsOrderProduct.$invalid && submitted }"/>
+                                                <small v-if="(v$.maximinsOrderProduct.$invalid && submitted) || v$.maximinsOrderProduct.$pending.$response" class="p-error text-sm">{{ v$.maximinsOrderProduct.required.$message.replace('Value', 'Maximin Order') }}</small>
+                                            </div>
+                                        </div>
+                                        <!-- Packing Type -->
+                                            <div class="col">
+                                            <div class="field">
+                                                <label for="name_en" class="text-sm font-semibold">Packing Type</label>
+                                                <InputText placeholder="Packing Type" inputClass="border-round-lg text-sm"  v-model="v$.packingTypeShip.$model" :class="{ 'p-invalid border-round-lg p-error': v$.packingTypeShip.$invalid && submitted }"/>
+                                                <small v-if="(v$.packingTypeShip.$invalid && submitted) || v$.packingTypeShip.$pending.$response" class="p-error text-sm">{{ v$.packingTypeShip.required.$message.replace('Value', 'Package Type') }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-card>
                             </div>
                         </el-tab-pane>
                         <!--=========Tab Panel of Kh =============-->

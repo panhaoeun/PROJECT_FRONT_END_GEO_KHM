@@ -11,7 +11,7 @@
                 <div class="px-4 py-4">
                     <div class="w-full surface-card py-6 px-12 sm:px-8" style="border-radius: 53px">
                         <div class="text-center mb-5">
-                            <div class="text-900 text-3xl font-medium mb-3">Welcome, E-24market!</div>
+                            <div class="text-900 text-3xl font-medium mb-3">Welcome, e24market!</div>
                             <span class="text-600 font-medium">Sign in to continue</span>
                         </div>
                         <!-- Form Submit -->

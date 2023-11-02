@@ -18,9 +18,6 @@
             <el-tabs v-model="activeName" class="demo-tabs text-xl">
                 <form method="POST">
                     <!--Form Submitted-->
-                   <Message severity="error" v-for="(errorArray, index) in notifmsg" :key="index">
-                        {{ errorArray[0] }} 
-                   </Message>
                     <el-tab-pane label="English(EN)" name="english-tabs">
                         <!-- English -->
                         <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
@@ -32,9 +29,34 @@
                                             Category
                                             <span class="p-error">*</span>
                                         </label>
-                                        <div class="border border-round-lg" style="padding: 11px !important;">
-                                            {{ getCurrentCategorySelect }} {{ selectedCategories?.catNameEn }}
-                                        </div>
+                                        <Dropdown 
+                                            :options="selectedCategoriesListArr" 
+                                            filter 
+                                            v-model="v$.selectedCategories.$model" 
+                                            :class="{ 'p-invalid border-round-lg border-round-lg p-error': v$.selectedCategories.$invalid && submitted }"
+                                            inputId="catID"
+                                            optionLabel="catNameEn" 
+                                            placeholder="Select a Categories" 
+                                            aria-describedby="dd-error"
+                                            class="w-full border-round-lg text-sm">
+                                            <template #value="slotProps">
+                                                <div v-if="slotProps.value" class="flex align-items-center">
+                                                    <div>{{ slotProps.value?.catNameEn }}</div>
+                                                </div>
+                                                <span v-else>
+                                                    {{ slotProps.placeholder }}
+                                                </span>
+                                            </template>
+                                            <template #option="slotProps">
+                                                <div class="flex align-items-center">
+                                                    <div>{{ slotProps.option?.catNameEn }}</div>
+                                                </div>
+                                            </template>
+                                        </Dropdown>
+                                        <small v-if="(v$.selectedCategories.$invalid && submitted) || 
+                                            v$.selectedCategories.$pending.$response" class="p-error text-lg">
+                                            {{ v$.selectedCategories.required.$message.replace('Value', 'Categories') }}
+                                        </small>
                                     </div>
                                     <!-- Name Sub Category -->
                                     <div class="col-6 field">
@@ -122,8 +144,12 @@ export default {
             proSubCategoryNameEng: '',
             proSubCategoryNameKh: '',
             proSubCategoryDesEng: '',
-            proSubCategoryDesKh: ''
+            proSubCategoryDesKh: '',
+            selectedCategoriesListArr: null
         }
+    },
+    mounted() {
+        this.getCurrentListCatView();
     },
     components() {
         Plus
@@ -138,23 +164,18 @@ export default {
                 required,
                 minLength: minLength(3)
             },
-        }
-    },
-    computed: {
-        getCurrentCategorySelect(){
-            const listCategories = this.getCurrentListCatView();
-            return listCategories;
+            selectedCategories: {
+                required
+            },
         }
     },
     methods: {
         getCurrentListCatView(){
             this.proSubCategoryService.getProCategory().then((currentCat) => {
-                    if (currentCat === undefined || currentCat === null) {
-                        return { role_name: '', childrenModule: [] };
-                    }
-                const currentNameCat =  currentCat.find(cat =>cat?.catID === parseInt(this.$route.params.superCatID));
-                this.selectedCategories = currentNameCat ?? [];
-                return currentNameCat;
+                if (currentCat === undefined || currentCat === null) {
+                    return { role_name: '', childrenModule: [] };
+                }
+                this.selectedCategoriesListArr = currentCat ? currentCat : [];
             });
         },
         async handleSubCategorySubmit(isFormValidCategorySub) {
@@ -168,9 +189,9 @@ export default {
                 if (!this.proSubCategoryNameEng != "" || this.proSubCategoryNameEng !== null) {
                     // Data Response
                     const data = {
-                        superSubCatID: this.$route.params.superCatID,
-                        productSubCatEng: this.proSubCategoryNameEng,
-                        productSubCatKh: this.proSubCategoryNameKh
+                        superSubCatID: this.selectedCategories?.catID ? this.selectedCategories?.catID : '',
+                        productSubCatEng: this.proSubCategoryNameEng ? this.proSubCategoryNameEng : '',
+                        productSubCatKh: this.proSubCategoryNameKh ? this.proSubCategoryNameKh : ''
                     }
                     this.proSubCategoryService.createSubProCategory(data).then((response) => {
                         this.isProcessingSubmit = true;
@@ -178,12 +199,25 @@ export default {
                             ElMessage.success(response.data.message);
                             // Push Router
                             this.$router.push("/vendor/products/sub-category/list");
+                            window.location.reload();
                         }
                     })
                     .catch(error => {
-                        ElMessage.error(error.message);
-                        this.notifmsg = error.response.data.error.error;
-                        return false;
+                        this.$notify.error({
+                            title: 'Unsuccessfully create sub categories',
+                            message: error.response.data.error.message ?? 'Unsuccessfully create sub categories',
+                            showClose: false
+                        });  
+                        if(error.response.data.error.error.errors){
+                            for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                this.$notify.error({
+                                    title: 'Unsuccessfully create sub categories',
+                                    message: messageValidation ?? 'Unsuccessfully create sub categories',
+                                    showClose: true
+                                });   
+                            }
+                        } 
                     });
                 }
             } catch (error) {

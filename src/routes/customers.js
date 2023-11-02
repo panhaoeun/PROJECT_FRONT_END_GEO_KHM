@@ -71,6 +71,62 @@ export default [
             }
         },
         /**
+         * @Router New Customer Order cart
+        * **/ 
+        {
+            path: "/customer/shopping-cart/new-custom-cart-item-order",
+            name: 'shopping-cart-customer-item',
+            component: () => import("../views/customer_new_ui/customer_cart_item/CustomerCartItemNew.vue"),
+        },
+        {
+            path: "/product-details/product/:slugName/:productId",
+            name: 'view-customer-detail-by-id-slug',
+            component: () => import("../views/customer_new_ui/product/_id.vue"),
+        },
+        {
+            path: "/customer/shipping-address/check-out-customer",
+            name: 'shipping-address',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/checkout_payment/shipping_billing_address/ShippingAddressCheckout.vue"),
+        },
+        {
+            path: "/customer/checkout-payment/payment-method",
+            name: 'payment-check-gate-way',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/checkout_payment/PaymentMethodCheckOut.vue"),
+        },
+        // My Profile
+        {
+             path: "/user/profile",
+             name: 'my-account-profile',
+             beforeEnter: requireAuth,
+             component: () => import("../views/customer_new_ui/my_customer_profile/users_profile/UsersProfile.vue"),
+        },
+        {
+            path: "/user/orders",
+            name: 'my-account-order-history',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/customer_orders/CustomerOrderHistory.vue"),
+        },
+        {
+            path: "/user/orders/:orderId",
+            name: 'my-account-order-history-by-detail-by-id',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/customer_orders/CustomerOrderHistoryDetailByID.vue"),
+        },
+        {
+            path: "/user/addresses",
+            name: 'my-account-user-address',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/users_profile/AccountUserAddress.vue"),
+        },
+        {
+            path: "/user/wallet-order-pay",
+            name: 'my-account-e-wallet-order-payments',
+            beforeEnter: requireAuth,
+            component: () => import("../views/customer_new_ui/my_customer_profile/e_wallet_payments/MyWalletPaymentOrderCurrent.vue"),
+        },
+        /**
          * @Router My Order Payment & My Accounts
          * */
         /**
@@ -193,6 +249,15 @@ export default [
                     }
                 }
             }
+        },
+        /**
+         * @Router Products Filter By Shop - New Customer Page
+         * @Filter Filter By Shop
+        * */
+        {
+            path: "/customer/search-product/filter-product-shop/shop-by-name-filter/:shopId/:shopName",
+            name: 'filter-search-product-detail-shop-name-filter',
+            component: () => import("../views/customer_new_ui/shop_filter/_slug_shop.vue"),
         },
         /**
          * @Router Customer 

@@ -18,6 +18,11 @@ import {
 import ShippingStore from './ecommerce/shipping';
 import BillingStore from './ecommerce/billing';
 import MyWalletStore from "./modules/my_wallet";
+import Common from "./common";
+import Listing from "./listing";
+import Home from "./home";
+import Detail from "./details";
+import Resource from "./resource";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -27,15 +32,30 @@ const store = createStore({
         id: null,
         name: [],
         shareOffcanvas: false,
-        language: getLanguage()
+        language: getLanguage(),
+        imgSrcUrl: '',
+        defaultImage: '',
+        thumbPrefix: '',
     },
     getters: {
         shareOffcanvas: (state) => state.shareOffcanvas,
         language: (state) => state.language,
+        defaultImage: (state) => state.defaultImage,
+        imgSrcUrl: (state) => state.imgSrcUrl,
+        thumbPrefix: (state) => state.thumbPrefix,
     },
     mutations: {
         openBottomCanvasCommit(state, payload) {
             state[payload.name] = payload.value
+        },
+        SET_DEFAULT_IMAGE(state, defaultImage) {
+            state.defaultImage = defaultImage
+        },
+        SET_IMG_SRC_URL(state, imgSrcUrl) {
+            state.imgSrcUrl = imgSrcUrl
+        },
+        SET_THUMB_PREFIX(state, thumbPrefix) {
+            state.thumbPrefix = thumbPrefix
         },
     },
     actions: {
@@ -56,7 +76,12 @@ const store = createStore({
         app: app,
         users: usersPerm,
         shippingStore: ShippingStore,
-        billingStore: BillingStore
+        billingStore: BillingStore,
+        common: Common,
+        listing: Listing,
+        home: Home,
+        detail: Detail,
+        resource: Resource
     },
 });
 // Load all modules.

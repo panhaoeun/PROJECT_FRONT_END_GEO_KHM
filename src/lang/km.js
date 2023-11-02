@@ -267,6 +267,7 @@ export default {
         productName: "ឈ្មោះផលិតផល",
         purchasePrice: "តម្លៃទិញចូល",
         qty: "ចំនួនសរុប",
+        messageProductList: 'Products Message Table',
         loadingProduct: "កំពុងទាញយកផលិតផល..."
     },
     customer: {

@@ -2,7 +2,7 @@ import ShippingBillingAddressServices from "../../services/customers/address/Shi
 import DeliveryTrackingServices from "../../services/delivery_tracking/DeliveryTrackingService";
 const shippingAddress = new ShippingBillingAddressServices();
 const deliveryTracking = new DeliveryTrackingServices();
-import { ElMessageBox, ElNotification } from 'element-plus';
+// import { ElMessageBox, ElNotification } from 'element-plus';
 import _ from "lodash";
 import { isLoggedIn } from "@/utils/auth/auth";
 import ShippingDTO from '../../views/customers/sopping_cart/my_account_checkout/ShippingAddress.json';
@@ -53,12 +53,11 @@ export default {
                         if (address.length > 0) {
                             commit('setGetAddrShipping', address);
                         } else throw new Error(!address);
-                    }).catch((error) => {   
-                        throw new Error(error);
                     });
                 }   
             } catch (err) {
-                console.log(err)
+                commit('setGetAddrShipping', []);
+                this.fetchingAddressData = false
                 throw new Error(err);
             }
         },
@@ -119,12 +118,7 @@ export default {
                     await shippingAddress.addShippingBillingAddress(addressModule)
                         .then(async (address) => {
                             if (address.data.success === true) {
-                                ElNotification({
-                                    title: `Successfully Create Shipping Address`,
-                                    message: address.data?.message ? address.data?.message : '',
-                                    showClose: false,
-                                    type: 'success'
-                                });
+                                commit('common/SET_TOAST_MESSAGE', 'Successfully Create Shipping Address', {root: true});
                                 window.location.reload();
                                 if (rootGetters['cart/checkoutInitiated'] && action !== 'get') {
                                     const reqObj = {
@@ -149,22 +143,16 @@ export default {
                         })
                         .catch((error) => {
                             if (error) {
-                                ElNotification({
-                                    title: 'Error Create Address',
-                                    message: error.response.data.error.message ?? 'Unsuccessfully for create address',
-                                    showClose: false,
-                                    type: 'error'
+                                commit('common/SET_TOAST_ERROR', error.response.data.error?.message, {
+                                    root: true
                                 });
                             }
                             // Validation Error
                             if (error.response.data.error.error.errors) {
                                 for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
                                     const messageValidation = error.response.data.error.error.errors[index].message ?? '';
-                                    ElNotification({
-                                        title: 'Error Create Address Address',
-                                        message: messageValidation ?? 'Unsuccessfully for updated address',
-                                        showClose: false,
-                                        type: 'error'
+                                    commit('common/SET_TOAST_ERROR', messageValidation ? messageValidation : '', {
+                                        root: true
                                     });
                                 }
                             }
@@ -174,84 +162,47 @@ export default {
                   
                     await shippingAddress.updatedShippingBillingAddress(addrId ? addrId : 0, addressModule)
                         .then((address) => {
-                            console.log(address)
                             if(address.data.success === true){
-                                ElNotification.success({
-                                    title: `Successfully Updated Shipping Address`,
-                                    message: address.data?.message ? address.data?.message : '' ,
-                                    showClose: false
+                                commit('common/SET_TOAST_MESSAGE', 'Successfully Updated Shipping Address', {
+                                    root: true
                                 });
                                 window.location.reload();
                             }
                         })
                         .catch((error) => {
                             if(error){
-                                ElNotification.error({
-                                    title: 'Error Updated Shipping Address',
-                                    message: error.response.data.error.message ?? 'Unsuccessfully for updated shipping address',
-                                    showClose: false
-                                });   
+                                commit('common/SET_TOAST_ERROR', error.response.data.error.message ? error.response.data.error.message : '', {
+                                    root: true
+                                });
                             }
                             // Validation Error
                             if(error.response.data.error.error.errors){
                                 for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
                                     const messageValidation = error.response.data.error.error.errors[index].message ?? '';
-                                    ElNotification.error({
-                                        title: 'Error Updated Shipping Address',
-                                        message: messageValidation ?? 'Unsuccessfully for updated shipping address',
-                                        showClose: false
-                                    });   
+                                    commit('common/SET_TOAST_ERROR', messageValidation ? messageValidation : '', {
+                                        root: true
+                                    });
                                 }
                             }
                         });
                 } else if (action === "delete"){
-                    ElMessageBox.confirm('Are you sure you want to Delete Shipping Address?', 'Deleted Shipping Address', {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
-                        type: 'warning',
-                        beforeClose: (action, instance, done) => {
-                            if (action === 'confirm') {
-                                instance.confirmButtonLoading = true;
-                                instance.confirmButtonText = 'Loading...';
-                                setTimeout(() => {
-                                    done();
-                                    setTimeout(() => {
-                                        instance.confirmButtonLoading = false;
-                                    }, 300);
-                                }, 1000);
-                            } else {
-                                done();
-                            }
-                        }
-                    }).then(async () => {
-                       const addrShipId = parseInt(reqData?.addressId) ? parseInt(reqData?.addressId) : 1;
-                       await shippingAddress.deletedShippingBillingAddress(addrShipId ? addrShipId : 0)
+                        const addrShipId = parseInt(reqData?.addressId) ? parseInt(reqData?.addressId) : 1;
+                        await shippingAddress.deletedShippingBillingAddress(addrShipId ? addrShipId : 0)
                             .then((delShipAddr) => {
                                 if (delShipAddr) {
-                                    ElNotification.success({
-                                        title: `Successfully Deleted Address`,
-                                        message: delShipAddr.data?.message ? delShipAddr.data?.message : '',
-                                        showClose: false
+                                    commit('common/SET_TOAST_MESSAGE', 'Successfully Deleted Address', {
+                                         root: true
                                     });
                                     window.location.reload();
                                 }
                             })
                             .catch((error) => {
                                 if (error) {
-                                    console.log(error)
-                                    ElNotification.error({
-                                        title: 'Error Deleted Shipping Address',
-                                        message: error.response.data.error.message ?? 'Unsuccessfully for deleted address',
-                                        showClose: false
+                                    commit('common/SET_TOAST_ERROR', error.response.data.error.message ?? 'Unsuccessfully for deleted address', {
+                                        root: true
                                     });
                                 }
                             });
-                    }).catch(() => {
-                        ElNotification.info({
-                            type: 'info',
-                            message: 'Delete canceled'
-                        });
-                    });
                 }
                 return true;
             } catch (err) {

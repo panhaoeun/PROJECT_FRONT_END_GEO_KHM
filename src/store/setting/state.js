@@ -5,7 +5,7 @@ export const initialState = {
   storeKey: 'huisetting',
   setting: {
     app_name: {
-      value: 'E-24market'
+      value: 'e24market'
     },
     theme_scheme_direction: {
       value: 'ltr'
@@ -56,7 +56,7 @@ export const defaultState = {
       target: '[data-setting="app_name"]',
       choices: [],
       type: 'text',
-      value: 'E-24market'
+      value: 'e24market'
     },
     theme_scheme_direction: {
       target: 'html',
