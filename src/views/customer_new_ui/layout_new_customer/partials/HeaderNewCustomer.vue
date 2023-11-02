@@ -183,9 +183,9 @@
           >
             <router-link
               class="font-bold text-black"
-              to="/user/profile"
+              to="/user/addresses"
             >
-                User Profile
+                My Address
             </router-link>
             <router-link
               class="font-bold text-black"

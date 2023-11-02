@@ -251,6 +251,15 @@ export default [
             }
         },
         /**
+         * @Router Products Filter By Shop - New Customer Page
+         * @Filter Filter By Shop
+        * */
+        {
+            path: "/customer/search-product/filter-product-shop/shop-by-name-filter/:shopId/:shopName",
+            name: 'filter-search-product-detail-shop-name-filter',
+            component: () => import("../views/customer_new_ui/shop_filter/_slug_shop.vue"),
+        },
+        /**
          * @Router Customer 
          * @Customer Profile
          * 

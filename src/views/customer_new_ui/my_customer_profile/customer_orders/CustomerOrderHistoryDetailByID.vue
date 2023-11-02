@@ -83,7 +83,7 @@
                                 </li>
                             </ul>
                             <!-- Shipping Address of Customer -->
-                            <p
+                            <div
                                 class="mx-w-400x lh-2 mr-15"
                             >
                                 <p class="font-bold text-danger">Customer Info:</p>
@@ -97,11 +97,11 @@
                                 class="block">
                                    <label class="font-bold">Email:</label>  {{ editOrderDetail?.customerEmail }}
                                 </span>
-                                <span
-                                class="block">
+                                <span class="block">
                                      <label class="font-bold">Phone:</label>{{ editOrderDetail?.customerPhone }}
                                 </span>
-                            </p>
+                                
+                            </div>
                         </div>
                         <!-- Order Status -->
                         <!-- <div class="mb-15">

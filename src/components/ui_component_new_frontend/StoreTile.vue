@@ -12,7 +12,7 @@
         />
 
         <router-link
-          class="visit-btn ajax-btn font-bold text-black"
+          class="visit-btn ajax-btn bg-red-500 font-bold text-white"
           :to="storeLink(store)"
         >
             Visit Store

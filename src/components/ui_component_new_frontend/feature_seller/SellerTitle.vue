@@ -1,8 +1,8 @@
 <template>
   <router-link
     class="block page-link"
-    to="#"
-    :title="brand.shop_eng"
+    :to="`/customer/search-product/filter-product-shop/shop-by-name-filter/${brand?.shop_type_id}/${convertToSlug(brand?.shop_eng)}`"
+    :title="brand?.shop_eng"
   >
     <div class="img-wrapper">
         <lazy-image

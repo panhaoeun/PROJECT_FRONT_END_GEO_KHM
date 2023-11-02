@@ -224,9 +224,9 @@
 
   import {mapGetters, mapActions} from 'vuex'
   import util from '@/mixin/util'
-  import productPriceHelper from '@/mixin/productPriceHelper'
-  import metaHelper from '@/mixin/metaHelper'
-  import productHelper from '@/mixin/productHelper'
+//   import productPriceHelper from '@/mixin/productPriceHelper'
+//   import metaHelper from '@/mixin/metaHelper'
+//   import productHelper from '@/mixin/productHelper'
   import ProductImages from '@/components/ui_component_new_frontend/ProductImages'
   import DetailRight from '@/components/ui_component_new_frontend/DetailRight'
   import DetailRightStoreItem from '@/components/ui_component_new_frontend/DetailRightStoreItem'
@@ -241,6 +241,7 @@
 
   export default {
     middleware: ['common-middleware'],
+    mixins: [util],
     head() {
       return {
         title: this.product?.meta_title,
@@ -287,7 +288,7 @@
       DetailRight,
     //   ProductReview
     },
-    mixins: [util, metaHelper, productHelper, productPriceHelper],
+    // mixins: [util, metaHelper, productHelper, productPriceHelper],
     computed: {
       description() {
         return this.product[0]?.product[0]?.product_description_eng || null

@@ -231,8 +231,9 @@ export default {
       }
     },
     storeLink(item) {
+        console.log(item?.shop_eng)
       if (item) {
-        return `/shop/${item?.slug}`
+        return `/customer/search-product/filter-product-shop/shop-by-name-filter/${item?.shopId}/${this.convertToSlug(item?.shop_eng)}`
       }
     },
     categoryLink(item) {
@@ -247,8 +248,13 @@ export default {
     },
     productLink(item) {
       if (item) {
-        return `/product-details/product/${item?.slug}/${item?.productId}`
+        return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.productId}`
       }
+    },
+    productLinkURL(item) {
+        if (item) {
+            return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.id}`
+        }
     },
     socialRedirect(service) {
       return apiBase + json.api.url + json.api.socialLogin + '/' + service

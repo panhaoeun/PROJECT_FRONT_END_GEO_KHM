@@ -3,7 +3,7 @@
     <div class="container-fluid mtb-20 mtb-sm-15">
       <div class="order-wrapper">
         <ul class="left-sidebar">
-          <li
+          <!-- <li
             :class="{active: activeRoute === 'profile'}"
           >
             <router-link
@@ -13,7 +13,7 @@
             >
                 My Profile
             </router-link>
-          </li>
+          </li> -->
           <li
             :class="{active: activeRoute === 'addresses'}"
           >
