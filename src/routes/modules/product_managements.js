@@ -125,6 +125,17 @@ const defaultChildRoutesProMS = (prefix) => [
           requiresAuth: true,
           component: () => import("../../views/vendors/products/detail_products/ViewProductDetails.vue"),
     },
+    {
+        path: "/vendor/products/view-detail-module-vendor-admin-permission/:proId",
+        name: prefix + '.products-module-permission-view-details',
+        hidden: true,
+        meta: {
+            title: 'proProductViewDetailMS',
+            permissions: ['product_module']
+        },
+        requiresAuth: true,
+        component: () => import("../../views/vendors/products/detail_products/ViewProductDetails.vue"),
+    },
     // Message Content By Admin View Detail
      {
          path: "/vendor/message-content/view-detail-by-vendor/:proId",

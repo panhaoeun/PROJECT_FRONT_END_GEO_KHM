@@ -140,7 +140,7 @@
           @focus="openSearchPopup"
           @blur="blurSearchInput"
           type="text"
-          class="border-1"
+          class="border-1 "
           :placeholder="$t('header.searchHere')"
           v-model="searchedText"
         >

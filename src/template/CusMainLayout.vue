@@ -22,7 +22,7 @@
         <Header
             @going-next="goingNext"
         />
-        <main style="min-height:500px" class="bg-white">
+        <main style="min-height:500px">
             <router-view
                 :ref_key="componentId"
             />

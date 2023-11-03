@@ -101,7 +101,7 @@
                                                     />
                                                     <Button icon="pi pi-search" outlined rounded class="mr-2"
                                                         v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
-                                                        @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
+                                                        @click.prevent="$router.push(`/vendor/products/view-detail-module-vendor-admin-permission/${parseInt(data?.proId) ?? ''}`)"
                                                     />
                                                 </template>
                                             </template>
@@ -114,7 +114,7 @@
                                                         />
                                                         <Button icon="pi pi-search" outlined rounded class="mr-2"
                                                             v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
-                                                            @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
+                                                            @click.prevent="$router.push(`/vendor/products/view-detail-module-vendor-admin-permission/${parseInt(data?.proId) ?? ''}`)"
                                                         />
                                                 </template>
                                             </template>
@@ -132,7 +132,7 @@
                                             <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
                                                 <Button icon="pi pi-search" outlined rounded class="mr-2"
                                                     v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
-                                                    @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
+                                                    @click.prevent="$router.push(`/vendor/products/view-detail-module-vendor-admin-permission/${parseInt(data?.proId) ?? ''}`)"
                                                 />
                                                 <!-- View Details -->
                                                 <Button 
@@ -187,22 +187,39 @@
                         </Dialog>
                         <!-- Message View Detail By Admin -->
                         <Dialog 
+                            v-if="messageContentArrContent.length > 0 || messageContentArrContent !== ''"
                             v-model:visible="viewContentDialogMessage" 
                             :style="{ width: '600px' }"   
-                            header="Message Content By Admin"
+                            header="Message Content From Vendor"
                             :modal="true">
-                            <div class="confirmation-content" v-if="messageContentArrContent.length > 0 || messageContentArrContent !== ''">
-                                <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"  v-for="(content, index) in messageContentArrContent" :key="index">
-                                    <div class="col-12 lg:col-12">
+                            <div class="confirmation-content">
+                                <div class="grid grid-nogutter flex-wrap gap-3 p-fluid" >
+                                    <div class="col-12 ">
                                         <div class="p-input-icon-right">
-                                            <h5><b>Subject</b></h5>
-                                            <Input id="input" disabled v-model="content.titleFeedbackVendor" type="text" placeholder="Please send a Feedback" autofocus class="w-full"/>
+                                            <h5>
+                                                <b>Product Name:</b>
+                                            </h5>
+                                            <label>{{ messageContentArrContent[0]?.product_eng }}</label>
+                                            <label class="text-red-500">Code: ({{ messageContentArrContent[0]?.proCode }})</label>
                                         </div>
                                     </div>
                                     <div class="col-12 lg:col-12">
                                         <div class="p-input-icon-right">
-                                            <h5><b>Message</b></h5>
-                                            <Textarea id="input" disabled v-model="content.notedFeedbackVendor" type="text" placeholder="Please send a Feedback" autofocus class="w-full"/>
+                                            <h5>
+                                                <b>Subject:</b>
+                                            </h5>
+                                            <h6>
+                                                {{ messageContentArrContent[0]?.titleFeedbackVendor }}
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 lg:col-12">
+                                        <div class="p-input-icon-right">
+                                            <h5><b>Message:</b></h5>
+                                            <p>
+                                                {{ messageContentArrContent[0]?.notedFeedbackVendor }}
+                                            </p>
+                                            <!-- <Textarea id="input" disabled v-model="content.notedFeedbackVendor" type="text" placeholder="Please send a Feedback" autofocus class="w-full"/> -->
                                         </div>
                                     </div>
                                 </div>

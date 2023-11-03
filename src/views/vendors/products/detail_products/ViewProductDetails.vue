@@ -1,11 +1,10 @@
-<!-- eslint-disable vue/no-deprecated-slot-attribute -->
 <template>
     <div class="layout-content px-4 py-4" v-if="productListDetailID.length > 0 && productListDetailID !== '' || productListDetailID !== null">
         <!-- Titles -->
         <div class="flex justify-content-between">
             <h2 class="flex relative text-black text-xl section section-title:before">
                 <img class="flex align-items-center justify-content-center " src="../../../../../src/assets/img/product_icons/package.png" alt="Image" width="50"/>
-                <span class="flex align-items-center justify-content-center pl-2">{{ String(productListDetailID?.product_eng) ? productListDetailID?.product_eng : '7 Day' }}</span>
+                <span class="flex align-items-center justify-content-center pl-2">{{ String(productListDetailID?.product_code) ? productListDetailID?.product_code : '7 Day' }}</span>
             </h2>
             <el-button class="btn btn-primary text-sm"  type="info" size="large" @click="$router.push('/vendor/products/list')">
                 <div class="flex justify-between pl-2">
@@ -98,13 +97,15 @@
                        <table class="table">
                             <thead>
                                <tr>
-                                    <th>Reviewer</th>
-                                    <th>Review</th>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
                                     <th>Date</th>
                                </tr>
                             </thead>
                             <tbody>
-                               <Empty/>
+                                <tr>
+                                    <td>dad</td>
+                                </tr>
                             </tbody>
                        </table>
                        <el-empty :image-size="200" description="No data to show" />
