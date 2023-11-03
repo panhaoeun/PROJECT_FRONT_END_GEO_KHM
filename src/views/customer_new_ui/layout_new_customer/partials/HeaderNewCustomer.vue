@@ -126,14 +126,14 @@
           <img
             src="../../../../assets/company_logo/ecommerce_logo.png"
             alt="E-24market"
-            height="150"
-            width="139"
+            height="100"
+            width="109"
           >
         </router-link>
       </div>
       <!-- Form Search -->
       <form
-        class="search-input grow"
+        class="search-input-customer grow"
         @submit.prevent="search"
       >
         <input
@@ -152,8 +152,8 @@
           <i
             class="icon-ms search-icon"
           />
-        </button>
-
+        </button>   
+        <!-- Search Popup -->
         <search-popup
           v-if="searchPopup"
           :searched-text="searchedText"
@@ -418,8 +418,8 @@
       },
       search(){
         if(this.searchedText && (this.searchedText !== this.searched || this.$route.name !== 'search')){
-          this.$router.push({ path: `/search?q=${this.searchedText}`})
-          this.updateSearch(this.searchedText)
+            this.$router.push({ path: `/customer/filter-search/product-categories-name?q=${this.searchedText}`})
+            this.updateSearch(this.searchedText)
         }
       },
       async loggingOut(){

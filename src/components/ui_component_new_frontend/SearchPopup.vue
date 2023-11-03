@@ -1,8 +1,7 @@
 <template>
   <div class="search-popup">
     <div class="sb popup-inner">
-      <div class="pop-over-content ">
-
+      <div class="pop-over-content">
         <div
           class="spinner-wrapper flex justify-content-center flex-wrap layer-white"
           v-if="fetchingData"
@@ -35,78 +34,56 @@
             </div>
             <!--search-section-->
           </div>
+          <!-- Categories -->
           <div
             v-if="categories.length || subCategories.length"
             class="mb-15"
           >
-            <h4 class="bold">
-              Categories
-            </h4>
-            <div class="search-section category-wrapper">
-              <router-link
-                v-for="(value, index) in categories"
-                :key="`c-${index}`"
-                :to="categoryLink(value)"
-                class="page-link center-text item">
-
-                <div class="img-wrapper">
-                  <lazy-image
-                    :data-src="imageURL(value)"
-                    :title="value.title"
-                    :alt="value.title"
-                    height="50"
-                    width="50"
-                  />
+                <h4 class="bold">
+                    Categories
+                </h4>
+                <div class="search-section category-wrapper">
+                    <router-link
+                        v-for="(value, index) in categories"
+                        :key="`c-${index}`"
+                        to="#"
+                        class="page-link center-text item">
+                            <div class="img-wrapper">
+                                <lazy-image
+                                    :data-src="imageURL(value)"
+                                    :title="value?.catNameEn"
+                                    :alt="value?.catNameEn"
+                                    height="50"
+                                    width="50"
+                                />
+                            </div>
+                        <h5
+                        class="title ellipsis ellipsis-1"
+                        >
+                            {{value?.catNameEn}}
+                        </h5>
+                    </router-link>
                 </div>
-                <h5
-                  class="title ellipsis ellipsis-1"
-                >
-                  {{value.title}}
-                </h5>
-              </router-link>
-
-              <router-link
-                v-for="(value, index) in subCategories"
-                :key="`sc-${index}`"
-                :to="subCategoryLink(value, value.category)"
-                class="page-link center-text item"
-              >
-                <div class="img-wrapper">
-                  <lazy-image
-                    :data-src="imageURL(value)"
-                    :title="value.title"
-                    :alt="value.title"
-                    height="50"
-                    width="50"
-                  />
-                </div>
-                <h5
-                  class="title ellipsis ellipsis-1"
-                >
-                  {{value.title}}
-                </h5>
-
-              </router-link>
-            </div>
-            <!--search-section-->
           </div>
-          <div
-            v-if="products.length"
-            class="mb-15"
-          >
-            <h4 class="bold">
-                Products
-            </h4>
+          <!-- Product List -->
             <div
-              class="search-section search-product-tile"
+                v-if="products.length"
+                class="mb-15"
             >
-              <searched-product-tile
-                v-for="(value, index) in products"
-                :key="`prod-${index}`"
-                :product="value"
-              />
-            </div><!--search-section-->
-          </div>
+                <h4 class="bold">
+                    Products
+                </h4>
+                <div
+                class="search-section search-product-tile"
+                >
+                <searched-product-tile
+                    v-for="(value, index) in products"
+                    :key="`prod-${index}`"
+                    :product="value"
+                />
+                </div>
+                <!--search-section-->
+            </div>
         </div>
 
         <div v-else>
@@ -120,7 +97,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-//   import util from 'fa-flip-horizontal/mixin/util'
+  import util from '@/mixin/util'
   import {debounce} from "debounce";
   import SearchedProductTile from "./SearchedProductTile";
   import LazyImage from "./LazyImage";
@@ -128,7 +105,11 @@
 
   export default {
     name: 'SearchPopup',
-    components: {Spinner, LazyImage, SearchedProductTile},
+    components: {
+        Spinner, 
+        LazyImage,
+        SearchedProductTile
+    },
     directives: {},
     props: {
       searchedText: {
@@ -136,13 +117,13 @@
         default: '',
       }
     },
-    // mixins: [util],
+    mixins: [util],
     watch: {
       searchedText: debounce(function (value) {
         if(value){
           this.fetchData()
         }else{
-          this.$emit('close')
+          this.$emit('close');
         }
       }, 700)
     },
@@ -160,7 +141,7 @@
         return this.searchedSuggestion?.sub_category || []
       },
       categories(){
-        return this.searchedSuggestion?.category || []
+        return this.searchedSuggestion?.categories || []
       },
       ...mapGetters('language', ['langCode']),
       ...mapGetters('listing', ['searchedSuggestion', 'searched']),
@@ -184,15 +165,14 @@
         this.fetchingData = true
         try {
           await this.fetchSearchedSuggestion({
-            params: { q: this.searchedText },
+            params: { queries: this.searchedText },
             lang: this.langCode
           })
 
           this.fetchingData = false
         } catch (e) {
           this.fetchingData = false
-
-          return this.$nuxt.error(e)
+          return Promise.reject(e);
         }
       },
       ...mapActions('listing', ['fetchSearchedSuggestion', 'updateSearch']),

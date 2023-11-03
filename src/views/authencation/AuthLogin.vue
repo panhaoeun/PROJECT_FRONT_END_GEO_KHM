@@ -37,7 +37,7 @@
                                     </div>
                                 <!--Forgot Password?-->
                                 <div class="flex align-items-center justify-content-between mb-2 gap-2">
-                                    <router-link to="/auth/register" class="font-medium no-underline hover:underline text-right cursor-pointer" style="color: var(--primary-color);font-size: 11px;"
+                                    <router-link to="/auth/register" class="font-medium no-underline hover:underline text-right cursor-pointer" style="font-size: 11px;"
                                         >Don't have account?
                                     </router-link>
                                 </div>
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>    
                                 <!-- Button Submit -->
-                                <MazBtn type="submit" :loading="userLoggedIn">Sign In</MazBtn>
+                                <MazBtn type="submit" color="danger" style="background-color: #c51b1e;" :loading="userLoggedIn">Sign In</MazBtn>
                                 <!-- Errors -->
                             </form>
                         <!-- Form Submit -->

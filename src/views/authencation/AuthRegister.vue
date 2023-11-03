@@ -1,28 +1,11 @@
 <template>
-       <div class="register-header bg-white border-bottom-1">
-        <!-- Logo -->
-            <header>
-                    <table class="pl-10">
-                        <tbody>
-                                <tr>
-                                    <td>
-                                        <router-link to="/">
-                                            <img src="../../assets/company_logo/ecommerce_logo.png" width="120" height="120" />
-                                        </router-link>
-                                    </td>
-                                </tr>
-                        </tbody>
-                    </table>
-            </header>
-       </div>
        <!-- Create Account -->
-        <div class="container my-4 px-4 py-4">
-            <!-- For demo purpose -->
-            <div class="row mb-4">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-6">Create Accounts</h1>
-                </div>
-            </div>
+        <div class="container">
+            <div class="center-text mb-sm-15">
+                <router-link to="/" class="my-2">
+                    <img src="../../assets/company_logo/ecommerce_logo.png" width="90" height="90" />
+                </router-link>
+            </div>  
              <!-- End -->
             <div class="row">
                 <div class="col-lg-6 mx-auto">
@@ -32,9 +15,9 @@
                                 <!-- Credit card form tabs -->
                                 <ul role="tablist" class="nav nav-pills border-500 surface-overlay border-1 nav-pills rounded nav-fill mb-3 px-2 py-2" id="pills-tab">
                                     <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
-                                                   <span class="text-lg"> Personal account </span>
-                                            </button>
+                                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                                                <span class="text-lg"> Create new account </span>
+                                        </button>
                                     </li>
                                     <!-- <li class="nav-item"> 
                                             <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"> 

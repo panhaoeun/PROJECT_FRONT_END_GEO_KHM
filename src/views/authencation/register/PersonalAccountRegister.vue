@@ -99,7 +99,7 @@
             </div>
             <!-- Create account button -->
             <div class="flex justify-content-center">
-                <MazBtn type="submit" block :loading="isLoadingPersonal">Create account</MazBtn>
+                <MazBtn  color="danger" style="background-color: #c51b1e;" type="submit" block :loading="isLoadingPersonal">Create account</MazBtn>
             </div>
         </form>
 </template>

@@ -1,4 +1,5 @@
-import json from '@/config.json';
+import json from '../../config.json';
+import router from '../routes/routes';
 
 
 const apiBase = !process.env.VUE_APP_PATH_FILE.trim() ? window.location.origin + '/' : process.env.VUE_APP_PATH_FILE;
@@ -103,7 +104,7 @@ export default {
         3: 'tags',
         4: 'brand_ids'
       },
-      defaultImage: this.$store.state.defaultImage,
+      defaultImage: 'images/no_image_available.jpeg',
       getYear: new Date().getFullYear()
     }
   },
@@ -193,19 +194,19 @@ export default {
       return `/page/${page.slug}`
     },
     imageURL(obj) {
-      return this.getImageURL(obj?.image ? obj?.image : this.defaultImage)
+      return this.getImageURL(obj?.catLogo ? obj?.catLogo : this.defaultImage)
     },
     thumbImageURL(obj) {
-      return this.getThumbImageURL(obj?.image ? obj?.image : this.defaultImage)
+      return this.getThumbImageURL(obj?.product_picture ? obj?.product_picture : this.defaultImage)
     },
     getVideoURL(video) {
       return this.$store.state.imgSrcUrl + video
     },
     getImageURL(image = this.defaultImage) {
-      return this.$store.state.imgSrcUrl + image
+      return process.env.VUE_APP_PATH_FILE + 'uploads/' + image
     },
     getThumbImageURL(image = this.defaultImage) {
-      return this.$store.state.imgSrcUrl + this.$store.state.thumbPrefix + image
+      return process.env.VUE_APP_PATH_FILE + 'uploads/products_img/thumbnail/' + image
     },
     collectionLink(item) {
       if (item) {
@@ -249,6 +250,16 @@ export default {
       if (item) {
         return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.productId}`
       }
+    },
+    productLinkURLSearch(item) {
+        if (item) {
+            return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.id}`
+        }
+        let routeing = router.resolve({
+            name: 'view-customer-detail-by-id-slug', // put your route information in
+            params: `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.id}`, // put your route information in
+        });
+        window.location.assign(routeing?.href);
     },
     productLinkURL(item) {
         if (item) {

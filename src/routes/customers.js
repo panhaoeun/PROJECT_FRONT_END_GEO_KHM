@@ -74,6 +74,11 @@ export default [
          * @Router New Customer Order cart
         * **/ 
         {
+             path: "/customer/filter-search/product-categories-name",
+             name: 'customer-filter-search-name',
+             component: () => import("../views/customer_new_ui/filter_search/SearchFilterItem.vue"),
+         },
+        {
             path: "/customer/shopping-cart/new-custom-cart-item-order",
             name: 'shopping-cart-customer-item',
             component: () => import("../views/customer_new_ui/customer_cart_item/CustomerCartItemNew.vue"),
