@@ -126,21 +126,21 @@
           <img
             src="../../../../assets/company_logo/ecommerce_logo.png"
             alt="E-24market"
-            height="150"
-            width="139"
+            height="100"
+            width="109"
           >
         </router-link>
       </div>
       <!-- Form Search -->
       <form
-        class="search-input grow"
-        @submit.prevent="search"
+        class="search-input-customer grow"
+        @submit.prevent="searchCatProName"
       >
         <input
           @focus="openSearchPopup"
           @blur="blurSearchInput"
           type="text"
-          class="border-1"
+          class="border-1 "
           :placeholder="$t('header.searchHere')"
           v-model="searchedText"
         >
@@ -152,8 +152,8 @@
           <i
             class="icon-ms search-icon"
           />
-        </button>
-
+        </button>   
+        <!-- Search Popup -->
         <search-popup
           v-if="searchPopup"
           :searched-text="searchedText"
@@ -416,10 +416,12 @@
       setQFromRoute(){
         this.searchedText = this.$route?.query?.q || ''
       },
-      search(){
+      searchCatProName(){
         if(this.searchedText && (this.searchedText !== this.searched || this.$route.name !== 'search')){
-          this.$router.push({ path: `/search?q=${this.searchedText}`})
-          this.updateSearch(this.searchedText)
+            this.$router.push({ path: '/customer/filter-search/product-categories-name', query: {
+                q: this.searchedText
+            }});
+            this.updateSearch(this.searchedText)
         }
       },
       async loggingOut(){

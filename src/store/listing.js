@@ -1,4 +1,4 @@
-// import Service from '@/services/service.js'
+import Service from '../../services.js'
 
 const state = {
   products: null,
@@ -61,19 +61,19 @@ const mutations = {
 }
 
 const actions = {
-//   setProducts({ commit }, payload) {
-//     commit('SET_PRODUCTS', payload)
-//   },
+  setProducts({ commit }, payload) {
+    commit('SET_PRODUCTS', payload)
+  },
 
-//   updateSearch({ commit }, payload) {
-//     commit('UPDATE_SEARCHED', payload)
-//   },
-//   emptySearchedSuggestion({ commit }) {
-//     commit('EMPTY_SEARCHED_SUGGESTION')
-//   },
-//   emptyProducts({ commit }) {
-//     commit('EMPTY_PRODUCTS')
-//   },
+  updateSearch({ commit }, payload) {
+    commit('UPDATE_SEARCHED', payload)
+  },
+  emptySearchedSuggestion({ commit }) {
+    commit('EMPTY_SEARCHED_SUGGESTION')
+  },
+  emptyProducts({ commit }) {
+    commit('EMPTY_PRODUCTS')
+  },
 //   async fetchProducts ({ commit }, params) {
 //     const {data} = await Service.products(params)
 
@@ -84,14 +84,13 @@ const actions = {
 //     }
 //   },
   async fetchSearchedSuggestion ({ commit }, {params, lang}) {
-    console.log(commit, params, lang)
-    // const {data} = await Service.search(params, lang)
+    const {data} = await Service.search(params, lang);
 
-    // if(data?.status === 200){
-    //   commit('SET_SEARCHED_SUGGESTION', data?.data)
-    // }else {
-    //   return Promise.reject({statusCode: data?.status, message: data?.message })
-    // }
+    if (data.result?.statusCode === 200) {
+      commit('SET_SEARCHED_SUGGESTION', data.result?.resultStatus ? data.result?.resultStatus : [])
+    }else {
+      return Promise.reject({statusCode: data?.status, message: data?.message })
+    }
   }
 }
 

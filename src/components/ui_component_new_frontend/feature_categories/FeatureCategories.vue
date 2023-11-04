@@ -3,7 +3,7 @@
         <template v-if="itemList && itemList.length">
             <!-- Title -->
             <div class="flex sided title">
-                <h5>Featured Categories</h5>
+                <h6>Featured Categories</h6>
                 <router-link
                     class="link"
                     to="/categories"

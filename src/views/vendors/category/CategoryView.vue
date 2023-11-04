@@ -4,12 +4,12 @@
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class=" font-primary text-3xl  font-medium ">{{ $t('category.categoryList') }}</h2>
-            <Button @click="$router.push('/vendor/products/category/create')">
+           <el-button type="info" size="large" class="btn btn-primary"  @click="$router.push('/vendor/products/category/create')">
                 <div class="" v-permission="[{ functionName: 'categories_module', moduleName: 'fun_create' }]">
                     <i class="pi pi-plus"></i>
                     <span class="pl-2">{{ $t('category.addCategory') }}</span>
                 </div>
-            </Button>
+            </el-button>
         </div>
         <div class="gird">
             <div class="col-12">

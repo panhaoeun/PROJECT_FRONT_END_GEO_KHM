@@ -81,17 +81,21 @@
                                         />
                                     </template>
                                 </Column>
-
-                                <Column field="id" :header="$t('product.purchasePrice')" sortField="product_unit_price"
+                                <Column field="proCode" header="Product Code" sortField="proCode" sortable>
+                                    <template #body="{ data }">
+                                        {{ data?.proCode }}
+                                    </template>
+                                </Column>
+                                <Column field="product_unit_price_khr" :header="$t('product.purchasePrice')" sortField="product_unit_price"
                                     sortable>
                                     <template #body="{ data }">
                                         <p> {{ currencyFormattedKHRiel(data?.product_unit_price_khr) }}</p>
                                         (<span>{{ currencyFormattedUSD(data?.product_unit_price) }}</span>)
                                     </template>
                                 </Column>
-                                <Column field="id" :header="$t('product.qty')" sortField="product_qty" sortable>
+                                <Column field="product_qty" :header="$t('product.qty')" sortField="product_qty" sortable>
                                     <template #body="{ data }">
-                                        {{ data?.product_qty }}
+                                        {{ parseInt(data?.product_qty) }}
                                     </template>
                                 </Column>
                                 <Column headerStyle="width: 15rem; text-align: center; alignment-item:center;"
@@ -100,7 +104,7 @@
                                         <div class="flex flex-wrap gap-2">
                                             <Button icon="pi pi-search" outlined rounded class="mr-2"
                                                 v-permission="[{ functionName: 'product_module', moduleName: 'fun_view' }]"
-                                                @click.prevent="$router.push(`/vendor/products/view-detail/${parseInt(data?.proId) ?? ''}`)"
+                                                @click.prevent="$router.push(`/vendor/products/view-detail-module-vendor-admin-permission/${parseInt(data?.proId) ?? 0}`)"
                                             />
                                             <Button 
                                                 icon="pi pi-pencil" outlined rounded class="mr-2"
@@ -114,10 +118,11 @@
                                                     @click="confirmDeleteProduct(parseInt(data?.proId) ?? '')"
                                                 />
                                             </template>
+                                            <!-- Admin -->
                                             <template v-if="currentUserAuth && currentUserAuth[1].typeUser === 'Admin'">
                                                 <Button icon="pi pi-undo" outlined rounded severity="danger"
                                                     v-permission="[{ functionName: 'product_module', moduleName: 'fun_deleted' }]"
-                                                    @click="confirmWaringDetachProductsByVendor(parseInt(data?.proId) ?? '')"
+                                                    @click="confirmWaringDetachProductsByVendor(parseInt(data?.proId), data?.proCode, data?.product_eng)"
                                                 />
                                             </template>
                                            
@@ -146,11 +151,21 @@
                         <Dialog 
                             v-model:visible="deleteRequestByAdmin" 
                             :style="{ width: '600px' }"   
-                            header="Do you want to request removal or improvement of product issues for the store owner?"
+                            header="Request?"
                             :modal="true">
                             <div class="confirmation-content">
                                 <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
+                                    <!-- Product Name -->
                                     <div class="col-12 lg:col-12">
+                                        <label for="name" class="text-red-500">Product Name:</label>
+                                        <span class="font-bold pl-2">{{ productNameByRequest }}</span>
+                                    </div>
+                                    <div class="col-12 lg:col-12">
+                                        <label for="name" class="text-red-500">Product Code:</label>
+                                        <span class="font-bold pl-2">({{ productCodeByRequest }})</span>
+                                    </div>
+                                    <div class="col-12 lg:col-12">
+                                        <label for="subCategories" class="text-sm font-semibold">Status</label>
                                         <div class="p-input-icon-right fei">
                                             <Dropdown id="transactionType"
                                                 placeholder="Please Select Status"
@@ -172,10 +187,12 @@
                                         </div>
                                     </div>
                                     <div class="col-12 lg:col-12">
+                                        <label for="subCategories" class="text-sm font-semibold">Subject</label>
                                         <InputText id="title" placeholder="Subject"  :input="v$.subjectContentRejectVendor.$touch"  v-model="v$.subjectContentRejectVendor.$model" :class="{ 'p-invalid border-round-lg p-error': v$.subjectContentRejectVendor.$invalid && submitted }" type="text" class="text-sm border-round-lg"/>
                                         <small v-if="(v$.subjectContentRejectVendor.$invalid && submitted) || v$.subjectContentRejectVendor.$pending.$response" class="p-error text-lg">{{ v$.subjectContentRejectVendor.required.$message.replace('Value', 'Subject') }}</small>
                                     </div>
                                     <div class="col-12 lg:col-12">
+                                        <label for="subCategories" class="text-sm font-semibold">Message</label>
                                         <div class="p-input-icon-right fei">
                                             <Textarea id="input"   
                                                 v-model="v$.messageContentReject.$model" 
@@ -233,6 +250,8 @@
                     { statusReject: 'Warning',id: 1 },
                     { statusReject: 'Feedback', id: 2 },
                 ],
+                productNameByRequest: '',
+                productCodeByRequest: '',
                 subjectContentRejectVendor: '',
                 statusRejectProduct: '',
                 messageContentReject: '',
@@ -353,7 +372,9 @@
                 });
             },
             //Send Request By Admin to vendor deleted product
-            confirmWaringDetachProductsByVendor(productId){
+            confirmWaringDetachProductsByVendor(productId, proCode, proName){
+                this.productCodeByRequest = proCode ? proCode : '',
+                this.productNameByRequest = proName? proName: '',
                 this.deleteRequestByAdmin = true;
                 this.productIdAdmin = parseInt(productId) ? parseInt(productId)  : 0;
             },

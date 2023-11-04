@@ -1,10 +1,10 @@
 {
   "api": {
-    "url": "api/v1/",
+    "url": "api/",
     "common": "common",
     "home": "home",
     "all": "all",
-    "products": "products",
+    "products": "customer-search-filter-item/products",
     "categories": "categories",
     "brands": "brands",
     "flashProducts": "flash-sale",
@@ -12,7 +12,7 @@
     "product": "product",
     "page": "page",
     "store": "store",
-    "search": "search",
+    "search": "common/search-filter-product-by-name-suggestion-categories-name",
     "contact": "contact",
     "reviews": "reviews",
     "trackOder": "track-order",

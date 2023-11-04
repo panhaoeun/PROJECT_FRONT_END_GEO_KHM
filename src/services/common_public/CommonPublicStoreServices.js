@@ -1,6 +1,21 @@
 import http from "../../../http-json-request";
 
 export default class CommonPublicStoreServices {
+    // Search Product by Categories and Name
+    async searchProductByCateProductName() {
+        return http.get(`/common/search-filter-product-by-name-suggestion-categories-name`).then((result) => {
+            if (!result) {
+                return false;
+            }
+            if (result.status == 200) {
+                if (result.data.success == true) {
+                    return result.data.result.resultStatus;
+                }
+            }
+        }).catch((error) => {
+            return Promise.reject(error);
+        });
+    }
     async getCommonSellerCategories() {
         return http.get(`/customer/get-seller-list/by-shop-seller`).then((result) => {
             if (!result) {

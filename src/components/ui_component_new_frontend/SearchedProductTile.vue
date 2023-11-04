@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="productLink(product)"
+    :to="productLinkURLSearch(product)"
     class="page-link center-text item"
   >
     <div class="item-inner">
@@ -10,50 +10,31 @@
         <div class="img-wrapper">
           <lazy-image
             :data-src="thumbImageURL(product)"
-            :title="product.title"
-            :alt="product.title"
+            :title="product?.product_eng"
+            :alt="product?.product_eng"
             height="50"
             width="50"
           />
         </div>
       </div>
       <div class="title-wrap">
-        <h5
-          class="ellipsis ellipsis-1 mb-5"
-        >
-          {{product.title}}
-        </h5>
-        <div class="pos-rel flex start">
-          <h5>
-            <span
-              class="strike-through"
-              v-if="prevPrice"
+      
+        <div class="pos-rel flex flex-column">
+            <h6
+            class="ellipsis ellipsis-1 mb-1"
             >
-              <price-format
-                :price="prevPrice"
-              />
+                {{product?.product_eng}}
+            </h6>
+          <p>
+            <span
+              v-if="product.product_unit_price_khr"
+            >
+              <span>{{ currencyFormattedKHRiel(product.product_unit_price_khr) }}</span>
             </span>
-            <span class="f-12">
-              <price-format
-                :price="currentPricing"
-              />
+            <span>
+               ( <span>{{ currencyFormattedUSD(product.product_unit_price) }}</span>)
             </span>
-          </h5>
-          <span
-            v-if="reducedPercent"
-            class="discount ml-10"
-          >
-            -{{reducedPercent}}%
-          </span>
-
-          <button
-            aria-label="submit"
-            class="compare-btn"
-            :title="$t('product.compare')"
-            @click.prevent="addToCompare"
-          >
-            <i class="icon-ms reload-icon"/>
-          </button>
+          </p>
         </div>
       </div>
     </div>
@@ -67,12 +48,15 @@
   import productPriceHelper from '@/mixin/productPriceHelper'
   import compareHelper from '@/mixin/compareHelper'
   import LazyImage from "./LazyImage";
-  import PriceFormat from "./PriceFormat";
+//   import PriceFormat from "./PriceFormat";
 
 
   export default {
     name: 'SearchedProductTile',
-    components: {PriceFormat, LazyImage},
+    components: {
+        // PriceFormat,
+        LazyImage
+    },
     directives: {},
     props: {
       product: {
@@ -84,24 +68,21 @@
 
     },
     mixins: [util, productPriceHelper, compareHelper],
-    watch: {
-
-    },
     computed: {
       ...mapGetters('common', ['currencyIcon', 'setting']),
     },
-
-    data() {
-      return {
-      }
-    },
     methods: {
-      ...mapActions('common', ['postRequest', 'setToastMessage', 'setToastError'])
-    },
-    async mounted() {
-
-    },
-    unmounted() {
+        ...mapActions('common', ['postRequest', 'setToastMessage', 'setToastError']),
+        // Convert Currency Amount
+        currencyFormattedKHRiel(value){
+            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        },
+        currencyFormattedUSD(value){
+            return Number(value ? value : 0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });  
+        },
     }
   }
 </script>

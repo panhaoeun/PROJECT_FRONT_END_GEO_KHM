@@ -119,7 +119,6 @@
                         :on-exceed="handleExceedRecentQRCode"
                         class="avatar-uploader-cover"
                         :limit="parseInt('1')"
-                        :http-request="handleFileSuccessRecentUploadDeposited"
                         autocomplete="off"
                         :on-remove="fileRemoveReceiptUploadQRCode"
                     >
@@ -128,10 +127,10 @@
                             style="width: 100%"
                         >
                             <i
-                                class="pi pi-cloud-upload"
+                                class="pi pi-cloud-upload flex align-items-center justify-content-center"
                                 style="font-size: 2rem"
                             ></i>
-                            <p class="font-bold text-sm">
+                            <p class="font-bold text-sm flex align-items-center justify-content-center">
                                 Upload Your QR Code Or Account Info!
                             </p>
                         </div>
@@ -161,11 +160,16 @@
             <!-- Footer Button Submitted -->
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="centerDialogVisibleWalletRequest"
-                        >Cancel</el-button
-                    >
+                    <el-button class="bg-red-500 text-white w-10rem"
+                        @click="centerDialogVisibleWalletRequest"
+                        type="danger"
+                        size="medium"
+                        >Cancel
+                    </el-button>
                     <el-button
                         type="primary"
+                        class="btn-primary my-2 w-10rem hover:bg-red-500"
+                        size="medium"
                         @click="
                             confirmRequestWithdrawWalletVendor(
                                 'ruleFormRefBalanceWithdrawRequest'
@@ -401,154 +405,152 @@ export default {
             const balanceKHRVendorCurrent = this.vendorCurrentBalanceKHRWithdraw ? this.vendorCurrentBalanceKHRWithdraw : 0;
             const balanceKHRSpliceCharacter = balanceKHRVendorCurrent.replace(/៛\s?|(,*)/g, '')  ? balanceKHRVendorCurrent.replace(/៛\s?|(,*)/g, '') : 0;
             // Check Balance Can Withdraw By Confirm Admin
-            if(checkCurrencyWithdrawType !== ''){
-                if(checkCurrencyWithdrawType === 'currency_dollar'){
-                    if (balanceRequest <= 0) {
-                        this.$notify.warning({
-                            title: 'Sorry, withdraw amount by amount cannot be less than 1 Dollar',
-                            showClose: false
-                        });
+            if (!fromRequestWithdraw) return;
+                this.$refs[fromRequestWithdraw].validate((valid) => {
+                if (valid) {
+                    if(checkCurrencyWithdrawType === 'currency_dollar'){
+                        if (balanceRequest <= 0) {
+                            this.$notify.warning({
+                                title: 'Sorry, withdraw amount by amount cannot be less than 1 Dollar',
+                                showClose: false
+                            });
+                        }
+                        if(balanceRequest > balanceUSDSpliceCharacter){
+                            this.$notify.warning({
+                                title: `Cash Insufficiency to make this withdrawal in USD (Balance Amount: ${balanceUSDVendorCurrent})`,
+                                showClose: false
+                            });
+                        }
+                    }else if(checkCurrencyWithdrawType === "currency_riel"){
+                        if (balanceRequest <= 0) {
+                            this.$notify.warning({
+                                title: `Sorry, withdraw amount by amount cannot be less than 4100 Riel`,
+                                showClose: false
+                            });
+                        }
+                        if(balanceRequest > parseFloat(balanceKHRSpliceCharacter)){
+                            this.$notify.warning({
+                                title: `Cash Insufficiency to make this withdrawal in Khmer Riel (Balance Amount: ${balanceKHRVendorCurrent})`,
+                                showClose: false
+                            });
+                        }
                     }
-                    if(balanceRequest > balanceUSDSpliceCharacter){
-                        this.$notify.warning({
-                            title: `Cash Insufficiency to make this withdrawal in USD (Balance Amount: ${balanceUSDVendorCurrent})`,
-                            showClose: false
-                        });
-                    }
-                }else if(checkCurrencyWithdrawType === "currency_riel"){
-                    if (balanceRequest <= 0) {
-                        this.$notify.warning({
-                            title: `Sorry, withdraw amount by amount cannot be less than 4100 Riel`,
-                            showClose: false
-                        });
-                    }
-                    if(balanceRequest > parseFloat(balanceKHRSpliceCharacter)){
-                        this.$notify.warning({
-                            title: `Cash Insufficiency to make this withdrawal in Khmer Riel (Balance Amount: ${balanceKHRVendorCurrent})`,
-                            showClose: false
-                        });
-                    }
-                }
-                // Check It Balance Has On Wallet 
-                if(balanceRequest <= balanceUSDSpliceCharacter || balanceRequest <= parseFloat(balanceKHRSpliceCharacter)){
-                    if (!fromRequestWithdraw) return;
-                        this.$refs[fromRequestWithdraw].validate((valid) => {
-                        if (valid) {
-                            // Check Validation
-                            if(this.formRequestBalanceMD !== ''){
-                                //File Upload Withdraw Bank Accounts
-                                    const receiptUploadFileWithdraw = this.formRequestBalanceMD
-                                        .requestUploadQRCodeAmountRequest
-                                        ? this.formRequestBalanceMD
-                                            .requestUploadQRCodeAmountRequest
-                                        : "";
-                                    // Submitted API Request withdraw wallets 
-                                    const requestWithdrawWallet = {
-                                        companyBank: this.formRequestBalanceMD.bankCompanyName
-                                            ? this.formRequestBalanceMD.bankCompanyName
-                                            : "",
-                                        accountsNameVendorRequest: this.formRequestBalanceMD
-                                            .bankAccountNameRequest
-                                            ? this.formRequestBalanceMD.bankAccountNameRequest
-                                            : "",
-                                        accountNumberVendorRequest: this.formRequestBalanceMD
-                                            .bankAccountNumberRequest
-                                            ? this.formRequestBalanceMD.bankAccountNumberRequest
-                                            : 0,
-                                        requestAmountVendorRequest: this.formRequestBalanceMD
-                                            .requestAmountWithdraw
-                                            ? this.formRequestBalanceMD.requestAmountWithdraw
-                                            : 0,
-                                        fileReceiptWithdrawRequest:
-                                            receiptUploadFileWithdraw?.raw
-                                            ? receiptUploadFileWithdraw?.raw
-                                            : "",
-                                        currencyType: this.formRequestBalanceMD
-                                            .currencyAmountRequest
-                                            ? this.formRequestBalanceMD.currencyAmountRequest
-                                            : "",
-                                        withdrawRequestNoted: this.formRequestBalanceMD
-                                            .requestWithdrawDesc
-                                            ? this.formRequestBalanceMD.requestWithdrawDesc
-                                            : "",
-                                    };
-                                // Confirm Request Bank Wallet
-                                    this.$confirm('Are you confirm to withdraw request amount in wallet?', 'Withdraw Request Amount from Wallet', {
-                                        confirmButtonText: 'OK',
-                                        cancelButtonText: 'Cancel',
-                                        type: 'info',
-                                        beforeClose: (action, instance, done) => {
-                                            if (action === 'confirm') {
-                                            instance.confirmButtonLoading = true;
-                                            instance.confirmButtonText = 'Loading...';
-                                            setTimeout(() => {
-                                                done();
-                                                setTimeout(() => {
-                                                        instance.confirmButtonLoading = false;
-                                                    }, 300);
-                                                }, 1000);
-                                            } else {
-                                                done();
+                    // Check It Balance Has On Wallet 
+                    if(balanceRequest <= balanceUSDSpliceCharacter || balanceRequest <= parseFloat(balanceKHRSpliceCharacter)){
+                        if(this.formRequestBalanceMD !== ''){
+                            //File Upload Withdraw Bank Accounts
+                            const receiptUploadFileWithdraw = this.formRequestBalanceMD
+                                .requestUploadQRCodeAmountRequest
+                                ? this.formRequestBalanceMD
+                                    .requestUploadQRCodeAmountRequest
+                                : "";
+                            // Submitted API Request withdraw wallets 
+                            const requestWithdrawWallet = {
+                                companyBank: this.formRequestBalanceMD.bankCompanyName
+                                    ? this.formRequestBalanceMD.bankCompanyName
+                                    : "",
+                                accountsNameVendorRequest: this.formRequestBalanceMD
+                                    .bankAccountNameRequest
+                                    ? this.formRequestBalanceMD.bankAccountNameRequest
+                                    : "",
+                                accountNumberVendorRequest: this.formRequestBalanceMD
+                                    .bankAccountNumberRequest
+                                    ? this.formRequestBalanceMD.bankAccountNumberRequest
+                                    : 0,
+                                requestAmountVendorRequest: this.formRequestBalanceMD
+                                    .requestAmountWithdraw
+                                    ? this.formRequestBalanceMD.requestAmountWithdraw
+                                    : 0,
+                                fileReceiptWithdrawRequest:
+                                    receiptUploadFileWithdraw?.raw
+                                    ? receiptUploadFileWithdraw?.raw
+                                    : "",
+                                currencyType: this.formRequestBalanceMD
+                                    .currencyAmountRequest
+                                    ? this.formRequestBalanceMD.currencyAmountRequest
+                                    : "",
+                                withdrawRequestNoted: this.formRequestBalanceMD
+                                    .requestWithdrawDesc
+                                    ? this.formRequestBalanceMD.requestWithdrawDesc
+                                    : "",
+                            };
+                        // Confirm Request Bank Wallet
+                            this.$confirm('Are you confirm to withdraw request amount in wallet?', 'Withdraw Request Amount from Wallet', {
+                                confirmButtonText: 'OK',
+                                cancelButtonText: 'Cancel',
+                                type: 'info',
+                                beforeClose: (action, instance, done) => {
+                                    if (action === 'confirm') {
+                                    instance.confirmButtonLoading = true;
+                                    instance.confirmButtonText = 'Loading...';
+                                    setTimeout(() => {
+                                        done();
+                                        setTimeout(() => {
+                                                instance.confirmButtonLoading = false;
+                                            }, 300);
+                                        }, 1000);
+                                    } else {
+                                        done();
+                                    }
+                                }
+                            }).then(() => {
+                                this.vendorWithdrawWalletBank.createRequestMethodWithdrawWalletVendor(requestWithdrawWallet)
+                                    .then((withdraw) => {
+                                            if(withdraw.data.success === true){
+                                                this.$notify.success({
+                                                    title: 'Please waiting confirm withdraw from wallet by Admin',
+                                                    message: withdraw.data?.message ? withdraw.data?.message : '' ,
+                                                    showClose: false
+                                                });
+                                                //Close form -> Successfully to submitted   
+                                                this.centerDialogVisibleWalletRequest = false;
+                                                window.location.reload();
+                                                //Set timeout closed loading confirm deposited
+                                                this.formRequestBalanceMD = {};
+                                            }else{
+                                                this.$notify.error({
+                                                    title: 'Error withdraw from wallet',
+                                                    message: 'Please contact to admin',
+                                                    showClose: false
+                                                });
                                             }
-                                        }
-                                    }).then(() => {
-                                        this.vendorWithdrawWalletBank.createRequestMethodWithdrawWalletVendor(requestWithdrawWallet)
-                                            .then((withdraw) => {
-                                                    if(withdraw.data.success === true){
-                                                        this.$notify.success({
-                                                            title: 'Please waiting confirm withdraw from wallet by Admin',
-                                                            message: withdraw.data?.message ? withdraw.data?.message : '' ,
-                                                            showClose: false
-                                                        });
-                                                        //Close form -> Successfully to submitted   
-                                                        this.centerDialogVisibleWalletRequest = false;
-                                                        window.location.reload();
-                                                        //Set timeout closed loading confirm deposited
-                                                        this.formRequestBalanceMD = {};
-                                                    }else{
-                                                        this.$notify.error({
-                                                            title: 'Error withdraw from wallet',
-                                                            message: 'Please contact to admin',
-                                                            showClose: false
-                                                        });
-                                                    }
-                                            }).catch((error) => {
-                                                if(error){
+                                    }).catch((error) => {
+                                        if(error){
+                                            this.$notify.error({
+                                                title: 'Error withdraw from wallet, please contact to admin',
+                                                message: error.response.data.error.message ?? 'Unsuccessfully for withdraw method to wallet',
+                                                showClose: false
+                                            });  
+                                            if(error.response.data.error.error.errors){
+                                                for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
+                                                    const messageValidation = error.response.data.error.error.errors[index].message ?? '';
                                                     this.$notify.error({
-                                                        title: 'Error withdraw from wallet, please contact to admin',
-                                                        message: error.response.data.error.message ?? 'Unsuccessfully for withdraw method to wallet',
-                                                        showClose: false
-                                                    });  
-                                                    if(error.response.data.error.error.errors){
-                                                        for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
-                                                            const messageValidation = error.response.data.error.error.errors[index].message ?? '';
-                                                            this.$notify.error({
-                                                                title: 'Unsuccessfully for withdraw method to wallet',
-                                                                message: messageValidation ?? 'Unsuccessfully for withdraw method to wallet',
-                                                                showClose: true
-                                                            });   
-                                                        }
-                                                    } 
+                                                        title: 'Unsuccessfully for withdraw method to wallet',
+                                                        message: messageValidation ?? 'Unsuccessfully for withdraw method to wallet',
+                                                        showClose: true
+                                                    });   
                                                 }
-                                            }); 
-                                    }).catch(() => {
-                                        this.$notify.warning({
-                                            title: "Cancel to withdraw wallet balance",
-                                            showClose: true
-                                        });
-                                        return false;
-                                    });
-                                }        
-                            } else {
-                                this.$notify.error({
-                                    title: "Error Withdraw from Wallet",
-                                    message: "Please input filed in required",
+                                            } 
+                                        }
+                                    }); 
+                            }).catch(() => {
+                                this.$notify.warning({
+                                    title: "Cancel to withdraw wallet balance",
+                                    showClose: true
                                 });
                                 return false;
-                            }
-                        });
-                }           
-            }
+                            });
+                        }       
+                    }  
+                    
+                } else {
+                    this.$notify.error({
+                        title: "Error Withdraw from Wallet",
+                        message: "Please input filed in required",
+                    });
+                    return false;
+                }
+            });         
         },
     },
     mounted() {},

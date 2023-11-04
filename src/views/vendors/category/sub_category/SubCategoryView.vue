@@ -4,7 +4,8 @@
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class="relative text-black text-xl section section-title:before">{{ $t('category.subGategoryList') }}</h2>
-            <el-button type="info" size="large" class="btn btn-primary"
+            <el-button type="info" size="large" class="btn btn-primary" 
+             
                 @click="$router.push(`/vendor/products/sub-category/create/${parseInt(computedQuerySubByCatID)}`)"
                 v-permission="[{ functionName: 'sub_categories', moduleName: 'fun_create' }]">
                 <div class="flex justify-between pl-2 text-sm">

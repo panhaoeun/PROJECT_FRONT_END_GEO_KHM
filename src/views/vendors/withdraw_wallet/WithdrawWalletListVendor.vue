@@ -22,7 +22,7 @@
                                     class="p-datatable-scrollable text-sm"
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                     :rowsPerPageOptions="[5, 10, 25]"
-                                    :globalFilterFields="['representative.transactionId', 'paymentNumber','transactionStatus','transactionDate']"
+                                    :globalFilterFields="['representative.transactionId', 'paymentNumber','balanceDollar','balanceRiel','transactionStatus','transactionDate']"
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} withdraw method">
                                     <!-- Header -->
                                     <template #header>
@@ -73,9 +73,6 @@
                                                         severity="danger"
                                                         @click="confirmDeletedWithdrawMethodVendor(slotProps.data?.payTransactionId)" 
                                                     />
-                                                </template>
-                                                <template v-else>
-                                                <Tag icon="pi pi-times" outlined severity="danger" value="Close"></Tag>
                                                 </template>
                                             </template>
                                         </Column>
