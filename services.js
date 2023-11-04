@@ -19,4 +19,18 @@ export default{
             params: params
         })
     },
+    getRequest(params, api, bearer = null, lang = null) {
+        if (lang) {
+            apiClient.defaults.headers['Language'] = lang
+        } else {
+        if (apiClient.defaults.headers?.Language) {
+            delete apiClient.defaults.headers['Language']
+        }
+        }
+
+        if (bearer) {
+            apiClient.defaults.headers.common['Authorization'] = bearer
+        }
+        return apiClient.get(json.api[api], {params: params})
+    },
 }   

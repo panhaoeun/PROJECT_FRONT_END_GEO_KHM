@@ -2,7 +2,7 @@
   <div class="sidebar-section mt-xs-5 mb-xs-10">
     <h4
       class="title">
-      {{ $t('listingLayout.price') }}
+        {{ $t('listingLayout.price') }}
     </h4>
     <button
       class="clear-btn mb-10"
@@ -10,13 +10,13 @@
       :disabled="!maxPrice && !minPrice"
       @click.prevent="anyPrice"
     >
-      {{ $t('listingLayout.anyPrice') }}
+         {{ $t('listingLayout.anyPrice') }}
     </button>
 
     <div class="price-search flex">
       <div class="input-wrap">
         <div class="input-text">
-          <span>{{ currencyIcon }}</span>
+          <span>{{ currencyIconRiel }}</span>
           <input
             type="number"
             :placeholder="$t('listingLayout.min')"
@@ -27,7 +27,7 @@
 
       <div class="input-wrap">
         <div class="input-text">
-          <span>{{ currencyIcon }}</span>
+          <span>{{ currencyIconRiel }}</span>
           <input
             type="number"
             :placeholder="$t('listingLayout.max')"
@@ -37,21 +37,19 @@
       </div>
 
       <button
-        class="outline-btn plr-10"
+        class="outline-btn plr-10 border-round"
         @click.prevent="filterPrice"
         aria-label="submit"
       >
         {{ $t('listingLayout.go') }}
       </button>
     </div>
-
-  </div><!--sidebar-section-->
+  </div>
+  <!--sidebar-section-->
 </template>
 
 <script>
-
-  import {mapGetters} from 'vuex'
-
+   import {mapGetters} from 'vuex'
     export default {
       name: "FilterPrice",
       props: {
@@ -68,7 +66,7 @@
       },
       mixins: [],
       computed: {
-        ...mapGetters('common', ['currencyIcon', 'setting']),
+        ...mapGetters('common', ['currencyIcon','currencyIconRiel', 'setting']),
       },
       mounted() {
       },

@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="bg-white">
+    <!-- Detail Menu -->
     <div class="detail-menu">
       <div class="container-fluid">
-        <div class="list-heading flex sided">
+        <div class="list-heading flex align-items-center flex-wrap sided">
           <p
             class="hide-sm"
           >
@@ -16,7 +17,7 @@
               </span>
             </span>
           </p>
-          <div class="flex gap-5">
+          <div class="flex align-items-center gap-3">
             <span class="hide-sm">
               {{ $t('listingLayout.sortBy') }}
             </span>
@@ -27,9 +28,9 @@
                 :selected-key="sortby"
                 @clicked="selectedSorting"
               />
-
+             <!-- Filter -->
               <button
-                v-show="isXsDevice"
+                v-if="isXsDevice"
                 class="filter-btn flex outline-btn plr-20"
                 aria-label="submit"
                 @click.prevent="openFilter"
@@ -50,7 +51,7 @@
         </div>
       </div>
     </div>
-
+    <!-- Product List -->
     <div class="container-fluid mtb-20 mtb-sm-15">
       <div
         class="product-list"
@@ -72,7 +73,7 @@
                   {{ $t('listingLayout.close') }}
                 </button>
               </div>
-                <div class="sidebar">
+                <div class="sidebar-customer">
 
                   <button
                     v-if="backBtn"
@@ -92,23 +93,9 @@
                     ref="filterPrice"
                     @reset-route="changeRoute"
                   />
-                  <filter-rating
-                    ref="filterRating"
-                    @reset-route="changeRoute"
-                  />
-                  <filter-brand
-                    ref="filterBrand"
-                    :brands="brands"
-                    @reset-route="changeRoute"
-                  />
                   <filter-collection
                     ref="filterCollection"
                     :collections="collections"
-                    @reset-route="changeRoute"
-                  />
-                  <filter-shipping
-                    ref="filterShipping"
-                    :shipping-rules="shippingRules"
                     @reset-route="changeRoute"
                   />
                 </div>
@@ -182,10 +169,8 @@
   import TileShimmer from "./TileShimmer";
 //   import Spinner from "./Spinner";
   import ProductTile from "./ProductTile";
-  import FilterRating from "./FilterRating";
-  import FilterBrand from "./FilterBrand";
   import FilterCollection from "./FilterCollection";
-  import FilterShipping from "./FilterShipping";
+//   import FilterShipping from "./FilterShipping";
   import Breadcrumb from "./Breadcrumb";
 
   export default {
@@ -195,7 +180,7 @@
         loaded: false,
         filterPopup: true,
         sortingOptions: {
-          featured: {title: this.$t('featured.featured') },
+          featured: {title:'Featured' },
           price_low_to_high: {title: this.$t('listingLayout.priceLowToHigh') },
           price_high_to_low: {title: this.$t('listingLayout.priceHighToLow') },
           avg_customer_review: {title: this.$t('listingLayout.avgCustomerReview') },
@@ -242,10 +227,8 @@
     },
     components: {
       Breadcrumb,
-      FilterShipping,
+    //   FilterShipping,
       FilterCollection,
-      FilterBrand,
-      FilterRating,
       ProductTile,
     //   Spinner,
       TileShimmer,
@@ -275,7 +258,7 @@
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
           return window.innerWidth <= 576
         }
-       return false
+        return false
       },
       pageHeading() {
         if (this.products) {

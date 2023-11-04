@@ -79,6 +79,11 @@ export default [
              component: () => import("../views/customer_new_ui/filter_search/SearchFilterItem.vue"),
          },
         {
+             path: "/customer/all/categories-name-search/:categoriesId",
+             name: 'customer-get-all-categories',
+             component: () => import("../views/customer_new_ui/filter_search/_categories/SearchAllByCategoriesProduct.vue"),
+         },
+        {
             path: "/customer/shopping-cart/new-custom-cart-item-order",
             name: 'shopping-cart-customer-item',
             component: () => import("../views/customer_new_ui/customer_cart_item/CustomerCartItemNew.vue"),

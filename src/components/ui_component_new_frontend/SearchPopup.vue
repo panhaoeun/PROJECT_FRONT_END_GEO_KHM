@@ -3,14 +3,14 @@
     <div class="sb popup-inner">
       <div class="pop-over-content">
         <div
-          class="spinner-wrapper flex justify-content-center flex-wrap layer-white"
-          v-if="fetchingData"
-        >
-          <spinner
-            :radius="100"
-          />
+            class="spinner-wrapper flex justify-content-center flex-wrap layer-white"
+            v-if="fetchingData"
+            >
+            <spinner
+                :radius="100"
+            />
         </div>
-
+        <!-- Suggestions -->
         <div
           v-else-if="matchedResult"
         >
@@ -29,6 +29,7 @@
                 class="item lite-btn"
                 aria-label="search"
               >
+              
                 {{ value.title }}
               </button>
             </div>
@@ -43,10 +44,11 @@
                     Categories
                 </h4>
                 <div class="search-section category-wrapper">
+                    <!-- Categories -->
                     <router-link
                         v-for="(value, index) in categories"
                         :key="`c-${index}`"
-                        to="#"
+                        :to="categoryLink(value)"
                         class="page-link center-text item">
                             <div class="img-wrapper">
                                 <lazy-image
@@ -62,6 +64,35 @@
                         >
                             {{value?.catNameEn}}
                         </h5>
+                    </router-link>
+                   
+                </div>
+                <h4 class="bold mt-5">
+                   Sub Categories
+                </h4>
+                <div class="search-section category-wrapper">
+                    <!-- Sub Categories -->
+                    <router-link
+                        v-for="(value, index) in subCategories"
+                        :key="`sc-${index}`"
+                        :to="subCategoryLink(value, subCategories)"
+                        class="page-link center-text item"
+                    >
+                        <div class="img-wrapper">
+                        <lazy-image
+                            :data-src="imageURL(value)"
+                            :title="value?.catNameEn"
+                            :alt="value?.catNameEn"
+                            height="50"
+                            width="50"
+                        />
+                        </div>
+                        <h5
+                        class="title ellipsis ellipsis-1"
+                        >
+                            {{value?.categoryNameEng}}
+                        </h5>
+
                     </router-link>
                 </div>
           </div>
@@ -138,7 +169,7 @@
         return this.searchedSuggestion?.suggested || []
       },
       subCategories(){
-        return this.searchedSuggestion?.sub_category || []
+        return this.searchedSuggestion?.subCategories || []
       },
       categories(){
         return this.searchedSuggestion?.categories || []

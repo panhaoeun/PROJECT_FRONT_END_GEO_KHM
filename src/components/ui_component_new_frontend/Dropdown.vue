@@ -10,7 +10,7 @@
     >
       <span>{{ selectedValue }}</span>
       <i
-        class="icon black ignore-click"
+        class="icon-ms black ignore-click"
         :class="[{'arrow-up': dropdownOpen}, {'arrow-down': !dropdownOpen}]"
       />
     </span>

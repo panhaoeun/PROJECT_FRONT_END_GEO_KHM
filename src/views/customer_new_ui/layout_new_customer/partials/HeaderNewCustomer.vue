@@ -134,7 +134,7 @@
       <!-- Form Search -->
       <form
         class="search-input-customer grow"
-        @submit.prevent="search"
+        @submit.prevent="searchCatProName"
       >
         <input
           @focus="openSearchPopup"
@@ -416,9 +416,11 @@
       setQFromRoute(){
         this.searchedText = this.$route?.query?.q || ''
       },
-      search(){
+      searchCatProName(){
         if(this.searchedText && (this.searchedText !== this.searched || this.$route.name !== 'search')){
-            this.$router.push({ path: `/customer/filter-search/product-categories-name?q=${this.searchedText}`})
+            this.$router.push({ path: '/customer/filter-search/product-categories-name', query: {
+                q: this.searchedText
+            }});
             this.updateSearch(this.searchedText)
         }
       },

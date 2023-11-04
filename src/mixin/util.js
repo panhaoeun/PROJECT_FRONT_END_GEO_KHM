@@ -104,7 +104,7 @@ export default {
         3: 'tags',
         4: 'brand_ids'
       },
-      defaultImage: 'images/no_image_available.jpeg',
+      defaultImage: 'images/default-image.webp',
       getYear: new Date().getFullYear()
     }
   },
@@ -238,7 +238,7 @@ export default {
     },
     categoryLink(item) {
       if (item) {
-        return `/all/${item?.catID}`
+        return `/customer/all/categories-name-search/${this.convertToSlug(item?.catNameEn)}`
       }
     },
     subCategoryLink(item, category) {

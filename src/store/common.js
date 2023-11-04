@@ -1,4 +1,4 @@
-// import Service from '@/services/service.js'
+import Service from '../.../../../services'
 
 const state = {
   location: { countryCode: 'AF', region:'BDS' },
@@ -109,6 +109,26 @@ const mutations = {
 }
 
 const actions = {
+  async getRequest ({commit},{params, api, requiredToken, lang}) {
+    try {
+      const {data} = await Service.getRequest(params, api, requiredToken ? this.$auth.strategy.token.get(): null, lang);
+      console.log(data);
+      commit('SET_LOCATION', data);
+      if(data?.status){
+        return data
+      } else {
+        return Promise.reject({
+          message: "API is down."
+        })
+      }
+    }catch (e) {
+
+      return Promise.reject({
+        message: e.message
+      })
+    }
+
+  },
   setToastMessage ({ commit }, message) {
     commit('SET_TOAST_MESSAGE', message)
   },

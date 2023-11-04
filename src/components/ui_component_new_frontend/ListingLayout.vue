@@ -51,6 +51,42 @@
             clearQuery() {
                 this.$refs.productList.clearQuery()
             },
+            fetchingData(){
+                this.fetchingProductData = true;
+                setTimeout(async () => {
+                    try {
+                    const data = await this.getRequest({
+                       params: {
+                            ...this.productParams,
+                            ...{
+                                sortby: this.sortByData,
+                                shipping: this.shippingFromRoute,
+                                brand: this.brandFromRoute,
+                                collection: this.collectionFromRoute,
+                                rating: this.ratingFromRoute,
+                                max: this.maxPriceFromRoute,
+                                min: this.minPriceFromRoute,
+                                q: this.searchedKeyword,
+                                page: this.pageData,
+                                all_categories: !this.allCategories,
+                                sidebar_data: !this.brands || !this.shippingRules || !this.collections
+                            }
+                            },
+                            lang: this.langCode,
+                            api: 'products'
+                        });
+
+                        this.sourceTitle = data.data?.source?.title
+                        this.setProducts(data)
+
+                        this.products = data.data.result
+                        this.fetchingProductData = false      
+                    } catch (error) {
+                        return Promise.reject(error);
+                    }
+
+                },100);
+            },
             ...mapActions('listing', ['setProducts', 'emptyProducts']),
             ...mapActions('common', ['getRequest']),
         }

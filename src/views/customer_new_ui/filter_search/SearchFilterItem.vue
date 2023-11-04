@@ -23,9 +23,8 @@
                 try{
                     this.$refs.productListElem.clearQuery()
                     await this.$refs.productListElem.fetchingData()
-
                 }catch (e) {
-                    console.log(e)
+                    return Promise.reject(e);
                 }
             }
         },
@@ -38,7 +37,7 @@
         methods: {
             async loadData() {
                 setTimeout(async ()=>{
-                await this.$refs.productListElem.fetchingData()
+                    await this.$refs.productListElem.fetchingData()
                 }, 200)
             },
             ...mapActions('listing', ['emptyProducts'])
