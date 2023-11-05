@@ -9,7 +9,7 @@
      <div class="flex justify-content-center flex-wrap">
             <div class="grid gap-3 p-fluid"> 
                 <el-dialog v-model="dialogTableVisibleOpeDeposit"  
-                    width="28%"
+                    width="30%"
                     align-center
                     :rules="rulesWithdrawWallet"
                     status-icon
@@ -19,14 +19,12 @@
                     <div class="py-2">
                         <!-- Toast Alert-->
                         <Toast />
-                        <div class="px-2 flex">
-                            <div class="grid grid-nogutter flex-wrap gap-3 p-fluid"> 
-                                <el-form 
+                         <el-form 
                                     ref="formPopupDepositWallet"
                                     :model="formPopupDepositWallet"
                                     label-position="top"
                                     :rules="rulesDepositedWallet"
-                                    label-width="500px"
+                                    label-width="200px"
                                     status-icon
                                 >
                                     <!-- Radio Choose bank accounts -->
@@ -34,6 +32,7 @@
                                         <el-radio-group 
                                             autocomplete="off"  
                                             class="w-full"
+                                            style="width: 100%"
                                             v-model="formPopupDepositWallet.bankRecharge"
                                         >
                                             <el-radio border label="ABA Bank" name="aba-bank-company"/>
@@ -146,10 +145,6 @@
                                         </button>
                                     </el-form-item>
                                 </el-form>
-                            </div>
-                        <!-- Toast Alert Message -->
-                            <Toast />
-                        </div>
                     </div>
                 </el-dialog>
 

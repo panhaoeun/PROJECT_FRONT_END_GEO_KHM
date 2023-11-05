@@ -907,7 +907,7 @@ export default {
                             }
                         }).catch(error => {
                             try {
-                            this.$notify.error({
+                                this.$notify.error({
                                     title: 'Unsuccessfully updated product',
                                     message: error.response.data.error.message ?? 'Unsuccessfully updated product',
                                     showClose: true

@@ -161,7 +161,7 @@
         />
       </form>
       <!-- My Accounts -->
-      <div class="right-area flex gap-15 right">
+      <div class="right-area flex gap-15 right" style="line-height: 2;">
         <div
           class="pos-rel font-bold text-black"
           v-outside-click="closeDropdown"
@@ -182,10 +182,10 @@
             :class="{active: dropdown}"
           >
             <router-link
-              class="font-bold text-black"
+              class="font-bold text-black gap-2"
               to="/user/addresses"
             >
-                My Address
+                My Shipping Address
             </router-link>
             <router-link
               class="font-bold text-black"

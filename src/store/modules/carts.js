@@ -132,16 +132,15 @@ const getters = {
             let expressPriceKHR = cart.expressPriceKHR;
             let expressPriceUSD = cart.expressPriceUSD;
             if (shippingCompanyDayExpress) {
-                shippingPriceAmount = Math.min(productQty / maxItem);
-                if (productQty < maxItem) {
+                shippingPriceAmount = parseInt(productQty / maxItem);
+                if (productQty <= maxItem) {
                     maxAmountShipping += parseFloat(expressPriceKHR);
-                    maxAmountShippingUSD += parseFloat(expressPriceUSD)
+                    maxAmountShippingUSD += parseFloat(expressPriceUSD);
                 } else if (productQty > maxItem) {
                     maxAmountShipping += parseFloat(expressPriceKHR + shippingPriceAmount) + 1;
                     maxAmountShippingUSD += parseFloat(expressPriceUSD + shippingPriceAmount) + 1;
                 }
             }
-
             const maxAmountShippingPrice = `${parseFloat(maxAmountShipping).toFixed(2,4)}`;
             const totalShippingPriceMaxOrderKHR  = maxAmountShippingPrice.replace(/,/g, '');
             const maxAmountShippingPriceUSD = `${parseFloat(maxAmountShippingUSD).toFixed(2,4)}`;

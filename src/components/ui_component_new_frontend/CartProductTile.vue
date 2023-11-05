@@ -85,7 +85,7 @@
             class="flex gap-10 start wrap mt-10"
           >
             <quantity-nav
-              class="mtb-5"
+              class="mtb-5 border-round"
               :quantity="parseInt(productQuantity)"
               :product-inventory="cart"
               :max="maxQuantity"
@@ -93,7 +93,7 @@
               @blur="checkQuantity(index, $event)" 
             />
             <ajax-button
-              class="outline-btn plr-20 mtb-5"
+              class="outline-btn plr-20 mtb-5 border-round"
               type="button"
               text="Delete"
               color="primary"

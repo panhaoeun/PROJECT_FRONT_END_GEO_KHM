@@ -12,7 +12,7 @@
               v-if="resultTitle"
             >
               {{ $t('listingLayout.for') }}
-              <span class="bold">
+              <span class="font-bold">
                 "{{ resultTitle }}"
               </span>
             </span>
@@ -134,7 +134,6 @@
               <p class="hide block-sm ml-10 ml-xs-5 mb-10">{{ pageHeading }}
                 <span v-if="resultTitle" class="bold">"{{ resultTitle }}"</span>
               </p>
-
               <div
                 class="tile-container"
               >
@@ -199,7 +198,6 @@
         type: Boolean,
         default: true
       },
-
       hasBreadcrumb: {
         type: Boolean,
         default: false
@@ -276,10 +274,10 @@
         //return `${this.$t('listingLayout.loading')}...`
       },
       currentItems() {
-        return this.products?.data || null
+        return this.products || null
       },
       totalPage() {
-        return this.products?.last_page
+        return 30;
       },
       ...mapGetters('common', ['currencyIcon', 'setting']),
       ...mapGetters('listing', ['products', 'brands', 'shippingRules', 'collections']),

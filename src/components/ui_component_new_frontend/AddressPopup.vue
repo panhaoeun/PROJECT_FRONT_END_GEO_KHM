@@ -141,14 +141,14 @@
         <template v-slot:pop-footer>
             <div class="flex j-end gap-10">
             <button
-                class="outline-btn text-black plr-30 plr-sm-15"
+                class="outline-btn text-black border-round plr-30 plr-sm-15"
                 aria-label="Address cancel"
                 @click.prevent="$emit('close')"
             >
                 {{ $t('addressPopup.cancel') }}
             </button>
             <ajax-button
-                class="primary-btn plr-30 plr-sm-15"
+                class="primary-btn border-round plr-30 plr-sm-15"
                 :fetching-data="submittingAddressData"
                 :loading-text="$t('addressPopup.saving')"
                 :text=" $t('addressPopup.thisAddress', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
