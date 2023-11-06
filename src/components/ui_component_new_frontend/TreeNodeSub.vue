@@ -1,7 +1,6 @@
 <template>
   <li class="tree-node">
     <span class="node-data">
-        
       <router-link
         class="text-black"
         :to="categoryLink(node)"

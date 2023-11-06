@@ -182,10 +182,10 @@
             :class="{active: dropdown}"
           >
             <router-link
-              class="font-bold text-black"
+              class="font-bold text-black gap-2"
               to="/user/addresses"
             >
-                My Address
+                My Shipping Address
             </router-link>
             <router-link
               class="font-bold text-black"

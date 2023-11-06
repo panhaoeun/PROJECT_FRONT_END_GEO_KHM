@@ -3,6 +3,7 @@ import {
 } from "element-plus";
 import http from "../../../../http-common";
 import authHeader from "../../authencations/AuthHeader";
+import httpJson from "../../../../http-access-control-json";
 
 export default class CustomerServicesBaseAdmin {
     //Get
@@ -59,5 +60,30 @@ export default class CustomerServicesBaseAdmin {
             .catch((error) => {
                 ElMessage.error(error);
             });
+    }
+    // Get Customer Customer  New
+     /**
+      * @apiGroup Store
+    */
+    async getCustomerInfoProfile(data) {
+        return await http.get("/customer/get-current-customer-profile", {
+                headers: authHeader()
+            }, data)
+            .then((result) => {
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            })
+            .catch((error) => {
+                ElMessage.error(error);
+            });
+    }
+    async updatedCustomerPasswordChange(passwordId) {
+        return await httpJson.put("/customer/get-current-customer-profile/change-password", passwordId)
+    }
+    async updatedCustomerProfile(customerProfile) {
+        return await httpJson.put("/customer/updated-current-customer-profile/customer-profile", customerProfile)
     }
 }

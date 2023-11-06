@@ -178,7 +178,7 @@
             <button
               v-if="editing"
               aria-label="submit"
-              class="outline-btn plr-30 plr-sm-15"
+              class="outline-btn plr-30 plr-sm-15 border-round"
               @click.prevent="clearData"
             >
               {{ $t('addressPopup.cancel') }}
@@ -231,7 +231,7 @@
           <div class="flex j-end gap-10">
             <button
               aria-label="submit"
-              class="outline-btn plr-30 plr-sm-15"
+              class="outline-btn plr-30 plr-sm-15 border-round"
               @click="cartPopOver = false"
             >
                 Cancel

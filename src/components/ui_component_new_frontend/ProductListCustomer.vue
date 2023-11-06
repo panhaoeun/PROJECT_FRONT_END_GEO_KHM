@@ -12,7 +12,7 @@
               v-if="resultTitle"
             >
               {{ $t('listingLayout.for') }}
-              <span class="bold">
+              <span class="font-bold">
                 "{{ resultTitle }}"
               </span>
             </span>
@@ -74,15 +74,15 @@
                 </button>
               </div>
                 <div class="sidebar-customer">
-
+<!-- 
                   <button
                     v-if="backBtn"
                     @click.prevent="goingBack" class="flex start mb-15 clear-btn">
                     <span class="flex">
                       <i class="dimen-16x icon double-arrow-left-icon mr-5 opacity-6"></i>
-                      {{ $t('date.gb') }}
+                        Back
                     </span>
-                  </button>
+                  </button> -->
 
                   <filter-category
                     ref="filterCategory"
@@ -93,11 +93,11 @@
                     ref="filterPrice"
                     @reset-route="changeRoute"
                   />
-                  <filter-collection
+                  <!-- <filter-collection
                     ref="filterCollection"
                     :collections="collections"
                     @reset-route="changeRoute"
-                  />
+                  /> -->
                 </div>
               </div>
           </div>
@@ -134,7 +134,6 @@
               <p class="hide block-sm ml-10 ml-xs-5 mb-10">{{ pageHeading }}
                 <span v-if="resultTitle" class="bold">"{{ resultTitle }}"</span>
               </p>
-
               <div
                 class="tile-container"
               >
@@ -169,7 +168,7 @@
   import TileShimmer from "./TileShimmer";
 //   import Spinner from "./Spinner";
   import ProductTile from "./ProductTile";
-  import FilterCollection from "./FilterCollection";
+//   import FilterCollection from "./FilterCollection";
 //   import FilterShipping from "./FilterShipping";
   import Breadcrumb from "./Breadcrumb";
 
@@ -199,7 +198,6 @@
         type: Boolean,
         default: true
       },
-
       hasBreadcrumb: {
         type: Boolean,
         default: false
@@ -228,7 +226,7 @@
     components: {
       Breadcrumb,
     //   FilterShipping,
-      FilterCollection,
+    //   FilterCollection,
       ProductTile,
     //   Spinner,
       TileShimmer,
@@ -276,10 +274,10 @@
         //return `${this.$t('listingLayout.loading')}...`
       },
       currentItems() {
-        return this.products?.data || null
+        return this.products || null
       },
       totalPage() {
-        return this.products?.last_page
+        return 30;
       },
       ...mapGetters('common', ['currencyIcon', 'setting']),
       ...mapGetters('listing', ['products', 'brands', 'shippingRules', 'collections']),

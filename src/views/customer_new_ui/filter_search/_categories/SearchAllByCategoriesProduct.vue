@@ -1,7 +1,7 @@
 <template>
   <div>
     <product-list
-      :result-title="category.title"
+      :result-title="$route?.params.categoriesId"
       :has-breadcrumb="true"
       :categories="[category]"
       :fetching-product-data="fetchingProductData"
@@ -11,7 +11,7 @@
 </template>
 <script>
   import metaHelper from '@/mixin/metaHelper'
-import ProductList from "@/components/ui_component_new_frontend/ProductListCustomer";
+  import ProductList from "@/components/ui_component_new_frontend/ProductListCustomer";
   import util from '@/mixin/util'
   import listingParams from '@/mixin/listingParams'
   import {mapGetters, mapActions} from 'vuex'
@@ -20,7 +20,9 @@ import ProductList from "@/components/ui_component_new_frontend/ProductListCusto
     middleware: ['common-middleware'],
     data() {
       return {
-        fetchingProductData: false
+        fetchingProductData: false,
+        category: {},
+        subCategories: {}
       }
     },
     components: {
@@ -42,43 +44,6 @@ import ProductList from "@/components/ui_component_new_frontend/ProductListCusto
     computed: {
       ...mapGetters('listing', ['brands', 'shippingRules', 'collections', 'categoryData']),
     },
-    async asyncData({ store, error, route, i18n  }){
-      try {
-
-        const listing = store.state.listing
-
-        const data = await store.dispatch('common/getRequest', { params: {
-            category: route?.params?.category,
-            sortby: route.query.sortby || '',
-            shipping: route.query.shipping || '',
-            brand: route.query.brand || '',
-            collection: route.query.collection || '',
-            rating: route.query.rating || 0,
-            max: route?.query?.max || 0,
-            min: route?.query?.min || 0,
-            page: route.query.page || '',
-
-            sidebar_data: !listing.brands || !listing.shippingRules ||  !listing.collections
-          },
-          api: 'all',
-          lang: store.state.language.langCode
-        })
-
-        if(data?.status !== 200){
-          return error({ statusCode: 404, message: i18n.t('categoryListingLayout.noItemFound') })
-        }
-
-
-        store.commit('listing/SET_PRODUCTS', data)
-
-        return {
-          category: data?.data?.category
-        }
-
-      } catch (e) {
-        error(e)
-      }
-    },
     methods:{
       async fetchingData() {
 
@@ -87,14 +52,13 @@ import ProductList from "@/components/ui_component_new_frontend/ProductListCusto
 
         try {
           setTimeout(async () => {
-            if(this.$route.params.category !== this.category.slug){
-              return
-            }
-
+            // if(this.$route.params?.categoriesId !== this.category){
+            //   return
+            // }
             this.emptyProducts()
 
             const data = await this.getRequest({params: {
-                category: this.$route?.params?.category,
+                category: this.$route?.params.categoriesId,
                 sortby: this.sortByData,
                 shipping: this.shippingFromRoute,
                 brand: this.brandFromRoute,
@@ -106,20 +70,22 @@ import ProductList from "@/components/ui_component_new_frontend/ProductListCusto
                 sidebar_data: !this.brands || !this.shippingRules ||  !this.collections
               }, api: 'all'
             })
-
+            // this.$sto.commit('listing/SET_PRODUCTS', data)
+            this.category = data?.categories;
+            this.subCategories = data?.subCategories;
             self.setProducts(data)
             self.fetchingProductData = false
           }, 200)
 
         } catch (e) {
-          return this.$nuxt.error(e)
+          return Promise.reject(e);
         }
       },
       ...mapActions('listing', ['emptyProducts', 'setProducts']),
       ...mapActions('common', ['getRequest']),
     },
-    async mounted() {
-
-    },
+    mounted() {
+        this.fetchingData();
+    }
   }
 </script>

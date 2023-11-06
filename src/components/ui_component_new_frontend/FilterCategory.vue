@@ -1,7 +1,6 @@
 <template>
   <div class="category-wrapper">
-
-    <ul class="table-tree">
+    <ul class="table-tree" style="padding-left:0px;">
       <tree-node
         v-for="value in categories"
         :node="value"

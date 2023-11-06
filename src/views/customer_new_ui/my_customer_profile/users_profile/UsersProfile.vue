@@ -1,5 +1,6 @@
 <template>
   <account-layout
+    v-if="isSessionActiveProfile"
     class="user-profile-wrapper"
     active-route="profile"
     :class="{'email-login': !loggedInWithEmail}"
@@ -14,29 +15,15 @@
           :radius="100"
         />
       </div>
-
+      <!-- User Profile -->
       <div v-else class="card">
         <h5 class="ptb-10 plr-20 plr-sm-15 b-b bold flex sided mlr-0">
           {{ $t('accountLayout.myProfile') }}
-            <!-- <ajax-button
-                class="primary-btn plr-30 plr-sm-15"
-                type="button"
-                :fetching-data="deletingAccount"
-                @clicked="deleteAccount"
-                :text="$t('date.da')"
-            /> -->
         </h5>
         <div
           class="flex wrap sided align-start p-20 pb-0 p-sm-15 pb-sm pb-xs"
         >
           <div>
-            <div class="input-wrap">
-              <label>
-                {{ $t('addressPopup.email') }}
-              </label>
-              <p>{{ email }}</p>
-            </div>
-
             <div class="input-wrap">
               <label>
                 {{ $t('accountLayout.loggedWith') }}
@@ -93,6 +80,7 @@
               <p class="form-title">
                 {{ $t('accountLayout.updatePassword') }}
               </p>
+              <!-- PAssword -->
               <div
                 class="input-wrap"
                 :class="{invalid: !currentPassword && hasPasswordError}"
@@ -102,7 +90,7 @@
                 </label>
                 <password-field
                   :value="currentPassword"
-                  @change="currentPassword = $event"
+                  @input="event => currentPassword = event.target.value"
                 />
                 <span
                   class="error"
@@ -111,15 +99,14 @@
                     {{ $t('addressPopup.isRequired', {type: $t('accountLayout.currentPassword') }) }}
                   </span>
               </div>
-
+              {{ currentPassword.target }}
               <div class="input-wrap" :class="{invalid: !passwordValid && hasPasswordError}">
                 <label>
-                  {{ $t('accountLayout.password') }}
+                     {{ $t('accountLayout.password') }}
                 </label>
-
                 <password-field
                   :value="newPassword"
-                  @change="newPassword = $event"
+                 @input="event => newPassword = event.target.value"
                 />
                 <span
                   class="error"
@@ -142,8 +129,8 @@
                   {{ $t('accountLayout.confirmPassword') }}
                 </label>
                 <password-field
-                  :value="confirmPassword"
-                  @change="confirmPassword = $event"
+                    :value="confirmPassword"
+                    @input="event => confirmPassword = event.target.value"
                 />
                 <span
                   class="error"
@@ -179,6 +166,7 @@
 
 <!-- Script User Profile-->
 <script>
+  import CustomerServices from '@/services/administrator/customers/CustomerServices';
   import util from '@/mixin/util'
   import validation from '@/mixin/validation'
   import AccountLayout from '@/components/ui_component_new_frontend/AccountLayout'
@@ -186,6 +174,7 @@
   import {mapGetters, mapActions} from 'vuex'
   import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
   import PasswordField from "@/components/ui_component_new_frontend/PasswordField";
+  import { isLoggedIn } from "@/utils/auth/auth";
 
   export default {
     middleware: ['common-middleware', 'auth'],
@@ -195,8 +184,13 @@
         meta: []
       }
     },
+    created() {
+        this.customerInfoServices = new CustomerServices();
+        this.getCustomerProfileCurrentAuth();
+    },
     data() {
       return {
+        customerProfile: '',
         name: '',
         email: '',
         currentPassword: '',
@@ -219,9 +213,8 @@
 
     watch: {
       profile(value) {
-        if (this.profile) {
-          this.email = value?.email
-          this.name = value?.name
+        if (this.customerProfile) {
+          this.name = value?.name_eng;
         }
       },
     },
@@ -234,7 +227,7 @@
         return this.profile && this.profile?.facebook_id
       },
       loggedInWithEmail() {
-        return this.profile && !this.profile?.facebook_id && !this.profile?.google_id
+        return this.customerProfile && !this.customerProfile?.facebook_id && !this.profile?.google_id
       },
       invalidPassword() {
         return !this.isValidLength(this.newPassword)
@@ -242,49 +235,70 @@
       passwordValid() {
         return this.newPassword && !this.invalidPassword
       },
-      ...mapGetters('user', ['profile'])
+      ...mapGetters('profile', ['profile'])
     },
     methods: {
+        isSessionActiveProfile(){
+            return isLoggedIn();
+        },
+        async deleteAccount() {
+            if (confirm(this.$t('cartProductTile.deleteAlert'))) {
+            this.deletingAccount = true
 
-      async deleteAccount() {
-
-        if (confirm(this.$t('cartProductTile.deleteAlert'))) {
-          this.deletingAccount = true
-
-          const data = await this.deleteRequest({
-            api: 'deleteAccount',
-            requiredToken: true,
-            lang: this.langCode,
-          })
-          this.deletingAccount = false
+            const data = await this.deleteRequest({
+                api: 'deleteAccount',
+                requiredToken: true,
+                lang: this.langCode,
+            })
+            this.deletingAccount = false
 
 
-          if(data?.status === 200){
-            this.setToastMessage(data.message)
-            this.$auth.logout()
-          }else {
-            this.setToastError(data.data.form.join(', '))
-          }
-          this.deletingAccount = 0
-        }
-
-      },
-
-      async updatePassword() {
-
+            if(data?.status === 200){
+                this.setToastMessage(data.message)
+                this.$auth.logout()
+            }else {
+                this.setToastError(data.data.form.join(', '))
+            }
+            this.deletingAccount = 0
+            }
+        },
+        // Customer Info
+        async getCustomerProfileCurrentAuth(){
+            this.customerInfoServices.getCustomerInfoProfile()
+                .then((profile) => {
+                    if (!Array.isArray(profile) || !profile.length > 0) {
+                        this.customerProfile = [];
+                    }
+                    if (!Array.isArray(profile) || profile !== undefined || profile !== null) {
+                        this.customerProfile = profile ? profile : '';
+                        this.name = profile?.name_eng ? profile?.name_eng : '';
+                    }
+                });
+        },
+       async updatePassword() {
+        console.log(this.currentPassword)
         if (this.currentPassword && this.newPassword && (this.newPassword === this.confirmPassword)) {
-          this.passwordSubmitting = true
-          const data = await this.updateUserPassword({
-            current_password: this.currentPassword,
-            new_password: this.newPassword
-          })
-          if (data?.status === 201) {
-            this.setToastError(data.data.form.join(', '))
-          } else if (data?.status === 200) {
-            this.loggingOut()
-            this.setToastMessage(data.message)
-          }
-          this.passwordSubmitting = false
+             this.passwordSubmitting = true;
+             const updateUserPassword = {
+                    oldPassword: this.currentPassword,
+                    newPassword: this.newPassword
+                }
+                this.customerInfoServices.updatedCustomerPasswordChange(updateUserPassword).then((response) => {
+                    if (response.data.success === true) {
+                        this.passwordSubmitting = false;
+                        this.setToastMessage(response.data?.message)
+                    }
+                }).catch((err) => {
+                    this.loggingOut()
+                    this.setToastError(err.response.data.error.message)
+                    if(err.response.data.error.error.errors){
+                        for (let index = 0; index < err.response.data.error.error.errors.length; index++) {
+                            const messageValidation = err.response.data.error.error.errors[index].message ?? '';
+                            this.setToastError(messageValidation);
+                        }
+                    } 
+                });
+                this.passwordSubmitting = false;
         } else {
           this.hasPasswordError = true
         }
@@ -294,34 +308,38 @@
           this.$auth.logout()
           this.emptyCartProduct()
         } catch (e) {
-          return this.$nuxt.error(e)
+          return Promise.reject(e);
         }
       },
       async updateUserProfile() {
         if (this.name) {
-          this.profileSubmitting = true
-          const data = await this.updateProfile({
-            name: this.name
-          })
-          this.profileSubmitting = false
-          if (data?.status === 201) {
-            this.setToastError(data.data.form.join(', '))
-
-          } else if (data?.status === 200) {
-            const updatedUser = {...this.$auth.user}
-            updatedUser.name = data.data.name
-            this.$auth.setUser(updatedUser)
-            this.setToastMessage(data.message)
-          } else if (data?.status !== 200) {
-            this.hasError(data)
-          }
+            this.profileSubmitting = true
+            const updateProfileFIled = {
+                customerName: this?.name ? this?.name : ''
+            }
+           this.customerInfoServices.updatedCustomerProfile(updateProfileFIled).then((response) => {
+                if (response.data.success === true) {
+                    this.profileSubmitting = false;
+                    this.setToastMessage(response.data?.message);
+                    this.$router.push('/user/profile');
+                }
+            }).catch((err) => {
+                this.setToastError(err.response.data.error.message);
+                if(err.response.data.error.message){
+                     for (let index = 0; index < err.response.data.error.message.length; index++) {
+                        const messageValidation = err.response.data.error.error.errors[index].message ?? '';
+                        this.hasError(messageValidation);
+                        this.setToastError('Unscesffully updated customer info')
+                     }
+                }
+            });
         } else {
           this.hasProfileError = true
         }
       },
       ...mapActions('cart', ['emptyCartProduct']),
       ...mapActions('common', ['setToastMessage', 'setToastError', 'deleteRequest']),
-      ...mapActions('user', ['updateProfile', 'updateUserPassword'])
+      ...mapActions('profile', ['updateProfile', 'updateUserPassword'])
     },
     async mounted() {
       if (this.profile) {

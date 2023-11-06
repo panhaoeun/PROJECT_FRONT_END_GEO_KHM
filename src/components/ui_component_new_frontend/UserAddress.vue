@@ -9,16 +9,18 @@
           :radius="100"
         />
       </div>
-
+      
       <div
         v-else-if="currentAddresses && !currentAddresses.length"
         class="info-msg"
       >
         {{ $t('userAddress.noAddress') }}
       </div>
-
     </transition>
-
+    <!-- Shipping Address -->
+    <div class="mb-2">
+        <h5>Shipping Address</h5>
+    </div>
     <div v-if="hasRadio">
       <div
         v-for="(value, key) in currentAddresses"
@@ -39,14 +41,14 @@
         </label>
         <div class="flex mt-15 mb-5 start">
           <ajax-button
-            class="outline-btn plr-20 text-black"
+            class="outline-btn plr-20 border-round text-black"
             :type="'button'"
             :text="$t('userAddress.edit')"
             color="primary"
             @clicked="$emit('editing', value)"
           />
           <ajax-button
-            class="outline-btn plr-20 mlr-10 text-black"
+            class="outline-btn border-round plr-20 mlr-10 text-black"
             :type="'button'"
             :fetching-data="ajaxDeleting === value.id"
             :loading-text="$t('userAddress.deleting')"

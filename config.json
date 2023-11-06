@@ -3,7 +3,7 @@
     "url": "api/",
     "common": "common",
     "home": "home",
-    "all": "all",
+    "all": "customer-common-categories-product-name-all",
     "products": "customer-search-filter-item/products",
     "categories": "categories",
     "brands": "brands",

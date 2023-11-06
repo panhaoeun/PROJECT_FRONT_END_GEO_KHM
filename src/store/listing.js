@@ -34,28 +34,21 @@ const mutations = {
     state.products = null
   },
   SET_PRODUCTS(state, data){
+    console.log(data)
 
-    state.products = data?.data?.result
+    state.products = data?.result;
 
 
-    if(data?.data?.all_categories){
-      state.allCategories = data.data.all_categories
+    if(data?.all_categories){
+      state.allCategories = data.all_categories
     }
 
-    if(data?.data?.category){
-      state.categoryData = data.data.category
+    if(data?.category){
+      state.categoryData = data.category
     }
 
-    if(data?.data?.collections){
-      state.collections = data.data.collections
-    }
-
-    if(data?.data?.brands){
-      state.brands = data.data.brands
-    }
-
-    if(data?.data?.shipping){
-      state.shippingRules = data.data.shipping
+    if(data?.collections){
+      state.collections = data.collections
     }
   }
 }

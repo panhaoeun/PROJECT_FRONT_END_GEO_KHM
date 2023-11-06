@@ -112,14 +112,13 @@ const actions = {
   async getRequest ({commit},{params, api, requiredToken, lang}) {
     try {
       const {data} = await Service.getRequest(params, api, requiredToken ? this.$auth.strategy.token.get(): null, lang);
-      console.log(data);
-      commit('SET_LOCATION', data);
-      if(data?.status){
-        return data
+      if (data?.success) {
+        console.log(commit)
+        return data?.result.resultStatus;
       } else {
         return Promise.reject({
           message: "API is down."
-        })
+        });
       }
     }catch (e) {
 

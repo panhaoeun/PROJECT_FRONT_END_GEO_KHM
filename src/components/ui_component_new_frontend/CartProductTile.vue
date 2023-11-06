@@ -12,7 +12,7 @@
           @change="$emit('cb-changed', {id: cart.id, checked: $event})"
         > -->
         <router-link
-          class="w-120x img-wrapper"
+          class="w-120x img-wrapper gap-5"
           :to="productLink(product)"
           :title="title"
         >
@@ -23,8 +23,8 @@
           />
         </router-link>
       </div>
-      <div class="flex align-start grow block-sm gap-15">
-        <div class="grow">
+      <div class="flex align-start grow block-sm">
+        <div class="grow gap-5">
           <div>
             <h6 class="semi-bold  text-blue-800 font-bold">
               <router-link
@@ -36,56 +36,31 @@
               </router-link>
             </h6>
             <!-- Product Variant Name -->
-            <h6 class="mr-15 text-md" v-for="([key, value], index) in currentAttr" :key="index">
+            <h6 class="mr-15 text-md gap-10" v-for="([key, value], index) in currentAttr" :key="index">
                 <span class="mr-10">{{key}}</span>: {{ value }}
             </h6>
           </div>
 
           <form
             v-if="isShipping"
+            class="flex flex-column"
           >
-            <p v-if="!currentShipRule" class="error">{{ noShipMessage }}</p>
-            <p v-else-if="error && error.length" class="error">
-              <span class="block" v-for="e in error" :key="e">{{ e }}</span>
-            </p>
-            <div v-else-if="cartShipping[cart.id]">
-              <label class="mr-15 cp">
-                <input
-                  class="mt-5 cp"
-                  type="radio"
-                  :value="shippingTypeIn.location"
-                  :name="`shipping_${cartId}_type`"
-                  @change="updateCartShipping"
-                >
-                {{ $t('cartProductTile.fromLocation') }}(
-                <price-format
-                  :price="currentShipRule.price"
-                />)
-              </label>
-                <!-- v-model="cartShipping[cartId].shipping_type" -->
-              <label
-                v-if="parseInt(currentShipRule.pickup_point) === 1"
-                class="mr-15 cp">
-                <input
-                  class="mt-5 cp"
-                  type="radio"
-                  :value="shippingTypeIn.pickup"
-                  :name="`shipping_${cartId}_type`"
-                  @change="updateCartShipping"
-                >
-                {{ $t('cartProductTile.fromPickupPlace') }}(
-                <price-format
-                  :price="currentShipRule.pickup_price"
-                />)
-              </label>
-            </div>
+            <label class="mr-5 cp">
+                <span class="text-pink-600">Shipping Company: </span>
+                <span class="pl-2 font-bold"> {{ product.shippingCompanyDay }}</span>
+            </label>
+            <label class="mr-5 cp">
+                <span class="text-red-800">Shipping Cost: </span>
+                <span class="pl-2 font-bold"> {{ currencyFormattedKHRiel(product.expressPriceKHR) }}</span>
+                <span>({{ currencyFormattedUSD(product.expressPriceUSD) }})</span>
+            </label>
           </form>
           <div
             v-else
             class="flex gap-10 start wrap mt-10"
           >
             <quantity-nav
-              class="mtb-5"
+              class="mtb-5 border-round"
               :quantity="parseInt(productQuantity)"
               :product-inventory="cart"
               :max="maxQuantity"
@@ -93,7 +68,7 @@
               @blur="checkQuantity(index, $event)" 
             />
             <ajax-button
-              class="outline-btn plr-20 mtb-5"
+              class="outline-btn plr-20 mtb-5 border-round"
               type="button"
               text="Delete"
               color="primary"
@@ -120,7 +95,6 @@
   import util from '@/mixin/util'
   import QuantityNav from './QuantityNav'
   import productPriceHelper from '@/mixin/productPriceHelper'
-  import PriceFormat from "./PriceFormat"
   import AjaxButton from "./AjaxButton"
 
   export default {
@@ -168,7 +142,6 @@
     },
     components: {
       AjaxButton,
-      PriceFormat,
       QuantityNav,
       LazyImage
     },
