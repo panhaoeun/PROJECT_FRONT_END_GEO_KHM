@@ -34,6 +34,7 @@ const mutations = {
     state.products = null
   },
   SET_PRODUCTS(state, data){
+    console.log(data)
 
     state.products = data?.result;
 

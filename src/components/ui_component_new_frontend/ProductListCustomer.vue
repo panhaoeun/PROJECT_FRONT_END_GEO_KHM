@@ -74,15 +74,15 @@
                 </button>
               </div>
                 <div class="sidebar-customer">
-
+<!-- 
                   <button
                     v-if="backBtn"
                     @click.prevent="goingBack" class="flex start mb-15 clear-btn">
                     <span class="flex">
                       <i class="dimen-16x icon double-arrow-left-icon mr-5 opacity-6"></i>
-                      {{ $t('date.gb') }}
+                        Back
                     </span>
-                  </button>
+                  </button> -->
 
                   <filter-category
                     ref="filterCategory"
@@ -93,11 +93,11 @@
                     ref="filterPrice"
                     @reset-route="changeRoute"
                   />
-                  <filter-collection
+                  <!-- <filter-collection
                     ref="filterCollection"
                     :collections="collections"
                     @reset-route="changeRoute"
-                  />
+                  /> -->
                 </div>
               </div>
           </div>
@@ -168,7 +168,7 @@
   import TileShimmer from "./TileShimmer";
 //   import Spinner from "./Spinner";
   import ProductTile from "./ProductTile";
-  import FilterCollection from "./FilterCollection";
+//   import FilterCollection from "./FilterCollection";
 //   import FilterShipping from "./FilterShipping";
   import Breadcrumb from "./Breadcrumb";
 
@@ -226,7 +226,7 @@
     components: {
       Breadcrumb,
     //   FilterShipping,
-      FilterCollection,
+    //   FilterCollection,
       ProductTile,
     //   Spinner,
       TileShimmer,

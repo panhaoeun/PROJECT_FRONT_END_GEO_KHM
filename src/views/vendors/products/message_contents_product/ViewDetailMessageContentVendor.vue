@@ -17,38 +17,54 @@
             <div class="container">
                 <div class="row">
                     <!-- By Admin Message Logs -->
+                    <div class="flex-start mb-1">
+                        <strong class="mr-1">Product: </strong>
+                        <div>
+                            {{ messageContentArr[0]?.product_eng }}
+                        </div>
+                        <div>
+                            <label class="font-bold text-red-500">Code: {{ messageContentArr[0]?.proCode }}</label>
+                        </div>
+                    </div>
+                    <div class="flex-start mb-1">
+                        <strong class="mr-1 font-bold">Subject: </strong>
+                        <div>
+                            {{ messageContentArr[0]?.titleFeedbackAdmin }}
+                        </div>
+                    </div>
                     <div class="col-lg-6">
                         <el-card class="box-card">
                             <template #header>
                                 <div class="card-header flex justify-content-between">
-                                    <span>Message Log (Admin)</span>
+                                    <span>Message Log</span>
                                     <!-- View Product Detail By Id -->
                                     <!-- <el-button type="info" size="large" @click="$router.push(`/vendor/products/view-detail-module-vendor-admin-permission/${parseInt(proId)}`)" class="btn btn-primary">View This Product</el-button> -->
                                 </div>
                             </template>
                             <!-- Card Title -->
                             <div class="card-body d-flex flex-column gap-2" v-if="messageContentArr.length > 0">
-                                <div class="mb-3" v-for="(content,index) in messageContentArr" :key="index">
-                                    <div class="flex-start mb-1">
-                                        <strong class="mr-1">Product: </strong>
-                                        <div>
-                                            {{ content?.product_eng }}
-                                        </div>
-                                        <div>
-                                            <label class="font-bold text-red-500">Code: {{ content?.proCode }}</label>
-                                        </div>
+                                <div class="mb-3">
+                                    <div class="flex-start bg-primary border-round p-1">
+                                        <strong class="mr-1">Admin:</strong>
                                     </div>
-                                    <div class="flex-start mb-1">
-                                        <strong class="mr-1">Subject: </strong>
-                                        <div>
-                                            {{ content?.titleFeedbackAdmin }}
-                                        </div>
+                                    <div class="gap-2 p-2">
+                                        {{ messageContentArr[0]?.notedFeedback}}
                                     </div>
-                                    <div class="flex-start">
-                                        <strong class="mr-1">Message: </strong>
-                                        <div>
-                                            {{ content?.notedFeedback}}
-                                        </div>
+                                </div>
+                                <div class="mb-3 border-solid border-primary-500" v-if="messageContentArr[0].notedFeedbackVendor !== null">
+                                    <div class="flex-start  border-round p-1 bg-yellow-500">
+                                        <strong class="mr-1">Vendor: </strong>
+                                    </div>
+                                    <div class="border-round gap-2">
+                                        <span>
+                                            Subject:
+                                            {{ messageContentArr[0].titleFeedbackVendor}}
+                                        </span>
+                                        <p>
+                                            Message:
+                                            {{ messageContentArr[0].notedFeedbackVendor}}
+                                        </p>
+                                        
                                     </div>
                                 </div>
                             </div>

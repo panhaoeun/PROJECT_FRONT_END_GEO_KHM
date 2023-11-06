@@ -35,6 +35,25 @@
             </div>
             <!--search-section-->
           </div>
+        <!-- Product List -->
+        <div
+            v-if="products.length"
+            class="mb-15"
+        >
+                <h4 class="bold">
+                    Products
+                </h4>
+                <div
+                class="search-section search-product-tile"
+                >
+                <searched-product-tile
+                    v-for="(value, index) in products"
+                    :key="`prod-${index}`"
+                    :product="value"
+                />
+                </div>
+        <!--search-section-->
+        </div>
           <!-- Categories -->
           <div
             v-if="categories.length || subCategories.length"
@@ -67,11 +86,7 @@
                     </router-link>
                    
                 </div>
-                <h4 class="bold mt-5">
-                   Sub Categories
-                </h4>
-                <div class="search-section category-wrapper">
-                    <!-- Sub Categories -->
+                <!-- <div class="search-section category-wrapper">
                     <router-link
                         v-for="(value, index) in subCategories"
                         :key="`sc-${index}`"
@@ -94,27 +109,8 @@
                         </h5>
 
                     </router-link>
-                </div>
+                </div> -->
           </div>
-          <!-- Product List -->
-            <div
-                v-if="products.length"
-                class="mb-15"
-            >
-                <h4 class="bold">
-                    Products
-                </h4>
-                <div
-                class="search-section search-product-tile"
-                >
-                <searched-product-tile
-                    v-for="(value, index) in products"
-                    :key="`prod-${index}`"
-                    :product="value"
-                />
-                </div>
-                <!--search-section-->
-            </div>
         </div>
 
         <div v-else>

@@ -1,7 +1,6 @@
 <template>
   <li class="tree-node">
     <span class="node-data">
-
       <router-link
         :to="categoryLink(node)"
         :title="node?.catNameEn"
@@ -12,7 +11,7 @@
     <ul v-for="(subCat, index) in commonSubCategoriesList" :key="index" >
         <li class="tree-node">
             <span class="node-data">
-                <router-link :to="subCat?.categoryNameEng" v-if="subCat.superCatId === node?.catID">
+                <router-link :to="subCategoryLink(node,subCat)" v-if="subCat.superCatId === node?.catID">
                     {{ subCat?.categoryNameEng }}
                 </router-link>
             </span>

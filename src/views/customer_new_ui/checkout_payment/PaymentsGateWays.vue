@@ -13,7 +13,7 @@
             :shipping-address="getSelectedAddressShip"
             :order-detail="orderDetaiL"
             @success="orderPlaced('success', $event)"
-            @closed="orderPlaced('closed', $event)"
+            @close="closingPopup"
         />
         <!-- Loading -->
         <transition
@@ -208,6 +208,9 @@
         methods: {
             ...mapActions('common', ['setToastMessage', 'setToastError']),
             ...mapActions('cart', ['getCartByUser', 'subtractCartProductCount', 'emptyCartProduct']),
+            closingPopup(){
+                this.showWalletPayments = false
+            },
             async getConvertExchangeToRielTotal(){
                 try {
                     const getTotalItem = this.cartTotal ? this.cartTotal: '';
@@ -239,7 +242,6 @@
             },
             async initWallerPayments() {
                 try {
-                    console.log(this.showWalletPayments)
                     // await this.confirmOrder()
                     this.showWalletPayments = true
                 } catch (e) {

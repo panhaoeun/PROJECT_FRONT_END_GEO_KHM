@@ -161,7 +161,7 @@
         />
       </form>
       <!-- My Accounts -->
-      <div class="right-area flex gap-15 right" style="line-height: 2;">
+      <div class="right-area flex gap-15 right">
         <div
           class="pos-rel font-bold text-black"
           v-outside-click="closeDropdown"

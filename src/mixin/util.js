@@ -243,7 +243,7 @@ export default {
     },
     subCategoryLink(item, category) {
       if (item) {
-        return `/all/${category?.slug}/${item?.slug}`
+        return `/all/${this.convertToSlug(category?.categoryNameEng)}/${item?.slug}`
       }
     },
     productLink(item) {
