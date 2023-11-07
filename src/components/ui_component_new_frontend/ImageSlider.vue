@@ -1,4 +1,6 @@
 <template>
+<!-- Image -->
+<p></p>
   <div
     class="glide"
     ref="glide"

@@ -13,7 +13,7 @@
         > -->
         <router-link
           class="w-120x img-wrapper gap-5"
-          :to="productLink(product)"
+          :to="productListCartLink(product)"
           :title="title"
         >
           <lazy-image
@@ -32,23 +32,22 @@
                 :to="productLink(product)"
                 :title="title"
               >
-                {{ title }}
+                {{ truncateLongText(title,40, '\b') }}
               </router-link>
             </h6>
             <!-- Product Variant Name -->
-            <h6 class="mr-15 text-md gap-10" v-for="([key, value], index) in currentAttr" :key="index">
+            <h6 class="mr-15 text-md gap-10  mt-2 mb-2" v-for="([key, value], index) in currentAttr" :key="index">
                 <span class="mr-10">{{key}}</span>: {{ value }}
             </h6>
           </div>
 
           <form
-            v-if="isShipping"
-            class="flex flex-column"
+            class="flex flex-column mt-2 mb-2"
           >
-            <label class="mr-5 cp">
+            <!-- <label class="mr-5 cp">
                 <span class="text-pink-600">Shipping Company: </span>
                 <span class="pl-2 font-bold"> {{ product.shippingCompanyDay }}</span>
-            </label>
+            </label> -->
             <label class="mr-5 cp">
                 <span class="text-red-800">Shipping Cost: </span>
                 <span class="pl-2 font-bold"> {{ currencyFormattedKHRiel(product.expressPriceKHR) }}</span>
@@ -56,7 +55,6 @@
             </label>
           </form>
           <div
-            v-else
             class="flex gap-10 start wrap mt-10"
           >
             <quantity-nav
@@ -215,6 +213,13 @@
     },
     mixins: [util, productPriceHelper],
     methods: {
+        truncateLongText(str, length, useWordBoundary){
+            if (str.length <= length) { return str; }
+            const subString = str.slice(0, length - 1); // the original check
+            return (useWordBoundary
+                ? subString.slice(0, subString.lastIndexOf(" "))
+                : subString) + "...";
+        },
         // Currency Formate
         currencyFormattedKHRiel: function(value) {
             return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  

@@ -1,10 +1,12 @@
 <template>
     <div>
         <div class="container-fluid">
+            <!-- Home Slide Banner -->
             <home-hero
                 :slider="sliderContent"
                 class="home-section"
             />
+            <!--Section Categories and Sub Categories-->
             <!-- Seller -->
             <div
             class="brands-wrapper full-screen"

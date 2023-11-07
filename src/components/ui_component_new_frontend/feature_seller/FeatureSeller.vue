@@ -2,7 +2,7 @@
     <div class="area area-slider home-section">
         <template v-if="itemList && itemList.length">
             <div class="flex sided title">
-                <h5>Sellers</h5>
+                <h6>Sellers</h6>
             </div>
             <div class="area-content">
                 <image-slider

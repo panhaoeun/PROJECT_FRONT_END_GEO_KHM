@@ -6,12 +6,11 @@
       </h5>
      <!-- Cart Total CheckOut -->
      <div class="flex sided mb-15 gap-10" v-if="getSubTotal">
-        <h5 class="fw-400 text-sm w-full text-bluegray-900">
-            Sub Total 
+        <h5 class="fw-400 text-sm text-bluegray-900">
+            Shipping Company: 
         </h5>
         <h5 class="price text-sm text-right">
-           {{ currencyFormattedKHRiel(getSubTotal?.subTotalKHR) }}
-           ({{ currencyFormattedUSD(getSubTotal?.subTotalUSD) }})
+          Pickup Freight
         </h5>
     </div>
     <!-- Shipping -->
@@ -24,9 +23,18 @@
             ({{ currencyFormattedUSD(cartTotalShipping?.shippingAmountUSD) ?? 0}})
         </h5>
     </div>
+    <div class="flex sided mb-15 gap-10" v-if="getSubTotal">
+        <h5 class="fw-400 text-sm w-full text-bluegray-900">
+            Sub Total 
+        </h5>
+        <h5 class="price text-sm text-right">
+           {{ currencyFormattedKHRiel(getSubTotal?.subTotalKHR) }}
+           ({{ currencyFormattedUSD(getSubTotal?.subTotalUSD) }})
+        </h5>
+    </div>
     <!-- Total With Shipping -->
     <div class="flex sided mb-20 mb-sm-15 b-t pt-10">
-        <h5 class="fw-400 text-md">Total</h5>
+        <h6 class="fw-400 text-md">Total</h6>
         <h4 class="price text-sm text-right">
             {{ currencyFormattedKHRiel(totalPriceKHR) }}
             ({{ currencyFormattedUSD(totalPriceUSD) }})

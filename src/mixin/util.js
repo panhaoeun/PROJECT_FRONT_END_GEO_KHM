@@ -251,6 +251,11 @@ export default {
         return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.productId}`
       }
     },
+    productListCartLink(item) {
+        if (item) {
+            return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${parseInt(item?.id)}`
+        }
+    },
     productLinkURLSearch(item) {
         if (item) {
             return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.id}`

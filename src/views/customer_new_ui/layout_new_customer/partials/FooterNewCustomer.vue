@@ -4,15 +4,14 @@
     <footer class="link-hover bg-red-50">
       <div class="top-area section pb-0">
         <div class="container">
-            <ul class="table-tree">
-             <!-- List all categories -->
+            <!-- List all categories -->
+            <!-- <ul class="table-tree">
               <footer-tree-node
                 v-for="value in commonCategoriesList"
                 :node="value"
                 :key="value.id"
               />
-            <!-- List all categories -->
-            </ul>
+            </ul> -->
         
          <!-- Logo E-Commerce -->
           <div class="ptb-15 mt-20 mt-sm-15 b-t center-text">
@@ -111,7 +110,7 @@
   import LazyImage from "@/components/ui_component_new_frontend/LazyImage";
 //   import Subscription from "@/components/ui_component_new_frontend/Subscription";
 //   import TreeNode from "@/components/ui_component_new_frontend/TreeNode";
-  import FooterTreeNode from "@/components/ui_component_new_frontend/FooterTreeNode";
+//   import FooterTreeNode from "@/components/ui_component_new_frontend/FooterTreeNode";
   export default {
     data() {
       return {
@@ -186,7 +185,7 @@
         this.commonServices = new CommonListPublicServices();
     },
     mixins: [util],
-    components: { LazyImage,FooterTreeNode},
+    components: { LazyImage},
     methods: {
         // Categories
         getCommonCategories(){

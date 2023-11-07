@@ -25,9 +25,32 @@
               @loaded="firstImgLoaded"
               @change="changed"
             >
-              <img alt="Slider image" height="100" width="100" src="https://cdn.ishop.cholobangla.com/uploads/slider-1.webp" class="full-dimen placeholder-img img-loaded"> 
+              <!-- <img alt="Slider image" height="100" width="100" src="https://cdn.ishop.cholobangla.com/uploads/slider-1.webp" class="full-dimen placeholder-img img-loaded">  -->
+                <template v-slot:content>
+                    <li
+                    v-for="(value, index) in slider"
+                    :key="index"
+                    >
+                    <router-link
+                        :to="sourceUrl(value)"
+                        class="slider-content block"
+                    >
+                        <div
+                        class="slider-content-inner"
+                        >
+                        <img
+                            :id="generateElemId(index)"
+                            class="full-dimen"
+                            alt="Slider image - Product Banner"
+                            :data-source="imagePath"
+                        >
+                        </div>
+                    </router-link>
+                    </li>
+                </template>
             </image-slider>
           </client-only>
+          <!-- Load Image - 01 -->
           <img
             class="full-dimen placeholder-img"
             :class="{'img-loaded': imgLoaded}"
@@ -86,7 +109,7 @@
   import util from '@/mixin/util'
   import sliderHelper from '@/mixin/sliderHelper'
   import ImageSlider from './ImageSlider'
-//   import LazyImage from '~/components/LazyImage'
+// import LazyImage from '~/components/LazyImage'
 
   export default {
     name: 'HomeHero',
