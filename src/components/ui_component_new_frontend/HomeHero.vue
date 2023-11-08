@@ -4,11 +4,11 @@
     v-if="slider && slider.length"
   >
     <div
-      class="slider-wrapper"
+      class="slider-wrapper bg-cover"
       :class="{'has-right': rightTop || rightBottom}"
     >
       <div
-        class="left "
+        class="left flow-hidden"
       >
         <div
           class="pos-rel"
@@ -25,7 +25,6 @@
               @loaded="firstImgLoaded"
               @change="changed"
             >
-              <!-- <img alt="Slider image" height="100" width="100" src="https://cdn.ishop.cholobangla.com/uploads/slider-1.webp" class="full-dimen placeholder-img img-loaded">  -->
                 <template v-slot:content>
                     <li
                     v-for="(value, index) in slider"
@@ -36,14 +35,16 @@
                         class="slider-content block"
                     >
                         <div
-                        class="slider-content-inner"
+                        class="slider-content-inner bg-cover bg-center"
                         >
-                        <img
-                            :id="generateElemId(index)"
-                            class="full-dimen"
-                            alt="Slider image - Product Banner"
-                            :data-source="imagePath"
-                        >
+                            <img
+                                :id="generateElemId(index)"
+                                class="full-dimen bg-cover placeholder-img"
+                                :alt="value?.title"
+                                height="3000"
+                                width="500"
+                                :data-source="imageBannerURL(value)"
+                            >
                         </div>
                     </router-link>
                     </li>
@@ -54,50 +55,13 @@
           <img
             class="full-dimen placeholder-img"
             :class="{'img-loaded': imgLoaded}"
-            alt="Slider image"
-            :src="slider[0].imagePath"
+            alt="Slider image - Default"
+            :data-source="imageBannerURL(slider[0])"
+            :src="imageBannerURL(slider[0])"
           >
         </div>
       </div>
       <!--left-->
-      <div
-        v-if="rightTop || rightBottom"
-        class="right"
-      >
-        <router-link
-          v-if="rightTop"
-          :to="sourceUrl(slider.right_top)"
-          class="img-wrap block"
-        >
-          <template
-            v-if="slider && slider.right_top"
-          >
-            <img
-              :src="imageURL(slider.right_top)"
-              height="100"
-              width="100"
-              alt="Slider image"
-            />
-          </template>
-        </router-link>
-
-        <router-link
-          v-if="rightBottom"
-          :to="sourceUrl(slider.right_bottom)"
-          class="img-wrap block"
-        >
-          <template
-            v-if="slider && slider.right_bottom"
-          >
-            <img
-              :src="imageURL(slider.right_bottom)"
-              height="100"
-              width="100"
-              alt="Slider image"
-            />
-          </template>
-        </router-link>
-      </div>
       <!--right-->
     </div>
     <!--main-slider-->

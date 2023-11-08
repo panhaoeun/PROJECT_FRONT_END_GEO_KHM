@@ -196,6 +196,9 @@ export default {
     imageURL(obj) {
       return this.getImageURL(obj?.catLogo ? obj?.catLogo : this.defaultImage)
     },
+    imageBannerURL(obj) {
+        return this.getImageURL(obj?.imagePath ? obj?.imagePath : this.defaultImage)
+    },
     thumbImageURL(obj) {
       return this.getThumbImageURL(obj?.product_picture ? obj?.product_picture : this.defaultImage)
     },

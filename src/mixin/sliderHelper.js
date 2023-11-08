@@ -47,7 +47,6 @@ export default {
       return firstImg
     },
     generateElemId(index) {
-        console.log(this.uid)
       return `${this._uid}--${index}`
     },
     loadImage(index) {

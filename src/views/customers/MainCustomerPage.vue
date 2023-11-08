@@ -7,6 +7,7 @@
                 class="home-section"
             />
             <!--Section Categories and Sub Categories-->
+            <!-- <home-categories-section/> -->
             <!-- Seller -->
             <div
             class="brands-wrapper full-screen"
@@ -58,6 +59,7 @@ import CommonListPublicServices from "@/services/customers/common_list/CommonLis
 // More Loved
 import LazyArea from "@/components/ui_component_new_frontend/LazyArea.vue";
 import DailyDiscoverMoreLove from "@/components/ui_component_new_frontend/daily_discover_morelove/DailyDiscoverMoreLove.vue";
+// import HomeCategoriesSection from "@/components/ui_component_new_frontend/home_categories_filter/HomeCategoriesSection.vue";
 
 export default {
     components: {HomeHero,FeatureSeller,FeaturedCategories,DailyDiscoverMoreLove,LazyArea},
@@ -75,31 +77,36 @@ export default {
             sliderContent: [
                 {
                     id: 1,
-                    imagePath: require('@/assets/img/banner/banner_01.jpg'),
+                    imagePath:'home_banner'+'/banner_01.jpg',
                     title: 'Special Offer',
                     subTitle: 'NEW TRANDING',
                     description: 'Brown Minimalist Fashion Sale Banner',
                     right_top: {
-                        imagePath: require('@/assets/img/banner/banner_01.jpg'),
+                        imagePath: 'uploads/home_banner' + '/banner_01.jpg',
                         title: 'Special Offer',
                         subTitle: 'NEW TRANDING',
                     }
                 },
                 {
                     id: 2,
-                    imagePath: require('@/assets/img/banner/banner_02.jpg'),
+                    imagePath:'home_banner'+'/banner_03.jpg',
                     title: 'Time to go shopping',
                     subTitle: 'NEW TRANDING',
                     description: '+123-456-7890 / www.reallygreatsite.com / @reallygreatsite',
+                    right_top: {
+                        imagePath: 'uploads/home_banner' + '/banner_01.jpg',
+                        title: 'Special Offer',
+                        subTitle: 'NEW TRANDING',
+                    }
                 },
                 {
                     id: 3,
-                    imagePath: require('@/assets/img/banner/banner_03.jpg'),
+                    imagePath:'home_banner'+'/banner_02.jpg',
                     title: 'Online Store',
                     subTitle: 'NEW TRANDING',
                     description: 'Flash Sale 9.9 Promotion',
                     right_bottom: {
-                        imagePath: require('@/assets/img/banner/banner_01.jpg'),
+                        imagePath: 'uploads/home_banner' + '/banner_01.jpg',
                         title: 'Special Offer',
                         subTitle: 'NEW TRANDING',
                     }

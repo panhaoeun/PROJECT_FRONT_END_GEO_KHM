@@ -34,9 +34,9 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-3 col-md-6 mb-15">
-              <h4 class="bold mb-15">
+              <h5 class="bold mb-15">
                    Services
-              </h4>
+              </h5>
               <router-link
                 :to="pageLink(item)"
                 v-for="(item, i) in aboutServices"
@@ -47,9 +47,9 @@
             </div>
 
             <div class="col-lg-3 col-md-6 mb-15">
-              <h4 class="bold mb-15">
+              <h5 class="bold mb-15">
                 About
-              </h4>
+              </h5>
               <router-link
                 :to="pageLink(item)"
                 v-for="(item, i) in aboutFooter"
@@ -58,31 +58,10 @@
                 {{item.title}}
               </router-link>
             </div>
-
-            <!-- <div class="col-lg-3 col-md-6 payment mb-20 mb-sm-15">
-              <h4 class="bold mb-15">
-                Payment
-              </h4>
-              <div class="payment-icons">
-                <a :href="item.link"
-                   target="_blank"
-                   v-for="(item, i) in payment"
-                   :key="i"
-                >
-                  <lazy-image
-                    :data-src="imageURL(item)"
-                    :alt="item.title"
-                    :title="item.title"
-                  />
-                </a>
-              </div>
-
-            </div> -->
-
             <div class="col-lg-3 col-md-6 mb-15 mb-xs">
-              <h4 class="bold mb-15">
-                Social
-              </h4>
+              <h5 class="bold mb-15">
+                Stay connected
+              </h5>
               <a :href="item.link" target="_blank" v-for="(item, i) in socialAbout" :key="i">
                 <lazy-image
                   :data-src="item.socialIcon"
@@ -92,7 +71,29 @@
                 {{item.title}}
               </a>
             </div>
-          </div><!--row-->
+             <div class="col-lg-3 col-md-6 mb-15 mb-xs">
+              <h5 class="bold mb-15">
+                Contact Us
+              </h5>
+               <div class="payment-icons pb-2">
+                <p class="text-black">
+                   Phone Number: 
+                   <label class="font-bold">+85516387467</label>
+                </p>
+              </div>
+              <div class="payment-icons">
+                <span class="text-black">
+                   Address:  Sangkat Tuol Sangkae,
+                    Khan Russey Keo,
+                    Phnom Penh, Cambodia.
+                </span>
+              </div>
+             
+
+            </div>
+
+          </div>
+          <!--row-->
           <p class="ptb-15 mt-10 b-t center-text">
             © {{ getYear }} -  All rights reserved by C.A.I.T
           </p>

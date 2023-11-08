@@ -1,6 +1,6 @@
 <template>
-<!-- Image -->
-<p></p>
+  <!-- SLider Image -->
+  <div></div>
   <div
     class="glide"
     ref="glide"
@@ -168,6 +168,8 @@
                   //FOR ARROW CLICKS
                   this.$emit('change', {index: this.glide.index, direction: (evt.direction === '>') ? 1: -1})
                 }
+
+
               }
             })
           })
@@ -178,9 +180,12 @@
             this.$emit('loaded', this.glide.index)
           }, 50)
         })
+
         this.$emit('glide', this.glide)
         this.glide.mount()
       }
+
+
     },
     created() {
     },
@@ -192,3 +197,4 @@
     }
   }
 </script>
+

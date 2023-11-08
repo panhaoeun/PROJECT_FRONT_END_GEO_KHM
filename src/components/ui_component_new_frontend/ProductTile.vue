@@ -25,12 +25,12 @@
       </div>
 
       <div class="item-title">
-        <h5
+        <h6
           class="ellipsis"
           :class="`ellipsis-${titleEllipsis}`"
         >
           {{product?.product_eng}}
-        </h5>
+      </h6>
         <!-- <div class="mtb-5">
           <rating-star
             :rating="parseFloat(product.rating)"

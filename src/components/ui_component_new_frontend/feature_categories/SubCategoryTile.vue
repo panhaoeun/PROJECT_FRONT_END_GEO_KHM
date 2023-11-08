@@ -11,9 +11,9 @@
         :alt="subCategory.catNameEn"
       />
     </div>
-    <h5 class="item-title ellipsis ellipsis-1">
+    <h6 class="item-title ellipsis ellipsis-1">
         {{ subCategory?.catNameEn }}
-    </h5>
+    </h6>
   </router-link>
 </template>
 

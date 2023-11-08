@@ -11,19 +11,19 @@
                     :gap="15"
                     :responsive="sliderOptions.responsive"
                 >
-                <template v-slot:content>
-                    <li
-                        v-for="(value, index) in itemList"
-                        :key="index"
-                        class="center-text"
-                    >
-                        <!-- Seller Title -->
-                        <SellerTitle
-                            :index="index"
-                            :brand="value"
-                        />
-                    </li>
-                </template>     
+                    <template v-slot:content>
+                        <li
+                            v-for="(value, index) in itemList"
+                            :key="index"
+                            class="center-text"
+                        >
+                            <!-- Seller Title -->
+                            <SellerTitle
+                                :index="index"
+                                :brand="value"
+                            />
+                        </li>
+                    </template>     
                 </image-slider>
             </div>
         </template>

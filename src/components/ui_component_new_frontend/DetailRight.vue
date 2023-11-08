@@ -33,9 +33,9 @@
           <!-- Product Detail Dropdown -->
           <dvi>
                 <select
-                    class="start flex mb-10 wrap w-full"
+                    class="start flex wrap w-full border-round text-sm"
                     :label-for="value?.item + aid"
-                    style="border: 1px solid #bbb;justify-content:space-between;padding:15px 15px 15px 15px;transition:all .1s;"
+                    style="border: 1px solid #bbb;justify-content:space-between;padding:10px 10px 10px 10px;transition:all .1s;"
                     v-model="selectedCustomizations[value?.item]"
                     :track-by="currentSelected.proSpecItem"
                 >
@@ -70,9 +70,9 @@
           <!-- Product Detail Dropdown -->
           <dvi>
                 <select
-                    class="dropdown-wrapper"
+                    class="dropdown-wrapper border-round text-sm"
                     :label-for="value?.item + aid"
-                    style="border: 1px solid #bbb;justify-content:space-between;padding:15px 15px 15px 15px;transition:all .1s;"
+                    style="border: 1px solid #bbb;justify-content:space-between;padding:10px 10px 10px 10px;transition:all .1s;"
                     @change="selectExpressDeliveryShippingPrice"
                 >
                     <!--Choose option-->

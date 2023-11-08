@@ -21,15 +21,15 @@
                 >
                     <template v-slot:content>
                         <li
-                            v-for="(value, index) in itemList"
-                            :key="index"
-                            class="center-text"
-                        >
-                            <sub-category-tile
-                            :category="value"
-                            :sub-category="value"
-                            />
-                    </li>
+                                v-for="(value, index) in itemList"
+                                :key="index"
+                                class="center-text"
+                            >
+                                <sub-category-tile
+                                :category="value"
+                                :sub-category="value"
+                                />
+                        </li>
                     </template>
                 </image-slider>
             </div>
