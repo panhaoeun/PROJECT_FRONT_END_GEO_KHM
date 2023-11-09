@@ -225,7 +225,7 @@
       <div class="container-fluid">
         <div class="sided justify-content-between">
             <!--Section Categories and Sub Categories-->
-            <!-- <home-categories-section/> -->
+            <home-categories-section/>
           <!-- <div>
 
             <router-link
@@ -258,7 +258,7 @@
   </header>
 </template>
 <script>
-//   import HomeCategoriesSection from "@/components/ui_component_new_frontend/home_categories_filter/HomeCategoriesSection.vue";
+  import HomeCategoriesSection from "@/components/ui_component_new_frontend/home_categories_filter/HomeCategoriesSection.vue";
   import outsideClick from '@/directive/outside-click';
   import { isLoggedIn } from "@/utils/auth/auth";
   import util from '@/mixin/util'
@@ -327,7 +327,7 @@
       }
     },
     directives: {outsideClick},
-    components: {Banner, SearchPopup},
+    components: {Banner, SearchPopup,HomeCategoriesSection},
     mixins: [util],
     created(){
          // Login
