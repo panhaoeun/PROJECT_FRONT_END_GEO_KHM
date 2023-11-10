@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid mtb-20 mtb-sm-15">
+    <!-- Detail Shipping Address -->
     <div class="product-detail">
       <div
         class="detail-left  p-20 p-sm-15 area mr-20 mr-sm mb-sm-15 flex justify-content-center align-start gap-15"
@@ -196,7 +197,7 @@
       <checkout-right
         route-link="checkout"
         :checked-product="checkedProduct"
-        btn-text="Set Shipping Option"
+        btn-text="Check Out"
         :loading-text="$t('checkoutRight.submitting')"
         :text="$t('checkoutRight.proceedToCheckout')"
         :disabled="fetchingAddressData || Object.keys(getCartAuthItem).length === 0 || !selectedCurrentAddress"
@@ -208,7 +209,7 @@
     <transition name="fade" mode="out-in">
       <pop-over
         v-if="cartPopOver"
-        title="Ordered Products"
+        title="Item List"
         @close="cartPopOver = false"
         elem-id="cart-pop-over"
         :layer="true"
@@ -217,16 +218,29 @@
         <template
           v-slot:content
         >
+          <!-- Product Item List -->
           <cart-list
             :error-from-api="errorFromApi"
             :cart-products="getCartAuthItem"
             :cart-shipping="cartShipping"
             :checked="checked"
+            :is-shipping="false"
             :address="selectedCurrentAddress"
             @shipping-changed="cartShipping = $event"
             @cart-changed="cartChanged"
           />
+          <!-- Choose Payment Method -->
+          <!-- Summary Information Confirm order payments -->
+          <div class="flex sided">
+                <h6 class="price text-sm">
+                    <span>
+                        Shipping: 
+                        <label class="text-indigo-700 font-bold">Pickup Freight</label>
+                    </span>
+                </h6>
+            </div>
         </template>
+        <!-- Footer -->
         <template v-slot:pop-footer>
           <div class="flex j-end gap-10">
             <button
@@ -240,8 +254,8 @@
               class="primary-btn  plr-30 plr-sm-15"
               type="button"
               :fetching-data="checkingOut"
-              loading-text="Submitting"
-              text="Proceed to checkout"
+              loading-text="Proceed to checkout"
+              text="Confirm"
               @clicked="goToCheckout"
             />
           </div>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="gap-20 flex sided align-start b-b pb-15 mb-10 cart-product-tile"
+    class="gap-20 flex sided align-start b-b pb-1 mb-10 cart-product-tile"
     v-if="product"
   >
       <div class="flex gap-15">
@@ -12,7 +12,7 @@
           @change="$emit('cb-changed', {id: cart.id, checked: $event})"
         > -->
         <router-link
-          class="w-120x img-wrapper gap-5"
+          class="w-70x img-wrapper gap-5"
           :to="productListCartLink(product)"
           :title="title"
         >
@@ -28,7 +28,7 @@
           <div>
             <h6 class="semi-bold  text-blue-800 font-bold">
               <router-link
-                class="ellipsis-1 text-blue-800 font-bold text-md"
+                class="ellipsis-1 text-blue-800 font-bold text-sm"
                 :to="productLink(product)"
                 :title="title"
               >
@@ -36,8 +36,8 @@
               </router-link>
             </h6>
             <!-- Product Variant Name -->
-            <h6 class="mr-15 text-md gap-10  mt-2 mb-2" v-for="([key, value], index) in currentAttr" :key="index">
-                <span class="mr-10">{{key}}</span>: {{ value }}
+            <h6 class="mr-15 text-md gap-10 font-bold text-sm  mt-2 mb-2" v-for="([key, value], index) in currentAttr" :key="index">
+                <span>{{key}}</span>: {{ value }}
             </h6>
           </div>
 
@@ -48,14 +48,15 @@
                 <span class="text-pink-600">Shipping Company: </span>
                 <span class="pl-2 font-bold"> {{ product.shippingCompanyDay }}</span>
             </label> -->
-            <label class="mr-5 cp">
-                <span class="text-red-800">Shipping Cost: </span>
-                <span class="pl-2 font-bold"> {{ currencyFormattedKHRiel(product.expressPriceKHR) }}</span>
-                <span>({{ currencyFormattedUSD(product.expressPriceUSD) }})</span>
+            <label class="mr-5 cp text-sm">
+                <span class="text-indigo-700 font-bold">Shipping Cost: </span>
+                <span class="pl-2 font-bold text-danger"> {{ currencyFormattedKHRiel(product.expressPriceKHR) }}</span>
+                <span class="text-black">({{ currencyFormattedUSD(product.expressPriceUSD) }})</span>
             </label>
           </form>
           <div
             class="flex gap-10 start wrap mt-10"
+            v-if="isShipping"
           >
             <quantity-nav
               class="mtb-5 border-round"

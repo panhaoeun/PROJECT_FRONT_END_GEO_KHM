@@ -39,6 +39,7 @@
                     :cart-products="cart"
                     :ajaxing="ajaxing"
                     :checked="checked"
+                    :is-shipping="true"
                 />
                 <!-- Total Product List -->
                 <div class="flex sided" v-if="cart && cart.length >0">

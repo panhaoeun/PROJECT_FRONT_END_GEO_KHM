@@ -1,13 +1,13 @@
 <template>
     <div class="bottom-area text-nowrap">
         <div class="container-fluid">
-            <div class="flex sided">
+            <div class="flex sided align-items-center">
                 <!-- Dropdown menu -->
                 <div class="cd-dropdown-wrapper">
                     <!-- Header -->
-                    <router-link class="cd-dropdown-trigger hover:text-white text-md" @click.prevent="openDropdownMenu" to="#">All Categories</router-link>
+                    <div class="cd-dropdown-trigger font-bold text-sm" @click.prevent="openDropdownMenu">All Categories</div>
                     <nav class="cd-dropdown">
-                        <h2 class="text-sm text-white">All Categories</h2>
+                        <h2 class="text-sm text-white uppercase">All Categories</h2>
                         <a href="#0" class="cd-close" @click.prevent="closeMenuDropdown">Close</a>
                         <ul class="cd-dropdown-content list-none">
                             <li class="has-children"
@@ -19,14 +19,14 @@
                                 <a href="#" class="my-2 text-black tree-node">{{ categories?.catNameEn }}</a>
                                 <!-- Sub Categories -->
                                 <ul class="cd-dropdown-icons is-hidden list-none">
-                                    <li class="go-back" @click="goBackLinkMenuCategories"><a href="#0">Menu</a></li>
+                                    <li class="go-back" @click="goBackLinkMenuCategories"><a href="#">Menu</a></li>
                                     <li class="see-all">
                                         <router-link to="#">Browse {{ categories?.catNameEn }}</router-link>
                                     </li>
                                     <li v-for="(subCat, index) in commonSubCategoriesList" :key="index">
-                                        <a class="cd-dropdown-item align-content-center item-1" v-if="subCat.superCatId === categories?.catID" href="#">
+                                        <router-link to="/" class="cd-dropdown-item" v-if="subCat.superCatId === categories?.catID">
                                             <h6>{{ subCat?.categoryNameEng }}</h6>
-                                        </a>
+                                       </router-link>
                                     </li>
                                 </ul> 
                             </li> 
@@ -34,9 +34,31 @@
                     </nav> 
                     <!-- Headers -->
                 </div> 
-                <!-- List Top Categories -->
+                <!-- List Top Categories Left-->
                 <div>
-                    <p>dsadasd</p>
+                    <router-link 
+                        :to="getUrl(item)"
+                        v-for="(item, index) in headerLeft?.item"
+                        :key="index"
+                        class="text-black border-round hover:border-round "
+                    >
+                        <span>
+                            {{ getTitle(item) }}
+                        </span>
+                    </router-link>
+                </div>
+                <!--Right-->
+                <div>
+                    <router-link 
+                        :to="getUrl(item)"
+                        v-for="(item, index) in headerRight?.item"
+                        :key="index"
+                        class="text-purple-900 font-bold border-round hover:border-round"
+                    >
+                        <span>
+                            {{ getTitle(item) }}
+                        </span>
+                    </router-link>
                 </div>
             </div>   
         </div>
@@ -47,6 +69,7 @@
   import  CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
   import $ from "jquery";
   import outsideClick from '@/directive/outside-click';
+  import util from '@/mixin/util'
   export default {
     name: 'Categories Menu',
     directives: {
@@ -56,9 +79,57 @@
         return {
             commonCategoriesList: null,
             commonSubCategoriesList: null,
-
+            headerLeft: {
+                item: [
+                    {
+                        id: 1,
+                        title: 'Accessories',
+                        url: '/discover/products'
+                    },
+                    {
+                        id: 2,
+                        title: 'Home & Garden',
+                        url: '/discover/products'
+                    },
+                    {
+                        id: 3,
+                        title: 'Hair Extensions & Wigs',
+                        url: '/discover/products'
+                    },
+                    {
+                        id: 4,
+                        title: 'Consumer Electronics',
+                        url: '/discover/products'
+                    },
+                    {
+                        id: 5,
+                        title: 'Home Improvement & Lighting',
+                        url: '/discover/products'
+                    }
+                ],
+            },
+            headerRight: {
+                item: [
+                    {
+                        id: 1,
+                        title: 'faq',
+                        url: '/discover/products'
+                    },
+                    {
+                        id: 2,
+                        title: 'help',
+                        url: '/discover/products'
+                    },
+                    {
+                        id: 3,
+                        title: 'contact us',
+                        url: '/discover/products'
+                    }
+                ],
+            }
         }
     },
+    mixins: [util],
     mounted() {
         //on desktop - differentiate between a user trying to hover over a dropdown item vs trying to navigate into a submenu's contents
         // this.hoverDropdownMenuItem();

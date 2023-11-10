@@ -18,7 +18,7 @@
       </div>
     </transition>
     <!-- Shipping Address -->
-    <div class="mb-2">
+    <div class="mb-2" v-if="currentAddresses !== null">
         <h5>Shipping Address</h5>
     </div>
     <div v-if="hasRadio">
@@ -27,7 +27,6 @@
         :key="key"
         class="mb-20 mb-sm-15"
       >
-      {{ selectedAddress }}
         <label
           class="card ptb-15 pr-10 select-input"
           :class="{active: selectedAddress === key}"
