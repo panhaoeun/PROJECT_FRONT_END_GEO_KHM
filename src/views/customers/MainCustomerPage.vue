@@ -77,7 +77,7 @@ export default {
             sliderContent: [
                 {
                     id: 1,
-                    imagePath:'home_banner'+'/banner_01.jpg',
+                    imagePath:'home_banner'+'/slider01.png',
                     title: 'Special Offer',
                     subTitle: 'NEW TRANDING',
                     description: 'Brown Minimalist Fashion Sale Banner',

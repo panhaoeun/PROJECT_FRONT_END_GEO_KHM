@@ -3,7 +3,7 @@
     <!-- Detail Shipping Address -->
     <div class="product-detail">
       <div
-        class="detail-left  p-20 p-sm-15 area mr-20 mr-sm mb-sm-15 flex justify-content-center align-start gap-15"
+        class="detail-left p-20 p-sm-15 area mr-20 mr-sm mb-sm-15 align-start gap-15"
       >
         <transition
           name="fade"
@@ -27,185 +27,190 @@
             @selected-address="selectedCurrentAddress = $event"
           />
         </div>
-        <form
-          class="address-form"
-          @submit.prevent="savingAddressData"
-        >
-          <div
-            v-if="countryList"
-            class="input-wrap"
-          >
-            <label>
-              Country
-            </label>
-            <dropdown
-              :selected-key="addressData.country"
-              :options="countryList"
-              key-name="name"
-              :searching="true"
-              @clicked="selectCountry"
-            />
-          </div>
-          <div class="flex">
-            <div class="input-wrap" :class="{invalid: !addressData.contact_name && hasAddressErrors}">
-              <label>
-                    Name
-              </label>
-              <input
-                type="text"
-                v-model="addressData.contact_name"
-              />
-              <span
-                class="error"
-                v-if="!addressData.contact_name && hasAddressErrors"
-              >
-                {{ $t('addressPopup.isRequired', {type: $t('addressPopup.name')}) }}
-              </span>
-            </div>
-          </div>
-          <!-- Phone Number -->
+          
+      </div>
+      <!-- Form Address -->
+      <div class="detail-right">
+         <div class="area pt-10 plr-20 plr-sm-15 pb-20 pb-sm-15">
+            <form
+            class="address-form"
+            @submit.prevent="savingAddressData"
+            >
             <div
-              class="input-wrap input-text"
-              :class="{invalid: !addressData.phone_number_contact && hasAddressErrors}"
+                v-if="countryList"
+                class="input-wrap"
             >
                 <label>
-                    Phone Number
+                Country
+                </label>
+                <dropdown
+                :selected-key="addressData.country"
+                :options="countryList"
+                key-name="name"
+                :searching="true"
+                @clicked="selectCountry"
+                />
+            </div>
+            <div class="flex">
+                <div class="input-wrap" :class="{invalid: !addressData.contact_name && hasAddressErrors}">
+                <label>
+                        Name
                 </label>
                 <input
-                  type="text"
-                  v-model="addressData.phone_number_contact"
-                  @keypress="isNumber($event)"
+                    type="text"
+                    v-model="addressData.contact_name"
                 />
-              <span
-                class="error"
-                v-if="!addressData.phone_number_contact && hasAddressErrors"
-              >
-                  {{ $t('addressPopup.isRequired', {type: $t('addressPopup.phone')}) }}
-              </span>
+                <span
+                    class="error"
+                    v-if="!addressData.contact_name && hasAddressErrors"
+                >
+                    {{ $t('addressPopup.isRequired', {type: $t('addressPopup.name')}) }}
+                </span>
+                </div>
             </div>
-        
+            <!-- Phone Number -->
+                <div
+                class="input-wrap input-text"
+                :class="{invalid: !addressData.phone_number_contact && hasAddressErrors}"
+                >
+                    <label>
+                        Phone Number
+                    </label>
+                    <input
+                    type="text"
+                    v-model="addressData.phone_number_contact"
+                    @keypress="isNumber($event)"
+                    />
+                <span
+                    class="error"
+                    v-if="!addressData.phone_number_contact && hasAddressErrors"
+                >
+                    {{ $t('addressPopup.isRequired', {type: $t('addressPopup.phone')}) }}
+                </span>
+                </div>
+            
 
-          <div
-            class="input-wrap"
-            :class="{invalid: !addressData.shipAdd01 && hasAddressErrors}"
-          >
-            <label>
-                Address
-            </label>
-            <input
-              class="mb-10"
-              type="text"
-              v-model="addressData.shipAdd01"
-              placeholder="Street address or P.O. Box"
-            />
-            <input
-              type="text"
-              v-model="addressData.shipAdd02"
-              placeholder="Apt, suite, unit, building, floor, etc."
-            />
-            <span
-              class="error"
-              v-if="!addressData.shipAdd01 && hasAddressErrors"
-            >
-              {{ $t('addressPopup.isRequired', {type: $t('addressPopup.address')}) }}
-            </span>
-          </div>
-
-          <div class="flex block-xxs">
             <div
-              class="input-wrap"
-              :class="{invalid: !addressData.shipCity && hasAddressErrors}"
+                class="input-wrap"
+                :class="{invalid: !addressData.shipAdd01 && hasAddressErrors}"
             >
-              <label>
-                    City
-              </label>
-              <input
+                <label>
+                    Address
+                </label>
+                <input
+                class="mb-10"
                 type="text"
-                v-model="addressData.shipCity"
-              />
-              <span
-                class="error"
-                v-if="!addressData.shipCity && hasAddressErrors"
-              >
-                 {{ $t('addressPopup.isRequired', {type: $t('addressPopup.city')}) }}
-              </span>
-            </div>
-
-            <div
-              class="input-wrap"
-              :class="{invalid: !addressData.shipZipCode && hasAddressErrors}"
-            >
-              <label>
-                    Zip Code
-              </label>
-              <input
+                v-model="addressData.shipAdd01"
+                placeholder="Street address or P.O. Box"
+                />
+                <input
                 type="text"
-                v-model="addressData.shipZipCode"
-              />
-              <span
+                v-model="addressData.shipAdd02"
+                placeholder="Apt, suite, unit, building, floor, etc."
+                />
+                <span
                 class="error"
-                v-if="!addressData.shipZipCode && hasAddressErrors"
-              >
-                {{ $t('addressPopup.isRequired', {type: $t('addressPopup.zipCode')}) }}
-              </span>
+                v-if="!addressData.shipAdd01 && hasAddressErrors"
+                >
+                {{ $t('addressPopup.isRequired', {type: $t('addressPopup.address')}) }}
+                </span>
             </div>
 
-            <div
-              v-if="Object.keys(states).length"
-              class="input-wrap"
-            >
-              <label>
-                {{ $t('addressPopup.state') }}
-              </label>
-              <dropdown
-                :selected-key="addressData.state"
-                :options="states"
-                key-name="name"
-                @clicked="selectState"
-              />
+            <div class="flex block-xxs">
+                <div
+                class="input-wrap"
+                :class="{invalid: !addressData.shipCity && hasAddressErrors}"
+                >
+                <label>
+                        City
+                </label>
+                <input
+                    type="text"
+                    v-model="addressData.shipCity"
+                />
+                <span
+                    class="error"
+                    v-if="!addressData.shipCity && hasAddressErrors"
+                >
+                    {{ $t('addressPopup.isRequired', {type: $t('addressPopup.city')}) }}
+                </span>
+                </div>
+
+                <div
+                class="input-wrap"
+                :class="{invalid: !addressData.shipZipCode && hasAddressErrors}"
+                >
+                <label>
+                        Zip Code
+                </label>
+                <input
+                    type="text"
+                    v-model="addressData.shipZipCode"
+                />
+                <span
+                    class="error"
+                    v-if="!addressData.shipZipCode && hasAddressErrors"
+                >
+                    {{ $t('addressPopup.isRequired', {type: $t('addressPopup.zipCode')}) }}
+                </span>
+                </div>
+
+                <div
+                v-if="Object.keys(states).length"
+                class="input-wrap"
+                >
+                <label>
+                    {{ $t('addressPopup.state') }}
+                </label>
+                <dropdown
+                    :selected-key="addressData.state"
+                    :options="states"
+                    key-name="name"
+                    @clicked="selectState"
+                />
+                </div>
             </div>
-          </div>
 
-          <!-- <div class="input-wrap">
-            <label>
-                Delivery instruction
-            </label>
-            <textarea
-              v-model="addressData.delivery_instruction"
-            />
-          </div> -->
 
-          <div class="flex start mlr-0 gap-10">
-            <button
-              v-if="editing"
-              aria-label="submit"
-              class="outline-btn plr-30 plr-sm-15 border-round"
-              @click.prevent="clearData"
-            >
-              {{ $t('addressPopup.cancel') }}
-            </button>
-            <ajax-button
-              class="primary-btn plr-30 plr-sm-15"
-              :fetching-data="submittingAddressData"
-              :loading-text="$t('addressPopup.saving')"
-              :text=" $t('addressPopup.thisAddress', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
-            />
-          </div>
-        </form>
+            <div class="flex start mlr-0 gap-10">
+                <button
+                v-if="editing"
+                aria-label="submit"
+                class="outline-btn plr-30 plr-sm-15 border-round"
+                @click.prevent="clearData"
+                >
+                {{ $t('addressPopup.cancel') }}
+                </button>
+                <ajax-button
+                class="primary-btn plr-30 plr-sm-15"
+                :fetching-data="submittingAddressData"
+                :loading-text="$t('addressPopup.saving')"
+                :text=" $t('addressPopup.thisAddress', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
+                />
+            </div>
+            </form>
+         </div>
       </div>
-      <!-- Checkout Right -->
-      <checkout-right
-        route-link="checkout"
-        :checked-product="checkedProduct"
-        btn-text="Check Out"
-        :loading-text="$t('checkoutRight.submitting')"
-        :text="$t('checkoutRight.proceedToCheckout')"
-        :disabled="fetchingAddressData || Object.keys(getCartAuthItem).length === 0 || !selectedCurrentAddress"
-        @go-next="goToShipping"
-      />
+      
+      <!-- Checkout Payment Item Detail -->
+       <div class="product-detail pt-10">
+            <div class="area pt-10 plr-20 plr-sm-15 pb-20 pb-sm-15">
+                <!-- Checkout Right -->
+                <check-out-payment
+                    route-link="checkout"
+                    :checked-product="checkedProduct"
+                    btn-text="Check Out"
+                    :loading-text="$t('checkoutRight.submitting')"
+                    :text="$t('checkoutRight.proceedToCheckout')"
+                    :disabled="fetchingAddressData || Object.keys(getCartAuthItem).length === 0 || !selectedCurrentAddress"
+                    @go-next="goToShipping"
+                />
+            </div>
+       </div>
+     
     </div>
 
-    <!-- Process Checkout -->
+    <!-- Popup Process Checkout -->
     <transition name="fade" mode="out-in">
       <pop-over
         v-if="cartPopOver"
@@ -229,19 +234,26 @@
             @shipping-changed="cartShipping = $event"
             @cart-changed="cartChanged"
           />
-          <!-- Choose Payment Method -->
           <!-- Summary Information Confirm order payments -->
-          <div class="flex sided">
-                <h6 class="price text-sm">
+            <!-- Choose Payment Method -->
+            <div class="card area pt-20 pb-sm-15">
+                 <h4 class="price text-sm">
                     <span>
-                        Shipping: 
-                        <label class="text-indigo-700 font-bold">Pickup Freight</label>
+                        Payment Method: 
                     </span>
-                </h6>
+                </h4>
+                <p class="text-sm">Select A Payment Method To Proceed</p>
+                <!-- Payment Gate Way Selected -->
+                <PaymentGatewaysPopup
+                    :shipping-address="selectedCurrentAddress"
+                    ref="paymentGateways"
+                    :total-price="cartTotal"
+                    :voucher="voucherResult"
+                />
             </div>
         </template>
         <!-- Footer -->
-        <template v-slot:pop-footer>
+        <!-- <template v-slot:pop-footer>
           <div class="flex j-end gap-10">
             <button
               aria-label="submit"
@@ -259,7 +271,7 @@
               @clicked="goToCheckout"
             />
           </div>
-        </template>
+        </template> -->
       </pop-over>
     </transition>
 
@@ -268,15 +280,16 @@
 <script>
   import CartList from '@/components/ui_component_new_frontend/CartList';
   import AjaxButton from '@/components/ui_component_new_frontend/AjaxButton'
-  import Dropdown from '@/components/ui_component_new_frontend/Dropdown'
+//   import Dropdown from '@/components/ui_component_new_frontend/Dropdown'
   import PopOver from '@/components/ui_component_new_frontend/PopOver'
-  import CheckoutRight from '@/components/ui_component_new_frontend/CheckoutRight'
+  import CheckOutPayment from '@/components/ui_component_new_frontend/CheckOutPayment'
   import util from '@/mixin/util'
   import {mapGetters, mapActions} from 'vuex'
   import UserAddress from '@/components/ui_component_new_frontend/UserAddress'
   import addressHelper from '@/mixin/addressHelper'
   import validation from "@/mixin/validation"
-  import Spinner from "@/components/ui_component_new_frontend/Spinner"
+  import Spinner from "@/components/ui_component_new_frontend/Spinner";
+  import PaymentGatewaysPopup from '@/components/ui_component_new_frontend/PaymentGatewaysPopup'
 
   export default {
     middleware: ['common-middleware'],
@@ -323,8 +336,8 @@
     },
     components: {
       Spinner,
-      CheckoutRight,
-      Dropdown,
+      CheckOutPayment,
+      PaymentGatewaysPopup,
       AjaxButton,
       CartList,
       PopOver,
@@ -495,18 +508,9 @@
     },
     async mounted() {
       try {
-        // if (!this.countryList || !this.phoneList) {
-        //   this.loading = true
-
-        //   const {data} = await this.getRequest({
-        //     params: null,
-        //     lang: this.langCode,
-        //     api: 'countriesPhones'
-        //   })
-        //   this.setCountryList(data?.countries)
-        //   this.setPhoneList(data?.phones)
-        //   this.loading = false
-        // }
+        if (!this.getCartAuthItem) {
+          this.loading = true
+        }
         if (this.getCartAuthItem.length === 0) {
           await this.getCartByUser({
             lang: this.langCode,
@@ -514,11 +518,16 @@
               user_token: await this.getUserToken()
             }
           })
-          this.getCheckedProducts()
+          this.getCheckedProducts();
+          this.loading = false;
         } else {
-          if (this.getCartAuthItem.length) {
-            this.getCheckedProducts()
-          }
+            this.loading = true;
+            setTimeout(() => {
+                if (this.getCartAuthItem.length) {
+                    this.getCheckedProducts();
+                }
+                this.loading = false;
+            }, 1500);
         }
       } catch (e) {
         return Promise.reject(e);

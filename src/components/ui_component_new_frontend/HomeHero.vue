@@ -39,10 +39,10 @@
                         >
                             <img
                                 :id="generateElemId(index)"
-                                class="full-dimen bg-cover placeholder-img"
+                                class="full-dimen bg-cover"
                                 :alt="value?.title"
-                                height="3000"
-                                width="500"
+                                height="100"
+                                width="100"
                                 :data-source="imageBannerURL(value)"
                             >
                         </div>
@@ -56,7 +56,6 @@
             class="full-dimen placeholder-img"
             :class="{'img-loaded': imgLoaded}"
             alt="Slider image - Default"
-            :data-source="imageBannerURL(slider[0])"
             :src="imageBannerURL(slider[0])"
           >
         </div>

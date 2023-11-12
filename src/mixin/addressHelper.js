@@ -15,8 +15,8 @@ export default {
 
                 this.submittingAddressData = true;
                 const data = this.$store.dispatch('shippingStore/addressAction', {
-                     address: this.addressData,
-                     action: this.isUpdate ? 'put' : 'post',
+                    address: this.addressData,
+                    action: this.isUpdate ? 'put' : 'post',
                 });
                 // This Data
                 if (data) {

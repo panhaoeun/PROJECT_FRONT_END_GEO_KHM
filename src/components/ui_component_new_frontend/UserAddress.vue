@@ -1,5 +1,9 @@
 <template>
   <div>
+    <!-- Shipping Address -->
+    <div class="mb-2" v-if="currentAddresses !== null">
+        <h5>Shipping Address</h5>
+    </div>
     <transition name="fade" mode="out-in">
       <div
         class="spinner-wrapper flex justify-content-center flex-wrap"
@@ -17,10 +21,6 @@
         {{ $t('userAddress.noAddress') }}
       </div>
     </transition>
-    <!-- Shipping Address -->
-    <div class="mb-2" v-if="currentAddresses !== null">
-        <h5>Shipping Address</h5>
-    </div>
     <div v-if="hasRadio">
       <div
         v-for="(value, key) in currentAddresses"

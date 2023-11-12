@@ -114,265 +114,265 @@
 </template>
 <!-- Script of  payment gateway -->
 <script>
-    import convertUSDToRiel from '@/utils/convertUSDTORiel';
-    import { isLoggedIn } from "@/utils/auth/auth";
-    import util from '@/mixin/util'
-    import {mapGetters,mapActions} from 'vuex'
-    import productHelper from "@/mixin/productHelper"
-    import productPriceHelper from "@/mixin/productPriceHelper"
-    import paymentHelper from '@/mixin/paymentHelper'
-    import Spinner from "@/components/ui_component_new_frontend/Spinner";
-    import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
-    import EwalletPaymentDigital from "./EWalletPaymentDigital";
-    export default{
-        middleware: ['auth'],
-        data() {
-            return {
-                loading: false,
-                flutterwaveLoaded: false,
-                paypaLoaded: false,
-                showRazorpay: false,
-                showStripe: false,
-                paymentType: 2,
-                orderData: null,
-                orderError: null,
-                submitting: false,
-                placingOrder: false,
-                checkedProductQty: 0,
-                customerOrderNoted: '',
-                showWalletPayments: false
+import convertUSDToRiel from '@/utils/convertUSDTORiel';
+import { isLoggedIn } from "@/utils/auth/auth";
+import util from '@/mixin/util'
+import {mapGetters,mapActions} from 'vuex'
+import productHelper from "@/mixin/productHelper"
+import productPriceHelper from "@/mixin/productPriceHelper"
+import paymentHelper from '@/mixin/paymentHelper'
+import Spinner from "@/components/ui_component_new_frontend/Spinner";
+import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
+import EwalletPaymentDigital from "./EWalletPaymentDigital";
+export default{
+    middleware: ['auth'],
+    data() {
+        return {
+            loading: false,
+            flutterwaveLoaded: false,
+            paypaLoaded: false,
+            showRazorpay: false,
+            showStripe: false,
+            paymentType: 2,
+            orderData: null,
+            orderError: null,
+            submitting: false,
+            placingOrder: false,
+            checkedProductQty: 0,
+            customerOrderNoted: '',
+            showWalletPayments: false
+        }
+    },
+    created() {
+        this.getConvertExchangeToRielTotal();
+    },
+    props: {
+        voucher: {
+            type: Object,
+            default() {
+            return null
             }
         },
-        created() {
-            this.getConvertExchangeToRielTotal();
-        },
-        props: {
-            voucher: {
-                type: Object,
-                default() {
-                return null
-                }
-            },
-            order: {
-                type: Object,
-                default() {
-                return null
-                }
-            },
-            page: {
-                type: String,
-                default: 'checkout'
-            },
-            totalPrice: {
-                type: Number,
-                default: 0
+        order: {
+            type: Object,
+            default() {
+            return null
             }
         },
-        watch: {},
-        components: {
-            AjaxButton,
-            Spinner,
-            EwalletPaymentDigital
+        page: {
+            type: String,
+            default: 'checkout'
         },
-        mixins: [util, productHelper, paymentHelper, productPriceHelper],
-        computed: {
-            checkedProduct() {
-                return this.getCartAuthItem;
-            },
-            noPaymentMethod() {
-                return parseInt(this.paymentGateway?.cash_on_delivery)
-            },
-            ...mapGetters('cart', ['getCartAuthItem']),
-            ...mapGetters('common', ['currencyIcon', 'setting', 'currency', 'currencyPosition', 'paymentGateway', 'site_setting']),
-            ...mapGetters({
-                getSelectedAddressShip: 'shippingStore/getSelectedAddress',
-                selectedAddressBilling: 'billingStore/getSelectedBillingAddress',
-                carts: 'cart/getCart',
-                checkoutInitiated: 'cart/checkoutInitiated',
-                orderDetaiL: 'cart/getCartAuthItem',
-                currentUser: 'auth/currentUserAuth',
-                payMethod: 'cart/getPayMethod',
-                currentBalanceKHR: 'myWallet/getCurrentBalanceKHR',
-                currentBalanceUSD: 'myWallet/getCurrentBalanceUSD',
-                dynamicAmountOrder:'myWallet/getTotalAmountOrderShip',
-                remainingAmountOrder: 'myWallet/getRemainingAmountOrder',
-                orders: 'cart/getCartAuthItem',  
-                cartTotal: 'cart/getTotal',
-                subtotal: 'cart/getSubTotal',
-                totalShipping: 'cart/cartTotalShipping',
-            }),
-            isCheckout() {
-                return this.page === 'checkout'
-            },
+        totalPrice: {
+            type: Number,
+            default: 0
+        }
+    },
+    watch: {},
+    components: {
+        AjaxButton,
+        Spinner,
+        EwalletPaymentDigital
+    },
+    mixins: [util, productHelper, paymentHelper, productPriceHelper],
+    computed: {
+        checkedProduct() {
+            return this.getCartAuthItem;
         },
-        methods: {
-            ...mapActions('common', ['setToastMessage', 'setToastError']),
-            ...mapActions('cart', ['getCartByUser', 'subtractCartProductCount', 'emptyCartProduct']),
-            closingPopup(){
-                this.showWalletPayments = false
-            },
-            async getConvertExchangeToRielTotal(){
-                try {
-                    const getTotalItem = this.cartTotal ? this.cartTotal: '';
-                    const baseChangeToRielTotal = parseInt(getTotalItem) ? parseInt(getTotalItem) : 0;
-                    const exchangeRate = await convertUSDToRiel(baseChangeToRielTotal) ?? 0;
-                    this.exchangeRateRielTotal = exchangeRate ? exchangeRate : 0;
-                    // Total order to wallets
-                    return this.$store.dispatch('myWallet/orderAmountTotal', {
-                        amountTotalKHR: this.cartTotal.totalKHR ? this.cartTotal.totalKHR : 0,
-                        amountTotalUSD: this.cartTotal.totalUSD ? this.cartTotal.totalUSD : 0
-                    });
-                } catch (error) {
-                    console.error('Error:', error);
-                } 
-            },
-            currentUser() {
-                return this.currentUser ? this.currentUser : null;
-            },
-            getCurrentUser(){
-                if(this.currentUser !== null && this.currentUser.length > 0){
-                    return {
-                        userPhoneNumber: this.currentUser[0].user_phonenumber ?? '',
-                        userEmail: this.currentUser[0].user_email ?? ''
-                    }
-                }
-            },  
-            isSessionActive(){
-                return isLoggedIn();
-            },
-            async initWallerPayments() {
-                try {
-                    // await this.confirmOrder()
-                    this.showWalletPayments = true
-                } catch (e) {
-                    return Promise.reject(e);
-                }
-            },
-            async confirmOrder() {
-                return new Promise(resolve => {
-                    if (this.isCheckout) {
-                        if (parseInt(this.paymentType) === this.orderMethods.CASH_ON_DELIVERY) {
-                            this.orderError = '';
-                            this.orderPlaced('success', this.paymentType);
-                            this.placeOrderCashDelivery()
-                                .then(result => {
-                                    const data = result?.data;
-                                    if (parseInt(2) !== this.orderMethods.CASH_ON_DELIVERY) {
-                                        data['total_amount_khr'] = data.totalKhRiel;
-                                        data['total_amount_usd'] = data.total;
-                                    }
-                                    this.orderData = data
-                                resolve(data)
-                            })
-                        }else if (parseInt(this.paymentType) === this.orderMethods.PAY_BY_WALLET) {
-                            this.orderError = '';
-                            this.orderPlaced('success', this.paymentType)
-                            this.placeOrderByWallet()
-                                .then(result => {
-                                    const data = result?.data;
-                                    if (parseInt(3) !== this.orderMethods.PAY_BY_WALLET) {
-                                        data['total_amount_khr'] = data.totalKhRiel;
-                                        data['total_amount_usd'] = data.total;
-                                    }
-                                    this.orderData = data
-                                resolve(data)
-                            })
-                        }
-                    }
+        noPaymentMethod() {
+            return parseInt(this.paymentGateway?.cash_on_delivery)
+        },
+        ...mapGetters('cart', ['getCartAuthItem']),
+        ...mapGetters('common', ['currencyIcon', 'setting', 'currency', 'currencyPosition', 'paymentGateway', 'site_setting']),
+        ...mapGetters({
+            getSelectedAddressShip: 'shippingStore/getSelectedAddress',
+            selectedAddressBilling: 'billingStore/getSelectedBillingAddress',
+            carts: 'cart/getCart',
+            checkoutInitiated: 'cart/checkoutInitiated',
+            orderDetaiL: 'cart/getCartAuthItem',
+            currentUser: 'auth/currentUserAuth',
+            payMethod: 'cart/getPayMethod',
+            currentBalanceKHR: 'myWallet/getCurrentBalanceKHR',
+            currentBalanceUSD: 'myWallet/getCurrentBalanceUSD',
+            dynamicAmountOrder:'myWallet/getTotalAmountOrderShip',
+            remainingAmountOrder: 'myWallet/getRemainingAmountOrder',
+            orders: 'cart/getCartAuthItem',  
+            cartTotal: 'cart/getTotal',
+            subtotal: 'cart/getSubTotal',
+            totalShipping: 'cart/cartTotalShipping',
+        }),
+        isCheckout() {
+            return this.page === 'checkout'
+        },
+    },
+    methods: {
+        ...mapActions('common', ['setToastMessage', 'setToastError']),
+        ...mapActions('cart', ['getCartByUser', 'subtractCartProductCount', 'emptyCartProduct']),
+        closingPopup(){
+            this.showWalletPayments = false
+        },
+        async getConvertExchangeToRielTotal(){
+            try {
+                const getTotalItem = this.cartTotal ? this.cartTotal: '';
+                const baseChangeToRielTotal = parseInt(getTotalItem) ? parseInt(getTotalItem) : 0;
+                const exchangeRate = await convertUSDToRiel(baseChangeToRielTotal) ?? 0;
+                this.exchangeRateRielTotal = exchangeRate ? exchangeRate : 0;
+                // Total order to wallets
+                return this.$store.dispatch('myWallet/orderAmountTotal', {
+                    amountTotalKHR: this.cartTotal.totalKHR ? this.cartTotal.totalKHR : 0,
+                    amountTotalUSD: this.cartTotal.totalUSD ? this.cartTotal.totalUSD : 0
                 });
-            },
-            async placeOrderCashDelivery() {
-                const params = []
-                if (this.checkedProduct.length) {
-                    this.checkedProduct.forEach(async (obj) => {
-                        let shippingPrice = 0
-                        if (parseInt(obj.shipping_type) === 1) {
-                            shippingPrice = parseInt(obj?.productPriceKHR)
-                        } else if (parseInt(obj.shipping_type) === 2) {
-                            shippingPrice = parseInt(obj?.productPriceKHR)
-                        }
-                        params.push({
-                            emailPhoneId: this.getCurrentUser().userEmail,
-                            phoneNumberId: this.getCurrentUser().userPhoneNumber,
-                            shopId: obj?.shopId,
-                            vendorId: obj?.vendorId,
-                            expressPriceKHR: obj?.expressPriceKHR,
-                            expressPriceUSD: obj?.expressPriceUSD,
-                            productInStock: obj?.productInStock,
-                            shippingPrice: shippingPrice
-                        })
-                    });
-                    this.loading = true;
-                    // Handle Checkout Payments 
-                    await this.$store.dispatch('cart/createCheckout', {
-                        shopId: 0,
-                        vendorId: 0,
-                        emailPhoneId: this.getCurrentUser().userEmail ? this.getCurrentUser().userEmail : '',
-                        phoneNumberId: this.getCurrentUser().userPhoneNumber ? this.getCurrentUser().userPhoneNumber : 0 ,
-                        customerOrderNoted: this.customerOrderNoted ? this.customerOrderNoted : 0,
-                        orderDetaiL: this.orderDetaiL ? this.orderDetaiL : 0,
-                        getSelectedAddressShip: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
-                        selectedAddressBilling: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
-                        shippingMethod: this.shippingMethod ? this.shippingMethod : '',
-                        paymentMethods: 'CashOnDelivery'
-                    });
-                }
-            },
-            async placeOrderByWallet() {
-                const params = []
-                if (this.checkedProduct.length) {
-                    this.checkedProduct.forEach(async (obj) => {
-                        let shippingPrice = 0
-                        if (parseInt(obj.shipping_type) === 1) {
-                            shippingPrice = parseInt(obj?.productPriceKHR)
-                        } else if (parseInt(obj.shipping_type) === 2) {
-                            shippingPrice = parseInt(obj?.productPriceKHR)
-                        }
-                        params.push({
-                            emailPhoneId: this.getCurrentUser().userEmail,
-                            phoneNumberId: this.getCurrentUser().userPhoneNumber,
-                            shopId: obj?.shopId,
-                            vendorId: obj?.vendorId,
-                            expressPriceKHR: obj?.expressPriceKHR,
-                            expressPriceUSD: obj?.expressPriceUSD,
-                            productInStock: obj?.productInStock,
-                            shippingPrice: shippingPrice
-                        })
-                    });
-                    this.loading = true;
-                    // Handle Checkout Payments 
-                    await this.$store.dispatch('cart/createCheckout', {
-                        shopId: 0,
-                        vendorId: 0,
-                        emailPhoneId: this.getCurrentUser().userEmail ? this.getCurrentUser().userEmail : '',
-                        phoneNumberId: this.getCurrentUser().userPhoneNumber ? this.getCurrentUser().userPhoneNumber : 0 ,
-                        customerOrderNoted: this.customerOrderNoted ? this.customerOrderNoted : 0,
-                        orderDetaiL: this.orderDetaiL ? this.orderDetaiL : 0,
-                        getSelectedAddressShip: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
-                        selectedAddressBilling: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
-                        shippingMethod: this.shippingMethod ? this.shippingMethod : '',
-                        paymentMethods: 'PayByWallet'
-                    });
-                }
-            },
-            orderPlaced(type = 'success', event, redirect = true, showToast = true) {
-                if (type === 'success') {
-                    if(showToast){
-                        this.setToastMessage('Your order has been placed successfully.')
-                    }
-                    if (redirect) {
-                        this.$router.push({path: '/user/order'})
-                    }
-                    this.$emit('order-status', true)
-                } else if (type === 'error') {
-                    this.$router.push({path: '/user/order/'})
-                    this.setToastError(event)
-                } else if (type === 'closed') {
-                    this.$router.push({path: '/user/order/'})
-                    this.$emit('order-status', false)
-                }
-            },
+            } catch (error) {
+                console.error('Error:', error);
+            } 
         },
-    
-    }
+        currentUser() {
+            return this.currentUser ? this.currentUser : null;
+        },
+        getCurrentUser(){
+            if(this.currentUser !== null && this.currentUser.length > 0){
+                return {
+                    userPhoneNumber: this.currentUser[0].user_phonenumber ?? '',
+                    userEmail: this.currentUser[0].user_email ?? ''
+                }
+            }
+        },  
+        isSessionActive(){
+            return isLoggedIn();
+        },
+        async initWallerPayments() {
+            try {
+                // await this.confirmOrder()
+                this.showWalletPayments = true
+            } catch (e) {
+                return Promise.reject(e);
+            }
+        },
+        async confirmOrder() {
+            return new Promise(resolve => {
+                if (this.isCheckout) {
+                    if (parseInt(this.paymentType) === this.orderMethods.CASH_ON_DELIVERY) {
+                        this.orderError = '';
+                        this.orderPlaced('success', this.paymentType);
+                        this.placeOrderCashDelivery()
+                            .then(result => {
+                                const data = result?.data;
+                                if (parseInt(2) !== this.orderMethods.CASH_ON_DELIVERY) {
+                                    data['total_amount_khr'] = data.totalKhRiel;
+                                    data['total_amount_usd'] = data.total;
+                                }
+                                this.orderData = data
+                            resolve(data)
+                        })
+                    }else if (parseInt(this.paymentType) === this.orderMethods.PAY_BY_WALLET) {
+                        this.orderError = '';
+                        this.orderPlaced('success', this.paymentType)
+                        this.placeOrderByWallet()
+                            .then(result => {
+                                const data = result?.data;
+                                if (parseInt(3) !== this.orderMethods.PAY_BY_WALLET) {
+                                    data['total_amount_khr'] = data.totalKhRiel;
+                                    data['total_amount_usd'] = data.total;
+                                }
+                                this.orderData = data
+                            resolve(data)
+                        })
+                    }
+                }
+            });
+        },
+        async placeOrderCashDelivery() {
+            const params = []
+            if (this.checkedProduct.length) {
+                this.checkedProduct.forEach(async (obj) => {
+                    let shippingPrice = 0
+                    if (parseInt(obj.shipping_type) === 1) {
+                        shippingPrice = parseInt(obj?.productPriceKHR)
+                    } else if (parseInt(obj.shipping_type) === 2) {
+                        shippingPrice = parseInt(obj?.productPriceKHR)
+                    }
+                    params.push({
+                        emailPhoneId: this.getCurrentUser().userEmail,
+                        phoneNumberId: this.getCurrentUser().userPhoneNumber,
+                        shopId: obj?.shopId,
+                        vendorId: obj?.vendorId,
+                        expressPriceKHR: obj?.expressPriceKHR,
+                        expressPriceUSD: obj?.expressPriceUSD,
+                        productInStock: obj?.productInStock,
+                        shippingPrice: shippingPrice
+                    })
+                });
+                this.loading = true;
+                // Handle Checkout Payments 
+                await this.$store.dispatch('cart/createCheckout', {
+                    shopId: 0,
+                    vendorId: 0,
+                    emailPhoneId: this.getCurrentUser().userEmail ? this.getCurrentUser().userEmail : '',
+                    phoneNumberId: this.getCurrentUser().userPhoneNumber ? this.getCurrentUser().userPhoneNumber : 0 ,
+                    customerOrderNoted: this.customerOrderNoted ? this.customerOrderNoted : 0,
+                    orderDetaiL: this.orderDetaiL ? this.orderDetaiL : 0,
+                    getSelectedAddressShip: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
+                    selectedAddressBilling: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
+                    shippingMethod: this.shippingMethod ? this.shippingMethod : '',
+                    paymentMethods: 'CashOnDelivery'
+                });
+            }
+        },
+        async placeOrderByWallet() {
+            const params = []
+            if (this.checkedProduct.length) {
+                this.checkedProduct.forEach(async (obj) => {
+                    let shippingPrice = 0
+                    if (parseInt(obj.shipping_type) === 1) {
+                        shippingPrice = parseInt(obj?.productPriceKHR)
+                    } else if (parseInt(obj.shipping_type) === 2) {
+                        shippingPrice = parseInt(obj?.productPriceKHR)
+                    }
+                    params.push({
+                        emailPhoneId: this.getCurrentUser().userEmail,
+                        phoneNumberId: this.getCurrentUser().userPhoneNumber,
+                        shopId: obj?.shopId,
+                        vendorId: obj?.vendorId,
+                        expressPriceKHR: obj?.expressPriceKHR,
+                        expressPriceUSD: obj?.expressPriceUSD,
+                        productInStock: obj?.productInStock,
+                        shippingPrice: shippingPrice
+                    })
+                });
+                this.loading = true;
+                // Handle Checkout Payments 
+                await this.$store.dispatch('cart/createCheckout', {
+                    shopId: 0,
+                    vendorId: 0,
+                    emailPhoneId: this.getCurrentUser().userEmail ? this.getCurrentUser().userEmail : '',
+                    phoneNumberId: this.getCurrentUser().userPhoneNumber ? this.getCurrentUser().userPhoneNumber : 0 ,
+                    customerOrderNoted: this.customerOrderNoted ? this.customerOrderNoted : 0,
+                    orderDetaiL: this.orderDetaiL ? this.orderDetaiL : 0,
+                    getSelectedAddressShip: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
+                    selectedAddressBilling: this.getSelectedAddressShip ? this.getSelectedAddressShip : '',
+                    shippingMethod: this.shippingMethod ? this.shippingMethod : '',
+                    paymentMethods: 'PayByWallet'
+                });
+            }
+        },
+        orderPlaced(type = 'success', event, redirect = true, showToast = true) {
+            if (type === 'success') {
+                if(showToast){
+                    this.setToastMessage('Your order has been placed successfully.')
+                }
+                if (redirect) {
+                    this.$router.push({path: '/user/order'})
+                }
+                this.$emit('order-status', true)
+            } else if (type === 'error') {
+                this.$router.push({path: '/user/order/'})
+                this.setToastError(event)
+            } else if (type === 'closed') {
+                this.$router.push({path: '/user/order/'})
+                this.$emit('order-status', false)
+            }
+        },
+    },
+
+}
 </script>
