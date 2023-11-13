@@ -57,7 +57,7 @@
                 <!--Right-->
                 <div>
                     <router-link 
-                        :to="getUrl(item)"
+                        :to="pageLink(item)"
                         v-for="(item, index) in headerRight?.item"
                         :key="index"
                         class="text-purple-900 font-bold border-round hover:border-round"
@@ -120,17 +120,17 @@
                     {
                         id: 1,
                         title: 'faq',
-                        url: '/discover/products'
+                        slug: 'faq-page'
                     },
                     {
                         id: 2,
                         title: 'help',
-                        url: '/discover/products'
+                        slug: 'help-page'
                     },
                     {
                         id: 3,
                         title: 'contact us',
-                        url: '/discover/products'
+                        slug: 'contact-up-page'
                     }
                 ],
             }

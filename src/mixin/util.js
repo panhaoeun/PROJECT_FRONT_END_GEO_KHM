@@ -194,7 +194,7 @@ export default {
         .replace(/[^\w-]+/g, '')
     },
     pageLink(page) {
-      return `/page/${page.slug}`
+      return `/customer/site-map-slug-pages/customer-ui-pages/${page.slug}`
     },
     imageURL(obj) {
       return this.getImageURL(obj?.catLogo ? obj?.catLogo : this.defaultImage)

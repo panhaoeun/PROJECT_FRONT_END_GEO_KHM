@@ -73,11 +73,16 @@ export default [
         /**
          * @Router New Customer Order cart
         * **/ 
+       {
+           path: "/customer/site-map-slug-pages/customer-ui-pages/:slugPageId",
+           name: 'site-map-slug-page',
+           component: () => import("../views/customer_new_ui/pages/_slug_pages.vue"),
+       },
         {
              path: "/customer/filter-search/product-categories-name",
              name: 'customer-filter-search-name',
              component: () => import("../views/customer_new_ui/filter_search/SearchFilterItem.vue"),
-         },
+        },
         {
              path: "/customer/all/categories-name-search/:categoriesId",
              name: 'customer-get-all-categories',
