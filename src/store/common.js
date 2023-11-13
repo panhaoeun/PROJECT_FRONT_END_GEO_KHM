@@ -113,7 +113,7 @@ const actions = {
     try {
       const {data} = await Service.getRequest(params, api, requiredToken ? this.$auth.strategy.token.get(): null, lang);
       if (data?.success) {
-        console.log(commit)
+        commit('SET_LOADING', data?.result.resultStatus);
         return data?.result.resultStatus;
       } else {
         return Promise.reject({

@@ -1,9 +1,9 @@
 <template>
   <div class="sidebar-section mt-xs-5 mb-xs-10">
-    <h4
+    <h6
       class="title">
         {{ $t('listingLayout.price') }}
-    </h4>
+  </h6>
     <button
       class="clear-btn mb-10"
       aria-label="submit"

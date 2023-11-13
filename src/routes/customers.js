@@ -270,6 +270,21 @@ export default [
             component: () => import("../views/customer_new_ui/shop_filter/_slug_shop.vue"),
         },
         /**
+           * @Router Products Filter By All Categories and Sub Categories - New Customer Page
+           * @Filter Filter By All Categories and Sub Categories
+        * */
+        {
+            path: "/all/calp-plus/categories-keyword-name/:slugCategories/:categoriesName",
+            name: 'categories-keyword-name',
+            component: () => import("../views/customer_new_ui/all_categories/AllParentCategories.vue"),
+        },
+        {
+             path: "/all/calp-plus-sub/sub-categories-keyword-name-by-filter/:slugCategories/:subCategory",
+             name: 'sub-categories-keyword-name-filter',
+             component: () => import("../views/customer_new_ui/all_categories/_categories/_subCategory.vue"),
+         },
+        /**
+         * 
          * @Router Customer 
          * @Customer Profile
          * 

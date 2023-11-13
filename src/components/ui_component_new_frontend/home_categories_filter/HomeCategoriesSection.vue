@@ -16,15 +16,22 @@
                                 @mouseover="hoverDropdownMenuItem"
                             >   
                                 <!-- Name Categories -->
-                                <a href="#" class="my-2 text-black tree-node">{{ categories?.catNameEn }}</a>
+                                <router-link 
+                                    :to="allCategoryLink(categories)" 
+                                    class="my-2 text-black tree-node"
+                                >
+                                    {{ String(categories?.catNameEn) }}
+                                </router-link>
                                 <!-- Sub Categories -->
                                 <ul class="cd-dropdown-icons is-hidden list-none">
-                                    <li class="go-back" @click="goBackLinkMenuCategories"><a href="#">Menu</a></li>
+                                    <li class="go-back" @click="goBackLinkMenuCategories">
+                                        <a href="#">Menu</a>
+                                    </li>
                                     <li class="see-all">
-                                        <router-link to="#">Browse {{ categories?.catNameEn }}</router-link>
+                                        <router-link  :to="allCategoryLink(categories)" :custom="true">Browse {{ categories?.catNameEn }}</router-link>
                                     </li>
                                     <li v-for="(subCat, index) in commonSubCategoriesList" :key="index">
-                                        <router-link to="/" class="cd-dropdown-item" v-if="subCat.superCatId === categories?.catID">
+                                        <router-link :to="allSubCategoryHeaderMenuLink(subCat)" class="cd-dropdown-item" v-if="subCat.superCatId === categories?.catID">
                                             <h6>{{ subCat?.categoryNameEng }}</h6>
                                        </router-link>
                                     </li>
@@ -37,13 +44,13 @@
                 <!-- List Top Categories Left-->
                 <div>
                     <router-link 
-                        :to="getUrl(item)"
+                        :to="allCategoryLink(item)"
                         v-for="(item, index) in headerLeft?.item"
                         :key="index"
-                        class="text-black border-round hover:border-round "
+                        class="text-black border-round hover:border-round"
                     >
                         <span>
-                            {{ getTitle(item) }}
+                            {{ getCategoriesTitle(item) }}
                         </span>
                     </router-link>
                 </div>
@@ -69,7 +76,7 @@
   import  CommonListPublicServices from "@/services/customers/common_list/CommonListPublicServices.js";
   import $ from "jquery";
   import outsideClick from '@/directive/outside-click';
-  import util from '@/mixin/util'
+  import util from '@/mixin/util';
   export default {
     name: 'Categories Menu',
     directives: {
@@ -83,27 +90,27 @@
                 item: [
                     {
                         id: 1,
-                        title: 'Accessories',
+                        catNameEn: 'Accessories',
                         url: '/discover/products'
                     },
                     {
                         id: 2,
-                        title: 'Home & Garden',
+                        catNameEn: 'Home & Garden',
                         url: '/discover/products'
                     },
                     {
                         id: 3,
-                        title: 'Hair Extensions & Wigs',
+                        catNameEn: 'Hair Extensions & Wigs',
                         url: '/discover/products'
                     },
                     {
                         id: 4,
-                        title: 'Consumer Electronics',
+                        catNameEn: 'Consumer Electronics',
                         url: '/discover/products'
                     },
                     {
                         id: 5,
-                        title: 'Home Improvement & Lighting',
+                        catNameEn: 'Home Improvement & Lighting',
                         url: '/discover/products'
                     }
                 ],
@@ -206,6 +213,9 @@
                 this.commonSubCategoriesList = common?.subCategory;
             })
         },
+        categoriesMenuLink(){
+            
+        }
     }
   }
 </script>

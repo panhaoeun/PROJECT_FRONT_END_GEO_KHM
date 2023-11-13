@@ -43,9 +43,9 @@
                   </div>
                   <!-- Products -->
                   <div class="pl-30 pl-md grow">
-                    <h4 class="f-16">
+                    <h6 class="f-16">
                       {{ productTitle }}
-                    </h4>
+                    </h6>
                     <div class="mt-10">
                       <span
                         class="f-10 ml-5 semi-bold text-black">

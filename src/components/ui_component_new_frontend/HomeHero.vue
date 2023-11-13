@@ -38,12 +38,12 @@
                         class="slider-content-inner bg-cover bg-center"
                         >
                             <img
-                                :id="generateElemId(index)"
-                                class="full-dimen bg-cover"
-                                :alt="value?.title"
-                                height="100"
-                                width="100"
-                                :data-source="imageBannerURL(value)"
+                              :id="generateElemId(index)"
+                              class="full-dimen bg-cover"
+                              :alt="value?.title"
+                              height="100"
+                              width="100"
+                              :data-source="imageBannerURL(value)"
                             >
                         </div>
                     </router-link>

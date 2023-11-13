@@ -244,7 +244,7 @@ export default {
                     if (this.isCheckout) {
                         if (parseInt(this.paymentType) === this.orderMethods.CASH_ON_DELIVERY) {
                             this.orderError = '';
-                            this.orderPlaced('success', this.paymentType);
+                            // this.orderPlaced('success', this.paymentType);
                             this.placeOrderCashDelivery()
                                 .then(result => {
                                     const data = result?.data;
@@ -255,20 +255,21 @@ export default {
                                     this.orderData = data
                                 resolve(data)
                             })
-                        }else if (parseInt(this.paymentType) === this.orderMethods.PAY_BY_WALLET) {
-                            this.orderError = '';
-                            this.orderPlaced('success', this.paymentType)
-                            this.placeOrderByWallet()
-                                .then(result => {
-                                    const data = result?.data;
-                                    if (parseInt(3) !== this.orderMethods.PAY_BY_WALLET) {
-                                        data['total_amount_khr'] = data.totalKhRiel;
-                                        data['total_amount_usd'] = data.total;
-                                    }
-                                    this.orderData = data
-                                resolve(data)
-                            })
                         }
+                        // else if (parseInt(this.paymentType) === this.orderMethods.PAY_BY_WALLET) {
+                        //     this.orderError = '';
+                        //     this.orderPlaced('success', this.paymentType)
+                        //     this.placeOrderByWallet()
+                        //         .then(result => {
+                        //             const data = result?.data;
+                        //             if (parseInt(3) !== this.orderMethods.PAY_BY_WALLET) {
+                        //                 data['total_amount_khr'] = data.totalKhRiel;
+                        //                 data['total_amount_usd'] = data.total;
+                        //             }
+                        //             this.orderData = data
+                        //         resolve(data)
+                        //     })
+                        // }
                     }
                 });
             },
@@ -359,7 +360,8 @@ export default {
                     this.$emit('order-status', true)
                 } else if (type === 'error') {
                     this.$router.push({path: '/user/order/'})
-                    this.setToastError(event)
+                    this.setToastError(event);
+                    window.location.reload();
                 } else if (type === 'closed') {
                     this.$router.push({path: '/user/order/'})
                     this.$emit('order-status', false)

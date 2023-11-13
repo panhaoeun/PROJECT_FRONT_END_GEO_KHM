@@ -149,6 +149,9 @@ export default {
     getTitle(item) {
       return item?.title || ''
     },
+    getCategoriesTitle(item) {
+      return item?.catNameEn || ''
+    },
     priceByType(totalPrice, price, type) {
       if (parseInt(type) === this.priceType.FLAT) {
         return price
@@ -244,10 +247,36 @@ export default {
         return `/customer/all/categories-name-search/${this.convertToSlug(item?.catNameEn)}`
       }
     },
-    subCategoryLink(item, category) {
-      if (item) {
-        return `/all/${this.convertToSlug(category?.categoryNameEng)}/${item?.slug}`
-      }
+    allCategoryLink(allCategory) {
+        if (allCategory) {
+            return `/all/calp-plus/categories-keyword-name/${this.convertToSlug(allCategory?.catNameEn)}/${allCategory?.catNameEn}`
+        }else{
+            let routeing = router.resolve({
+                name: 'categories-keyword-name', // put your route information in
+                params: `/all/calp-plus/categories-keyword-name/${this.convertToSlug(allCategory?.catNameEn)}/${allCategory?.catNameEn}`
+            });
+            window.location.reload(routeing?.href);
+        }
+    },
+    allSubCategoryHeaderMenuLink(subCate) {
+        if (subCate) {
+            return `/all/calp-plus-sub/sub-categories-keyword-name-by-filter/${this.convertToSlug(subCate?.categoryNameEng)}/${subCate?.categoryNameEng}`
+        }
+        let routeing = router.resolve({
+            name: 'sub-categories-keyword-name-filter', // put your route information in
+            params: `/all/calp-plus-sub/sub-categories-keyword-name-by-filter/${this.convertToSlug(subCate?.categoryNameEng)}/${subCate?.categoryNameEng}`
+        });
+        window.location.assign(routeing?.href);
+    },
+    allSubCategoryLink(subCate) {
+        if (subCate) {
+            return `/all/calp-plus-sub/sub-categories-keyword-name-by-filter/${this.convertToSlug(subCate?.catNameEn)}/${subCate?.catNameEn}`
+        }
+       let routeing = router.resolve({
+           name: 'sub-categories-keyword-name-filter', // put your route information in
+           params: `/all/calp-plus-sub/sub-categories-keyword-name-by-filter/${this.convertToSlug(subCate?.catNameEn)}/${subCate?.catNameEn}`
+       });
+       window.location.assign(routeing?.href);
     },
     productLink(item) {
       if (item) {
