@@ -279,9 +279,16 @@ export default {
        window.location.assign(routeing?.href);
     },
     productLink(item) {
-      if (item) {
-        return `/product-details/product/${this.convertToSlug(item?.product_eng)}/${item?.productId}`
-      }
+        if (item){
+            let routeing = router.resolve({
+                name: 'view-customer-detail-by-id-slug', // put your route information in
+                params: {
+                    slugName: this.convertToSlug(item?.product_eng),
+                    productId:item?.productId
+                }
+            });
+            window.location.assign(routeing?.href);
+        }
     },
     productListCartLink(item) {
         if (item) {

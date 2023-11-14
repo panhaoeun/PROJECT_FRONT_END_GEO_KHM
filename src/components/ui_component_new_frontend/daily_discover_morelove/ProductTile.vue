@@ -1,8 +1,8 @@
 <template>
   <div class="p-tile">
-    <router-link
+    <div
       :title="product?.product_eng"
-      :to="productLink(product)"
+      @click.prevent="productLink(product)"
       class="page-link"
     >
       <div
@@ -63,7 +63,7 @@
             </div>
 
       </div>
-    </router-link>
+    </div>
   </div>
 </template>
 
