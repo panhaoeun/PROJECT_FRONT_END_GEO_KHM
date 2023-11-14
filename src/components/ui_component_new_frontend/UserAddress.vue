@@ -1,5 +1,9 @@
 <template>
   <div>
+    <!-- Shipping Address -->
+    <div class="mb-2" v-if="currentAddresses !== null">
+        <h5>Shipping Address</h5>
+    </div>
     <transition name="fade" mode="out-in">
       <div
         class="spinner-wrapper flex justify-content-center flex-wrap"
@@ -17,10 +21,6 @@
         {{ $t('userAddress.noAddress') }}
       </div>
     </transition>
-    <!-- Shipping Address -->
-    <div class="mb-2">
-        <h5>Shipping Address</h5>
-    </div>
     <div v-if="hasRadio">
       <div
         v-for="(value, key) in currentAddresses"
@@ -51,8 +51,8 @@
             class="outline-btn border-round plr-20 mlr-10 text-black"
             :type="'button'"
             :fetching-data="ajaxDeleting === value.id"
-            :loading-text="$t('userAddress.deleting')"
-            :text="$t('userAddress.delete')"
+            loading-text="Deleting"
+            text="Delete"
             color="primary"
             @clicked="deleting(value)"
           />
@@ -110,7 +110,7 @@
     data() {
       return {
         ajaxDeleting: 0,
-        selectedAddress: 0,
+        selectedAddress: -1,
         selectedAddressObj: null
       }
     },
@@ -124,7 +124,7 @@
       selectedAddressObj(value) {
         if (this.currentAddresses.length) {
           this.$emit('selected-address', {...value});
-        this.$store.commit('shippingStore/addressSelected', {...value});
+          this.$store.commit('shippingStore/addressSelected', {...value});
         } else {
             this.$store.commit('shippingStore/addressSelected', null);
            this.$emit('selected-address', null)
@@ -150,7 +150,7 @@
     mixins: [util, addressHelper, routeParamHelper],
     computed: {
         totalPage() {
-            return this.allAddress?.last_page
+            return this.allAddress
         },
         currentAddresses() {
             return this.allAddresses || []

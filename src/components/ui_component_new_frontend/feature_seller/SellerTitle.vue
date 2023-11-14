@@ -11,9 +11,9 @@
             :alt="brand.shop_eng"
         />
     </div>
-    <h5 class="item-title ellipsis ellipsis-1">
+    <h6 class="item-title ellipsis ellipsis-1">
         {{brand?.shop_eng}}
-    </h5>
+    </h6>
   </router-link>
 </template>
 

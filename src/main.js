@@ -47,10 +47,14 @@ import CounterUp from 'vue3-autocounter';
  **@ECommerce Project - Customize New E-Commerce Website 
  * 
  * **/
-import "./assets/customer_ecommerce_web_new/styles/styles.styl";
 import "@glidejs/glide/dist/css/glide.core.min.css";
 import ProductZoomer from 'vue-product-zoomer';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
+import "./assets/customer_ecommerce_web_new/styles/styles.styl";
+
+// Header Menu Categories
+import "./assets/customer_ecommerce_web_new/css/header_menu.css";
+import "./assets/customer_ecommerce_web_new/js/jquery.menu-aim.js"
 
 
 // style scss

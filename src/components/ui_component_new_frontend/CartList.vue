@@ -15,7 +15,7 @@
           :key="value?.id"
           :cart="value"
           :checked="checked"
-          is-shipping="true"
+          :is-shipping="isShipping"
           :cart-shipping="cartShipping"
           :address="address"
           :error="dataFromObject(errorFromApi, value.id, null)"

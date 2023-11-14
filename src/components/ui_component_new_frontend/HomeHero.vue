@@ -4,11 +4,11 @@
     v-if="slider && slider.length"
   >
     <div
-      class="slider-wrapper"
+      class="slider-wrapper bg-cover"
       :class="{'has-right': rightTop || rightBottom}"
     >
       <div
-        class="left "
+        class="left flow-hidden"
       >
         <div
           class="pos-rel"
@@ -25,56 +25,42 @@
               @loaded="firstImgLoaded"
               @change="changed"
             >
-              <img alt="Slider image" height="100" width="100" src="https://cdn.ishop.cholobangla.com/uploads/slider-1.webp" class="full-dimen placeholder-img img-loaded"> 
+                <template v-slot:content>
+                    <li
+                    v-for="(value, index) in slider"
+                    :key="index"
+                    >
+                    <router-link
+                        :to="sourceUrl(value)"
+                        class="slider-content block"
+                    >
+                        <div
+                        class="slider-content-inner bg-cover bg-center"
+                        >
+                            <img
+                              :id="generateElemId(index)"
+                              class="full-dimen bg-cover"
+                              :alt="value?.title"
+                              height="100"
+                              width="100"
+                              :data-source="imageBannerURL(value)"
+                            >
+                        </div>
+                    </router-link>
+                    </li>
+                </template>
             </image-slider>
           </client-only>
+          <!-- Load Image - 01 -->
           <img
             class="full-dimen placeholder-img"
             :class="{'img-loaded': imgLoaded}"
-            alt="Slider image"
-            :src="slider[0].imagePath"
+            alt="Slider image - Default"
+            :src="imageBannerURL(slider[0])"
           >
         </div>
       </div>
       <!--left-->
-      <div
-        v-if="rightTop || rightBottom"
-        class="right"
-      >
-        <router-link
-          v-if="rightTop"
-          :to="sourceUrl(slider.right_top)"
-          class="img-wrap block"
-        >
-          <template
-            v-if="slider && slider.right_top"
-          >
-            <img
-              :src="imageURL(slider.right_top)"
-              height="100"
-              width="100"
-              alt="Slider image"
-            />
-          </template>
-        </router-link>
-
-        <router-link
-          v-if="rightBottom"
-          :to="sourceUrl(slider.right_bottom)"
-          class="img-wrap block"
-        >
-          <template
-            v-if="slider && slider.right_bottom"
-          >
-            <img
-              :src="imageURL(slider.right_bottom)"
-              height="100"
-              width="100"
-              alt="Slider image"
-            />
-          </template>
-        </router-link>
-      </div>
       <!--right-->
     </div>
     <!--main-slider-->
@@ -86,7 +72,7 @@
   import util from '@/mixin/util'
   import sliderHelper from '@/mixin/sliderHelper'
   import ImageSlider from './ImageSlider'
-//   import LazyImage from '~/components/LazyImage'
+// import LazyImage from '~/components/LazyImage'
 
   export default {
     name: 'HomeHero',

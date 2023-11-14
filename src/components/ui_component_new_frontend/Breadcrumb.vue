@@ -6,7 +6,7 @@
       itemtype="https://schema.org/BreadcrumbList"
     >
 
-      <!-- <li
+      <li
         itemprop="itemListElement"
         itemscope
         itemtype="https://schema.org/ListItem"
@@ -15,7 +15,7 @@
           to="/"
           itemprop="item"
         >
-          <span itemprop="name">Home</span>
+          <span itemprop="name"  class="text-black">Home</span>
         </router-link>
         <meta itemprop="position" content="1">
       </li>
@@ -24,6 +24,7 @@
         v-for="(value, i) in slugs"
         itemprop="itemListElement"
         itemscope
+        class="text-black"
         itemtype="https://schema.org/ListItem"
         :key="i"
       >
@@ -32,11 +33,11 @@
           :to="value.link"
           itemprop="item"
         >
-          <span itemprop="name">{{ value.title }}</span>
+          <span itemprop="name" class="text-black">{{ value.title }}</span>
         </router-link>
 
         <meta itemprop="position" :content="i+2">
-      </li> -->
+      </li>
 
 
       <li class="breadcrumb-item"

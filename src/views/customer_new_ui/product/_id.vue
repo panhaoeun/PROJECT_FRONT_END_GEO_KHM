@@ -16,14 +16,9 @@
         </div>
       </div>
       <!-- Products -->
-      <div class="container-fluid mtb-15 mt-sm-10 mn-h-400x">
+      <div class="container-fluid mtb-30 mt-sm-10 mn-h-400x">
         <div>
          <!--Bread crumb-->
-          <breadcrumb
-            class="mb-20 mb-sm-15"
-            slugs="preparedSlug"
-            :page="productTitle"
-          />
           <div class="product-detail">
             <!-- Detail Left -->
             <div class="detail-left pr-30 pr-sm-0">
@@ -48,21 +43,21 @@
                   </div>
                   <!-- Products -->
                   <div class="pl-30 pl-md grow">
-                    <h1 class="f-16">
+                    <h6 class="f-16">
                       {{ productTitle }}
-                    </h1>
+                    </h6>
                     <div class="mt-10">
                       <span
-                        class="f-10 ml-5 semi-bold color-lite">
+                        class="f-10 ml-5 semi-bold text-black">
                         <img
                             src="@/assets/img/payments/box_726475.png"
                             alt=""
                             style="width: 20px;"
                         />
-                        Shipping Information:
-                        <div>
+                            Shipping Information:
+                        <div clsss="text-black">
                             <label
-                                class="font-regular font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1 text-capitalize"
+                                class="font-regular text-black font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1 text-capitalize"
                             >
                                 Max Order: {{ product[0]?.product[0]?.maxOrder }}
                             </label>
@@ -75,31 +70,30 @@
                         </div>
                       </span>
                     </div>
-
+                    <!-- Time -->
                     <div class="devider w-md-100 mtb-15">&nbsp;</div>
-
-                    <div
-                      v-if="endTime"
-                      class="flex sided warning-msg ptb-10 plr-15 mb-15 wrap gap-10"
-                    >
-                      <h5 class="color-inherit">
-                        {{ $t('product.shocking') }}
-                      </h5>
-                      <div class="gap-10 flex">
+                        <div
+                        v-if="endTime"
+                        class="flex sided warning-msg ptb-10 plr-15 mb-15 wrap gap-10"
+                        >
                         <h5 class="color-inherit">
-                          {{ $t('product.endsIn') }}
+                            {{ $t('product.shocking') }}
                         </h5>
-                        <b>
-                          <countdown
-                            :time-zone="product.time_zone"
-                            :end-time="endTime"
-                          />
-                        </b>
-                      </div>
-                    </div>
+                        <div class="gap-10 flex">
+                            <h5 class="color-inherit">
+                            {{ $t('product.endsIn') }}
+                            </h5>
+                            <b>
+                            <countdown
+                                :time-zone="product.time_zone"
+                                :end-time="endTime"
+                            />
+                            </b>
+                        </div>
+                        </div>
                     <h4
                       class="mb-15 bold"
-                      :class="[{'color-success': isInStock}, {'color-danger': !isInStock}]"
+                      :class="[{'color-success': isInStock}, {'color-success': !isInStock}]"
                     >
                       {{ inStock }}
                     </h4>
@@ -139,15 +133,6 @@
                         </pop-over>
                       </div>
                     </div> -->
-                    <div
-                      class="two-sided mb-15">
-                      <h6 class="left-50">
-                        Shipping Company:
-                      </h6>
-                      <div class="right bundle-deal">
-                        {{ product[0]?.product[0]?.shippingCompany }}
-                      </div>
-                    </div>
                     <!-- Product  Detail Add to Cart -->
                     <div class="two-sided mb-15">
                         <!-- product-detail -->
@@ -237,7 +222,7 @@
 //   import PopOver from "@/components/ui_component_new_frontend/PopOver";
   import Countdown from "@/components/ui_component_new_frontend/Countdown";
 //   import RatingStar from "@/components/ui_component_new_frontend/RatingStar";
-  import Breadcrumb from "@/components/ui_component_new_frontend/Breadcrumb";
+//   import Breadcrumb from "@/components/ui_component_new_frontend/Breadcrumb";
 
   export default {
     mixins: [util,productHelper],
@@ -275,7 +260,7 @@
       }
     },
     components: {
-      Breadcrumb,
+    //   Breadcrumb,
     //   RatingStar,
       Countdown,
     //   PopOver,

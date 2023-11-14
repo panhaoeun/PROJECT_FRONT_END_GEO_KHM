@@ -4,7 +4,8 @@
       <tree-node
         v-for="value in categories"
         :node="value"
-        :key="value.id"
+        :title-categories="titleCategories"
+        :key="value?.id"
       />
     </ul>
 
@@ -19,6 +20,10 @@
     export default {
       name: "FilterCategory",
       props: {
+        titleCategories: {
+            type: String,
+            default: ''
+        },
         categories: {
           type: Array,
            default: () => []

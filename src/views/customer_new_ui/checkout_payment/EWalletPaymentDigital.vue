@@ -210,7 +210,8 @@ export default {
                 orderAmount: 0,
                 remainingBalance: 0
             },
-            dialogVisibleOpenWallet: false
+            dialogVisibleOpenWallet: false,
+            submitting: true
         };
     },
     created() {
@@ -272,31 +273,32 @@ export default {
                         done();
                     }
             }}).then(async() => {
-                if(this.isSessionActive()){
-                    // Subtract Amount Order
-                    const confirmOrderPaymentWallet = {
-                        remainingAmountBalanceKHR: this.remainingAmountOrder?.remainingMoneyKHR ?? 0,
-                        remainingAmountBalanceUSD: this.remainingAmountOrder?.remainingMoneyUSD ?? 0,
-                        orderAmountKHR: this.dynamicAmountOrder?.amountTotalKHR ?? 0,
-                        orderAmountUSD: this.dynamicAmountOrder?.amountTotalUSD ?? 0
-                    };
-                    // Payments with Wallets
-                    await this.$store.dispatch('myWallet/confirmWithdrawMoneyOrderPayment', { confirmOrderPaymentWallet });
-                    // Handle Checkout Orders
-                    await this.$store.dispatch('cart/createCheckout', {
-                        shopId: 0,
-                        vendorId: 0,
-                        emailPhoneId: this.userEmail ? this.userEmail : '',
-                        phoneNumberId: this.userPhone ? this.userPhone : 0 ,
-                        customerOrderNoted: this.orderPayNoted ? this.orderPayNoted : 0,
-                        orderDetaiL: this.orderDetaiLCart ? this.orderDetaiLCart : '',
-                        getSelectedAddressShip: this.shippingAddress ? this.shippingAddress : '',
-                        selectedAddressBilling: this.shippingAddress ? this.shippingAddress : '',
-                        shippingMethod: '',
-                        paymentMethods:'PayByWallet'
-                    });
-                    this.dialogVisibleOpenWallet = false;
-                }
+                // if(this.isSessionActive()){
+                //     // Subtract Amount Order
+                //     const confirmOrderPaymentWallet = {
+                //         remainingAmountBalanceKHR: this.remainingAmountOrder?.remainingMoneyKHR ?? 0,
+                //         remainingAmountBalanceUSD: this.remainingAmountOrder?.remainingMoneyUSD ?? 0,
+                //         orderAmountKHR: this.dynamicAmountOrder?.amountTotalKHR ?? 0,
+                //         orderAmountUSD: this.dynamicAmountOrder?.amountTotalUSD ?? 0
+                //     };
+                //     // Payments with Wallets
+                //     await this.$store.dispatch('myWallet/confirmWithdrawMoneyOrderPayment', { confirmOrderPaymentWallet });
+                //     // Handle Checkout Orders
+                //     await this.$store.dispatch('cart/createCheckout', {
+                //         shopId: 0,
+                //         vendorId: 0,
+                //         emailPhoneId: this.userEmail ? this.userEmail : '',
+                //         phoneNumberId: this.userPhone ? this.userPhone : 0 ,
+                //         customerOrderNoted: this.orderPayNoted ? this.orderPayNoted : 0,
+                //         orderDetaiL: this.orderDetaiLCart ? this.orderDetaiLCart : '',
+                //         getSelectedAddressShip: this.shippingAddress ? this.shippingAddress : '',
+                //         selectedAddressBilling: this.shippingAddress ? this.shippingAddress : '',
+                //         shippingMethod: '',
+                //         paymentMethods:'PayByWallet'
+                //     });
+                //     this.dialogVisibleOpenWallet = false;
+                // }
+                console.log("asdad")
             }).catch(() => {
                 ElNotification.warning({
                     title: 'Unsuccessfully to payment by e-wallet',

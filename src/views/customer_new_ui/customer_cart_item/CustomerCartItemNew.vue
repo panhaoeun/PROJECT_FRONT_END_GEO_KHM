@@ -39,16 +39,14 @@
                     :cart-products="cart"
                     :ajaxing="ajaxing"
                     :checked="checked"
+                    :is-shipping="true"
                 />
                 <!-- Total Product List -->
                 <div class="flex sided" v-if="cart && cart.length >0">
-                    <h5 class="price">
+                    <h6 class="price">
                         Total Item ({{ parseInt(cartItem) }} items)
-                    </h5>
+                    </h6>
                     <!-- Price -->
-                    <!-- <h4 class="price">
-                        {{cartPrice}}
-                    </h4> -->
                 </div>
             </div>
             <!--Sub Total-->

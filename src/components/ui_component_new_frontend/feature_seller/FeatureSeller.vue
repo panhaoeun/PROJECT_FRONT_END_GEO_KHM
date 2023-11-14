@@ -2,7 +2,7 @@
     <div class="area area-slider home-section">
         <template v-if="itemList && itemList.length">
             <div class="flex sided title">
-                <h5>Sellers</h5>
+                <h6>Sellers</h6>
             </div>
             <div class="area-content">
                 <image-slider
@@ -11,19 +11,19 @@
                     :gap="15"
                     :responsive="sliderOptions.responsive"
                 >
-                <template v-slot:content>
-                    <li
-                        v-for="(value, index) in itemList"
-                        :key="index"
-                        class="center-text"
-                    >
-                        <!-- Seller Title -->
-                        <SellerTitle
-                            :index="index"
-                            :brand="value"
-                        />
-                    </li>
-                </template>     
+                    <template v-slot:content>
+                        <li
+                            v-for="(value, index) in itemList"
+                            :key="index"
+                            class="center-text"
+                        >
+                            <!-- Seller Title -->
+                            <SellerTitle
+                                :index="index"
+                                :brand="value"
+                            />
+                        </li>
+                    </template>     
                 </image-slider>
             </div>
         </template>

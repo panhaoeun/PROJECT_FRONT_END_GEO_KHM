@@ -1,7 +1,7 @@
 <template>
   <header
     :class="{'no-banner': (topBannerLoaded && isTopBannerClosed) || !isPublic}"
-    class="bg-red-50"
+    class="bg-purple-50"
   >
     <!-- Banner -->
     <banner
@@ -182,13 +182,13 @@
             :class="{active: dropdown}"
           >
             <router-link
-              class="font-bold text-black gap-2"
+              class="font-bold text-black gap-2 white-space-nowrap"
               to="/user/addresses"
             >
                 My Shipping Address
             </router-link>
             <router-link
-              class="font-bold text-black"
+              class="font-bold text-black white-space-nowrap"
               to="/user/orders"
             >
                 Orders
@@ -196,7 +196,7 @@
             <button
               aria-label="Logout"
               v-show="isLoggedIn"
-              class="clear-btn font-bold text-black"
+              class="clear-btn font-bold text-black white-space-nowrap"
               @click.prevent="loggingOut"
             >
                 Logout
@@ -220,10 +220,13 @@
         </router-link>
       </div>
     </div>
-    <div class="bottom-area text-nowrap">
+    <!-- Bottom Header -->
+    <div class="bottom-area text-nowrap gap-10">
       <div class="container-fluid">
-        <div class="flex sided">
-          <div>
+        <div class="sided justify-content-between">
+            <!--Section Categories and Sub Categories-->
+            <home-categories-section/>
+          <!-- <div>
 
             <router-link
               v-for="(item, index) in headerLeft"
@@ -234,9 +237,9 @@
                 {{ getTitle(item) }}
               </span>
             </router-link>
-          </div>
+          </div> -->
 
-          <div>
+          <!-- <div>
 
             <router-link
               v-for="(item, index) in headerRight"
@@ -248,13 +251,14 @@
               </span>
             </router-link>
 
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </header>
 </template>
 <script>
+  import HomeCategoriesSection from "@/components/ui_component_new_frontend/home_categories_filter/HomeCategoriesSection.vue";
   import outsideClick from '@/directive/outside-click';
   import { isLoggedIn } from "@/utils/auth/auth";
   import util from '@/mixin/util'
@@ -323,7 +327,7 @@
       }
     },
     directives: {outsideClick},
-    components: {Banner, SearchPopup},
+    components: {Banner, SearchPopup,HomeCategoriesSection},
     mixins: [util],
     created(){
          // Login

@@ -1,6 +1,5 @@
 <template>
     <listing-layout
-      :result-title="searchedKeyword"
       ref="productListElem"
     />
 </template>

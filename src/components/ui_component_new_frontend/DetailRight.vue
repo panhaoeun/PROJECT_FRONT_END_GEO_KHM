@@ -4,10 +4,15 @@
     <div class="content">
         <h2 class="price-wrapper mb-2 text-xl">
           <span
-            class="color-deep price"
+            class="color-deep text-danger price mb-15"
+           
           >
-            {{ currencyFormattedKHRiel(product?.product_unit_price_khr) }}
-            ( {{ currencyFormattedUSD(product?.product_unit_price) }})
+           <label  style="font-size: 30px;">
+             {{ currencyFormattedKHRiel(product?.product_unit_price_khr) }}
+            </label>
+            <label class="text-black text-md">
+                ( {{ currencyFormattedUSD(product?.product_unit_price) }})
+            </label>
           </span>
           <span
             class="strike-through f-8"
@@ -18,12 +23,22 @@
             />
           </span>
         </h2>
+        <!-- Shipping Company -->
+        <div
+            class="two-sided  mb-15 font-bold">
+            <h6 class="left-50 font-bold">
+                Shipping Company:
+            </h6>
+            <div class="right bundle-deal text-md">
+                {{ product?.shippingCompany }}
+            </div>
+        </div>
         <!-- Product Spec -->
         <div
           v-if="!attrRender"
           v-for="(value, index) in productAttributes"
           :key="index"
-          class="start flex mb-10 wrap"
+          class="start flex  mb-15 wrap"
         >
           <span
             class="mr-10 mn-w-70x font-bold text-black"
@@ -33,9 +48,9 @@
           <!-- Product Detail Dropdown -->
           <dvi>
                 <select
-                    class="start flex mb-10 wrap w-full"
+                    class="start flex wrap w-full border-round text-sm"
                     :label-for="value?.item + aid"
-                    style="border: 1px solid #bbb;justify-content:space-between;padding:15px 15px 15px 15px;transition:all .1s;"
+                    style="border: 1px solid #bbb;justify-content:space-between;padding:10px 10px 10px 10px;transition:all .1s;"
                     v-model="selectedCustomizations[value?.item]"
                     :track-by="currentSelected.proSpecItem"
                 >
@@ -60,7 +75,7 @@
         <!-- Shipping Price -->
         <div
           v-if="!attrRender"
-          class="start flex mb-10 wrap"
+          class="start flex mb-30 wrap"
         >
           <span
             class="mr-10 mn-w-70x font-bold text-black"
@@ -70,9 +85,9 @@
           <!-- Product Detail Dropdown -->
           <dvi>
                 <select
-                    class="dropdown-wrapper"
+                    class="dropdown-wrapper border-round text-sm"
                     :label-for="value?.item + aid"
-                    style="border: 1px solid #bbb;justify-content:space-between;padding:15px 15px 15px 15px;transition:all .1s;"
+                    style="border: 1px solid #bbb;justify-content:space-between;padding:10px 10px 10px 10px;transition:all .1s;"
                     @change="selectExpressDeliveryShippingPrice"
                 >
                     <!--Choose option-->
@@ -169,7 +184,7 @@
 
         <p
           v-if="cartError.attribute"
-          class="error mb-10"
+          class="error mb-15"
         >
           {{cartError.attribute}}</p>
         <div

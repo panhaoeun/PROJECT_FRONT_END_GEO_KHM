@@ -61,7 +61,7 @@
           return
         }
         if (this.qtyVal + direction === 0) {
-          this.setToastError('!!! Please select all required attributes.')
+          this.setToastError('!!! Must have minimum 1 item.')
           return
         }
         this.qtyVal += direction

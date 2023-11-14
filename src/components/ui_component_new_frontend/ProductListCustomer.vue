@@ -74,18 +74,18 @@
                 </button>
               </div>
                 <div class="sidebar-customer">
-<!-- 
                   <button
                     v-if="backBtn"
                     @click.prevent="goingBack" class="flex start mb-15 clear-btn">
                     <span class="flex">
-                      <i class="dimen-16x icon double-arrow-left-icon mr-5 opacity-6"></i>
+                      <i class="dimen-16x icon-ms double-arrow-left-icon mr-5 opacity-6"></i>
                         Back
                     </span>
-                  </button> -->
-
+                  </button>
+                  <!-- Filter Categories -->
                   <filter-category
                     ref="filterCategory"
+                    :title-categories="resultTitle"
                     :categories="categories"
                     @going-next="goingNext"
                   />
@@ -125,25 +125,26 @@
               v-else
             >
               <div
-                v-if="(currentItems && !currentItems.length)"
+                v-if="(currentItems?.rows && !currentItems?.rows.length)"
                 class="info-msg"
               >
                 {{ $t('listingLayout.noProductFound') }}
               </div>
 
-              <p class="hide block-sm ml-10 ml-xs-5 mb-10">{{ pageHeading }}
-                <span v-if="resultTitle" class="bold">"{{ resultTitle }}"</span>
+              <p class="hide block-sm ml-10 ml-xs-5 mb-10">
+                    {{ pageHeading }}
+                    <span v-if="resultTitle" class="bold">"{{ resultTitle }}"</span>
               </p>
               <div
                 class="tile-container"
               >
                 <product-tile
-                  v-for="(value, index) in currentItems"
+                  v-for="(value, index) in currentItems?.rows"
                   :key="index"
                   :product="value"
                 />
               </div>
-
+              <!-- Pagination -->
               <pagination
                 class="mt-30"
                 ref="productPagination"
@@ -260,18 +261,16 @@
       },
       pageHeading() {
         if (this.products) {
-          if(this.products?.total > 0) {
-            return this.$t('listingLayout.paginationResult', {
-              from: this.products?.from,
-              to: this.products?.to,
-              total: this.products?.total
-            })
-          }
-
+            if(this.products?.count > 0) {
+                return this.$t('listingLayout.paginationResult', {
+                    from: this.products?.from,
+                    to: this.products?.to,
+                    total: this.products?.count
+                })
+            }
           //return this.$t('listingLayout.noProductFound')
         }
         return this.$t('listingLayout.showingResult')
-        //return `${this.$t('listingLayout.loading')}...`
       },
       currentItems() {
         return this.products || null
@@ -339,7 +338,9 @@
       },
     },
     async mounted() {
-      this.$nextTick(function() {
+        // this.fetchingData();
+       this.$nextTick(function() {
+        //Check Devices
         if(this.isXsDevice) {
           this.filterPopup = false
         }

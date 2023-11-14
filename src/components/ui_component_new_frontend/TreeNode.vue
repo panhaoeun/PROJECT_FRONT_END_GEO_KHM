@@ -1,22 +1,25 @@
 <template>
   <li class="tree-node">
-    <span class="node-data">
-        
+    <span class="node-data"> 
       <router-link
-        class="text-black"
-        :to="categoryLink(node)"
-        :title="node?.catNameEn"
+        class="text-black font-bold"
+        :to="allCategoryLink(node)"
+        :title="titleCategories"
       >
-        {{node?.catNameEn}}
+         {{ titleCategories }}
       </router-link>
     </span>
-
-    <ul>
-    <tree-node
-      v-for="childNode in node.child"
-        :key="childNode.id"
-        :node="childNode"
-      />
+    <!-- Tree node -->
+    <ul  v-for="childNode in node" :key="childNode">
+        <li class="tree-node">
+            <span class="node-data">
+                <router-link
+                    :to="allSubCategoryLink(childNode)"
+                    class="text-gray">
+                    {{ childNode?.catNameEn }}
+                </router-link>
+            </span>
+        </li>
     </ul>
   </li>
 </template>
@@ -28,10 +31,14 @@
     name: 'TreeNode',
     components: {},
     props: {
-      node: {
-        type: Object,
-        required: true,
-      }
+        titleCategories: {
+            type: String,
+            default: ''
+        },
+        node: {
+            type: Object,
+            required: true,
+        }
     },
     data() {
       return {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="gap-20 flex sided align-start b-b pb-15 mb-10 cart-product-tile"
+    class="gap-20 flex sided align-start b-b pb-1 mb-10 cart-product-tile"
     v-if="product"
   >
       <div class="flex gap-15">
@@ -12,8 +12,8 @@
           @change="$emit('cb-changed', {id: cart.id, checked: $event})"
         > -->
         <router-link
-          class="w-120x img-wrapper gap-5"
-          :to="productLink(product)"
+          class="w-70x img-wrapper gap-5"
+          :to="productListCartLink(product)"
           :title="title"
         >
           <lazy-image
@@ -28,36 +28,35 @@
           <div>
             <h6 class="semi-bold  text-blue-800 font-bold">
               <router-link
-                class="ellipsis-1 text-blue-800 font-bold text-md"
+                class="ellipsis-1 text-blue-800 font-bold text-sm"
                 :to="productLink(product)"
                 :title="title"
               >
-                {{ title }}
+                {{ truncateLongText(title,40, '\b') }}
               </router-link>
             </h6>
             <!-- Product Variant Name -->
-            <h6 class="mr-15 text-md gap-10" v-for="([key, value], index) in currentAttr" :key="index">
-                <span class="mr-10">{{key}}</span>: {{ value }}
+            <h6 class="mr-15 text-md gap-10 font-bold text-sm  mt-2 mb-2" v-for="([key, value], index) in currentAttr" :key="index">
+                <span>{{key}}</span>: {{ value }}
             </h6>
           </div>
 
           <form
-            v-if="isShipping"
-            class="flex flex-column"
+            class="flex flex-column mt-2 mb-2"
           >
-            <label class="mr-5 cp">
+            <!-- <label class="mr-5 cp">
                 <span class="text-pink-600">Shipping Company: </span>
                 <span class="pl-2 font-bold"> {{ product.shippingCompanyDay }}</span>
-            </label>
-            <label class="mr-5 cp">
-                <span class="text-red-800">Shipping Cost: </span>
-                <span class="pl-2 font-bold"> {{ currencyFormattedKHRiel(product.expressPriceKHR) }}</span>
-                <span>({{ currencyFormattedUSD(product.expressPriceUSD) }})</span>
+            </label> -->
+            <label class="mr-5 cp text-sm">
+                <span class="text-indigo-700 font-bold">Shipping Cost: </span>
+                <span class="pl-2 font-bold text-danger"> {{ currencyFormattedKHRiel(product.expressPriceKHR) }}</span>
+                <span class="text-black">({{ currencyFormattedUSD(product.expressPriceUSD) }})</span>
             </label>
           </form>
           <div
-            v-else
             class="flex gap-10 start wrap mt-10"
+            v-if="isShipping"
           >
             <quantity-nav
               class="mtb-5 border-round"
@@ -215,6 +214,13 @@
     },
     mixins: [util, productPriceHelper],
     methods: {
+        truncateLongText(str, length, useWordBoundary){
+            if (str.length <= length) { return str; }
+            const subString = str.slice(0, length - 1); // the original check
+            return (useWordBoundary
+                ? subString.slice(0, subString.lastIndexOf(" "))
+                : subString) + "...";
+        },
         // Currency Formate
         currencyFormattedKHRiel: function(value) {
             return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  

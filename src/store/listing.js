@@ -34,17 +34,16 @@ const mutations = {
     state.products = null
   },
   SET_PRODUCTS(state, data){
-    console.log(data)
 
     state.products = data?.result;
 
 
     if(data?.all_categories){
-      state.allCategories = data.all_categories
+      state.allCategories = data?.all_categories
     }
 
     if(data?.category){
-      state.categoryData = data.category
+      state.categoryData = data?.category
     }
 
     if(data?.collections){
