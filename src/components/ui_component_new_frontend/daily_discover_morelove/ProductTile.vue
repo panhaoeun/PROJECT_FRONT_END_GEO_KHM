@@ -21,7 +21,7 @@
             :title="$t('product.compare')"
             @click.prevent="addToCompare"
           >
-            <i class="icon reload-icon"/>
+        n    <i class="icon reload-icon"/>
           </button>
         </slot> -->
 
