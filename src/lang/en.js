@@ -97,6 +97,7 @@ export default {
         proSubCategories: 'Sub Categories',
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
+        locationMS: 'Locations',
         proProductMS: 'Products',
         contentProduct: 'Message',
         userMSModule: 'User Managements',
