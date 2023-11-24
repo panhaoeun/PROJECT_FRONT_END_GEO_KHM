@@ -7,6 +7,26 @@ export default {
         register: "Register",
         profile: "Profile",
     },
+    categoryListingLayout: {
+        noItemFound: "No item found."
+    },
+    home: {
+        mail: "Mail",
+        helpline: "Helpline",
+        rapid_shipping: "Rapid shipping",
+        shortPeriod: "With a short period of time",
+        checkoutSecurely: "Checkout securely",
+        support: "24/7 support",
+        pickupCalls: "Ready to pickup calls",
+        bundleOffer: "Bundle offer",
+        onProducts: "On many products",
+        subscribeNewsletter: "Subscribe to our Newsletter",
+        getLatestEmail: "Get our latest update in your email",
+        subscribe: "Subscribe",
+        subscribeSuccessMsg: "You have successfully subscribe to our newsletter.",
+        secureTransaction: "Secure transaction",
+        off: "{percent}% off"
+    },
     userAddress: {
         noAddress: 'No address found.',
         edit: 'Edit',

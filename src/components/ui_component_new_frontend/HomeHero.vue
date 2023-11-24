@@ -41,8 +41,8 @@
                               :id="generateElemId(index)"
                               class="full-dimen bg-cover"
                               :alt="value?.title"
-                              height="100"
-                              width="100"
+                              height="50"
+                              width="50"
                               :data-source="imageBannerURL(value)"
                             >
                         </div>

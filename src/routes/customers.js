@@ -287,7 +287,16 @@ export default [
              path: "/all/calp-plus-sub/sub-categories-keyword-name-by-filter/:slugCategories/:subCategory",
              name: 'sub-categories-keyword-name-filter',
              component: () => import("../views/customer_new_ui/all_categories/_categories/_subCategory.vue"),
-         },
+        },
+        /**
+         * @Router Show All Categories
+         * @Filter View All Categories
+        * */
+        {
+            path: "/show-all-categories/categories-view/categories-all",
+            name: 'show-all-categories',
+            component: () => import("../views/customer_new_ui/new_customer_page/ShowAllCategories.vue"),
+        },
         /**
          * 
          * @Router Customer 

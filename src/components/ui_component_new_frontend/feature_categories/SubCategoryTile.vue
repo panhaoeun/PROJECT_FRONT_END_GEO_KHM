@@ -9,6 +9,7 @@
         :data-src="`${ENV_HOST_PATH_FILE}uploads/${subCategory.catLogo}`"
         :title="subCategory.catNameEn"
         :alt="subCategory.catNameEn"
+        class="lazy-img"
       />
     </div>
     <h6 class="item-title ellipsis ellipsis-1">

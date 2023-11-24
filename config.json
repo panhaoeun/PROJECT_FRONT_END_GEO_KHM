@@ -5,7 +5,7 @@
     "home": "home",
     "all": "customer-common-categories-product-name-all",
     "products": "customer-search-filter-item/products",
-    "categories": "categories",
+    "categories": "list/category-list",
     "brands": "brands",
     "flashProducts": "flash-sale",
     "flashSales": "flash-sale",

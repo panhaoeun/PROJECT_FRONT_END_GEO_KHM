@@ -23,6 +23,7 @@ import Listing from "./listing";
 import Home from "./home";
 import Detail from "./details";
 import Resource from "./resource";
+import Categories from "./categories";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -81,7 +82,8 @@ const store = createStore({
         listing: Listing,
         home: Home,
         detail: Detail,
-        resource: Resource
+        resource: Resource,
+        category: Categories
     },
 });
 // Load all modules.

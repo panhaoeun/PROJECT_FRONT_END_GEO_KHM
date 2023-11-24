@@ -11,6 +11,19 @@ const apiClient = axios.create({
 });
 
 export default{
+    categories(params, lang = null) {
+         if (lang) {
+            apiClient.defaults.headers['Language'] = lang
+         } else {
+            if (apiClient.defaults.headers?.Language) {
+                delete apiClient.defaults.headers['Language']
+            }
+         }
+
+         return apiClient.get(json.api.categories, {
+            params: params
+         })
+     },
     search(params, lang = null) {
         if (lang) {
             apiClient.defaults.headers.common['Language'] = lang
@@ -19,6 +32,7 @@ export default{
             params: params
         })
     },
+    
     getRequest(params, api, bearer = null, lang = null) {
         if (lang) {
             apiClient.defaults.headers['Language'] = lang

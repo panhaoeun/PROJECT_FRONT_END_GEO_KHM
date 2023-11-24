@@ -6,8 +6,8 @@
       :title="title"
       @error="onError"
       class="lazy-img"
-      height="20"
-      width="20"
+      height="50"
+      width="50"
     >
 </template>
 
