@@ -1,7 +1,7 @@
 <template>
    <router-link
      v-if="isPublic"
-     :to="sourceUrl(banner, 'banner')"
+      to="/customer/site-map-slug-error-page/not-found-error"
      class="block flex banner-wrapper"
      @click.capture="$emit('clicked')"
    >

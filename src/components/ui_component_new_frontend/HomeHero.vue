@@ -31,7 +31,7 @@
                     :key="index"
                     >
                     <router-link
-                        :to="sourceUrl(value)"
+                        to="/"
                         class="slider-content block"
                     >
                         <div

@@ -40,7 +40,7 @@
       class="center-text mt-20 mt-sm-15"
     >
       <router-link
-        :to="listingLink({slug: 'daily-discover'})"
+        to="/all/calp-plus/categories-keyword-name/fashion/Fashion"
         class="w-100 br-primary outline-btn btn-lg plr-35 plr-sm-20 font-bold text-black"
       >
         Show More

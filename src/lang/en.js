@@ -182,6 +182,13 @@ export default {
         loading: "Loading",
         filter: "Filter"
     },
+    error: {
+        sorry: "SORRY",
+        try: "Try",
+        reload: "Reload",
+        or: "or",
+        goHome: "Go to homepage"
+    },
     userinfo: {
         generalInfo:"General Information",
         editUser: "Edit User",

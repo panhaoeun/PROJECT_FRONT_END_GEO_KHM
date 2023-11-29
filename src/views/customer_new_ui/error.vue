@@ -1,13 +1,12 @@
 <template>
   <div class="container-fluid mtb-20 mtb-sm-15">
-    <div class="flex error-wrapper reverse">
+    <div class="flex justify-content-center align-items-center error-wrapper reverse">
 
       <div class="img-wrap mb-sm-20 mlr-xs-auto">
         <img
           src="@/assets/error.png"
           alt="Error image"
-          height="50"
-          width="50"
+          class="w-full"
         >
       </div>
 
@@ -28,13 +27,13 @@
             {{ $t('error.reload') }}
           </button>
           {{ $t('error.or') }}
-          <nuxt-link
-            class="color-primary mlr-5"
+          <router-link
+            class="color-primary hover:text-red-500 mlr-5"
             to="/">
             <strong>
               {{ $t('error.goHome') }}
             </strong>
-          </nuxt-link>
+          </router-link>
         </h4>
       </div>
     </div>

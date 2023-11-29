@@ -126,6 +126,11 @@ export default [
             name: 'contact-us-site-map',
             component: () => import("../views/customer_new_ui/page/SiteMapContactUSPage.vue"),
         },
+        {
+            path: "/customer/site-map-slug-error-page/not-found-error",
+            name: 'error-page-404',
+            component: () => import("../views/customer_new_ui/error.vue"),
+        },
         // My Profile
         {
              path: "/user/profile",
