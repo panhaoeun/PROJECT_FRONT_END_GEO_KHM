@@ -216,7 +216,7 @@
   import DetailRight from '@/components/ui_component_new_frontend/DetailRight'
   import DetailRightStoreItem from '@/components/ui_component_new_frontend/DetailRightStoreItem'
   import LazyArea from '@/components/ui_component_new_frontend/LazyArea'
-//   import SuggestedProducts from '@/components/ui_component_new_frontend/SuggestedProducts'
+  import SuggestedProducts from '@/components/ui_component_new_frontend/SuggestedProducts'
 //   import ProductReview from '@/components/ui_component_new_frontend/ProductReview';
 //   import Vouchers from "@/components/ui_component_new_frontend/Vouchers";
 //   import PopOver from "@/components/ui_component_new_frontend/PopOver";
@@ -268,7 +268,7 @@
       DetailRightStoreItem,
       ProductImages,
       LazyArea,
-    //   SuggestedProducts,
+      SuggestedProducts,
       DetailRight,
     //   ProductReview
     },
@@ -314,7 +314,7 @@
         return this.product?.end_time || null
       },
       productId() {
-        return this.$route.params.id
+        return this.$route.params.productId
       },
       statusPublic() {
         return parseInt(this.product[0].product[0]?.in_stock_no) === 1

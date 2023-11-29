@@ -250,7 +250,7 @@ export default {
     },
     categoryLink(item) {
       if (item) {
-        return `/customer/all/categories-name-search/${this.convertToSlug(item?.catNameEn)}`
+        return `/customer/all/categories-name-search/${item?.catNameEn}/${this.convertToSlug(item?.catNameEn)}`
       }
     },
     allCategoryLink(allCategory) {

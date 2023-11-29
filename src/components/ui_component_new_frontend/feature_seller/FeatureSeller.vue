@@ -3,12 +3,12 @@
         <template v-if="itemList && itemList.length">
             <div class="flex sided title" style="border-bottom: 1px solid #eee;">
                 <h6>Sellers</h6>
-                <router-link
+                <!-- <router-link
                 class="link"
                 to="/brands"
                 >
                     Show All
-                </router-link>
+                </router-link> -->
             </div>
             <div class="area-content shimmer-wrapper">
                 <image-slider

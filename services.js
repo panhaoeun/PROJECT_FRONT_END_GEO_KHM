@@ -32,14 +32,19 @@ export default{
             params: params
         })
     },
-    
+    suggestedProducts(id, page, lang = null) {
+        if (lang) {
+            apiClient.defaults.headers.common['Language'] = lang
+        }
+        return apiClient.get(`${json.api.suggested_products}/${id}?page=${page}`)
+    },
     getRequest(params, api, bearer = null, lang = null) {
         if (lang) {
             apiClient.defaults.headers['Language'] = lang
         } else {
-        if (apiClient.defaults.headers?.Language) {
-            delete apiClient.defaults.headers['Language']
-        }
+            if (apiClient.defaults.headers?.Language) {
+                delete apiClient.defaults.headers['Language']
+            }
         }
 
         if (bearer) {

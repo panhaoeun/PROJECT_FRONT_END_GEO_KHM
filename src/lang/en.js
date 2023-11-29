@@ -10,6 +10,14 @@ export default {
     categoryListingLayout: {
         noItemFound: "No item found."
     },
+    suggestedProducts: {
+        recommendedForYou: "Recommended for you",
+        alsoViewed: "People who viewed this item also viewed"
+    },
+    productDynamic: {
+        pageOf: "Page {current} of {total}",
+        extendedView: "Click image for extended view"
+    },
     home: {
         mail: "Mail",
         helpline: "Helpline",

@@ -6,7 +6,7 @@
     "all": "customer-common-categories-product-name-all",
     "products": "customer-search-filter-item/products",
     "categories": "list/category-list",
-    "brands": "brands",
+    "brands": "brandTimes",
     "flashProducts": "flash-sale",
     "flashSales": "flash-sale",
     "product": "product",

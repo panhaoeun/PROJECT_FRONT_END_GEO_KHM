@@ -61,7 +61,10 @@
         default: ''
       },
     },
-    components: {ProductsDynamic, Spinner },
+    components: {
+        ProductsDynamic,
+        Spinner 
+    },
     computed: {
       ...mapGetters('language', ['langCode']),
       ...mapGetters('detail', ['suggested']),
@@ -69,6 +72,7 @@
     mixins: [util],
     methods: {
       async fetchSuggested(page, type = 0) {
+        
         if(type === 1){
           this.suggested1 = this.suggested1.concat(['', '', '', '', ''])
         }else if(type === 2) {
@@ -87,7 +91,7 @@
           })
           this.fetchingSuggested = false
         } catch (e) {
-          return this.$nuxt.error(e)
+            return Promise.reject(e);
         }
 
         if(type === 1){
@@ -100,20 +104,20 @@
         }
 
 
-        if(this.suggested?.suggestion_1?.data){
-          this.suggested1 = this.suggested1.concat(this.suggested?.suggestion_1?.data)
+        if(this.suggested?.suggestion01){
+          this.suggested1 = this.suggested1.concat(this.suggested?.suggestion01)
         }
 
-        if(this.suggested?.suggestion_2?.data){
-          this.suggested2 = this.suggested2.concat(this.suggested?.suggestion_2?.data)
+        if(this.suggested?.suggestion02){
+          this.suggested2 = this.suggested2.concat(this.suggested?.suggestion02)
         }
 
 
         if(page === 1){
 
-          const total1 = this.suggested?.suggestion_1?.total
-          const perPage1 = this.suggested?.suggestion_1?.per_page
-          const lastPage1 = this.suggested?.suggestion_1?.last_page
+          const total1 = this.suggested?.suggestion01?.total
+          const perPage1 = this.suggested?.suggestion01?.per_page
+          const lastPage1 = this.suggested?.suggestion01?.last_page
 
           if(total1 < perPage1){
             this.totalSuggested1 = lastPage1 * perPage1
@@ -122,9 +126,9 @@
             this.totalSuggested1 = total1
           }
 
-          const total2 = this.suggested?.suggestion_2?.total
-          const perPage2 = this.suggested?.suggestion_2?.per_page
-          const lastPage2 = this.suggested?.suggestion_2?.last_page
+          const total2 = this.suggested?.total
+          const perPage2 = this.suggested?.per_page
+          const lastPage2 = this.suggested?.last_page
 
           if(total2 < perPage2){
             //this.totalSuggested2 = lastPage2 * perPage2
@@ -146,6 +150,7 @@
         }
       },
       async change(type, evt){
+        console.log(type, evt)
         this.currentPage += evt
 
         if(this.currentPage < 1){

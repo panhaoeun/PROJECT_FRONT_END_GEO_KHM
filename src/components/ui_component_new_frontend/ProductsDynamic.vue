@@ -7,7 +7,7 @@
       </p>
     </div>
 
-    <div class="c_slider__wrapper" >
+    <div class="c_slider__wrapper list-none">
       <div class="c_slider__nav" >
         <button
           aria-label="submit"
