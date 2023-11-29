@@ -7,6 +7,34 @@ export default {
         register: "Register",
         profile: "Profile",
     },
+    categoryListingLayout: {
+        noItemFound: "No item found."
+    },
+    suggestedProducts: {
+        recommendedForYou: "Recommended for you",
+        alsoViewed: "People who viewed this item also viewed"
+    },
+    productDynamic: {
+        pageOf: "Page {current} of {total}",
+        extendedView: "Click image for extended view"
+    },
+    home: {
+        mail: "Mail",
+        helpline: "Helpline",
+        rapid_shipping: "Rapid shipping",
+        shortPeriod: "With a short period of time",
+        checkoutSecurely: "Checkout securely",
+        support: "24/7 support",
+        pickupCalls: "Ready to pickup calls",
+        bundleOffer: "Bundle offer",
+        onProducts: "On many products",
+        subscribeNewsletter: "Subscribe to our Newsletter",
+        getLatestEmail: "Get our latest update in your email",
+        subscribe: "Subscribe",
+        subscribeSuccessMsg: "You have successfully subscribe to our newsletter.",
+        secureTransaction: "Secure transaction",
+        off: "{percent}% off"
+    },
     userAddress: {
         noAddress: 'No address found.',
         edit: 'Edit',
@@ -97,6 +125,7 @@ export default {
         proSubCategories: 'Sub Categories',
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
+        locationMS: 'Locations',
         proProductMS: 'Products',
         contentProduct: 'Message',
         userMSModule: 'User Managements',
@@ -152,6 +181,13 @@ export default {
         customerReviews: "Customer reviews",
         loading: "Loading",
         filter: "Filter"
+    },
+    error: {
+        sorry: "SORRY",
+        try: "Try",
+        reload: "Reload",
+        or: "or",
+        goHome: "Go to homepage"
     },
     userinfo: {
         generalInfo:"General Information",

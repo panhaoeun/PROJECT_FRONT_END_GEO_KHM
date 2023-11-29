@@ -1,4 +1,3 @@
-
 <template id="customerApp">
     <div :class="routeName">
         <transition

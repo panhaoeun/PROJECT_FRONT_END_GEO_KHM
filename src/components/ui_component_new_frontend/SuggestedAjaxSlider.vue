@@ -5,10 +5,9 @@
   >
 
       <ul
-        class="c_slider__container shimmer-wrapper"
+        class="c_slider__container shimmer-wrapper list-none"
         :style="[parentWidthStyle, { transform: translateXInPx }]"
       >
-
 
           <li
             v-for="(value, index) in itemList"

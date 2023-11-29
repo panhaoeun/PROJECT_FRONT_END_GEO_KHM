@@ -337,6 +337,8 @@
             this.$store.commit('shippingStore/resetAddresses');
             this.$store.commit('cart/resetOrders');
         }
+        // Categories
+        this.$store.dispatch('category/fetchCategories');
     },
     methods: {
         // Current Customer Cart

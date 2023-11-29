@@ -74,7 +74,7 @@
     // import required modules
     import {Autoplay,Keyboard, Scrollbar, Navigation, Pagination} from 'swiper';
     import 'swiper/css/effect-creative';
-import { ref } from "vue";
+    import { ref } from "vue";
     export default {
         components:{
             Swiper,

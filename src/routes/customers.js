@@ -84,7 +84,7 @@ export default [
              component: () => import("../views/customer_new_ui/filter_search/SearchFilterItem.vue"),
         },
         {
-             path: "/customer/all/categories-name-search/:categoriesId",
+             path: "/customer/all/categories-name-search/:categoriesName/:categoriesId",
              name: 'customer-get-all-categories',
              component: () => import("../views/customer_new_ui/filter_search/_categories/SearchAllByCategoriesProduct.vue"),
          },
@@ -109,6 +109,27 @@ export default [
             name: 'payment-check-gate-way',
             beforeEnter: requireAuth,
             component: () => import("../views/customer_new_ui/checkout_payment/PaymentMethodCheckOut.vue"),
+        },
+        // Static 
+        {
+            path: "/customer/site-map-slug-pages/customer-ui-pages/help-page",
+            name: 'page-help-faq',
+            component: () => import("../views/customer_new_ui/page/FaqPageHelp.vue"),
+        },
+        {
+            path: "/customer/site-map-slug-pages/customer-ui-pages/faq-page",
+            name: 'faq-page-faq',
+            component: () => import("../views/customer_new_ui/page/SiteMapFaqPage.vue"),
+        },
+        {
+            path: "/customer/site-map-slug-pages/customer-ui-pages/contact-up-page",
+            name: 'contact-us-site-map',
+            component: () => import("../views/customer_new_ui/page/SiteMapContactUSPage.vue"),
+        },
+        {
+            path: "/customer/site-map-slug-error-page/not-found-error",
+            name: 'error-page-404',
+            component: () => import("../views/customer_new_ui/error.vue"),
         },
         // My Profile
         {
@@ -287,7 +308,16 @@ export default [
              path: "/all/calp-plus-sub/sub-categories-keyword-name-by-filter/:slugCategories/:subCategory",
              name: 'sub-categories-keyword-name-filter',
              component: () => import("../views/customer_new_ui/all_categories/_categories/_subCategory.vue"),
-         },
+        },
+        /**
+         * @Router Show All Categories
+         * @Filter View All Categories
+        * */
+        {
+            path: "/show-all-categories/categories-view/categories-all",
+            name: 'show-all-categories',
+            component: () => import("../views/customer_new_ui/new_customer_page/ShowAllCategories.vue"),
+        },
         /**
          * 
          * @Router Customer 

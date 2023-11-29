@@ -14,36 +14,38 @@
         >
           {{ badge }}
         </span>
-        <!-- <slot name="floating-btn">
+        <slot name="floating-btn">
           <button
             aria-label="submit"
             class="compare-btn"
             :title="$t('product.compare')"
             @click.prevent="addToCompare"
           >
-            <i class="icon reload-icon"/>
+            <i class="icon-ms reload-icon"/>
           </button>
-        </slot> -->
+        </slot>
 
         <lazy-image
           v-if="isLazyImage"
           :data-src="productImgRULFormatePRODUCT(product?.product_picture)"
           :title="product?.product_eng"
           :alt="product?.product_eng"
+          class="border-round"
         />
         <img
           v-else
           :src="productImgRULFormatePRODUCT(product?.product_picture)"
           :title="product?.product_eng"
           :alt="product?.product_eng"
-          height="10"
-          width="10"
+          height="100"
+          class="border-round"
+          width="100"
         >
       </div>
 
       <div class="item-title">
         <h6
-          class="ellipsis"
+          class="ellipsis text-sm"
           :class="`ellipsis-${titleEllipsis}`"
         >
           {{product?.product_eng}}

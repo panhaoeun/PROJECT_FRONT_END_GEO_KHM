@@ -73,6 +73,7 @@ import globalMixin from './plugins/global-mixin';
 import BootstrapVue3 from 'bootstrap-vue-3';
 // PRIMEVUE
 import ConfirmDialog from 'primevue/confirmdialog';
+import Fieldset from 'primevue/fieldset';
 import InputNumber from 'primevue/inputnumber';
 import PrimeVue from 'primevue/config';
 import InputText from 'primevue/inputtext';
@@ -232,6 +233,7 @@ app.component('Textarea', Textarea);
 app.use(ConfirmationService);
 app.component('FileUpload', FileUpload);
 app.component('ConfirmDialog', ConfirmDialog);
+app.component('Fieldset', Fieldset);
 //Vue Uoloads
 app.component('file-upload', VueUploadComponent);
 app.component('TreeTable', TreeTable);

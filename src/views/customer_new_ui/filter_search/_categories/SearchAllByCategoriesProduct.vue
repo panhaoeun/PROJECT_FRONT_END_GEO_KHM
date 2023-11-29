@@ -1,7 +1,7 @@
 <template>
   <div>
     <product-list
-      :result-title="$route?.params.categoriesId"
+      :result-title="$route?.params.categoriesName"
       :has-breadcrumb="true"
       :categories="[category]"
       :fetching-product-data="fetchingProductData"
@@ -14,7 +14,7 @@
   import ProductList from "@/components/ui_component_new_frontend/ProductListCustomer";
   import util from '@/mixin/util'
   import listingParams from '@/mixin/listingParams'
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex';
 
   export default {
     middleware: ['common-middleware'],
@@ -58,7 +58,8 @@
             this.emptyProducts()
 
             const data = await this.getRequest({params: {
-                category: this.$route?.params.categoriesId,
+                category: this.$route?.params.categoriesName,
+                all_categories: true,
                 sortby: this.sortByData,
                 shipping: this.shippingFromRoute,
                 brand: this.brandFromRoute,
@@ -69,10 +70,10 @@
                 page: this.pageData,
                 sidebar_data: !this.brands || !this.shippingRules ||  !this.collections
               }, api: 'all'
-            })
+            });
             // this.$sto.commit('listing/SET_PRODUCTS', data)
-            this.category = data?.categories;
-            this.subCategories = data?.subCategories;
+            this.category = data?.category;
+            this.subCategories = data?.all_categories;
             self.setProducts(data)
             self.fetchingProductData = false
           }, 200)

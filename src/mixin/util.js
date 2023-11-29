@@ -199,6 +199,9 @@ export default {
     imageURL(obj) {
       return this.getImageURL(obj?.catLogo ? obj?.catLogo : this.defaultImage)
     },
+    imageBannerProductURL(obj) {
+        return this.getImageBannerProductURL(obj?.image ? obj?.image : this.defaultImage)
+    },
     imageBannerURL(obj) {
         return this.getImageURL(obj?.imagePath ? obj?.imagePath : this.defaultImage)
     },
@@ -207,6 +210,9 @@ export default {
     },
     getVideoURL(video) {
       return this.$store.state.imgSrcUrl + video
+    },
+    getImageBannerProductURL(image = this.defaultImage) {
+        return process.env.VUE_APP_PATH_FILE + 'uploads/' + image
     },
     getImageURL(image = this.defaultImage) {
       return process.env.VUE_APP_PATH_FILE + 'uploads/' + image
@@ -229,7 +235,7 @@ export default {
         return item?.url?.toString() || '/'
       }
       if (item) {
-        return `/${item?.slug}/products?${query}=${item.id}`
+        return `/${this.convertToSlug(item?.title)}/products?${query}=${item.id}`
       }
     },
     listingLink(item) {
@@ -244,7 +250,7 @@ export default {
     },
     categoryLink(item) {
       if (item) {
-        return `/customer/all/categories-name-search/${this.convertToSlug(item?.catNameEn)}`
+        return `/customer/all/categories-name-search/${item?.catNameEn}/${this.convertToSlug(item?.catNameEn)}`
       }
     },
     allCategoryLink(allCategory) {

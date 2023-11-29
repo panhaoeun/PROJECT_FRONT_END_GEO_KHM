@@ -2,32 +2,33 @@
     <div class="area home-section">
         <template v-if="itemList && itemList.length">
             <!-- Title -->
-            <div class="flex sided title">
+            <div class="flex sided title" style="border-bottom: 1px solid #eee; font-weight: 600;">
                 <h6>Featured Categories</h6>
                 <router-link
-                    class="link"
-                    to="/categories"
+                    class="link text-black font-bold"
+                    to="/show-all-categories/categories-view/categories-all"
                 >
                     Show All
                 </router-link>
             </div>
             <!-- Categories List -->
-            <div class="area-content">
+            <div class="area-content shimmer-wrapper">
                 <image-slider
                     :image-count="itemList.length"
                     :per-view="9"
                     :gap="15"
                     :responsive="[7, 5, 4, 3, 2]"
+                    class="img-wrapper"
                 >
                     <template v-slot:content>
                         <li
-                                v-for="(value, index) in itemList"
-                                :key="index"
-                                class="center-text"
-                            >
+                            v-for="(value, index) in itemList"
+                            :key="index"
+                            class="center-text"
+                        >
                                 <sub-category-tile
-                                :category="value"
-                                :sub-category="value"
+                                    :category="value"
+                                    :sub-category="value"
                                 />
                         </li>
                     </template>

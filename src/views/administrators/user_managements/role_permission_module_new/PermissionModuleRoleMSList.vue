@@ -400,7 +400,7 @@ export default {
                         // Data Permissions Modules
                         const modulePermDetail = {
                             rolePermId: parseInt(rolePermId),
-                            roleId: parseInt(roleIdModule),
+                            roleId: parseInt(roleIdModule) ? parseInt(this.currentRoleId) : 1,
                             permissionId: parseInt(permIdModule),
                             funView: parseInt(childModuleViewId)?? 0,
                             funEdited: parseInt(childModuleEditId)?? 0,

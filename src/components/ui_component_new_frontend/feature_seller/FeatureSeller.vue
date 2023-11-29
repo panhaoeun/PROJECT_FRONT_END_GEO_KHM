@@ -1,13 +1,19 @@
 <template>
-    <div class="area area-slider home-section">
+    <div class="area area-slider home-section mb-10">
         <template v-if="itemList && itemList.length">
-            <div class="flex sided title">
+            <div class="flex sided title" style="border-bottom: 1px solid #eee;">
                 <h6>Sellers</h6>
+                <!-- <router-link
+                class="link"
+                to="/brands"
+                >
+                    Show All
+                </router-link> -->
             </div>
-            <div class="area-content">
+            <div class="area-content shimmer-wrapper">
                 <image-slider
                     :image-count="itemList.length"
-                    :per-view="10"
+                    :per-view="11"
                     :gap="15"
                     :responsive="sliderOptions.responsive"
                 >
@@ -15,7 +21,7 @@
                         <li
                             v-for="(value, index) in itemList"
                             :key="index"
-                            class="center-text"
+                            class="center-text mt-20"
                         >
                             <!-- Seller Title -->
                             <SellerTitle
@@ -42,7 +48,7 @@ export default {
             if(this.hasFeaturedBanner){
               return {
                 perView: 3,
-                responsive: [5, 5, 4, 3, 2]
+                responsive: [7, 5, 4, 3, 2]
               }
             }
             return {

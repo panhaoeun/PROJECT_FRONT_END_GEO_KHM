@@ -23,7 +23,7 @@ export default class CommonPublicStoreServices {
             }
             if (result.status == 200) {
                 if (result.data.success == true) {
-                    return result.data.result.resultStatus;
+                    return result.data.result?.resultStatus;
                 }
             }
         }).catch((error) => {

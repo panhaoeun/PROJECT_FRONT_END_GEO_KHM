@@ -1,3 +1,4 @@
+import Service from "../../services"
 import ProductServices from '@/services/vendors/products/ProductServices';
 const productServicesMS = new ProductServices();
 
@@ -55,7 +56,17 @@ const actions = {
           commit
       }) {
           commit('SET_SUGGESTED_PRODUCTS')
-    }
+    },
+    async fetchSuggestedProducts ({ commit }, {id, page, lang}) {
+        const {data} = await Service.suggestedProducts(id, page, lang);
+
+        if (data.result?.statusCode === 200) {
+            commit('SET_SUGGESTED_PRODUCTS', data.result.resultStatus?.result)
+        }else {
+            return Promise.reject({statusCode: data?.status, message: data?.message })
+        }
+
+    },
 }   
 
 export default {

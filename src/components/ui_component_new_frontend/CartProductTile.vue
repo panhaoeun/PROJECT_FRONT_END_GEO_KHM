@@ -26,14 +26,14 @@
       <div class="flex align-start grow block-sm">
         <div class="grow gap-5">
           <div>
-            <h6 class="semi-bold  text-blue-800 font-bold">
-              <router-link
-                class="ellipsis-1 text-blue-800 font-bold text-sm"
-                :to="productLink(product)"
-                :title="title"
-              >
-                {{ truncateLongText(title,40, '\b') }}
-              </router-link>
+            <h6 class="semi-bold  text-blue-800 font-bold cursor-pointer">
+                <div
+                    class="ellipsis-1 text-blue-800 font-bold text-sm"
+                    @click.prevent="productLink(product)"
+                    :title="title"
+                >
+                    {{ truncateLongText(title,40, '\b') }}
+                </div>
             </h6>
             <!-- Product Variant Name -->
             <h6 class="mr-15 text-md gap-10 font-bold text-sm  mt-2 mb-2" v-for="([key, value], index) in currentAttr" :key="index">

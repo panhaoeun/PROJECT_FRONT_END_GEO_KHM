@@ -12,6 +12,7 @@ export default {
         status: "ស្ថានភាព",
         addNew: "បង្កើតថ្មី",
         homeModule: 'ផ្ទាំងខាងមុខ',
+        locationMS: 'ទីតាំង',
         proManagement: 'គ្រប់គ្រងផលិតផល',
         proSubCategories: 'ប្រភេទផលិតផលរង',
         ordersMSProduct: 'គ្រប់គ្រងការកម្ម៉ង់ទំនិញ',

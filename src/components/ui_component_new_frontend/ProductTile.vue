@@ -37,13 +37,13 @@
           />
           <span class="f-10 ml-5 semi-bold color-lite">{{ $t('productReview.reviews', {count: product.review_count}) }}</span>
         </div> -->
-        <div class="flex wrap start">
-          <h5 class="price-wrapper">
+        <div class="flex wrap start pt-6">
+          <h6 class="price-wrapper">
             <span class="price">
-                {{currencyFormattedKHRiel(product?.product_unit_price_khr) }}
-                {{ currencyFormattedUSD(product?.product_unit_price) }}
+               <label class="text-red-500"> {{currencyFormattedKHRiel(product?.product_unit_price_khr) }}</label>
+                ({{ currencyFormattedUSD(product?.product_unit_price) }})
             </span>
-          </h5>
+          </h6>
           <!-- <span
             v-if="reducedPercent"
             class="discount ml-10"

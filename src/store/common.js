@@ -14,7 +14,6 @@ const state = {
   },
   subCategoriesMap: null,
 
-  categories: null,
   topBanner: null,
   popupBanner: null,
   headerLinks: {
@@ -40,7 +39,6 @@ const getters = {
   currencyIconRiel: ({ setting }) => setting.currency_icon_riel,
   currencyIcon: ({ setting }) => setting.currency_icon,
   currency: ({ setting }) => setting.currency,
-  categories: ({ categories }) => categories,
 
   subCategoriesMap: ({ subCategoriesMap }) => subCategoriesMap,
   services: ({ services }) => services,
@@ -78,10 +76,10 @@ const mutations = {
   SET_SUB_CAT_DATA(state, categories){
     const subCategoriesMap = {}
     categories?.forEach(i => {
-      i?.public_sub_categories?.forEach(j => {
-        subCategoriesMap[j.id] = {title: i.id, slug: i.slug}
+    //   i?.public_sub_categories?.forEach(j => {
+        subCategoriesMap[i.id] = {title: i.id, slug: i.catNameEn}
       })
-    })
+    // })
     state.subCategoriesMap = subCategoriesMap
   },
 
@@ -109,6 +107,9 @@ const mutations = {
 }
 
 const actions = {
+   setSubCatMap({ commit }, categories) {
+    commit('SET_SUB_CAT_DATA', categories)
+  },
   async getRequest ({commit},{params, api, requiredToken, lang}) {
     try {
       const {data} = await Service.getRequest(params, api, requiredToken ? this.$auth.strategy.token.get(): null, lang);
