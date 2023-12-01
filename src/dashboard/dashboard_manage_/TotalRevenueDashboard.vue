@@ -73,7 +73,7 @@ export default {
             selectedIdRevenue : 2,
             resultTotalRevenue: 0,
             orderCountRevenue: 0,
-            orderProductsTotalRevenue: 0,
+            orderProductsTotalRevenue: 330322,
             revenuedItem: [
                 {
                     id: 1,

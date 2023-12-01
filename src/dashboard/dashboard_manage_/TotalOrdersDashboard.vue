@@ -67,7 +67,7 @@ export default {
         return {
             defaultSelectedDate: false,
             selectedId : 2,
-            resultTotalOrder: 0,
+            resultTotalOrder: 50,
             productItem: [
                 {
                     id: 1,
