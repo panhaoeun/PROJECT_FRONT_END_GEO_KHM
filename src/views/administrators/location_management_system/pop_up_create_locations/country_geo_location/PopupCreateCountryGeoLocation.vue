@@ -1,18 +1,8 @@
 <template>
     <div class="pl-2 gap-2 flex align-items-center justify-content-center">
-        <button 
-            class="ajax-btn outline-btn plr-20 mtb-5 border-round"
-            icon="pi pi-plus" 
-            type="button"
-            label="New"
-            aria-label="New"
-            @click.prevent="popUpCreateProvinceState()"
-        >
-            <span>
-                Edit
-                <i class="pi pi-file-edit"></i>
-            </span>
-        </button>
+        <!-- VIew all geo location -country -->
+        <GeoLocationOfCountryListPopup/>
+        <!-- Add new Geo Location -->
         <button 
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus" 
@@ -30,7 +20,7 @@
     <!-- Popup Create Province or State-->
     <Dialog 
         v-model:visible="openDialog"
-        header="Create Province or State" :style="{ width: '75vw' }" 
+        header="Create country" :style="{ width: '75vw' }" 
         maximizable 
         modal 
         :contentStyle="{ height: '600px' }" 
@@ -40,7 +30,7 @@
         <!-- Add More Item -->
         <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
             <button @click.prevent="addMoreProvinceState()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
-                <span>Add new province or state</span>
+                <span>Add new goe country</span>
             </button>
         </div>
         <div v-for="(state, index) in state.moreProvinceState" :key="index" :set="v.moreProvinceState.$each[index]">        
@@ -74,7 +64,7 @@
                             <label
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateCode.length && submitted }"
                             >
-                                Code
+                                Zip Code
                                 <span class="p-error">*</span>
                                 <!-- Tool tip -->
                                 <el-tooltip
@@ -226,7 +216,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import {required,helpers } from '@vuelidate/validators';
-import {reactive} from "vue"
+import {reactive} from "vue";
+import GeoLocationOfCountryListPopup from "./ListPopupCountryGeoLocation.vue";
 
 export default {
     setup() {
@@ -289,6 +280,9 @@ export default {
                 }
             ]
         };
+    },
+    components:{
+        GeoLocationOfCountryListPopup
     },
     methods: {
         popUpCreateProvinceState(){

@@ -2,13 +2,20 @@
 <template>
   <div class="detail-right">
     <div class="sticky-right">
-      <div class="content">
-            <!-- Store -->
-            <store-tile
-                class="mt-10"
-                :store="product"
+        <div class="content">
+                <!-- Store -->
+                <store-tile
+                    class="mt-10"
+                    :store="product"
+                />
+        </div>
+        <!-- Social Shared -->
+        <client-only>
+            <social-share
+                class="hide-sm mb-15"
+                :product="product"
             />
-      </div>
+        </client-only>
     </div>
     <!-- detail-right -->
   </div>
@@ -22,6 +29,7 @@
   import productPriceHelper from '@/mixin/productPriceHelper'
   import {mapGetters} from 'vuex'
   import StoreTile from "./StoreTile";
+  import SocialShare from './SocialShare'
 
   export default {
     data() {
@@ -63,7 +71,8 @@
       }
     },
     components: {
-      StoreTile
+      StoreTile,
+      SocialShare
     },
     mixins: [util, productHelper, productPriceHelper],
     computed: {

@@ -46,7 +46,7 @@
             {{value?.item}}:
           </span>
           <!-- Product Detail Dropdown -->
-          <dvi>
+          <div>
                 <select
                     class="start flex wrap w-full border-round text-sm"
                     :label-for="value?.item + aid"
@@ -70,7 +70,7 @@
                         <span>{{ add?.item }}</span>
                     </option>
                 </select>
-          </dvi>
+          </div>
         </div>
         <!-- Shipping Price -->
         <div
@@ -83,7 +83,7 @@
             Delivery:
           </span>
           <!-- Product Detail Dropdown -->
-          <dvi>
+          <div>
                 <select
                     class="dropdown-wrapper border-round text-sm"
                     :label-for="value?.item + aid"
@@ -179,7 +179,7 @@
                         <span> Normal (3-4 Day)</span>
                     </option>
                 </select>
-          </dvi>
+          </div>
         </div>
 
         <p
@@ -249,7 +249,7 @@
                 </template>
             </template>
         </div>
-
+        <!-- Wishlist -->
         <!-- <div class="pos-rel inline">
           <button
             class="clear-height ml--7-5 mtb-10 f-10 semi-bold flex color-deep"
@@ -277,7 +277,7 @@
             </template>
           </pop-over>
         </div> -->
-
+        <!-- Day Arrived -->
         <client-only>
           <!-- <p class="f-9">Arrives : <span class="color-lite semi-bold">{{arrivesAt}}</span></p> -->
           <!-- <ajax-button
@@ -291,6 +291,15 @@
           /> -->
         </client-only>
       </div>
+    <!-- Client Share -->
+
+    <!-- <client-only>
+        <social-share
+            class="hide-sm mb-15"
+            :product="product"
+        />
+        
+    </client-only> -->
     <!-- detail-right -->
   </div>
   <!-- detail-right -->

@@ -182,7 +182,6 @@ export default {
         },
         async getSellerShopOptArr(){
             this.sellersShopOrderServices.getSaleOrderReportList().then((orderReport) => {
-                console.log(orderReport)
             if(!Array.isArray(orderReport)){
                 ElMessage.error("Not found sellers...");
             }

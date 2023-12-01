@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex sided align-start">
-      <h4 class="bold">{{ title }}</h4>
+      <h6 class="bold">{{ title }}</h6>
       <p class="mn-w-90x right-text">
         {{ $t('productDynamic.pageOf', { current: currentPage, total: totalPage }) }}
       </p>

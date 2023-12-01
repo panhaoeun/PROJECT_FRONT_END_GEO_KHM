@@ -1,11 +1,11 @@
 <template>
   <div
     ref="main-slider"
-    class="flow-hidden"
+    class="flow-hidden glide__track"
   >
 
       <ul
-        class="c_slider__container shimmer-wrapper list-none"
+        class="glide__slides c_slider__container shimmer-wrapper list-none"
         :style="[parentWidthStyle, { transform: translateXInPx }]"
       >
 
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-
   import ProductTile from './ProductTile'
   import TileShimmer from './TileShimmer'
 
