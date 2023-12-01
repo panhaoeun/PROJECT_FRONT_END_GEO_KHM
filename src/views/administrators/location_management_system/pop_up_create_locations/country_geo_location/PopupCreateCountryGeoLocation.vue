@@ -79,6 +79,7 @@
                                 </el-tooltip>
                             </label>
                             <InputText 
+                                oninput="this.value = this.value.replace(/\D+/g, '')"
                                 :id="state"
                                 v-model="state.stateCode"
                                 class="border-round-lg text-sm" type="text" placeholder="Code"
@@ -218,8 +219,12 @@ import { useVuelidate } from '@vuelidate/core';
 import {required,helpers } from '@vuelidate/validators';
 import {reactive} from "vue";
 import GeoLocationOfCountryListPopup from "./ListPopupCountryGeoLocation.vue";
+import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
 
 export default {
+    created(){
+        this.geoLocationServices = new GeoLocationsManagementServices();
+    },
     setup() {
         const rules = {
             moreProvinceState: {
@@ -318,7 +323,56 @@ export default {
             // stop here if form is invalid
             if (this.v.$invalid) return;
             // display form values on success
-            console.log(this.$data.moreProvinceState)
+            // console.log(this.state.moreProvinceState)
+            let arrayCountryObj = [];
+            const arrayCountry = this.state?.moreProvinceState ? this.state?.moreProvinceState : [];
+            for (let index = 0; index < arrayCountry.length; index++) {
+                let obj = {};
+                const countryIndex = arrayCountry[index];
+                obj.addNewGeoCountryZipCode = countryIndex?.stateCode,
+                obj.addNewGeoCountryKhmerName = countryIndex?.stateKhmerName,
+                obj.addNewGeoCountryEnglishName = countryIndex?.stateLatinName,
+                obj.addNewGeoCountryLongitude = countryIndex?.stateLongitude,
+                obj.addNewGeoCountryLatitude = countryIndex?.stateLatitude,
+                obj.geoCountryCodeType = "T1",
+                obj.geoCountryType = "country"
+                console.log(countryIndex?.stateCode)
+                arrayCountryObj.push(obj);
+            }
+            const countryAddNewDetail = {
+                geoCountryDetail: arrayCountryObj ? arrayCountryObj : []
+            }
+            this.geoLocationServices.createCountryGeoLocation(countryAddNewDetail).then((response) => { 
+                if (response.data.success === true) {
+                    this.submitted = false;
+                    this.errorValidateFile = [];
+                    this.isProcessingSubmit = true;
+                    this.$notify.success({
+                        title: 'Successful crate product',
+                        message: response.data?.message ? response.data?.message : '' ,
+                        showClose: false
+                    });
+                }
+            }).catch(error => {
+                this.$notify.error({
+                        title: 'Unsuccessfully create geo-location country',
+                        message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location country',
+                        showClose: false
+                    });  
+                    if(error.response.data.error.error.errors){
+                        for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
+                            const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
+                            this.$notify.error({
+                                title: 'Unsuccessfully create geo-location country',
+                                message: messageValidation ?? 'Unsuccessfully create geo-location country',
+                                showClose: true
+                            });   
+                        }
+                    } 
+            });
+
+            
+
         }
     },
 };

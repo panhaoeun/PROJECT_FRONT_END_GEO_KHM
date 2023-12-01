@@ -71,4 +71,23 @@ export default class GeoLocationsManagementServices {
             return Promise.reject(error);
         });
     }
+    /** 
+     * @api {post} 
+     *  @api (Country,Province,District,Commune,Village)
+     */
+    async createCountryGeoLocation(countryGeo) {
+        return http.post("/admin/geo-location-route/add-new-location-country-geo", countryGeo);
+    }
+    async createProvinceStateGeoLocation(stateGeo) {
+        return http.post("/admin/geo-location-route/add-new-location-province-state-by-country", stateGeo);
+    }
+    async createDistrictGeoLocation(districtGeo) {
+        return http.post("/admin/geo-location-route/add-new-location-district-by-country", districtGeo);
+    }
+    async createCommuneGeoLocation(communeGeo) {
+        return http.post("/admin/geo-location-route/add-new-location-commune-capital-by-country", communeGeo);
+    }
+    async createVillageGeoLocation(villageGeo) {
+        return http.post("/admin/geo-location-route/add-new-location-village-commune-by-country", villageGeo);
+    }
 }
