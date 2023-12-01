@@ -1,39 +1,43 @@
 <template>
   <div
     ref="main-slider"
-    class="flow-hidden"
+    class="flow-hidden glide__track"
   >
 
-      <ul
-        class="c_slider__container shimmer-wrapper list-none"
-        :style="[parentWidthStyle, { transform: translateXInPx }]"
-      >
-
-          <li
-            v-for="(value, index) in itemList"
-            :key="index"
-            style="max-width: 100px"
-            :style="itemWidthStyle"
-          >
-            <product-tile
-              v-if="value"
-              :product="value"
-              class="mb-20 mb-sm-15"
-            />
-            <tile-shimmer
-              v-else
-            />
-          </li>
-
-      </ul>
-
+       <div class="area-content shimmer-wrapper">
+            <image-slider
+                :image-count="itemList.length"
+                :per-view="7"
+                :gap="15"
+                :responsive="[7, 5, 4, 3, 2]"
+                class="img-wrapper"
+            >
+                <template v-slot:content>
+                    <li
+                        v-for="(value, index) in itemList"
+                        :key="index"
+                        style="max-width: 100px"
+                        :style="itemWidthStyle"
+                    >
+                        <product-tile
+                            v-if="value"
+                            :product="value"
+                            class="mb-20 mb-sm-15"
+                        />
+                        <tile-shimmer
+                        v-else
+                        />
+                    </li>
+                </template>
+            </image-slider>
+        </div>
   </div>
 </template>
 
 <script>
-
   import ProductTile from './ProductTile'
-  import TileShimmer from './TileShimmer'
+  import TileShimmer from './TileShimmer';
+  import ImageSlider from './ImageSlider';
 
   export default {
     name: 'SuggestedAjaxSlider',
@@ -66,9 +70,22 @@
     },
     components: {
       ProductTile,
-      TileShimmer
+      TileShimmer,
+      ImageSlider
     },
     computed: {
+        sliderOptions(){
+            if(this.hasFeaturedBanner){
+              return {
+                perView: 3,
+                responsive: [7, 5, 4, 3, 2]
+              }
+            }
+            return {
+              perView: 20,
+              responsive: [6, 5, 4, 3, 2]
+            }
+        },
       parentWidthStyle(){
         return {
           'flex-basis': `${this.totalPage * this.sliderContainerWidth}px`,

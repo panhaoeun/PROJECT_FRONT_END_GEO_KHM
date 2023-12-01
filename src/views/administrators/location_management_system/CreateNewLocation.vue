@@ -20,36 +20,37 @@
                             <div class="col-6 field">
                                 <div class="field">
                                     <label for="country" class="text-sm font-semibold">Country<span class="p-error">*</span></label>
-                                    <Dropdown 
-                                    showClear
-                                    v-model="selectedCountry" 
-                                    :options="allCountry" 
-                                    optionLabel="geo_english_name" 
-                                    filter
-                                    placeholder="Select a Country" 
-                                    class="w-full text-sm" 
-                                    inputId="shopEng"
-                                    aria-describedby="dd-error"
-                                >
-                                        <template #value="slotProps">
-                                            <div v-if="slotProps.value" class="flex align-items-center">
-                                                <img :alt="slotProps.value?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.geo_location_01.toLowerCase()}`" style="width: 18px" />
-                                                <div class="text-sm">{{ slotProps.value?.geo_english_name ?? '' }}</div>
-                                            </div>
-                                            <span v-else class="text-sm">
-                                                {{ slotProps.placeholder }}
-                                            </span>
-                                        </template>
-                                        <template #option="slotProps">
-                                            <div class="flex align-items-center text-sm">
-                                                <img :alt="slotProps.option?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.geo_location_01.toLowerCase()}`" style="width: 18px" />
-                                                <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{ slotProps.option.geo_location_01 ?? '' }})</div>
-                                            </div>
-                                        </template>
-                                        <template #footer>
-                                            <GeoLocationOfCountryPopup/>
-                                        </template>
-                                    </Dropdown>  
+                                    <div class="flex field flex-row">
+                                            <Dropdown 
+                                                showClear
+                                                v-model="selectedCountry" 
+                                                :options="allCountry" 
+                                                optionLabel="geo_english_name" 
+                                                filter
+                                                placeholder="Select a Country" 
+                                                class="w-full text-sm" 
+                                                inputId="shopEng"
+                                                aria-describedby="dd-error"
+                                            >
+                                                <template #value="slotProps">
+                                                    <div v-if="slotProps.value" class="flex align-items-center">
+                                                        <img :alt="slotProps.value?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.geo_location_01.toLowerCase()}`" style="width: 18px" />
+                                                        <div class="text-sm">{{ slotProps.value?.geo_english_name ?? '' }}</div>
+                                                    </div>
+                                                    <span v-else class="text-sm">
+                                                        {{ slotProps.placeholder }}
+                                                    </span>
+                                                </template>
+                                                <template #option="slotProps">
+                                                    <div class="flex align-items-center text-sm">
+                                                        <img :alt="slotProps.option?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.geo_location_01.toLowerCase()}`" style="width: 18px" />
+                                                        <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{ slotProps.option.geo_location_01 ?? '' }})</div>
+                                                    </div>
+                                                </template>
+                                            </Dropdown>  
+                                            <!-- Popup Country -->
+                                            <PopupCreateCountryGeoLocation/>
+                                    </div> 
                                 </div>
                             </div>
                             <!-- Province or State -->
@@ -81,6 +82,7 @@
                                             </div>
                                         </template>
                                     </Dropdown>  
+                                   <!-- District popup province -->
                                     <popup-create-province-state/>
                                 </div>
                             </div>
@@ -113,7 +115,8 @@
                                             </div>
                                         </template>
                                     </Dropdown>  
-                                    <popup-create-province-state/>
+                                    <!-- District popup -->
+                                    <PopupCreateDistrict/>
                                 </div>
                             </div>
                             <!-- Town / Commune -->
@@ -148,7 +151,8 @@
                                             <ListProvinceStatePopup/>
                                         </template>
                                     </Dropdown>  
-                                    <popup-create-province-state/>
+                                    <!-- Popup Create Commune -->
+                                    <PopupCreateCommuneByDistrict/>
                                 </div>
                             </div>
                             <!-- Villages for Town or Commune -->
@@ -164,17 +168,21 @@
 </template>
 <!-- Script Create New Locations -->
 <script>
+import PopupCreateCountryGeoLocation from "./pop_up_create_locations/country_geo_location/PopupCreateCountryGeoLocation";
 import PopupCreateProvinceState from "./pop_up_create_locations/province_state/PopupCreateProvinceState.vue";
+import PopupCreateDistrict from "./pop_up_create_locations/districts_city_location/PopupCreateDistrictsCity";
+import PopupCreateCommuneByDistrict from "./pop_up_create_locations/town_commune/PopupTownCommuneCreate";
 import ListProvinceStatePopup from "./pop_up_create_locations/province_state/ListProvinceState.vue";
-import GeoLocationOfCountryPopup from "./pop_up_create_locations/country_geo_location/ListPopupCountryGeoLocation.vue";
 import VillageOfCommuneCreateVue from "./pop_up_create_locations/village_of_commune/VillageOfCommuneCreate.vue";
 import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
 export default {
     components: {
         PopupCreateProvinceState,
+        PopupCreateCountryGeoLocation,
+        PopupCreateDistrict,
+        PopupCreateCommuneByDistrict,
         ListProvinceStatePopup,
         VillageOfCommuneCreateVue,
-        GeoLocationOfCountryPopup
     },
     props: {},
     data() {

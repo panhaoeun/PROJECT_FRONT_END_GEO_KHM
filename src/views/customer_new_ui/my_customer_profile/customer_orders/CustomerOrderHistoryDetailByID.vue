@@ -92,9 +92,8 @@
                                 >
                                     <td>
                                         <router-link
-                                        :to="productLink(value.orderItem)"
-                                        :title="value.orderItem?.product_name"
-                                        class="font-bold text-black"
+                                            to="/"
+                                            class="font-bold text-black"
                                         >
                                             {{ truncateLongText(value.orderItem?.product_name,50, '\b') }}
                                             <span

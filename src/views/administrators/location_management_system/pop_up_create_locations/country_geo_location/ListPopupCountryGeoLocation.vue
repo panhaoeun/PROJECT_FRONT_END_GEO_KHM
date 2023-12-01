@@ -1,11 +1,18 @@
 <template>
-    <div class="gap-10 flex justify-content-center flex-wrap border-top-1 border-cyan-600">
-        <button type="button" @click.prevent="popUpCreateProvinceState()" aria-label="View All" class="border-none w-15rem ajax-btn outline-btn plr-20 mtb-5">
-            <span>
-                View All
-            </span>
-        </button>
-    </div>
+    <!-- Button Geo Country -->
+    <button 
+        class="ajax-btn outline-btn plr-20 mtb-5 border-round"
+        icon="pi pi-plus" 
+        type="button"
+        label="New"
+        aria-label="New"
+        @click.prevent="popUpCreateProvinceState()"
+    >
+        <span>
+            Edit
+            <i class="pi pi-file-edit"></i>
+        </span>
+    </button>
     <!-- Popup Create Province or State-->
     <Dialog 
         v-model:visible="openDialog"
@@ -137,8 +144,8 @@ export default {
         },
         onRowEditSave(event) {
             let { newData, index } = event;
-
-            this.products[index] = newData;
+            console.log(newData, index)
+            this.getAllCountry[index] = newData;
         },
         onPage(event) {
             this.lazyParams = event;

@@ -1,33 +1,14 @@
 <template>
   <div>
     <div class="flex sided align-start">
-      <h4 class="bold">{{ title }}</h4>
+      <h6 class="bold">{{ title }}</h6>
       <p class="mn-w-90x right-text">
         {{ $t('productDynamic.pageOf', { current: currentPage, total: totalPage }) }}
       </p>
     </div>
 
-    <div class="c_slider__wrapper list-none">
-      <div class="c_slider__nav" >
-        <button
-          aria-label="submit"
-          class="prev-btn clear-height"
-          @click.prevent="change(-1)"
-        >
-          <i
-            class="icon-ms arrow-left black m-0"
-          />
-        </button>
-        <button
-          aria-label="submit"
-          class="next-btn clear-height"
-          @click.prevent="change(1)"
-        >
-          <i
-            class="icon-ms arrow-right black m-0"
-          />
-        </button>
-      </div>
+    <div class="area area-slider home-section mb-10 list-none">
+     
 
         <suggested-ajax-slider
           v-if="!isMobile()"

@@ -134,6 +134,9 @@ import MazInputTags from 'maz-ui/components/MazInputTags';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 
+import VueSocialSharing from 'vue-social-sharing';
+
+
 
 import {
     createPinia
@@ -245,6 +248,7 @@ app.component('AccordionTab', AccordionTab);
     @Front-End Library 
 */
 app.use(VueSidebarMenu);
+app.use(VueSocialSharing);
 app.component('inner-image-zoom', InnerImageZoom);
 app.component('counter-up', CounterUp);
 app.use(VueCookies);

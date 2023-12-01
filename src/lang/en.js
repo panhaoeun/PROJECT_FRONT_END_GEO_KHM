@@ -18,6 +18,12 @@ export default {
         pageOf: "Page {current} of {total}",
         extendedView: "Click image for extended view"
     },
+    socialShare: {
+        share: "Share",
+        facebook: "Facebook",
+        twitter: "Twitter",
+        pinterest: "Pinterest"
+    },
     home: {
         mail: "Mail",
         helpline: "Helpline",

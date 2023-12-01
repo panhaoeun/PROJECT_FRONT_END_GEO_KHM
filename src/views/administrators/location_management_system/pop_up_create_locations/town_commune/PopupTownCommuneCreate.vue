@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-2 flex align-items-center justify-content-center">
+    <div class="pl-2 gap-2 flex align-items-center justify-content-center">
         <button 
             class="ajax-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus" 
@@ -8,13 +8,30 @@
             aria-label="New"
             @click.prevent="popUpCreateProvinceState()"
         >
-            <span>Add New</span>
+            <span>
+                Edit
+                <i class="pi pi-file-edit"></i>
+            </span>
+        </button>
+        <button 
+            class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
+            icon="pi pi-plus" 
+            type="button"
+            label="New"
+            aria-label="New"
+            @click.prevent="popUpCreateProvinceState()"
+        >
+            <span>
+                Add
+                <i class="pi pi-plus-circle"></i>
+            </span>
         </button>
     </div>
     <!-- Popup Create Province or State-->
     <Dialog 
         v-model:visible="openDialog"
-        header="Create Province or State" :style="{ width: '75vw' }" 
+        header="Create a commune" 
+        :style="{ width: '75vw' }" 
         maximizable 
         modal 
         :contentStyle="{ height: '600px' }" 
@@ -24,7 +41,7 @@
         <!-- Add More Item -->
         <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
             <button @click.prevent="addMoreProvinceState()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
-                <span>Add new province or state</span>
+                <span>Add new commune</span>
             </button>
         </div>
         <div v-for="(state, index) in state.moreProvinceState" :key="index" :set="v.moreProvinceState.$each[index]">        

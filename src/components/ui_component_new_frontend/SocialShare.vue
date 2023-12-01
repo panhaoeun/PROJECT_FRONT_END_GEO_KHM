@@ -9,6 +9,7 @@
     </span>
       <ShareNetwork
         network="facebook"
+        :style="{color: '#2529d8'}"
         :url="currentURL"
         :title="metaTitle"
         :description="metaDescription"
@@ -16,7 +17,7 @@
         :hashtags="productTags"
       >
         <i
-          class="icon facebook-icon"
+          class="icon-ms facebook-icon"
         />
         <span class="hide block-sm">
         {{ $t('socialShare.facebook') }}
@@ -33,7 +34,7 @@
         class="mlr-5"
       >
         <i
-          class="icon twitter-icon"
+          class="icon-ms twitter-icon"
         />
         <span class="hide block-sm">
         {{ $t('socialShare.twitter') }}
@@ -49,7 +50,7 @@
         :hashtags="productTags"
       >
         <i
-          class="icon pinterest-icon"
+          class="icon-ms pinterest-icon"
         />
         <span class="hide block-sm">
          {{ $t('socialShare.pinterest') }}
@@ -58,8 +59,9 @@
     </div>
 </template>
 
+<!-- Scripts -->
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters} from 'vuex';
 
   export default {
     data() {
@@ -78,13 +80,13 @@
         return this.$route ? baseUrl + this.$route.path : baseUrl
       },
       metaTitle() {
-        return this.product?.meta_title || this.site_setting?.meta_title || ""
+        return this.product?.product_eng + '.' || this.product?.product_eng || "."
       },
       metaDescription() {
-        return this.product?.meta_description || this.site_setting?.meta_description || ""
+        return this.product?.shippingCompany || this.site_setting?.shippingCompany || ""
       },
       productTags() {
-        return this.product?.tags ?? ''
+        return this.product?.catNameEn ?? ''
       },
       ...mapGetters('common', ['site_setting']),
     },
