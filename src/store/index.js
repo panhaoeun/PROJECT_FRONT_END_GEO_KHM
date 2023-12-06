@@ -24,6 +24,12 @@ import Home from "./home";
 import Detail from "./details";
 import Resource from "./resource";
 import Categories from "./categories";
+// Geo-location Country
+import GeoLocationCountry from "./geo_location_country/geo_country";
+import GeoLocationProvince from "./geo_location_country/geo_province";
+import GeoLocationDistrict from "./geo_location_country/geo_district";
+import GeoLocationCommune from "./geo_location_country/geo_commune";
+import GeoLocationVillages from "./geo_location_country/geo_villages";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -83,7 +89,13 @@ const store = createStore({
         home: Home,
         detail: Detail,
         resource: Resource,
-        category: Categories
+        category: Categories,
+        // Geo-location managements
+        geoCountry: GeoLocationCountry,
+        geoProvince: GeoLocationProvince,
+        geoDistrict: GeoLocationDistrict,
+        geoCommune: GeoLocationCommune,
+        geoVillages: GeoLocationVillages,
     },
 });
 // Load all modules.

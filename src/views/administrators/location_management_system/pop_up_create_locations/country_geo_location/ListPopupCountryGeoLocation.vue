@@ -31,61 +31,63 @@
         <!-- Table List Province or State -->
         <div class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 card border-round gap-15">
             <DataTable
-                class="px-2 py-2"
-                :scrollable="true" 
-                scrollHeight="flex"
-                tableStyle="min-width: 50rem"
-                v-model:editingRows="editingRows" 
-                v-model:selection="selectedCustomers"
-                :value="getAllCountry" 
-                editMode="row" 
-                dataKey="id" 
+                class="p-datatable-scrollable text-sm"
                 :rows="10"
-                :lazy="true"
+                dataKey="id" 
                 :paginator="true" 
-                :filters="filters"
+                :value="getAllCountry" 
+                :rowHover="true" 
+                contextMenu 
+                v-model:filters="filtersGeoCountry" 
+                filterDisplay="menu"
+                :loading="loadingCountry" 
+                :filters="filtersGeoCountry" 
                 responsiveLayout="scroll"
-                @row-edit-save="onRowEditSave"
-                @sort="onSort($event)" 
-                @page="onPage($event)"
-                :selectAll="selectAll"
-                @select-all-change="onSelectAllChange"
-                @row-select="onRowSelect" 
-                @row-unselect="onRowUnselect"
-                :pt="{
-                    table: { style: 'min-width: 50rem' },
-                    column: {
-                        bodycell: ({ state }) => ({
-                            style:  state['d_editing']&&'padding-top: 0.6rem; padding-bottom: 0.6rem' 
-                        })
-                    }
-                }"
+                :globalFilterFields="['representative.geo_zip_code', 'geo_khmer_name', 'geo_english_name', 'geo_longitude_location', 'geo_latitude_location']"
+                v-model:selection="selectedGeoCountry"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                :rowsPerPageOptions="[5, 10, 25, 50, 100]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-country locations"
             >
                 <!-- Search Input Filter -->
                 <template #header>
-                    <div class="flex flex-wrap  justify-content-between gap-2">
+                    <div class="flex flex-wrap justify-content-between gap-2">
                         <p>Country</p>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
-                            <InputText v-model="filters['global'].value" placeholder="Search country" />
+                            <InputText v-model="filtersGeoCountry['global'].value" placeholder="Search country" />
                         </span>
                     </div>
                 </template>
                 <!-- Column -->
+                <template #empty> No geo-location country found. </template>
+                <template #loading> Loading geo-location country data. Please wait. </template>
                 <Column selectionMode="multiple" :styless="{width: '3rem'}" :exportable="false"></Column>
-                <Column field="geo_zip_code" header="Code" sortField="geo_zip_code" sortable>
+                <Column field="geo_zip_code" header="Zip Code" sortField="geo_zip_code" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_zip_code }}
+                    </template>
+                    <!-- Geo-Country Zip Code -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by zip name" />
                     </template>
                 </Column>
                 <Column field="geo_khmer_name" header="Khmer Name" sortField="geo_khmer_name" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_khmer_name }}
                     </template>
+                    <!-- Filter Khmer Name -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by country" />
+                    </template>
                 </Column>
-                <Column field="geo_khmer_name" header="Latin Name" sortField="geo_english_name" sortable>
+                <Column field="geo_english_name" header="Latin Name" sortField="geo_english_name" sortable>
                     <template #body="{ data }">
-                        {{ data?.geo_khmer_name }}
+                        {{ data?.geo_english_name }}
+                    </template>
+                    <!-- Filter Khmer Name -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by country" />
                     </template>
                 </Column>
                 <Column field="geo_longitude_location" header="Longitude" sortField="geo_longitude_location" sortable>
@@ -98,22 +100,46 @@
                         {{ data?.geo_latitude_location }}
                     </template>
                 </Column>
-                <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
-                <!-- <Column :exportable="false" :styles="{'min-width':'8rem'}">
+                <Column header="Actions" :exportable="false" :styles="{'min-width':'8rem'}">
                     <template #body="slotProps">
-                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editProduct(slotProps.data)" />
-                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)" />
+                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editGeoLocationCountry(slotProps?.data)" />
+                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeletedGeoCountry(slotProps?.data)" />
                     </template>
-                </Column> -->
+                </Column>
             </DataTable>
         </div>
+        <!-- Pop Edited Country -->
+        <edited-popup-geo-location-country
+            v-if="openEditedCountryCountry"
+            :geoLocalCountry="editCountryPopup"
+            @close="closingPopupEditedCountry"
+        />
+        <!-- Popup Deleted Country -->
+        <Dialog v-model:visible="deletedGeoCountryDialogs" :style="{ width: '450px' }" 
+            header="Confirm delete geo-country locations"
+            :modal="true">
+            <div class="confirmation-content">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                <span>Are you sure you want to delete</span>
+            </div>
+            <template #footer>
+                <Button label="No" icon="pi pi-times" text @click="deletedGeoCountryDialogs = false" />
+                <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedCountryById()" />
+            </template>
+        </Dialog>
+
     </Dialog>
 </template>
 
 <!-- Popup Province or State -->
 <script>
 import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
-import { FilterMatchMode } from 'primevue/api';
+import { FilterMatchMode,FilterOperator } from 'primevue/api';
+import EditedPopupGeoLocationCountry from "./EditedPopupGeoLocationCountry.vue";
+import util from '@/mixin/util';
+import validation from '@/mixin/validation';
+import geoLocationCountryHelper from '@/mixin/geoLocationCountryHelper';
+import {mapActions,mapGetters} from "vuex";
 
 export default {
     created(){
@@ -122,29 +148,52 @@ export default {
     mounted(){
         this.getGeoLocationCountry();
     },
+    mixins: [util,validation,geoLocationCountryHelper],
+    components: {
+        EditedPopupGeoLocationCountry
+    },  
+    computed: {
+        ...mapGetters('geoCountry', ['countryAll']),
+        getAllCountry() {
+            return this.countryAll || []
+        },
+    },
     data() {
         return {
-            filters: {
+            filtersGeoCountry: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-                status: { value: null, matchMode: FilterMatchMode.EQUALS },
-                verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+                geo_zip_code: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+                geo_khmer_name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+                representative: { value: null, matchMode: FilterMatchMode.IN },
+                geo_english_name: {
+                    operator: FilterOperator.AND,
+                    constraints: [
+                        { value: null, matchMode: FilterMatchMode.IN },
+                    ],
+                }
             },
             openDialog: false,
+            openEditedCountryCountry: false,
+            idEditGeoCountry: null,
             products: null,
             editingRows: [],
-            selectedCustomers: null,
+            selectedGeoCountry: null,
             selectAll: false,
             first: 0,
-            getAllCountry: []
+            editCountryPopup: null,
+            ajaxDeletingCountry: 0,
+            deletedDialogDataId: null,
+            loadingCountry: false
         };
     },
     methods: {
+        ...mapActions('common', ['fetchLocation', 'setToastMessage', 'setToastError', 'getRequest']),
+        ...mapActions('geoCountry', ['getAllCountryActions']),
         popUpCreateProvinceState(){
             this.openDialog = true;
         },
         onRowEditSave(event) {
             let { newData, index } = event;
-            console.log(newData, index)
             this.getAllCountry[index] = newData;
         },
         onPage(event) {
@@ -162,36 +211,42 @@ export default {
             // if (selectAll) {
             //     ProductService.getProductsMini().then(data => {
             //         this.selectAll = true;
-            //         this.selectedCustomers = data;
+            //         this.selectedGeoCountry = data;
             //     });
             // }
             // else {
             //     this.selectAll = false;
-            //     this.selectedCustomers = [];
+            //     this.selectedGeoCountry = [];
             // }
         },
         onRowSelect() {
-            this.selectAll = this.selectedCustomers.length === this.totalRecords
+            this.selectAll = this.selectedGeoCountry.length === this.totalRecords
         },
         onRowUnselect() {
             this.selectAll = false;
         },
-         getGeoLocationCountry(){
+        getGeoLocationCountry(){
             try{
-                const countryZipTypeCountry = 'T1';
-                const superSSNCountryCode = "";
-                this.geoLocationServices.listGeoLocationCountryByZip(countryZipTypeCountry, superSSNCountryCode).then((country) => {
-                    if (!country) {
-                        this.getAllCountry = [];
-                    }
-                    this.getAllCountry = Array.isArray(country) ? country.slice() : [];
-                }).catch((error) => {
-                    return Promise.reject(error.message || []);
-                }); 
+                this.getAllCountryActions();
             }catch(error){
                 return Promise.reject(error.message || []);
             }
         },
+        closingPopupEditedCountry(){
+            this.openEditedCountryCountry = false;
+        },
+        editGeoLocationCountry(country){
+            this.openEditedCountryCountry = true;
+            this.idEditGeoCountry = parseInt(country?.id) ? parseInt(country?.id) : 0;
+            this.editCountryPopup = country ? country : [];
+        },
+        confirmDeletedGeoCountry(del){
+            this.deletedGeoCountryDialogs = true;
+            this.deletedDialogDataId = del;
+        },
+        confirmDeletedCountryById(){
+            this.deletingGeoCountryLocationsById(this.deletedDialogDataId);
+        }
     },
 };
 </script>

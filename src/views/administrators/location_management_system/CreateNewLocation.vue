@@ -34,7 +34,7 @@
                                             >
                                                 <template #value="slotProps">
                                                     <div v-if="slotProps.value" class="flex align-items-center">
-                                                        <img :alt="slotProps.value?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.geo_location_01.toLowerCase()}`" style="width: 18px" />
+                                                        <!-- <img :alt="slotProps.value?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.geo_location_01.toLowerCase()}`" style="width: 18px" /> -->
                                                         <div class="text-sm">{{ slotProps.value?.geo_english_name ?? '' }}</div>
                                                     </div>
                                                     <span v-else class="text-sm">
@@ -43,7 +43,7 @@
                                                 </template>
                                                 <template #option="slotProps">
                                                     <div class="flex align-items-center text-sm">
-                                                        <img :alt="slotProps.option?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.geo_location_01.toLowerCase()}`" style="width: 18px" />
+                                                        <!-- <img :alt="slotProps.option?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.geo_location_01.toLowerCase()}`" style="width: 18px" /> -->
                                                         <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{ slotProps.option.geo_location_01 ?? '' }})</div>
                                                     </div>
                                                 </template>
@@ -63,7 +63,7 @@
                                         :options="setStateCountryAddNew" 
                                             optionLabel="geo_english_name" 
                                             filter
-                                            placeholder="Select a Country" 
+                                            placeholder="Select a Province or State" 
                                             class="w-full text-sm" 
                                             inputId="shopEng"
                                             aria-describedby="dd-error"
@@ -83,7 +83,10 @@
                                         </template>
                                     </Dropdown>  
                                    <!-- District popup province -->
-                                    <popup-create-province-state/>
+                                    <popup-create-province-state
+                                        v-if="setStateCountryAddNew"
+                                        :countryProvinceId="geoCountryId"
+                                    />
                                 </div>
                             </div>
                             <!-- City / Districts -->
@@ -93,7 +96,7 @@
                                     <Dropdown 
                                         showClear
                                         v-model="selectSDistrictOptAddNew" 
-                                        :options="setDistrictCountryAddNew" 
+                                        :options="setStateDistrictAddNew" 
                                         optionLabel="geo_english_name" 
                                         filter
                                         placeholder="Select a District" 
@@ -116,17 +119,20 @@
                                         </template>
                                     </Dropdown>  
                                     <!-- District popup -->
-                                    <PopupCreateDistrict/>
+                                    <PopupCreateDistrict
+                                        v-if="selectSDistrictOptAddNew"
+                                        :geoDistrictSSNProvinceId="ssnDistrictCodeId"
+                                    />
                                 </div>
                             </div>
                             <!-- Town / Commune -->
-                            <div class="col-6 field"  v-if="setCommuneCountryAddNew.length !== zeroSelectCommune"> 
+                            <div class="col-6 field" v-if="selectSDistrictOptAddNew"> 
                                 <label for="country" class="text-sm font-semibold">Town / Commune</label>
                                 <div class="flex field flex-row">
                                   <Dropdown 
                                         showClear
                                         v-model="selectSDCommuneCityOptAddNew" 
-                                        :options="setCommuneCountryAddNew" 
+                                        :options="setCommuneCountryByCom" 
                                         optionLabel="geo_english_name" 
                                         filter
                                         placeholder="Select a Commune" 
@@ -147,17 +153,17 @@
                                                 <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{ slotProps.option.geo_zip_code ?? '' }})</div>
                                             </div>
                                         </template>
-                                        <template #footer>
-                                            <ListProvinceStatePopup/>
-                                        </template>
                                     </Dropdown>  
                                     <!-- Popup Create Commune -->
-                                    <PopupCreateCommuneByDistrict/>
+                                    <PopupCreateCommuneByDistrict
+                                        v-if="setCommuneCountryByCom"
+                                        :geoDistrictSSNCommuneId="ssnCommuneCodeId"
+                                    />
                                 </div>
                             </div>
                             <!-- Villages for Town or Commune -->
                             <VillageOfCommuneCreateVue 
-                                v-if="setCommuneCountryAddNew.length !== zeroSelectCommune"
+                                v-if="setCommuneCountryByCom.length !== zeroSelectCommune"
                             /> 
                         </div>
                     </div>
@@ -172,16 +178,16 @@ import PopupCreateCountryGeoLocation from "./pop_up_create_locations/country_geo
 import PopupCreateProvinceState from "./pop_up_create_locations/province_state/PopupCreateProvinceState.vue";
 import PopupCreateDistrict from "./pop_up_create_locations/districts_city_location/PopupCreateDistrictsCity";
 import PopupCreateCommuneByDistrict from "./pop_up_create_locations/town_commune/PopupTownCommuneCreate";
-import ListProvinceStatePopup from "./pop_up_create_locations/province_state/ListProvinceState.vue";
 import VillageOfCommuneCreateVue from "./pop_up_create_locations/village_of_commune/VillageOfCommuneCreate.vue";
 import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+import {mapGetters, mapActions} from "vuex";
+
 export default {
     components: {
         PopupCreateProvinceState,
         PopupCreateCountryGeoLocation,
         PopupCreateDistrict,
         PopupCreateCommuneByDistrict,
-        ListProvinceStatePopup,
         VillageOfCommuneCreateVue,
     },
     props: {},
@@ -189,17 +195,34 @@ export default {
         return {
             zeroSelectCommune: 0,
             selectedCountry: null,
-            allCountry: [],
-            setStateCountryAddNew: [],
+            selectSDCommuneCityOptAddNew: null,
+            geoCountryId: null,
+            ssnDistrictCodeId: null,
             setDistrictCountryAddNew: [],
-            setCommuneCountryAddNew: [],
             selectStateProvinceOptAddNew: null,
-            selectSDistrictOptAddNew: null,
-            selectSDCommuneCityOptAddNew: null
+            selectSDistrictOptAddNew: null
         };
     },
     created(){
         this.geoLocationServices = new GeoLocationsManagementServices();
+    },
+    computed: {
+        ...mapGetters('geoCountry', ['countryAll']),
+        ...mapGetters('geoProvince', ['provinceAll']),
+        ...mapGetters('geoDistrict', ['districtAll']),    
+        ...mapGetters('geoCommune', ['communeAll']),    
+        allCountry() {
+            return this.countryAll || []
+        },
+        setStateCountryAddNew() {
+            return this.provinceAll || []
+        },
+        setStateDistrictAddNew() {
+            return this.districtAll || []
+        },
+        setCommuneCountryByCom(){
+            return this.communeAll || []
+        }
     },
     watch: {
         selectedCountry: function(){
@@ -233,32 +256,23 @@ export default {
         }
     },
     methods: {
+        ...mapActions('geoCountry', ['getAllCountryActions']),
+        ...mapActions('geoProvince', ['getAllProvinceActions']),
+        ...mapActions('geoDistrict', ['getAllDistrictActions']),
+        ...mapActions('geoCommune', ['getAllCommuneActions']),
+        ...mapActions('geoVillages', ['getAllVillagesActions']),
+
         getGeoLocationCountry(){
             try{
-                const countryZipTypeCountry = 'T1';
-                const superSSNCountryCode = "";
-                this.geoLocationServices.listGeoLocationCountryByZip(countryZipTypeCountry, superSSNCountryCode).then((country) => {
-                    if (!country) {
-                        this.allCountry = [];
-                    }
-                    this.allCountry = Array.isArray(country) ? country.slice() : [];
-                }).catch((error) => {
-                    return Promise.reject(error.message || []);
-                }); 
+                this.getAllCountryActions();
             }catch(error){
                 return Promise.reject(error.message || []);
             }
         },
         getGeoLocationStateByCountryAddNew(provinceStateCode,superSSNStateCode){
             try{
-                this.geoLocationServices.listGeoLocationProvinceState(provinceStateCode, superSSNStateCode).then((country) => {
-                    if (!country) {
-                        this.setStateCountryAddNew = [];
-                    }
-                    this.setStateCountryAddNew = Array.isArray(country) ? country.slice() : [];
-                }).catch((error) => {
-                    return Promise.reject(error.message || []);
-                }); 
+                this.getAllProvinceActions(superSSNStateCode);
+                this.geoCountryId = superSSNStateCode ? superSSNStateCode : [];
             }catch(error){
                 return Promise.reject(error.message || []);
             }
@@ -269,6 +283,8 @@ export default {
                     if (!district) {
                         this.setDistrictCountryAddNew = [];
                     }
+                    this.getAllDistrictActions(superSSNDistrictCode);
+                    this.ssnDistrictCodeId =  superSSNDistrictCode ? superSSNDistrictCode : [];
                     this.setDistrictCountryAddNew = Array.isArray(district) ? district.slice() : [];
                 }).catch((error) => {
                     return Promise.reject(error.message || []);
@@ -283,7 +299,9 @@ export default {
                     if (!commune) {
                         this.setCommuneCountryAddNew = [];
                     }
-                    this.setCommuneCountryAddNew = Array.isArray(commune) ? commune.slice() : [];
+                    this.ssnCommuneCodeId = superSSNCommuneCode ? superSSNCommuneCode : [];
+                    this.getAllCommuneActions(superSSNCommuneCode);
+                    
                 }).catch((error) => {
                     return Promise.reject(error.message || []);
                 }); 

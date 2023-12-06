@@ -26,7 +26,8 @@
                             :value="productsArrList" 
                             class="p-datatable-scrollable text-sm"
                             :rows="10"
-                            dataKey="id" :rowHover="true" 
+                            dataKey="id" 
+                            :rowHover="true" 
                             contextMenu 
                             v-model:filters="filtersData" 
                             filterDisplay="menu"
