@@ -62,7 +62,7 @@
                 </template>
                 <!-- Column -->
                 <Column selectionMode="multiple" :style="{width: '3rem'}" :exportable="false"></Column>
-                <Column field="geo_zip_code" header="Code" sortField="geo_zip_code" sortable>
+                <Column field="geo_zip_code" header="Zip Code" sortField="geo_zip_code" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_zip_code }}
                     </template>
