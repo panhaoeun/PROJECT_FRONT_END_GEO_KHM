@@ -102,6 +102,7 @@ export default {
         thisAddress: "{type} this address",
         thisCountry: "{type} this country",
         thisDistrict: "{type} this district",
+        thisVillages: "{type} this village",
         thisProvince: "{type} this country",
         saving: "Saving",
         save: "Save",

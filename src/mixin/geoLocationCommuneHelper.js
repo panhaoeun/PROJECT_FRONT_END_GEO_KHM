@@ -7,42 +7,42 @@ export default {
   },
   data() {
     return {
-        fetchingGeoProvince: false,
+        fetchingGeoCommune: false,
         deletedGeoProvinceDialogs: false,
         loadingSubmitted:false,
         countryIdDel: ''
     }
   },
   methods: {
-        ...mapActions('geoProvince', ['getAllProvinceActions']),
-        async geoLocationProvinceActions() {
+        ...mapActions('geoCommune', ['getAllCommuneActions']),
+        async geoLocationCommuneActions() {
             this.submittingCountryData = true;  
             if(
-                this.geoLocationCountryData?.geo_zip_code 
-                && this.geoLocationCountryData?.geo_khmer_name
-                && this.geoLocationCountryData?.geo_english_name
-                && this.geoLocationCountryData?.geo_latitude_location
-                && this.geoLocationCountryData?.geo_longitude_location
+                this.geoLocationCommuneData?.geo_zip_code 
+                && this.geoLocationCommuneData?.geo_khmer_name
+                && this.geoLocationCommuneData?.geo_english_name
+                && this.geoLocationCommuneData?.geo_latitude_location
+                && this.geoLocationCommuneData?.geo_longitude_location
             ){
                 const editDataGeoProvince = {
-                    superSSNCountryCode: this.geoLocationCountryData?.geo_super_ssn_location,
-                    editGeoCountryZipCode: this.geoLocationCountryData?.geo_zip_code,
-                    editGeoCountryKhmerName: this.geoLocationCountryData?.geo_khmer_name,
-                    editGeoCountryEnglishName: this.geoLocationCountryData?.geo_english_name,
-                    editGeoCountryLongitude:this.geoLocationCountryData?.geo_longitude_location,
-                    editGeoCountryLatitude: this.geoLocationCountryData?.geo_latitude_location
+                    superSSNProvinceCode: this.geoLocationCommuneData?.geo_super_ssn_location,
+                    editGeoCountryZipCode: this.geoLocationCommuneData?.geo_zip_code,
+                    editGeoCountryKhmerName: this.geoLocationCommuneData?.geo_khmer_name,
+                    editGeoCountryEnglishName: this.geoLocationCommuneData?.geo_english_name,
+                    editGeoCountryLongitude:this.geoLocationCommuneData?.geo_longitude_location,
+                    editGeoCountryLatitude: this.geoLocationCommuneData?.geo_latitude_location
                 }
-                this.geoLocationServices.editingProvinceGeoLocation(this.geoLocationCountryData?.id, editDataGeoProvince)
+                this.geoLocationServices.editingCommuneGeoLocation(this.geoLocationCommuneData?.id, editDataGeoProvince)
                 .then(async (editCountry) => {
                     if(editCountry?.status === 200){
                         setTimeout(async () => {
                             this.hasAddressErrors = false
                             this.$notify({
-                                title: 'Editing Country Successfully',
+                                title: 'Editing Commune Successfully',
                                 message:editCountry.data?.message ? editCountry.data?.message : '',
                                 type: 'success'
                             });
-                            await this.fetchingDataGeoProvinceLocation(this.geoLocationCountryData?.geo_super_ssn_location);
+                            await this.fetchingDataGeoCommuneLocation(this.geoLocationCommuneData?.geo_super_ssn_location);
                             this.submittingCountryData = false;
                         }, 1000);
                        
@@ -52,7 +52,7 @@ export default {
                     let message = error?.message;
                     this.setToastError(message);
                     this.$notify({
-                        title: 'Unsuccessfully updated country',
+                        title: 'Unsuccessfully updated commune',
                         message:error?.message ? error?.message : '',
                         type: 'error'
                     });
@@ -63,24 +63,24 @@ export default {
                 this.submittingCountryData = true;
             }
         },
-        async deletingGeoProvinceLocationsById(province) {
+        async deletingGeoCommuneLocationsById(province) {
             this.ajaxDeleting = province?.id;
-            this.geoLocationServices.deletedProvinceGeoLocation(province?.id).then(async (state) => {
+            this.geoLocationServices.deletedCommuneGeoLocation(province?.id).then(async (state) => {
                 if(state?.status === 200){
                     this.setToastMessage(state.data?.message);
                     this.deletedGeoProvinceDialogs = false;
                     this.$notify({
-                        title: 'Delete Country Successfully',
+                        title: 'Delete Commune Successfully',
                         message:state.data?.message ? state.data?.message : '',
                         type: 'success'
                     });
-                    await this.fetchingDataGeoProvinceLocation(province?.geo_super_ssn_location);
+                    await this.fetchingDataGeoCommuneLocation(province?.geo_super_ssn_location);
                 }
                 return state ? state : [];
             }).catch((error) => {
                 this.setToastError(error?.message)
                 this.$notify({
-                    title: 'Unsuccessfully Country Successfully',
+                    title: 'Unsuccessfully Commune Successfully',
                     message:error?.message ? error?.message : '',
                     type: 'error'
                 });
@@ -88,15 +88,15 @@ export default {
             });
             this.ajaxDeleting = 0
         },
-        async fetchingDataGeoProvinceLocation(superSSNStateCode) {
-            this.fetchingGeoProvince = true;
+        async fetchingDataGeoCommuneLocation(superSSNCommuneCode) {
+            this.fetchingGeoCommune = true;
             setTimeout(async () => {
                 try {
-                     this.getAllProvinceActions(superSSNStateCode);
+                    this.getAllCommuneActions(superSSNCommuneCode);
                 } catch (e) {
                 return Promise.reject(e);
                 }
-                this.fetchingGeoProvince = false;
+                this.fetchingGeoCommune = false;
             }, 100)
         }
 

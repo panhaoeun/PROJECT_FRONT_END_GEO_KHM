@@ -1,7 +1,11 @@
 <template>
     <div class="pl-2 gap-2 flex align-items-center justify-content-center">
         <!-- VIew all geo location -country -->
-        <GeoLocationOfCountryListPopup/>
+        <template  v-if="geoCountryLocationId !== null || geoCountryLocationId !== ''">
+            <GeoLocationOfCountryListPopup
+                :checkCountryGeoList="geoCountryLocationId"
+            />
+        </template>
         <!-- Add new Geo Location -->
         <button 
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
@@ -261,6 +265,12 @@ export default {
         })
         const v = useVuelidate(rules, state)
         return { v, state }
+    },
+    props: {
+        geoCountryLocationId: {
+            type: String,
+            default: null
+        }
     },
     mixins: [geoLocationCountryHelper],
     data() {

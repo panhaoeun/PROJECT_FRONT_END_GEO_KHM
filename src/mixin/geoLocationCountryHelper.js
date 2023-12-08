@@ -28,7 +28,7 @@ export default {
                     editGeoCountryZipCode: this.geoLocationCountryData?.geo_zip_code,
                     editGeoCountryKhmerName: this.geoLocationCountryData?.geo_khmer_name,
                     editGeoCountryEnglishName: this.geoLocationCountryData?.geo_english_name,
-                    editGeoCountryLongitude:this.geoLocationCountryData?.geo_latitude_location,
+                    editGeoCountryLongitude:this.geoLocationCountryData?.geo_longitude_location,
                     editGeoCountryLatitude: this.geoLocationCountryData?.geo_latitude_location
                 }
                 this.geoLocationServices.editingCountryGeoLocation(this.geoLocationCountryData?.id, editDataGeoCountry)

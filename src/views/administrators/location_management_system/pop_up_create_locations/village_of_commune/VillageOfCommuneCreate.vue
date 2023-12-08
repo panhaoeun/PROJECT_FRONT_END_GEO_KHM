@@ -1,22 +1,29 @@
 <template>
     <div class="col-12 field"> 
-            <!-- Add More village -->
+        <!-- Add More village -->
         <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
-                <button @click.prevent="addMoreVillageCommune()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
-                    <span>Add new village</span>
-                </button>
+            <button @click.prevent="addMoreVillageCommune()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
+                <span>
+                    Add new village
+                    <i class="pi pi-plus-circle"></i> 
+                </span>
+            </button>
+            <!-- List Commune by Villages -->
+            <ListVillageByCommune
+                :geoLocalVillage="villageCommuneId"
+            />
         </div>
         <!-- Form -->
         <div>
             <!-- Submitted -->
             <div 
-                v-for="(village, index) in state.moreVillageCommune" 
+                v-for="(village, index) in state?.moreVillageCommune" 
                 :key="index"
                 :set="v.moreVillageCommune.$each[index]"
                 class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
             >
                 <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
-                    <h6 class="font-bold text-sm mb-3 plr-20 mtb-5">Village of Kandal - {{ index + 1 }}</h6>
+                    <h6 class="font-bold text-sm mb-3 plr-20 mtb-5">Village of <span class="font-bold text-red-500">{{ nameGeoVillage ? nameGeoVillage : '' }}</span> - {{ index + 1 }}</h6>
                     <!-- Button Actions -->
                     <div class="flex gap-3 pr-4">
                         <button 
@@ -42,13 +49,13 @@
                             <label
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreVillageCommune.$each.$response.$errors[index].stateCodeVillage.length && submitted }"
                             >
-                                Code
+                                Zip Code
                                 <span class="p-error">*</span>
                                 <!-- Tool tip -->
                                 <el-tooltip
                                     class="box-item"
                                     effect="dark"
-                                    content="សូមចម្លងឬវាយចម្លងនាមជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                    content="សូមចម្លងឬវាយបញ្ចូលនាមជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
                                     placement="top-start"
                                 >
                                     <span class="input-label-secondary cursor-pointer pl-2">
@@ -58,12 +65,13 @@
                             </label>
                             <InputText 
                                 :id="village"
-                                v-model="village.stateCodeVillage"
+                                v-model.trim="village.stateCodeVillage"
+                                oninput="this.value = this.value.replace(/\D+/g, '')"
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreVillageCommune.$each.$response.$errors[index].stateCodeVillage.length && submitted }"
                                 class="border-round-lg text-sm" type="text" placeholder="Code"
                             />
                             <small v-if="(v.moreVillageCommune.$each.$response.$data[index].stateCodeVillage.$invalid && submitted)" class="p-error text-sm">
-                                {{ v.moreVillageCommune.$each.$response.$errors[index].stateCodeVillage[0].$message.replace('Value', 'Code') }}
+                                {{ v.moreVillageCommune.$each.$response.$errors[index].stateCodeVillage[0].$message.replace('Value', 'Zip Code') }}
                             </small>
                         </div>
                         <!-- Khmer Name -->
@@ -77,7 +85,7 @@
                                 <el-tooltip
                                     class="box-item"
                                     effect="dark"
-                                    content="សូមចម្លងឬវាយចម្លងនាមជាភាសាខ្មែរ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                    content="សូមចម្លងឬវាយបញ្ចូលនាមជាភាសាខ្មែរ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
                                     placement="top-start"
                                 >
                                     <span class="input-label-secondary cursor-pointer pl-2">
@@ -87,7 +95,7 @@
                             </label>
                             <InputText 
                                 :id="village"
-                                v-model="village.stateKhmerNameVillage"
+                                v-model.trim="village.stateKhmerNameVillage"
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreVillageCommune.$each.$response.$errors[index].stateKhmerNameVillage.length && submitted }"
                                 class="border-round-lg text-sm" type="text" placeholder="Khmer Name"
                             />
@@ -97,14 +105,16 @@
                         </div>
                         <!-- English Name -->
                         <div class="input-wrap flex-1">
-                            <label>
+                            <label
+                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreVillageCommune.$each.$response.$errors[index].stateEnglishNameVillage.length && submitted }"
+                            >
                                 English Name
                                 <span class="p-error">*</span>
                                 <!-- Tool tip -->
                                 <el-tooltip
                                     class="box-item"
                                     effect="dark"
-                                    content="សូមចម្លងឬវាយចម្លងនាមជាអក្សរឡាតាំង ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                    content="សូមចម្លងឬវាយបញ្ចូលនាមជាអក្សរឡាតាំង ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
                                     placement="top-start"
                                 >
                                     <span class="input-label-secondary cursor-pointer pl-2">
@@ -113,12 +123,12 @@
                                 </el-tooltip>
                             </label>
                             <InputText 
-                                v-model="village.stateLatinNameVillage"
-                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreVillageCommune.$each.$response.$errors[index].stateLatinNameVillage.length && submitted }"
+                                v-model.trim="village.stateEnglishNameVillage"
+                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreVillageCommune.$each.$response.$errors[index].stateEnglishNameVillage.length && submitted }"
                                 class="border-round-lg text-sm" type="text" placeholder="English Name"
                             />
-                            <small v-if="(v.moreVillageCommune.$each.$response.$data[index].stateLatinNameVillage.$invalid && submitted)" class="p-error text-sm">
-                                {{ v.moreVillageCommune.$each.$response.$errors[index].stateLatinNameVillage[0].$message.replace('Value', 'Code') }}
+                            <small v-if="(v.moreVillageCommune.$each.$response.$data[index].stateEnglishNameVillage.$invalid && submitted)" class="p-error text-sm">
+                                {{ v.moreVillageCommune.$each.$response.$errors[index].stateEnglishNameVillage[0].$message.replace('Value', 'English Name') }}
                             </small>
                         </div>
                     </div>
@@ -192,21 +202,46 @@
                         type="submit"
                         label="Save"
                         @click.prevent="submitFormVillageCommune()"
+                        :loading="loadingVillageSubmitted"
                     />
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <!-- Script of Village -->
 <script>
+import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
 import { useVuelidate } from '@vuelidate/core';
 import {required,helpers } from '@vuelidate/validators';
 import {reactive} from "vue";
+import ListVillageByCommune from "./ListVillageByCommune";
+
 export default {
-    components: {},
-    props: {},
-       setup() {
+    created(){
+        this.geoLocationServices = new GeoLocationsManagementServices();
+    },
+    components: {
+        ListVillageByCommune
+    },
+    props: {
+        villageCommuneId: {
+            type: String,
+            default() {
+                return null
+            }
+        }
+    },
+    computed: {
+        nameGeoVillage(){
+            return this.villageCommuneId?.geo_english_name || ''; 
+        },
+        geoVillageCommuneSSNLocation() {
+            return this.villageCommuneId?.geo_ssn_location && this.villageCommuneId?.geo_ssn_location;
+        }
+    },
+    setup() {
         const rules = {
             moreVillageCommune: {
                 $each: helpers.forEach({
@@ -214,6 +249,9 @@ export default {
                         required
                     },
                     stateKhmerNameVillage: {
+                        required
+                    },
+                    stateEnglishNameVillage: {
                         required
                     },
                     stateLatinNameVillage: {
@@ -232,6 +270,7 @@ export default {
             moreVillageCommune: [
                 { 
                     stateCodeVillage: '',
+                    stateEnglishNameVillage: '',
                     stateKhmerNameVillage: '',
                     stateLatinNameVillage: '',
                     stateLongitudeVillage: '',
@@ -245,9 +284,11 @@ export default {
     data() {
         return {
             submitted: false,
+            loadingVillageSubmitted: false,
             moreVillageCommune:[
                 {
                     stateCodeVillage: '',
+                    stateEnglishNameVillage: '',
                     stateKhmerNameVillage: '',
                     stateLatinNameVillage: '',
                     stateLongitudeVillage: '',
@@ -260,6 +301,7 @@ export default {
         addMoreVillageCommune(){
             this.state.moreVillageCommune.push({
                 stateCodeVillage: '',
+                stateEnglishNameVillage: '',
                 stateKhmerNameVillage: '',
                 stateLatinNameVillage: '',
                 stateLongitudeVillage: '',
@@ -271,11 +313,77 @@ export default {
         },
         submitFormVillageCommune(){
             this.submitted = true;
-            this.v.$touch();
-            // stop here if form is invalid
-            if (this.v.$invalid) return;
+            this.loadingVillageSubmitted = true;
             // display form values on success
-            console.log(this.$data.moreVillageCommune)
+            let arrayCommuneVillageObj = [];
+            const arrayCommuneVillage = this.state?.moreVillageCommune ? this.state?.moreVillageCommune : [];
+            for (let index = 0; index < arrayCommuneVillage.length; index++) {
+                let obj = {};
+                const countryIndex = arrayCommuneVillage[index];
+                obj.geoSuperSSNCommune = this.geoVillageCommuneSSNLocation ? this.geoVillageCommuneSSNLocation : null;
+                obj.addNewGeoCountryVillageZipCode = countryIndex?.stateCodeVillage;
+                obj.addNewGeoCountryVillageKhmerName = countryIndex?.stateKhmerNameVillage;
+                obj.addNewGeoCountryVillageEnglishName = countryIndex?.stateEnglishNameVillage;
+                obj.addNewGeoCountryVillageLongitude  = countryIndex?.stateLongitudeVillage;
+                obj.addNewGeoCountryVillageLatitude = countryIndex?.stateLatitudeVillage;
+                obj.geoCountryVillageCodeType = "T5";
+                obj.geoCountryVillageType = "village";
+
+                arrayCommuneVillageObj.push(obj);
+            }
+            const villageCommuneAddNewDetail = {
+                geoVillageCapitalDetail: arrayCommuneVillageObj ? arrayCommuneVillageObj : []
+            }
+            setTimeout(() => {
+                this.geoLocationServices.createVillageGeoLocation(villageCommuneAddNewDetail)
+                    .then(async (response) => { 
+                        if (response.data?.success === true) {
+                            this.submitted = false;
+                            this.errorValidateFile = [];
+                            this.loadingVillageSubmitted = true;
+
+                            this.$notify.success({
+                                title: 'Successful create geo-location village by commune',
+                                message: response.data?.message ? response.data?.message : '' ,
+                                showClose: false
+                            });
+                            // Reload Commune Locations
+                            this.state.moreVillageCommune = [{
+                                stateCodeVillage: '',
+                                stateEnglishNameVillage: '',
+                                stateKhmerNameVillage: '',
+                                stateLatinNameVillage: '',
+                                stateLongitudeVillage: '',
+                                stateLatitudeVillage: ''
+                            }];
+                            this.openDialogGeoLocationDistrict = false;
+                            await this.fetchingDataGeoCommuneLocation();
+                        }
+                }).catch(error => {
+                    this.loadingVillageSubmitted = false;
+                    this.$notify.error({
+                        title: 'Unsuccessfully create geo-location village by commune',
+                        message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location village by commune',
+                        showClose: false
+                    });  
+                    if(error.response.data.error.error?.errors){
+                        for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
+                            const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
+                            this.$notify.error({
+                                title: 'Unsuccessfully create geo-location commune',
+                                message: messageValidation ?? 'Unsuccessfully create geo-location village by commune',
+                                showClose: true
+                            });   
+                        }
+                    } 
+                });
+            }, 1000);
+            
+            // stop here if form is invalid
+            if (this.v.$invalid) {
+                return;
+            }
+            this.v.$touch();
         }
     },
 };

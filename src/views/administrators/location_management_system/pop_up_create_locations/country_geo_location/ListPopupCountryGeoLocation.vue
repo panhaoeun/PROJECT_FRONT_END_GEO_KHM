@@ -1,6 +1,7 @@
 <template>
     <!-- Button Geo Country -->
     <button 
+        v-if="checkCountryGeoList !== null || checkCountryGeoList !== ''"
         class="ajax-btn outline-btn plr-20 mtb-5 border-round"
         icon="pi pi-plus" 
         type="button"
@@ -78,7 +79,7 @@
                     </template>
                     <!-- Filter Khmer Name -->
                     <template #filter="{ filterModel, filterCallback }">
-                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by country" />
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by khmer name" />
                     </template>
                 </Column>
                 <Column field="geo_english_name" header="Latin Name" sortField="geo_english_name" sortable>
@@ -87,7 +88,7 @@
                     </template>
                     <!-- Filter Khmer Name -->
                     <template #filter="{ filterModel, filterCallback }">
-                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by country" />
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search english name" />
                     </template>
                 </Column>
                 <Column field="geo_longitude_location" header="Longitude" sortField="geo_longitude_location" sortable>
@@ -142,6 +143,12 @@ import geoLocationCountryHelper from '@/mixin/geoLocationCountryHelper';
 import {mapActions,mapGetters} from "vuex";
 
 export default {
+    props: {
+        checkCountryGeoList: {
+            type: String,
+            default: null
+        }
+    },
     created(){
         this.geoLocationServices = new GeoLocationsManagementServices();
     },

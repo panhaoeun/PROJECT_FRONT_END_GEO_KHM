@@ -18,8 +18,8 @@ const actions = {
     }, superSSNCommuneCode) {
         try {
             const communeZipType = 'T4';
-            const superSSNCountryCode = superSSNCommuneCode ? superSSNCommuneCode : '';
-            geoLocationServices.listGeoLocationCommune(communeZipType, superSSNCountryCode).then((commune) => {
+            const superSSNCommuneCodeType = superSSNCommuneCode ? superSSNCommuneCode : '';
+            geoLocationServices.listGeoLocationCommune(communeZipType, superSSNCommuneCodeType).then((commune) => {
                 const getAllCommune= Array.isArray(commune) ? commune.slice() : [];
                 if (!commune) {
                     commit('SET_GEO_COMMUNE_LOCATION', '');

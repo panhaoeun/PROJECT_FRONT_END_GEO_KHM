@@ -344,8 +344,8 @@ export default {
                 obj.addNewGeoCountryStateEnglishName = countryIndex?.stateLatinName,
                 obj.addNewGeoCountryStateLongitude = countryIndex?.stateLongitude,
                 obj.addNewGeoCountryStateLatitude = countryIndex?.stateLatitude,
-                obj.geoCountryStateCodeType = "T1",
-                obj.geoCountryStateType = "country"
+                obj.geoCountryStateCodeType = "T2",
+                obj.geoCountryStateType = "province_state"
                 arrayProvinceObj.push(obj);
             }
             const provinceAddNewDetail = {
@@ -370,8 +370,9 @@ export default {
                         stateLatitude: ""
                     }];
                     // Reload Country Locations
+                    const superSSNStateCode  = this?.countryProvinceId ? this?.countryProvinceId : '';
+                    await this.fetchingDataGeoProvinceLocation(superSSNStateCode);
                     this.openDialogGeoLocationProvince = false;
-                    await this.fetchingDataGeoProvinceLocation();
                 }
             }).catch(error => {
                     this.$notify.error({

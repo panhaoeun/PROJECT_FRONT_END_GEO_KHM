@@ -2,7 +2,6 @@
     <div class="pl-2 gap-2 flex align-items-center justify-content-center">
         <!-- View all geo location-province -->
         <GeoLocationOfDistrictListPopup/>
-
         <button 
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus" 
@@ -338,7 +337,7 @@ export default {
             for (let index = 0; index < arrayDistrictProvince.length; index++) {
                 let obj = {};
                 const countryIndex = arrayDistrictProvince[index];
-                obj.geoSuperSSNStateCountry = this.geoDistrictSSNProvinceId ? this.geoDistrictSSNProvinceId : null;
+                obj.geoSuperSSNDistrictCountry = this.geoDistrictSSNProvinceId ? this.geoDistrictSSNProvinceId : null;
                 obj.addNewGeoCountryDistrictZipCode = countryIndex?.stateCode,
                 obj.addNewGeoCountryDistrictKhmerName = countryIndex?.stateKhmerName,
                 obj.addNewGeoCountryDistrictEnglishName = countryIndex?.stateLatinName,
@@ -372,7 +371,7 @@ export default {
                     }];
                     // Reload District Locations
                     this.openDialogGeoLocationDistrict = false;
-                    await this.fetchingDataGeoDistrictByProvinceLocation();
+                    await this.fetchingDataGeoDistrictByProvinceLocation(this.geoDistrictSSNProvinceId);
                 }
             }).catch(error => {
                     this.$notify.error({

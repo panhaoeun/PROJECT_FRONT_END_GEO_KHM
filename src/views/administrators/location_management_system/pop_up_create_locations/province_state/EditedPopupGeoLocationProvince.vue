@@ -128,7 +128,7 @@
                     >
                         <label
                             :class="{
-                                'p-error': !geoLocationCountryData.geo_longitude_location && hasAddressErrors
+                                'p-error': !geoLocationCountryData?.geo_longitude_location && hasAddressErrors
                             }"
                         >
                             Longitude

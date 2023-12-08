@@ -5,7 +5,7 @@ const state = {
     villages: []
 }
 const getters = {
-    communeAll: ({villages}) => villages,
+    getGeoVillageAll: ({villages}) => villages,
 }
 const mutations = {
     SET_GEO_VILLAGES_LOCATION(state, data) {
@@ -15,11 +15,11 @@ const mutations = {
 const actions = {
     async getAllVillagesActions({
         commit
-    }, superSSNCommuneCode) {
+    }, superSSNVillagesCode) {
         try {
-            const districtZipType = 'T3';
-            const superSSNCountryCode = superSSNCommuneCode ? superSSNCommuneCode : '';
-            geoLocationServices.listGeoLocationDistrict(districtZipType, superSSNCountryCode).then((villages) => {
+            const districtZipType = 'T5';
+            const superSSNCountryCode = superSSNVillagesCode ? superSSNVillagesCode : '';
+            geoLocationServices.listGeoLocationVillageCommune(districtZipType, superSSNCountryCode).then((villages) => {
                 const getAllCommune = Array.isArray(villages) ? villages.slice() : [];
                 if (!villages) {
                     commit('SET_GEO_VILLAGES_LOCATION', '');

@@ -1,4 +1,5 @@
 <template>
+    
     <form @submit.prevent="submittedDialogEditGeoLocalCountry">
         <!-- Spinner -->
         <transition
@@ -7,7 +8,7 @@
             >
             <div
                 class="spinner-wrapper flex layer-white"
-                v-if="loadingSpinner"
+                v-if="loadingSpinnerCommune"
             >
                 <spinner
                 :radius="100"
@@ -16,8 +17,8 @@
         </transition>
         <!-- Popup Dialog Geo Locations Country -->
         <pop-over
-            v-if="geoLocationCountryData"
-            :title="`Edit Country:`+ ' '+ nameCountry"
+            v-if="geoLocationVillagesData"
+            :title="`Edit Commune:`+ ' '+ nameGeoCommune"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -28,15 +29,15 @@
                 v-slot:content
             >
                 <div class="flex start mlr--5"
-                    :class="{invalid: !geoLocationCountryData?.geo_zip_code && hasAddressErrors}"
+                    :class="{invalid: !geoLocationVillagesData?.geo_zip_code && hasAddressErrors}"
                 >
                     <div 
                         class="input-wrap mlr-5"
-                        :class="{invalid: !geoLocationCountryData?.geo_zip_code && hasAddressErrors}"
+                        :class="{invalid: !geoLocationVillagesData?.geo_zip_code && hasAddressErrors}"
                     >
                         <label
                             :class="{
-                                'p-error': !geoLocationCountryData.geo_zip_code && hasAddressErrors
+                                'p-error': !geoLocationVillagesData.geo_zip_code && hasAddressErrors
                             }"
                         >
                             Zip Code
@@ -52,21 +53,21 @@
                                 </span>
                             </el-tooltip>
                         </label>
-                        <InputText oninput="this.value = this.value.replace(/\D+/g, '')" class="border-round-lg text-sm w-15rem" v-model.number="geoLocationCountryData.geo_zip_code" type="text" placeholder="Zip Code" />
+                        <InputText oninput="this.value = this.value.replace(/\D+/g, '')" class="border-round-lg text-sm w-15rem" v-model.number="geoLocationVillagesData.geo_zip_code" type="text" placeholder="Zip Code" />
                         <span
                             class="error"
-                            v-if="!geoLocationCountryData.geo_zip_code && hasAddressErrors"
+                            v-if="!geoLocationVillagesData.geo_zip_code && hasAddressErrors"
                         >
                             {{ $t('addressPopup.isRequired', {type: 'Zip Code'}) }}
                         </span>
                     </div>
                     <div 
                         class="input-wrap mlr-5"
-                        :class="{invalid: !geoLocationCountryData?.geo_khmer_name && hasAddressErrors}"
+                        :class="{invalid: !geoLocationVillagesData?.geo_khmer_name && hasAddressErrors}"
                     >
                         <label
                             :class="{
-                                'p-error': !geoLocationCountryData.geo_khmer_name && hasAddressErrors
+                                'p-error': !geoLocationVillagesData.geo_khmer_name && hasAddressErrors
                             }"
                         >
                             Khmer Name
@@ -82,21 +83,21 @@
                                 </span>
                             </el-tooltip>
                         </label>
-                        <InputText class="border-round-lg text-sm w-15rem" type="text" v-model.trim="geoLocationCountryData.geo_khmer_name" placeholder="Khmer Name" />
+                        <InputText class="border-round-lg text-sm w-15rem" type="text" v-model.trim="geoLocationVillagesData.geo_khmer_name" placeholder="Khmer Name" />
                         <span
                             class="error"
-                            v-if="!geoLocationCountryData.geo_khmer_name && hasAddressErrors"
+                            v-if="!geoLocationVillagesData.geo_khmer_name && hasAddressErrors"
                         >
                             {{ $t('addressPopup.isRequired', {type: 'Khmer Name'}) }}
                         </span>
                     </div>
                     <div 
                         class="input-wrap mlr-5"
-                        :class="{invalid: !geoLocationCountryData?.geo_english_name && hasAddressErrors}"
+                        :class="{invalid: !geoLocationVillagesData?.geo_english_name && hasAddressErrors}"
                     >
                         <label
                             :class="{
-                                'p-error': !geoLocationCountryData.geo_english_name && hasAddressErrors
+                                'p-error': !geoLocationVillagesData.geo_english_name && hasAddressErrors
                             }"
                         >
                             English Name
@@ -112,10 +113,10 @@
                                 </span>
                             </el-tooltip>
                         </label>
-                        <InputText class="border-round-lg text-sm w-15rem" v-model.trim="geoLocationCountryData.geo_english_name" type="text" placeholder="English Name" />
+                        <InputText class="border-round-lg text-sm w-15rem" v-model.trim="geoLocationVillagesData.geo_english_name" type="text" placeholder="English Name" />
                         <span
                             class="error"
-                            v-if="!geoLocationCountryData.geo_english_name && hasAddressErrors"
+                            v-if="!geoLocationVillagesData.geo_english_name && hasAddressErrors"
                         >
                             {{ $t('addressPopup.isRequired', {type: 'English Name'}) }}
                         </span>
@@ -124,11 +125,11 @@
                 <div class="flex start mlr--5">
                     <div 
                         class="input-wrap mlr-5"
-                        :class="{invalid: !geoLocationCountryData?.geo_longitude_location && hasAddressErrors}"
+                        :class="{invalid: !geoLocationVillagesData?.geo_longitude_location && hasAddressErrors}"
                     >
                         <label
                             :class="{
-                                'p-error': !geoLocationCountryData.geo_longitude_location && hasAddressErrors
+                                'p-error': !geoLocationVillagesData.geo_longitude_location && hasAddressErrors
                             }"
                         >
                             Longitude
@@ -144,21 +145,21 @@
                                 </span>
                             </el-tooltip>
                         </label>
-                        <InputText class="border-round-lg text-sm w-15rem" type="text" v-model="geoLocationCountryData.geo_longitude_location" placeholder="Longitude" />
+                        <InputText class="border-round-lg text-sm w-15rem" type="text" v-model="geoLocationVillagesData.geo_longitude_location" placeholder="Longitude" />
                         <span
                             class="error"
-                            v-if="!geoLocationCountryData.geo_longitude_location && hasAddressErrors"
+                            v-if="!geoLocationVillagesData.geo_longitude_location && hasAddressErrors"
                         >
                             {{ $t('addressPopup.isRequired', {type: 'Longitude'}) }}
                         </span>
                     </div>
                     <div 
                         class="input-wrap mlr-5"
-                        :class="{invalid: !geoLocationCountryData?.geo_latitude_location && hasAddressErrors}"
+                        :class="{invalid: !geoLocationVillagesData?.geo_latitude_location && hasAddressErrors}"
                     >
                         <label
                             :class="{
-                                'p-error': !geoLocationCountryData.geo_latitude_location && hasAddressErrors
+                                'p-error': !geoLocationVillagesData.geo_latitude_location && hasAddressErrors
                             }"
                         >
                             Latitude
@@ -174,10 +175,10 @@
                                 </span>
                             </el-tooltip>
                         </label>
-                        <InputText class="border-round-lg text-sm w-15rem" v-model="geoLocationCountryData.geo_latitude_location" type="text" placeholder="Latitude" />
+                        <InputText class="border-round-lg text-sm w-15rem" v-model="geoLocationVillagesData.geo_latitude_location" type="text" placeholder="Latitude" />
                         <span
                             class="error"
-                            v-if="!geoLocationCountryData.geo_latitude_location && hasAddressErrors"
+                            v-if="!geoLocationVillagesData.geo_latitude_location && hasAddressErrors"
                         >
                             {{ $t('addressPopup.isRequired', {type: 'Longitude'}) }}
                         </span>
@@ -198,7 +199,7 @@
                         class="primary-btn  plr-30 plr-sm-15"
                         :fetching-data="submittingCountryData"
                         :loading-text="$t('addressPopup.saving')"
-                        :text=" $t('addressPopup.thisCountry', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
+                        :text=" $t('addressPopup.thisVillages', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
                     />
                 </div>
             </template>
@@ -213,17 +214,17 @@
     import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton"
     import util from '@/mixin/util';
     import validation from '@/mixin/validation';
-    import geoLocationCountryHelper from '@/mixin/geoLocationCountryHelper';
+    import geoLocationVillagesHelper from '@/mixin/geoLocationVillagesHelper';
     import {mapActions} from 'vuex';
     
     export default{
         data(){
             return{
+                loadingSpinnerCommune: false,
                 editionGeoCountry: null,
                 hasAddressErrors: false,
-                geoLocationCountryData: null,
-                submittingCountryData: false,
-                loadingSpinner: false
+                geoLocationVillagesData: null,
+                submittingCountryData: false
             }
         },
         props: {
@@ -233,7 +234,7 @@
                     return null
                 }
             },
-            geoLocalCountry: {
+            geoLocalVillage: {
                 type: Object,
                 default(){
                     return null;
@@ -247,11 +248,11 @@
             }
         },
         computed: {
-            nameCountry(){
-               return this.geoLocalCountry?.geo_english_name || ''; 
+            nameGeoVillage(){
+               return this.geoLocalVillage?.geo_english_name || ''; 
             },
             editing() {
-                return this.geoLocalCountry && this.geoLocalCountry?.id;
+                return this.geoLocalVillage && this.geoLocalVillage?.id;
             },
         },
         components: {
@@ -259,12 +260,12 @@
             Spinner,
             AjaxButton
         },
-        mixins: [util,validation,geoLocationCountryHelper],
+        mixins: [util,validation,geoLocationVillagesHelper],
         async mounted(){
-            if(this.geoLocalCountry){
-                this.geoLocationCountryData = {...this.geoLocationCountryData, ...this.geoLocalCountry}
+            if(this.geoLocalVillage){
+                this.geoLocationVillagesData = {...this.geoLocationVillagesData, ...this.geoLocalVillage}
             }else{
-                this.geoLocationCountryData = {
+                this.geoLocationVillagesData = {
                     id: '',
                     geo_zip_code:'',
                     geo_khmer_name: '',
@@ -277,8 +278,7 @@
         methods: {
            async submittedDialogEditGeoLocalCountry(){
                 try {
-                    await this.geoLocationCountryActions();
-                   
+                    await this.geoLocationProvinceActions();
                     if (!this.hasAddressErrors) {
                         this.$emit('close')
                     }

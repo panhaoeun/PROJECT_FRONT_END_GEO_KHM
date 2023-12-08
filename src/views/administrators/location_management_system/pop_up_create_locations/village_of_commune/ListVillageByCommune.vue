@@ -6,17 +6,17 @@
         type="button"
         label="New"
         aria-label="New"
-        @click.prevent="popUpCreateProvinceState()"
+        @click.prevent="popUpEditVillageByCommune()"
     >
         <span>
-            Edit
+            Edit Villages
             <i class="pi pi-file-edit"></i>
         </span>
     </button>
     <!-- Popup Create Province or State-->
     <Dialog 
-        v-model:visible="openDialog"
-        header="List of province or state" 
+        v-model:visible="openDialogVillageCommune"
+        header="List of village" 
         :style="{ width: '75vw' }" 
         modal 
         maximizable 
@@ -36,19 +36,19 @@
                 :rows="10"
                 dataKey="id" 
                 :paginator="true" 
-                :value="getGeoLocationProvince" 
+                :value="getGeoLocationVillages" 
                 :rowHover="true" 
                 contextMenu 
-                v-model:filters="filtersGeoProvince" 
+                v-model:filters="filtersGeoVillage" 
                 filterDisplay="menu"
-                :loading="loadingProvince" 
-                :filters="filtersGeoProvince" 
+                :loading="loadingVillage" 
+                :filters="filtersGeoVillage" 
                 responsiveLayout="scroll"
                 :globalFilterFields="['representative.geo_zip_code', 'geo_khmer_name', 'geo_english_name', 'geo_longitude_location', 'geo_latitude_location']"
-                v-model:selection="selectedGeoProvince"
+                v-model:selection="selectedGeoCommue"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                 :rowsPerPageOptions="[5, 10, 25, 50, 100]"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-province locations"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-commune locations"
             >
                 <!-- Search Input Filter -->
                 <template #header>
@@ -56,14 +56,15 @@
                         <p>Country</p>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
-                            <InputText v-model="filtersGeoProvince['global'].value" placeholder="Search province..." />
+                            <InputText v-model="filtersGeoVillage['global'].value" placeholder="Search country" />
                         </span>
                     </div>
                 </template>
                 <!-- Column -->
-                <Column selectionMode="multiple" :styless="{width: '3rem'}" :exportable="false"></Column>
-                <template #empty> No geo-location province found. </template>
-                <template #loading> Loading geo-location province data. Please wait. </template>
+                <template #empty>Village not found!</template>
+                <!-- Loading Products -->
+                <template #loading> Loading villages data. Please wait... </template>
+                <Column selectionMode="multiple" :style="{width: '3rem'}" :exportable="false"></Column>
                 <Column field="geo_zip_code" header="Code" sortField="geo_zip_code" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_zip_code }}
@@ -103,16 +104,16 @@
                 </Column>
                 <Column header="Actions" :exportable="false" :styles="{'min-width':'8rem'}">
                     <template #body="slotProps">
-                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editGeoLocationProvince(slotProps?.data)" />
-                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeletedGeoProvince(slotProps?.data)" />
+                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editGeoLocationGeoCommune(slotProps?.data)" />
+                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeletedGeoCommune(slotProps?.data)" />
                     </template>
                 </Column>
             </DataTable>
         </div>
         <!-- Pop Edited Country -->
-        <edited-popup-geo-location-province
+        <edited-popup-geo-location-villages
             v-if="openEditedProvince"
-            :geoLocalProvince="editProvincePopup"
+            :geoLocalVillage="editCommunePopup"
             @close="closingPopupEditedCountry"
         />
         <!-- Popup Deleted Country -->
@@ -125,7 +126,7 @@
             </div>
             <template #footer>
                 <Button label="No" icon="pi pi-times" text @click="deletedGeoProvinceDialogs = false" />
-                <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedProvinceById()" />
+                <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedGeoCommuneById()" />
             </template>
         </Dialog>
 
@@ -136,29 +137,38 @@
 <script>
 import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
 import { FilterMatchMode,FilterOperator } from 'primevue/api';
-import EditedPopupGeoLocationProvince from "./EditedPopupGeoLocationProvince.vue";
+import EditedPopupGeoLocationVillages from "./EditedPopupGeoLocationVillages";
 import util from '@/mixin/util';
 import validation from '@/mixin/validation';
-import geoLocationProvinceHelper from '@/mixin/geoLocationProvinceHelper';
+import geoLocationVillagesHelper from '@/mixin/geoLocationVillagesHelper';
 import {mapActions,mapGetters} from "vuex";
 
 export default {
     created(){
         this.geoLocationServices = new GeoLocationsManagementServices();
     },
-    mixins: [util,validation,geoLocationProvinceHelper],
+    mixins: [util,validation,geoLocationVillagesHelper],
     components: {
-        EditedPopupGeoLocationProvince
-    },  
+        EditedPopupGeoLocationVillages
+    }, 
+    props: {
+        geoLocalVillage: {
+            type: String,
+            default() {
+                return null
+            }
+        }
+    }, 
     computed: {
-        ...mapGetters('geoProvince', ['provinceAll']),
-        getGeoLocationProvince() {
-            return this.provinceAll || []
+        ...mapGetters('geoVillages', ['getGeoVillageAll']),
+        getGeoLocationVillages() {
+            return this.getGeoVillageAll || []
         },
     },
     data() {
         return {
-            filtersGeoProvince: {
+            selectedGeoCommune: null,
+            filtersGeoVillage: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
                 geo_zip_code: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
                 geo_khmer_name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
@@ -170,8 +180,7 @@ export default {
                     ],
                 }
             },
-            selectedGeoProvince: false,
-            openDialog: false,
+            openDialogVillageCommune: false,
             openEditedProvince: false,
             idEditGeoProvince: null,
             products: null,
@@ -179,16 +188,20 @@ export default {
             selectedProvince: null,
             selectAll: false,
             first: 0,
-            editProvincePopup: null,
+            editCommunePopup: null,
             ajaxDeletingCountry: 0,
             deletedDialogDataId: null,
-            loadingProvince: false
+            loadingVillage: false
         };
     },
     methods: {
         ...mapActions('common', ['fetchLocation', 'setToastMessage', 'setToastError', 'getRequest']),
-        popUpCreateProvinceState(){
-            this.openDialog = true;
+        ...mapActions('geoVillages', ['getAllVillagesActions']),
+        popUpEditVillageByCommune(){
+            this.openDialogVillageCommune = true;
+            //Village List with query by commune
+            const superSSNVillagesCode = this.geoLocalVillage.geo_ssn_location;
+            this.getAllVillagesActions(superSSNVillagesCode);
         },
         onRowEditSave(event) {
             let { newData, index } = event;
@@ -212,22 +225,18 @@ export default {
         closingPopupEditedCountry(){
             this.openEditedProvince = false;
         },
-        editGeoLocationProvince(province){
+        editGeoLocationGeoCommune(commune){
             this.openEditedProvince = true;
-            this.idEditGeoProvince = parseInt(province?.id) ? parseInt(province?.id) : 0;
-            this.editProvincePopup = province ? province : [];
+            this.idEditGeoProvince = parseInt(commune?.id) ? parseInt(commune?.id) : 0;
+            this.editCommunePopup = commune ? commune : [];
         },
-        confirmDeletedGeoProvince(del){
+        confirmDeletedGeoCommune(del){
             this.deletedGeoProvinceDialogs = true;
             this.deletedDialogDataId = del;
         },
-        confirmDeletedProvinceById(){
-            this.deletingGeoProvinceLocationsById(this.deletedDialogDataId);
+        confirmDeletedGeoCommuneById(){
+            this.deletingGeoVillageLocationsById(this.deletedDialogDataId);
         }
     },
 };
 </script>
-<style scoped>
-</style>
-<style lang='scss' scoped>
-</style>

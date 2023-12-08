@@ -220,7 +220,7 @@
         data(){
             return{
                 editionGeoCountry: null,
-                hasAddressErrors: false,
+                hasGeoDistrictErrors: false,
                 geoLocationGeoDistrictData: null,
                 submittingCountryData: false
             }
@@ -271,7 +271,7 @@
            async submittedDialogEditGeoLocalDistrict(){
                 try {
                     await this.geoLocationDistrictByProvinceActions();
-                    if (!this.hasAddressErrors) {
+                    if (!this.hasGeoDistrictErrors) {
                         this.$emit('close')
                     }
                 } catch (error) {

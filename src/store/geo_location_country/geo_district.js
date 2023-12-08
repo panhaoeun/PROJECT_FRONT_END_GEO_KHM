@@ -9,7 +9,7 @@ const getters = {
 }
 const mutations = {
     SET_GEO_DISTRICT_LOCATION(state, data) {
-        state.district = data ? data : []
+        state.district = data ? data : [];
     },
 }
 const actions = {

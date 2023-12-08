@@ -16,7 +16,7 @@
     <!-- Popup Create Province or State-->
     <Dialog 
         v-model:visible="openDialogCommune"
-        header="List of Country" 
+        header="List of commune" 
         :style="{ width: '75vw' }" 
         modal 
         maximizable 
@@ -41,14 +41,14 @@
                 contextMenu 
                 v-model:filters="filtersGeoCommune" 
                 filterDisplay="menu"
-                :loading="loadingProvince" 
+                :loading="loadingDistrict" 
                 :filters="filtersGeoCommune" 
                 responsiveLayout="scroll"
                 :globalFilterFields="['representative.geo_zip_code', 'geo_khmer_name', 'geo_english_name', 'geo_longitude_location', 'geo_latitude_location']"
                 v-model:selection="selectedGeoCommue"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                 :rowsPerPageOptions="[5, 10, 25, 50, 100]"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-country locations"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-commune locations"
             >
                 <!-- Search Input Filter -->
                 <template #header>
@@ -61,7 +61,7 @@
                     </div>
                 </template>
                 <!-- Column -->
-                <Column selectionMode="multiple" :styless="{width: '3rem'}" :exportable="false"></Column>
+                <Column selectionMode="multiple" :style="{width: '3rem'}" :exportable="false"></Column>
                 <Column field="geo_zip_code" header="Code" sortField="geo_zip_code" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_zip_code }}
@@ -101,8 +101,8 @@
                 </Column>
                 <Column header="Actions" :exportable="false" :styles="{'min-width':'8rem'}">
                     <template #body="slotProps">
-                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editGeoLocationProvince(slotProps?.data)" />
-                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeletedGeoProvince(slotProps?.data)" />
+                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editGeoLocationGeoCommune(slotProps?.data)" />
+                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeletedGeoCommune(slotProps?.data)" />
                     </template>
                 </Column>
             </DataTable>
@@ -110,7 +110,7 @@
         <!-- Pop Edited Country -->
         <edited-popup-geo-location-commune
             v-if="openEditedProvince"
-            :geoLocalProvince="editProvincePopup"
+            :geoLocalCommune="editCommunePopup"
             @close="closingPopupEditedCountry"
         />
         <!-- Popup Deleted Country -->
@@ -123,7 +123,7 @@
             </div>
             <template #footer>
                 <Button label="No" icon="pi pi-times" text @click="deletedGeoProvinceDialogs = false" />
-                <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedProvinceById()" />
+                <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedGeoCommuneById()" />
             </template>
         </Dialog>
 
@@ -137,14 +137,14 @@ import { FilterMatchMode,FilterOperator } from 'primevue/api';
 import EditedPopupGeoLocationCommune from "./EditedPopupGeoLocationCommune.vue";
 import util from '@/mixin/util';
 import validation from '@/mixin/validation';
-import geoLocationProvinceHelper from '@/mixin/geoLocationProvinceHelper';
+import geoLocationCommuneHelper from '@/mixin/geoLocationCommuneHelper';
 import {mapActions,mapGetters} from "vuex";
 
 export default {
     created(){
         this.geoLocationServices = new GeoLocationsManagementServices();
     },
-    mixins: [util,validation,geoLocationProvinceHelper],
+    mixins: [util,validation,geoLocationCommuneHelper],
     components: {
         EditedPopupGeoLocationCommune
     },  
@@ -177,10 +177,10 @@ export default {
             selectedProvince: null,
             selectAll: false,
             first: 0,
-            editProvincePopup: null,
+            editCommunePopup: null,
             ajaxDeletingCountry: 0,
             deletedDialogDataId: null,
-            loadingProvince: false
+            loadingDistrict: false
         };
     },
     methods: {
@@ -210,17 +210,17 @@ export default {
         closingPopupEditedCountry(){
             this.openEditedProvince = false;
         },
-        editGeoLocationProvince(province){
+        editGeoLocationGeoCommune(commune){
             this.openEditedProvince = true;
-            this.idEditGeoProvince = parseInt(province?.id) ? parseInt(province?.id) : 0;
-            this.editProvincePopup = province ? province : [];
+            this.idEditGeoProvince = parseInt(commune?.id) ? parseInt(commune?.id) : 0;
+            this.editCommunePopup = commune ? commune : [];
         },
-        confirmDeletedGeoProvince(del){
+        confirmDeletedGeoCommune(del){
             this.deletedGeoProvinceDialogs = true;
             this.deletedDialogDataId = del;
         },
-        confirmDeletedProvinceById(){
-            this.deletingGeoProvinceLocationsById(this.deletedDialogDataId);
+        confirmDeletedGeoCommuneById(){
+            this.deletingGeoCommuneLocationsById(this.deletedDialogDataId);
         }
     },
 };
