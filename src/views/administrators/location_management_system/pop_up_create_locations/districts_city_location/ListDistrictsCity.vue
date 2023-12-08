@@ -64,7 +64,7 @@
                 <template #empty> No geo-location district found. </template>
                 <template #loading> Loading geo-location district data. Please wait. </template>
                 <Column selectionMode="multiple" :styless="{width: '3rem'}" :exportable="false"></Column>
-                <Column field="geo_zip_code" header="Code" sortField="geo_zip_code" sortable>
+                <Column field="geo_zip_code" header="Zip Code" sortField="geo_zip_code" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_zip_code }}
                     </template>

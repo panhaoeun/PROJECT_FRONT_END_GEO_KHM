@@ -64,7 +64,7 @@
                 <Column selectionMode="multiple" :styless="{width: '3rem'}" :exportable="false"></Column>
                 <template #empty> No geo-location province found. </template>
                 <template #loading> Loading geo-location province data. Please wait. </template>
-                <Column field="geo_zip_code" header="Code" sortField="geo_zip_code" sortable>
+                <Column field="geo_zip_code" header="Zip Code" sortField="geo_zip_code" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_zip_code }}
                     </template>
