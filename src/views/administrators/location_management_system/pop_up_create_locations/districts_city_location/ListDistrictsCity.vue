@@ -91,8 +91,8 @@
                 </Column>
                 <Column header="Actions" :exportable="false" :styles="{'min-width':'8rem'}">
                     <template #body="slotProps">
-                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editGeoLocationCountry(slotProps?.data)" />
-                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeletedGeoCountry(slotProps?.data)" />
+                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2"  v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_edit' }]" @click="editGeoLocationCountry(slotProps?.data)" />
+                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning"  v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_delete' }]" @click="confirmDeletedGeoCountry(slotProps?.data)" />
                     </template>
                 </Column>
             </DataTable>

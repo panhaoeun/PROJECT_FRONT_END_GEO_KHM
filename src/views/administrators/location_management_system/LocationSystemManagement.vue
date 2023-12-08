@@ -4,7 +4,10 @@
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h2 class=" font-primary text-3xl  font-medium ">Locations</h2>
-           <el-button type="info" size="large" class="btn btn-primary"  @click="$router.push('/admin/locations/management_location_system/create-location')">
+           <el-button 
+                type="info" size="large" class="btn btn-primary"
+                @click="$router.push('/admin/locations/management_location_system/create-location')"
+            >
                 <div class="" v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]">
                     <i class="pi pi-plus"></i>
                     <span class="pl-2">
@@ -16,7 +19,7 @@
         <div class="gird">
             <!-- Location filter by system -->
             <div class="col-12">
-                <form @submit.prevent="searchFilterLocationCommuneByVillage">
+                <form @submit.prevent="searchFilterLocationCommuneByVillage(!v$.$invalid)">
                     <el-card slot="header" class="box-card">
                         <div class="relative pb-3 text-black text-sm section section-title:before">
                             <p class="h6">Filters</p>
@@ -27,7 +30,8 @@
                                 <label for="name_en" class="text-sm font-semibold">Country</label>
                                 <Dropdown 
                                     showClear
-                                    v-model="selectedCountryOpt" 
+                                    v-model="v$.selectedCountryOpt.$model"
+                                    :class="{ 'p-invalid border-round-lg p-error': v$.selectedCountryOpt.$invalid && submitted }"
                                     :options="setCountry" 
                                     optionLabel="shop_eng" 
                                     filter
@@ -52,14 +56,16 @@
                                         </div>
                                     </template>
                                 </Dropdown>  
+                                <small v-if="(v$.selectedCountryOpt.$invalid && submitted) || v$.selectedCountryOpt.$pending.$response" class="p-error text-lg">Please select country</small>
                             </div>
                             <!-- Province or State -->
                             <div class="col-4 lg:col-6 field" v-if="setStateCountry.length !== zeroCountryState">
                                 <label for="name_en" class="text-sm font-semibold">Province or State</label>
                                 <Dropdown 
                                     showClear
-                                    v-model="selectStateProvinceOpt" 
                                     :options="setStateCountry" 
+                                    v-model="v$.selectStateProvinceOpt.$model"
+                                    :class="{ 'p-invalid border-round-lg p-error': v$.selectStateProvinceOpt.$invalid && submitted }"
                                     optionLabel="shop_eng" 
                                     filter
                                     placeholder="Select a Province or State" 
@@ -81,13 +87,15 @@
                                         </div>
                                     </template>
                                 </Dropdown>  
+                                <small v-if="(v$.selectStateProvinceOpt.$invalid && submitted) || v$.selectStateProvinceOpt.$pending.$response" class="p-error text-lg">Please selected province or state</small>
                             </div>
                             <!-- District or City -->
-                            <div class="col-4 lg:col-6 field" v-if="setDistrictCountry.length !== zeroCountryState">
+                            <div class="col-4 lg:col-6 field" v-if="setDistrictCountry?.length !== zeroCountryState">
                                 <label for="name_en" class="text-sm font-semibold">District</label>
                                 <Dropdown 
                                     showClear
-                                    v-model="selectSDistrictOpt" 
+                                    v-model="v$.selectSDistrictOpt.$model"
+                                    :class="{ 'p-invalid border-round-lg p-error': v$.selectSDistrictOpt.$invalid && submitted }"
                                     :options="setDistrictCountry" 
                                     optionLabel="shop_eng" 
                                     filter
@@ -110,13 +118,15 @@
                                         </div>
                                     </template>
                                 </Dropdown>  
+                                <small v-if="(v$.selectSDistrictOpt.$invalid && submitted) || v$.selectSDistrictOpt.$pending.$response" class="p-error text-lg">Please selected district</small>
                             </div>
                             <!-- Commune or Capital -->
                             <div class="col-4 lg:col-6 field" v-if="setCommuneCountry.length !== zeroCountryState">
                                 <label for="name_en" class="text-sm font-semibold">Commune</label>
                                 <Dropdown 
                                     showClear
-                                    v-model="selectSDCommuneCityOpt" 
+                                    v-model="v$.selectSDCommuneCityOpt.$model"
+                                    :class="{ 'p-invalid border-round-lg p-error': v$.selectSDCommuneCityOpt.$invalid && submitted }"
                                     :options="setCommuneCountry" 
                                     optionLabel="geo_english_name" 
                                     filter
@@ -139,6 +149,7 @@
                                         </div>
                                     </template>
                                 </Dropdown>  
+                                <small v-if="(v$.selectSDCommuneCityOpt.$invalid && submitted) || v$.selectSDCommuneCityOpt.$pending.$response" class="p-error text-lg">Please selected commune</small>
                             </div>
                             <!-- Filters -->
                             <div class="col-12 lg:col-6 field" v-if="setCommuneCountry.length !== zeroCountryState">
@@ -148,7 +159,7 @@
                     </el-card>
                 </form>  
             </div>
-            <!-- Datatable list of village by commune -->
+            <!-- Datable list of village by commune -->
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <div>
@@ -182,9 +193,9 @@
                                         </div>
                                     </template>
                                     <!-- Empty Users -->
-                                    <template #empty> {{ $t('message.noHaveData') }}</template>
+                                    <template #empty>Villages not found!</template>
                                     <!-- Loading Users -->
-                                    <template #loading> {{ $t('message.dataLoading') }}</template>
+                                    <template #loading> Loading villages data. Please wait...</template>
                                     <!--------------Check Existed Data ----------->
                                     <template v-if="geoLocationListArray && geoLocationListArray.length > 0 && geoLocationListArray != ''">
                                         <!-- Columns -->
@@ -213,11 +224,18 @@
 <script>
     import { FilterMatchMode } from 'primevue/api';
     import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+    import { useVuelidate } from '@vuelidate/core';
+    import { required } from '@vuelidate/validators';
+
     export default{
+        setup() {
+          return { v$: useVuelidate() }
+        },
         data(){
             return {
                 zeroCountryState: 0,
                 countryRegion: null,
+                submitted: false,
                 setCountry: [],
                 selectedCountryOpt: null,
                 setStateCountry: [],
@@ -245,38 +263,72 @@
             this.geoLocationCommuneVillageList();
             this.getGeoLocationCountry();
         },
-        watch: {
-            selectedCountryOpt: function(){
-                this.selectStateProvinceOpt = null;
-                this.selectSDistrictOpt = null;
-                this.selectSDCommuneCityOpt = null;
-                // Populate list of province or state in the second dropdown
-                if(Object.values(this.selectedCountryOpt).length > 0 || this.selectedCountryOpt !== undefined && this.selectedCountryOpt === "object"){
-                    const ssnSuperCountryCodeLocationGeo = this.selectedCountryOpt?.geo_ssn_location ? this.selectedCountryOpt?.geo_ssn_location : '';
-                    const geoLocationCountryType = "T2";
-                    this.getGeoLocationStateByCountry(geoLocationCountryType,ssnSuperCountryCodeLocationGeo);
-                }
-            },
-            selectStateProvinceOpt: function(){
-                this.selectSDCommuneCityOpt = null;
-                this.selectSDistrictOpt = null;
-                // Populate list of district in the second dropdown
-                if(Object.values(this.selectStateProvinceOpt).length > 0 || this.selectStateProvinceOpt !== undefined && this.selectStateProvinceOpt === "object"){
-                    const ssnSuperDistrictCodeLocationGeo = this.selectStateProvinceOpt?.geo_ssn_location ? this.selectStateProvinceOpt?.geo_ssn_location : '';
-                    const geoLocationDistrictType = "T3";
-                    this.getGeoLocationDistrictByCountry(geoLocationDistrictType,ssnSuperDistrictCodeLocationGeo);
-                }
-            },
-            selectSDistrictOpt: function(){
-                // Populate list of commune in the third dropdown
-                if(Object.values(this.selectSDistrictOpt).length > 0 || this.selectSDistrictOpt !== undefined && this.selectSDistrictOpt === "object"){
-                    const ssnSuperCommuneCodeLocationGeo = this.selectSDistrictOpt?.geo_ssn_location ? this.selectSDistrictOpt?.geo_ssn_location : '';
-                    const geoLocationCommuneType = "T4";
-                    this.getGeoLocationCommuneCapitalByCountry(geoLocationCommuneType,ssnSuperCommuneCodeLocationGeo);
-                }
+        validations() {
+            return {
+                selectedCountryOpt: {required},
+                selectStateProvinceOpt: {required},
+                selectSDistrictOpt: {required},
+                selectSDCommuneCityOpt: {required}
             }
-        },
+        },  
+        // watch: {
+        //     selectedCountryOpt: function(){
+        //         this.selectStateProvinceOpt = null;
+        //         this.selectSDistrictOpt = null;
+        //         this.selectSDCommuneCityOpt = null;
+        //         // Populate list of province or state in the second dropdown
+        //         if(Object.values(this.selectedCountryOpt).length > 0 || this.selectedCountryOpt !== undefined && this.selectedCountryOpt === "object"){
+        //             const ssnSuperCountryCodeLocationGeo = this.selectedCountryOpt?.geo_ssn_location ? this.selectedCountryOpt?.geo_ssn_location : '';
+        //             const geoLocationCountryType = "T2";
+        //             this.getGeoLocationStateByCountry(geoLocationCountryType,ssnSuperCountryCodeLocationGeo);
+        //         }
+        //     },
+        //     selectStateProvinceOpt: function(){
+        //         this.selectSDCommuneCityOpt = null;
+        //         this.selectSDistrictOpt = null;
+        //         // Populate list of district in the second dropdown
+        //         if(Object.values(this.selectStateProvinceOpt).length > 0 || this.selectStateProvinceOpt !== undefined && this.selectStateProvinceOpt === "object"){
+        //             const ssnSuperDistrictCodeLocationGeo = this.selectStateProvinceOpt?.geo_ssn_location ? this.selectStateProvinceOpt?.geo_ssn_location : '';
+        //             const geoLocationDistrictType = "T3";
+        //             this.getGeoLocationDistrictByCountry(geoLocationDistrictType,ssnSuperDistrictCodeLocationGeo);
+        //         }
+        //     },
+        //     selectSDistrictOpt: function(){
+        //         // Populate list of commune in the third dropdown
+        //         if(Object.values(this.selectSDistrictOpt).length > 0 || this.selectSDistrictOpt !== undefined && this.selectSDistrictOpt === "object"){
+        //             const ssnSuperCommuneCodeLocationGeo = this.selectSDistrictOpt?.geo_ssn_location ? this.selectSDistrictOpt?.geo_ssn_location : '';
+        //             const geoLocationCommuneType = "T4";
+        //             this.getGeoLocationCommuneCapitalByCountry(geoLocationCommuneType,ssnSuperCommuneCodeLocationGeo);
+        //         }
+        //     }
+        // },
         methods: {
+            // Search Filter Commune By Village
+            searchFilterLocationCommuneByVillage(){
+                try{
+                    this.submitted = true;
+                    if(!this.selectSDCommuneCityOpt){
+                        this.$notify.error({
+                            title: 'Please select commune',
+                            showClose: false
+                        });
+                    }
+                    // Validation Search and Filter Location village by commune
+                    if(!this.selectedCountryOpt  !== ''
+                        && !this.selectStateProvinceOpt || !this.proCode 
+                        && this.selectSDistrictOpt !== undefined 
+                        && this.selectSDistrictOpt !== null){
+                        console.log(this.selectStateProvinceOpt)
+                    }
+                    if(Object.values(this.selectSDCommuneCityOpt).length > 0 || this.selectSDCommuneCityOpt !== undefined && this.selectSDCommuneCityOpt === "object"){
+                        const villageTypeCode = "T5";
+                        const superSSNCodeDistrictSelect =  this.selectSDCommuneCityOpt?.geo_ssn_location ? this.selectSDCommuneCityOpt?.geo_ssn_location : '';
+                        this.geoLocationCommuneVillageList(villageTypeCode,superSSNCodeDistrictSelect); 
+                    }   
+                }catch(error){
+                    return false;   
+                }
+            },
             getGeoLocationCountry(){
                 try{
                     const countryZipTypeCountry = 'T1';
@@ -334,20 +386,6 @@
                 }catch(error){
                     return Promise.reject(error.message || []);
                 }
-            },
-            searchFilterLocationCommuneByVillage(){
-                if(!this.selectSDCommuneCityOpt){
-                    this.$notify.error({
-                        title: 'Please select commune',
-                        showClose: false
-                    });
-                }
-                if(Object.values(this.selectSDCommuneCityOpt).length > 0 || this.selectSDCommuneCityOpt !== undefined && this.selectSDCommuneCityOpt === "object"){
-                    const villageTypeCode = "T5";
-                    const superSSNCodeDistrictSelect =  this.selectSDCommuneCityOpt?.geo_ssn_location ? this.selectSDCommuneCityOpt?.geo_ssn_location : '';
-                    this.geoLocationCommuneVillageList(villageTypeCode,superSSNCodeDistrictSelect); 
-                }   
-
             },
             // List village by commune of district
             geoLocationCommuneVillageList(villageType,superSSNCityCode){

@@ -9,6 +9,7 @@
             type="button"
             label="New"
             aria-label="New"
+            v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]"
             @click.prevent="popUpCreateProvinceState()"
         >
             <span>

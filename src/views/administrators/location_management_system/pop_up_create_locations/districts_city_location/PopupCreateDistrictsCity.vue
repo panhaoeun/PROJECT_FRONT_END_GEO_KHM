@@ -3,6 +3,7 @@
         <!-- View all geo location-province -->
         <GeoLocationOfDistrictListPopup/>
         <button 
+            v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]"
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus" 
             type="button"
@@ -28,7 +29,7 @@
     >
         <!-- Add More Item -->
         <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
-            <button @click.prevent="addMoreProvinceState()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
+            <button @click.prevent="addMoreProvinceState()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"   v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]">
                 <span>Add new district</span>
             </button>
         </div>

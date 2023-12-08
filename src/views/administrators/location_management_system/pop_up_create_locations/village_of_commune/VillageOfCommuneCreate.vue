@@ -2,7 +2,7 @@
     <div class="col-12 field"> 
         <!-- Add More village -->
         <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
-            <button @click.prevent="addMoreVillageCommune()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
+            <button @click.prevent="addMoreVillageCommune()" v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
                 <span>
                     Add new village
                     <i class="pi pi-plus-circle"></i> 
