@@ -1,0 +1,103 @@
+
+import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+import {mapActions} from "vuex";
+export default {
+  created() {
+        this.geoLocationServices = new GeoLocationsManagementServices();
+  },
+  data() {
+    return {
+        fetchingGeoDistrict: false,
+        deletedGeoDistrictDialogs: false,
+        loadingSubmitted:false,
+        countryIdDel: ''
+    }
+  },
+  methods: {
+        ...mapActions('geoDistrict', ['getAllDistrictActions']),
+        async geoLocationDistrictByProvinceActions() {
+            this.submitted = true;
+            if(
+                this.geoLocationGeoDistrictData?.geo_zip_code 
+                && this.geoLocationGeoDistrictData?.geo_khmer_name
+                && this.geoLocationGeoDistrictData?.geo_english_name
+                && this.geoLocationGeoDistrictData?.geo_latitude_location
+                && this.geoLocationGeoDistrictData?.geo_longitude_location
+            ){
+                const editDataGeoDistrict = {
+                    superSSNDistrictCode: this.geoLocationGeoDistrictData?.geo_super_ssn_location,
+                    editGeoCountryZipCode: this.geoLocationGeoDistrictData?.geo_zip_code,
+                    editGeoCountryKhmerName: this.geoLocationGeoDistrictData?.geo_khmer_name,
+                    editGeoCountryEnglishName: this.geoLocationGeoDistrictData?.geo_english_name,
+                    editGeoCountryLongitude:this.geoLocationGeoDistrictData?.geo_longitude_location,
+                    editGeoCountryLatitude: this.geoLocationGeoDistrictData?.geo_latitude_location
+                }
+                this.geoLocationServices.editingDistrictGeoLocation(this.geoLocationGeoDistrictData?.id, editDataGeoDistrict)
+                .then(async (editCountry) => {
+                    if(editCountry?.status === 200){
+                        setTimeout(async () => {
+                            this.hasAddressErrors = false
+                            this.$notify({
+                                title: 'Editing Country Successfully',
+                                message:editCountry.data?.message ? editCountry.data?.message : '',
+                                type: 'success'
+                            });
+                            await this.fetchingDataGeoDistrictByProvinceLocation(this.geoLocationGeoDistrictData?.geo_super_ssn_location);
+                            this.submittingCountryData = false;
+                        }, 1000);
+                       
+                    }
+                }).catch((error)=> {
+                    let message = error?.message;
+                    this.setToastError(message);
+                    this.$notify({
+                        title: 'Unsuccessfully updated country',
+                        message:error?.message ? error?.message : '',
+                        type: 'error'
+                    });
+                    this.submittingCountryData = false;
+                });
+            }else{
+                this.hasGeoDistrictErrors = false;
+                this.submittingCountryData = true;
+            }
+        },
+        async deletingGeoDistrictLocationsById(districtLocation) {
+            this.ajaxDeleting = districtLocation?.id;
+            this.geoLocationServices.deletedDistrictGeoLocation(districtLocation?.id).then(async (district) => {
+                if(district?.status === 200){
+                    this.setToastMessage(district.data?.message);
+                    this.deletedGeoDistrictDialogs = false;
+                    this.$notify({
+                        title: 'Delete District Successfully',
+                        message:district.data?.message ? district.data?.message : '',
+                        type: 'success'
+                    });
+                    await this.fetchingDataGeoDistrictByProvinceLocation(districtLocation?.geo_super_ssn_location);
+                }
+                return district ? district : [];
+            }).catch((error) => {
+                this.setToastError(error?.message)
+                this.$notify({
+                    title: 'Unsuccessfully District Successfully',
+                    message:error?.message ? error?.message : '',
+                    type: 'error'
+                });
+                return Promise.reject(error?.message || []);
+            });
+            this.ajaxDeleting = 0
+        },
+        async fetchingDataGeoDistrictByProvinceLocation(superSSNDistrictCode) {
+            this.fetchingGeoDistrict = true;
+            setTimeout(async () => {
+                try {
+                    this.getAllDistrictActions(superSSNDistrictCode);
+                } catch (e) {
+                return Promise.reject(e);
+                }
+                this.fetchingGeoDistrict = false;
+            }, 100)
+        }
+
+    }
+}

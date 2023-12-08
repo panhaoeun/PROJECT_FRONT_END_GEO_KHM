@@ -1,211 +1,228 @@
 <template>
-    <div class="gap-10 flex justify-content-center flex-wrap border-top-1 border-cyan-600">
-        <button type="button" @click.prevent="popUpCreateProvinceState()" aria-label="View All" class="border-none w-15rem ajax-btn outline-btn plr-20 mtb-5">
-            <span>
-                View All
-            </span>
-        </button>
-    </div>
+    <!-- Button Geo Country -->
+    <button 
+        class="ajax-btn outline-btn plr-20 mtb-5 border-round"
+        icon="pi pi-plus" 
+        type="button"
+        label="New"
+        aria-label="New"
+        @click.prevent="popUpCreateProvinceState()"
+    >
+        <span>
+            Edit
+            <i class="pi pi-file-edit"></i>
+        </span>
+    </button>
     <!-- Popup Create Province or State-->
     <Dialog 
         v-model:visible="openDialog"
-        header="Create Province or State" :style="{ width: '75vw' }" 
+        header="List of province or state" 
+        :style="{ width: '75vw' }" 
         modal 
+        maximizable 
         :contentStyle="{ height: '600px' }" 
         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
-        :draggable="faltse"
+        :draggable="false"
+        :pt="{
+            mask: {
+                style: 'backdrop-filter: blur(2px)'
+            }
+        }"
     >
         <!-- Table List Province or State -->
         <div class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 card border-round gap-15">
             <DataTable
-                class="px-2 py-2"
-                :scrollable="true" 
-                scrollHeight="flex"
-                tableStyle="min-width: 50rem"
-                v-model:editingRows="editingRows" 
-                v-model:selection="selectedCustomers"
-                :value="products" 
-                editMode="row" 
-                dataKey="id" 
+                class="p-datatable-scrollable text-sm"
                 :rows="10"
-                :lazy="true"
+                dataKey="id" 
                 :paginator="true" 
-                :filters="filters"
+                :value="getGeoLocationProvince" 
+                :rowHover="true" 
+                contextMenu 
+                v-model:filters="filtersGeoProvince" 
+                filterDisplay="menu"
+                :loading="loadingProvince" 
+                :filters="filtersGeoProvince" 
                 responsiveLayout="scroll"
-                @row-edit-save="onRowEditSave"
-                @sort="onSort($event)" 
-                @page="onPage($event)"
-                :selectAll="selectAll"
-                @select-all-change="onSelectAllChange"
-                @row-select="onRowSelect" 
-                @row-unselect="onRowUnselect"
-                :pt="{
-                    table: { style: 'min-width: 50rem' },
-                    column: {
-                        bodycell: ({ state }) => ({
-                            style:  state['d_editing']&&'padding-top: 0.6rem; padding-bottom: 0.6rem' 
-                        })
-                    }
-                }"
+                :globalFilterFields="['representative.geo_zip_code', 'geo_khmer_name', 'geo_english_name', 'geo_longitude_location', 'geo_latitude_location']"
+                v-model:selection="selectedGeoProvince"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                :rowsPerPageOptions="[5, 10, 25, 50, 100]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-province locations"
             >
                 <!-- Search Input Filter -->
                 <template #header>
                     <div class="flex flex-wrap  justify-content-between gap-2">
-                        <p>Province or State List</p>
+                        <p>Country</p>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
-                            <InputText v-model="filters['global'].value" placeholder="Search province or state" />
+                            <InputText v-model="filtersGeoProvince['global'].value" placeholder="Search province..." />
                         </span>
                     </div>
                 </template>
                 <!-- Column -->
                 <Column selectionMode="multiple" :styless="{width: '3rem'}" :exportable="false"></Column>
-                <Column field="code" header="Code" sortField="code" filterMatchMode="startsWith" sortable  style="width: 20%">
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" />
+                <template #empty> No geo-location province found. </template>
+                <template #loading> Loading geo-location province data. Please wait. </template>
+                <Column field="geo_zip_code" header="Code" sortField="geo_zip_code" sortable>
+                    <template #body="{ data }">
+                        {{ data?.geo_zip_code }}
+                    </template>
+                    <!-- Geo-Country Zip Code -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by zip name" />
                     </template>
                 </Column>
-                <Column field="name" header="Khmer Name" style="width: 20%">
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" />
+                <Column field="geo_khmer_name" header="Khmer Name" sortField="geo_khmer_name" sortable>
+                    <template #body="{ data }">
+                        {{ data?.geo_khmer_name }}
+                    </template>
+                    <!-- Filter Khmer Name -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by country" />
                     </template>
                 </Column>
-                <Column field="inventoryStatus" header="English Name" style="width: 20%">
-                    <template #editor="{ data, field }">
-                        <Dropdown v-model="data[field]" :options="statuses" optionLabel="label" optionValue="value" placeholder="Select a Status">
-                            <template #option="slotProps">
-                                <Tag :value="slotProps.option.value" :severity="getStatusLabel(slotProps.option.value)" />
-                            </template>
-                        </Dropdown>
+                <Column field="geo_english_name" header="Latin Name" sortField="geo_english_name" sortable>
+                    <template #body="{ data }">
+                        {{ data?.geo_english_name }}
                     </template>
+                    <!-- Filter English Name -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by country" />
+                    </template>
+                </Column>
+                <Column field="geo_longitude_location" header="Longitude" sortField="geo_longitude_location" sortable>
+                    <template #body="{ data }">
+                        {{ data?.geo_longitude_location }}
+                    </template>
+                </Column>
+                <Column field="geo_latitude_location" header="Latitude" sortField="geo_latitude_location" sortable>
+                    <template #body="{ data }">
+                        {{ data?.geo_latitude_location }}
+                    </template>
+                </Column>
+                <Column header="Actions" :exportable="false" :styles="{'min-width':'8rem'}">
                     <template #body="slotProps">
-                        <Tag :value="slotProps.data.inventoryStatus" :severity="getStatusLabel(slotProps.data.inventoryStatus)" />
+                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_edit' }]" @click="editGeoLocationProvince(slotProps?.data)" />
+                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_delete' }]" @click="confirmDeletedGeoProvince(slotProps?.data)" />
                     </template>
                 </Column>
-                <Column field="price" header="Longitude" style="width: 20%">
-                    <template #body="{ data, field }">
-                        {{ formatCurrency(data[field]) }}
-                    </template>
-                    <template #editor="{ data, field }">
-                        <InputNumber v-model="data[field]" mode="currency" currency="USD" locale="en-US" />
-                    </template>
-                </Column>
-                 <Column field="price" header="Latitude" style="width: 20%">
-                    <template #body="{ data, field }">
-                        {{ formatCurrency(data[field]) }}
-                    </template>
-                    <template #editor="{ data, field }">
-                        <InputNumber v-model="data[field]" mode="currency" currency="USD" locale="en-US" />
-                    </template>
-                </Column>
-                <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
-                <!-- <Column :exportable="false" :styles="{'min-width':'8rem'}">
-                    <template #body="slotProps">
-                        <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2" @click="editProduct(slotProps.data)" />
-                        <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)" />
-                    </template>
-                </Column> -->
             </DataTable>
         </div>
+        <!-- Pop Edited Country -->
+        <edited-popup-geo-location-province
+            v-if="openEditedProvince"
+            :geoLocalProvince="editProvincePopup"
+            @close="closingPopupEditedCountry"
+        />
+        <!-- Popup Deleted Country -->
+        <Dialog v-model:visible="deletedGeoProvinceDialogs" :style="{ width: '450px' }" 
+            header="Confirm"
+            :modal="true">
+            <div class="confirmation-content">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                <span>Are you sure you want to delete</span>
+            </div>
+            <template #footer>
+                <Button label="No" icon="pi pi-times" text @click="deletedGeoProvinceDialogs = false" />
+                <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedProvinceById()" />
+            </template>
+        </Dialog>
+
     </Dialog>
 </template>
 
 <!-- Popup Province or State -->
 <script>
-import { ProductService } from '../ProductService';
-import { FilterMatchMode } from 'primevue/api';
+import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+import { FilterMatchMode,FilterOperator } from 'primevue/api';
+import EditedPopupGeoLocationProvince from "./EditedPopupGeoLocationProvince.vue";
+import util from '@/mixin/util';
+import validation from '@/mixin/validation';
+import geoLocationProvinceHelper from '@/mixin/geoLocationProvinceHelper';
+import {mapActions,mapGetters} from "vuex";
 
 export default {
+    created(){
+        this.geoLocationServices = new GeoLocationsManagementServices();
+    },
+    mixins: [util,validation,geoLocationProvinceHelper],
     components: {
-
+        EditedPopupGeoLocationProvince
+    },  
+    computed: {
+        ...mapGetters('geoProvince', ['provinceAll']),
+        getGeoLocationProvince() {
+            return this.provinceAll || []
+        },
     },
-    mounted() {
-        ProductService.getProductsMini().then((data) => (this.products = data));
-    },
-    props: {},
     data() {
         return {
-            filters: {
+            filtersGeoProvince: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-                name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-                'country.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+                geo_zip_code: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+                geo_khmer_name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
                 representative: { value: null, matchMode: FilterMatchMode.IN },
-                status: { value: null, matchMode: FilterMatchMode.EQUALS },
-                verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+                geo_english_name: {
+                    operator: FilterOperator.AND,
+                    constraints: [
+                        { value: null, matchMode: FilterMatchMode.IN },
+                    ],
+                }
             },
+            selectedGeoProvince: false,
             openDialog: false,
+            openEditedProvince: false,
+            idEditGeoProvince: null,
             products: null,
             editingRows: [],
-            statuses: [
-                { label: 'In Stock', value: 'INSTOCK' },
-                { label: 'Low Stock', value: 'LOWSTOCK' },
-                { label: 'Out of Stock', value: 'OUTOFSTOCK' }
-            ],
-            selectedCustomers: null,
+            selectedProvince: null,
             selectAll: false,
             first: 0,
+            editProvincePopup: null,
+            ajaxDeletingCountry: 0,
+            deletedDialogDataId: null,
+            loadingProvince: false
         };
     },
-    created() {
-
-    },
     methods: {
+        ...mapActions('common', ['fetchLocation', 'setToastMessage', 'setToastError', 'getRequest']),
         popUpCreateProvinceState(){
             this.openDialog = true;
         },
         onRowEditSave(event) {
             let { newData, index } = event;
-
-            this.products[index] = newData;
+            this.getAllCountry[index] = newData;
         },
-        getStatusLabel(status) {
-            switch (status) {
-                case 'INSTOCK':
-                    return 'success';
-
-                case 'LOWSTOCK':
-                    return 'warning';
-
-                case 'OUTOFSTOCK':
-                    return 'danger';
-
-                default:
-                    return null;
-            }
-        },
-        formatCurrency(value) {
-                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-        },
-          onPage(event) {
+        onPage(event) {
             this.lazyParams = event;
-            this.loadLazyData(event);
         },
         onSort(event) {
             this.lazyParams = event;
-            this.loadLazyData(event);
         },
-        onFilter(event) {
+        onFilter() {
             this.lazyParams.filters = this.filters;
-            this.loadLazyData(event);
-        },
-        onSelectAllChange(event) {
-            const selectAll = event.checked;
-            if (selectAll) {
-                ProductService.getProductsMini().then(data => {
-                    this.selectAll = true;
-                    this.selectedCustomers = data;
-                });
-            }
-            else {
-                this.selectAll = false;
-                this.selectedCustomers = [];
-            }
         },
         onRowSelect() {
-            this.selectAll = this.selectedCustomers.length === this.totalRecords
+            this.selectAll = this.selectedProvince.length === this.totalRecords
         },
         onRowUnselect() {
             this.selectAll = false;
+        },
+        closingPopupEditedCountry(){
+            this.openEditedProvince = false;
+        },
+        editGeoLocationProvince(province){
+            this.openEditedProvince = true;
+            this.idEditGeoProvince = parseInt(province?.id) ? parseInt(province?.id) : 0;
+            this.editProvincePopup = province ? province : [];
+        },
+        confirmDeletedGeoProvince(del){
+            this.deletedGeoProvinceDialogs = true;
+            this.deletedDialogDataId = del;
+        },
+        confirmDeletedProvinceById(){
+            this.deletingGeoProvinceLocationsById(this.deletedDialogDataId);
         }
     },
 };

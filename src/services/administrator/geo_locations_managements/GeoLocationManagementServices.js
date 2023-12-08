@@ -90,4 +90,42 @@ export default class GeoLocationsManagementServices {
     async createVillageGeoLocation(villageGeo) {
         return http.post("/admin/geo-location-route/add-new-location-village-commune-by-country", villageGeo);
     }
+    /** 
+     * @api {put} 
+     *  @api (Country,Province,District,Commune,Village)
+    */
+    async editingCountryGeoLocation(geoCountryId, countryGeo) {
+        return http.put(`/admin/geo-location-route/edited-new-location-country-geo/${geoCountryId}`, countryGeo);
+    }
+    async editingProvinceGeoLocation(geoProvinceId, provinceGeo) {
+        return http.put(`/admin/geo-location-route/edited-new-location-province-geo/${geoProvinceId}`, provinceGeo);
+    }
+    async editingDistrictGeoLocation(geoDistrictId, districtGeo) {
+        return http.put(`/admin/geo-location-route/edited-new-location-district-geo/${geoDistrictId}`, districtGeo);
+    }
+    async editingCommuneGeoLocation(geoCommuneId, communeGeo) {
+        return http.put(`/admin/geo-location-route/edited-new-location-commune-geo/${geoCommuneId}`, communeGeo);
+    }
+    async editingVillageByCommuneGeoLocation(geoVillageId, villageGeo) {
+        return http.put(`/admin/geo-location-route/edited-new-location-village-geo/${geoVillageId}`, villageGeo);
+    }
+    /** 
+     * @api {deleted} 
+     *  @api (Country,Province,District,Commune,Village)
+    */
+    async deletedCountryGeoLocation(geoCountryId, countryGeo) {
+        return http.delete(`/admin/geo-location-route/deleted-renew-location-country-geo/${geoCountryId}`, countryGeo);
+    }
+    async deletedProvinceGeoLocation(geoCountryId, countryGeo) {
+        return http.delete(`/admin/geo-location-route/deleted-renew-location-province-geo/${geoCountryId}`, countryGeo);
+    }
+    async deletedDistrictGeoLocation(geoCountryId, countryGeo) {
+        return http.delete(`/admin/geo-location-route/deleted-renew-location-district-geo/${geoCountryId}`, countryGeo);
+    }
+    async deletedCommuneGeoLocation(geoCountryId, countryGeo) {
+        return http.delete(`/admin/geo-location-route/deleted-renew-location-commune-geo/${geoCountryId}`, countryGeo);
+    }
+    async deletedVillageGeoLocation(geoCountryId, countryGeo) {
+        return http.delete(`/admin/geo-location-route/deleted-renew-location-village-geo/${geoCountryId}`, countryGeo);
+    }
 }

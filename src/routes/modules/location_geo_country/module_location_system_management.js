@@ -33,7 +33,7 @@ const moduleProductManagementRouters = {
     meta: {
         title: 'locationMS',
         icon: 'location',
-        permissions: ['location_ms_system_module_settings'],
+        permissions: ['system_module_settings'],
         template: 'panel'
     },
     requiresAuth: true,

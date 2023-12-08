@@ -1,24 +1,15 @@
 <template>
     <div class="pl-2 gap-2 flex align-items-center justify-content-center">
-        <button 
-            class="ajax-btn outline-btn plr-20 mtb-5 border-round"
-            icon="pi pi-plus" 
-            type="button"
-            label="New"
-            aria-label="New"
-            @click.prevent="popUpCreateProvinceState()"
-        >
-            <span>
-                Edit
-                <i class="pi pi-file-edit"></i>
-            </span>
-        </button>
+        <!-- View all geo location-province -->
+        <GeoLocationOfCommuneListPopup/>
+
         <button 
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus" 
             type="button"
             label="New"
             aria-label="New"
+            v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]"
             @click.prevent="popUpCreateProvinceState()"
         >
             <span>
@@ -27,11 +18,10 @@
             </span>
         </button>
     </div>
-    <!-- Popup Create Province or State-->
+    <!-- Popup Create Commune-->
     <Dialog 
-        v-model:visible="openDialog"
-        header="Create a commune" 
-        :style="{ width: '75vw' }" 
+        v-model:visible="openDialogGeoLocationDistrict"
+        header="Create Commune" :style="{ width: '75vw' }" 
         maximizable 
         modal 
         :contentStyle="{ height: '600px' }" 
@@ -47,7 +37,7 @@
         <div v-for="(state, index) in state.moreProvinceState" :key="index" :set="v.moreProvinceState.$each[index]">        
             <div class="flex justify-content-between flex-wrap">
                 <button class="ajax-btn outline-btn plr-20 mtb-5 border-round">
-                    Province or State - <span class="font-bold pl-1">{{ index + 1 }}</span>
+                    Commune - <span class="font-bold pl-1">{{ index + 1 }}</span>
                 </button>
                 <!-- Button Actions -->
                 <div class="flex gap-3">
@@ -60,7 +50,7 @@
                     </button>
                     <button 
                         class="ajax-btn outline-btn plr-20 mtb-5 border-round" 
-                        @click.prevent="removeIndexProvinceState(index)"
+                        @click.prevent="removeIndexCommuneIndex(index)"
                         v-show="index != 0"
                     >
                         <span>Remove</span>
@@ -75,13 +65,13 @@
                             <label
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateCode.length && submitted }"
                             >
-                                Code
+                                Zip Code
                                 <span class="p-error">*</span>
                                 <!-- Tool tip -->
                                 <el-tooltip
                                     class="box-item"
                                     effect="dark"
-                                    content="សូមចម្លងឬវាយចម្លងនាមជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                    content="សូមចម្លងឬវាយបញ្ចូលនាមជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
                                     placement="top-start"
                                 >
                                     <span class="input-label-secondary cursor-pointer pl-2">
@@ -92,23 +82,26 @@
                             <InputText 
                                 :id="state"
                                 v-model="state.stateCode"
-                                class="border-round-lg text-sm" type="text" placeholder="Code"
+                                class="border-round-lg text-sm" type="text" placeholder="Zip Code"
+                                oninput="this.value = this.value.replace(/\D+/g, '')"
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateCode.length && submitted }"
                             />
                             <small v-if="(v.moreProvinceState.$each.$response.$data[index].stateCode.$invalid && submitted)" class="p-error text-sm">
-                                {{ v.moreProvinceState.$each.$response.$errors[index].stateCode[0].$message.replace('Value', 'Code') }}
+                                {{ v.moreProvinceState.$each.$response.$errors[index].stateCode[0].$message.replace('Value', 'Zip Code') }}
                             </small>
                         </div>
                         <!-- Khmer Name -->
                         <div class="input-wrap flex-1">
-                            <label>
+                            <label
+                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateKhmerName.length && submitted }"
+                            >
                                 Khmer Name
                                 <span class="p-error">*</span>
                                 <!-- Tool tip -->
                                 <el-tooltip
                                     class="box-item"
                                     effect="dark"
-                                    content="សូមចម្លងឬវាយចម្លងនាមជាភាសាខ្មែរ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                    content="សូមចម្លងឬវាយបញ្ចូលនាមជាភាសាខ្មែរ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
                                     placement="top-start"
                                 >
                                     <span class="input-label-secondary cursor-pointer pl-2">
@@ -208,7 +201,7 @@
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateLatitude.length && submitted }"
                             />
                             <small v-if="(v.moreProvinceState.$each.$response.$data[index].stateLatitude.$invalid && submitted)" class="p-error text-sm">
-                                {{ v.moreProvinceState.$each.$response.$errors[index].stateLatitude[0].$message.replace('Value', 'stateLatitude') }}
+                                {{ v.moreProvinceState.$each.$response.$errors[index].stateLatitude[0].$message.replace('Value', 'Latitude') }}
                             </small>
                         </div>
                     </div>
@@ -218,7 +211,7 @@
         <!-- Footer -->
         <template #footer>
             <Button label="No" class="w-6rem" icon="pi pi-times" @click="closePopupProvinceState()" text />
-            <Button label="Yes" icon="pi pi-check" class="w-10rem" @click="submittedProvinceState()" autofocus />
+            <Button label="Yes" icon="pi pi-check" class="w-10rem" @click="submittedCommuneByDistrict()" autofocus />
         </template>
     </Dialog>
 </template>
@@ -227,9 +220,15 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import {required,helpers } from '@vuelidate/validators';
-import {reactive} from "vue"
+import {reactive} from "vue";
+import GeoLocationOfCommuneListPopup from "./ListTownCommune";
+import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+import geoLocationDistrictHelper from "@/mixin/geoLocationDistrictHelper"
 
 export default {
+    created(){
+        this.geoLocationServices = new GeoLocationsManagementServices();
+    },
     setup() {
         const rules = {
             moreProvinceState: {
@@ -266,9 +265,19 @@ export default {
         const v = useVuelidate(rules, state)
         return { v, state }
     },
+    props: {
+        geoDistrictSSNCommuneId:{
+            type: String,
+            default: ''
+        }
+    },
+    components: {
+        GeoLocationOfCommuneListPopup
+    },
+    mixins: [geoLocationDistrictHelper],
     data() {
         return {
-            openDialog: false,
+            openDialogGeoLocationDistrict: false,
             products: null,
             editingRows: [],
             selectedCustomers: null,
@@ -293,13 +302,13 @@ export default {
     },
     methods: {
         popUpCreateProvinceState(){
-            this.openDialog = true;
+            this.openDialogGeoLocationDistrict = true;
         },
         closePopupProvinceState(){
-            this.openDialog = false; 
+            this.openDialogGeoLocationDistrict = false; 
         },
         addMoreProvinceState(){
-            this.openDialog = true;
+            this.openDialogGeoLocationDistrict = true;
             this.state.moreProvinceState.push({
                 stateCode: "",
                 stateKhmerName: "",
@@ -309,23 +318,79 @@ export default {
                 stateLatitude: ""
             });
         },
-        removeIndexProvinceState(index){
+        removeIndexCommuneIndex(index){
             this.state.moreProvinceState.splice(index, 1);
         },
-        onResetFromProvinceState(){
+        onResetFromCommune(){
             // reset form validation errors
             this.v.$reset();
             // reset form data
             const initialData = this.$options.data.call(this);
             Object.assign(this.$data, initialData);
         },
-        submittedProvinceState(){
+        submittedCommuneByDistrict(){
             this.submitted = true;
             this.v.$touch();
             // stop here if form is invalid
             if (this.v.$invalid) return;
-            // display form values on success
-            console.log(this.$data.moreProvinceState)
+            
+            let arrayProvinceCommuneObj = [];
+            const arrayDistrictProvince = this.state?.moreProvinceState ? this.state?.moreProvinceState : [];
+            for (let index = 0; index < arrayDistrictProvince.length; index++) {
+                let obj = {};
+                const countryIndex = arrayDistrictProvince[index];
+                obj.geoSuperSSNDistrictCountry = this.geoDistrictSSNCommuneId ? this.geoDistrictSSNCommuneId : null;
+                obj.addNewGeoCountryCommuneZipCode = countryIndex?.stateCode,
+                obj.addNewGeoCountryCommuneKhmerName = countryIndex?.stateKhmerName,
+                obj.addNewGeoCountryCommuneEnglishName = countryIndex?.stateLatinName,
+                obj.addNewGeoCountryCommuneLongitude  = countryIndex?.stateLongitude,
+                obj.addNewGeoCountryCommuneLatitude = countryIndex?.stateLatitude,
+                obj.geoCountryCommuneCodeType = "T4",
+                obj.geoCountryCommuneType = "commune_town"
+                arrayProvinceCommuneObj.push(obj);
+            }
+            const communeAddNewDetail = {
+                geoCommuneCapitalDetail: arrayProvinceCommuneObj ? arrayProvinceCommuneObj : []
+            }
+            this.geoLocationServices.createCommuneGeoLocation(communeAddNewDetail).then(async (response) => { 
+                if (response.data?.success === true) {
+                    this.submitted = false;
+                    this.errorValidateFile = [];
+                    this.isProcessingSubmit = true;
+                    this.$notify.success({
+                        title: 'Successful create geo-location commune',
+                        message: response.data?.message ? response.data?.message : '' ,
+                        showClose: false
+                    });
+                    // Reload Commune Locations
+                    this.state.moreProvinceState = [{
+                        stateCode: "",
+                        stateKhmerName: "",
+                        stateLatinName: "",
+                        stateId: "",
+                        stateLongitude: "",
+                        stateLatitude: ""
+                    }];
+                    this.openDialogGeoLocationDistrict = false;
+                    await this.fetchingDataGeoDistrictByProvinceLocation();
+                }
+            }).catch(error => {
+                    this.$notify.error({
+                        title: 'Unsuccessfully create geo-location commune',
+                        message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location commune',
+                        showClose: false
+                    });  
+                    if(error.response.data.error.error?.errors){
+                        for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
+                            const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
+                            this.$notify.error({
+                                title: 'Unsuccessfully create geo-location commune',
+                                message: messageValidation ?? 'Unsuccessfully create geo-location commune',
+                                showClose: true
+                            });   
+                        }
+                    } 
+            });
         }
     },
 };

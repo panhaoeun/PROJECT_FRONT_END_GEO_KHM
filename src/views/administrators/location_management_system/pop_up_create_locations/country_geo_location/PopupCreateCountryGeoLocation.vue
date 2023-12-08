@@ -1,9 +1,14 @@
 <template>
     <div class="pl-2 gap-2 flex align-items-center justify-content-center">
         <!-- VIew all geo location -country -->
-        <GeoLocationOfCountryListPopup/>
+        <template  v-if="geoCountryLocationId !== null || geoCountryLocationId !== ''">
+            <GeoLocationOfCountryListPopup
+                :checkCountryGeoList="geoCountryLocationId"
+            />
+        </template>
         <!-- Add new Geo Location -->
         <button 
+            v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]"
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus" 
             type="button"
@@ -19,7 +24,7 @@
     </div>
     <!-- Popup Create Province or State-->
     <Dialog 
-        v-model:visible="openDialog"
+        v-model:visible="openDialogGeoLocationCountry"
         header="Create country" :style="{ width: '75vw' }" 
         maximizable 
         modal 
@@ -29,7 +34,9 @@
     >
         <!-- Add More Item -->
         <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
-            <button @click.prevent="addMoreProvinceState()" class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
+            <button @click.prevent="addMoreProvinceState()" 
+                v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]"
+                class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
                 <span>Add new goe country</span>
             </button>
         </div>
@@ -70,7 +77,7 @@
                                 <el-tooltip
                                     class="box-item"
                                     effect="dark"
-                                    content="សូមចម្លងឬវាយចម្លងនាមជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                    content="សូមចម្លងឬវាយបញ្ចូលជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
                                     placement="top-start"
                                 >
                                     <span class="input-label-secondary cursor-pointer pl-2">
@@ -220,6 +227,7 @@ import {required,helpers } from '@vuelidate/validators';
 import {reactive} from "vue";
 import GeoLocationOfCountryListPopup from "./ListPopupCountryGeoLocation.vue";
 import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+import geoLocationCountryHelper from "@/mixin/geoLocationCountryHelper"
 
 export default {
     created(){
@@ -261,9 +269,16 @@ export default {
         const v = useVuelidate(rules, state)
         return { v, state }
     },
+    props: {
+        geoCountryLocationId: {
+            type: String,
+            default: null
+        }
+    },
+    mixins: [geoLocationCountryHelper],
     data() {
         return {
-            openDialog: false,
+            openDialogGeoLocationCountry: false,
             products: null,
             editingRows: [],
             selectedCustomers: null,
@@ -291,13 +306,13 @@ export default {
     },
     methods: {
         popUpCreateProvinceState(){
-            this.openDialog = true;
+            this.openDialogGeoLocationCountry = true;
         },
         closePopupProvinceState(){
-            this.openDialog = false; 
+            this.openDialogGeoLocationCountry = false; 
         },
         addMoreProvinceState(){
-            this.openDialog = true;
+            this.openDialogGeoLocationCountry = true;
             this.state.moreProvinceState.push({
                 stateCode: "",
                 stateKhmerName: "",
@@ -336,30 +351,40 @@ export default {
                 obj.addNewGeoCountryLatitude = countryIndex?.stateLatitude,
                 obj.geoCountryCodeType = "T1",
                 obj.geoCountryType = "country"
-                console.log(countryIndex?.stateCode)
                 arrayCountryObj.push(obj);
             }
             const countryAddNewDetail = {
                 geoCountryDetail: arrayCountryObj ? arrayCountryObj : []
             }
-            this.geoLocationServices.createCountryGeoLocation(countryAddNewDetail).then((response) => { 
+            this.geoLocationServices.createCountryGeoLocation(countryAddNewDetail).then(async (response) => { 
                 if (response.data.success === true) {
                     this.submitted = false;
                     this.errorValidateFile = [];
                     this.isProcessingSubmit = true;
                     this.$notify.success({
-                        title: 'Successful crate product',
+                        title: 'Successful create geo-location country',
                         message: response.data?.message ? response.data?.message : '' ,
                         showClose: false
                     });
+                    this.state.moreProvinceState = [{
+                        stateCode: "",
+                        stateKhmerName: "",
+                        stateLatinName: "",
+                        stateId: "",
+                        stateLongitude: "",
+                        stateLatitude: ""
+                    }];
+                    // Reload Country Locations
+                    this.openDialogGeoLocationCountry = false;
+                    await this.fetchingDataGeoCountryLocation();
                 }
             }).catch(error => {
-                this.$notify.error({
+                    this.$notify.error({
                         title: 'Unsuccessfully create geo-location country',
                         message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location country',
                         showClose: false
                     });  
-                    if(error.response.data.error.error.errors){
+                    if(error.response.data.error.error?.errors){
                         for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
                             const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
                             this.$notify.error({
@@ -370,9 +395,6 @@ export default {
                         }
                     } 
             });
-
-            
-
         }
     },
 };
