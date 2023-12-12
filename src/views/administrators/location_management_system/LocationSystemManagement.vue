@@ -42,8 +42,7 @@
                                 >
                                     <template #value="slotProps">
                                         <div v-if="slotProps.value" class="flex align-items-center">
-                                            <img :alt="slotProps.value?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.geo_location_01.toLowerCase()}`" style="width: 18px" />
-                                            <div class="text-sm">{{ slotProps.value?.geo_english_name ?? '' }}</div>
+                                            <div class="text-sm">{{ slotProps.value?.geo_english_name ?? '' }}({{ slotProps.value.geo_zip_code ?? '' }})</div>
                                         </div>
                                         <span v-else class="text-sm">
                                             {{ slotProps.placeholder }}
@@ -51,8 +50,7 @@
                                     </template>
                                     <template #option="slotProps">
                                         <div class="flex align-items-center text-sm">
-                                            <img :alt="slotProps.option?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.geo_location_01.toLowerCase()}`" style="width: 18px" />
-                                            <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{ slotProps.option.geo_location_01 ?? '' }})</div>
+                                            <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{ slotProps.option.geo_zip_code ?? '' }})</div>
                                         </div>
                                     </template>
                                 </Dropdown>  
