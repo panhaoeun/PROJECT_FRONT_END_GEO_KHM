@@ -196,7 +196,7 @@
                     </button>
                     <ajax-button
                         class="primary-btn  plr-30 plr-sm-15"
-                        :fetching-data="submittingCountryData"
+                        :fetching-data="submittingCityData"
                         :loading-text="$t('addressPopup.saving')"
                         :text=" $t('addressPopup.thisDistrict', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
                     />
@@ -222,7 +222,7 @@
                 editionGeoCountry: null,
                 hasGeoDistrictErrors: false,
                 geoLocationGeoDistrictData: null,
-                submittingCountryData: false
+                submittingCityData: false
             }
         },
         props: {

@@ -1,7 +1,7 @@
 <template>
     <div class="pl-2 gap-2 flex align-items-center justify-content-center">
         <!-- VIew all geo location -country -->
-        <template  v-if="geoCountryLocationId !== null || geoCountryLocationId !== ''">
+        <template v-if="geoCountryLocationId !== null || geoCountryLocationId !== ''">
             <GeoLocationOfCountryListPopup
                 :checkCountryGeoList="geoCountryLocationId"
             />
@@ -87,13 +87,14 @@
                             </label>
                             <InputText 
                                 oninput="this.value = this.value.replace(/\D+/g, '')"
+                                @keypress="$event.key.match(/^[\d\.]$/) ? '' : $event.preventDefault()"
                                 :id="state"
-                                v-model="state.stateCode"
+                                v-model.number="state.stateCode"
                                 class="border-round-lg text-sm" type="text" placeholder="Code"
                                 :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateCode.length && submitted }"
                             />
                             <small v-if="(v.moreProvinceState.$each.$response.$data[index].stateCode.$invalid && submitted)" class="p-error text-sm">
-                                {{ v.moreProvinceState.$each.$response.$errors[index].stateCode[0].$message.replace('Value', 'Code') }}
+                                {{ v.moreProvinceState.$each.$response.$errors[index].stateCode[0].$message.replace('Value', 'Zip Code') }}
                             </small>
                         </div>
                         <!-- Khmer Name -->
@@ -215,7 +216,14 @@
         <!-- Footer -->
         <template #footer>
             <Button label="No" class="w-6rem" icon="pi pi-times" @click="closePopupProvinceState()" text />
-            <Button label="Yes" icon="pi pi-check" class="w-10rem" @click="submittedProvinceState()" autofocus />
+            <Button 
+                :label="loadingSubmitted ? 'Submitted' : 'Save'" 
+                icon="pi pi-check" 
+                class="w-10rem" 
+                :loading="loadingSubmitted"
+                @click="submittedProvinceState()" 
+                autofocus 
+            />
         </template>
     </Dialog>
 </template>
@@ -279,6 +287,7 @@ export default {
     data() {
         return {
             openDialogGeoLocationCountry: false,
+            loadingSubmitted: false,
             products: null,
             editingRows: [],
             selectedCustomers: null,
@@ -340,6 +349,7 @@ export default {
             // display form values on success
             // console.log(this.state.moreProvinceState)
             let arrayCountryObj = [];
+            this.loadingSubmitted = true;
             const arrayCountry = this.state?.moreProvinceState ? this.state?.moreProvinceState : [];
             for (let index = 0; index < arrayCountry.length; index++) {
                 let obj = {};
@@ -353,48 +363,53 @@ export default {
                 obj.geoCountryType = "country"
                 arrayCountryObj.push(obj);
             }
-            const countryAddNewDetail = {
-                geoCountryDetail: arrayCountryObj ? arrayCountryObj : []
-            }
-            this.geoLocationServices.createCountryGeoLocation(countryAddNewDetail).then(async (response) => { 
-                if (response.data.success === true) {
-                    this.submitted = false;
-                    this.errorValidateFile = [];
-                    this.isProcessingSubmit = true;
-                    this.$notify.success({
-                        title: 'Successful create geo-location country',
-                        message: response.data?.message ? response.data?.message : '' ,
-                        showClose: false
-                    });
-                    this.state.moreProvinceState = [{
-                        stateCode: "",
-                        stateKhmerName: "",
-                        stateLatinName: "",
-                        stateId: "",
-                        stateLongitude: "",
-                        stateLatitude: ""
-                    }];
-                    // Reload Country Locations
-                    this.openDialogGeoLocationCountry = false;
-                    await this.fetchingDataGeoCountryLocation();
+            setTimeout(() => {
+                const countryAddNewDetail = {
+                    geoCountryDetail: arrayCountryObj ? arrayCountryObj : []
                 }
-            }).catch(error => {
-                    this.$notify.error({
-                        title: 'Unsuccessfully create geo-location country',
-                        message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location country',
-                        showClose: false
-                    });  
-                    if(error.response.data.error.error?.errors){
-                        for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
-                            const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
-                            this.$notify.error({
-                                title: 'Unsuccessfully create geo-location country',
-                                message: messageValidation ?? 'Unsuccessfully create geo-location country',
-                                showClose: true
-                            });   
-                        }
-                    } 
-            });
+                this.geoLocationServices.createCountryGeoLocation(countryAddNewDetail).then(async (response) => { 
+                    if (response.data.success === true) {
+                        this.submitted = false;
+                        this.errorValidateFile = [];
+                        this.isProcessingSubmit = true;
+                        this.$notify.success({
+                            title: 'Successful create geo-location country',
+                            message: response.data?.message ? response.data?.message : '' ,
+                            showClose: false
+                        });
+                        this.state.moreProvinceState = [{
+                            stateCode: "",
+                            stateKhmerName: "",
+                            stateLatinName: "",
+                            stateId: "",
+                            stateLongitude: "",
+                            stateLatitude: ""
+                        }];
+                        // Reload Country Locations
+                        this.openDialogGeoLocationCountry = false;
+                        this.loadingSubmitted = false;
+                        await this.fetchingDataGeoCountryLocation();
+                    }
+                }).catch(error => {
+                        this.loadingSubmitted = false;
+                        this.$notify.error({
+                            title: 'Unsuccessfully create geo-location country',
+                            message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location country',
+                            showClose: false
+                        });  
+                        if(error.response.data.error.error?.errors){
+                            for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
+                                this.$notify.error({
+                                    title: 'Unsuccessfully create geo-location country',
+                                    message: messageValidation ?? 'Unsuccessfully create geo-location country',
+                                    showClose: true
+                                });   
+                            }
+                        } 
+                });
+            }, 1000);
+          
         }
     },
 };

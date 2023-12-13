@@ -18,7 +18,7 @@
         <!-- Popup Dialog Geo Locations Country -->
         <pop-over
             v-if="geoLocationVillagesData"
-            :title="`Edit Commune:`+ ' '+ nameGeoCommune"
+            :title="`Edit Commune:`+ ' '+ nameGeoVillage"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -197,7 +197,7 @@
                     </button>
                     <ajax-button
                         class="primary-btn  plr-30 plr-sm-15"
-                        :fetching-data="submittingCountryData"
+                        :fetching-data="submittingVillagesData"
                         :loading-text="$t('addressPopup.saving')"
                         :text=" $t('addressPopup.thisVillages', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
                     />
@@ -224,7 +224,7 @@
                 editionGeoCountry: null,
                 hasAddressErrors: false,
                 geoLocationVillagesData: null,
-                submittingCountryData: false
+                submittingVillagesData: false
             }
         },
         props: {
@@ -279,9 +279,6 @@
            async submittedDialogEditGeoLocalCountry(){
                 try {
                     await this.geoLocationProvinceActions();
-                    if (!this.hasAddressErrors) {
-                        this.$emit('close')
-                    }
                 } catch (error) {
                     return Promise.reject(error);   
                 }

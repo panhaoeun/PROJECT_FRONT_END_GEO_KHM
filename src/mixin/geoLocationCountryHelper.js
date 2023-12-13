@@ -16,7 +16,6 @@ export default {
   methods: {
         ...mapActions('geoCountry', ['getAllCountryActions']),
         async geoLocationCountryActions() {
-            this.submittingCountryData = true;  
             if(
                 this.geoLocationCountryData?.geo_zip_code 
                 && this.geoLocationCountryData?.geo_khmer_name
@@ -24,6 +23,7 @@ export default {
                 && this.geoLocationCountryData?.geo_latitude_location
                 && this.geoLocationCountryData?.geo_longitude_location
             ){
+                this.submittingCountryData = true;
                 const editDataGeoCountry = {
                     editGeoCountryZipCode: this.geoLocationCountryData?.geo_zip_code,
                     editGeoCountryKhmerName: this.geoLocationCountryData?.geo_khmer_name,
@@ -45,6 +45,9 @@ export default {
                             this.submittingCountryData = false;
                         }, 1000);
                        
+                    }
+                    if (!this.hasAddressErrors) {
+                        this.$emit('close')
                     }
                 }).catch((error)=> {
                     let message = error?.message;

@@ -16,7 +16,6 @@ export default {
   methods: {
         ...mapActions('geoVillages', ['getAllVillagesActions']),
         async geoLocationProvinceActions() {
-            this.submittingCountryData = true;  
             if(
                 this.geoLocationVillagesData?.geo_zip_code 
                 && this.geoLocationVillagesData?.geo_khmer_name
@@ -32,6 +31,7 @@ export default {
                     editGeoCountryLongitude:this.geoLocationVillagesData?.geo_longitude_location,
                     editGeoCountryLatitude: this.geoLocationVillagesData?.geo_latitude_location
                 }
+                this.submittingVillagesData = true;
                 this.geoLocationServices.editingVillageByCommuneGeoLocation(this.geoLocationVillagesData?.id, editDataGeoProvince)
                 .then(async (editCountry) => {
                     if(editCountry?.status === 200){
@@ -43,8 +43,11 @@ export default {
                                 type: 'success'
                             });
                             await this.fetchingDataGeoVillageLocation(this.geoLocationVillagesData?.geo_super_ssn_location);
-                            this.submittingCountryData = false;
+                            this.submittingVillagesData = false;
                         }, 100);
+                        if (!this.hasAddressErrors) {
+                            this.$emit('close')
+                        }
                     }
                 }).catch((error)=> {
                     console.log(error)
@@ -55,11 +58,11 @@ export default {
                         message:error?.message ? error?.message : '',
                         type: 'error'
                     });
-                    this.submittingCountryData = false;
+                    this.submittingVillagesData = false;
                 });
             }else{
                 this.hasAddressErrors = false;
-                this.submittingCountryData = true;
+                this.submittingVillagesData = true;
             }
         },
         async deletingGeoVillageLocationsById(province) {

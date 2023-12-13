@@ -82,7 +82,7 @@
                                     </template>
                                     <template #option="slotProps">
                                         <div class="flex align-items-center text-sm">
-                                            <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{ slotProps.option?.geo_zip_code ?? '' }})</div>
+                                            <div class="text-sm">{{ slotProps.option?.geo_english_name ?? '' }} ({{ slotProps.option?.geo_zip_code ?? '' }})</div>
                                         </div>
                                     </template>
                                 </Dropdown>  
