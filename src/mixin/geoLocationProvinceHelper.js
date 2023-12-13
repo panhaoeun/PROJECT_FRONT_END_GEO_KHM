@@ -16,51 +16,53 @@ export default {
   methods: {
         ...mapActions('geoProvince', ['getAllProvinceActions']),
         async geoLocationProvinceActions() {
-            this.submittingCountryData = true;  
             if(
-                this.geoLocationCountryData?.geo_zip_code 
-                && this.geoLocationCountryData?.geo_khmer_name
-                && this.geoLocationCountryData?.geo_english_name
-                && this.geoLocationCountryData?.geo_latitude_location
-                && this.geoLocationCountryData?.geo_longitude_location
+                this.geoLocationProvinceData?.geo_zip_code 
+                && this.geoLocationProvinceData?.geo_khmer_name
+                && this.geoLocationProvinceData?.geo_english_name
+                && this.geoLocationProvinceData?.geo_latitude_location
+                && this.geoLocationProvinceData?.geo_longitude_location
             ){
+                this.submittingProvinceData = true;
                 const editDataGeoProvince = {
-                    superSSNCountryCode: this.geoLocationCountryData?.geo_super_ssn_location,
-                    editGeoCountryZipCode: this.geoLocationCountryData?.geo_zip_code,
-                    editGeoCountryKhmerName: this.geoLocationCountryData?.geo_khmer_name,
-                    editGeoCountryEnglishName: this.geoLocationCountryData?.geo_english_name,
-                    editGeoCountryLongitude:this.geoLocationCountryData?.geo_longitude_location,
-                    editGeoCountryLatitude: this.geoLocationCountryData?.geo_latitude_location
+                    superSSNCountryCode: this.geoLocationProvinceData?.geo_super_ssn_location,
+                    editGeoCountryZipCode: this.geoLocationProvinceData?.geo_zip_code,
+                    editGeoCountryKhmerName: this.geoLocationProvinceData?.geo_khmer_name,
+                    editGeoCountryEnglishName: this.geoLocationProvinceData?.geo_english_name,
+                    editGeoCountryLongitude:this.geoLocationProvinceData?.geo_longitude_location,
+                    editGeoCountryLatitude: this.geoLocationProvinceData?.geo_latitude_location
                 }
-                this.geoLocationServices.editingProvinceGeoLocation(this.geoLocationCountryData?.id, editDataGeoProvince)
+                this.geoLocationServices.editingProvinceGeoLocation(this.geoLocationProvinceData?.id, editDataGeoProvince)
                 .then(async (editCountry) => {
                     if(editCountry?.status === 200){
                         setTimeout(async () => {
-                            this.hasAddressErrors = false
+                            this.hasProvinceErrors = false
+                            this.submittingProvinceData = false;
                             this.$notify({
-                                title: 'Editing Country Successfully',
+                                title: 'Editing Province Successfully',
                                 message:editCountry.data?.message ? editCountry.data?.message : '',
                                 type: 'success'
                             });
-                            await this.fetchingDataGeoProvinceLocation(this.geoLocationCountryData?.geo_super_ssn_location);
+                            await this.fetchingDataGeoProvinceLocation(this.geoLocationProvinceData?.geo_super_ssn_location);
                             this.submittingCountryData = false;
                         }, 1000);
-                       
+                    }
+                    if (!this.hasProvinceErrors) {
+                        this.$emit('close')
                     }
                 }).catch((error)=> {
-                    console.log(error)
                     let message = error?.message;
                     this.setToastError(message);
                     this.$notify({
-                        title: 'Unsuccessfully updated country',
+                        title: 'Unsuccessfully updated geo province',
                         message:error?.message ? error?.message : '',
                         type: 'error'
                     });
-                    this.submittingCountryData = false;
+                    this.submittingProvinceData = false;
                 });
             }else{
-                this.hasAddressErrors = false;
-                this.submittingCountryData = true;
+                this.hasProvinceErrors = false;
+                this.submittingProvinceData = true;
             }
         },
         async deletingGeoProvinceLocationsById(province) {

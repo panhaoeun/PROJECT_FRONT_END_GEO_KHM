@@ -16,7 +16,6 @@ export default {
   methods: {
         ...mapActions('geoDistrict', ['getAllDistrictActions']),
         async geoLocationDistrictByProvinceActions() {
-            this.submitted = true;
             if(
                 this.geoLocationGeoDistrictData?.geo_zip_code 
                 && this.geoLocationGeoDistrictData?.geo_khmer_name
@@ -24,6 +23,7 @@ export default {
                 && this.geoLocationGeoDistrictData?.geo_latitude_location
                 && this.geoLocationGeoDistrictData?.geo_longitude_location
             ){
+                this.submittingCityData = true;
                 const editDataGeoDistrict = {
                     superSSNDistrictCode: this.geoLocationGeoDistrictData?.geo_super_ssn_location,
                     editGeoCountryZipCode: this.geoLocationGeoDistrictData?.geo_zip_code,
@@ -43,7 +43,7 @@ export default {
                                 type: 'success'
                             });
                             await this.fetchingDataGeoDistrictByProvinceLocation(this.geoLocationGeoDistrictData?.geo_super_ssn_location);
-                            this.submittingCountryData = false;
+                            this.submittingCityData = false;
                         }, 1000);
                        
                     }
@@ -55,11 +55,11 @@ export default {
                         message:error?.message ? error?.message : '',
                         type: 'error'
                     });
-                    this.submittingCountryData = false;
+                    this.submittingCityData = false;
                 });
             }else{
                 this.hasGeoDistrictErrors = false;
-                this.submittingCountryData = true;
+                this.submittingCityData = true;
             }
         },
         async deletingGeoDistrictLocationsById(districtLocation) {

@@ -211,7 +211,14 @@
         <!-- Footer -->
         <template #footer>
             <Button label="No" class="w-6rem" icon="pi pi-times" @click="closePopupProvinceState()" text />
-            <Button label="Yes" icon="pi pi-check" class="w-10rem" @click="submittedCommuneByDistrict()" autofocus />
+            <Button 
+                label="Yes" 
+                icon="pi pi-check" 
+                class="w-10rem"
+                :loading="submittedLoadingBtn"
+                @click="submittedCommuneByDistrict()"
+                autofocus 
+            />
         </template>
     </Dialog>
 </template>
@@ -277,6 +284,7 @@ export default {
     mixins: [geoLocationDistrictHelper],
     data() {
         return {
+            submittedLoadingBtn: false,
             openDialogGeoLocationDistrict: false,
             products: null,
             editingRows: [],
@@ -349,48 +357,53 @@ export default {
                 obj.geoCountryCommuneType = "commune_town"
                 arrayProvinceCommuneObj.push(obj);
             }
-            const communeAddNewDetail = {
-                geoCommuneCapitalDetail: arrayProvinceCommuneObj ? arrayProvinceCommuneObj : []
-            }
-            this.geoLocationServices.createCommuneGeoLocation(communeAddNewDetail).then(async (response) => { 
-                if (response.data?.success === true) {
-                    this.submitted = false;
-                    this.errorValidateFile = [];
-                    this.isProcessingSubmit = true;
-                    this.$notify.success({
-                        title: 'Successful create geo-location commune',
-                        message: response.data?.message ? response.data?.message : '' ,
-                        showClose: false
-                    });
-                    // Reload Commune Locations
-                    this.state.moreProvinceState = [{
-                        stateCode: "",
-                        stateKhmerName: "",
-                        stateLatinName: "",
-                        stateId: "",
-                        stateLongitude: "",
-                        stateLatitude: ""
-                    }];
-                    this.openDialogGeoLocationDistrict = false;
-                    await this.fetchingDataGeoDistrictByProvinceLocation();
+            this.submittedLoadingBtn = true;
+            setTimeout(() => {
+                const communeAddNewDetail = {
+                    geoCommuneCapitalDetail: arrayProvinceCommuneObj ? arrayProvinceCommuneObj : []
                 }
-            }).catch(error => {
-                    this.$notify.error({
-                        title: 'Unsuccessfully create geo-location commune',
-                        message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location commune',
-                        showClose: false
-                    });  
-                    if(error.response.data.error.error?.errors){
-                        for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
-                            const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
-                            this.$notify.error({
-                                title: 'Unsuccessfully create geo-location commune',
-                                message: messageValidation ?? 'Unsuccessfully create geo-location commune',
-                                showClose: true
-                            });   
-                        }
-                    } 
-            });
+                this.geoLocationServices.createCommuneGeoLocation(communeAddNewDetail).then(async (response) => { 
+                    if (response.data?.success === true) {
+                        this.submitted = false;
+                        this.errorValidateFile = [];
+                        this.isProcessingSubmit = true;
+                        this.$notify.success({
+                            title: 'Successful create geo-location commune',
+                            message: response.data?.message ? response.data?.message : '' ,
+                            showClose: false
+                        });
+                        // Reload Commune Locations
+                        this.state.moreProvinceState = [{
+                            stateCode: "",
+                            stateKhmerName: "",
+                            stateLatinName: "",
+                            stateId: "",
+                            stateLongitude: "",
+                            stateLatitude: ""
+                        }];
+                        this.openDialogGeoLocationDistrict = false;
+                        this.submittedLoadingBtn = false;
+                        await this.fetchingDataGeoDistrictByProvinceLocation();
+                    }
+                }).catch(error => {
+                        this.$notify.error({
+                            title: 'Unsuccessfully create geo-location commune',
+                            message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location commune',
+                            showClose: false
+                        });  
+                        this.submittedLoadingBtn = false;
+                        if(error.response.data.error.error?.errors){
+                            for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
+                                this.$notify.error({
+                                    title: 'Unsuccessfully create geo-location commune',
+                                    message: messageValidation ?? 'Unsuccessfully create geo-location commune',
+                                    showClose: true
+                                });   
+                            }
+                        } 
+                });
+            },1000)
         }
     },
 };

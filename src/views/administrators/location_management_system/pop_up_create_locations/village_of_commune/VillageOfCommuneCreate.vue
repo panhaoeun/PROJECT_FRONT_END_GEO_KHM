@@ -200,7 +200,7 @@
                         icon="pi pi-check" 
                         class="p-button-lg btn btn-primary w-10rem h-4rem"
                         type="submit"
-                        label="Save"
+                        :label="loadingVillageSubmitted ? 'Submitted':'Save'"
                         @click.prevent="submitFormVillageCommune()"
                         :loading="loadingVillageSubmitted"
                     />
