@@ -6,6 +6,14 @@
             <h2 class="relative text-black text-xl section section-title:before">
                 {{ $t('permission.listPermission') }}
             </h2>
+            <el-button type="info" size="large" class="btn btn-primary"
+                @click.prevent="$router.push('/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module-create-new')"
+                v-permission="[{ functionName: 'product_module', moduleName: 'fun_create' }]">
+                <div class="button">
+                    <i class="pi pi-plus" style="font-size: 1rem"></i>
+                    <span class="pl-2">Add role permission</span>
+                </div>
+            </el-button>
         </div>
         <div class="gird">
             <div class="col-12">
@@ -13,7 +21,9 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                            <DataTable ref="dt" :value="permissionsRoleModuleListArr"
+                            <DataTable 
+                                ref="dt" 
+                                :value="permissionsRoleModuleListArr"
                                 v-model:selection="selectedPermModule" dataKey="id" 
                                 :paginator="true" :rows="10"
                                 :filters="filters" class="p-datatable-scrollable text-sm"

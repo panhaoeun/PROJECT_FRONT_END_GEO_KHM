@@ -184,7 +184,19 @@ const defaultChildRoutesUsersMS = (prefix) => [
             permissions: ['permissions_module']
         },
         component: () => import("../../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),
-    }
+    },
+    {
+        path: "/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module-create-new",
+        name: prefix + '.user_create_new_auth_crud_permission_auth_role_module',
+        hidden: true,
+        meta: {
+            title: "permissionMS",
+            requiresAuth: true,
+            icon: 'shieldCheck',
+            permissions: ['permissions_module']
+        },
+        component: () => import("../../views/administrators/user_managements/role_permission_module_new/CreatePermissionRole.vue"),
+     }
 ]
 const moduleUsersManagementRouters = {
     path: '/vendor/users_managements',

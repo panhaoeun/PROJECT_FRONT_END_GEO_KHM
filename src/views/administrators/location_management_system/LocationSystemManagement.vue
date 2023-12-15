@@ -166,113 +166,153 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                                <DataTable 
-                                    scrollable
-                                    ref="dt" 
-                                    :loading="loadingDataListLocation"
-                                    :value="geoLocationListArray" 
-                                    v-model:selection="selectedGeoLocation"
-                                    dataKey="id"
-                                    :paginator="true" 
-                                    :rows="10" 
-                                    filterDisplay="menu"
-                                    contextMenu
-                                    v-model:filters="filtersGeoVillageSystem" 
-                                    :filters="filtersGeoVillageSystem"
-                                    responsiveLayout="scroll"
-                                    class="p-datatable-scrollable text-sm"
-                                    :globalFilterFields="['representative.geo_zip_code', 'geo_khmer_name', 'geo_english_name']"
-                                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                                    :rowsPerPageOptions="[5, 10, 25,50, 100]"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-villages locations">
-                                    <!-- Header -->
-                                    <template #header>
-                                        <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                                            <!-- Filter Date Order -->
-                                            <h4 class="m-0">
-                                                
-                                            </h4>
-                                            <span class="p-input-icon-left">
-                                                <i class="pi pi-search" />
-                                                <InputText v-model="filtersGeoVillageSystem['global'].value" :placeholder="$t('route.search')" />
-                                            </span>
-                                        </div>
+                            <DataTable 
+                                scrollable
+                                ref="dt" 
+                                :loading="loadingDataListLocation"
+                                :value="getGeoLocationVillagesData" 
+                                v-model:selection="selectedGeoLocation"
+                                dataKey="id"
+                                :paginator="true" 
+                                :rows="10" 
+                                filterDisplay="menu"
+                                contextMenu
+                                v-model:filters="filtersGeoVillageSystem" 
+                                :filters="filtersGeoVillageSystem"
+                                responsiveLayout="scroll"
+                                class="p-datatable-scrollable text-sm"
+                                :globalFilterFields="['representative.geo_zip_code', 'geo_khmer_name', 'geo_english_name']"
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                :rowsPerPageOptions="[5, 10, 25,50, 100]"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-villages locations">
+                                <!-- Header -->
+                                <template #header>
+                                    <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                                        <!-- Filter Date Order -->
+                                        <h4 class="m-0">
+                                            
+                                        </h4>
+                                        <span class="p-input-icon-left">
+                                            <i class="pi pi-search" />
+                                            <InputText v-model="filtersGeoVillageSystem['global'].value" :placeholder="$t('route.search')" />
+                                        </span>
+                                    </div>
+                                </template>
+                                <!-- Empty Users -->
+                                <template #empty>Villages not found!</template>
+                                <!-- Loading Users -->
+                                <template #loading> Loading villages data. Please wait...</template>
+                                <!--------------Check Existed Data ----------->
+                                <template v-if="geoLocationListArray && geoLocationListArray.length > 0 && geoLocationListArray != ''">
+                                <!-- Columns -->
+                                <Column field="geo_zip_code" header="Zip Code" sortField="geo_zip_code" sortable>
+                                        <template #body="{ data }">
+                                            {{ data?.geo_zip_code }}
+                                        </template>
+                                    <!-- Geo-Country Zip Code -->
+                                    <template #filter="{ filterModel, filterCallback }">
+                                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by zip code" />
                                     </template>
-                                    <!-- Empty Users -->
-                                    <template #empty>Villages not found!</template>
-                                    <!-- Loading Users -->
-                                    <template #loading> Loading villages data. Please wait...</template>
-                                    <!--------------Check Existed Data ----------->
-                                    <template v-if="geoLocationListArray && geoLocationListArray.length > 0 && geoLocationListArray != ''">
-                                    <!-- Columns -->
-                                    <Column field="geo_zip_code" header="Zip Code" sortField="geo_zip_code" sortable>
-                                            <template #body="{ data }">
-                                                {{ data?.geo_zip_code }}
-                                            </template>
-                                        <!-- Geo-Country Zip Code -->
-                                        <template #filter="{ filterModel, filterCallback }">
-                                            <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by zip code" />
-                                        </template>
-                                    </Column>
-                                    <Column field="geo_khmer_name" header="Khmer Name" sortField="geo_khmer_name" sortable>
-                                        <template #body="{ data }">
-                                            <span class="font-bold">  {{ data?.geo_khmer_name }}</span>
-                                        </template>
-                                        <!-- Filter Khmer Name -->
-                                        <template #filter="{ filterModel, filterCallback }">
-                                            <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by khmer name" />
-                                        </template>
-                                    </Column>
-                                    <Column field="geo_english_name" header="Latin Name" sortField="geo_english_name" sortable>
-                                        <template #body="{ data }">
-                                              <span class="font-bold">{{ data?.geo_english_name }}</span>
-                                        </template>
-                                        <!-- Filter English Name -->
-                                        <template #filter="{ filterModel, filterCallback }">
-                                            <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by english name" />
-                                        </template>
-                                    </Column>
-                                    <Column field="geo_longitude_location" header="Longitude" sortField="geo_longitude_location" sortable>
-                                        <template #body="{ data }">
-                                            {{ data?.geo_longitude_location }}
-                                        </template>
-                                    </Column>
-                                    <Column field="geo_latitude_location" header="Latitude" sortField="geo_latitude_location" sortable>
-                                        <template #body="{ data }">
-                                            {{ data?.geo_latitude_location }}
-                                        </template>
-                                    </Column>
-                                        <!-- <Column field="id" header="Shop" sortable>
-                                            <template #body="slotProps">
-                                                <div class="justify-content-center">
-                                                    <p class="font-bold text-sm"> {{slotProps.data?.store}}</p>
-                                                </div>
-                                            </template>
-                                        </Column>
-                                         -->
+                                </Column>
+                                <Column field="geo_khmer_name" header="Khmer Name" sortField="geo_khmer_name" sortable>
+                                    <template #body="{ data }">
+                                        <span class="font-bold">  {{ data?.geo_khmer_name }}</span>
                                     </template>
-                                </DataTable>
+                                    <!-- Filter Khmer Name -->
+                                    <template #filter="{ filterModel, filterCallback }">
+                                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by khmer name" />
+                                    </template>
+                                </Column>
+                                <Column field="geo_english_name" header="Latin Name" sortField="geo_english_name" sortable>
+                                    <template #body="{ data }">
+                                            <span class="font-bold">{{ data?.geo_english_name }}</span>
+                                    </template>
+                                    <!-- Filter English Name -->
+                                    <template #filter="{ filterModel, filterCallback }">
+                                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by english name" />
+                                    </template>
+                                </Column>
+                                <Column field="geo_longitude_location" header="Longitude" sortField="geo_longitude_location" sortable>
+                                    <template #body="{ data }">
+                                        {{ data?.geo_longitude_location }}
+                                    </template>
+                                </Column>
+                                <Column field="geo_latitude_location" header="Latitude" sortField="geo_latitude_location" sortable>
+                                    <template #body="{ data }">
+                                        {{ data?.geo_latitude_location }}
+                                    </template>
+                                </Column>
+                                <Column :exportable="false" class="text-md font-medium" :header="$t('route.option')"
+                                    style="min-width:8rem">
+                                    <template #body="slotProps">
+                                        <Button icon="pi pi-pencil" outlined rounded class="mr-2"
+                                            v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_edit' }]"
+                                            @click="editGeoLocationGeoVillages(slotProps?.data)" />
+                                        <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                            v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_deleted' }]"
+                                            @click="confirmDeleteVillages(slotProps.data)" />
+                                    </template>
+                                </Column>
+                                </template>
+                            </DataTable>
                         </div>
                     </div>
                 </el-card>
             </div>
+            <!-- Pop Edited villages -->
+            <edited-popup-geo-location-villages
+                v-if="openEditedVillages"
+                :geoLocalVillage="editGeoVillagesPopup"
+                @close="closingPopupEditedVillages"
+            />
+            <!-- Popup Deleted villages -->
+            <Dialog v-model:visible="deletedGeoVillagesDialogs" :style="{ width: '450px' }" 
+                header="Confirm"
+                :modal="true">
+                <div class="confirmation-content">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                    <span>Are you sure you want to delete</span>
+                </div>
+                <template #footer>
+                    <Button label="No" icon="pi pi-times" text @click="deletedGeoVillagesDialogs = false" />
+                    <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedGeoVillagesById()" />
+                </template>
+            </Dialog>
+
         </div>
     </div>
 </template>
 
 <!-- Script of Delivery -->
 <script>
+    import {mapGetters,mapActions} from "vuex";
     import { FilterMatchMode,FilterOperator } from 'primevue/api';
     import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
     import { useVuelidate } from '@vuelidate/core';
     import { required } from '@vuelidate/validators';
+    import EditedPopupGeoLocationVillages from "./pop_up_create_locations/village_of_commune/EditedPopupGeoLocationVillages";
+    import geoLocationVillagesHelper from '@/mixin/geoLocationVillagesHelper';
+    import util from '@/mixin/util';
+    import validation from '@/mixin/validation';
 
     export default{
         setup() {
           return { v$: useVuelidate() }
         },
+        mixins: [util,validation,geoLocationVillagesHelper],
+        computed: {
+            ...mapGetters('geoVillages', ['getGeoVillageAll']),
+            getGeoLocationVillagesData() {
+                return this.getGeoVillageAll || []
+            },
+        },
         data(){
             return {
+                deletedGeoVillagesDialogs: false,
+                deletedDialogDataVillagesId: null,
+                openEditedVillages: false,
+                idEditGeoVillages: null,
+                editGeoVillagesPopup: null,
                 zeroCountryState: 0,
                 countryRegion: null,
                 submitted: false,
@@ -320,8 +360,27 @@
                 selectSDistrictOpt: {required},
                 selectSDCommuneCityOpt: {required}
             }
-        },  
+        }, 
+        components:{
+            EditedPopupGeoLocationVillages
+        }, 
         methods: {
+            ...mapActions('geoVillages', ['getAllVillagesActions']),
+            closingPopupEditedVillages(){
+                this.openEditedVillages = false;
+            },
+            editGeoLocationGeoVillages(villages){
+                this.openEditedVillages = true;
+                this.idEditGeoVillages = parseInt(villages?.id) ? parseInt(villages?.id) : 0;
+                this.editGeoVillagesPopup = villages ? villages : [];
+            },
+            confirmDeleteVillages(del){
+                this.deletedGeoVillagesDialogs = true;
+                this.deletedDialogDataVillagesId = del;
+            },
+            confirmDeletedGeoVillagesById(){
+                this.deletingGeoVillageLocationsById(this.deletedDialogDataVillagesId);
+            },
             // Selected Dropdown menu 
             async selectedProvinceStateFilter(country){
                 try {
@@ -431,10 +490,11 @@
                         this.loadingDataListLocation = false;
                         if(validation === false){
                             const errorValidation = this.v$.$errors;
-                            this.$notify.error({
-                                    title: 'Please selected for filters',
-                                    message: errorValidation[0]?.$message ? errorValidation[0]?.$message : '' ,
-                                    showClose: true
+                            this.$notify({
+                                title: 'Please selected for filters',
+                                message: errorValidation[0]?.$message ? errorValidation[0]?.$message : '' ,
+                                showClose: false,
+                                type: 'error'
                             });
                         }else{
                             if(!this.selectedCountryOpt  !== ''
@@ -461,6 +521,8 @@
                             if (!location) {
                                 this.geoLocationListArray = [];
                             }
+                            //Villages
+                            this.getAllVillagesActions(superSSNCityCode);
                             this.geoLocationListArray = Array.isArray(location) ? location.slice() : [];
                         }).catch((error) => {
                             return Promise.reject(error.message || []);
