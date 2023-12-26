@@ -209,7 +209,14 @@
         <!-- Footer -->
         <template #footer>
             <Button label="No" class="w-6rem" icon="pi pi-times" @click="closePopupProvinceState()" text />
-            <Button label="Yes" icon="pi pi-check" class="w-10rem" @click="submittedProvinceState()" autofocus />
+            <Button 
+                :label="frmSubmittedStateProvince ? 'Submitted' : 'Save'" 
+                icon="pi pi-check" 
+                class="w-10rem" 
+                :loading="frmSubmittedStateProvince"
+                @click="submittedProvinceState()"
+                autofocus 
+            />
         </template>
     </Dialog>
 </template>
@@ -277,6 +284,7 @@ export default {
     mixins: [geoLocationProvinceHelper],
     data() {
         return {
+            frmSubmittedStateProvince: false,
             openDialogGeoLocationProvince: false,
             products: null,
             editingRows: [],
@@ -349,33 +357,37 @@ export default {
                 obj.geoCountryStateType = "province_state"
                 arrayProvinceObj.push(obj);
             }
-            const provinceAddNewDetail = {
-                geoProvinceStateDetail: arrayProvinceObj ? arrayProvinceObj : []
-            }
-            this.geoLocationServices.createProvinceStateGeoLocation(provinceAddNewDetail).then(async (response) => { 
-                if (response.data.success === true) {
-                    this.submitted = false;
-                    this.errorValidateFile = [];
-                    this.isProcessingSubmit = true;
-                    this.$notify.success({
-                        title: 'Successful create geo-location province or state',
-                        message: response.data?.message ? response.data?.message : '' ,
-                        showClose: false
-                    });
-                    this.state.moreProvinceState = [{
-                        stateCode: "",
-                        stateKhmerName: "",
-                        stateLatinName: "",
-                        stateId: "",
-                        stateLongitude: "",
-                        stateLatitude: ""
-                    }];
-                    // Reload Country Locations
-                    const superSSNStateCode  = this?.countryProvinceId ? this?.countryProvinceId : '';
-                    await this.fetchingDataGeoProvinceLocation(superSSNStateCode);
-                    this.openDialogGeoLocationProvince = false;
+            this.frmSubmittedStateProvince = true;
+            setTimeout(() => {
+                const provinceAddNewDetail = {
+                    geoProvinceStateDetail: arrayProvinceObj ? arrayProvinceObj : []
                 }
-            }).catch(error => {
+                this.frmSubmittedStateProvince = false;
+                this.geoLocationServices.createProvinceStateGeoLocation(provinceAddNewDetail).then(async (response) => { 
+                    if (response.data.success === true) {
+                        this.submitted = false;
+                        this.errorValidateFile = [];
+                        this.isProcessingSubmit = true;
+                        this.$notify.success({
+                            title: 'Successful create geo-location province or state',
+                            message: response.data?.message ? response.data?.message : '' ,
+                            showClose: false
+                        });
+                        this.state.moreProvinceState = [{
+                            stateCode: "",
+                            stateKhmerName: "",
+                            stateLatinName: "",
+                            stateId: "",
+                            stateLongitude: "",
+                            stateLatitude: ""
+                        }];
+                        // Reload Country Locations
+                        const superSSNStateCode  = this?.countryProvinceId ? this?.countryProvinceId : '';
+                        await this.fetchingDataGeoProvinceLocation(superSSNStateCode);
+                        this.openDialogGeoLocationProvince = false;
+                    }
+                }).catch(error => {
+                    this.frmSubmittedStateProvince = false;
                     this.$notify.error({
                         title: 'Unsuccessfully create geo-location province or state',
                         message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location province or state',
@@ -391,7 +403,8 @@ export default {
                             });   
                         }
                     } 
-            });
+                });
+            },1000);
         }
     },
 };

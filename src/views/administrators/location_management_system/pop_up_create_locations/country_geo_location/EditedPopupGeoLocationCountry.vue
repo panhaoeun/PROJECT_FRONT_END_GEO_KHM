@@ -52,7 +52,14 @@
                                 </span>
                             </el-tooltip>
                         </label>
-                        <InputText oninput="this.value = this.value.replace(/\D+/g, '')" class="border-round-lg text-sm w-15rem" v-model.number="geoLocationCountryData.geo_zip_code" type="text" placeholder="Zip Code" />
+                        <InputText
+                            oninput="this.value = this.value.replace(/\D+/g, '')" 
+                            @keypress="$event.key.match(/^[\d\.]$/) ? '' : $event.preventDefault()"
+                            class="border-round-lg text-sm w-15rem" 
+                            v-model.number="geoLocationCountryData.geo_zip_code"
+                            type="text" 
+                            placeholder="Zip Code" 
+                        />
                         <span
                             class="error"
                             v-if="!geoLocationCountryData.geo_zip_code && hasAddressErrors"
@@ -278,10 +285,6 @@
            async submittedDialogEditGeoLocalCountry(){
                 try {
                     await this.geoLocationCountryActions();
-                   
-                    if (!this.hasAddressErrors) {
-                        this.$emit('close')
-                    }
                 } catch (error) {
                     return Promise.reject(error);   
                 }

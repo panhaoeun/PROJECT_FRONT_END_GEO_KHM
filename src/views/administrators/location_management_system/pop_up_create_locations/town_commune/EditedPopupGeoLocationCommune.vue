@@ -196,9 +196,9 @@
                     </button>
                     <ajax-button
                         class="primary-btn  plr-30 plr-sm-15"
-                        :fetching-data="submittingCountryData"
+                        :fetching-data="submittingCommuneData"
                         :loading-text="$t('addressPopup.saving')"
-                        :text=" $t('addressPopup.thisCountry', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
+                        :text=" $t('addressPopup.thisCommune', {type: editing > 0 ? $t('addressPopup.update') : $t('addressPopup.save')})"
                     />
                 </div>
             </template>
@@ -223,7 +223,7 @@
                 editionGeoCountry: null,
                 hasAddressErrors: false,
                 geoLocationCommuneData: null,
-                submittingCountryData: false
+                submittingCommuneData: false
             }
         },
         props: {
@@ -278,9 +278,6 @@
            async submittedDialogEditGeoLocalCountry(){
                 try {
                     await this.geoLocationCommuneActions();
-                    if (!this.hasAddressErrors) {
-                        this.$emit('close')
-                    }
                 } catch (error) {
                     return Promise.reject(error);   
                 }

@@ -210,7 +210,14 @@
         <!-- Footer -->
         <template #footer>
             <Button label="No" class="w-6rem" icon="pi pi-times" @click="closePopupProvinceState()" text />
-            <Button label="Yes" icon="pi pi-check" class="w-10rem" @click="submittedProvinceState()" autofocus />
+            <Button 
+                :label="loadingSubmittedBtnCity ? 'Submitted': 'Save'" 
+                icon="pi pi-check"
+                class="w-10rem" 
+                :loading="loadingSubmittedBtnCity"
+                @click="submittedProvinceState()" 
+                autofocus 
+            />
         </template>
     </Dialog>
 </template>
@@ -276,6 +283,7 @@ export default {
     mixins: [geoLocationDistrictHelper],
     data() {
         return {
+            loadingSubmittedBtnCity: false,
             openDialogGeoLocationDistrict: false,
             products: null,
             editingRows: [],
@@ -348,49 +356,54 @@ export default {
                 obj.geoCountryDistrictType = "district_city"
                 arrayProvinceDistrictObj.push(obj);
             }
-            const districtAddNewDetail = {
-                geoDistrictDetail: arrayProvinceDistrictObj ? arrayProvinceDistrictObj : []
-            }
-            this.geoLocationServices.createDistrictGeoLocation(districtAddNewDetail).then(async (response) => { 
-                if (response.data?.success === true) {
-                    this.submitted = false;
-                    this.errorValidateFile = [];
-                    this.isProcessingSubmit = true;
-                    this.$notify.success({
-                        title: 'Successful create geo-location district',
-                        message: response.data?.message ? response.data?.message : '' ,
-                        showClose: false
-                    });
-                    // Clear Array District
-                    this.state.moreProvinceState = [{
-                            stateCode: "",
-                            stateKhmerName: "",
-                            stateLatinName: "",
-                            stateId: "",
-                            stateLongitude: "",
-                            stateLatitude: ""
-                    }];
-                    // Reload District Locations
-                    this.openDialogGeoLocationDistrict = false;
-                    await this.fetchingDataGeoDistrictByProvinceLocation(this.geoDistrictSSNProvinceId);
+            this.loadingSubmittedBtnCity = true;
+            setTimeout(() => {
+                const districtAddNewDetail = {
+                    geoDistrictDetail: arrayProvinceDistrictObj ? arrayProvinceDistrictObj : []
                 }
-            }).catch(error => {
-                    this.$notify.error({
-                        title: 'Unsuccessfully create geo-location district',
-                        message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location district',
-                        showClose: false
-                    });  
-                    if(error.response.data.error.error?.errors){
-                        for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
-                            const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
-                            this.$notify.error({
-                                title: 'Unsuccessfully create geo-location district',
-                                message: messageValidation ?? 'Unsuccessfully create geo-location district',
-                                showClose: true
-                            });   
-                        }
-                    } 
-            });
+                this.geoLocationServices.createDistrictGeoLocation(districtAddNewDetail).then(async (response) => { 
+                    if (response.data?.success === true) {
+                        this.submitted = false;
+                        this.errorValidateFile = [];
+                        this.isProcessingSubmit = true;
+                        this.$notify.success({
+                            title: 'Successful create geo-location district',
+                            message: response.data?.message ? response.data?.message : '' ,
+                            showClose: false
+                        });
+                        // Clear Array District
+                        this.state.moreProvinceState = [{
+                                stateCode: "",
+                                stateKhmerName: "",
+                                stateLatinName: "",
+                                stateId: "",
+                                stateLongitude: "",
+                                stateLatitude: ""
+                        }];
+                        // Reload District Locations
+                        this.openDialogGeoLocationDistrict = false;
+                        this.loadingSubmittedBtnCity = false;
+                        await this.fetchingDataGeoDistrictByProvinceLocation(this.geoDistrictSSNProvinceId);
+                    }
+                }).catch(error => {
+                        this.loadingSubmittedBtnCity = false;
+                        this.$notify.error({
+                            title: 'Unsuccessfully create geo-location district',
+                            message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location district',
+                            showClose: false
+                        });  
+                        if(error.response.data.error.error?.errors){
+                            for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
+                                const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
+                                this.$notify.error({
+                                    title: 'Unsuccessfully create geo-location district',
+                                    message: messageValidation ?? 'Unsuccessfully create geo-location district',
+                                    showClose: true
+                                });   
+                            }
+                        } 
+                });
+            },1000);
         }
     },
 };

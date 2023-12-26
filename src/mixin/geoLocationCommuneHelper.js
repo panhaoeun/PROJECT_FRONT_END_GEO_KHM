@@ -16,7 +16,6 @@ export default {
   methods: {
         ...mapActions('geoCommune', ['getAllCommuneActions']),
         async geoLocationCommuneActions() {
-            this.submittingCountryData = true;  
             if(
                 this.geoLocationCommuneData?.geo_zip_code 
                 && this.geoLocationCommuneData?.geo_khmer_name
@@ -24,6 +23,7 @@ export default {
                 && this.geoLocationCommuneData?.geo_latitude_location
                 && this.geoLocationCommuneData?.geo_longitude_location
             ){
+                this.submittingCommuneData = true;
                 const editDataGeoProvince = {
                     superSSNProvinceCode: this.geoLocationCommuneData?.geo_super_ssn_location,
                     editGeoCountryZipCode: this.geoLocationCommuneData?.geo_zip_code,
@@ -43,9 +43,11 @@ export default {
                                 type: 'success'
                             });
                             await this.fetchingDataGeoCommuneLocation(this.geoLocationCommuneData?.geo_super_ssn_location);
-                            this.submittingCountryData = false;
+                            this.submittingCommuneData = false;
                         }, 1000);
-                       
+                        if (!this.hasAddressErrors) {
+                            this.$emit('close')
+                        }
                     }
                 }).catch((error)=> {
                     console.log(error)
@@ -56,11 +58,11 @@ export default {
                         message:error?.message ? error?.message : '',
                         type: 'error'
                     });
-                    this.submittingCountryData = false;
+                    this.submittingCommuneData = false;
                 });
             }else{
                 this.hasAddressErrors = false;
-                this.submittingCountryData = true;
+                this.submittingCommuneData = true;
             }
         },
         async deletingGeoCommuneLocationsById(province) {
