@@ -137,6 +137,7 @@ export default {
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
         locationMS: 'Locations',
+        groupChat: 'Chat',
         proProductMS: 'Products',
         contentProduct: 'Message',
         userMSModule: 'User Managements',
