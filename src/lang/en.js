@@ -136,6 +136,7 @@ export default {
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
         locationMS: 'Locations',
+        languagesMS: 'Languges',
         proProductMS: 'Products',
         contentProduct: 'Message',
         userMSModule: 'User Managements',

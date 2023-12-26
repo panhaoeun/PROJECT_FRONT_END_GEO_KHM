@@ -23,7 +23,34 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [
             permissions: ['location_ms_system_module']
         },
         component: () => import("../../../views/administrators/location_management_system/CreateNewLocation.vue"),
-    }
+    },
+
+    {
+        path: "/admin/setting-languages-for-translate",
+        name: prefix + '.setting_languages',
+        // hidden: true,
+        meta: {
+            title: "languagesMS",
+            requiresAuth: true,
+            icon: 'location',
+            permissions: ['location_ms_system_module']
+        },
+        component: () => import("../../../views/administrators/settings/languages/CreateSetTranlates.vue"),
+    },
+
+    {
+        path: "/admin/setting-languages-for-translate/create-translate",
+        name: prefix + '.setting-languages-for-translate',
+        hidden: true,
+        meta: {
+            title: "languagescreateMS",
+            requiresAuth: true,
+            icon: 'location',
+            permissions: ['location_ms_system_module']
+        },
+        component: () => import("../../../views/administrators/settings/languages/DefaultAddNewLanguage.vue"),
+    },
+
 ]
 const moduleProductManagementRouters = {
     path: '/admin/locations',
