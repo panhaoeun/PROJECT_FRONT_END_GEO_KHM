@@ -1,109 +1,241 @@
 <template>
-    <hr>
-    <div class="col-12 p-0">
-        <div class="col-12 d-flex">
-            <div class="col-6">
-                <h6>Widget Your Language</h6>
-            </div>
-            <div class="col-6 p-0 d-flex justify-content-end">
-                <Button class="ml-2 add-new-btn" label="Add New" @click="select_category = true" />
-            </div>
-        </div>
-
-        <div class="row col-12 px-0">
-            <DataTable :value="products" :tableStyle="{ 'min-width': '50rem' }">
-                <Column field="ID" header="ID"></Column>
-                <Column field="Original lang" header="Code"></Column>
-                <Column field="Langua" header="Name"></Column>
-                <Column field="Language" header="Language"></Column>
-                <Column field="ShortCode" header="Short Code"></Column>
-                <Column field="CountryCode" header="Country Code"></Column>
-                <Column field="Action" header="Action">
-                    <template #body="rowData">
-                        <Button icon="pi pi-eye" @click="openViewDialog(rowData)"></Button>
-                        <Button icon="pi pi-trash" @click="deleteAction(rowData)"></Button>
-                    </template>
-                </Column>
-            </DataTable>
-            <Dialog v-if="viewDialog.visible" v-model:visible="viewDialog.visible" modal closable
-                header="View Country Language" :style="{ width: '90%' }"
-                :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                <div class="row col-12 px-0">
-                    <h6>View Dialog Content</h6>
-                    <p>ID: {{ viewDialog.rowData.ID }}</p>
-                    <p>Code: {{ viewDialog.rowData['Original lang'] }}</p>
-                    <p>Name: {{ viewDialog.rowData.Langua }}</p>
-                    <p>Language: {{ viewDialog.rowData.Language }}</p>
-                    <p>Short Code: {{ viewDialog.rowData.ShortCode }}</p>
-                    <p>Country Code: {{ viewDialog.rowData.CountryCode }}</p>
+    <!-- Popup Create Province or State-->
+    <!-- Table List Province or State -->
+    <div class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 card border-round gap-15">
+        <DataTable class="p-datatable-scrollable text-sm" :rows="10" dataKey="id" :paginator="true" :value="getAllCountry"
+            :rowHover="true" contextMenu v-model:filters="filtersGeoCountry" filterDisplay="menu" :loading="loadingCountry"
+            :filters="filtersGeoCountry" responsiveLayout="scroll"
+            :globalFilterFields="['representative.geo_zip_code', 'geo_khmer_name', 'geo_english_name', 'geo_longitude_location', 'geo_latitude_location']"
+            v-model:selection="selectedGeoCountry"
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            :rowsPerPageOptions="[5, 10, 25, 50, 100]"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} geo-country locations">
+            <!-- Search Input Filter -->
+            <template #header>
+                <div class="flex flex-wrap justify-content-between gap-2">
+                    <p>Project</p>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search" />
+                        <InputText v-model="filtersGeoCountry['global'].value" placeholder="Search country" />
+                    </span>
                 </div>
-            </Dialog>
-        </div>
+            </template>
+            <!-- Column -->
+            <template #empty> No Project found. </template>
+            <template #loading> Loading Project data. Please wait. </template>
+            <Column selectionMode="multiple" :styless="{ width: '3rem' }" :exportable="false"></Column>
+            <Column field="No" header="No" sortField="No" sortable>
+                <template #body="{ data }">
+                    {{ data?.geo_zip_code }}
+                </template>
+                <!-- Geo-Country Zip Code -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by zip name" />
+                </template>
+            </Column>
+            <Column field="Language" header="Language" sortField="Language" sortable>
+                <template #body="{ data }">
+                    {{ data?.geo_zip_code }}
+                </template>
+                <!-- Geo-Country Zip Code -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by zip name" />
+                </template>
+            </Column>
+            <Column field="Language Short Code" header="Language Short Code" sortField="Language Short Code" sortable>
+                <template #body="{ data }">
+                    {{ data?.geo_zip_code }}
+                </template>
+                <!-- Geo-Country Zip Code -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by zip name" />
+                </template>
+            </Column>
+            <Column field="Original Language" header="Original Language" sortField="Original Language" sortable>
+                <template #body="{ data }">
+                    {{ data?.geo_zip_code }}
+                </template>
+                <!-- Geo-Country Zip Code -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by zip name" />
+                </template>
+            </Column>
+            <Column field="Language Change" header="Language Change" sortField="Language Change" sortable>
+                <template #body="{ data }">
+                    {{ data?.geo_zip_code }}
+                </template>
+                <!-- Geo-Country Zip Code -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by zip name" />
+                </template>
+            </Column>
+            <Column field="Note" header="Note" sortField="Note" sortable>
+                <template #body="{ data }">
+                    {{ data?.geo_english_name }}
+                </template>
+                <!-- Filter Khmer Name -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Note" />
+                </template>
+            </Column>
+            <Column header="Actions" :exportable="false" :styles="{ 'min-width': '8rem' }">
+                <template #body="slotProps">
+                    <Button icon="pi pi-pencil" outline class="p-button-rounded p-button-success mr-2"
+                        v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_edit' }]"
+                        @click="editGeoLocationCountry(slotProps?.data)" />
+                    <Button icon="pi pi-trash" outline class="p-button-rounded p-button-warning"
+                        @click="confirmDeletedGeoCountry(slotProps?.data)"
+                        v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_delete' }]" />
+                </template>
+            </Column>
+        </DataTable>
     </div>
+    <!-- Pop Edited Country -->
+    <edited-popup-geo-location-country v-if="openEditedCountryCountry" :geoLocalCountry="editCountryPopup"
+        @close="closingPopupEditedCountry" />
+    <!-- Popup Deleted Country -->
+    <Dialog v-model:visible="deletedGeoCountryDialogs" :style="{ width: '450px' }"
+        header="Confirm delete geo-country locations" :modal="true">
+        <div class="confirmation-content">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button label="No" icon="pi pi-times" text @click="deletedGeoCountryDialogs = false" />
+            <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedCountryById()" />
+        </template>
+    </Dialog>
 </template>
   
+  <!-- Popup Province or State -->
 <script>
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Button from 'primevue/button';
-import Dialog from 'primevue/dialog';
-import { ref } from 'vue';
+import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+import { FilterMatchMode, FilterOperator } from 'primevue/api';
+import util from '@/mixin/util';
+import validation from '@/mixin/validation';
+import geoLocationCountryHelper from '@/mixin/geoLocationCountryHelper';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-    components: {
-        DataTable,
-        Column,
-        Button,
-        Dialog,
+    props: {
+        checkCountryGeoList: {
+            type: String,
+            default: null
+        }
     },
-
+    created() {
+        this.geoLocationServices = new GeoLocationsManagementServices();
+    },
+    mounted() {
+        this.getGeoLocationCountry();
+    },
+    mixins: [util, validation, geoLocationCountryHelper],
+    components: {
+        // EditedPopupGeoLocationCountry
+    },
+    computed: {
+        ...mapGetters('geoCountry', ['countryAll']),
+        getAllCountry() {
+            return this.countryAll || []
+        },
+    },
     data() {
         return {
-            products: [
-                {
-                    ID: 1,
-                    'Original lang': 'ABC',
-                    Langua: 'Language 1',
-                    Language: 'English',
-                    ShortCode: 'EN',
-                    CountryCode: 'US',
-                    showDialog: false,
-                },
-                {
-                    ID: 2,
-                    'Original lang': 'DEF',
-                    Langua: 'Language 2',
-                    Language: 'French',
-                    ShortCode: 'FR',
-                    CountryCode: 'FR',
-                    showDialog: false,
-                },
-                {
-                    ID: 3,
-                    'Original lang': 'GHI',
-                    Langua: 'Language 3',
-                    Language: 'Spanish',
-                    ShortCode: 'ES',
-                    CountryCode: 'ES',
-                    showDialog: false,
-                },
-            ],
-            select_category: ref(false),
-            viewDialog: {
-                visible: false,
-                rowData: {},
+            filtersGeoCountry: {
+                global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+                geo_zip_code: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+                geo_khmer_name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+                representative: { value: null, matchMode: FilterMatchMode.IN },
+                geo_english_name: {
+                    operator: FilterOperator.AND,
+                    constraints: [
+                        { value: null, matchMode: FilterMatchMode.IN },
+                    ],
+                }
             },
+            openDialog: false,
+            openEditedCountryCountry: false,
+            idEditGeoCountry: null,
+            products: null,
+            editingRows: [],
+            selectedGeoCountry: null,
+            selectAll: false,
+            first: 0,
+            editCountryPopup: null,
+            ajaxDeletingCountry: 0,
+            deletedDialogDataId: null,
+            loadingCountry: false
         };
     },
     methods: {
-        openViewDialog(rowData) {
-            this.viewDialog.rowData = rowData;
-            this.viewDialog.visible = true;
+        ...mapActions('common', ['fetchLocation', 'setToastMessage', 'setToastError', 'getRequest']),
+        ...mapActions('geoCountry', ['getAllCountryActions']),
+        popUpCreateProvinceState() {
+            this.openDialog = true;
         },
-        deleteAction(rowData) {
-            // Implement delete logic here
-            console.log('Delete:', rowData);
+        onRowEditSave(event) {
+            let { newData, index } = event;
+            this.getAllCountry[index] = newData;
         },
+        onPage(event) {
+            this.lazyParams = event;
+        },
+        onSort(event) {
+            this.lazyParams = event;
+        },
+        onFilter() {
+            this.lazyParams.filters = this.filters;
+        },
+        onSelectAllChange(event) {
+            const selectAll = event.checked;
+            console.log(selectAll)
+            // if (selectAll) {
+            //     ProductService.getProductsMini().then(data => {
+            //         this.selectAll = true;
+            //         this.selectedGeoCountry = data;
+            //     });
+            // }
+            // else {
+            //     this.selectAll = false;
+            //     this.selectedGeoCountry = [];
+            // }
+        },
+        onRowSelect() {
+            this.selectAll = this.selectedGeoCountry.length === this.totalRecords
+        },
+        onRowUnselect() {
+            this.selectAll = false;
+        },
+        getGeoLocationCountry() {
+            try {
+                this.getAllCountryActions();
+            } catch (error) {
+                return Promise.reject(error.message || []);
+            }
+        },
+        closingPopupEditedCountry() {
+            this.openEditedCountryCountry = false;
+        },
+        editGeoLocationCountry(country) {
+            this.openEditedCountryCountry = true;
+            this.idEditGeoCountry = parseInt(country?.id) ? parseInt(country?.id) : 0;
+            this.editCountryPopup = country ? country : [];
+        },
+        confirmDeletedGeoCountry(del) {
+            this.deletedGeoCountryDialogs = true;
+            this.deletedDialogDataId = del;
+        },
+        confirmDeletedCountryById() {
+            this.deletingGeoCountryLocationsById(this.deletedDialogDataId);
+        }
     },
 };
 </script>
+<style scoped></style>
+<style lang='scss' scoped></style>

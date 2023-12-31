@@ -32,14 +32,15 @@
                                             class="w-full text-sm" inputId="shopEng" aria-describedby="dd-error"
                                             @change="getCountryLangSelected">
                                             <!-- Dropdown content -->
+                    
                                         </Dropdown>
                                         <!-- Popup Select Country -->
                                         <div class="btn-color-nohover d-flex d-flex align-items-center ml-2">
                                             <div class="add-btn">
-                                                <EditChangeLanguage />
+                                                <ListChangeLanguage />
                                             </div>
                                             <div class="btn-color-nohover edit-btn-lang d-flex align-items-center">
-                                                <AddChangeLanguage />
+                                                <AddChangeLanguage/>
                                             </div>
                                         </div>
                                     </div>
@@ -75,7 +76,7 @@
                                     </Dropdown>
                                     <div class="d-flex d-flex align-items-center ml-2">
                                         <div class="add-btn">
-                                            <EditProjectNameLanguage />
+                                            <ListProjectNameLanguage />
                                         </div>
                                         <div class="edit-btn-lang d-flex align-items-center">
                                             <AddProjectName />
@@ -114,7 +115,7 @@
 
                                     <div class="d-flex d-flex align-items-center ml-2">
                                         <div class="add-btn">
-                                            <EditFolderNameLanguage />
+                                            <ListFolderNameLanguage />
                                         </div>
                                         <div class="edit-btn-lang d-flex align-items-center">
                                             <AddFolderNameLanguage />
@@ -155,7 +156,7 @@
                                     <div class="d-flex d-flex align-items-center ml-2">
                                         <div class="d-flex d-flex align-items-center">
                                             <div class="add-btn">
-                                                <EditPageNameLanguage />
+                                                <ListPageNameLanguage />
                                             </div>
                                             <div class="edit-btn-lang d-flex align-items-center">
                                                 <AddPageName />
@@ -178,28 +179,29 @@
 </template>
   
 <script>
-import AddChangeLanguage from './change_language/AddChangeLanguage.vue'
-import EditChangeLanguage from './change_language/EditChangeLanguage.vue'
-import ShowListTranLanguage from './ShowListLanguage.vue'
-import EditProjectNameLanguage from './project_name_language/EditProjectNameLanguage.vue'
-import AddProjectName from './project_name_language/AddProjectName.vue'
-import EditFolderNameLanguage from './folder_name_language/EditFolderNameLanguage.vue'
-import AddFolderNameLanguage from './folder_name_language/AddFolderNameLanguage.vue'
-import AddPageName from './page_name_language/AddPageName.vue'
-import EditPageNameLanguage from './page_name_language/EditPageNameLanguage.vue'
-
+import AddChangeLanguage from './change_language/AddChangeLanguage.vue';
+import ListChangeLanguage from './change_language/ListChangeLanguage.vue';
+import ShowListTranLanguage from './ShowListLanguage.vue';
+import ListProjectNameLanguage from './project_name_language/ListProjectNameLanguage.vue';
+import AddProjectName from './project_name_language/AddProjectName.vue';
+import ListFolderNameLanguage from './folder_name_language/ListFolderNameLanguage.vue';
+import AddFolderNameLanguage from './folder_name_language/AddFolderNameLanguage.vue';
+import AddPageName from './page_name_language/AddPageName.vue';
+import ListPageNameLanguage from './page_name_language/ListPageNameLanguage.vue';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
         AddChangeLanguage,
-        EditChangeLanguage,
+        ListChangeLanguage,
         ShowListTranLanguage,
-        EditProjectNameLanguage,
+        ListProjectNameLanguage,
         AddProjectName,
-        EditFolderNameLanguage,
+        ListFolderNameLanguage,
         AddFolderNameLanguage,
         AddPageName,
-        EditPageNameLanguage
+        ListPageNameLanguage,
+        // GeoLocationOfCountryListPopup
 
     },
     props: {
@@ -210,11 +212,6 @@ export default {
     },
     data() {
         return {
-            allCountry: [
-                { id: 1, geo_english_name: 'Country 1' },
-                { id: 2, geo_english_name: 'Country 2' },
-                { id: 3, geo_english_name: 'Country 3' },
-            ],
             allPageName: [
                 { id: 1, geo_english_name: 'Country 1' },
                 { id: 2, geo_english_name: 'Country 2' },
@@ -244,6 +241,23 @@ export default {
         };
     },
     methods: {
+        ...mapActions('geoCountry', ['getAllCountryActions']),
+
+        // Get All List
+        popUpCreateProvinceState(){
+            this.openDialogGeoLocationCountry = true;
+        },
+        closePopupProvinceState(){
+            this.openDialogGeoLocationCountry = false; 
+        },
+
+        getGeoLocationCountry() {
+            try {
+                this.getAllCountryActions();
+            } catch (error) {
+                return Promise.reject(error.message || []);
+            }
+        },
 
         addRow() {
             this.inputs.push({});
@@ -275,6 +289,12 @@ export default {
         },
         getProjectNameSelected() {
             // Implement the logic to fetch the commune options based on the selected district
+        },
+    },
+    computed: {
+        ...mapGetters('geoCountry', ['countryAll']),
+        allCountry() {
+            return this.countryAll || []
         },
     },
 };

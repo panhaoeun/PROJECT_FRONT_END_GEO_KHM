@@ -18,7 +18,7 @@
                         <label :class="{
                             'p-error': !geoLocationCountryData.geo_zip_code && hasAddressErrors
                         }">
-                            Folder Name
+                            Language
                             <span class="p-error">*</span>
                             <el-tooltip class="box-item" effect="dark"
                                 content="សូមចម្លងឬវាយបញ្ចូលនាមជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
@@ -31,9 +31,51 @@
                         <InputText oninput="this.value = this.value.replace(/\D+/g, '')"
                             @keypress="$event.key.match(/^[\d\.]$/) ? '' : $event.preventDefault()"
                             class="border-round-lg text-sm w-15rem" v-model.number="geoLocationCountryData.geo_zip_code"
-                            type="text" placeholder="Folder Name" />
+                            type="text" placeholder="Zip Code" />
                         <span class="error" v-if="!geoLocationCountryData.geo_zip_code && hasAddressErrors">
                             {{ $t('addressPopup.isRequired', { type: 'Zip Code' }) }}
+                        </span>
+                    </div>
+                    <div class="input-wrap mlr-5"
+                        :class="{ invalid: !geoLocationCountryData?.geo_khmer_name && hasAddressErrors }">
+                        <label :class="{
+                            'p-error': !geoLocationCountryData.geo_khmer_name && hasAddressErrors
+                        }">
+                            Language Short Code
+                            <span class="p-error">*</span>
+                            <el-tooltip class="box-item" effect="dark"
+                                content="សូមចម្លងឬវាយបញ្ចូលនាមជាភាសាខ្មែរ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                placement="top-start">
+                                <span class="input-label-secondary cursor-pointer pl-2">
+                                    <i class="pi pi-question-circle" style="font-size: 1rem"></i>
+                                </span>
+                            </el-tooltip>
+                        </label>
+                        <InputText class="border-round-lg text-sm w-15rem" type="text"
+                            v-model.trim="geoLocationCountryData.geo_khmer_name" placeholder="Khmer Name" />
+                        <span class="error" v-if="!geoLocationCountryData.geo_khmer_name && hasAddressErrors">
+                            {{ $t('addressPopup.isRequired', { type: 'Khmer Name' }) }}
+                        </span>
+                    </div>
+                    <div class="input-wrap mlr-5"
+                        :class="{ invalid: !geoLocationCountryData?.geo_english_name && hasAddressErrors }">
+                        <label :class="{
+                            'p-error': !geoLocationCountryData.geo_english_name && hasAddressErrors
+                        }">
+                            Country Code
+                            <span class="p-error">*</span>
+                            <el-tooltip class="box-item" effect="dark"
+                                content="សូមចម្លងឬវាយបញ្ចូលនាមជាអក្សរឡាតាំង ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                placement="top-start">
+                                <span class="input-label-secondary cursor-pointer pl-2">
+                                    <i class="pi pi-question-circle" style="font-size: 1rem"></i>
+                                </span>
+                            </el-tooltip>
+                        </label>
+                        <InputText class="border-round-lg text-sm w-15rem"
+                            v-model.trim="geoLocationCountryData.geo_english_name" type="text" placeholder="English Name" />
+                        <span class="error" v-if="!geoLocationCountryData.geo_english_name && hasAddressErrors">
+                            {{ $t('addressPopup.isRequired', { type: 'English Name' }) }}
                         </span>
                     </div>
                 </div>
@@ -43,7 +85,7 @@
                         <label :class="{
                             'p-error': !geoLocationCountryData.geo_longitude_location && hasAddressErrors
                         }">
-                            Note
+                            Longitude
                             <span class="p-error">*</span>
                             <el-tooltip class="box-item" effect="dark"
                                 content="សូមចម្លងរយៈបណ្តោយចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា ហើយវាយបញ្ចូលនៅទីនេះ"
@@ -54,7 +96,7 @@
                             </el-tooltip>
                         </label>
                         <textarea class="border-round-lg text-sm w-15rem"
-                            v-model="geoLocationCountryData.geo_longitude_location" placeholder="Note"></textarea>
+                            v-model="geoLocationCountryData.geo_longitude_location" placeholder="Longitude"></textarea>
                         <span class="error" v-if="!geoLocationCountryData.geo_longitude_location && hasAddressErrors">
                             {{ $t('addressPopup.isRequired', { type: 'Longitude' }) }}
                         </span>

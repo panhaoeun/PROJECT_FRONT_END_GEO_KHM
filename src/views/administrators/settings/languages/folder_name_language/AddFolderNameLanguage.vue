@@ -1,118 +1,302 @@
 <template>
-    <div>
-        <div class="button mx-2">
-            <Button class="ajax-btn primary-btn outline-btn pl r-20 mt b-5 border-round " label="Add"
-                icon="pi pi-plus-circle" @click="add_new_language = true" />
+    <div class="pl-2 gap-2 flex align-items-center justify-content-center">
+        <!-- VIew all geo location -country -->
+        <template v-if="geoCountryLocationId !== null || geoCountryLocationId !== ''">
+            <GeoLocationOfCountryListPopup :checkCountryGeoList="geoCountryLocationId" />
+        </template>
+        <!-- Add new Geo Location -->
+        <button v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]"
+            class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round" icon="pi pi-plus" type="button" label="New"
+            aria-label="New" @click.prevent="popUpCreateProvinceState()">
+            <span>
+                Add
+                <i class="pi pi-plus-circle"></i>
+            </span>
+        </button>
+    </div>
+    <!-- Popup Create Province or State-->
+    <Dialog v-model:visible="openDialogGeoLocationCountry" header="Folder Name" :style="{ width: '75vw' }" maximizable
+        modal :contentStyle="{ height: '600px' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }" :draggable="false">
+        <!-- Add More Item -->
+        <div class="dply-felx flex justify-content-between mtb-20 mtb-sm-15 oflow-hidden">
+            <button @click.prevent="addMoreProvinceState()"
+                v-permission="[{ functionName: 'location_ms_system_module', moduleName: 'fun_create' }]"
+                class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round">
+                <span>Add new Folder</span>
+            </button>
         </div>
-        <Dialog v-model:visible="add_new_language" modal header="Add New Country Language Folder"
-            :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-            <div class="project-input">
-                <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="language">Language</label>
-                        <InputText id="language" v-model="language" :class="{ 'p-invalid': !isLanguageValid }"></InputText>
-                        <small class="p-error" v-if="!isLanguageValid">Language is required.</small>
-                    </div>
-                    <div class="p-field">
-                        <label for="shortCode">Short Code</label>
-                        <InputText id="shortCode" v-model="shortCode" :class="{ 'p-invalid': !isShortCodeValid }">
-                        </InputText>
-                        <small class="p-error" v-if="!isShortCodeValid">Short Code is required.</small>
-                    </div>
-                    <div class="p-field">
-                        <label for="countryCode">Country Code</label>
-                        <InputText id="countryCode" v-model="countryCode" :class="{ 'p-invalid': !isCountryCodeValid }">
-                        </InputText>
-                        <small class="p-error" v-if="!isCountryCodeValid">Country Code is required.</small>
-                    </div>
-                    <Button label="Save" @click="saveLanguage"></Button>
+        <div v-for="(state, index) in state.moreProvinceState" :key="index" :set="v.moreProvinceState.$each[index]">
+            <div class="flex justify-content-between flex-wrap">
+                <button class="ajax-btn outline-btn plr-20 mtb-5 border-round">
+                    Folder - <span class="font-bold pl-1">{{ index + 1 }}</span>
+                </button>
+                <!-- Button Actions -->
+                <div class="flex gap-3">
+                    <button class="ajax-btn outline-btn plr-20 mtb-5 border-round" v-show="index != 0"
+                        @click.prevent="popUpCreateProvinceState()">
+                        <span>Add More</span>
+                    </button>
+                    <button class="ajax-btn outline-btn plr-20 mtb-5 border-round"
+                        @click.prevent="removeIndexProvinceState(index)" v-show="index != 0">
+                        <span>Remove</span>
+                    </button>
                 </div>
             </div>
-        </Dialog>
-    </div>
+            <div class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15">
+                <div class="pop-over-content p-20 p-sm-15 card">
+                    <div class="flex gap-15">
+                        <!-- Code -->
+                        <div class="input-wrap flex-1">
+                            <label
+                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateCode.length && submitted }">
+                            Folder Name
+                                <span class="p-error">*</span>
+                                <!-- Tool tip -->
+                                <el-tooltip class="box-item" effect="dark"
+                                    content="សូមចម្លងឬវាយបញ្ចូលជាលេខកូដ ចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា"
+                                    placement="top-start">
+                                    <span class="input-label-secondary cursor-pointer pl-2">
+                                        <i class="pi pi-question-circle" style="font-size: 1rem"></i>
+                                    </span>
+                                </el-tooltip>
+                            </label>
+                            <InputText oninput="this.value = this.value.replace(/\D+/g, '')"
+                                @keypress="$event.key.match(/^[\d\.]$/) ? '' : $event.preventDefault()" :id="state"
+                                v-model.number="state.stateCode" class="border-round-lg text-sm" type="text"
+                                placeholder="Folder Name"
+                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateCode.length && submitted }" />
+                            <small v-if="(v.moreProvinceState.$each.$response.$data[index].stateCode.$invalid && submitted)"
+                                class="p-error text-sm">
+                                {{ v.moreProvinceState.$each.$response.$errors[index].stateCode[0].$message.replace('Value',
+                                    'Zip Code') }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="flex block-xxs gap-15">
+                        <!-- Longitude -->
+                        <div class="input-wrap flex-1">
+                            <label
+                                :class="{ 'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateLongitude.length && submitted }">
+                                Note
+                                <span class="p-error">*</span>
+                                <!-- Tool tip -->
+                                <el-tooltip class="box-item" effect="dark"
+                                    content="សូមចម្លងរយៈបណ្តោយចេញពីបញ្ចីរាយនាមភូមសាស្រ្តនៃព្រះរាជាណាចក្រកម្ពុជា ហើយវាយបញ្ចូលនៅទីនេះ"
+                                    placement="top-start">
+                                    <span class="input-label-secondary cursor-pointer pl-2">
+                                        <i class="pi pi-question-circle" style="font-size: 1rem"></i>
+                                    </span>
+                                </el-tooltip>
+                            </label>
+                            <textarea v-model="state.stateLongitude" class="border-round-lg text-sm" placeholder="Note"
+                                :class="{
+                                    'p-invalid border-round-lg border-round-lg p-error': v.moreProvinceState.$each.$response.$errors[index].stateLongitude.length && submitted
+                                }"></textarea>
+                            <small
+                                v-if="(v.moreProvinceState.$each.$response.$data[index].stateLongitude.$invalid && submitted)"
+                                class="p-error text-sm">
+                                {{
+                                    v.moreProvinceState.$each.$response.$errors[index].stateLongitude[0].$message.replace('Value',
+                                        'Longitude') }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <template #footer>
+            <Button label="No" class="w-6rem" icon="pi pi-times" @click="closePopupProvinceState()" text />
+            <Button :label="loadingSubmitted ? 'Submitted' : 'Save'" icon="pi pi-check" class="w-10rem"
+                :loading="loadingSubmitted" @click="submittedProvinceState()" autofocus />
+        </template>
+    </Dialog>
 </template>
-  
+
+<!-- Popup Province or State -->
 <script>
-import { defineComponent, ref } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required, helpers } from '@vuelidate/validators';
+import { reactive } from "vue";
+import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+import geoLocationCountryHelper from "@/mixin/geoLocationCountryHelper"
 
-export default defineComponent({
+export default {
+    created() {
+        this.geoLocationServices = new GeoLocationsManagementServices();
+    },
     setup() {
-        const add_new_language = ref(false);
-        const language = ref('');
-        const shortCode = ref('');
-        const countryCode = ref('');
-        const products = ref([]);
-        const isLanguageValid = ref(true);
-        const isShortCodeValid = ref(true);
-        const isCountryCodeValid = ref(true);
-
-        const saveLanguage = () => {
-            let isFormValid = true;
-
-            if (language.value === '') {
-                isLanguageValid.value = false;
-                isFormValid = false;
-            } else {
-                isLanguageValid.value = true;
+        const rules = {
+            moreProvinceState: {
+                $each: helpers.forEach({
+                    stateCode: {
+                        required
+                    },
+                    stateKhmerName: {
+                        required
+                    },
+                    stateLatinName: {
+                        required
+                    },
+                    stateLongitude: {
+                        required
+                    },
+                    stateLatitude: {
+                        required
+                    }
+                })
             }
-
-            if (shortCode.value === '') {
-                isShortCodeValid.value = false;
-                isFormValid = false;
-            } else {
-                isShortCodeValid.value = true;
-            }
-
-            if (countryCode.value === '') {
-                isCountryCodeValid.value = false;
-                isFormValid = false;
-            } else {
-                isCountryCodeValid.value = true;
-            }
-
-            if (!isFormValid) {
-                return;
-            }
-
-            // Save language logic
-            console.log('Language:', language.value);
-            console.log('Short Code:', shortCode.value);
-            console.log('Country Code:', countryCode.value);
-
-            // Reset form fields
-            language.value = '';
-            shortCode.value = '';
-            countryCode.value = '';
-            isLanguageValid.value = true;
-            isShortCodeValid.value = true;
-            isCountryCodeValid.value = true;
-        };
-
+        }
+        const state = reactive({
+            moreProvinceState: [
+                {
+                    stateCode: '',
+                    stateKhmerName: '',
+                    stateLatinName: '',
+                    stateLongitude: '',
+                    stateLatitude: ''
+                },
+            ]
+        })
+        const v = useVuelidate(rules, state)
+        return { v, state }
+    },
+    props: {
+        geoCountryLocationId: {
+            type: String,
+            default: null
+        }
+    },
+    mixins: [geoLocationCountryHelper],
+    data() {
         return {
-            add_new_language,
-            language,
-            shortCode,
-            countryCode,
-            products,
-            isLanguageValid,
-            isShortCodeValid,
-            isCountryCodeValid,
-            saveLanguage,
+            openDialogGeoLocationCountry: false,
+            loadingSubmitted: false,
+            products: null,
+            editingRows: [],
+            selectedCustomers: null,
+            selectAll: false,
+            first: 0,
+            submitted: false,
+            keyState: [{
+                key: ""
+            }],
+            malProvince: [],
+            moreProvinceState: [
+                {
+                    stateCode: "",
+                    stateKhmerName: "",
+                    stateLatinName: "",
+                    stateId: "",
+                    stateLongitude: "",
+                    stateLatitude: ""
+                }
+            ]
         };
     },
-});
+    components: {
+        // GeoLocationOfCountryListPopup
+    },
+    methods: {
+        popUpCreateProvinceState() {
+            this.openDialogGeoLocationCountry = true;
+        },
+        closePopupProvinceState() {
+            this.openDialogGeoLocationCountry = false;
+        },
+        addMoreProvinceState() {
+            this.openDialogGeoLocationCountry = true;
+            this.state.moreProvinceState.push({
+                stateCode: "",
+                stateKhmerName: "",
+                stateLatinName: "",
+                stateId: "",
+                stateLongitude: "",
+                stateLatitude: ""
+            });
+        },
+        removeIndexProvinceState(index) {
+            this.state.moreProvinceState.splice(index, 1);
+        },
+        onResetFromProvinceState() {
+            // reset form validation errors
+            this.v.$reset();
+            // reset form data
+            const initialData = this.$options.data.call(this);
+            Object.assign(this.$data, initialData);
+        },
+        submittedProvinceState() {
+            this.submitted = true;
+            this.v.$touch();
+            // stop here if form is invalid
+            if (this.v.$invalid) return;
+            // display form values on success
+            // console.log(this.state.moreProvinceState)
+            let arrayCountryObj = [];
+            this.loadingSubmitted = true;
+            const arrayCountry = this.state?.moreProvinceState ? this.state?.moreProvinceState : [];
+            for (let index = 0; index < arrayCountry.length; index++) {
+                let obj = {};
+                const countryIndex = arrayCountry[index];
+                obj.addNewGeoCountryZipCode = countryIndex?.stateCode,
+                    obj.addNewGeoCountryKhmerName = countryIndex?.stateKhmerName,
+                    obj.addNewGeoCountryEnglishName = countryIndex?.stateLatinName,
+                    obj.addNewGeoCountryLongitude = countryIndex?.stateLongitude,
+                    obj.addNewGeoCountryLatitude = countryIndex?.stateLatitude,
+                    obj.geoCountryCodeType = "T1",
+                    obj.geoCountryType = "country"
+                arrayCountryObj.push(obj);
+            }
+            setTimeout(() => {
+                const countryAddNewDetail = {
+                    geoCountryDetail: arrayCountryObj ? arrayCountryObj : []
+                }
+                this.geoLocationServices.createCountryGeoLocation(countryAddNewDetail).then(async (response) => {
+                    if (response.data.success === true) {
+                        this.submitted = false;
+                        this.errorValidateFile = [];
+                        this.isProcessingSubmit = true;
+                        this.$notify.success({
+                            title: 'Successful create geo-location country',
+                            message: response.data?.message ? response.data?.message : '',
+                            showClose: false
+                        });
+                        this.state.moreProvinceState = [{
+                            stateCode: "",
+                            stateKhmerName: "",
+                            stateLatinName: "",
+                            stateId: "",
+                            stateLongitude: "",
+                            stateLatitude: ""
+                        }];
+                        // Reload Country Locations
+                        this.openDialogGeoLocationCountry = false;
+                        this.loadingSubmitted = false;
+                        await this.fetchingDataGeoCountryLocation();
+                    }
+                }).catch(error => {
+                    this.loadingSubmitted = false;
+                    this.$notify.error({
+                        title: 'Unsuccessfully create geo-location country',
+                        message: error.response.data.error?.message ?? 'Unsuccessfully create geo-location country',
+                        showClose: false
+                    });
+                    if (error.response.data.error.error?.errors) {
+                        for (let index = 0; index < error.response.data.error.error?.errors.length; index++) {
+                            const messageValidation = error.response.data.error.error?.errors[index].message ?? '';
+                            this.$notify.error({
+                                title: 'Unsuccessfully create geo-location country',
+                                message: messageValidation ?? 'Unsuccessfully create geo-location country',
+                                showClose: true
+                            });
+                        }
+                    }
+                });
+            }, 1000);
+
+        }
+    },
+};
 </script>
-  
-<style scoped>
-.p-field {
-    margin-bottom: 1rem;
-}
-
-.p-invalid {
-    border-color: red;
-}
-
-.p-error {
-    color: red;
-}
-</style>
+<style scoped></style>
+<style lang='scss' scoped></style>
