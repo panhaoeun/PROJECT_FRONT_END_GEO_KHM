@@ -196,7 +196,12 @@ const defaultChildRoutesUsersMS = (prefix) => [
             permissions: ['permissions_module']
         },
         component: () => import("../../views/administrators/user_managements/role_permission_module_new/CreatePermissionRole.vue"),
-     }
+    },
+    /**
+    * @Manage All Permission By Geo-fence
+    * @Manage on position by department with multiple level on geo-fence
+    * @Assign Position to user on geo-fence
+    * **/
 ]
 const moduleUsersManagementRouters = {
     path: '/vendor/users_managements',

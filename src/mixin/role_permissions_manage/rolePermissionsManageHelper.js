@@ -19,9 +19,14 @@ export default {
                     this.submitted = true;
                     this.v$.$touch();
                     if (!isFormValid) {
-                        return;
+                        this.$toast.add({
+                            severity: 'warn',
+                            summary: 'Missing Values Required',
+                            detail: 'Please input filed have missing value!',
+                            life: 3000
+                        });
+                        return false;
                     }
-                    console.log(this)
                 } catch (err) {
                     return Promise.reject(err);
                 }
