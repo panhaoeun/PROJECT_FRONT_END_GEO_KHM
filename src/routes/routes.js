@@ -25,6 +25,8 @@ import moduleOrderReportManagementRouters from "./modules/report_managements/ord
 import moduleDeliveryTracking from "./modules/delivery_company_shipping/delivery_company_management";
 // Location system 
 import modulesLocationSystem from "./modules/location_geo_country/module_location_system_management";
+// Translate Language
+
 /*
     Makes a new VueRouter that we will use to run all of the routes
     for the app.
