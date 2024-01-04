@@ -1,8 +1,8 @@
 <template>
     <KeepAlive>
-        <!-- <div class="vac-card-window" :style="[{ height }, cssVars]"> -->
-
-        <!-- </div> -->
+        <div>
+            <p>Product Admin</p>
+        </div>
     </KeepAlive>
 </template>
 <!-- SCSS Loading-->

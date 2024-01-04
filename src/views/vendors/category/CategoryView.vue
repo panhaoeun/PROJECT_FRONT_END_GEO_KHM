@@ -143,8 +143,9 @@ export default {
                 ElMessage.error("Product Category Not Found...");
             }
             this.proCategoryService.deleteProCategory(this.catID).then((del) => {
-                ElMessage.success(del.data.message);
+                ElMessage.success(del.data?.message);
                 this.deleteCatDialog = false;
+                window.location.reload();
             }).catch((error) => {
                 ElMessage.error(error);
             });

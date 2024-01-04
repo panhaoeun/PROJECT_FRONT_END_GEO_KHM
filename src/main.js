@@ -1,6 +1,10 @@
-import {createApp} from 'vue'
+import {
+    createApp
+} from 'vue'
 import App from './App.vue';
-import {CartService} from "@/services/customers/add_to_cart/CartCustomerService";
+import {
+    CartService
+} from "@/services/customers/add_to_cart/CartCustomerService";
 
 
 /*
@@ -24,11 +28,11 @@ import VueSidebarMenu from 'vue-sidebar-menu';
 /**
  * Vendor or Administrator use type check permissions 
  * can access to use modules auth sign 
- * */ 
+ * */
 import "./permissions";
 /**
  * Plugin Install on projects
- * * */ 
+ * * */
 
 /* @Prime Vue*/
 import './assets/primeflex.scss';
@@ -123,7 +127,9 @@ import ColumnGroup from 'primevue/columngroup'; //optional for column grouping
 import Row from 'primevue/row';
 import VueUploadComponent from 'vue-upload-component' //optional for row
 // Element Plus
-import ElementPlus, { ElMessage } from 'element-plus';
+import ElementPlus, {
+    ElMessage
+} from 'element-plus';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 // MAZ
@@ -135,6 +141,7 @@ import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 
 import VueSocialSharing from 'vue-social-sharing';
+import TreeSelect from 'primevue/treeselect';
 
 
 
@@ -176,7 +183,9 @@ app.use(i18n);
 //Vuex
 import Vuex from 'vuex';
 import store from "./store";
-import { handlingExpiredToken } from './utils/auth/handlingExpiredToken';
+import {
+    handlingExpiredToken
+} from './utils/auth/handlingExpiredToken';
 app.use(Vuex);
 app.use(store);
 
@@ -244,6 +253,7 @@ app.component('Tree', Tree);
 app.component('ProgressSpinner', ProgressSpinner);
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
+app.component('TreeSelect', TreeSelect);
 /*
     @Front-End Library 
 */
@@ -254,11 +264,11 @@ app.component('counter-up', CounterUp);
 app.use(VueCookies);
 /**
  * @New Library Front - end
- * */ 
+ * */
 app.use(VueDOMPurifyHTML, {
-default: {
-    ADD_TAGS: ['iframe']
-}
+    default: {
+        ADD_TAGS: ['iframe']
+    }
 });
 app.use(ProductZoomer);
 /*
@@ -285,43 +295,45 @@ store.commit('cart/SET_CART_ITEMS', cart);
 /**
  * @Handling Expired Token(Forbidden Requests) 
  * use AxiosJS 
- * */ 
+ * */
 handlingExpiredToken(routes);
 // register global utility filters.
 import * as filters from "./filters";
 Object.keys(filters).forEach(key => {
-   app.config.globalProperties.$filters = filters[key];
+    app.config.globalProperties.$filters = filters[key];
 });
 /*
     @Directive Permissions and roles
-**/ 
+**/
 app.directive("permission", async (el, binding) => {
-    const { value} = binding;
+    const {
+        value
+    } = binding;
     if (value && value instanceof Array && value.length > 0) {
-            const functionName = value[0].functionName;
-            const moduleName = value[0].moduleName;
-            const resultModuleAcc = await store.dispatch('users/permUserCanAccModule', {
-                functionName,
-                moduleName
-            });
-            const permissionModule =  store.getters && store.getters['users/permissionModules'];
-            if (!Array.isArray(permissionModule) || permissionModule !== undefined || permissionModule !== null) {
-                if (!resultModuleAcc) {
-                    ElMessage.error("Permission of Module Not Found...");
-                }
-                const requiredPermissions = value;
-                const hasPermission = permissionModule.some((permission) => {
-                    if (!permission) {
-                        return false;
-                    }
-                    return requiredPermissions.push(permission)
-                });
-                if (!hasPermission) {
-                    el.parentNode && el.parentNode.removeChild(el);
-                }
+        const functionName = value[0].functionName;
+        const moduleName = value[0].moduleName;
+        const resultModuleAcc = await store.dispatch('users/permUserCanAccModule', {
+            functionName,
+            moduleName
+        });
+        const permissionModule = store.getters && store.getters['users/permissionModules'];
+        if (!Array.isArray(permissionModule) || permissionModule !== undefined || permissionModule !== null) {
+            if (!resultModuleAcc) {
+                ElMessage.error("Permission of Module Not Found...");
             }
-            
-       
+            const requiredPermissions = value;
+            const hasPermission = permissionModule.some((permission) => {
+                if (!permission) {
+                    return false;
+                }
+                return requiredPermissions.push(permission)
+            });
+            if (!hasPermission) {
+                el.parentNode && el.parentNode.removeChild(el);
+            }
+        }
+
+
     } else {
         throw new Error(`Permissions are required! Example: v-permission="['dashboard','view create']"`);
     }
