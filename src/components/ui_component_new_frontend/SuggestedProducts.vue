@@ -10,7 +10,7 @@
         @change="change(1, $event)"
         class="b-t pt-20 pt-sm-15 npb-5"
       />
-
+<!-- 
       <products-dynamic
         v-if="suggested2.length"
         :title="$t('suggestedProducts.alsoViewed')"
@@ -19,7 +19,7 @@
         :per-page="perPageSuggested2"
         @change="change(2, $event)"
         class="b-t pt-20 pt-sm-15 pb-15 pb-sm-5"
-      />
+      /> -->
     </div>
     <div
       class="spinner-wrapper flex justify-content-center flex-wrap "
