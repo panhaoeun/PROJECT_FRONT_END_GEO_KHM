@@ -1,344 +1,207 @@
 <template>
-    <div :class="classes" role="tree" onselectstart="return false">
-        <ul :class="containerClasses" role="group">
+    <div role="tree">
+        <ul role="group" class="tree">
+            {{
+                treeData
+            }}
             <tree-item
-                v-for="(child, index) in data"
+                v-for="(child, index) in treeData"
                 :key="index"
                 :data="child"
-                :text-field-name="textFieldName"
-                :value-field-name="valueFieldName"
-                :children-field-name="childrenFieldName"
-                :item-events="itemEvents"
-                :whole-row="wholeRow"
-                :show-checkbox="showCheckbox"
-                :allow-transition="allowTransition"
-                :height="sizeHeight"
-                :parent-item="data"
-                :draggable="draggable"
-                :drag-over-background-color="dragOverBackgroundColor"
-                :on-item-click="onItemClick"
-                :on-item-toggle="onItemToggle"
-                :on-item-drag-start="onItemDragStart"
-                :on-item-drag-end="onItemDragEnd"
-                :on-item-drop="onItemDrop"
-                :klass="index === data.length - 1 ? 'tree-last' : ''"
-            >
-            </tree-item>
+                :menu="menu"
+            ></tree-item>
         </ul>
     </div>
 </template>
 
-<!-- Script of TreeView -->
+<!-- Script of Tree View Item -->
 <script>
+import { nextTick } from "vue";
+import findIndex from "lodash";
+import { getSortData } from "@/utils/tree_view/toolTreeView";
+import CreateMenu from "@/utils/tree_view/createMenuTreeView";
+import Emit from "@/utils/tree_view/eventTreeView";
 import TreeItem from "./TreeViewItem.vue";
-let ITEM_ID = 0;
-let ITEM_HEIGHT_SMALL = 18;
-let ITEM_HEIGHT_DEFAULT = 24;
-let ITEM_HEIGHT_LARGE = 32;
+
+let TREE_ID = 1;
+
 export default {
-    components: {
-        TreeItem,
-    },
+    name: "VTreeView",
+    /**
+     * data => Data Item Array
+     * highlightCurrent => Whether to highlight the currently selected tree item
+     * defaultExpandAll => Whether to fully expand
+     */
     props: {
-        data: { type: Array },
-        size: {
-            type: String,
-            validator: (value) => ["large", "small"].indexOf(value) > -1,
+        data: {
+            type: Array,
         },
-        showCheckbox: { type: Boolean, default: false },
-        wholeRow: { type: Boolean, default: false },
-        noDots: { type: Boolean, default: false },
-        collapse: { type: Boolean, default: false },
-        multiple: { type: Boolean, default: false },
-        allowBatch: { type: Boolean, default: false },
-        allowTransition: { type: Boolean, default: true },
-        textFieldName: { type: String, default: "text" },
-        valueFieldName: { type: String, default: "value" },
-        childrenFieldName: { type: String, default: "children" },
-        itemEvents: {
-            type: Object,
-            default: function () {
-                return {};
-            },
+        highlightCurrent: {
+            type: Boolean,
+            default: false,
         },
-        async: { type: Function },
-        loadingText: { type: String, default: "Loading..." },
-        draggable: { type: Boolean, default: false },
-        dragOverBackgroundColor: { type: String, default: "#C9FDC9" },
-        klass: String,
+        defaultExpandAll: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
-            draggedItem: undefined,
-            draggedElm: undefined,
+            selectBarTop: 0,
+            selectBarDisplay: "none",
+            // formatted tree data
+            treeData: [],
+            // contextmenu select tree id
+            targetTree: {},
+            //custom menu
+            menuTreeView: new CreateMenu([
+                {
+                    name: "Create new directory",
+                    type: "folder",
+                    onClick: function (e) {
+                        const dir = {
+                            id: TREE_ID++,
+                            text: "unknown file",
+                            opended: false,
+                            selected: false,
+                            children: [],
+                            rename: true,
+                        };
+                        this.menuTreeView.hiddenMenu(e);
+
+                        // Insert by location
+                        const firstFileIndex = findIndex(
+                            this.targetTree.children,
+                            (tree) => !tree.children
+                        );
+                        this.targetTree.children?.splice(
+                            firstFileIndex,
+                            0,
+                            dir
+                        );
+                        this.inputAutoFocus(dir.id);
+                    },
+                },
+                {
+                    name: "create a new file",
+                    type: "folder",
+                    onClick: function (e) {
+                        const file = {
+                            id: TREE_ID++,
+                            text: "unknown file",
+                            opended: false,
+                            selected: false,
+                            rename: true,
+                        };
+                        this.menu.hiddenMenu(e);
+                        this.targetTree.children?.push(file);
+                        this.inputAutoFocus(file.id);
+                    },
+                },
+                {
+                    name: "double naming",
+                    type: "all",
+                    onClick: function (e) {
+                        this.menu.hiddenMenu(e);
+                        this.targetTree.rename = !this.targetTree.rename;
+                        this.inputAutoFocus(this.targetTree.id);
+                    },
+                },
+                {
+                    name: "delete",
+                    type: "all",
+                    onClick: function (e) {
+                        this.menu.hiddenMenu(e);
+                        this.targetTree.delete = !this.targetTree.delete;
+                    },
+                },
+            ]),
         };
     },
-    computed: {
-        classes() {
-            return [
-                { tree: true },
-                { "tree-default": !this.size },
-                { [`tree-default-${this.size}`]: !!this.size },
-                { "tree-checkbox-selection": !!this.showCheckbox },
-                { [this.klass]: !!this.klass },
-            ];
-        },
-        containerClasses() {
-            return [
-                { "tree-container-ul": true },
-                { "tree-children": true },
-                { "tree-wholerow-ul": !!this.wholeRow },
-                { "tree-no-dots": !!this.noDots },
-            ];
-        },
-        sizeHeight() {
-            switch (this.size) {
-                case "large":
-                    return ITEM_HEIGHT_LARGE;
-                case "small":
-                    return ITEM_HEIGHT_SMALL;
-                default:
-                    return ITEM_HEIGHT_DEFAULT;
-            }
-        },
-    },
-    created() {
-        this.initializeData(this.data);
+    components: {
+        TreeItem,
     },
     mounted() {
-        if (this.async) {
-            this.$set(this.data, 0, this.initializeLoading());
-            this.handleAsyncLoad(this.data, this);
+        // emit event
+        Emit.on("contextMenu", this.onContextmenu);
+        // Highlight the currently selected node
+        if (this.highlightCurrent) {
+            Emit.on("toggleSelectBar", this.toggleSelectBar);
         }
     },
+    // watch props.data and format
+    watch: {
+        datTreeViewItem() {},
+        // () => this.data,
+        //     async (data) => {
+        //         // To be optimized
+        //         const newData = data?.map((item) => {
+        //             const data = {
+        //                 id: TREE_ID++,
+        //                 text: item.text || "unknown file",
+        //                 opended: this.defaultExpandAll || item.opended || false,
+        //                 selected: item.selected || false,
+        //                 children: item.children
+        //                     ? this.formatItem(item.children, `${TREE_ID - 1}`)
+        //                     : undefined,
+        //                 rename: item.rename || false,
+        //             };
+        //             return data;
+        //         });
+        //         this.treeData = getSortData(newData);
+        //     },
+        //     {
+        //         deep: true,
+        //         immediate: true,
+        //     };
+    },
     methods: {
-        initializeData(items) {
-            if (items && items.length > 0) {
-                for (let i in items) {
-                    var dataItem = this.initializeDataItem(items[i]);
-                    items[i] = dataItem;
-                    this.initializeData(items[i][this.childrenFieldName]);
-                }
-            }
-        },
-        initializeDataItem(item) {
-            function Model(
-                item,
-                textFieldName,
-                valueFieldName,
-                childrenFieldName,
-                collapse
-            ) {
-                this.id = item.id || ITEM_ID++;
-                this[textFieldName] = item[textFieldName] || "";
-                this[valueFieldName] =
-                    item[valueFieldName] || item[textFieldName];
-                this.icon = item.icon || "";
-                this.opened = item.opened || collapse;
-                this.selected = item.selected || false;
-                this.disabled = item.disabled || false;
-                this.loading = item.loading || false;
-                this[childrenFieldName] = item[childrenFieldName] || [];
-            }
+        formatItem(data, anchorID) {
+            const newData = data.map((item) => {
+                const newData = {
+                    id: TREE_ID++,
+                    anchorID,
+                    text: item.text || "unknown file",
+                    opended:
+                        this.props.defaultExpandAll || item.opended || false,
+                    selected: item.selected || false,
+                    children: item.children
+                        ? this.formatItem(
+                              item.children,
+                              `${anchorID}-${TREE_ID - 1}`
+                          )
+                        : undefined,
+                    rename: item.rename || false,
+                };
 
-            let node = Object.assign(
-                new Model(
-                    item,
-                    this.textFieldName,
-                    this.valueFieldName,
-                    this.childrenFieldName,
-                    this.collapse
-                ),
-                item
-            );
-            let self = this;
-            node.addBefore = function (data, selectedNode) {
-                let newItem = self.initializeDataItem(data);
-                let index = selectedNode.parentItem.findIndex(
-                    (t) => t.id === node.id
-                );
-                selectedNode.parentItem.splice(index, 0, newItem);
-            };
-            node.addAfter = function (data, selectedNode) {
-                let newItem = self.initializeDataItem(data);
-                let index =
-                    selectedNode.parentItem.findIndex((t) => t.id === node.id) +
-                    1;
-                selectedNode.parentItem.splice(index, 0, newItem);
-            };
-            node.addChild = function (data) {
-                let newItem = self.initializeDataItem(data);
-                node.opened = true;
-                node[self.childrenFieldName].push(newItem);
-            };
-            node.openChildren = function () {
-                node.opened = true;
-                self.handleRecursionNodeChildren(node, (node) => {
-                    node.opened = true;
-                });
-            };
-            node.closeChildren = function () {
-                node.opened = false;
-                self.handleRecursionNodeChildren(node, (node) => {
-                    node.opened = false;
-                });
-            };
-            return node;
-        },
-        initializeLoading() {
-            var item = {};
-            item[this.textFieldName] = this.loadingText;
-            item.disabled = true;
-            item.loading = true;
-            return this.initializeDataItem(item);
-        },
-        handleRecursionNodeChild(node, func) {
-            if (func(node) !== false) {
-                if (node.$children && node.$children.length > 0) {
-                    for (let childNode of node.$children) {
-                        if (!childNode.disabled) {
-                            this.handleRecursionNodeChild(childNode, func);
-                        }
-                    }
-                }
-            }
-        },
-        handleRecursionNodeChildren(node, func) {
-            if (func(node) !== false) {
-                if (
-                    node[this.childrenFieldName] &&
-                    node[this.childrenFieldName].length > 0
-                ) {
-                    for (let childNode of node[this.childrenFieldName]) {
-                        this.handleRecursionNodeChildren(childNode, func);
-                    }
-                }
-            }
-        },
-        onItemClick(oriNode, oriItem, e) {
-            if (this.multiple) {
-                if (this.allowBatch) {
-                    this.handleBatchSelectItems(oriNode, oriItem);
-                }
-            } else {
-                this.handleSingleSelectItems(oriNode, oriItem);
-            }
-            this.$emit("item-click", oriNode, oriItem, e);
-        },
-        handleSingleSelectItems(oriNode) {
-            this.handleRecursionNodeChild(this, (node) => {
-                if (node.model) node.model.selected = false;
+                return newData;
             });
-            oriNode.model.selected = true;
+            return getSortData(newData);
         },
-        handleBatchSelectItems(oriNode) {
-            this.handleRecursionNodeChild(oriNode, (node) => {
-                if (node.model.disabled) return;
-                node.model.selected = oriNode.model.selected;
+        inputAutoFocus(treeID) {
+            nextTick(() => {
+                const input = document.getElementById(`${treeID}`);
+                input?.focus();
             });
         },
-        onItemToggle(oriNode, oriItem, e) {
-            if (oriNode.model.opened) {
-                this.handleAsyncLoad(
-                    oriNode.model[this.childrenFieldName],
-                    oriNode,
-                    oriItem
-                );
-            }
-            this.$emit("item-toggle", oriNode, oriItem, e);
+        // create custom contextmenu
+        onContextmenu(e, data) {
+            e.preventDefault();
+            this.targetTree = data ? data : {};
+            data.children
+                ? this.menuTreeView.showMenu(e, "floder")
+                : this.menuTreeView.showMenu(e, "file");
         },
-        handleAsyncLoad(oriParent, oriNode) {
-            var self = this;
-            if (this.async) {
-                if (oriParent[0].loading) {
-                    this.async(oriNode, (data) => {
-                        if (data.length > 0) {
-                            for (let i in data) {
-                                if (!data[i].isLeaf) {
-                                    if (
-                                        typeof data[i][
-                                            self.childrenFieldName
-                                        ] !== "object"
-                                    ) {
-                                        data[i][self.childrenFieldName] = [
-                                            self.initializeLoading(),
-                                        ];
-                                    }
-                                }
-                                var dataItem = self.initializeDataItem(data[i]);
-                                self.$set(oriParent, i, dataItem);
-                            }
-                        } else {
-                            oriNode.model[self.childrenFieldName] = [];
-                        }
-                    });
-                }
-            }
-        },
-        onItemDragStart(e, oriNode, oriItem) {
-            if (!this.draggable || oriItem.dragDisabled) return false;
-            e.dataTransfer.effectAllowed = "move";
-            e.dataTransfer.setData("text", null);
-            this.draggedElm = e.target;
-            this.draggedItem = {
-                item: oriItem,
-                parentItem: oriNode.parentItem,
-                index: oriNode.parentItem.findIndex((t) => t.id === oriItem.id),
-            };
-
-            this.$emit("item-drag-start", oriNode, oriItem, e);
-        },
-        onItemDragEnd(e, oriNode, oriItem) {
-            this.draggedItem = undefined;
-            this.draggedElm = undefined;
-            this.$emit("item-drag-end", oriNode, oriItem, e);
-        },
-        onItemDrop(e, oriNode, oriItem) {
-            if (!this.draggable || !!oriItem.dropDisabled) return false;
-            this.$emit(
-                "item-drop-before",
-                oriNode,
-                oriItem,
-                !this.draggedItem ? undefined : this.draggedItem.item,
-                e
-            );
-            if (
-                !this.draggedElm ||
-                this.draggedElm === e.target ||
-                this.draggedElm.contains(e.target)
-            ) {
-                return;
-            }
-            if (this.draggedItem) {
-                if (
-                    this.draggedItem.parentItem ===
-                        oriItem[this.childrenFieldName] ||
-                    this.draggedItem.item === oriItem ||
-                    (oriItem[this.childrenFieldName] &&
-                        oriItem[this.childrenFieldName].findIndex(
-                            (t) => t.id === this.draggedItem.item.id
-                        ) !== -1)
-                ) {
-                    return;
-                }
-                if (!oriItem[this.childrenFieldName]) {
-                    oriItem[this.childrenFieldName].push(this.draggedItem.item);
-                } else {
-                    oriItem[this.childrenFieldName] = [this.draggedItem.item];
-                }
-                oriItem.opened = true;
-                var draggedItem = this.draggedItem;
-                this.$nextTick(() => {
-                    draggedItem.parentItem.splice(draggedItem.index, 1);
-                });
-                this.$emit("item-drop", oriNode, oriItem, draggedItem.item, e);
-            }
+        // toggle selectBar
+        toggleSelectBar(e, display) {
+            this.selectBarTop = e.target.offsetTop;
+            this.selectBarDisplay = display;
         },
     },
 };
 </script>
 
 <!-- Tree View Styles-->
-<style lang="less">
-@import "./less/styles.less";
+<style lang="scss">
+@import "./scss_tree/styles.scss";
 </style>

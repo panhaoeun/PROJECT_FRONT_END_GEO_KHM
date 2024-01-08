@@ -6,7 +6,6 @@ import {
     CartService
 } from "@/services/customers/add_to_cart/CartCustomerService";
 
-import VTreeView from "./plugins/TreeViewComponents.js"
 
 
 /*
@@ -264,7 +263,6 @@ app.use(VueSocialSharing);
 app.component('inner-image-zoom', InnerImageZoom);
 app.component('counter-up', CounterUp);
 app.use(VueCookies);
-app.use(VTreeView);
 /**
  * @New Library Front - end
  * */

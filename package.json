@@ -37,6 +37,7 @@
 		"draggable-vue-directive": "^2.1.0",
 		"dropzone": "^5.9.3",
 		"element-plus": "^2.2.33",
+		"eventemitter3": "^5.0.1",
 		"firebase": "^10.7.1",
 		"font-awesome": "^4.7.0",
 		"global": "^4.4.0",
