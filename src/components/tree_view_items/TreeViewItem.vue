@@ -1,21 +1,21 @@
 <template>
     <li
         class="tree-node"
-        v-if="!props.data.delete"
+        v-if="!data.delete"
         :class="{
-            'is-opend': props.data?.opended,
-            'is-close': !props.data?.opended,
+            'is-opend': data?.opended,
+            'is-close': !data?.opended,
         }"
         role="treeitem"
-        @click.stop="(e) => onNodeCLick(e, props.data)"
-        @mouseover.stop="props.data.isHover = !props.data.isHover"
-        @mouseout.stop="props.data.isHover = !props.data.isHover"
+        @click.stop="(e) => onNodeCLick(e, data)"
+        @mouseover.stop="data.isHover != data.isHover"
+        @mouseout.stop="data.isHover != data.isHover"
         @contextmenu.stop="(e) => onContextmenu(e)"
     >
         <div
             role="presentation"
             class="tree-node__background"
-            v-if="props.data.isHover"
+            v-if="data.isHover"
         ></div>
         <i
             :class="{
@@ -28,7 +28,7 @@
         <div
             :class="{
                 'tree-anchor': true,
-                'tree-selected': props.data?.selected,
+                'tree-selected': data?.selected,
             }"
         >
             <i
@@ -43,12 +43,12 @@
             }}</span>
             <input
                 v-else
-                :id="props.data.id + ''"
+                :id="data.id + ''"
                 class="tree-node__input"
                 type="text"
                 :value="data.text"
-                @input="(e) => onRename(e, props.data)"
-                @blur="(e) => onBlur(e, props.data)"
+                @input="(e) => onRename(e, data)"
+                @blur="(e) => onBlur(e, data)"
                 @click.stop="(e) => {}"
             />
         </div>
@@ -60,11 +60,11 @@
             v-if="isFolder"
         >
             <tree-item
-                v-for="(child, index) in props.data?.children"
+                v-for="(child, index) in data?.children"
                 :key="index"
                 :data="child"
-                :menu="props.menu"
-                @iconClick="props.data.opended = !props.data.opended"
+                :menu="menu"
+                @iconClick="data.opended != data.opended"
             >
             </tree-item>
         </ul>
@@ -99,6 +99,8 @@ export default {
             if (!isEqual(data, this.prevNode)) {
                 data.selected = !data.selected;
                 this.selectNode = data;
+
+                console.log(this.prevNode);
 
                 // Only one node is allowed to be selected
                 if (isEmpty(this.prevNode)) {

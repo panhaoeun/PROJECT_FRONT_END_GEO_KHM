@@ -36,7 +36,7 @@ export default {
             dialogFormVisible: false,
             data: [
                 {
-                    text: "文件",
+                    text: "document-01",
                     children: [
                         {
                             text: "文件1",
@@ -66,13 +66,13 @@ export default {
                     ],
                 },
                 {
-                    text: "文件",
+                    text: "document-02",
                     children: [
                         {
-                            text: "文件1",
+                            text: "document1",
                             children: [
                                 {
-                                    text: "文件1",
+                                    text: "document-sub-1",
                                 },
                             ],
                         },

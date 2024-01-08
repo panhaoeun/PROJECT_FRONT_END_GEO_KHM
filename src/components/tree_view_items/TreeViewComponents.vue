@@ -1,9 +1,6 @@
 <template>
     <div role="tree">
         <ul role="group" class="tree">
-            {{
-                treeData
-            }}
             <tree-item
                 v-for="(child, index) in treeData"
                 :key="index"
@@ -131,29 +128,27 @@ export default {
     },
     // watch props.data and format
     watch: {
-        datTreeViewItem() {},
-        // () => this.data,
-        //     async (data) => {
-        //         // To be optimized
-        //         const newData = data?.map((item) => {
-        //             const data = {
-        //                 id: TREE_ID++,
-        //                 text: item.text || "unknown file",
-        //                 opended: this.defaultExpandAll || item.opended || false,
-        //                 selected: item.selected || false,
-        //                 children: item.children
-        //                     ? this.formatItem(item.children, `${TREE_ID - 1}`)
-        //                     : undefined,
-        //                 rename: item.rename || false,
-        //             };
-        //             return data;
-        //         });
-        //         this.treeData = getSortData(newData);
-        //     },
-        //     {
-        //         deep: true,
-        //         immediate: true,
-        //     };
+        data: {
+            handler(data) {
+                // To be optimized
+                const newData = data?.map((item) => {
+                    const data = {
+                        id: TREE_ID++,
+                        text: item.text || "unknown file",
+                        opended: this.defaultExpandAll || item.opended || false,
+                        selected: item.selected || false,
+                        children: item.children
+                            ? this.formatItem(item.children, `${TREE_ID - 1}`)
+                            : undefined,
+                        rename: item.rename || false,
+                    };
+                    return data;
+                });
+                this.treeData = getSortData(newData);
+            },
+            immediate: true,
+            deep: true,
+        },
     },
     methods: {
         formatItem(data, anchorID) {
@@ -162,8 +157,7 @@ export default {
                     id: TREE_ID++,
                     anchorID,
                     text: item.text || "unknown file",
-                    opended:
-                        this.props.defaultExpandAll || item.opended || false,
+                    opended: this.defaultExpandAll || item.opended || false,
                     selected: item.selected || false,
                     children: item.children
                         ? this.formatItem(
