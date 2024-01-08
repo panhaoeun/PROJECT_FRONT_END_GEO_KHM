@@ -46,11 +46,10 @@ export default {
                             this.submittingVillagesData = false;
                         }, 100);
                         if (!this.hasAddressErrors) {
-                            this.$emit('close')
+                            this.$emit('close');
                         }
                     }
                 }).catch((error)=> {
-                    console.log(error)
                     let message = error?.message;
                     this.setToastError(message);
                     this.$notify({
@@ -94,7 +93,7 @@ export default {
             this.fetchingGeoProvince = true;
             setTimeout(async () => {
                 try {
-                     this.getAllVillagesActions(superSSNStateCode);
+                    this.getAllVillagesActions(superSSNStateCode);
                 } catch (e) {
                 return Promise.reject(e);
                 }

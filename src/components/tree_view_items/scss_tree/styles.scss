@@ -1,0 +1,36 @@
+
+.tree-custom-menu {
+  display: none;
+  position: absolute;
+  font-size: 12px;
+  background: #fff;
+  box-shadow: 0px 1px 2px #938e8c;
+
+  & > li {
+    padding: 6px 24px;
+    cursor: pointer;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+
+  & > li:not(:last-child) {
+    border-bottom: 1px solid #d9d6d6;
+  }
+}
+.tree {
+  position: relative;
+
+  &::after {
+    display: v-bind(selectBarDisplay);
+    content: "";
+    width: 100%;
+    height: 22px;
+    position: absolute;
+    top: calc(v-bind(selectBarTop) * 1px);
+    left: 0;
+    z-index: -1;
+    background: #e7e6e6;
+  }
+}

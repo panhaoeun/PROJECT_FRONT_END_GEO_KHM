@@ -248,20 +248,6 @@ export default {
     mounted() {
         this.getGeoLocationCountry();
     },
-    watch: {
-        // selectSDCommuneCityOptAddNew:function(){
-        //     this.selectStateProvinceOptAddNew = null;
-        //     this.selectSDistrictOptAddNew = null;
-        //     // Populate list of district in the second dropdown
-        //     if(Object.values(this.selectSDCommuneCityOptAddNew).length > 0 || this.selectSDCommuneCityOptAddNew !== undefined && this.selectSDCommuneCityOptAddNew === "object"){
-
-        //         const ssnSuperDistrictCodeLocationGeo = this.selectStateProvinceOptAddNew?.geo_ssn_location ? this.selectStateProvinceOptAddNew?.geo_ssn_location : '';
-        //         console.log(ssnSuperDistrictCodeLocationGeo)
-        //         // const geoLocationDistrictType = "T5";
-        //         // this.getGeoLocationDistrictByCountryAddNew(geoLocationDistrictType,ssnSuperDistrictCodeLocationGeo);
-        //     }
-        // }
-    },  
     methods: {
         ...mapActions('geoCountry', ['getAllCountryActions']),
         ...mapActions('geoProvince', ['getAllProvinceActions']),
