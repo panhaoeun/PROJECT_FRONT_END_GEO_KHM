@@ -9,10 +9,10 @@
             <!--Section-->
             <static-section/>
             <!-- Banner -->
-            <product-banner
+            <!-- <product-banner
                 class="br-primary flow-hidden w-none"
                 :banner-data="bannerData"
-            />
+            /> -->
             <!-- Seller -->
             <div
             class="brands-wrapper full-screen"
@@ -35,11 +35,11 @@
             />
 
             <!-- Banner 05 -->
-            <banner
+            <!-- <banner
                 v-if="banner5"
                 class="home-section mb-0 br-primary flow-hidden"
                 :banner="banner5"
-            />
+            /> -->
             <!-- Daily discover - More Love -->
             <lazy-area
                 v-slot:default="{renderArea}"
@@ -48,11 +48,11 @@
                 <daily-discover-more-love v-if="renderArea"/>
             </lazy-area>
             <!-- Banner -->
-            <banner
+            <!-- <banner
                 v-if="banner6"
                 class="home-section mt-0 br-primary flow-hidden"
                 :banner="banner6"
-            />
+            /> -->
         </div>
     </div>
     <!-- <div class="main-wrapper bg-white">
@@ -77,8 +77,8 @@ import CommonListPublicServices from "@/services/customers/common_list/CommonLis
 import LazyArea from "@/components/ui_component_new_frontend/LazyArea.vue";
 import DailyDiscoverMoreLove from "@/components/ui_component_new_frontend/daily_discover_morelove/DailyDiscoverMoreLove.vue";
 import StaticSection from "@/components/ui_component_new_frontend/StaticSection.vue";
-import ProductBanner from "@/components/ui_component_new_frontend/product_banner/ProductBanner.vue";
-import Banner from "@/components/ui_component_new_frontend/product_banner/BannerSlider";
+// import ProductBanner from "@/components/ui_component_new_frontend/product_banner/ProductBanner.vue";
+// import Banner from "@/components/ui_component_new_frontend/product_banner/BannerSlider";
 // import HomeCategoriesSection from "@/components/ui_component_new_frontend/home_categories_filter/HomeCategoriesSection.vue";
 
 export default {
@@ -89,8 +89,8 @@ export default {
         DailyDiscoverMoreLove,
         LazyArea,
         StaticSection,
-        ProductBanner,
-        Banner
+        // ProductBanner,
+        // Banner
     },
     mixins: [util],
     props: {},
