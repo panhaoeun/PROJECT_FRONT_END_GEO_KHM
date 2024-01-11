@@ -1,92 +1,73 @@
 <template>
-  <div class="search-popup">
-    <div class="sb popup-inner">
-      <div class="pop-over-content">
-        <div
-            class="spinner-wrapper flex justify-content-center flex-wrap layer-white"
-            v-if="fetchingData"
-            >
-            <spinner
-                :radius="100"
-            />
-        </div>
-        <!-- Suggestions -->
-        <div
-          v-else-if="matchedResult"
-        >
-          <div
-            v-if="suggested.length"
-            class="mb-15"
-          >
-            <h4 class="bold">
-              {{ $t('searchPopup.suggestedSearch') }}
-            </h4>
-            <div class="search-section">
-              <button
-                v-for="(value, index) in suggested"
-                :key="`sug-${index}`"
-                @click.prevent="makeSearch(value.title)"
-                class="item lite-btn"
-                aria-label="search"
-              >
-              
-                {{ value.title }}
-              </button>
-            </div>
-            <!--search-section-->
-          </div>
-        <!-- Product List -->
-        <div
-            v-if="products.length"
-            class="mb-15"
-        >
-                <h4 class="bold">
-                    Products
-                </h4>
+    <div class="search-popup">
+        <div class="sb popup-inner">
+            <div class="pop-over-content">
                 <div
-                class="search-section search-product-tile"
+                    class="spinner-wrapper flex justify-content-center flex-wrap layer-white"
+                    v-if="fetchingData"
                 >
-                <searched-product-tile
-                    v-for="(value, index) in products"
-                    :key="`prod-${index}`"
-                    :product="value"
-                />
+                    <spinner :radius="100" />
                 </div>
-        <!--search-section-->
-        </div>
-          <!-- Categories -->
-          <div
-            v-if="categories.length || subCategories.length"
-            class="mb-15"
-          >
-                <h4 class="bold">
-                    Categories
-                </h4>
-                <div class="search-section category-wrapper">
+                <!-- Suggestions -->
+                <div v-else-if="matchedResult">
+                    <div v-if="suggested.length" class="mb-15">
+                        <h4 class="bold">
+                            {{ $t("searchPopup.suggestedSearch") }}
+                        </h4>
+                        <div class="search-section">
+                            <button
+                                v-for="(value, index) in suggested"
+                                :key="`sug-${index}`"
+                                @click.prevent="makeSearch(value.title)"
+                                class="item lite-btn"
+                                aria-label="search"
+                            >
+                                {{ value.title }}
+                            </button>
+                        </div>
+                        <!--search-section-->
+                    </div>
+                    <!-- Product List -->
+                    <div v-if="products.length" class="mb-15">
+                        <h4 class="bold">Products</h4>
+                        <div class="search-section search-product-tile">
+                            <searched-product-tile
+                                v-for="(value, index) in products"
+                                :key="`prod-${index}`"
+                                :product="value"
+                            />
+                        </div>
+                        <!--search-section-->
+                    </div>
                     <!-- Categories -->
-                    <router-link
-                        v-for="(value, index) in categories"
-                        :key="`c-${index}`"
-                        :to="categoryLink(value)"
-                        class="page-link center-text item">
-                            <div class="img-wrapper">
-                                <lazy-image
-                                    :data-src="imageURL(value)"
-                                    :title="value?.catNameEn"
-                                    :alt="value?.catNameEn"
-                                    height="50"
-                                    width="50"
-                                />
-                            </div>
-                        <h5
-                        class="title ellipsis ellipsis-1"
-                        >
-                            {{value?.catNameEn}}
-                        </h5>
-                    </router-link>
-                   
-                </div>
-                <!-- <div class="search-section category-wrapper">
+                    <div
+                        v-if="categories.length || subCategories.length"
+                        class="mb-15"
+                    >
+                        <h4 class="bold">Categories</h4>
+                        <div class="search-section category-wrapper">
+                            <!-- Categories -->
+                            <router-link
+                                v-for="(value, index) in categories"
+                                :key="`c-${index}`"
+                                :to="categoryLink(value)"
+                                class="page-link center-text item"
+                            >
+                                <div class="img-wrapper">
+                                    <lazy-image
+                                        :data-src="imageURL(value)"
+                                        :title="value?.catNameEn"
+                                        :alt="value?.catNameEn"
+                                        height="50"
+                                        width="50"
+                                    />
+                                </div>
+                                <h5 class="title ellipsis ellipsis-1">
+                                    {{ value?.catNameEn }}
+                                </h5>
+                            </router-link>
+                        </div>
+                        <!-- <div class="search-section category-wrapper">
                     <router-link
                         v-for="(value, index) in subCategories"
                         :key="`sc-${index}`"
@@ -110,106 +91,114 @@
 
                     </router-link>
                 </div> -->
-          </div>
-        </div>
+                    </div>
+                </div>
 
-        <div v-else>
-          <h4>Noting found For"<span class="color-primary semi-bold">{{ searchedText }}</span>"</h4>
+                <div v-else>
+                    <h4>
+                        Noting found For"<span
+                            class="color-primary semi-bold"
+                            >{{ searchedText }}</span
+                        >"
+                    </h4>
+                </div>
+            </div>
         </div>
-
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import util from '@/mixin/util'
-  import {debounce} from "debounce";
-  import SearchedProductTile from "./SearchedProductTile";
-  import LazyImage from "./LazyImage";
-  import Spinner from "./Spinner";
+import { mapGetters, mapActions } from "vuex";
+import util from "@/mixin/util";
+import { debounce } from "debounce";
+import SearchedProductTile from "./SearchedProductTile";
+import LazyImage from "./LazyImage";
+import Spinner from "./Spinner";
 
-  export default {
-    name: 'SearchPopup',
+export default {
+    name: "SearchPopup",
     components: {
-        Spinner, 
+        Spinner,
         LazyImage,
-        SearchedProductTile
+        SearchedProductTile,
     },
     directives: {},
     props: {
-      searchedText: {
-        type: String,
-        default: '',
-      }
+        searchedText: {
+            type: String,
+            default: "",
+        },
     },
     mixins: [util],
     watch: {
-      searchedText: debounce(function (value) {
-        if(value){
-          this.fetchData()
-        }else{
-          this.$emit('close');
-        }
-      }, 700)
+        searchedText: debounce(function (value) {
+            if (value) {
+                this.fetchData();
+            } else {
+                this.$emit("close");
+            }
+        }, 700),
     },
     computed: {
-      matchedResult(){
-        return this.products.length || this.suggested.length ||this.subCategories.length || this.categories.length
-      },
-      products(){
-        return this.searchedSuggestion?.product || []
-      },
-      suggested(){
-        return this.searchedSuggestion?.suggested || []
-      },
-      subCategories(){
-        return this.searchedSuggestion?.subCategories || []
-      },
-      categories(){
-        return this.searchedSuggestion?.categories || []
-      },
-      ...mapGetters('language', ['langCode']),
-      ...mapGetters('listing', ['searchedSuggestion', 'searched']),
+        matchedResult() {
+            return (
+                this.products.length ||
+                this.suggested.length ||
+                this.subCategories.length ||
+                this.categories.length
+            );
+        },
+        products() {
+            return this.searchedSuggestion?.product || [];
+        },
+        suggested() {
+            return this.searchedSuggestion?.suggested || [];
+        },
+        subCategories() {
+            return this.searchedSuggestion?.subCategories || [];
+        },
+        categories() {
+            return this.searchedSuggestion?.categories || [];
+        },
+        ...mapGetters("language", ["langCode"]),
+        ...mapGetters("listing", ["searchedSuggestion", "searched"]),
     },
     data() {
-      return {
-        fetchingData: false
-      }
+        return {
+            fetchingData: false,
+        };
     },
     methods: {
-      makeSearch(searched){
-        if(searched !== this.searched){
-          this.$router.push({path: 'search', query: { q: searched}})
-          this.updateSearch(searched)
-        }
-      },
-      currentPricing(value){
-        return value?.offered ? value?.offered : value?.selling
-      },
-      async fetchData() {
-        this.fetchingData = true
-        try {
-          await this.fetchSearchedSuggestion({
-            params: { queries: this.searchedText },
-            lang: this.langCode
-          })
+        makeSearch(searched) {
+            if (searched !== this.searched) {
+                this.$router.push({ path: "search", query: { q: searched } });
+                this.updateSearch(searched);
+            }
+        },
+        currentPricing(value) {
+            return value?.offered ? value?.offered : value?.selling;
+        },
+        async fetchData() {
+            this.fetchingData = true;
+            try {
+                await this.fetchSearchedSuggestion({
+                    params: { queries: this.searchedText },
+                    lang: this.langCode,
+                });
 
-          this.fetchingData = false
-        } catch (e) {
-          this.fetchingData = false
-          return Promise.reject(e);
-        }
-      },
-      ...mapActions('listing', ['fetchSearchedSuggestion', 'updateSearch']),
+                this.fetchingData = false;
+            } catch (e) {
+                this.fetchingData = false;
+                return Promise.reject(e);
+            }
+        },
+        ...mapActions("listing", ["fetchSearchedSuggestion", "updateSearch"]),
     },
     async mounted() {
-      if(!this.searchedSuggestion){
-        await this.fetchData()
-      }
+        if (!this.searchedSuggestion) {
+            await this.fetchData();
+        }
     },
-    unmounted() {
-    }
-  }
+    unmounted() {},
+};
 </script>

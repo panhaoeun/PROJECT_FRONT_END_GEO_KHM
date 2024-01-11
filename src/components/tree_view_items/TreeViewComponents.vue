@@ -5,7 +5,8 @@
                 v-for="(child, index) in treeData"
                 :key="index"
                 :data="child"
-                :menu="menu"
+                :menu="menuTreeView"
+                default-expand-all="false"
             ></tree-item>
         </ul>
     </div>
@@ -80,7 +81,7 @@ export default {
                     },
                 },
                 {
-                    name: "create a new file",
+                    name: "Create a new file",
                     type: "folder",
                     onClick: function (e) {
                         const file = {
@@ -96,16 +97,17 @@ export default {
                     },
                 },
                 {
-                    name: "double naming",
+                    name: "Double naming",
                     type: "all",
                     onClick: function (e) {
+                        console.log(e);
                         this.menu.hiddenMenu(e);
                         this.targetTree.rename = !this.targetTree.rename;
                         this.inputAutoFocus(this.targetTree.id);
                     },
                 },
                 {
-                    name: "delete",
+                    name: "Delete",
                     type: "all",
                     onClick: function (e) {
                         this.menu.hiddenMenu(e);

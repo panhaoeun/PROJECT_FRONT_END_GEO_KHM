@@ -52,21 +52,21 @@
                 @click.stop="(e) => {}"
             />
         </div>
-
+        <!-- Tree View Item -->
         <ul
             role="group"
             ref="group"
             class="tree-node__children"
             v-if="isFolder"
         >
-            <tree-item
+            <tree-view-item
                 v-for="(child, index) in data?.children"
                 :key="index"
                 :data="child"
                 :menu="menu"
                 @iconClick="data.opended != data.opended"
             >
-            </tree-item>
+            </tree-view-item>
         </ul>
     </li>
 </template>
@@ -74,23 +74,25 @@
 <!-- Tree Items -->
 <script>
 import Emit from "@/utils/tree_view/eventTreeView";
-import { isEmpty, isEqual } from "lodash";
+import { isEqual, isEmpty } from "lodash";
+import CreateMenu from "@/utils/tree_view/createMenuTreeView";
 
 export default {
     name: "VTreeItem",
     props: {
         data: { type: Object, required: true },
+        menu: CreateMenu,
     },
     data() {
         return {
-            prevNode: "",
-            selectNode: "",
+            prevNode: {},
+            selectNode: {},
         };
     },
     watch: {},
     computed: {
         isFolder() {
-            return this.data.children;
+            return this.data?.children;
         },
     },
     methods: {
@@ -99,17 +101,13 @@ export default {
             if (!isEqual(data, this.prevNode)) {
                 data.selected = !data.selected;
                 this.selectNode = data;
-
-                console.log(this.prevNode);
-
                 // Only one node is allowed to be selected
-                if (isEmpty(this.prevNode)) {
+                if (!isEmpty(this.prevNode)) {
                     this.prevNode.selected = false;
                 }
-
                 this.prevNode = data;
             }
-            // close menu
+            // // close menu
             this.menu.hiddenMenu(e);
             // toggle selectBar
             Emit.emit("toggleSelectBar", e, data.selected ? "block" : "none");
@@ -132,7 +130,7 @@ export default {
 };
 </script>
 
-<!-- Styles SCSS -->
+<!-- Styles SCSS File View Item -->
 <style scoped lang="scss">
 .tree-node {
     cursor: pointer;
