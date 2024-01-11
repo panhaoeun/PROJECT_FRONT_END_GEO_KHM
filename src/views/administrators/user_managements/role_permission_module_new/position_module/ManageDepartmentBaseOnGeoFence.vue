@@ -2,19 +2,13 @@
     <!--Manage Department Base Positions-->
     <div class="gird">
         <div class="col-12">
-            <!--Define Position of Hierarchy -->
-            <div
-                class="pl-2 gap-2 flex align-items-center justify-content-center"
-            >
-                <Button
-                    aria-label="Add Departments"
-                    class="border-round-lg w-2rem h-2rem"
-                    icon="pi pi-plus"
-                    outlined
-                />
-            </div>
+            <DialogAddPositionByDepartmentCountry />
             <!-- Tree Views -->
-            <v-tree-view :data="data" highlight-current default-expand-all />
+            <v-tree-view
+                :data="data"
+                highlight-current="true"
+                default-expand-all
+            />
             <!-- Tree Views -->
         </div>
     </div>
@@ -22,14 +16,15 @@
 
 <!-- Script of JS -->
 <script type="module">
-// import { TreeData } from "@/utils/tree_view/typeDataTree";
 import VTreeView from "@/components/tree_view_items/TreeViewComponents.vue";
+import DialogAddPositionByDepartmentCountry from "./dialogs_departments_country/dialogs_position_by_department_country/DialogsAddPositionByDepartmentCountry";
 export default {
     props: {
         tableData: Array,
     },
     components: {
         VTreeView,
+        DialogAddPositionByDepartmentCountry,
     },
     data() {
         return {
