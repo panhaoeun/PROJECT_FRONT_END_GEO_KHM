@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <!-- <div class="col-lg-6 col-md-12">
                     <div class="product_shot">
                         <div class="product_shot_title">
                             <p>Sort By:</p>
@@ -52,7 +52,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6" v-for="(product,index) in shuffleProducts" :key="index" v-show="setPaginate(index)">
