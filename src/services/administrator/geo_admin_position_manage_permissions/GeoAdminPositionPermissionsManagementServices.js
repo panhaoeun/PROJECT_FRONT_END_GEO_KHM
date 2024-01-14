@@ -2,34 +2,68 @@ import http from "../../../../http-access-control-json";
 
 export default class ManagePermissionsGeoFencePositionPermissionsServices {
     /** 
-      * @api {post}  Manage Departments
-      *  @api (List, Modify, Add, Delete) Departments
-    */
-    async listGeoLocationDepartments() {
-        return await http.get(`/users-managements/geo-fence-position/list-departments`).then((result) => {
-            if (!result) {
-                return false;
-            }
-            if (result.status == 200) {
-                if (result.data.success == true) {
-                    return result.data.result.resultStatus;
+     * @api {post}  Manage Departments
+     *  @api (List, Modify, Add, Delete) Departments
+     */
+    async listGeoLocationDepartmentsOrgSLGeo(projectId, projectByCountryId) {
+        return await http.get(`/users-managements/geo-fence-position/list-departments?projectId=${projectId}&countryIdGeoLocal=${projectByCountryId}`)
+            .then((result) => {
+                if (!result) {
+                    return false;
                 }
-            }
-        }).catch((error) => {
-            return Promise.reject(error);
-        });
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            }).catch((error) => {
+                return Promise.reject(error);
+            });
+    }
+    async createNewDepartmentsLocationGeoByCountryOrgStr(department) {
+        return http.post("/users-managements/geo-fence-position/add-new-departments", department);
+    }
+    async modifyDepartmentsLocationGeoByCountryOrgStr(projectByCountryId, department) {
+        return http.put(`/users-managements/geo-fence-position/modify-renew-departments-id/${parseInt(projectByCountryId) ? parseInt(projectByCountryId) : 0}`, department);
+    }
+    async removeDepartmentsLocationGeoByCountryOrgStr(projectByCountryId, department) {
+        return http.post(`/users-managements/geo-fence-position/add-new-departments/${parseInt(projectByCountryId)  ? parseInt(projectByCountryId) : 0}`, department);
     }
     /** 
      * @api {post} 
-     *  @api (Manage Departments)
-    */
-    async createNewDepartmentsLocationGeoByCountry(department) {
-        return http.post("/users-managements/geo-fence-position/add-new-departments", department);
+     *  @api (Manage Departments base Positions)
+     */
+    async listGeoLocationPositionsOrgSLGeoTreeView() {
+        return await http.get(`/users-managements/geo-fence-position-org-str/str-org-position/tree-view-position`)
+            .then((result) => {
+                if (!result) {
+                    return false;
+                }
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            }).catch((error) => {
+                return Promise.reject(error);
+            });
     }
-    async modifyDepartmentsLocationGeoByCountry(projectByCountryId, department) {
-        return http.put(`/users-managements/geo-fence-position/modify-renew-departments-id/${parseInt(projectByCountryId) ? parseInt(projectByCountryId) : 0}`, department);
+    async listGeoLocationPositionsBaseDepartmentsOrgSLGeoTreeView(orgPositionId) {
+        return await http.get(`/users-managements/geo-fence-position-org-str/str-org-dept-base-position=${orgPositionId}`)
+            .then((result) => {
+                if (!result) {
+                    return false;
+                }
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            }).catch((error) => {
+                return Promise.reject(error);
+            });
     }
-    async removeDepartmentsLocationGeoByCountry(projectByCountryId,department) {
-        return http.post(`/users-managements/geo-fence-position/add-new-departments/${parseInt(projectByCountryId)  ? parseInt(projectByCountryId) : 0}`, department);
+    async createNewGeoOrgSLPositionDept(department) {
+        return http.post("/users-managements/geo-fence-position-org-str/add-new-str-org-dept-base-position", department);
     }
 }

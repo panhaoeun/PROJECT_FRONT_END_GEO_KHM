@@ -5,7 +5,7 @@
             aria-label="Add Department By Country"
             class="border-round-lg h-2.1rem"
             icon="pi pi-plus"
-            label="Add Department By Country"
+            label="Add Department"
             :loading="btnLoadingAddNewDepartment"
             @click="openDialogAddDepartment()"
         />
@@ -37,8 +37,15 @@
                         <label> Parent Departments </label>
                         <TreeSelect
                             v-model="selectedParentDeptCountry"
-                            :options="deptCountryDataParents"
+                            :options="getAllDeptOrgStr"
+                            aria-labelledby="parentDeptId"
                             placeholder="Select Department..."
+                            aria-describedby="parentDeptId"
+                            selectionMode="single"
+                            display="comma"
+                            emptyMessage="No result found department..."
+                            filter
+                            showClear
                             class="border-round-lg border-round-lg w-full"
                         />
                         <small class="text-sm flex text-blue-600"
@@ -46,6 +53,7 @@
                         >
                     </div>
                 </div>
+                <!-- Dept Name -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
                         <label
@@ -61,6 +69,8 @@
                             placeholder="Please Enter New Department"
                             :input="v$.departmentNewName.$touch"
                             v-model="v$.departmentNewName.$model"
+                            :oninput="v$.departmentNewName.$touch()"
+                            :onblur="v$.departmentNewName.$touch()"
                             :class="{
                                 'p-invalid border-round-lg p-error':
                                     v$.departmentNewName.$invalid && submitted,
@@ -79,10 +89,11 @@
                                     "Value",
                                     "New Department"
                                 )
-                            }}</small
-                        >
+                            }}
+                        </small>
                     </div>
                 </div>
+                <!-- Descriptions -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
                         <label>Descriptions</label>
@@ -112,20 +123,15 @@
 </template>
 <!-- Script of JS -->
 <script>
+import geoOrgStrDeptCountryHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptCountryHelper";
 import ManagePermissionsGeoFencePositionPermissionsServices from "@/services/administrator/geo_admin_position_manage_permissions/GeoAdminPositionPermissionsManagementServices";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 
 export default {
     setup() {
-        return { v$: useVuelidate() };
-    },
-    validations() {
         return {
-            departmentNewName: {
-                required,
-                minLength: minLength(3),
-            },
+            v$: useVuelidate(),
         };
     },
     props: {
@@ -138,8 +144,18 @@ export default {
             default: 0,
         },
     },
+    validations() {
+        return {
+            departmentNewName: {
+                required,
+                minLength: minLength(3),
+            },
+        };
+    },
+    mixins: [geoOrgStrDeptCountryHelper],
     data() {
         return {
+            orgDeptStrCountryList: [],
             selectedParentDeptCountry: null,
             deptCountryDataParents: [],
             visibleDialogDepartment: false,
@@ -148,6 +164,7 @@ export default {
             departmentNewName: "",
             descriptionDepartment: "",
             submitted: false,
+            deptCountryDataParentsOrgStr: [],
         };
     },
     created() {
@@ -164,104 +181,36 @@ export default {
         },
         cancelAddDepartments() {
             this.visibleDialogDepartment = false;
+            // this.resetFromAddDeptOrg();
         },
-        submittedAddDepartmentsOfCountry(validate) {
+        async reloadFetchingDataOrgStr() {
             try {
-                this.submitted = true;
-                this.loadingSubmittedAddDepartment = true;
-                setTimeout(() => {
-                    this.loadingSubmittedAddDepartment = false;
-                    if (
-                        this.departmentNewName !== null &&
-                        this.departmentNewName !== ""
-                    ) {
-                        const deptProjectIdAdd = parseInt(this.deptProjectId)
-                            ? parseInt(this.deptProjectId)
-                            : 0;
-                        const deptGeoFenceIdAdd = parseInt(this.deptCountryId)
-                            ? parseInt(this.deptCountryId)
-                            : 0;
-
-                        const addNewOptDeptByCountry = {
-                            addNewProjectId: this?.departmentNewName
-                                ? this?.departmentNewName
-                                : "",
-                            addNewGeoFenceId: deptProjectIdAdd
-                                ? deptProjectIdAdd
-                                : 0,
-                            addNewDeptName: deptGeoFenceIdAdd
-                                ? deptGeoFenceIdAdd
-                                : 0,
-                            addNewDeptDescriptions: this?.descriptionDepartment
-                                ? this?.descriptionDepartment
-                                : "",
-                        };
-                        this.managePermissionsGeoLocationPosition
-                            ?.createNewDepartmentsLocationGeoByCountry(
-                                addNewOptDeptByCountry
-                                    ? addNewOptDeptByCountry
-                                    : []
-                            )
-                            .then(async (addNewDept) => {
-                                if (addNewDept?.data.success === true) {
-                                    this.$toast.add({
-                                        severity: "success",
-                                        summary:
-                                            "Successfully add new department.",
-                                        detail: addNewDept.data?.message
-                                            ? addNewDept.data?.message
-                                            : null,
-                                        life: 3000,
-                                    });
-                                }
-                            })
-                            .catch((error) => {
-                                this.$toast.add({
-                                    severity: "error",
-                                    summary: "Please Fix Below Errors.",
-                                    detail: error?.response.data.error?.message
-                                        ? error?.response.data.error?.message
-                                        : "Please input filed position have missing value!",
-                                    life: 3000,
-                                });
-                                if (error?.response.data.error.error?.errors) {
-                                    for (
-                                        let index = 0;
-                                        index <
-                                        error.response.data.error.error?.errors
-                                            .length;
-                                        index++
-                                    ) {
-                                        const validationError =
-                                            error.response.data.error.error
-                                                ?.errors[index].message ?? [];
-                                        this.$toast.add({
-                                            severity: "error",
-                                            summary: "Please Fix Below Errors.",
-                                            detail: validationError
-                                                ? validationError
-                                                : "Please input filed position have missing value!",
-                                            life: 3000,
-                                        });
-                                    }
-                                }
-                            });
-                    }
-                }, 1000);
-
-                this.v$.$touch();
-                if (!validate) {
-                    this.$toast.add({
-                        severity: "error",
-                        summary: "Please Fix Below Errors.",
-                        detail: "Please input filed position have missing value!",
-                        life: 3000,
-                    });
-                    return false;
+                const projectId = parseInt(this.deptProjectId)
+                    ? parseInt(this.deptProjectId)
+                    : 0;
+                const deptGeoCountryId = parseInt(this.deptCountryId)
+                    ? this.deptCountryId
+                    : 0;
+                if (projectId && deptGeoCountryId) {
+                    await this.fetchingDataGeoCountryOrgStr(
+                        projectId,
+                        deptGeoCountryId
+                    );
                 }
             } catch (error) {
                 return Promise.reject(error);
             }
+        },
+        submittedAddDepartmentsOfCountry(validate) {
+            try {
+                this.addNewGeoOrgDeptCountry(validate);
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        resetFromAddDeptOrg() {
+            this.v$.selectedParentDeptCountry.$reset();
+            this.v$.departmentNewName.$reset();
         },
     },
 };

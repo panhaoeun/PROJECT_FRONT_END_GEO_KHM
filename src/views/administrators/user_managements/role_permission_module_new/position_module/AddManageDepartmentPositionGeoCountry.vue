@@ -37,57 +37,77 @@
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
                         <!-- Add more -->
-                        <dialog-add-department-base-geo-fence-country />
+                        <dialog-add-department-base-geo-fence-country
+                            :deptProjectId="
+                                getDeptProjectId ? getDeptProjectId : 0
+                            "
+                            :deptCountryId="
+                                getDeptCountryId ? getDeptCountryId : 0
+                            "
+                        />
                     </div>
                 </div>
                 <div>
                     <!-- Add Position Multiple Level -->
                     <div class="grid formgrid">
-                        <DataTable
-                            :value="dataPositionsCountry"
-                            tableStyle="min-width: 75rem"
+                        <el-table
+                            height="500"
+                            :data="getAllOrgDept"
+                            style="width: 100%; margin-bottom: 20px"
+                            row-key="orgDeptId"
+                            border
+                            highlight-current-row
+                            :tree-props="{
+                                children: 'children',
+                                hasChildren: 'hasChildren',
+                            }"
                         >
-                            <Column
-                                field="code"
-                                header="SL"
+                            <el-table-column
+                                label="SL"
+                                type="index"
+                                index="return index + 1"
+                                width="50"
+                            />
+                            <el-table-column
+                                prop="label"
+                                label="Org Department Name"
                                 sortable
-                                style="width: 25%"
-                            ></Column>
-                            <Column
-                                field="name"
-                                header="Positions"
-                                sortable
-                                style="width: 25%"
-                            ></Column>
-                            <Column
-                                field="category"
-                                header="Detail"
-                                sortable
-                                style="width: 25%"
-                            ></Column>
-                            <Column
-                                headerStyle="width: 15rem; text-align: center; alignment-item:center;"
-                                :header="$t('route.action')"
-                                bodyStyle="text-align: center; overflow: visible"
-                            >
-                                <template #body>
+                            />
+                            <el-table-column prop="orgDeptName" label="Actions">
+                                <template #default="scope">
                                     <div class="flex flex-wrap gap-2">
                                         <Button
                                             icon="pi pi-pencil"
+                                            aria-label="Edit Org Dept"
                                             outlined
+                                            @click="
+                                                editGeoOrgDeptCountry(
+                                                    scope.$index,
+                                                    scope.row
+                                                )
+                                            "
                                             rounded
-                                            class="mr-2"
+                                            class="w-2 h-2 p-button-sm text-sm"
+                                            label="Edit"
                                         />
                                         <Button
                                             icon="pi pi-trash"
+                                            aria-label="Edit Org Dept"
                                             outlined
+                                            @click="
+                                                editGeoOrgDeptCountry(
+                                                    scope.$index,
+                                                    scope.row
+                                                )
+                                            "
                                             rounded
-                                            class="mr-2"
+                                            class="w-3 h-2 p-button-sm text-sm text-danger"
+                                            label="Delete"
                                         />
                                     </div>
                                 </template>
-                            </Column>
-                        </DataTable>
+                            </el-table-column>
+                        </el-table>
                     </div>
                 </div>
             </div>
@@ -117,11 +137,14 @@
 import DialogAddDepartmentBaseGeoFenceCountry from "./dialogs_departments_country/DialogAddDepartments.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
+import geoOrgStrDeptCountryHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptCountryHelper";
+import { mapGetters } from "vuex";
 
 export default {
     components: {
         DialogAddDepartmentBaseGeoFenceCountry,
     },
+    mixins: [geoOrgStrDeptCountryHelper],
     setup() {
         return { v$: useVuelidate() };
     },
@@ -147,6 +170,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters("orgDeptStrCou", ["allGeoDeptOrg"]),
         getDeptProjectId() {
             return parseInt(this.projectId) ? parseInt(this.projectId) : 0;
         },
@@ -154,6 +178,9 @@ export default {
             return parseInt(this.geoFenceLocation)
                 ? parseInt(this.geoFenceLocation)
                 : 0;
+        },
+        getAllOrgDept() {
+            return this.allGeoDeptOrg ? this.allGeoDeptOrg : [];
         },
     },
     data() {
@@ -167,18 +194,36 @@ export default {
             getOptDepartmentOfCountry: [],
         };
     },
-    created() {},
+    mounted() {
+        this.reloadFetchingDataOrgStr();
+    },
     methods: {
         cancelAddGeoCountry() {
             this.visibleDialogPositionCountry = false;
         },
         showDialogAddDepartment() {
-            this.loadingPopupCountry = true;
-            setTimeout(() => {
-                this.visibleDialogPositionCountry = true;
-                this.loadingPopupCountry = false;
-            }, 500);
+            this.visibleDialogPositionCountry = true;
         },
+        // Reloaded
+        async reloadFetchingDataOrgStr() {
+            try {
+                const projectId = parseInt(this.projectId)
+                    ? parseInt(this.deptProjectId)
+                    : 0;
+                const deptGeoCountryId = parseInt(this.geoFenceLocation)
+                    ? parseInt(this.geoFenceLocation)
+                    : 0;
+                if (deptGeoCountryId !== "" && deptGeoCountryId > 0) {
+                    await this.fetchingDataGeoCountryOrgStr(
+                        projectId,
+                        deptGeoCountryId
+                    );
+                }
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        // Submited
         submittedAddDepartmentPositionCountry(validate) {
             try {
                 this.loadingSubmittedAddCountry = true;

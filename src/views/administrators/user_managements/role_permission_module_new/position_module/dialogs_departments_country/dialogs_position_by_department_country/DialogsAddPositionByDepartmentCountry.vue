@@ -35,19 +35,64 @@
                                 Department
                                 <span class="p-error">*</span>
                             </label>
-                            <Dropdown
+                            <TreeSelect
                                 v-model="v$.selectedDeptOrgCountry.$model"
                                 :class="{
                                     'p-invalid border-round-lg border-round-lg p-error':
-                                    v$.selectedDeptOrgCountry.$invalid &&
-                                    submitted
+                                        v$.selectedDeptOrgCountry.$invalid &&
+                                        submitted,
                                 }"
-                                class="w-full border-round-lg text-sm"
-                                editable
-                                :options="optionsDeptObjOrgSL"
-                                optionLabel="name"
-                                placeholder="Select a Department"
-                                aria-describedby="dd-error"
+                                filter
+                                showClear
+                                :options="getAllOrgStrDeptCountry"
+                                aria-labelledby="parentDeptId"
+                                placeholder="Select Department..."
+                                aria-describedby="parentDeptId"
+                                selectionMode="single"
+                                display="comma"
+                                emptyMessage="No result found department..."
+                                class="border-round-lg border-round-lg w-full"
+                            />
+                            <small
+                                v-if="
+                                    (v$.selectedDeptOrgCountry.$invalid &&
+                                        submitted) ||
+                                    v$.selectedDeptOrgCountry.$pending.$response
+                                "
+                                class="p-error"
+                            >
+                                {{
+                                    v$.selectedDeptOrgCountry.required.$message.replace(
+                                        "Value",
+                                        "Department"
+                                    )
+                                }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-6 field">
+                        <div class="field">
+                            <label for="proKh" class="text-sm">
+                                Position
+                                <span class="p-error">*</span>
+                            </label>
+                            <TreeSelect
+                                v-model="v$.selectedDeptOrgStrLevel.$model"
+                                :class="{
+                                    'p-invalid border-round-lg border-round-lg p-error':
+                                        v$.selectedDeptOrgCountry.$invalid &&
+                                        submitted,
+                                }"
+                                filter
+                                showClear
+                                :options="getAllOrgStrDeptCountry"
+                                aria-labelledby="parentDeptId"
+                                placeholder="Select Department..."
+                                aria-describedby="parentDeptId"
+                                selectionMode="single"
+                                display="comma"
+                                emptyMessage="No result found department..."
+                                class="border-round-lg border-round-lg w-full"
                             />
                             <small
                                 v-if="
@@ -129,9 +174,11 @@
 
 <!-- Script of add dialog position departments -->
 <script>
+import geoOrgStrDeptPosHelper from "@/mixin/manage_geo_org_str/org_pos_geo_str/geoOrgStrDeptPositionCountryHelper";
 import useSubmitButtonState from "@/modules/useSubmitButtonState";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
+import { mapGetters } from "vuex";
 
 export default {
     name: "DialogAddByPositionsCountry",
@@ -144,13 +191,29 @@ export default {
             optionsDeptObjOrgSL: [],
             // Form Submitted
             orgDeptPositionName: "",
-            selectedDeptOrgCountry: false,
+            selectedDeptOrgCountry: null,
+            descriptionDepartmentPos: "",
+            selectedDeptOrgStrLevel: null
         };
+    },
+    mixins: [geoOrgStrDeptPosHelper],
+    props: {
+        projectIdDepOrgStr: {
+            type: Number,
+            default: 0,
+        },
+        geoDeptCountryId: {
+            type: Number,
+            default: 0,
+        },
     },
     //Validations
     validations() {
         return {
             selectedDeptOrgCountry: {
+                required,
+            },
+            selectedDeptOrgStrLevel: {
                 required,
             },
             orgDeptPositionName: {
@@ -160,9 +223,14 @@ export default {
         };
     },
     computed: {
+        ...mapGetters("orgDeptStrCou", ["allGeoDeptOrg"]),
         disabledBtnAdd() {
             const { isSubmitButtonDisabled } = useSubmitButtonState(this.$data);
             return isSubmitButtonDisabled;
+        },
+        getAllOrgStrDeptCountry() {
+            const getOrgStrDept = this.allGeoDeptOrg ? this.allGeoDeptOrg : [];
+            return getOrgStrDept;
         },
     },
     methods: {
@@ -172,15 +240,8 @@ export default {
         closeDialogAddPostDeptOrg() {
             this.visibleDialogModelDeptOrg = false;
         },
-        handleSubmittedNewPositionByDeptOrgCountry(validations) {
-            this.loadingDeptOrgBtn = true;
-            setTimeout(() => {
-                this.loadingDeptOrgBtn = false;
-                this.submitted = true;
-                if (!validations) {
-                    return;
-                }
-            }, 1000);
+        handleSubmittedNewPositionByDeptOrgCountry(validate) {
+            this.addNewGeoOrgDeptBaseOnPositionLevelCountry(validate);
         },
     },
 };

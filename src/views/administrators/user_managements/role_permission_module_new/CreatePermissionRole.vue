@@ -253,7 +253,15 @@
                                     </div>
                                 </div>
                                 <!--========Manage Departments with Positions===========-->
-                                <manage-position-dept-module-on-geo />
+                                <manage-position-dept-module-on-geo
+                                    v-if="modelCountryNameSelected !== null"
+                                    :projectId="
+                                        getProjectById ? getProjectById : 0
+                                    "
+                                    :geoFenceLocationId="
+                                        getCountryId ? getCountryId : 0
+                                    "
+                                />
                                 <!-- Buttons Submits -->
                                 <div
                                     class="col-12 flex justify-content-end mt-2"
