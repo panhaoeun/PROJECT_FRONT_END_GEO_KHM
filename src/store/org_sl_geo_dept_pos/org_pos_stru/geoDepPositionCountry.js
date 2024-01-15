@@ -17,7 +17,7 @@ const actions = {
         commit
     }) {
         try {
-            geoDeptOrgStrServices.listGeoLocationPositionsOrgSLGeoTreeView.then((deptPosOrg) => {
+            geoDeptOrgStrServices.listGeoLocationPositionsOrgSLGeoTreeView().then((deptPosOrg) => {
                 const getAllPositionOrgStr = Array.isArray(deptPosOrg) ? deptPosOrg.slice() : [];
                 if (!deptPosOrg) {
                     commit('SET_LIST_GEO_POSITION_ORG_STR_COUNTRY', []);

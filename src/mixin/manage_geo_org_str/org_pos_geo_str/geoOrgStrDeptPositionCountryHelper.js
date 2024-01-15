@@ -10,7 +10,7 @@ export default {
     },
     computed: {
         ...mapGetters("orgPosStrCou", ["allGeoPositionOrgStr"]),
-        getAllDeptOrgStr() {
+        getAllPositionOrgStr() {
             return this.allGeoPositionOrgStr || [];
         },
     },
@@ -38,23 +38,17 @@ export default {
                         .selectedDeptOrgCountry ?
                         this.selectedDeptOrgCountry :
                         0;
+
                     const keyValueDeptId = Object.keys(
                             getOptSelectedPositionDept
-                        )
-                        .slice(Object.keys(getOptSelectedPositionDept));
-                    let valSplitDeptPositionId;
-                    keyValueDeptId.map(value => {
-                        if (value) {
-                            valSplitDeptPositionId = value.split(/[,-]+/).pop();
-                        }
-                        if (typeof (value) === 'undefined') {
-                            valSplitDeptPositionId = 0;
-                        }
-                        return valSplitDeptPositionId;
-                    })
-                    if (typeof (valSplitDeptPositionId) === 'undefined') {
-                        valSplitDeptPositionId = 0;
-                    }
+                        ).splice(Object.keys(getOptSelectedPositionDept))
+                        .reduce((item, value) => {
+                            return {
+                                item: item,
+                                value: value
+                            }
+                        });
+                    const valSplitDepartment = keyValueDeptId.substring(0, keyValueDeptId.lastIndexOf('-'));
                     // Get Opt Value in Selected Parent Position
                     const getOptSelectedPositionLevel = this
                         .selectedDeptOrgStrLevel ?
@@ -81,76 +75,82 @@ export default {
                     const deptPosNameOrgStrOrgStr = this.orgDeptPositionName ?
                         this.orgDeptPositionName :
                         "";
-                    const deptPositionGeoNoted = this.descriptionDepartmentPos ?
-                        this.descriptionDepartmentPos :
+                    const deptPositionGeoNoted = this.orgDeptPositionName ?
+                        this.orgDeptPositionName :
                         "";
 
                     const addNewOptDeptPositionByCountry = {
                         addNewOrgLevelGeoDept: 'GL01',
-                        addNewDeptIdBaseGeoOrgStr: valSplitPositionLevelId ?
+                        addNewDeptIdBaseGeoOrgStr: valSplitDepartment ?
+                            valSplitDepartment : 0,
+                        addNewPosDeptSuperId: valSplitPositionLevelId ?
                             valSplitPositionLevelId : 0,
-                        addNewPosDeptSuperId: valSplitDeptPositionId ?
-                            valSplitDeptPositionId : 0,
                         addNewPosDeptName: deptPosNameOrgStrOrgStr ?
                             deptPosNameOrgStrOrgStr : "",
                         addNewPositionDescription: deptPositionGeoNoted ?
                             deptPositionGeoNoted : "",
                     };
-                    console.log(addNewOptDeptPositionByCountry)
-                    // this.managePermissionsGeoLocationPosition?.createNewDepartmentsLocationGeoByCountryOrgStr(
-                    //     addNewOptDeptPositionByCountry
-                    //     ? addNewOptDeptPositionByCountry
-                    //     : []
-                    // )
-                    // .then(async (addNewDept) => {
-                    //     if (addNewDept?.data.success === true) {
-                    //         this.loadingSubmittedAddDepartment = false;
-                    //         // Reload Data In Datable in Dept org-str geo-fence
-                    //         this.fetchingDataGeoCountryOrgStrPosition(valSplitPositionLevelId);
-                    //         this.visibleDialogDepartment = false;
-                    //         this.$toast.add({
-                    //             severity: "success",
-                    //             summary:
-                    //                 "Successfully add new department.",
-                    //             detail: addNewDept.data?.message
-                    //                 ? addNewDept.data?.message
-                    //                 : null,
-                    //             life: 3000,
-                    //         });
-                    //     }
-                    // })
-                    // .catch((error) => {
-                    //     this.loadingSubmittedAddDepartment = false;
-                    //     this.$toast.add({
-                    //         severity: "error",
-                    //         summary: "Please Fix Below Errors.",
-                    //         detail: error?.response.data.error?.message
-                    //             ? error?.response.data.error?.message
-                    //             : "Please input filed position have missing value!",
-                    //         life: 3000,
-                    //     });
-                    //     if (error?.response.data.error.error?.errors) {
-                    //         for (
-                    //             let index = 0;
-                    //             index <
-                    //             error.response.data.error.error?.errors
-                    //                 .length;
-                    //             index++
-                    //         ) {
-                    //             const validationError =
-                    //                 error.response.data.error.error
-                    //                     ?.errors[index].message ?? [];
-                    //             this.$toast.add({
-                    //                 severity: "error",
-                    //                 summary: "Please Fix Below Errors.",
-                    //                 detail: validationError
-                    //                     ? validationError
-                    //                     : "Please input filed position have missing value!",
-                    //                 life: 3000,
-                    //             });
-                    //         }
-                    //     }
-                    // });
+                    /**
+                     *@Org-Str Position Departments
+                     * */
+                    this.geoDeptPosOrgStrServices?.createNewGeoOrgSLPositionDept(
+                        addNewOptDeptPositionByCountry
+                        ? addNewOptDeptPositionByCountry
+                        : []
+                    )
+                    .then(async (addNewDept) => {
+                        if (addNewDept?.data.success === true) {
+                            this.loadingDeptOrgBtn = false;
+                            // Reload Data In Datable in Dept org-str geo-fence
+                            this.fetchingDataGeoCountryOrgStrPosition(valSplitPositionLevelId);
+                            this.visibleDialogModelDeptOrg = false;
+                            this.$toast.add({
+                                severity: "success",
+                                summary:
+                                    "Successfully add new department.",
+                                detail: addNewDept.data?.message
+                                    ? addNewDept.data?.message
+                                    : null,
+                                life: 3000,
+                            });
+                            // Reset From 
+                            this.selectedDeptOrgCountry = null;
+                            this.selectedDeptOrgStrLevel = null;
+                            this.orgDeptPositionName = '';
+                        }
+                    })
+                    .catch((error) => {
+                        this.loadingDeptOrgBtn = false;
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please Fix Below Errors.",
+                            detail: error?.response.data.error?.message
+                                ? error?.response.data.error?.message
+                                : "Please input filed position have missing value!",
+                            life: 3000,
+                        });
+                        if (error?.response.data.error.error?.errors) {
+                            for (
+                                let index = 0;
+                                index <
+                                error.response.data.error.error?.errors
+                                    .length;
+                                index++
+                            ) {
+                                const validationError =
+                                    error.response.data.error.error
+                                        ?.errors[index].message ?? [];
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: validationError
+                                        ? validationError
+                                        : "Please input filed position have missing value!",
+                                    life: 3000,
+                                });
+                            }
+                        }
+                    });
                 } else {
                     this.v$.$touch();
                     if (!validate) {

@@ -29,6 +29,7 @@
         <form id="addFormPositionsDepartment">
             <div class="flex-wrap gap-3 p-fluid">
                 <div class="grid formgrid">
+                    <!-- Departments -->
                     <div class="col-6 field">
                         <div class="field">
                             <label for="proKh" class="text-sm">
@@ -45,9 +46,9 @@
                                 filter
                                 showClear
                                 :options="getAllOrgStrDeptCountry"
-                                aria-labelledby="parentDeptId"
+                                aria-labelledby="orgDeptId"
                                 placeholder="Select Department..."
-                                aria-describedby="parentDeptId"
+                                aria-describedby="orgDeptId"
                                 selectionMode="single"
                                 display="comma"
                                 emptyMessage="No result found department..."
@@ -70,51 +71,35 @@
                             </small>
                         </div>
                     </div>
+                    <!-- Positions -->
                     <div class="col-6 field">
                         <div class="field">
                             <label for="proKh" class="text-sm">
-                                Position
+                                Parent Position
                                 <span class="p-error">*</span>
                             </label>
                             <TreeSelect
-                                v-model="v$.selectedDeptOrgStrLevel.$model"
-                                :class="{
-                                    'p-invalid border-round-lg border-round-lg p-error':
-                                        v$.selectedDeptOrgCountry.$invalid &&
-                                        submitted,
-                                }"
+                                v-model="selectedDeptOrgStrLevel"
                                 filter
                                 showClear
-                                :options="getAllOrgStrDeptCountry"
-                                aria-labelledby="parentDeptId"
-                                placeholder="Select Department..."
-                                aria-describedby="parentDeptId"
+                                :options="getAllPositionOrgStr"
+                                aria-labelledby="orgMgrPosId"
+                                placeholder="Select Position..."
+                                aria-describedby="orgMgrPosId"
                                 selectionMode="single"
                                 display="comma"
-                                emptyMessage="No result found department..."
+                                emptyMessage="No result found position..."
                                 class="border-round-lg border-round-lg w-full"
                             />
-                            <small
-                                v-if="
-                                    (v$.selectedDeptOrgCountry.$invalid &&
-                                        submitted) ||
-                                    v$.selectedDeptOrgCountry.$pending.$response
-                                "
-                                class="p-error"
+                            <small class="text-sm flex text-blue-600"
+                                >Leave it blank to create parent position</small
                             >
-                                {{
-                                    v$.selectedDeptOrgCountry.required.$message.replace(
-                                        "Value",
-                                        "Department"
-                                    )
-                                }}
-                            </small>
                         </div>
                     </div>
                     <div class="col-6 field">
                         <div class="field">
-                            <label for="labelName" class="text-sm">
-                                Name
+                            <label for="PositionName" class="text-sm">
+                                Position Name
                                 <span class="p-error">*</span>
                             </label>
                             <InputText
@@ -193,7 +178,7 @@ export default {
             orgDeptPositionName: "",
             selectedDeptOrgCountry: null,
             descriptionDepartmentPos: "",
-            selectedDeptOrgStrLevel: null
+            selectedDeptOrgStrLevel: null,
         };
     },
     mixins: [geoOrgStrDeptPosHelper],
@@ -211,9 +196,6 @@ export default {
     validations() {
         return {
             selectedDeptOrgCountry: {
-                required,
-            },
-            selectedDeptOrgStrLevel: {
                 required,
             },
             orgDeptPositionName: {
@@ -236,6 +218,7 @@ export default {
     methods: {
         openDialogAddPositionByOrgDept() {
             this.visibleDialogModelDeptOrg = true;
+            this.fetchingDataGeoCountryOrgStrPosition();
         },
         closeDialogAddPostDeptOrg() {
             this.visibleDialogModelDeptOrg = false;
