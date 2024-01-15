@@ -1,4 +1,16 @@
 export default {
+    ROOMS_EMPTY: 'No rooms',
+    ROOM_EMPTY: 'No room selected',
+    NEW_MESSAGES: 'New Messages',
+    MESSAGE_DELETED: 'This message was deleted',
+    MESSAGES_EMPTY: 'No messages',
+    CONVERSATION_STARTED: 'Conversation started on:',
+    TYPE_MESSAGE: 'Type message',
+    SEARCH: 'Search',
+    IS_ONLINE: 'is online',
+    LAST_SEEN: 'last seen ',
+    IS_TYPING: 'is writing...',
+    CANCEL_SELECT_MESSAGE: 'Cancel',
     header: {
         searchHere: "Search Here",
         trackOrder: "Track Order",
@@ -66,7 +78,7 @@ export default {
         unPaid: "Unpaid",
         cod: "Cash on delivery"
     },
-    accountLayout:{
+    accountLayout: {
         myProfile: 'My profile',
         updateProfile: 'Update Profile',
         loggedWith: 'Logged in with',
@@ -137,7 +149,11 @@ export default {
         proCategories: 'Categories',
         shippingOrderMS: 'Product Delivery',
         locationMS: 'Locations',
+<<<<<<< HEAD
         languagesMS: 'Languges',
+=======
+        groupChat: 'Chat',
+>>>>>>> 554cf944ebabd4b23a36b8e88192026a48b4bd64
         proProductMS: 'Products',
         contentProduct: 'Message',
         userMSModule: 'User Managements',
@@ -202,10 +218,10 @@ export default {
         goHome: "Go to homepage"
     },
     userinfo: {
-        generalInfo:"General Information",
+        generalInfo: "General Information",
         editUser: "Edit User",
-        khmerName:"Khmer name",
-        englishName:"English Name",
+        khmerName: "Khmer name",
+        englishName: "English Name",
         sellerInfo: "Seller Info",
         firstName: "First Name",
         lastName: "Last Name",
@@ -213,8 +229,8 @@ export default {
         fullNameInEn: "Full Name In Latin",
         phone: "Phone",
         email: "Email",
-        role:"Role",
-        profileImage:"Profile Image",
+        role: "Role",
+        profileImage: "Profile Image",
         password: "Password",
         confirmPassword: "Confirm Password",
         address1: 'Address line 1',
@@ -374,7 +390,7 @@ export default {
     productDelivery: {
         allDelivery: "All Product Delivery",
         showData: "Show Data",
-     },
+    },
 
     message: {
         noHaveData: "No have data !",
