@@ -9,7 +9,7 @@
         </span>
     </button>
     <!-- Popup Create Province or State-->
-    <Dialog v-model:visible="openDialog" header="List of Country" :style="{ width: '75vw' }" modal
+    <Dialog v-model:visible="openDialog" header="List of language" :style="{ width: '75vw' }" modal
         :contentStyle="{ height: '600px' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }" :draggable="false" :pt="{
             mask: {
                 style: 'backdrop-filter: blur(2px)'
@@ -28,7 +28,7 @@
                 <!-- Search Input Filter -->
                 <template #header>
                     <div class="flex flex-wrap justify-content-between gap-2">
-                        <p>Country</p>
+                        <p>Language</p>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
                             <InputText v-model="filtersGeoCountry['global'].value" placeholder="Search country" />
@@ -36,10 +36,10 @@
                     </div>
                 </template>
                 <!-- Column -->
-                <template #empty> No Languages found. </template>
-                <template #loading> Loading Change Languages data. Please wait. </template>
+                <template #empty> No Language found. </template>
+                <template #loading> Loading Language data. Please wait. </template>
                 <Column selectionMode="multiple" :styless="{ width: '3rem' }" :exportable="false"></Column>
-                <Column field="Language" header="Language" sortField="Language" sortable>
+                <Column field="Language" header="Project Name" sortField="project_name" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_zip_code }}
                     </template>
@@ -49,16 +49,25 @@
                             placeholder="Search by zip name" />
                     </template>
                 </Column>
-                <Column field="Language Short Code" header="Language Short Code" sortField="Language Short Code" sortable>
+                <Column field="Type of Project" header="Type of Project" sortField="type_of_project" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_khmer_name }}
                     </template>
+                    <!-- Filter Khmer Name -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                            placeholder="Type of Project" />
+                    </template>
                 </Column>
-                <Column field="Conutry Code" header="Country Code" sortField="contry_code" sortable>
+                <Column field="Note" header="Note" sortField="Note" sortable>
                     <template #body="{ data }">
                         {{ data?.geo_english_name }}
                     </template>
-
+                    <!-- Filter Khmer Name -->
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                            placeholder="Note" />
+                    </template>
                 </Column>
                 <Column header="Actions" :exportable="false" :styles="{ 'min-width': '8rem' }">
                     <template #body="slotProps">
@@ -73,15 +82,9 @@
             </DataTable>
         </div>
         <!-- Pop Edited Country -->
-        <!-- <edited-popup-geo-location-country v-if="openEditedCountryCountry" :geoLocalCountry="editCountryPopup"
-            @close="closingPopupEditedCountry" /> -->
-
-        <!-- Pop Edited Country -->
-        <edit-change-Language
-            v-if="openEditedCountryCountry"
-            :geoLocalCountry="editCountryPopup"
-            @close="closingPopupEditedCountry"
-        />
+        <edited-popup-geo-location-country v-if="openEditedCountryCountry" :geoLocalCountry="editCountryPopup"
+            @close="closingPopupEditedCountry" />
+        <!-- Popup Deleted Country -->
         <Dialog v-model:visible="deletedGeoCountryDialogs" :style="{ width: '450px' }"
             header="Confirm delete geo-country locations" :modal="true">
             <div class="confirmation-content">
@@ -93,22 +96,20 @@
                 <Button label="Yes" icon="pi pi-check" text @click="confirmDeletedCountryById()" />
             </template>
         </Dialog>
-
+  
     </Dialog>
-</template>
-
-<!-- Popup Province or State -->
-<script>
-import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
-import { FilterMatchMode, FilterOperator } from 'primevue/api';
-import util from '@/mixin/util';
-import validation from '@/mixin/validation';
-import geoLocationCountryHelper from '@/mixin/geoLocationCountryHelper';
-import EditChangeLanguage from "./EditChaneLanguage.vue";
-// import EditedPopupGeoLocationCountry from "../../../location_management_system/pop_up_create_locations/country_geo_location/EditedPopupGeoLocationCountry.vue";
-import { mapActions, mapGetters } from "vuex";
-
-export default {
+  </template>
+  
+  <!-- Popup Province or State -->
+  <script>
+  import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
+  import { FilterMatchMode, FilterOperator } from 'primevue/api';
+  import util from '@/mixin/util';
+  import validation from '@/mixin/validation';
+  import geoLocationCountryHelper from '@/mixin/geoLocationCountryHelper';
+  import { mapActions, mapGetters } from "vuex";
+  
+  export default {
     props: {
         checkCountryGeoList: {
             type: String,
@@ -123,8 +124,7 @@ export default {
     },
     mixins: [util, validation, geoLocationCountryHelper],
     components: {
-        // EditedPopupGeoLocationCountry,
-        EditChangeLanguage,
+        // EditedPopupGeoLocationCountry
     },
     computed: {
         ...mapGetters('geoCountry', ['countryAll']),
@@ -155,7 +155,6 @@ export default {
             selectAll: false,
             first: 0,
             editCountryPopup: null,
-            EditChangeLanguage: null,
             ajaxDeletingCountry: 0,
             deletedDialogDataId: null,
             loadingCountry: false
@@ -223,7 +222,7 @@ export default {
             this.deletingGeoCountryLocationsById(this.deletedDialogDataId);
         }
     },
-};
-</script>
-<style scoped></style>
-<style lang='scss' scoped></style>
+  };
+  </script>
+  <style scoped></style>
+  <style lang='scss' scoped></style>

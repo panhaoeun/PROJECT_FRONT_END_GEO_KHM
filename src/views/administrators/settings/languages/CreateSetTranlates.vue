@@ -26,6 +26,9 @@
                                 <ChangeLanguage />
                             </div>
                             <div class="col-lg-3 col-md-6 mb-3">
+                                <LanguageNameLanguage />
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
                                 <ProjectNameLanguage />
                             </div>
                             <div class="col-lg-3 col-md-6 mb-3">
@@ -58,6 +61,7 @@ import ChangeLanguage from './change_language/ChangeLanguage.vue';
 import ProjectNameLanguage from './project_name_language/ProjectNameLanguage.vue';
 import FolderNameLanguage from './folder_name_language/FolderNameLanguage.vue';
 import PageNameLanguage from './page_name_language/PageNameLanguage.vue';
+import LanguageNameLanguage from './Language_name_language/LanguageNameLanguage.vue';
 import ShowListLanguage from './ShowListLanguage.vue';
 
 export default {
@@ -67,6 +71,7 @@ export default {
         FolderNameLanguage,
         PageNameLanguage,
         ShowListLanguage,
+        LanguageNameLanguage
     },
 
     data() {

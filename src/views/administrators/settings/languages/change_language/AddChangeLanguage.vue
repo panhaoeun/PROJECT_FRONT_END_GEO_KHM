@@ -25,7 +25,7 @@
     <!-- Popup Create Province or State-->
     <Dialog 
         v-model:visible="openDialogGeoLocationCountry"
-        header="Create country1235" :style="{ width: '75vw' }" 
+        header="Create country" :style="{ width: '75vw' }" 
         maximizable 
         modal 
         :contentStyle="{ height: '600px' }" 

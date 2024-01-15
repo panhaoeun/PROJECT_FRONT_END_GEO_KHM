@@ -24,7 +24,7 @@
 
                             <div class="col-6 field">
                                 <div class="field">
-                                    <label for="country" class="text-sm font-semibold">Select Language<span
+                                    <label for="country" class="text-sm font-semibold">Select Country<span
                                             class="p-error">*</span></label>
                                     <div class="flex field flex-row">
                                         <Dropdown showClear v-model="selectedCountry" :options="allCountry"
@@ -32,7 +32,7 @@
                                             class="w-full text-sm" inputId="shopEng" aria-describedby="dd-error"
                                             @change="getCountryLangSelected">
                                             <!-- Dropdown content -->
-                    
+
                                         </Dropdown>
                                         <!-- Popup Select Country -->
                                         <div class="btn-color-nohover d-flex d-flex align-items-center ml-2">
@@ -40,8 +40,46 @@
                                                 <ListChangeLanguage />
                                             </div>
                                             <div class="btn-color-nohover edit-btn-lang d-flex align-items-center">
-                                                <AddChangeLanguage/>
+                                                <AddChangeLanguage />
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Select Language -->
+
+                            <div class="col-6 field" v-if="selectedCountry !== null">
+                                <label for="country" class="text-sm font-semibold">Select Language</label>
+                                <div class="flex field flex-row">
+                                    <Dropdown showClear v-model="selectLanguageNameAddNew" :options="allLanguageName"
+                                        optionLabel="geo_english_name" filter placeholder="Select Project Name"
+                                        class="w-full text-sm" inputId="shopEng" aria-describedby="dd-error"
+                                        @click="getLanguageNameSelected(selectedCountry)">
+                                        <template #value="slotProps">
+                                            <div v-if="slotProps.value" class="flex align-items-center">
+                                                <div class="text-sm">
+                                                    {{ slotProps.value?.geo_english_name ?? '' }}
+                                                    ({{ slotProps.value?.geo_zip_code ?? '' }})
+                                                </div>
+                                            </div>
+                                            <span v-else class="text-sm">
+                                                {{ slotProps.placeholder }}
+                                            </span>
+                                        </template>
+                                        <template #option="slotProps">
+                                            <div class="flex align-items-center text-sm">
+                                                <div class="text-sm">{{ slotProps.option.geo_english_name ?? '' }} ({{
+                                                    slotProps.option.geo_zip_code ?? '' }})</div>
+                                            </div>
+                                        </template>
+                                    </Dropdown>
+                                    <div class="d-flex d-flex align-items-center ml-2">
+                                        <div class="add-btn">
+                                            <ListLanguageNameLanguage />
+                                        </div>
+                                        <div class="edit-btn-lang d-flex align-items-center">
+                                            <AddLanguageName />
                                         </div>
                                     </div>
                                 </div>
@@ -49,13 +87,13 @@
 
                             <!-- Select Project Name -->
 
-                            <div class="col-6 field" v-if="selectedCountry !== null">
+                            <div class="col-6 field" v-if="selectLanguageNameAddNew !== null">
                                 <label for="country" class="text-sm font-semibold">Select Project Name</label>
                                 <div class="flex field flex-row">
-                                    <Dropdown showClear v-model="selectPageNameAddNew" :options="allProjectName"
+                                    <Dropdown showClear v-model="selectProjectNameAddNew" :options="allProjectName"
                                         optionLabel="geo_english_name" filter placeholder="Select Project Name"
                                         class="w-full text-sm" inputId="shopEng" aria-describedby="dd-error"
-                                        @click="getCountryLangSelected(selectedCountry)">
+                                        @click="getProjectNameSelected(selectLanguageNameAddNew)">
                                         <template #value="slotProps">
                                             <div v-if="slotProps.value" class="flex align-items-center">
                                                 <div class="text-sm">
@@ -87,12 +125,12 @@
 
                             <!-- Select Folder Name -->
 
-                            <div class="col-6 field" v-if="selectPageNameAddNew !== null">
+                            <div class="col-6 field" v-if="selectProjectNameAddNew !== null">
                                 <label for="country" class="text-sm font-semibold">Select Folder Name</label>
                                 <div class="flex field flex-row">
-                                    <Dropdown showClear v-model="selectLanguageTranslatePage" :options="allFolderName"
+                                    <Dropdown showClear v-model="selectFolderNameAddNew" :options="allFolderName"
                                         optionLabel="geo_english_name" filter placeholder="Select Folder Name"
-                                        @click="getFolderNameSelected(selectPageNameAddNew)" class="w-full text-sm"
+                                        @click="getFolderNameSelected(selectProjectNameAddNew)" class="w-full text-sm"
                                         inputId="shopEng" aria-describedby="dd-error">
                                         <template #value="slotProps">
                                             <div v-if="slotProps.value" class="flex align-items-center">
@@ -126,12 +164,12 @@
 
                             <!-- Select Page -->
 
-                            <div class="col-6 field" v-if="selectLanguageTranslatePage !== null">
+                            <div class="col-6 field" v-if="selectFolderNameAddNew !== null">
                                 <label for="country" class="text-sm font-semibold">Select Page</label>
                                 <div class="flex field flex-row">
                                     <Dropdown showClear v-model="selectPageLang" :options="allPageName"
                                         optionLabel="geo_english_name"
-                                        @click="getPageNameSelected(selectLanguageTranslatePage)" filter
+                                        @click="getPageNameSelected(selectFolderNameAddNew)" filter
                                         placeholder="Select a Page" class="w-full text-sm" inputId="shopEng"
                                         aria-describedby="dd-error">
                                         <template #value="slotProps">
@@ -171,7 +209,7 @@
             </div>
         </form>
     </div>
-    <div class="px-4 py-4" v-if="selectLanguageTranslatePage !== null">
+    <div class="px-4 py-4" v-if="selectPageLang !== null">
         <div class="card">
             <ShowListTranLanguage />
         </div>
@@ -188,6 +226,8 @@ import ListFolderNameLanguage from './folder_name_language/ListFolderNameLanguag
 import AddFolderNameLanguage from './folder_name_language/AddFolderNameLanguage.vue';
 import AddPageName from './page_name_language/AddPageName.vue';
 import ListPageNameLanguage from './page_name_language/ListPageNameLanguage.vue';
+import AddLanguageName from './Language_name_language/AddLanguageName.vue';
+import ListLanguageNameLanguage from './Language_name_language/ListLanguageNameLanguage.vue';
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -201,6 +241,8 @@ export default {
         AddFolderNameLanguage,
         AddPageName,
         ListPageNameLanguage,
+        AddLanguageName,
+        ListLanguageNameLanguage
         // GeoLocationOfCountryListPopup
 
     },
@@ -227,8 +269,17 @@ export default {
                 { id: 2, geo_english_name: 'Country 2' },
                 { id: 3, geo_english_name: 'Country 3' },
             ],
+            allLanguageName: [
+                { id: 1, geo_english_name: 'Country 1' },
+                { id: 2, geo_english_name: 'Country 2' },
+                { id: 3, geo_english_name: 'Country 3' },
+            ],
             selectedCountry: null,
+            selectedLanguage :null,
             selectPageNameAddNew: null,
+            selectProjectNameAddNew : null,
+            selectFolderNameAddNew : null,
+            selectLanguageNameAddNew : null,
             allStateCountryAddNew: [],
             countryProvinceIdOptSelected: null,
             selectLanguageTranslatePage: null,
@@ -244,11 +295,11 @@ export default {
         ...mapActions('geoCountry', ['getAllCountryActions']),
 
         // Get All List
-        popUpCreateProvinceState(){
+        popUpCreateProvinceState() {
             this.openDialogGeoLocationCountry = true;
         },
-        closePopupProvinceState(){
-            this.openDialogGeoLocationCountry = false; 
+        closePopupProvinceState() {
+            this.openDialogGeoLocationCountry = false;
         },
 
         getGeoLocationCountry() {
@@ -274,6 +325,8 @@ export default {
 
             this.allStateCountryAddNew = sampleProvinceData;
             this.selectPageNameAddNew = null;
+            this.selectLanguageNameAddNew =null;
+            this.selectProjectNameAddNew = null;
             this.selectedDistrict = null;
             this.allFolderNamelanguage = [];
             this.geoDistrictSSNProvinceOptSelected = null;
@@ -288,6 +341,9 @@ export default {
             // Implement the logic to fetch the commune options based on the selected district
         },
         getProjectNameSelected() {
+            // Implement the logic to fetch the commune options based on the selected district
+        },
+        getLanguageNameSelected() {
             // Implement the logic to fetch the commune options based on the selected district
         },
     },
