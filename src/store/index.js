@@ -30,6 +30,9 @@ import GeoLocationProvince from "./geo_location_country/geo_province";
 import GeoLocationDistrict from "./geo_location_country/geo_district";
 import GeoLocationCommune from "./geo_location_country/geo_commune";
 import GeoLocationVillages from "./geo_location_country/geo_villages";
+
+//Language Transtale managements
+import TranslateLanguage from "./translate_language/translate_language";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
@@ -96,6 +99,8 @@ const store = createStore({
         geoDistrict: GeoLocationDistrict,
         geoCommune: GeoLocationCommune,
         geoVillages: GeoLocationVillages,
+        //Language Transtale managements
+        translateLanguage: TranslateLanguage,
     },
 });
 // Load all modules.
