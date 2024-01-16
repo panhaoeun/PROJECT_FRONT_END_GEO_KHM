@@ -12,7 +12,7 @@ export default {
         ...mapGetters("orgPosStrCou", ["allGeoPositionOrgStr"]),
         getAllPositionOrgStr() {
             return this.allGeoPositionOrgStr || [];
-        },
+        }
     },
     data() {
         return {

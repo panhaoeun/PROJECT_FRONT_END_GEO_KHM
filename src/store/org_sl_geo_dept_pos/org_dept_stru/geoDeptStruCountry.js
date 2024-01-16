@@ -17,10 +17,11 @@ const actions = {
         commit
     }, {
         deptOrgProjectId,
-        countryOrgIdGeo
+        countryOrgIdGeo,
+        orgDeptLevel
     }) {
         try {
-            geoDeptOrgStrServices.listGeoLocationDepartmentsOrgSLGeo(deptOrgProjectId, countryOrgIdGeo).then((deptOrg) => {
+            geoDeptOrgStrServices.listGeoLocationDepartmentsOrgSLGeo(deptOrgProjectId, countryOrgIdGeo, orgDeptLevel).then((deptOrg) => {
                 const getAllDeptOrgStr = Array.isArray(deptOrg) ? deptOrg.slice() : [];
                 if (!deptOrg) {
                     commit('SET_LIST_GEO_DEPT_ORG_STR_COUNTRY', []);

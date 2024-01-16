@@ -10,7 +10,7 @@ export default {
     },
     computed: {
         ...mapGetters("orgDeptStrCou", ["allGeoDeptOrg"]),
-        getAllDeptOrgStr() {
+        getAllDeptOrgStrProvinceState() {
             return this.allGeoDeptOrg || [];
         },
     },
@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         ...mapActions('orgDeptStrCou', ['getAllGeoDeptOrgCountryStr']),
-        addNewGeoOrgDeptCountry(validate) {
+        addNewGeoOrgDeptProvinceState(validate) {
             this.submitted = true;
             this.loadingSubmittedAddDepartment = true;
             setTimeout(() => {
@@ -71,7 +71,7 @@ export default {
                         "";
 
                     const addNewOptDeptByCountry = {
-                        addOrgLevelGeoSLStr: 'SL01',
+                        addOrgLevelGeoSLStr: 'SL02',
                         addNewProjectIdOrgSL: deptProjectId ?
                             deptProjectId :
                             0,
@@ -96,13 +96,15 @@ export default {
                     .then(async (addNewDept) => {
                         if (addNewDept?.data.success === true) {
                             this.loadingSubmittedAddDepartment = false;
+                            this.visibleDialogDepartmentProState = false;
+                            this.resetFromAddDeptOrgStr();
                             // Reload Data In Datable in Dept org-str geo-fence
-                            this.fetchingDataGeoCountryOrgStr(deptProjectId,deptGeoCountryId);
+                            this.fetchingDataGeoProStateOrgStr(deptProjectId,deptGeoCountryId);
                             this.visibleDialogDepartment = false;
                             this.$toast.add({
                                 severity: "success",
                                 summary:
-                                    "Successfully add new department.",
+                                    "Successfully add new department province or state.",
                                 detail: addNewDept.data?.message
                                     ? addNewDept.data?.message
                                     : null,
@@ -160,10 +162,10 @@ export default {
         async editGeoOrgDeptCountry(index, rowEditId) {
             console.log(index, rowEditId)
         },
-        async fetchingDataGeoCountryOrgStr(deptOrgProjectId = 0, countryOrgIdGeo = 0) {
+        async fetchingDataGeoProStateOrgStr(deptOrgProjectId = 0, countryOrgIdGeo = 0) {
             this.fetchingOrgStrDept = true;
             try {
-                const orgDeptLevel = 'SL01';
+                const orgDeptLevel = 'SL02';
                 this.getAllGeoDeptOrgCountryStr({
                     deptOrgProjectId,
                     countryOrgIdGeo,

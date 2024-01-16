@@ -24,7 +24,7 @@
                 class="inline-flex align-items-center justify-content-center gap-2"
             >
                 <span class="font-bold white-space-nowrap">
-                    Manage Departments Province or State
+                    Manage Departments District
                 </span>
             </div>
         </template>
@@ -37,7 +37,7 @@
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
                         <!-- Add more -->
-                        <dialog-add-department-base-geo-fence-province
+                        <dialog-add-department-base-geo-fence-district
                             :deptProjectId="
                                 getDeptProjectId ? getDeptProjectId : 0
                             "
@@ -134,17 +134,17 @@
 
 <!-- Department JS -->
 <script>
-import DialogAddDepartmentBaseGeoFenceProvince from "./dialog_department_state/DialogAddDepartmentsState.vue";
+import DialogAddDepartmentBaseGeoFenceDistrict from "./dialog_department_district/DialogAddDepartmentsDistrict";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
-import geoOrgStrDeptProvinceStateHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptProStateHelper";
+import geoOrgStrDeptDistrictHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptDistrictHelper";
 import { mapGetters } from "vuex";
 
 export default {
     components: {
-        DialogAddDepartmentBaseGeoFenceProvince,
+        DialogAddDepartmentBaseGeoFenceDistrict
     },
-    mixins: [geoOrgStrDeptProvinceStateHelper],
+    mixins: [geoOrgStrDeptDistrictHelper],
     setup() {
         return { v$: useVuelidate() };
     },
@@ -214,7 +214,7 @@ export default {
                     ? parseInt(this.geoFenceLocation)
                     : 0;
                 if (deptGeoCountryId !== "" && deptGeoCountryId > 0) {
-                    await this.fetchingDataGeoProStateOrgStr(
+                    await this.fetchingDataGeoDistrictOrgStr(
                         projectId,
                         deptGeoCountryId,
                     );

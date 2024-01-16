@@ -277,7 +277,7 @@
                                                 "
                                                 optionLabel="geo_english_name"
                                                 filter
-                                                placeholder="Select a Country"
+                                                placeholder="Select a Province or State"
                                                 class="w-full border-round-lg text-sm"
                                                 inputId="geo_english_name"
                                                 aria-describedby="dd-error"
@@ -327,7 +327,7 @@
                                                     </div>
                                                 </template>
                                             </Dropdown>
-                                            <!-- Button Add More Manage By Position Country -->
+                                            <!-- Button Add More Manage By Department Base State -->
                                             <PopupAddManageProvinceDept
                                                 v-if="
                                                     modelProvinceStateSelected !==
@@ -339,8 +339,8 @@
                                                         : 0
                                                 "
                                                 :geoFenceLocation="
-                                                    getCountryId
-                                                        ? getCountryId
+                                                    getProvinceStateId
+                                                        ? getProvinceStateId
                                                         : 0
                                                 "
                                             />
@@ -455,9 +455,10 @@
                                                 </template>
                                             </Dropdown>
                                             <!-- Button Add More Manage By Position Country -->
-                                            <popup-add-manage-department-position-geo
+                                           <!-- Button Add More Manage By Department Base State -->
+                                            <PopupAddManageDistrictDept
                                                 v-if="
-                                                    modelCountryNameSelected !==
+                                                    modelDistrictSelected !==
                                                     null
                                                 "
                                                 :projectId="
@@ -466,8 +467,8 @@
                                                         : 0
                                                 "
                                                 :geoFenceLocation="
-                                                    getCountryId
-                                                        ? getCountryId
+                                                    getDistrictStateId
+                                                        ? getDistrictStateId
                                                         : 0
                                                 "
                                             />
@@ -475,16 +476,16 @@
                                         <!-- Validations -->
                                         <small
                                             v-if="
-                                                (v$.modelProvinceStateSelected
+                                                (v$.modelDistrictSelected
                                                     .$invalid &&
                                                     submitted) ||
-                                                v$.modelProvinceStateSelected
+                                                v$.modelDistrictSelected
                                                     .$pending?.$response
                                             "
                                             class="p-error text-sm"
                                         >
                                             {{
-                                                v$.modelProvinceStateSelected.required.$message.replace(
+                                                v$.modelDistrictSelected.required.$message.replace(
                                                     "Value",
                                                     "Province or State"
                                                 )
@@ -583,9 +584,9 @@
                                                 </template>
                                             </Dropdown>
                                             <!-- Button Add More Manage By Position Country -->
-                                            <popup-add-manage-department-position-geo
+                                            <PopupAddManageCommuneDept
                                                 v-if="
-                                                    modelCountryNameSelected !==
+                                                    modelCommuneTownSelected !==
                                                     null
                                                 "
                                                 :projectId="
@@ -594,8 +595,8 @@
                                                         : 0
                                                 "
                                                 :geoFenceLocation="
-                                                    getCountryId
-                                                        ? getCountryId
+                                                    getCommuneOrgId
+                                                        ? getCommuneOrgId
                                                         : 0
                                                 "
                                             />
@@ -620,8 +621,7 @@
                                         </small>
                                     </div>
                                 </div>
-
-                                <!-- Permissions Descriptions -->
+                                <!-- Org-structures Descriptions -->
                                 <div class="col-12 field">
                                     <div class="field">
                                         <label
@@ -699,6 +699,8 @@ import rolePermissionsManageHelper from "@/mixin/role_permissions_manage/rolePer
  * */
 import PopupAddManageDepartmentPositionGeo from "./position_module/AddManageDepartmentPositionGeoCountry.vue";
 import PopupAddManageProvinceDept from "./position_module/dialogs_departments_country/dialogs_department_province_state/AddNewDepartmentPositionDialogState.vue";
+import PopupAddManageDistrictDept from "./position_module/dialogs_departments_country/dialogs_department_district_state/AddNewDepartmentPositionDistrictDialog.vue";
+import PopupAddManageCommuneDept from "./position_module/dialogs_departments_country/dialogs_department_commune/AddNewDepartmentPositionCommuneDialog.vue";
 import ManagePositionDeptModuleOnGeo from "./position_module/ManageDepartmentBaseOnGeoFence.vue";
 import { mapGetters, mapActions } from "vuex";
 
@@ -707,7 +709,9 @@ export default {
     components: {
         PopupAddManageDepartmentPositionGeo,
         ManagePositionDeptModuleOnGeo,
-        PopupAddManageProvinceDept
+        PopupAddManageProvinceDept,
+        PopupAddManageDistrictDept,
+        PopupAddManageCommuneDept
     },
     setup() {
         return { v$: useVuelidate() };
@@ -731,6 +735,21 @@ export default {
         getCountryId() {
             return parseInt(this.modelCountryNameSelected?.id)
                 ? parseInt(this.modelCountryNameSelected?.id)
+                : 0;
+        },
+        getProvinceStateId() {
+            return parseInt(this.modelProvinceStateSelected?.id)
+                ? parseInt(this.modelProvinceStateSelected?.id)
+                : 0;
+        },
+        getDistrictStateId() {
+            return parseInt(this.modelDistrictSelected?.id)
+                ? parseInt(this.modelDistrictSelected?.id)
+                : 0;
+        },
+        getCommuneOrgId() {
+            return parseInt(this.modelCommuneTownSelected?.id)
+                ? parseInt(this.modelCommuneTownSelected?.id)
                 : 0;
         },
         allCountryPosition() {

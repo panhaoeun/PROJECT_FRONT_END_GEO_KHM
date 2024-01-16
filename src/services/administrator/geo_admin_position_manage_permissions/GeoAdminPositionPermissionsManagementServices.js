@@ -5,8 +5,8 @@ export default class ManagePermissionsGeoFencePositionPermissionsServices {
      * @api {post}  Manage Departments
      *  @api (List, Modify, Add, Delete) Departments
      */
-    async listGeoLocationDepartmentsOrgSLGeo(projectId, projectByCountryId) {
-        return await http.get(`/users-managements/geo-fence-position/list-departments?projectId=${projectId}&countryIdGeoLocal=${projectByCountryId}`)
+    async listGeoLocationDepartmentsOrgSLGeo(projectId, projectByCountryId,orgGeoLevelDept) {
+        return await http.get(`/users-managements/geo-fence-position/list-departments?projectId=${projectId}&countryIdGeoLocal=${projectByCountryId}&orgDeptLevel=${orgGeoLevelDept}`)
             .then((result) => {
                 if (!result) {
                     return false;
