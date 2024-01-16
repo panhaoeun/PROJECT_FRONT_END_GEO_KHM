@@ -3,13 +3,17 @@
     <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between px-4 py-4">
-            <h2 class="relative text-black text-xl section section-title:before ">{{ $t('order.allOrder') }}</h2>
+            <h2
+                class="relative text-black text-xl section section-title:before"
+            >
+                {{ $t("order.allOrder") }}
+            </h2>
         </div>
         <div class="gird">
             <div class="col-12">
                 <!-- <el-card  class="box-card"> -->
-                    <!-- <input hidden  v-model="orderListArrComputed"/> -->
-                    <!-- <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <!-- <input hidden  v-model="orderListArrComputed"/> -->
+                <!-- <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
                         <div class="flex flex-wrap gap-3 p-fluid">
                             <div class="flex-auto text-sm p-float-label">
                                 <label for="startDateFilter" class="text-sm"> Start Date </label>
@@ -50,69 +54,159 @@
                     <div>
                         <div class="px-2">
                             <!-- Data Tables -->
-                                <DataTable 
-                                    scrollable
-                                    ref="dt" 
-                                    :value="ordersListArr" 
-                                    v-model:selection="selectedOrderList"
-                                    dataKey="id"
-                                    :paginator="true" :rows="10" 
-                                    :filters="filters"
-                                    class="p-datatable-scrollable text-sm"
-                                    :globalFilterFields="['representative.orderDate', 'orderDate', 'name_eng', 'store','total_price','order_status']"
-                                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                                    :rowsPerPageOptions="[5, 10, 25]"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
-                                    <!-- Header -->
-                                    <template #header>
-                                        <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                                            <!-- Filter Date Order -->
-                                            <h4 class="m-0">
-                                                
-                                            </h4>
-                                            <span class="p-input-icon-left">
-                                                <i class="pi pi-search" />
-                                                <InputText v-model="filters['global'].value" :placeholder="$t('route.search')" />
-                                            </span>
-                                        </div>
-                                    </template>
-                                    <!-- Empty Users -->
-                                    <template #empty> {{ $t('message.noHaveData') }}</template>
-                                    <!-- Loading Users -->
-                                    <template #loading> {{ $t('message.dataLoading') }}</template>
-                                    <!--------------Check Existed Data ----------->
-                                    <template v-if="ordersListArr && ordersListArr.length > 0 && ordersListArr != ''">
-                                        <!-- Columns -->
-                                        <Column field="orderDate" header="Order Date" sortable sortField="orderDate"></Column>
-                                        <Column field="name_eng" header="Customer Info" sortable sortField="name_eng">
-                                            <template #body="slotProps">
-                                                <div class="justify-content-center">
-                                                    <p class="font-bold text-sm"> {{slotProps.data?.name_eng}}</p>
-                                                    <span>{{ slotProps.data?.user_phonenumber }}</span>
-                                                </div>
-                                            </template>
-                                        </Column>
-                                        <Column field="store" header="Store" sortable sortField="store"></Column>
-                                        <Column field="id" header="Total Amount" sortable sortField="total_price">
-                                            <template #body="slotProps">
-                                                <p>{{ currencyFormattedKHRiel(slotProps.data.total_price ?? 0) }}</p>
-                                            </template>
-                                        </Column>
-                                        <Column field="id" header="Order Status" sortable sortField="order_status">
-                                            <template #body="slotProps">
-                                                <div class="justify-content-center">
-                                                    <Tag :value="slotProps.data.order_status" class="text-white" :severity="getSeverityPaymentStatus(slotProps.data?.order_status)" />
-                                                </div>
-                                            </template>
-                                        </Column>
-                                        <Column :exportable="false" header="Options" style="min-width:8rem">
-                                            <template #body="slotProps">
-                                                <Button icon="pi pi-eye" outlined rounded class="mr-2"
-                                                    @click="$router.push({ path: `/vendor/order_managements/customer_detail/customer_order/order_detail/${slotProps.data?.orderId }` })" />
-                                            </template>
-                                        </Column>
-                                    </template>
-                                </DataTable>
+                            <DataTable
+                                scrollable
+                                ref="dt"
+                                :value="ordersListArr"
+                                v-model:selection="selectedOrderList"
+                                dataKey="id"
+                                :paginator="true"
+                                :rows="10"
+                                :filters="filters"
+                                class="p-datatable-scrollable text-sm"
+                                :globalFilterFields="[
+                                    'representative.orderDate',
+                                    'orderDate',
+                                    'name_eng',
+                                    'store',
+                                    'total_price',
+                                    'order_status',
+                                ]"
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                :rowsPerPageOptions="[5, 10, 25]"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+                            >
+                                <!-- Header -->
+                                <template #header>
+                                    <div
+                                        class="flex flex-wrap gap-2 align-items-center justify-content-between"
+                                    >
+                                        <!-- Filter Date Order -->
+                                        <h4 class="m-0"></h4>
+                                        <span class="p-input-icon-left">
+                                            <i class="pi pi-search" />
+                                            <InputText
+                                                v-model="
+                                                    filters['global'].value
+                                                "
+                                                :placeholder="
+                                                    $t('route.search')
+                                                "
+                                            />
+                                        </span>
+                                    </div>
+                                </template>
+                                <!-- Empty Users -->
+                                <template #empty>
+                                    {{ $t("message.noHaveData") }}</template
+                                >
+                                <!-- Loading Users -->
+                                <template #loading>
+                                    {{ $t("message.dataLoading") }}</template
+                                >
+                                <!--------------Check Existed Data ----------->
+                                <template
+                                    v-if="
+                                        ordersListArr &&
+                                        ordersListArr.length > 0 &&
+                                        ordersListArr != ''
+                                    "
+                                >
+                                    <!-- Columns -->
+                                    <Column
+                                        field="orderDate"
+                                        header="Order Date"
+                                        sortable
+                                        sortField="orderDate"
+                                    ></Column>
+                                    <Column
+                                        field="name_eng"
+                                        header="Customer Info"
+                                        sortable
+                                        sortField="name_eng"
+                                    >
+                                        <template #body="slotProps">
+                                            <div class="justify-content-center">
+                                                <p class="font-bold text-sm">
+                                                    {{
+                                                        slotProps.data?.name_eng
+                                                    }}
+                                                </p>
+                                                <span>{{
+                                                    slotProps.data
+                                                        ?.user_phonenumber
+                                                }}</span>
+                                            </div>
+                                        </template>
+                                    </Column>
+                                    <Column
+                                        field="store"
+                                        header="Store"
+                                        sortable
+                                        sortField="store"
+                                    ></Column>
+                                    <Column
+                                        field="id"
+                                        header="Total Amount"
+                                        sortable
+                                        sortField="total_price"
+                                    >
+                                        <template #body="slotProps">
+                                            <p>
+                                                {{
+                                                    currencyFormattedKHRiel(
+                                                        slotProps.data
+                                                            .total_price ?? 0
+                                                    )
+                                                }}
+                                            </p>
+                                        </template>
+                                    </Column>
+                                    <Column
+                                        field="id"
+                                        header="Order Status"
+                                        sortable
+                                        sortField="order_status"
+                                    >
+                                        <template #body="slotProps">
+                                            <div class="justify-content-center">
+                                                <Tag
+                                                    :value="
+                                                        slotProps.data
+                                                            .order_status
+                                                    "
+                                                    class="text-white"
+                                                    :severity="
+                                                        getSeverityPaymentStatus(
+                                                            slotProps.data
+                                                                ?.order_status
+                                                        )
+                                                    "
+                                                />
+                                            </div>
+                                        </template>
+                                    </Column>
+                                    <Column
+                                        :exportable="false"
+                                        header="Options"
+                                        style="min-width: 8rem"
+                                    >
+                                        <template #body="slotProps">
+                                            <Button
+                                                icon="pi pi-eye"
+                                                outlined
+                                                rounded
+                                                class="mr-2"
+                                                @click="
+                                                    $router.push({
+                                                        path: `/vendor/order_managements/customer_detail/customer_order/order_detail/${slotProps.data?.orderId}`,
+                                                    })
+                                                "
+                                            />
+                                        </template>
+                                    </Column>
+                                </template>
+                            </DataTable>
                         </div>
                     </div>
                 </el-card>
@@ -121,42 +215,41 @@
     </div>
 </template>
 
-
 <!-- Data Tables -->
 <script>
-import { FilterMatchMode } from 'primevue/api';
-import CustomerOrderMSServices from '../../../services/vendors/order_managements/OrdersManagementsServices';
-import { ElMessage } from 'element-plus';
+import { FilterMatchMode } from "primevue/api";
+import CustomerOrderMSServices from "../../../services/vendors/order_managements/OrdersManagementsServices";
+import { ElMessage } from "element-plus";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 export default {
     setup: () => ({ v$: useVuelidate() }),
     validations() {
         return {
-            orderListStartFilter: {required},
-            orderListEndFilter: {required}
-        }
-    }, 
+            orderListStartFilter: { required },
+            orderListEndFilter: { required },
+        };
+    },
     data() {
         return {
             selectedOrderList: null,
-            searchFilterOrder: '',
+            searchFilterOrder: "",
             lazyLoading: false,
             loadLazyTimeout: null,
-            usersID: '',
-            ordersListArr: null ,
-            statusUsersSwitch: '',
+            usersID: "",
+            ordersListArr: null,
+            statusUsersSwitch: "",
             deleteUsersDialog: false,
-            product: '',
-            selectedRolesList: '',
+            product: "",
+            selectedRolesList: "",
             statusUserSwitch: false,
             orderListStartFilter: null,
             orderListEndFilter: null,
             isSearchLoading: false,
             filters: {
-                'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
-            }
-        }
+                global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+            },
+        };
     },
     created() {
         this.cusMSServices = new CustomerOrderMSServices();
@@ -169,52 +262,74 @@ export default {
     },
     methods: {
         // Convert Currency Amount
-        currencyFormattedKHRiel(value){
-            return new Intl.NumberFormat('km-KH', { style: 'currency', currency: 'KHR', currencyDisplay: 'symbol'}).format(value ? value : 0).replace(/\b(\w*KHR\w*)\b/,'៛');  
+        currencyFormattedKHRiel(value) {
+            return new Intl.NumberFormat("km-KH", {
+                style: "currency",
+                currency: "KHR",
+                currencyDisplay: "symbol",
+            })
+                .format(value ? value : 0)
+                .replace(/\b(\w*KHR\w*)\b/, "៛");
         },
-        currencyFormattedUSD(value){
+        currencyFormattedUSD(value) {
             return Number(value ? value : 0).toLocaleString("en-US", {
                 style: "currency",
-                currency: "USD"
-            });  
+                currency: "USD",
+            });
         },
         /**
          * Date to timestamp
          * @param  string template
          * @param  string date
          * @return string
-        * @example convertDateTimeFormate("26-02-2012",'yyyy-MM-dd hh:mm:ss') return 2023-06-23 11:07:56
-        */
-        todayCurrentDate(){
+         * @example convertDateTimeFormate("26-02-2012",'yyyy-MM-dd hh:mm:ss') return 2023-06-23 11:07:56
+         */
+        todayCurrentDate() {
             let today = new Date(),
-            todayDate = ('0'+today.getDate()).slice(-2),
-            todayMonth = ('0'+ (today.getMonth() + 1) ).slice(-2),
-            todayYear = today.getFullYear();
+                todayDate = ("0" + today.getDate()).slice(-2),
+                todayMonth = ("0" + (today.getMonth() + 1)).slice(-2),
+                todayYear = today.getFullYear();
             // Day
-            let day = '';
-            day = todayYear+'-'+('0' +(todayMonth)).slice(-2)+'-'+(todayDate);
+            let day = "";
+            day =
+                todayYear +
+                "-" +
+                ("0" + todayMonth).slice(-2) +
+                "-" +
+                todayDate;
             return day;
         },
-        convertDateTimeFormate(dateString, formate){
+        convertDateTimeFormate(dateString, formate) {
             const date = new Date(dateString);
-            if (date == "Invalid Date" && isNaN(date) || typeof date == 'number' && date != 0 && !date) {
-                ElMessage.error(`Invalid Formate | Please Formate Date 2023-06-23 11:07:56 :${date}:${dateString}`);
+            if (
+                (date == "Invalid Date" && isNaN(date)) ||
+                (typeof date == "number" && date != 0 && !date)
+            ) {
+                ElMessage.error(
+                    `Invalid Formate | Please Formate Date 2023-06-23 11:07:56 :${date}:${dateString}`
+                );
             }
             var dateFormate = {
                 M: date.getMonth() + 1,
                 d: date.getDate(),
                 h: date.getHours(),
                 m: date.getMinutes(),
-                s: date.getSeconds()
+                s: date.getSeconds(),
             };
-            const replaceFormate = formate.replace(/(M+|d+|h+|m+|s+)/g, function (formate) {
-                return ((formate.length > 1 ? "0" : "") + dateFormate[formate.slice(-1)]).slice(-2)
-            });
+            const replaceFormate = formate.replace(
+                /(M+|d+|h+|m+|s+)/g,
+                function (formate) {
+                    return (
+                        (formate.length > 1 ? "0" : "") +
+                        dateFormate[formate.slice(-1)]
+                    ).slice(-2);
+                }
+            );
             return replaceFormate.replace(/(y+)/g, function (v) {
-                return date.getFullYear().toString().slice(-v.length)
+                return date.getFullYear().toString().slice(-v.length);
             });
         },
-        getTimestampOneMonthAgo(){
+        getTimestampOneMonthAgo() {
             const currentDate = new Date();
             // const currentDayOfMonth = currentDate.getDate();
             const syntaxFormate = {
@@ -222,83 +337,117 @@ export default {
                 d: currentDate.getDate(),
                 h: currentDate.getHours(),
                 m: currentDate.getMinutes(),
-                s: currentDate.getSeconds()
-            }
-            //Formate Date 
+                s: currentDate.getSeconds(),
+            };
+            //Formate Date
             const formate = "yyyy-MM-dd hh:mm:ss";
-           const replaceFormate = formate.replace(/(M+|d+|h+|m+|s+)/g, function (formate) {
-                return ((formate.length > 1 ? "0" : "") + syntaxFormate[formate.slice(-1)]).slice(-2)
-            });
+            const replaceFormate = formate.replace(
+                /(M+|d+|h+|m+|s+)/g,
+                function (formate) {
+                    return (
+                        (formate.length > 1 ? "0" : "") +
+                        syntaxFormate[formate.slice(-1)]
+                    ).slice(-2);
+                }
+            );
             return replaceFormate.replace(/(y+)/g, function (v) {
-                return currentDate.getFullYear().toString().slice(-v.length)
+                return currentDate.getFullYear().toString().slice(-v.length);
             });
         },
-        // Search Filter Orders 
-        filterOrderItemByDateRange(validation){
-            if(!validation){
+        // Search Filter Orders
+        filterOrderItemByDateRange(validation) {
+            if (!validation) {
                 this.isSearchLoading = true;
-                setTimeout(function(){
-                    this.isSearchLoading = false;
-                }.bind(this),1000);
+                setTimeout(
+                    function () {
+                        this.isSearchLoading = false;
+                    }.bind(this),
+                    1000
+                );
                 return;
             }
-            try{
-                if(this.orderListStartFilter !== '' && this.orderListEndFilter !== ''){
+            try {
+                if (
+                    this.orderListStartFilter !== "" &&
+                    this.orderListEndFilter !== ""
+                ) {
                     this.isSearchLoading = false;
-                    const startDateFilter =  this.convertDateTimeFormate(this.orderListStartFilter,"yyyy-MM-dd hh:mm:ss");
-                    const endDateFilter =  this.convertDateTimeFormate(this.orderListEndFilter,"yyyy-MM-dd hh:mm:ss");
-                    return this.orderListManagements(startDateFilter,endDateFilter);     
+                    const startDateFilter = this.convertDateTimeFormate(
+                        this.orderListStartFilter,
+                        "yyyy-MM-dd hh:mm:ss"
+                    );
+                    const endDateFilter = this.convertDateTimeFormate(
+                        this.orderListEndFilter,
+                        "yyyy-MM-dd hh:mm:ss"
+                    );
+                    return this.orderListManagements(
+                        startDateFilter,
+                        endDateFilter
+                    );
                 }
-            }catch(err){
+            } catch (err) {
                 return false;
             }
         },
-        orderListManagements(fromDate,toDate){
-           try{         
+        orderListManagements(fromDate, toDate) {
+            try {
                 const cusMSServices = new CustomerOrderMSServices();
-                cusMSServices.getViewCustomerOrder(fromDate,toDate).then((data) => {
-                    if (!data) {
-                        this.ordersListArr = [];
-                    }
-                    this.ordersListArr = Array.isArray(data) ? data.slice() : [];
-                }).catch((error) => {
-                   ElMessage.error(error.message || []);
-                });
-           }catch(error){
-                console.log(error)
+                cusMSServices
+                    .getViewCustomerOrder(fromDate, toDate)
+                    .then((data) => {
+                        if (!data) {
+                            this.ordersListArr = [];
+                        }
+                        this.ordersListArr = Array.isArray(data)
+                            ? data.slice()
+                            : [];
+                    })
+                    .catch((error) => {
+                        ElMessage.error(error.message || []);
+                    });
+            } catch (error) {
+                console.log(error);
                 ElMessage.error(error?.message || []);
-           }
+            }
         },
-        listOrderEmptyFilterDate(){
-            if(this.orderListStartFilter ==  '' && this.orderListEndFilter == '' || this.orderListStartFilter ==  null && this.orderListEndFilter ==  null){
+        listOrderEmptyFilterDate() {
+            if (
+                (this.orderListStartFilter == "" &&
+                    this.orderListEndFilter == "") ||
+                (this.orderListStartFilter == null &&
+                    this.orderListEndFilter == null)
+            ) {
                 const previousOneMonthAgo = this.getTimestampOneMonthAgo();
                 const todayDate = this.todayCurrentDate();
-                return this.orderListManagements(previousOneMonthAgo,todayDate);
-            }  
+                return this.orderListManagements(
+                    previousOneMonthAgo,
+                    todayDate
+                );
+            }
         },
         confirmDeleteUserMS(userId) {
             this.usersID = userId;
             this.deleteUsersDialog = true;
         },
-        getSeverityPaymentStatus(payStatus){
+        getSeverityPaymentStatus(payStatus) {
             switch (payStatus) {
-                case 'Complete':
-                    return 'success';
-                case 'Processing':
-                    return 'warning';
+                case "Complete":
+                    return "success";
+                case "Processing":
+                    return "warning";
 
-                case 'Padding':
-                    return 'warning';
+                case "Padding":
+                    return "warning";
 
-                case 'Incomplete':
-                    return 'info';
-                case 'Declined':
-                    return 'danger';
+                case "Incomplete":
+                    return "info";
+                case "Declined":
+                    return "danger";
 
                 default:
                     return null;
             }
-        }
-    }
-}
+        },
+    },
+};
 </script>

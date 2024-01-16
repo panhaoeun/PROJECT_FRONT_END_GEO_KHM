@@ -305,14 +305,13 @@
                                             <el-tooltip
                                                 class="box-item"
                                                 effect="dark"
-                                                content="ការកំណត់តម្លៃដឹកជញ្ជូន តម្លៃមានការប្រែប្រួលក្នុងល័ក្ខខណ្ខម្ចាស់អាជីវកម្មបានចុះអនុស្សរណៈនៃការយោគយល់គ្នាជាមួយនឹងក្រុមដឹកជញ្ជូន"
+                                                content="ការកំណត់តម្លៃដឹកជញ្ជូន តម្លៃមានការប្រែប្រួលក្នុងល័ក្ខខណ្ខម្ចាស់អាជីវកម្មបានចុះឈ្មោះជាសមាជិកជាមួយនឹងក្រុមដឹកជញ្ជូន(Pickup Freight)"
                                                 placement="top-start"
                                             >
                                                 <span class="input-label-secondary cursor-pointer pl-2">
                                                     <i class="pi pi-question-circle" style="font-size: 1rem"></i>
                                                 </span>
                                             </el-tooltip>
-                                            
                                         </div>
                                     </template>
                                     <div class="grid">
@@ -350,7 +349,19 @@
                                         <!--Express Delivery -->
                                         <div class="col-4">
                                             <div class="field">
-                                                <label for="name_en" class="text-sm font-semibold">Express Delivery (៛)</label>
+                                                <label for="name_en" class="text-sm font-semibold">
+                                                    Express Delivery (៛)
+                                                    <el-tooltip
+                                                        class="box-item"
+                                                        effect="dark"
+                                                        content="ការកំណត់តម្លៃដឹកជញ្ជូនឆាប់រហ័ស(1-2ថ្ងៃ) តាមការកំណត់ឬការចរចារតម្លៃរវាងម្ចាស់ហាងនិងក្រុមដឹកជញ្ជូន(Pickup Freight)"
+                                                        placement="top-start"
+                                                    >
+                                                        <span class="input-label-secondary cursor-pointer pl-2">
+                                                            <i class="pi pi-question-circle" style="font-size: 1rem"></i>
+                                                        </span>
+                                                    </el-tooltip>
+                                                </label>
                                                 <InputNumber mode="decimal" placeholder="Express Delivery" inputClass="border-round-lg text-sm" :minFractionDigits="2" :maxFractionDigits="5"   v-model="v$.expressDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.expressDeliveryShipping.$invalid && submitted }"/>
                                                 <small v-if="(v$.expressDeliveryShipping.$invalid && submitted) || v$.expressDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.expressDeliveryShipping.required.$message.replace('Value', 'Express Delivery') }}</small>
                                             </div>
@@ -358,7 +369,19 @@
                                         <!--Normal Delivery -->
                                         <div class="col-4">
                                             <div class="field">
-                                                <label for="name_en" class="text-sm font-semibold">Normal Delivery (៛)</label>
+                                                <label for="name_en" class="text-sm font-semibold">
+                                                    Normal Delivery (៛)
+                                                    <el-tooltip
+                                                        class="box-item"
+                                                        effect="dark"
+                                                        content="ការកំណត់តម្លៃដឹកជញ្ជូនធម្មតា(3-4ថ្ងៃ) តាមការកំណត់ឬការចរចារតម្លៃរវាងម្ចាស់ហាងនិងក្រុមដឹកជញ្ជូន(Pickup Freight)"
+                                                        placement="top-start"
+                                                    >
+                                                        <span class="input-label-secondary cursor-pointer pl-2">
+                                                            <i class="pi pi-question-circle" style="font-size: 1rem"></i>
+                                                        </span>
+                                                    </el-tooltip>
+                                                </label>
                                                 <InputNumber mode="decimal" placeholder="Normal Delivery" inputClass="border-round-lg text-sm"  :minFractionDigits="2" :maxFractionDigits="5"  v-model="v$.normalDeliveryShipping.$model" :class="{ 'p-invalid border-round-lg p-error': v$.normalDeliveryShipping.$invalid && submitted }"/>
                                                 <small v-if="(v$.normalDeliveryShipping.$invalid && submitted) || v$.normalDeliveryShipping.$pending.$response" class="p-error text-sm">{{ v$.normalDeliveryShipping.required.$message.replace('Value', 'Normal Delivery') }}</small>
                                             </div>
@@ -366,7 +389,7 @@
                                         <!--Maximins Order Product -->
                                         <div class="col">
                                             <div class="field">
-                                                <label for="name_en" class="text-sm font-semibold">Maximins</label>
+                                                <label for="name_en" class="text-sm font-semibold">Maximum</label>
                                                 <InputNumber mode="decimal" placeholder="Maximins" inputClass="border-round-lg text-sm"  v-model="v$.maximinsOrderProduct.$model" :class="{ 'p-invalid border-round-lg p-error': v$.maximinsOrderProduct.$invalid && submitted }"/>
                                                 <small v-if="(v$.maximinsOrderProduct.$invalid && submitted) || v$.maximinsOrderProduct.$pending.$response" class="p-error text-sm">{{ v$.maximinsOrderProduct.required.$message.replace('Value', 'Maximin Order') }}</small>
                                             </div>

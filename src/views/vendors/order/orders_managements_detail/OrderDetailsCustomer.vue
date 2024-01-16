@@ -241,26 +241,25 @@
                                                 }}
                                             </span>
                                         </div>
+
                                         <div class="border-round">
                                             <span class="mr-3">Sub Total:</span>
-                                            <span class="font-bold">
-                                                {{
-                                                    currencyFormattedKHRiel(
-                                                        customerDetailOrder[0]
-                                                            ?.subTotal
-                                                    )
-                                                }}
-                                            </span>
-                                        </div>
-                                        <div class="border-round">
-                                            <span class="mr-3 font-bold"
-                                                >Total:</span
-                                            >
                                             <span class="font-bold"
                                                 >{{
                                                     currencyFormattedKHRiel(
                                                         customerDetailOrder[0]
                                                             ?.totalSubShipping
+                                                    )
+                                                }}
+                                            </span>
+                                        </div>
+                                        <div class="border-round">
+                                            <span class="mr-3">Total:</span>
+                                            <span class="font-bold">
+                                                {{
+                                                    currencyFormattedKHRiel(
+                                                        customerDetailOrder[0]
+                                                            ?.subTotal
                                                     )
                                                 }}
                                             </span>
@@ -279,13 +278,11 @@
                 <div class="col-lg-4 grid col-xl-3 d-flex flex-column gap-3">
                     <div class="gap-3 column-gap-4 row-gap-6">
                         <!--================= Order & Shipping Info===============-->
-                        <el-card class="box-car">
+                        <el-card class="box-car px-2 py-2">
                             <div
                                 class="flex justify-content-between flex flex-wrap gap-3"
                             >
-                                <div
-                                    class="relative text-black text-sm section section-title:before"
-                                >
+                                <div class="text-black text-sm font-bold">
                                     <p class="h6">Order & Shipping Info</p>
                                 </div>
                                 <!-- Options Orders Status-->
@@ -434,9 +431,7 @@
                             <div
                                 class="flex justify-content-between flex flex-wrap gap-3"
                             >
-                                <div
-                                    class="relative text-black text-sm section section-title:before"
-                                >
+                                <div class="text-black text-sm font-bold">
                                     <p class="h6">Customer Information</p>
                                 </div>
                             </div>
@@ -491,9 +486,7 @@
                             <div
                                 class="flex justify-content-between flex flex-wrap gap-3"
                             >
-                                <div
-                                    class="relative text-black text-sm section section-title:before"
-                                >
+                                <div class="text-black text-sm font-bold">
                                     <p class="h6">Shipping Address</p>
                                 </div>
                             </div>
@@ -530,7 +523,7 @@
                             </div>
                         </el-card>
                         <!-- ===============Billing address ===========-->
-                        <el-card
+                        <!-- <el-card
                             class="box-card"
                             v-if="
                                 customerDetailOrder[0]?.billingAddress !== '' &&
@@ -546,7 +539,6 @@
                                     <p class="h6">Billing Address</p>
                                 </div>
                             </div>
-                            <!-- Options Orders -->
                             <div class="py-2">
                                 <div class="d-flex flex-column gap-2">
                                     <div>
@@ -569,7 +561,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </el-card>
+                        </el-card> -->
                         <!-- ===============Shop Information ===========-->
                         <el-card
                             class="box-card"
@@ -581,9 +573,7 @@
                             <div
                                 class="flex justify-content-between flex flex-wrap gap-3"
                             >
-                                <div
-                                    class="relative text-black text-sm section section-title:before"
-                                >
+                                <div class="relative text-black text-sm">
                                     <p class="h6">Shop Information</p>
                                 </div>
                             </div>

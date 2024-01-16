@@ -399,8 +399,8 @@ export default {
         category: 'Category',
         categoryName: 'Category Name',
         // sub category
-        subGategoryList: "Sub Gategories List",
-        subGategoryName: "Sub gategory name",
+        subGategoryList: "Sub Categories List",
+        subGategoryName: "Sub category name",
         selectCategory: "Select categories",
         updateSubCategory: "Update Sub Category",
 
