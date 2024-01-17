@@ -318,16 +318,34 @@
                                                     Choose an option
                                                 </option>
                                                 <!-- Pending -->
-                                                <option
-                                                    value="Pending"
-                                                    :selected="
-                                                        customerDetailOrder[0]
-                                                            ?.order_status ===
-                                                        'Pending'
+                                                <template
+                                                    v-if="
+                                                        getCurrentRoleAccess !==
+                                                            '' &&
+                                                        getCurrentRoleAccess !==
+                                                            undefined
                                                     "
                                                 >
-                                                    Pending
-                                                </option>
+                                                    <template
+                                                        v-if="
+                                                            getCurrentRoleAccess ===
+                                                                'Owner' ||
+                                                            getCurrentRoleAccess ===
+                                                                'Manager'
+                                                        "
+                                                    >
+                                                        <option
+                                                            value="Pending"
+                                                            :selected="
+                                                                customerDetailOrder[0]
+                                                                    ?.order_status ===
+                                                                'Pending'
+                                                            "
+                                                        >
+                                                            Pending
+                                                        </option>
+                                                    </template>
+                                                </template>
                                                 <!-- Access Roles -->
                                                 <template
                                                     v-if="
@@ -373,6 +391,10 @@
                                                         v-if="
                                                             getCurrentRoleAccess ===
                                                             'Seller'
+                                                            && 
+                                                            customerDetailOrder[0]
+                                                                    ?.order_status ===
+                                                                'Processing'
                                                         "
                                                     >
                                                         <!-- Check  -->

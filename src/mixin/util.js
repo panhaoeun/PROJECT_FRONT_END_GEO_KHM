@@ -262,7 +262,7 @@ export default {
                 params: `/all/calp-plus/categories-keyword-name/${this.convertToSlug(allCategory?.catNameEn)}/${allCategory?.catNameEn}`
             });
             window.location.reload(routeing?.href);
-        }
+      }
     },
     allSubCategoryHeaderMenuLink(subCate) {
         if (subCate) {
