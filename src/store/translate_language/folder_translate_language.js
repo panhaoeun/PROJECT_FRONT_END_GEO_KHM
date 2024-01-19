@@ -17,7 +17,7 @@ const actions = {
         commit
     }, superSSNCommuneCode) {
         try {
-            const communeZipType = 'T4';
+            const communeZipType = 'T2';
             const superSSNCommuneCodeType = superSSNCommuneCode ? superSSNCommuneCode : '';
             geoLocationServices.listGeoLocationCommune(communeZipType, superSSNCommuneCodeType).then((commune) => {
                 const getAllCommune= Array.isArray(commune) ? commune.slice() : [];
