@@ -33,6 +33,12 @@
             class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
         >
             <div class="pop-over-content p-20 p-sm-15 card">
+                <!-- Dialogs Edit Departments -->
+                <DialogModifyDepartmentBaseGeoFenceCountry
+                    :geoOrgCountryDeptStr="getOrgDeptCountry ? getOrgDeptCountry : null"
+                    v-if="openDialogDeptCountry"
+                    @close="closingPopupEditedDeptCountry"
+                />
                 <!-- Departments -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
@@ -78,31 +84,23 @@
                                     <div class="flex flex-wrap gap-2">
                                         <Button
                                             icon="pi pi-pencil"
-                                            aria-label="Edit Org Dept"
-                                            outlined
+                                            outline
+                                            class="p-button-rounded p-button-success mr-2"
                                             @click="
                                                 editGeoOrgDeptCountry(
-                                                    scope.$index,
-                                                    scope.row
+                                                    scope?.row
                                                 )
                                             "
-                                            rounded
-                                            class="w-2 h-2 p-button-sm text-sm"
-                                            label="Edit"
                                         />
                                         <Button
                                             icon="pi pi-trash"
-                                            aria-label="Edit Org Dept"
-                                            outlined
+                                            outline
+                                            class="p-button-rounded w-1 p-button-warning"
                                             @click="
-                                                editGeoOrgDeptCountry(
-                                                    scope.$index,
-                                                    scope.row
+                                               removeDeptOrgByCountryPopup(
+                                                    scope?.row
                                                 )
                                             "
-                                            rounded
-                                            class="w-3 h-2 p-button-sm text-sm text-danger"
-                                            label="Delete"
                                         />
                                     </div>
                                 </template>
@@ -119,15 +117,35 @@
                 @click="cancelAddGeoCountry()"
                 outlined
             />
-            <!-- <Button
-                :label="loadingSubmittedAddCountry ? 'Save..' : 'Create'"
-                :loading="loadingSubmittedAddCountry"
-                icon="pi pi-save"
-                severity="danger"
-                class="w-8rem"
-                @click="submittedAddDepartmentPositionCountry()"
-                autofocus
-            /> -->
+        </template>
+    </Dialog>
+    <!-- Deleted Dialogs Department base Country -->
+    <Dialog
+        v-model:visible="deletedGeoDeptOrgDialogs"
+        :style="{ width: '450px' }"
+        header="Confirm delete geo-country locations"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deletedGeoDeptOrgDialogs = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                text
+                @click="confirmRemoveDeptByIdCountry(deletedGeoDeptOrgDialogs)"
+            />
         </template>
     </Dialog>
 </template>
@@ -135,6 +153,7 @@
 <!-- Department JS -->
 <script>
 import DialogAddDepartmentBaseGeoFenceCountry from "./dialogs_departments_country/DialogAddDepartments.vue";
+import DialogModifyDepartmentBaseGeoFenceCountry from "./dialogs_departments_country/EditManageDepartmentPosGeoCountry.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import geoOrgStrDeptCountryHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptCountryHelper";
@@ -143,6 +162,7 @@ import { mapGetters } from "vuex";
 export default {
     components: {
         DialogAddDepartmentBaseGeoFenceCountry,
+        DialogModifyDepartmentBaseGeoFenceCountry,
     },
     mixins: [geoOrgStrDeptCountryHelper],
     setup() {
@@ -192,6 +212,11 @@ export default {
             loadingSubmittedAddCountry: false,
             departmentByCountryOptSelect: null,
             getOptDepartmentOfCountry: [],
+            deletedGeoDeptOrgDialogs: false,
+            geoDeptOrgIdRemove: 0,
+            getGeoDeptOrgCountry: null,
+            openDialogDeptCountry: false,
+            getOrgDeptCountry: null
         };
     },
     mounted() {
@@ -203,6 +228,9 @@ export default {
         },
         showDialogAddDepartment() {
             this.visibleDialogPositionCountry = true;
+        },
+        closingPopupEditedDeptCountry() {
+            this.openDialogDeptCountry = false;
         },
         // Reloaded
         async reloadFetchingDataOrgStr() {
@@ -223,7 +251,7 @@ export default {
                 return Promise.reject(error);
             }
         },
-        // Submited
+        // Submitted
         submittedAddDepartmentPositionCountry(validate) {
             try {
                 this.loadingSubmittedAddCountry = true;

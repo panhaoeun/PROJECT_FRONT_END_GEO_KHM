@@ -13,7 +13,7 @@ import {
     createWebHistory,
     createRouter
 } from "vue-router";
-import moduleRouteVendor from "./vendors";
+// import moduleRouteVendor from "./vendors";
 import moduleRouteCustomer from "./customers";
 import moduleAuthentication from "./authencation";
 import moduleGlobalStep from "./globaStepper";
@@ -47,7 +47,7 @@ export const constantRoutes = [{
     ...moduleAuthentication,
     ...moduleRouteCustomer,
     ...moduleGlobalStep,
-    ...moduleRouteVendor
+    // ...moduleRouteVendor
 ]
 export const asyncRoutes = [
     moduleProductManagementRouters,

@@ -33,6 +33,12 @@
             class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
         >
             <div class="pop-over-content p-20 p-sm-15 card">
+                <!-- Dialogs Modify -->
+                <DialogEditDepartmentBaseGeoFenceCommune
+                    v-if="openDialogDeptProvince"
+                    :geoOrgCommuneDeptStr="getOrgDeptProvince ? getOrgDeptProvince : []"
+                    @close="closeDialogCommune"
+                />
                 <!-- Departments -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
@@ -82,7 +88,6 @@
                                             outlined
                                             @click="
                                                 editGeoOrgDeptCountry(
-                                                    scope.$index,
                                                     scope.row
                                                 )
                                             "
@@ -96,7 +101,6 @@
                                             outlined
                                             @click="
                                                 editGeoOrgDeptCountry(
-                                                    scope.$index,
                                                     scope.row
                                                 )
                                             "
@@ -119,15 +123,35 @@
                 @click="cancelAddGeoCountry()"
                 outlined
             />
-            <!-- <Button
-                :label="loadingSubmittedAddCountry ? 'Save..' : 'Create'"
-                :loading="loadingSubmittedAddCountry"
-                icon="pi pi-save"
-                severity="danger"
-                class="w-8rem"
-                @click="submittedAddDepartmentPositionCountry()"
-                autofocus
-            /> -->
+        </template>
+    </Dialog>
+     <!-- Deleted Dialogs Department base Commune -->
+    <Dialog
+        v-model:visible="deletedGeoDeptOrgDialogs"
+        :style="{ width: '450px' }"
+        header="Confirm delete geo-country locations"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deletedGeoDeptOrgDialogs = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                text
+                @click="confirmRemoveDeptByIdCountry(deletedGeoDeptOrgDialogs)"
+            />
         </template>
     </Dialog>
 </template>
@@ -135,6 +159,7 @@
 <!-- Department JS -->
 <script>
 import DialogAddDepartmentBaseGeoFenceCommune from "./dialog_department_commune_geo/DialogAddDepartmentsCommune.vue";
+import DialogEditDepartmentBaseGeoFenceCommune from "./dialog_department_commune_geo/EditManageDepartmentCommuneGeo.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import geoOrgStrDeptCommuneTownHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptTownCommuneHelper";
@@ -143,6 +168,7 @@ import { mapGetters } from "vuex";
 export default {
     components: {
         DialogAddDepartmentBaseGeoFenceCommune,
+        DialogEditDepartmentBaseGeoFenceCommune
     },
     mixins: [geoOrgStrDeptCommuneTownHelper],
     setup() {
@@ -192,12 +218,20 @@ export default {
             loadingSubmittedAddCountry: false,
             departmentByCountryOptSelect: null,
             getOptDepartmentOfCountry: [],
+            deletedGeoDeptOrgDialogs: false,
+            geoDeptOrgIdRemove: 0,
+            getGeoDeptOrgDistrict: null,
+            getOrgDeptProvince: null,
+            openDialogDeptProvince: false
         };
     },
     mounted() {
         this.reloadFetchingDataOrgStr();
     },
     methods: {
+        closeDialogCommune(){
+            this.openDialogDeptProvince = false;
+        },
         cancelAddGeoCountry() {
             this.visibleDialogPositionProState = false;
         },

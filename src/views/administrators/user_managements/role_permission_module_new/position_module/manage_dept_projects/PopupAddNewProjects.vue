@@ -5,7 +5,7 @@
             aria-label="Add Department By Country"
             class="border-round-lg h-2.1rem"
             icon="pi pi-plus"
-            label="Add Department"
+            label="Add New Project"
             @click="openDialogAddNewProjectName()"
         />
     </div>
@@ -105,39 +105,39 @@
 
 <!-- Script of Js -->
 <script>
-    import { useVuelidate } from "@vuelidate/core";
-    import { minLength, required } from "@vuelidate/validators";
-    import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
-    export default{
-        data(){
-            return{
-                orgDeptProjectName: "",
-                orgDeptProjectNoted: "",
-                visibleDialogProjectName: false,
-                loadingSubmittedAddProject: false,
-            }
-        },
-        mixins: [geoDeptOrgProjects],
-        validations() {
-            return {
-                orgDeptProjectName: {
-                    required,
-                    minLength: minLength(3),
-                },
-            };
-        },
-        setup() {
-            return {
-                v$: useVuelidate(),
-            };
-        },
-        methods: {
-            cancelAddProjectNameOrgStr(){
-                this.visibleDialogProjectName = false;
+import { useVuelidate } from "@vuelidate/core";
+import { minLength, required } from "@vuelidate/validators";
+import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
+export default {
+    data() {
+        return {
+            orgDeptProjectName: "",
+            orgDeptProjectNoted: "",
+            visibleDialogProjectName: false,
+            loadingSubmittedAddProject: false,
+        };
+    },
+    mixins: [geoDeptOrgProjects],
+    validations() {
+        return {
+            orgDeptProjectName: {
+                required,
+                minLength: minLength(3),
             },
-            openDialogAddNewProjectName(){
-                this.visibleDialogProjectName = true;
-            }
-        }
-    }
+        };
+    },
+    setup() {
+        return {
+            v$: useVuelidate(),
+        };
+    },
+    methods: {
+        cancelAddProjectNameOrgStr() {
+            this.visibleDialogProjectName = false;
+        },
+        openDialogAddNewProjectName() {
+            this.visibleDialogProjectName = true;
+        },
+    },
+};
 </script>

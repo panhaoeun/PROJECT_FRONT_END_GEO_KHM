@@ -131,7 +131,7 @@
                                                     <!-- Vendor -->
                                                     <template v-if="customerRole !== 'Customer' && customerRole === 'Admin' || customerRole === 'Vendor'">
                                                         <el-dropdown-item>
-                                                            <div class="flex justify-content-center px-2 py-2" @click="$router.push('/vendor-dashboard/default-layouts')">
+                                                            <div class="flex justify-content-center px-2 py-2" @click="$router.push('/vendor/user/list/crete-user-auth/ui-user-list')">
                                                                 <i class="icon-basket" style="font-size: 15px;"></i>   
                                                                 <p class="font-semibold pl-2">
                                                                     <template v-if="customerRole === 'Admin'">

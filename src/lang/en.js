@@ -101,6 +101,7 @@ export default {
     projectOrgStr: {
         isRequired: "{type} is required",
         thisProject: "{type} this project",
+        thisDepartment: "{type} this department",
     },
     addressPopup: {
         country: "Country",

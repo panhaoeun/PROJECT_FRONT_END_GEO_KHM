@@ -55,51 +55,7 @@ export default {
     data() {
         return {
             dialogFormVisible: false,
-            data: [
-                {
-                    text: "document-01",
-                    children: [
-                        {
-                            text: "文件1",
-                            children: [
-                                {
-                                    text: "文件1",
-                                },
-                                {
-                                    text: "文本3",
-                                    children: [
-                                        {
-                                            text: "文件1",
-                                        },
-                                        {
-                                            text: "文本3",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            text: "文件3",
-                        },
-                        {
-                            text: "文件3",
-                        },
-                    ],
-                },
-                {
-                    text: "document-02",
-                    children: [
-                        {
-                            text: "document1",
-                            children: [
-                                {
-                                    text: "document-sub-1",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
+            data: []
         };
     },
     methods: {},

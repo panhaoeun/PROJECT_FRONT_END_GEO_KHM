@@ -11,12 +11,6 @@
             />
         </div>
     </KeepAlive>
-    <!-- Modify Dialogs Project -->
-    <PopupEditedProject
-        v-if="editPopupProjectStrData"
-        :geoOrgProjectStrData="editPopupProjectStrData"
-        @close="closingPopupEditedProjectStr"
-    />
     <!-- Dialog Managements Position Base Departments -->
     <Dialog
         v-model:visible="visibleDialogPositionProState"
@@ -39,6 +33,12 @@
             class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
         >
             <div class="pop-over-content p-20 p-sm-15 card">
+                <!-- Modify Dialogs Project -->
+                <PopupEditedProject
+                    v-if="openEditedProjectFrm"
+                    :geoOrgProjectStrData="editPopupProjectStrData"
+                    @close="closingPopupEditedProjectStr"
+                />
                 <!-- Departments -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">

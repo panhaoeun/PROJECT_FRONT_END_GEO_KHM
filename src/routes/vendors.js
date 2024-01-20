@@ -2,11 +2,11 @@ import DefaultLayoutVendor from "../components/layouts/vendors/DefaultLayouts.vu
 
 /*
   @Default Routes
-*/ 
+*/
 const defaultChildRoutes = (prefix) => [
     /**@User Managements**/
     {
-        path: '/vendor-dashboard/default-layouts',
+        path: '/vendor/user/list/crete-user-auth/ui-user-list',
         // redirect: '/vendor/product_managements/index',
         name: prefix + '.dashboard_modules',
         meta: {
@@ -32,21 +32,19 @@ const defaultChildRoutes = (prefix) => [
         component: () => import('../views/vendors/vendors_profile/ProfileVue.vue'),
     }
 ];
-export default [
-    {
-        meta: {
-            template: 'panel',
-            icon: 'icons',
-            permissions: ['home_modules'],
-            title: 'homeModule',
-            requiresAuth: true,
-        },
-        path: "/vendor-dashboard/default-layouts",
-        name: "home-vendor-dashboard",
-        component: DefaultLayoutVendor,
-        alwaysShow: true,
+export default [{
+    meta: {
+        template: 'panel',
+        icon: 'icons',
+        permissions: ['home_modules'],
+        title: 'homeModule',
         requiresAuth: true,
-        // redirect: '/vendor-dashboard/default-layouts/dashboard',
-        children: defaultChildRoutes('defaults'), 
-    }
-];
+    },
+    path: "/vendor/user/list/crete-user-auth/ui-user-list",
+    name: "home-vendor-dashboard",
+    component: DefaultLayoutVendor,
+    alwaysShow: true,
+    requiresAuth: true,
+    // redirect: '/vendor/user/list/crete-user-auth/ui-user-list/dashboard',
+    children: defaultChildRoutes('defaults'),
+}];

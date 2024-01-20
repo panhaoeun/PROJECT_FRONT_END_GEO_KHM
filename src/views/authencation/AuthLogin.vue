@@ -227,17 +227,17 @@ export default {
                                 );
                                 if (response.userType === "Admin") {
                                     this.$router.push({
-                                        path: "/vendor-dashboard/default-layouts",
+                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
                                     });
                                 }
                                 if (response.userType === "Vendor") {
                                     this.$router.push({
-                                        path: "/vendor-dashboard/default-layouts",
+                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
                                     });
                                 }
                                 if (response.userType === "Delivery") {
                                     this.$router.push({
-                                        path: "/vendor-dashboard/default-layouts",
+                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
                                     });
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({ path: "/" });

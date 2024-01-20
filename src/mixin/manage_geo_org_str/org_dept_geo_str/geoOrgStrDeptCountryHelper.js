@@ -157,8 +157,85 @@ export default {
             }, 1000);
 
         },
-        async editGeoOrgDeptCountry(index, rowEditId) {
-            console.log(index, rowEditId)
+        async editGeoOrgDeptCountry(rowEditId) {
+            this.getOrgDeptCountry  = rowEditId ? rowEditId : {};
+            this.openDialogDeptCountry = true;
+        },
+        async submittedDialogEditGeoCountryStr() {
+            try{
+                if( this.geoOrgCountryDeptStrData?.label){
+                    this.submittingDeptCountryData = true;
+                    const editDataGeoCountryOrg = {
+                        modifyDeptUpdatedName: String(this.geoOrgCountryDeptStrData?.label) ?? '',
+                        modifyDeptUpdatedDescription: String(this.geoOrgCountryDeptStrData?.orgDeptNoted) ?? '',
+                        modifyDeptObj: true,
+                        orgStrLevelDept: 'SL01'
+                    }
+                    this.geoDeptPosOrgStrServices.modifyDepartmentsLocationGeoByCountryOrgStr(this.geoOrgCountryDeptStrData?.orgDeptId, editDataGeoCountryOrg)
+                    .then(async (editProject) => {
+                        if (editProject?.status === 200) {
+                            this.fetchingDataGeoCountryOrgStr(this.geoOrgCountryDeptStrData.geoProjectId, this.geoOrgCountryDeptStrData.geoLocationId);
+                            setTimeout(async () => {
+                                this.hasProvinceErrors = false
+                                this.submittingDeptCountryData = false;
+                                this.$toast.add({
+                                    severity: "success",
+                                    summary: "Editing Country Department Successfully.",
+                                    detail: editProject.data ?.message ? editProject.data ?.message :  null,
+                                    life: 3000,
+                                });
+                                this.submittingDeptCountryData = false;
+                            }, 1000);
+                        }
+                        if (!this.hasProvinceErrors) {
+                            this.$emit('close')
+                        }
+                    }).catch((error) => {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Unsuccessfully updated geo department.",
+                            detail: error?.message ? error?.message : '',
+                            life: 3000,
+                        });
+                        this.submittingDeptCountryData = false;
+                    });
+                }
+            }catch(error){
+            return Promise.reject(error);
+            }
+        },
+        async removeDeptOrgByCountryPopup(countryId){
+            this.deletedGeoDeptOrgDialogs = true;
+            this.geoDeptOrgIdRemove = parseInt(countryId?.orgDeptId) ? parseInt(countryId?.orgDeptId) : 0;
+            this.getGeoDeptOrgCountry = countryId ? countryId : {};
+            
+        },
+        async confirmRemoveDeptByIdCountry() {
+            const geoDeptOrgIdRemoveStr = parseInt(this.geoDeptOrgIdRemove) ? parseInt(this.geoDeptOrgIdRemove) : 0;
+            const parentDeptId = parseInt(this.getGeoDeptOrgCountry.parentDeptId) ? parseInt(this.getGeoDeptOrgCountry.parentDeptId) : 0;
+            const countryIdDeptId = parseInt(this.getGeoDeptOrgCountry.geoLocationId) ? parseInt(this.getGeoDeptOrgCountry.geoLocationId) : 0;
+            this.geoDeptPosOrgStrServices.removeProjectNameOfStrOrg(geoDeptOrgIdRemoveStr).then(async (country) => {
+                if(country?.status === 200){
+                    this.deletedGeoProjectDialogs = false;
+                    this.$toast.add({
+                        severity: "success",
+                        summary: "Successfully remove geo-fence country.",
+                        detail: country.data?.message ? country.data?.message :  null,
+                        life: 3000,
+                    });
+                    await this.fetchingDataGeoCountryOrgStr(parentDeptId, countryIdDeptId);
+                }
+                return country ? country : [];
+            }).catch((error) => {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "Please Fix Below Errors.",
+                    detail: error?.message ? error?.message : "Please input filed position have missing value!",
+                    life: 3000,
+                });
+                return Promise.reject(error?.message || []);
+            });
+            this.ajaxDeleting = 0
         },
         async fetchingDataGeoCountryOrgStr(deptOrgProjectId = 0, countryOrgIdGeo = 0) {
             this.fetchingOrgStrDept = true;

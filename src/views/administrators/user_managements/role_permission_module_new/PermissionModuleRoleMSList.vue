@@ -13,9 +13,7 @@
                 size="large"
                 class="btn btn-primary"
                 @click.prevent="
-                    $router.push(
-                        '/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module-create-new'
-                    )
+                    $router.push('/admin/manage-user-org-chat-geo-khm-add-new')
                 "
                 v-permission="[
                     {
@@ -34,9 +32,6 @@
             <!-- Button Group Filter Projects -->
             <div class="col-12">
                 <el-card slot="header" class="box-card">
-                    <div class="text-black text-sm">
-                        <p class="h6">Filter Data</p>
-                    </div>
                     <div class="formgrid grid">
                         <div class="col-4 lg:col-6 field">
                             <label for="name_en" class="text-sm font-semibold"
@@ -108,11 +103,6 @@
                                 <div
                                     class="flex flex-column align-items-center"
                                 >
-                                    <img
-                                        :alt="slotProps.node.data.name"
-                                        :src="slotProps.node.data.image"
-                                        class="mb-3 w-3rem h-3rem"
-                                    />
                                     <span class="font-bold mb-2">{{
                                         slotProps.node.data.name
                                     }}</span>
@@ -173,8 +163,8 @@ export default {
                 key: "0",
                 type: "person",
                 data: {
-                    image: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
-                    name: "Amy Elsner",
+                    image: "",
+                    name: "",
                     title: "CEO",
                 },
                 children: [
@@ -182,8 +172,8 @@ export default {
                         key: "0_0",
                         type: "person",
                         data: {
-                            image: "https://primefaces.org/cdn/primevue/images/avatar/annafali.png",
-                            name: "Anna Fali",
+                            image: "",
+                            name: "",
                             title: "CMO",
                         },
                         children: [
@@ -201,8 +191,8 @@ export default {
                         key: "0_1",
                         type: "person",
                         data: {
-                            image: "https://primefaces.org/cdn/primevue/images/avatar/stephenshaw.png",
-                            name: "Stephen Shaw",
+                            image: "",
+                            name: "",
                             title: "CTO",
                         },
                         children: [

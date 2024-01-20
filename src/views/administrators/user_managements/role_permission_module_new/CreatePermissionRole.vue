@@ -13,9 +13,7 @@
                 size="large"
                 class="btn btn-primary"
                 @click.prevent="
-                    $router.push(
-                        '/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module'
-                    )
+                    $router.push('/admin/manage-user-org-chat-geo-khm-list')
                 "
             >
                 <div class="pl-2 justify-content-center">
@@ -115,7 +113,7 @@
                                                 }}
                                             </small>
                                             <!-- Add New and Modify Projects -->
-                                            <popup-add-manage-project-name/>
+                                            <popup-add-manage-project-name />
                                         </div>
                                     </div>
                                 </div>
@@ -709,10 +707,9 @@
                                     />
                                 </div>
                                 <!-- Buttons Submits -->
-                                <div
+                                <!-- <div
                                     class="col-12 flex justify-content-end mt-2"
                                 >
-                                    <!--Buttons-->
                                     <el-button
                                         :loading="loadingSubmittedRole"
                                         type="info"
@@ -736,7 +733,7 @@
                                             }}</span>
                                         </div>
                                     </el-button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

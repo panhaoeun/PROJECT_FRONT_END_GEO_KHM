@@ -16,22 +16,22 @@ const defaultChildRoutesUsersMS = (prefix) => [
         component: () => import("../../views/vendors/customers/ListCustomers.vue"),
     },
     {
-         path: "/vendor/user/customer_info/list/admin/customer_view_details/:customerId",
-         name: prefix + '.customer_view_details',
-         hidden: true,
-         meta: {
-             title: "customerMS",
-             requiresAuth: true,
-             icon: 'userGroup',
-             permissions: ['customers_module']
-         },
-         component: () => import("../../views/vendors/customers/ViewDetailCustomers.vue"),
+        path: "/vendor/user/customer_info/list/admin/customer_view_details/:customerId",
+        name: prefix + '.customer_view_details',
+        hidden: true,
+        meta: {
+            title: "customerMS",
+            requiresAuth: true,
+            icon: 'userGroup',
+            permissions: ['customers_module']
+        },
+        component: () => import("../../views/vendors/customers/ViewDetailCustomers.vue"),
     },
     /**
      * @Wallet Customer Managements
      * **/
     /*
-    */
+     */
     {
         path: "/vendor/user/list/admin/customer_wallet_list",
         name: prefix + '.customer_wallet_list',
@@ -44,9 +44,9 @@ const defaultChildRoutesUsersMS = (prefix) => [
         component: () => import("../../views/vendors/customers/my_wallets/deposited/ListDepositToWalletsCustomer.vue"),
     },
     /**
-      * @Withdraw Wallet Vendor Managements
-      * **/
-     /*
+     * @Withdraw Wallet Vendor Managements
+     * **/
+    /*
      */
     {
         path: "/vendor/user/list/admin/sellers/withdraw_request_balance_in_account/list",
@@ -59,7 +59,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         },
         component: () => import("../../views/vendors/withdraw_vendor_wallets/WithdrawVendorWallets.vue"),
     },
-     {
+    {
         path: "/vendor/user/list/admin/sellers/withdraw_request_balance_in_account/confirm_to_wallet_vendor/:withdrawId",
         name: prefix + '.withdraw_request_balanced_seller_request',
         hidden: true,
@@ -70,24 +70,24 @@ const defaultChildRoutesUsersMS = (prefix) => [
             permissions: ['withdraw_seller_module_request']
         },
         component: () => import("../../views/vendors/withdraw_vendor_wallets/ConfirmDialogWithdrawWallet.vue"),
-     },
+    },
     /**
      * @Role and Permissions Managements
      * **/
     /*
       @Sellers Managements
     */
-     {
+    {
         path: "/vendor/user/list/admin/sellers/list",
         name: prefix + '.seller-list',
         meta: {
             title: "sellerMS",
             requiresAuth: true,
-            icon:'i',
+            icon: 'i',
             permissions: ['sellers_module']
         },
         component: () => import("../../views/vendors/sellers/ListsSeller.vue"),
-     },
+    },
     /*
       @Users Managements
     */
@@ -101,7 +101,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
             permissions: ['users_modules']
         },
         component: () => import("../../views/administrators/user_managements/users/UsersMSList.vue"),
-    }, 
+    },
     {
         path: "/vendor/user/list/crete-user-auth/ui-user-create",
         name: prefix + '.user_auth_crud_user_create',
@@ -112,7 +112,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         },
         hidden: true,
         component: () => import("../../views/administrators/user_managements/users/UserMSCreate.vue"),
-    }, 
+    },
     {
         path: "/vendor/user/list/crete-user-auth/ui-user-edit/:id",
         name: prefix + '.user_auth_crud_user_edit',
@@ -123,20 +123,20 @@ const defaultChildRoutesUsersMS = (prefix) => [
         },
         hidden: true,
         component: () => import("../../views/administrators/user_managements/users/UserMSCreateUpdated.vue"),
-    }, 
+    },
     /*
       @Vendor Managements
     */
     {
-         path: "/vendor/vendor-list/create-account-vendor",
-         name: prefix + '.create_vendor_account',
-         meta: {
-             title: "usersMS",
-             requiresAuth: true,
-             permissions: ['users_modules']
-         },
-         hidden: true,
-         component: () => import("../../views/vendors/vendor_management_account/CreateVendorAccount.vue"),
+        path: "/vendor/vendor-list/create-account-vendor",
+        name: prefix + '.create_vendor_account',
+        meta: {
+            title: "usersMS",
+            requiresAuth: true,
+            permissions: ['users_modules']
+        },
+        hidden: true,
+        component: () => import("../../views/vendors/vendor_management_account/CreateVendorAccount.vue"),
     },
     {
         path: "/vendor/vendor-list/updated-account-vendor/:id",
@@ -151,13 +151,13 @@ const defaultChildRoutesUsersMS = (prefix) => [
     },
     /**
      * @Role and Permissions Managements
-    * **/
+     * **/
     {
         path: "/vendor/user/permission/list/crete-user-auth/ui-permission-list",
         name: prefix + '.user_auth_crud_permission',
         meta: {
             title: "permissionMS",
-            icon:'shieldCheck',
+            icon: 'shieldCheck',
             requiresAuth: true
         },
         hidden: true,
@@ -186,7 +186,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         component: () => import("../../views/administrators/user_managements/PermissionModuleRoleMSList-BACKUP.vue"),
     },
     {
-        path: "/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module-create-new",
+        path: "/vendor/user/list/crete-user-auth/ui-user-list",
         name: prefix + '.user_create_new_auth_crud_permission_auth_role_module',
         hidden: true,
         meta: {
@@ -198,10 +198,10 @@ const defaultChildRoutesUsersMS = (prefix) => [
         component: () => import("../../views/administrators/user_managements/role_permission_module_new/CreatePermissionRole.vue"),
     },
     /**
-    * @Manage All Permission By Geo-fence
-    * @Manage on position by department with multiple level on geo-fence
-    * @Assign Position to user on geo-fence
-    * **/
+     * @Manage All Permission By Geo-fence
+     * @Manage on position by department with multiple level on geo-fence
+     * @Assign Position to user on geo-fence
+     * **/
 ]
 const moduleUsersManagementRouters = {
     path: '/vendor/users_managements',

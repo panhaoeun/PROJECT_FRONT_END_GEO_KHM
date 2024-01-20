@@ -33,6 +33,10 @@
             class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
         >
             <div class="pop-over-content p-20 p-sm-15 card">
+                <!-- Dialogs Departments -->
+                <DialogEditDepartmentBaseGeoFenceDistrict
+                    :geoOrgDistrictDeptStr="getOrgDeptDistrict"
+                />
                 <!-- Departments -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
@@ -119,22 +123,44 @@
                 @click="cancelAddGeoCountry()"
                 outlined
             />
-            <!-- <Button
-                :label="loadingSubmittedAddCountry ? 'Save..' : 'Create'"
-                :loading="loadingSubmittedAddCountry"
-                icon="pi pi-save"
-                severity="danger"
-                class="w-8rem"
-                @click="submittedAddDepartmentPositionCountry()"
-                autofocus
-            /> -->
+        </template>
+    </Dialog>
+    <!-- Deleted Dialogs Department base Country -->
+    <Dialog
+        v-model:visible="deletedGeoDeptOrgDialogs"
+        :style="{ width: '450px' }"
+        header="Confirm delete geo-country locations"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deletedGeoDeptOrgDialogs = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                text
+                @click="confirmRemoveDeptByIdDistrict(deletedGeoDeptOrgDialogs)"
+            />
         </template>
     </Dialog>
 </template>
 
 <!-- Department JS -->
 <script>
+// 
 import DialogAddDepartmentBaseGeoFenceDistrict from "./dialog_department_district/DialogAddDepartmentsDistrict";
+import DialogEditDepartmentBaseGeoFenceDistrict from "./dialog_department_district/EditManageDepartmentDistrictGeo";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import geoOrgStrDeptDistrictHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptDistrictHelper";
@@ -142,7 +168,8 @@ import { mapGetters } from "vuex";
 
 export default {
     components: {
-        DialogAddDepartmentBaseGeoFenceDistrict
+        DialogAddDepartmentBaseGeoFenceDistrict,
+        DialogEditDepartmentBaseGeoFenceDistrict
     },
     mixins: [geoOrgStrDeptDistrictHelper],
     setup() {
@@ -192,6 +219,11 @@ export default {
             loadingSubmittedAddCountry: false,
             departmentByCountryOptSelect: null,
             getOptDepartmentOfCountry: [],
+            getOrgDeptDistrict: null,
+            openDialogDeptDistrict: false,
+            deletedGeoDeptOrgDialogs: false,
+            geoDeptOrgIdRemove: 0,
+            getGeoDeptOrgDistrict: null
         };
     },
     mounted() {

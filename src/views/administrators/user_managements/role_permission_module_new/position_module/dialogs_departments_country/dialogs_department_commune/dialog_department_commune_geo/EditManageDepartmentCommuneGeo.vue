@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submittedDialogEditGeoProjectStr">
+    <form @submit.prevent="submittedDialogEditGeoCommuneStr">
         <!-- Spinner -->
         <transition name="fade" mode="out-in">
             <div class="spinner-wrapper flex layer-white" v-if="loadingSpinner">
@@ -8,8 +8,8 @@
         </transition>
         <!-- Popup Dialog Geo Locations Country -->
         <pop-over
-            v-if="projectStrGeoData"
-            :title="`Edit Project:` + ' ' + nameProject"
+            v-if="geoOrgCommuneDeptStrData"
+            :title="`Edit Department By Province:` + ' ' + nameDeptCommune"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -21,44 +21,43 @@
                     class="flex start mlr--5"
                     :class="{
                         invalid:
-                            !projectStrGeoData?.project_name &&
-                            hasProvinceErrors,
+                            !geoOrgCommuneDeptStrData?.label && hasProvinceErrors,
                     }"
                 >
                     <div
                         class="input-wrap mlr-5"
                         :class="{
                             invalid:
-                                !projectStrGeoData?.project_name &&
+                                !geoOrgCommuneDeptStrData?.label &&
                                 hasProvinceErrors,
                         }"
                     >
                         <label
                             :class="{
                                 'p-error':
-                                    !projectStrGeoData.project_name &&
+                                    !geoOrgCommuneDeptStrData.label &&
                                     hasProvinceErrors,
                             }"
                         >
-                            Project Name
+                            Department
                             <span class="p-error">*</span>
                         </label>
                         <InputText
                             class="border-round-lg text-sm w-30rem"
-                            v-model.number="projectStrGeoData.project_name"
+                            v-model.number="geoOrgCommuneDeptStrData.label"
                             type="text"
-                            placeholder="Project Name"
+                            placeholder="Department"
                         />
                         <span
                             class="error"
                             v-if="
-                                !projectStrGeoData.project_name &&
+                                !geoOrgCommuneDeptStrData.label &&
                                 hasProvinceErrors
                             "
                         >
                             {{
                                 $t("projectOrgStr.isRequired", {
-                                    type: "Project Name",
+                                    type: "Department",
                                 })
                             }}
                         </span>
@@ -66,10 +65,10 @@
                 </div>
                 <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
-                        <label> Project Noted </label>
+                        <label> Descriptions </label>
                         <TextArea
                             class="border-round-lg text-sm w-30rem"
-                            v-model.number="projectStrGeoData.project_noted"
+                            v-model.number="geoOrgCommuneDeptStrData.orgDeptNoted"
                             type="text"
                             placeholder="Noted"
                         />
@@ -88,10 +87,10 @@
                     </button>
                     <ajax-button
                         class="primary-btn plr-30 plr-sm-15"
-                        :fetching-data="submittingProjectData"
+                        :fetching-data="geoOrgCommuneDeptStrData"
                         :loading-text="$t('addressPopup.saving')"
                         :text="
-                            $t('projectOrgStr.thisProject', {
+                            $t('projectOrgStr.thisDepartment', {
                                 type:
                                     editing > 0
                                         ? $t('addressPopup.update')
@@ -109,7 +108,7 @@
 <script>
 import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";
-import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
+import geoOrgStrDeptTownCommuneHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptTownCommuneHelper";
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
@@ -121,7 +120,7 @@ export default {
         AjaxButton,
     },
     props: {
-        geoOrgProjectStrData: {
+        geoOrgCommuneDeptStr: {
             type: Object,
             default() {
                 return null;
@@ -129,30 +128,39 @@ export default {
         },
     },
     computed: {
-        nameProject() {
-            return this.geoOrgProjectStrData?.project_name || "";
+        nameDeptCommune() {
+            return this.geoOrgCommuneDeptStrData?.label || "";
         },
     },
-    mixins: [geoDeptOrgProjects, util, validation],
+    mixins: [geoOrgStrDeptTownCommuneHelper, util, validation],
     data() {
         return {
             loadingSpinner: false,
-            projectStrGeoData: null,
+            geoOrgCommuneDeptStrData: null,
             hasProvinceErrors: false,
-            submittingProjectData: false,
+            submittingDeptDistrictData: false,
         };
     },
     async mounted() {
-        if (this.geoOrgProjectStrData) {
-            this.projectStrGeoData = {
-                ...this.projectStrGeoData,
-                ...this.geoOrgProjectStrData,
+        if (this.geoOrgCommuneDeptStr) {
+            this.geoOrgCommuneDeptStrData = {
+                ...this.geoOrgCommuneDeptStrData,
+                ...this.geoOrgCommuneDeptStr,
             };
         } else {
-            this.projectStrGeoData = {
-                id: 0,
-                project_name: "",
-                project_noted: "",
+            this.geoOrgCommuneDeptStrData = {
+                orgDeptNoted: "",
+                childDeptId: 0,
+                children: [],
+                geoLocationId: 0,
+                hasChildren: false,
+                key: "",
+                geoProjectId: 0,
+                label: "",
+                orgDeptId: 0,
+                orgSLDate: "",
+                orgSLLevel: "",
+                parentDeptId: 0,
             };
         }
     },

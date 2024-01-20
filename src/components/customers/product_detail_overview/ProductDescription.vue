@@ -146,10 +146,10 @@
                                             ' | ' +
                                             'Express (1-2 Day)'
                                         "
-                                        :data-deliver-price="
-                                            exchangeExpressDay
+                                        :data-deliver-price="exchangeExpressDay"
+                                        :data-deliver-khr="
+                                            data[0]?.product[0]?.expressPrice
                                         "
-                                        :data-deliver-khr="data[0]?.product[0]?.expressPrice"
                                         :selected="
                                             selectExpressDeliveryShippingPrice ==
                                             'Express (1-2 Day)'
@@ -158,10 +158,12 @@
                                         <div class="flex">
                                             <p>
                                                 <span>
-                                                    {{ currencyFormattedKHRiel(
-                                                        data[0]?.product[0]
-                                                            ?.expressPrice
-                                                    ) }}
+                                                    {{
+                                                        currencyFormattedKHRiel(
+                                                            data[0]?.product[0]
+                                                                ?.expressPrice
+                                                        )
+                                                    }}
                                                 </span>
                                                 <input
                                                     hidden
@@ -176,7 +178,11 @@
                                                         )
                                                     "
                                                 />
-                                                ({{ currencyFormattedUSD(exchangeExpressDay) }}) -
+                                                ({{
+                                                    currencyFormattedUSD(
+                                                        exchangeExpressDay
+                                                    )
+                                                }}) -
                                             </p>
                                             <span> Express (1-2 Day)</span>
                                         </div>
@@ -189,7 +195,9 @@
                                             data[0]?.product[0]?.normalPrice
                                         "
                                         :data-deliver-price="exchangeNormalDay"
-                                        :data-deliver-khr="data[0]?.product[0]?.normalPrice"
+                                        :data-deliver-khr="
+                                            data[0]?.product[0]?.normalPrice
+                                        "
                                         :data-deliver-name="
                                             data[0]?.product[0]
                                                 .shippingCompany +
@@ -203,10 +211,12 @@
                                     >
                                         <p>
                                             <span>
-                                                {{ currencyFormattedKHRiel(
-                                                    data[0]?.product[0]
-                                                        ?.normalPrice
-                                                ) }}
+                                                {{
+                                                    currencyFormattedKHRiel(
+                                                        data[0]?.product[0]
+                                                            ?.normalPrice
+                                                    )
+                                                }}
                                             </span>
                                             <input
                                                 hidden
@@ -222,7 +232,9 @@
                                                 "
                                             />
                                             ({{
-                                                 currencyFormattedUSD(exchangeNormalDay)
+                                                currencyFormattedUSD(
+                                                    exchangeNormalDay
+                                                )
                                             }}) -
                                         </p>
                                         <span> Normal (3-4 Day)</span>
@@ -263,7 +275,13 @@
             <p style="margin-top: 40px">
                 <template v-if="isLoggedIn()">
                     <!-- Customer -->
-                    <template v-if="customerRole === 'Customer' && customerRole !== 'Admin' && customerRole !== 'Vendor'">
+                    <template
+                        v-if="
+                            customerRole === 'Customer' &&
+                            customerRole !== 'Admin' &&
+                            customerRole !== 'Vendor'
+                        "
+                    >
                         <b-button
                             id="add-to-cart-sync"
                             class="add-to-cart"
@@ -284,11 +302,21 @@
                         </b-button>
                     </template>
                     <!-- Vendor -->
-                    <template v-if="customerRole !== 'Customer' && customerRole === 'Admin' || customerRole === 'Vendor'">
+                    <template
+                        v-if="
+                            (customerRole !== 'Customer' &&
+                                customerRole === 'Admin') ||
+                            customerRole === 'Vendor'
+                        "
+                    >
                         <b-button
                             id="add-to-cart-sync"
                             class="add-to-cart"
-                            @click="$router.push('/vendor-dashboard/default-layouts')"
+                            @click="
+                                $router.push(
+                                    '/vendor/user/list/crete-user-auth/ui-user-list'
+                                )
+                            "
                         >
                             <template v-if="customerRole === 'Admin'">
                                 <label>Web Page</label>
@@ -347,7 +375,7 @@ export default {
             expressDelivery: {},
             selectedShippingExpressDelivery: "Normal (3-4 Day)",
             expressOptionSelected: {},
-            customerRole: null
+            customerRole: null,
         };
     },
     created() {
@@ -375,22 +403,34 @@ export default {
         },
     },
     methods: {
-        customerRoleType(){
-            if(isLoggedIn()){
-                const userRoleAuth = localStorage.getItem('userRole');
-                if (JSON.parse(userRoleAuth) !== 'Vendor' && JSON.parse(userRoleAuth) !== 'Admin' && JSON.parse(userRoleAuth) === "Customer"){
-                    this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
-                }else{
-                   this.customerRole = JSON.parse(userRoleAuth) ? JSON.parse(userRoleAuth) : '';
+        customerRoleType() {
+            if (isLoggedIn()) {
+                const userRoleAuth = localStorage.getItem("userRole");
+                if (
+                    JSON.parse(userRoleAuth) !== "Vendor" &&
+                    JSON.parse(userRoleAuth) !== "Admin" &&
+                    JSON.parse(userRoleAuth) === "Customer"
+                ) {
+                    this.customerRole = JSON.parse(userRoleAuth)
+                        ? JSON.parse(userRoleAuth)
+                        : "";
+                } else {
+                    this.customerRole = JSON.parse(userRoleAuth)
+                        ? JSON.parse(userRoleAuth)
+                        : "";
                 }
             }
         },
-        truncateLongText(str, length, useWordBoundary){
-            if (str.length <= length) { return str; }
+        truncateLongText(str, length, useWordBoundary) {
+            if (str.length <= length) {
+                return str;
+            }
             const subString = str.slice(0, length - 1); // the original check
-            return (useWordBoundary
-                ? subString.slice(0, subString.lastIndexOf(" "))
-                : subString) + "...";
+            return (
+                (useWordBoundary
+                    ? subString.slice(0, subString.lastIndexOf(" "))
+                    : subString) + "..."
+            );
         },
         currencyFormattedKHRiel: function (value) {
             return new Intl.NumberFormat("km-KH", {
@@ -464,8 +504,13 @@ export default {
         },
         async convertAmountRateExpressDay(rielAmount) {
             try {
-                const amountConvertRielExpress = parseInt(rielAmount)? parseInt(rielAmount): 0;
-                this.exchangeExpressDay = (await convertRielToUSDAmount(amountConvertRielExpress ? amountConvertRielExpress : 0)) ?? 0;
+                const amountConvertRielExpress = parseInt(rielAmount)
+                    ? parseInt(rielAmount)
+                    : 0;
+                this.exchangeExpressDay =
+                    (await convertRielToUSDAmount(
+                        amountConvertRielExpress ? amountConvertRielExpress : 0
+                    )) ?? 0;
                 const result = await Promise.resolve(amountConvertRielExpress);
                 return result;
             } catch (error) {
@@ -474,8 +519,13 @@ export default {
         },
         async convertAmountRateNormalDay(rielAmount) {
             try {
-                const amountConvertRielNormal = parseInt(rielAmount)? parseInt(rielAmount): 0;
-                this.exchangeNormalDay = (await convertRielToUSDAmount(amountConvertRielNormal ? amountConvertRielNormal : 0)) ?? 0;
+                const amountConvertRielNormal = parseInt(rielAmount)
+                    ? parseInt(rielAmount)
+                    : 0;
+                this.exchangeNormalDay =
+                    (await convertRielToUSDAmount(
+                        amountConvertRielNormal ? amountConvertRielNormal : 0
+                    )) ?? 0;
                 const resultNormal = await Promise.resolve(
                     amountConvertRielNormal
                 );
@@ -484,7 +534,6 @@ export default {
                 return Promise.reject(error);
             }
         },
-
 
         async selectExpressDeliveryShippingPrice($event) {
             if ($event.target.options.selectedIndex > -1) {
