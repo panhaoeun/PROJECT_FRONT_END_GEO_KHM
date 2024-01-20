@@ -183,7 +183,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
             icon: 'shieldCheck',
             permissions: ['permissions_module']
         },
-        component: () => import("../../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),
+        component: () => import("../../views/administrators/user_managements/PermissionModuleRoleMSList-BACKUP.vue"),
     },
     {
         path: "/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module-create-new",
