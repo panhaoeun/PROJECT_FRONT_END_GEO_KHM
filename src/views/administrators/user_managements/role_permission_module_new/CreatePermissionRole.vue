@@ -6,7 +6,7 @@
             <h2
                 class="relative text-black text-xl section section-title:before"
             >
-                Organization Structure
+                Create Organization Structure
             </h2>
             <el-button
                 type="info"
@@ -455,7 +455,7 @@
                                                 </template>
                                             </Dropdown>
                                             <!-- Button Add More Manage By Position Country -->
-                                           <!-- Button Add More Manage By Department Base State -->
+                                            <!-- Button Add More Manage By Department Base State -->
                                             <PopupAddManageDistrictDept
                                                 v-if="
                                                     modelDistrictSelected !==
@@ -711,7 +711,7 @@ export default {
         ManagePositionDeptModuleOnGeo,
         PopupAddManageProvinceDept,
         PopupAddManageDistrictDept,
-        PopupAddManageCommuneDept
+        PopupAddManageCommuneDept,
     },
     setup() {
         return { v$: useVuelidate() };

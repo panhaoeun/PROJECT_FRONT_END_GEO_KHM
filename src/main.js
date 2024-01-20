@@ -77,6 +77,7 @@ import globalDirective from './plugins/global-directive';
 import globalMixin from './plugins/global-mixin';
 import BootstrapVue3 from 'bootstrap-vue-3';
 // PRIMEVUE
+import OrganizationChart from 'primevue/organizationchart';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Fieldset from 'primevue/fieldset';
 import InputNumber from 'primevue/inputnumber';
@@ -198,6 +199,7 @@ app.use(PrimeVue, {
 });
 app.use(ToastService);
 app.use(DialogService);
+app.component('OrganizationChart', OrganizationChart);
 app.component('InlineMessage', InlineMessage);
 app.component('Message', Message);
 app.component('InputText', InputText);

@@ -1,7 +1,6 @@
 import DefaultLayoutVendor from "../../../components/layouts/vendors/DefaultLayouts.vue";
 
-const defaultChildRoutesLocationSystemMS = (prefix) => [
-    {
+const defaultChildRoutesLocationSystemMS = (prefix) => [{
         path: "/admin/locations/management_location_system-list",
         name: prefix + '.management_location_system',
         meta: {
@@ -23,7 +22,31 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [
             permissions: ['location_ms_system_module']
         },
         component: () => import("../../../views/administrators/location_management_system/CreateNewLocation.vue"),
-    }
+    },
+    // Org-Chat
+    {
+        path: "/admin/manage-user-org-chat-geo-khm-list",
+        name: prefix + '.user-admin_org_chat_list',
+        meta: {
+            title: "orgChat",
+            requiresAuth: true,
+            icon: 'chartPie',
+            permissions: ['location_ms_system_module']
+        },
+        component: () => import("../../../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),
+    },
+    {
+        path: "/admin/manage-user-org-chat-geo-khm-add-new",
+        name: prefix + '.admin_org_chat_add_new',
+        hidden: true,
+        meta: {
+            title: "orgChat",
+            requiresAuth: true,
+            icon: 'shieldCheck',
+            permissions: ['location_ms_system_module']
+        },
+        component: () => import("../../../views/administrators/user_managements/role_permission_module_new/CreatePermissionRole.vue"),
+    },
 ]
 const moduleProductManagementRouters = {
     path: '/admin/locations',
