@@ -21,7 +21,7 @@
                 <div class="header-logo">
                   <div class="logo">
                     <router-link to="/"
-                      ><img :src="require('@/assets/company_logo/ecommerce_logo.png')" alt="logo"
+                      ><img :src="require('@/assets/company_logo/geo_khm.png')" alt="logo"
                     /></router-link>
                   </div>
                 </div>
@@ -145,7 +145,7 @@
                 <li>
                   <router-link to="/">
                     <div class="logo">
-                      <img :src="require('@/assets/company_logo/ecommerce_logo.png')" alt="logo"  class="w-3"/>
+                      <img :src="require('@/assets/company_logo/geo_khm.png')" alt="logo"  class="w-3"/>
                     </div>
                   </router-link>
                 </li>

@@ -9,8 +9,11 @@ import DefaultLayoutVendor from "../components/layouts/vendors/DefaultLayouts.vu
 /*
     Imports Vue and VueRouter to extend with the routes.
 */
-import { createWebHistory,createRouter } from "vue-router";
-import moduleRouteVendor from  "./vendors";
+import {
+    createWebHistory,
+    createRouter
+} from "vue-router";
+import moduleRouteVendor from "./vendors";
 import moduleRouteCustomer from "./customers";
 import moduleAuthentication from "./authencation";
 import moduleGlobalStep from "./globaStepper";
@@ -26,13 +29,12 @@ import moduleDeliveryTracking from "./modules/delivery_company_shipping/delivery
 // Location system 
 import modulesLocationSystem from "./modules/location_geo_country/module_location_system_management";
 // User Group Chat
-import moduleUserGroupChatRealTime from "./modules/user_group_chat_realtime/module_user_group_chat";
+// import moduleUserGroupChatRealTime from "./modules/user_group_chat_realtime/module_user_group_chat";
 /*
     Makes a new VueRouter that we will use to run all of the routes
     for the app.
 */
-export const constantRoutes = [
-    {
+export const constantRoutes = [{
         component: DefaultLayoutVendor,
         path: '/redirect',
         children: {
@@ -55,7 +57,7 @@ export const asyncRoutes = [
     moduleOrderReportManagementRouters,
     moduleDeliveryTracking,
     modulesLocationSystem,
-    moduleUserGroupChatRealTime
+    // moduleUserGroupChatRealTime
 ]
 const scrollBehavior = (to, from, savedPosition) => {
     if (savedPosition) {

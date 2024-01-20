@@ -42,7 +42,7 @@
                             <div class="col-xl-3 col-lg-2">
                                 <div class="logo">
                                     <router-link to="/">
-                                        <img src="../../../../assets/company_logo/ecommerce_logo.png" width="100" alt="logo">
+                                        <img src="../../../../assets/company_logo/geo_khm.png" width="100" alt="logo">
                                     </router-link>
                                 </div>
                             </div>

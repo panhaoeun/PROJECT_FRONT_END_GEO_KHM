@@ -2,7 +2,7 @@
     <!--Logo start-->
     <div class="logo-main">
        <!-- PhzarKhmer -->
-       <img src="../../assets/company_logo/ecommerce_logo.png" alt="loader" class="light-loader img-fluid"/>
+       <img src="../../assets/company_logo/geo_khm.png" alt="loader" class="light-loader img-fluid"/>
     </div>
     <!--Logo End-->
 </template>

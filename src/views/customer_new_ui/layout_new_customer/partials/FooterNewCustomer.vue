@@ -19,7 +19,7 @@
               to="/" class="logo"
             >
               <img
-                src="../../../../assets/company_logo/ecommerce_logo.png"
+                src="../../../../assets/company_logo/geo_khm.png"
                 :alt="$t('footer.siteLogo')"
                 height="100"
                 width="100"

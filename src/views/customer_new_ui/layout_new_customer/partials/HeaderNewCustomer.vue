@@ -124,7 +124,7 @@
           class="logo"
         >
           <img
-            src="../../../../assets/company_logo/ecommerce_logo.png"
+            src="../../../../assets/company_logo/geo_khm.png"
             alt="E-24market"
             height="100"
             width="109"
