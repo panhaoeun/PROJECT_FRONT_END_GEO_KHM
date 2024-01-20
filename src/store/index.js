@@ -38,6 +38,7 @@ import GeoLocationVillages from "./geo_location_country/geo_villages";
 * */ 
 import OrgDeptStrCountry from "./org_sl_geo_dept_pos/org_dept_stru/geoDeptStruCountry";
 import OrgPosStrCountry from "./org_sl_geo_dept_pos/org_pos_stru/geoDepPositionCountry";
+import ProjectNameBaseOrgStr from "./org_sl_geo_dept_pos/org_project_dept/geoDeptProjectName";
 
 const store = createStore({
     namespaced: true,
@@ -106,7 +107,8 @@ const store = createStore({
          *@Geo-fence org-structures 
         * */ 
         orgDeptStrCou: OrgDeptStrCountry,
-        orgPosStrCou: OrgPosStrCountry
+        orgPosStrCou: OrgPosStrCountry,
+        orgProjectsName: ProjectNameBaseOrgStr
     },
 });
 // Load all modules.

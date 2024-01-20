@@ -24,7 +24,7 @@
                 class="inline-flex align-items-center justify-content-center gap-2"
             >
                 <span class="font-bold white-space-nowrap">
-                    Manage Departments Province or State
+                    Manage Departments
                 </span>
             </div>
         </template>
@@ -216,13 +216,13 @@ export default {
                 if (deptGeoCountryId !== "" && deptGeoCountryId > 0) {
                     await this.fetchingDataGeoProStateOrgStr(
                         projectId,
-                        deptGeoCountryId,
+                        deptGeoCountryId
                     );
                 }
             } catch (error) {
                 return Promise.reject(error);
             }
-        }
+        },
     },
 };
 </script>

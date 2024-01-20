@@ -9,10 +9,10 @@ export default {
         this.geoDeptPosOrgStrServices = new ManagePermissionsGeoFencePositionPermissionsServices();
     },
     computed: {
-        ...mapGetters("orgDeptStrCou", ["allGeoDeptOrg"]),
-        getAllDeptOrgStrProvinceState() {
-            return this.allGeoDeptOrg || [];
-        },
+        ...mapGetters("orgPosStrCou", ["allGeoPositionOrgStr"]),
+        getAllPositionOrgStr() {
+            return this.allGeoPositionOrgStr || [];
+        }
     },
     data() {
         return {
@@ -23,97 +23,104 @@ export default {
         }
     },
     methods: {
-        ...mapActions('orgDeptStrCou', ['getAllGeoDeptOrgCountryStr']),
-        addNewGeoOrgDeptProvinceState(validate) {
+        ...mapActions('orgPosStrCou', ['getAllGeoPositionOrgCountryStr']),
+        addNewGeoOrgDeptBaseOnPositionLevelCountry(validate) {
             this.submitted = true;
-            this.loadingSubmittedAddDepartment = true;
+            this.loadingDeptOrgBtn = true;
             setTimeout(() => {
-                this.loadingSubmittedAddDepartment = false;
+                this.loadingDeptOrgBtn = false;
                 if (
-                    this.departmentNewName !== null &&
-                    this.departmentNewName !== ""
+                    this.selectedDeptOrgCountry !== null &&
+                    this.orgDeptPositionName !== ""
                 ) {
                     // Get Opt Value in Selected Parent DeptId
-                    const getOptSelectedParentDeptId = this
-                        .selectedParentDeptCountry ?
-                        this.selectedParentDeptCountry :
+                    const getOptSelectedPositionDept = this
+                        .selectedDeptOrgCountry ?
+                        this.selectedDeptOrgCountry :
                         0;
+
                     const keyValueDeptId = Object.keys(
-                            getOptSelectedParentDeptId
+                            getOptSelectedPositionDept
+                        ).splice(Object.keys(getOptSelectedPositionDept))
+                        .reduce((item, value) => {
+                            return {
+                                item: item,
+                                value: value
+                            }
+                        });
+                    const valSplitDepartment = keyValueDeptId.substring(0, keyValueDeptId.lastIndexOf('-'));
+                    // Get Opt Value in Selected Parent Position
+                    const getOptSelectedPositionLevel = this
+                        .selectedDeptOrgStrLevel ?
+                        this.selectedDeptOrgStrLevel :
+                        0;
+                    const keyValuePositionId = Object.keys(
+                            getOptSelectedPositionLevel
                         )
-                        .slice(Object.keys(getOptSelectedParentDeptId));
-                    let valSplitDeptId;
-                    keyValueDeptId.map(value => {
+                        .slice(Object.keys(getOptSelectedPositionLevel));
+                    let valSplitPositionLevelId;
+                    keyValuePositionId.map(value => {
                         if (value) {
-                            valSplitDeptId = value.split(/[,-]+/).pop();
+                            valSplitPositionLevelId = value.split(/[,-]+/).pop();
                         }
                         if (typeof (value) === 'undefined') {
-                            valSplitDeptId = 0;
+                            valSplitPositionLevelId = 0;
                         }
-                        return valSplitDeptId;
+                        return valSplitPositionLevelId;
                     })
-                    if (typeof (valSplitDeptId) === 'undefined') {
-                        valSplitDeptId = 0;
+                    if (typeof (valSplitPositionLevelId) === 'undefined') {
+                        valSplitPositionLevelId = 0;
                     }
-                    const deptNameOrgStrDyStr = this.departmentNewName ?
-                        this.departmentNewName :
+
+                    const deptPosNameOrgStrOrgStr = this.orgDeptPositionName ?
+                        this.orgDeptPositionName :
                         "";
-                    const deptProjectId = parseInt(this.deptProjectId) ?
-                        parseInt(this.deptProjectId) :
-                        0;
-                    const deptGeoCountryId = parseInt(
-                            this.deptCountryId
-                        ) ?
-                        parseInt(this.deptCountryId) :
-                        0;
-                    const deptGeoNoted = this.descriptionDepartment ?
-                        this.descriptionDepartment :
+                    const deptPositionGeoNoted = this.orgDeptPositionName ?
+                        this.orgDeptPositionName :
                         "";
 
-                    const addNewOptDeptByCountry = {
-                        addOrgLevelGeoSLStr: 'SL03',
-                        addNewProjectIdOrgSL: deptProjectId ?
-                            deptProjectId :
-                            0,
-                        addNewGeoFenceIdOrgStrSL: deptGeoCountryId ?
-                            deptGeoCountryId :
-                            0,
-                        addNewSuperSSNCodeDeptOrgStrSL: valSplitDeptId ?
-                            valSplitDeptId :
-                            0,
-                        addNewDeptNameOrgStrSL: deptNameOrgStrDyStr ?
-                            deptNameOrgStrDyStr :
-                            "",
-                        addNewDeptDescriptionsSL: deptGeoNoted ?
-                            deptGeoNoted :
-                            "",
+                    const addNewOptDeptPositionByCountry = {
+                        addNewOrgLevelGeoDept: 'GL02',
+                        addNewDeptIdBaseGeoOrgStr: valSplitDepartment ?
+                            valSplitDepartment : 0,
+                        addNewPosDeptSuperId: valSplitPositionLevelId ?
+                            valSplitPositionLevelId : 0,
+                        addNewPosDeptName: deptPosNameOrgStrOrgStr ?
+                            deptPosNameOrgStrOrgStr : "",
+                        addNewPositionDescription: deptPositionGeoNoted ?
+                            deptPositionGeoNoted : "",
                     };
-                    this.managePermissionsGeoLocationPosition?.createNewDepartmentsLocationGeoByCountryOrgStr(
-                        addNewOptDeptByCountry
-                        ? addNewOptDeptByCountry
+                    /**
+                     *@Org-Str Position Departments
+                     * */
+                    this.geoDeptPosOrgStrServices?.createNewGeoOrgSLPositionDept(
+                        addNewOptDeptPositionByCountry
+                        ? addNewOptDeptPositionByCountry
                         : []
                     )
                     .then(async (addNewDept) => {
                         if (addNewDept?.data.success === true) {
-                            this.loadingSubmittedAddDepartment = false;
-                            this.visibleDialogDepartmentProState = false;
-                            this.resetFromAddDeptOrgStr();
+                            this.loadingDeptOrgBtn = false;
                             // Reload Data In Datable in Dept org-str geo-fence
-                            this.fetchingDataGeoDistrictOrgStr(deptProjectId,deptGeoCountryId);
-                            this.visibleDialogDepartment = false;
+                            this.fetchingDataGeoCountryOrgStrPosition(valSplitPositionLevelId);
+                            this.visibleDialogModelDeptOrg = false;
                             this.$toast.add({
                                 severity: "success",
                                 summary:
-                                    "Successfully add new department district.",
+                                    "Successfully add new department.",
                                 detail: addNewDept.data?.message
                                     ? addNewDept.data?.message
                                     : null,
                                 life: 3000,
                             });
+                            // Reset From 
+                            this.selectedDeptOrgCountry = null;
+                            this.selectedDeptOrgStrLevel = null;
+                            this.orgDeptPositionName = '';
                         }
                     })
                     .catch((error) => {
-                        this.loadingSubmittedAddDepartment = false;
+                        this.loadingDeptOrgBtn = false;
                         this.$toast.add({
                             severity: "error",
                             summary: "Please Fix Below Errors.",
@@ -150,7 +157,7 @@ export default {
                         this.$toast.add({
                             severity: "error",
                             summary: "Please Fix Below Errors.",
-                            detail: "Please input filed position have missing value!",
+                            detail: "Please input filed position base department have missing value!",
                             life: 3000,
                         });
                         return false;
@@ -162,15 +169,10 @@ export default {
         async editGeoOrgDeptCountry(index, rowEditId) {
             console.log(index, rowEditId)
         },
-        async fetchingDataGeoDistrictOrgStr(deptOrgProjectId = 0, countryOrgIdGeo = 0) {
+        async fetchingDataGeoCountryOrgStrPosition() {
             this.fetchingOrgStrDept = true;
             try {
-                const orgDeptLevel = 'SL03';
-                this.getAllGeoDeptOrgCountryStr({
-                    deptOrgProjectId,
-                    countryOrgIdGeo,
-                    orgDeptLevel
-                });
+                this.getAllGeoPositionOrgCountryStr();
             } catch (e) {
                 return Promise.reject(e);
             }

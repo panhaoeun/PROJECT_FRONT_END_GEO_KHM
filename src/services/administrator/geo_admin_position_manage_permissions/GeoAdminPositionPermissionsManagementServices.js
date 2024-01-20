@@ -1,11 +1,53 @@
 import http from "../../../../http-access-control-json";
 
 export default class ManagePermissionsGeoFencePositionPermissionsServices {
+    /**
+     *@api {manage} Manage Project Name
+     */
+    async listProjectBaseDeptOrgStr() {
+        return await http.get(`/project-management/roles-managements/all-project-management-list`)
+            .then((result) => {
+                if (!result) {
+                    return false;
+                }
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            }).catch((error) => {
+                return Promise.reject(error);
+            });
+    }
+    async getModifyProjectId(projectIdOrg) {
+        return await http.get(`/project-management/roles-managements/edit-project-management-by-id/${projectIdOrg}`)
+            .then((result) => {
+                if (!result) {
+                    return false;
+                }
+                if (result.status == 200) {
+                    if (result.data.success == true) {
+                        return result.data.result.resultStatus;
+                    }
+                }
+            }).catch((error) => {
+                return Promise.reject(error);
+            });
+    }
+    async addNewProjectNameBaseOrgStr(projects) {
+        return http.post("/project-management/roles-managements/all-project-management-add-new", projects);
+    }
+    async modifyProjectNameOfStrOrg(projectIdModify,projects) {
+        return http.put(`/project-management/roles-managements/project-management-modify-project/${projectIdModify}`, projects);
+    }
+    async removeProjectNameOfStrOrg(projectIdModify,projects) {
+        return http.delete(`/project-management/roles-managements/project-management-remove-project/${projectIdModify}`, projects);
+    }
     /** 
      * @api {post}  Manage Departments
      *  @api (List, Modify, Add, Delete) Departments
      */
-    async listGeoLocationDepartmentsOrgSLGeo(projectId, projectByCountryId,orgGeoLevelDept) {
+    async listGeoLocationDepartmentsOrgSLGeo(projectId, projectByCountryId, orgGeoLevelDept) {
         return await http.get(`/users-managements/geo-fence-position/list-departments?projectId=${projectId}&countryIdGeoLocal=${projectByCountryId}&orgDeptLevel=${orgGeoLevelDept}`)
             .then((result) => {
                 if (!result) {

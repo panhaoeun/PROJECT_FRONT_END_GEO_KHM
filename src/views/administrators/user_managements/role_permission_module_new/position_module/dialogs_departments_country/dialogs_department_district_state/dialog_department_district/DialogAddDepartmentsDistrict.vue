@@ -127,7 +127,7 @@
 </template>
 <!-- Script of JS -->
 <script>
-import geoOrgStrDeptProvinceStateHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptProStateHelper";
+import geoOrgStrDeptDistrictHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptDistrictHelper";
 import ManagePermissionsGeoFencePositionPermissionsServices from "@/services/administrator/geo_admin_position_manage_permissions/GeoAdminPositionPermissionsManagementServices";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
@@ -156,7 +156,7 @@ export default {
             },
         };
     },
-    mixins: [geoOrgStrDeptProvinceStateHelper],
+    mixins: [geoOrgStrDeptDistrictHelper],
     data() {
         return {
             orgDeptStrCountryList: [],

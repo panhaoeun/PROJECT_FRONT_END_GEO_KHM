@@ -137,14 +137,14 @@
 import DialogAddDepartmentBaseGeoFenceCommune from "./dialog_department_commune_geo/DialogAddDepartmentsCommune.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
-import geoOrgStrDeptDistrictHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptDistrictHelper";
+import geoOrgStrDeptCommuneTownHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptTownCommuneHelper";
 import { mapGetters } from "vuex";
 
 export default {
     components: {
         DialogAddDepartmentBaseGeoFenceCommune,
     },
-    mixins: [geoOrgStrDeptDistrictHelper],
+    mixins: [geoOrgStrDeptCommuneTownHelper],
     setup() {
         return { v$: useVuelidate() };
     },
@@ -214,7 +214,7 @@ export default {
                     ? parseInt(this.geoFenceLocation)
                     : 0;
                 if (deptGeoCountryId !== "" && deptGeoCountryId > 0) {
-                    await this.fetchingDataGeoDistrictOrgStr(
+                    await this.fetchingDataGeoCommuneTownOrgStr(
                         projectId,
                         deptGeoCountryId
                     );

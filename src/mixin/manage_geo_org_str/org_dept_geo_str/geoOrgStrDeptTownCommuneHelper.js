@@ -10,7 +10,7 @@ export default {
     },
     computed: {
         ...mapGetters("orgDeptStrCou", ["allGeoDeptOrg"]),
-        getAllDeptOrgStrProvinceState() {
+        getAllDeptOrgStrCommuneTown() {
             return this.allGeoDeptOrg || [];
         },
     },
@@ -71,7 +71,7 @@ export default {
                         "";
 
                     const addNewOptDeptByCountry = {
-                        addOrgLevelGeoSLStr: 'SL03',
+                        addOrgLevelGeoSLStr: 'SL04',
                         addNewProjectIdOrgSL: deptProjectId ?
                             deptProjectId :
                             0,
@@ -104,7 +104,7 @@ export default {
                             this.$toast.add({
                                 severity: "success",
                                 summary:
-                                    "Successfully add new department district.",
+                                    "Successfully add new department commune or town.",
                                 detail: addNewDept.data?.message
                                     ? addNewDept.data?.message
                                     : null,
@@ -162,10 +162,10 @@ export default {
         async editGeoOrgDeptCountry(index, rowEditId) {
             console.log(index, rowEditId)
         },
-        async fetchingDataGeoDistrictOrgStr(deptOrgProjectId = 0, countryOrgIdGeo = 0) {
+        async fetchingDataGeoCommuneTownOrgStr(deptOrgProjectId = 0, countryOrgIdGeo = 0) {
             this.fetchingOrgStrDept = true;
             try {
-                const orgDeptLevel = 'SL03';
+                const orgDeptLevel = 'SL04';
                 this.getAllGeoDeptOrgCountryStr({
                     deptOrgProjectId,
                     countryOrgIdGeo,

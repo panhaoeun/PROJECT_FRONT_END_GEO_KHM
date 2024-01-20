@@ -7,7 +7,7 @@
             icon="pi pi-plus"
             outlined
             @click="openDialogAddPositionByOrgDept()"
-            label="Add Positions"
+            label="Add Positions Province"
         />
     </div>
     <!-- Dialogs Positions Department-->
@@ -159,7 +159,7 @@
 
 <!-- Script of add dialog position departments -->
 <script>
-import geoOrgStrDeptPosHelper from "@/mixin/manage_geo_org_str/org_pos_geo_str/geoOrgStrDeptPositionCountryHelper";
+import geoOrgStrDeptPositionProvinceHelper from "@/mixin/manage_geo_org_str/org_pos_geo_str/geoOrgStrDeptPositionProvinceHelper";
 import useSubmitButtonState from "@/modules/useSubmitButtonState";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
@@ -181,7 +181,7 @@ export default {
             selectedDeptOrgStrLevel: null,
         };
     },
-    mixins: [geoOrgStrDeptPosHelper],
+    mixins: [geoOrgStrDeptPositionProvinceHelper],
     props: {
         projectIdDepOrgStr: {
             type: Number,

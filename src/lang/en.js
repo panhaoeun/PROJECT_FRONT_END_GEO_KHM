@@ -98,6 +98,10 @@ export default {
         proceedToCheckout: "Proceed to checkout",
         submitting: "Submitting"
     },
+    projectOrgStr: {
+        isRequired: "{type} is required",
+        thisProject: "{type} this project",
+    },
     addressPopup: {
         country: "Country",
         order: "Order",
