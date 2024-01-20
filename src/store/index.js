@@ -33,6 +33,13 @@ import GeoLocationVillages from "./geo_location_country/geo_villages";
 // const debug = process.env.NODE_ENV !== 'production';
 // const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations'];
 
+/**
+ *@Org-Structures Department and Positions 
+* */ 
+import OrgDeptStrCountry from "./org_sl_geo_dept_pos/org_dept_stru/geoDeptStruCountry";
+import OrgPosStrCountry from "./org_sl_geo_dept_pos/org_pos_stru/geoDepPositionCountry";
+import ProjectNameBaseOrgStr from "./org_sl_geo_dept_pos/org_project_dept/geoDeptProjectName";
+
 const store = createStore({
     namespaced: true,
     state: {
@@ -96,6 +103,12 @@ const store = createStore({
         geoDistrict: GeoLocationDistrict,
         geoCommune: GeoLocationCommune,
         geoVillages: GeoLocationVillages,
+        /***
+         *@Geo-fence org-structures 
+        * */ 
+        orgDeptStrCou: OrgDeptStrCountry,
+        orgPosStrCou: OrgPosStrCountry,
+        orgProjectsName: ProjectNameBaseOrgStr
     },
 });
 // Load all modules.

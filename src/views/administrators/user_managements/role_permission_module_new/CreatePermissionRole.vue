@@ -6,16 +6,14 @@
             <h2
                 class="relative text-black text-xl section section-title:before"
             >
-                Roles permissions
+                Create Organization Structure
             </h2>
             <el-button
                 type="info"
                 size="large"
                 class="btn btn-primary"
                 @click.prevent="
-                    $router.push(
-                        '/vendor/user/permission/role-module/crete-user-auth/ui-permission-auth-role-module'
-                    )
+                    $router.push('/admin/manage-user-org-chat-geo-khm-list')
                 "
             >
                 <div class="pl-2 justify-content-center">
@@ -46,72 +44,80 @@
                                             Project Name
                                             <span class="p-error">*</span>
                                         </label>
-                                        <Dropdown
-                                            :options="dataProjectNameOpt"
-                                            filter
-                                            v-model="
-                                                v$.projectNameBaseRole.$model
-                                            "
-                                            :class="{
-                                                'p-invalid border-round-lg border-round-lg p-error':
+                                        <div class="flex field flex-row">
+                                            <Dropdown
+                                                :options="dataProjectNameOpt"
+                                                filter
+                                                v-model="
                                                     v$.projectNameBaseRole
-                                                        .$invalid && submitted,
-                                            }"
-                                            inputId="projectId"
-                                            optionLabel="projectName"
-                                            placeholder="Select a project name"
-                                            aria-describedby="dd-error"
-                                            class="w-full border-round-lg text-sm"
-                                        >
-                                            <template #value="slotProps">
-                                                <div
-                                                    v-if="slotProps.value"
-                                                    class="flex align-items-center"
-                                                >
-                                                    <div>
-                                                        {{
-                                                            slotProps.value
-                                                                ?.project_name
-                                                        }}
+                                                        .$model
+                                                "
+                                                :class="{
+                                                    'p-invalid border-round-lg border-round-lg p-error':
+                                                        v$.projectNameBaseRole
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                                inputId="projectId"
+                                                optionLabel="projectName"
+                                                placeholder="Select a project name"
+                                                aria-describedby="dd-error"
+                                                class="w-full border-round-lg text-sm"
+                                            >
+                                                <template #value="slotProps">
+                                                    <div
+                                                        v-if="slotProps.value"
+                                                        class="flex align-items-center"
+                                                    >
+                                                        <div>
+                                                            {{
+                                                                slotProps.value
+                                                                    ?.project_name
+                                                            }}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <span v-else>
-                                                    {{ slotProps.placeholder }}
-                                                </span>
-                                            </template>
-                                            <template #option="slotProps">
-                                                <div
-                                                    class="flex align-items-center"
-                                                >
-                                                    <div>
+                                                    <span v-else>
                                                         {{
-                                                            slotProps.option
-                                                                ?.project_name
+                                                            slotProps.placeholder
                                                         }}
+                                                    </span>
+                                                </template>
+                                                <template #option="slotProps">
+                                                    <div
+                                                        class="flex align-items-center"
+                                                    >
+                                                        <div>
+                                                            {{
+                                                                slotProps.option
+                                                                    ?.project_name
+                                                            }}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </template>
-                                        </Dropdown>
-                                        <small
-                                            v-if="
-                                                (v$.projectNameBaseRole
-                                                    .$invalid &&
-                                                    submitted) ||
-                                                v$.projectNameBaseRole.$pending
-                                                    .$response
-                                            "
-                                            class="p-error text-sm"
-                                        >
-                                            {{
-                                                v$.projectNameBaseRole.required.$message.replace(
-                                                    "Value",
-                                                    "Project Name"
-                                                )
-                                            }}
-                                        </small>
+                                                </template>
+                                            </Dropdown>
+                                            <small
+                                                v-if="
+                                                    (v$.projectNameBaseRole
+                                                        .$invalid &&
+                                                        submitted) ||
+                                                    v$.projectNameBaseRole
+                                                        .$pending.$response
+                                                "
+                                                class="p-error text-sm"
+                                            >
+                                                {{
+                                                    v$.projectNameBaseRole.required.$message.replace(
+                                                        "Value",
+                                                        "Project Name"
+                                                    )
+                                                }}
+                                            </small>
+                                            <!-- Add New and Modify Projects -->
+                                            <popup-add-manage-project-name />
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Country's -->
+                                <!-- Country's Selection-->
                                 <div class="col-6">
                                     <div class="field">
                                         <label
@@ -200,7 +206,13 @@
                                             <popup-add-manage-department-position-geo
                                                 v-if="
                                                     modelCountryNameSelected !==
-                                                    null
+                                                        null &&
+                                                    modelProvinceStateSelected ==
+                                                        null &&
+                                                    modelDistrictSelected ==
+                                                        null &&
+                                                    modelDistrictSelected ==
+                                                        null
                                                 "
                                                 :projectId="
                                                     getProjectById
@@ -234,31 +246,470 @@
                                         </small>
                                     </div>
                                 </div>
-                                <!-- Permissions Descriptions -->
-                                <div class="col-12 field">
+                                <!-- Province's Selection-->
+                                <div class="col-6">
                                     <div class="field">
                                         <label
                                             for="role_name"
                                             class="text-sm font-semibold"
+                                            :class="{
+                                                'p-invalid border-round-lg border-round-lg p-error':
+                                                    v$
+                                                        .modelProvinceStateSelected
+                                                        .$invalid && submitted,
+                                            }"
                                         >
-                                            Description
+                                            Province or State<span
+                                                class="p-error"
+                                                >*</span
+                                            >
                                         </label>
-                                        <TextArea
-                                            id="role_name"
-                                            placeholder="Description"
-                                            v-model="rolePermissionDescriptions"
-                                            type="text"
-                                            class="text-sm border-round-lg py-4"
-                                        />
+                                        <div class="flex field flex-row">
+                                            <Dropdown
+                                                showClear
+                                                v-model="
+                                                    v$
+                                                        .modelProvinceStateSelected
+                                                        .$model
+                                                "
+                                                :class="{
+                                                    'p-invalid border-round-lg p-error':
+                                                        v$
+                                                            .modelProvinceStateSelected
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                                :options="
+                                                    allStateCountryAddNewPosition
+                                                "
+                                                @click="
+                                                    getProvinceByCountrySelectedOrgStr(
+                                                        modelCountryNameSelected
+                                                    )
+                                                "
+                                                optionLabel="geo_english_name"
+                                                filter
+                                                placeholder="Select a Province or State"
+                                                class="w-full border-round-lg text-sm"
+                                                inputId="geo_english_name"
+                                                aria-describedby="dd-error"
+                                            >
+                                                <template #value="slotProps">
+                                                    <div
+                                                        v-if="slotProps.value"
+                                                        class="flex align-items-center"
+                                                    >
+                                                        <div class="text-sm">
+                                                            {{
+                                                                slotProps.value
+                                                                    ?.geo_english_name ??
+                                                                ""
+                                                            }}({{
+                                                                slotProps.value
+                                                                    .geo_zip_code ??
+                                                                ""
+                                                            }})
+                                                        </div>
+                                                    </div>
+                                                    <span
+                                                        v-else
+                                                        class="text-sm"
+                                                    >
+                                                        {{
+                                                            slotProps.placeholder
+                                                        }}
+                                                    </span>
+                                                </template>
+                                                <template #option="slotProps">
+                                                    <div
+                                                        class="flex align-items-center text-sm"
+                                                    >
+                                                        <div class="text-sm">
+                                                            {{
+                                                                slotProps.option
+                                                                    .geo_english_name ??
+                                                                ""
+                                                            }}
+                                                            ({{
+                                                                slotProps.option
+                                                                    ?.geo_zip_code ??
+                                                                ""
+                                                            }})
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </Dropdown>
+                                            <!-- Button Add More Manage By Department Base State -->
+                                            <PopupAddManageProvinceDept
+                                                v-if="
+                                                    modelProvinceStateSelected !==
+                                                    null
+                                                "
+                                                :projectId="
+                                                    getProjectById
+                                                        ? getProjectById
+                                                        : 0
+                                                "
+                                                :geoFenceLocation="
+                                                    getProvinceStateId
+                                                        ? getProvinceStateId
+                                                        : 0
+                                                "
+                                            />
+                                        </div>
+                                        <!-- Validations -->
+                                        <small
+                                            v-if="
+                                                (v$.modelProvinceStateSelected
+                                                    .$invalid &&
+                                                    submitted) ||
+                                                v$.modelProvinceStateSelected
+                                                    .$pending?.$response
+                                            "
+                                            class="p-error text-sm"
+                                        >
+                                            {{
+                                                v$.modelProvinceStateSelected.required.$message.replace(
+                                                    "Value",
+                                                    "Province or State"
+                                                )
+                                            }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <!-- District's Selection-->
+                                <div class="col-6">
+                                    <div class="field">
+                                        <label
+                                            for="role_name"
+                                            class="text-sm font-semibold"
+                                            :class="{
+                                                'p-invalid border-round-lg border-round-lg p-error':
+                                                    v$.modelDistrictSelected
+                                                        .$invalid && submitted,
+                                            }"
+                                        >
+                                            District<span class="p-error"
+                                                >*</span
+                                            >
+                                        </label>
+                                        <div class="flex field flex-row">
+                                            <Dropdown
+                                                showClear
+                                                v-model="
+                                                    v$.modelDistrictSelected
+                                                        .$model
+                                                "
+                                                :class="{
+                                                    'p-invalid border-round-lg p-error':
+                                                        v$.modelDistrictSelected
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                                :options="
+                                                    allStateDistrictAddNewPosition
+                                                "
+                                                @click="
+                                                    getDistrictByProvinceSelectedOrgStr(
+                                                        modelProvinceStateSelected
+                                                    )
+                                                "
+                                                optionLabel="geo_english_name"
+                                                filter
+                                                placeholder="Select a Country"
+                                                class="w-full border-round-lg text-sm"
+                                                inputId="geo_english_name"
+                                                aria-describedby="dd-error"
+                                            >
+                                                <template #value="slotProps">
+                                                    <div
+                                                        v-if="slotProps.value"
+                                                        class="flex align-items-center"
+                                                    >
+                                                        <div class="text-sm">
+                                                            {{
+                                                                slotProps.value
+                                                                    ?.geo_english_name ??
+                                                                ""
+                                                            }}({{
+                                                                slotProps.value
+                                                                    .geo_zip_code ??
+                                                                ""
+                                                            }})
+                                                        </div>
+                                                    </div>
+                                                    <span
+                                                        v-else
+                                                        class="text-sm"
+                                                    >
+                                                        {{
+                                                            slotProps.placeholder
+                                                        }}
+                                                    </span>
+                                                </template>
+                                                <template #option="slotProps">
+                                                    <div
+                                                        class="flex align-items-center text-sm"
+                                                    >
+                                                        <div class="text-sm">
+                                                            {{
+                                                                slotProps.option
+                                                                    .geo_english_name ??
+                                                                ""
+                                                            }}
+                                                            ({{
+                                                                slotProps.option
+                                                                    ?.geo_zip_code ??
+                                                                ""
+                                                            }})
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </Dropdown>
+                                            <!-- Button Add More Manage By Position Country -->
+                                            <!-- Button Add More Manage By Department Base State -->
+                                            <PopupAddManageDistrictDept
+                                                v-if="
+                                                    modelDistrictSelected !==
+                                                    null
+                                                "
+                                                :projectId="
+                                                    getProjectById
+                                                        ? getProjectById
+                                                        : 0
+                                                "
+                                                :geoFenceLocation="
+                                                    getDistrictStateId
+                                                        ? getDistrictStateId
+                                                        : 0
+                                                "
+                                            />
+                                        </div>
+                                        <!-- Validations -->
+                                        <small
+                                            v-if="
+                                                (v$.modelDistrictSelected
+                                                    .$invalid &&
+                                                    submitted) ||
+                                                v$.modelDistrictSelected
+                                                    .$pending?.$response
+                                            "
+                                            class="p-error text-sm"
+                                        >
+                                            {{
+                                                v$.modelDistrictSelected.required.$message.replace(
+                                                    "Value",
+                                                    "Province or State"
+                                                )
+                                            }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <!-- Commune's Selection-->
+                                <div class="col-6">
+                                    <div class="field">
+                                        <label
+                                            for="role_name"
+                                            class="text-sm font-semibold"
+                                            :class="{
+                                                'p-invalid border-round-lg border-round-lg p-error':
+                                                    v$.modelCommuneTownSelected
+                                                        .$invalid && submitted,
+                                            }"
+                                        >
+                                            Town / Commune<span class="p-error"
+                                                >*</span
+                                            >
+                                        </label>
+                                        <div class="flex field flex-row">
+                                            <Dropdown
+                                                showClear
+                                                v-model="
+                                                    v$.modelCommuneTownSelected
+                                                        .$model
+                                                "
+                                                :class="{
+                                                    'p-invalid border-round-lg p-error':
+                                                        v$
+                                                            .modelCommuneTownSelected
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                                :options="
+                                                    allCommuneCountryByComPosition
+                                                "
+                                                @click="
+                                                    getCommuneByDistrictSelectedOrgStr(
+                                                        modelDistrictSelected
+                                                    )
+                                                "
+                                                optionLabel="geo_english_name"
+                                                filter
+                                                placeholder="Select a Country"
+                                                class="w-full border-round-lg text-sm"
+                                                inputId="geo_english_name"
+                                                aria-describedby="dd-error"
+                                            >
+                                                <template #value="slotProps">
+                                                    <div
+                                                        v-if="slotProps.value"
+                                                        class="flex align-items-center"
+                                                    >
+                                                        <div class="text-sm">
+                                                            {{
+                                                                slotProps.value
+                                                                    ?.geo_english_name ??
+                                                                ""
+                                                            }}({{
+                                                                slotProps.value
+                                                                    .geo_zip_code ??
+                                                                ""
+                                                            }})
+                                                        </div>
+                                                    </div>
+                                                    <span
+                                                        v-else
+                                                        class="text-sm"
+                                                    >
+                                                        {{
+                                                            slotProps.placeholder
+                                                        }}
+                                                    </span>
+                                                </template>
+                                                <template #option="slotProps">
+                                                    <div
+                                                        class="flex align-items-center text-sm"
+                                                    >
+                                                        <div class="text-sm">
+                                                            {{
+                                                                slotProps.option
+                                                                    .geo_english_name ??
+                                                                ""
+                                                            }}
+                                                            ({{
+                                                                slotProps.option
+                                                                    ?.geo_zip_code ??
+                                                                ""
+                                                            }})
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </Dropdown>
+                                            <!-- Button Add More Manage By Position Country -->
+                                            <PopupAddManageCommuneDept
+                                                v-if="
+                                                    modelCommuneTownSelected !==
+                                                    null
+                                                "
+                                                :projectId="
+                                                    getProjectById
+                                                        ? getProjectById
+                                                        : 0
+                                                "
+                                                :geoFenceLocation="
+                                                    getCommuneOrgId
+                                                        ? getCommuneOrgId
+                                                        : 0
+                                                "
+                                            />
+                                        </div>
+                                        <!-- Validations -->
+                                        <small
+                                            v-if="
+                                                (v$.modelProvinceStateSelected
+                                                    .$invalid &&
+                                                    submitted) ||
+                                                v$.modelProvinceStateSelected
+                                                    .$pending?.$response
+                                            "
+                                            class="p-error text-sm"
+                                        >
+                                            {{
+                                                v$.modelProvinceStateSelected.required.$message.replace(
+                                                    "Value",
+                                                    "Town/Commune"
+                                                )
+                                            }}
+                                        </small>
                                     </div>
                                 </div>
                                 <!--========Manage Departments with Positions===========-->
-                                <manage-position-dept-module-on-geo />
+                                <!-- Manage Department Geo-fence Position -> Country -->
+                                <div class="col-12 filed">
+                                    <manage-position-dept-module-on-geo
+                                        v-if="
+                                            modelCountryNameSelected !== null &&
+                                            modelProvinceStateSelected ==
+                                                null &&
+                                            modelDistrictSelected == null &&
+                                            modelDistrictSelected == null
+                                        "
+                                        :projectId="
+                                            getProjectById ? getProjectById : 0
+                                        "
+                                        :geoFenceLocationId="
+                                            getCountryId ? getCountryId : 0
+                                        "
+                                    />
+                                </div>
+                                <!-- Manage Department Geo-fence Position -> Province -->
+                                <div class="col-12 filed">
+                                    <manage-position-dept-module-on-geo-province
+                                        v-if="
+                                            modelCountryNameSelected !== null &&
+                                            modelProvinceStateSelected !==
+                                                null &&
+                                            modelDistrictSelected == null &&
+                                            modelDistrictSelected == null
+                                        "
+                                        :projectId="
+                                            getProjectById ? getProjectById : 0
+                                        "
+                                        :geoFenceLocationId="
+                                            getCountryId ? getCountryId : 0
+                                        "
+                                    />
+                                </div>
+                                <!-- Manage Department Geo-fence Position -> District -->
+                                <div class="col-12 filed">
+                                    <manage-position-dept-module-on-geo-district
+                                        v-if="
+                                            modelCountryNameSelected !== null &&
+                                            modelProvinceStateSelected !==
+                                                null &&
+                                            modelDistrictSelected !== null &&
+                                            modelCommuneTownSelected == null
+                                        "
+                                        :projectId="
+                                            getProjectById ? getProjectById : 0
+                                        "
+                                        :geoFenceLocationId="
+                                            getCountryId ? getCountryId : 0
+                                        "
+                                    />
+                                </div>
+                                <!-- Manage Department Geo-fence Position -> Commune/Town -->
+                                <div class="col-12 filed">
+                                    <manage-position-dept-module-on-geo-commune-town
+                                        v-if="
+                                            modelCountryNameSelected !== null &&
+                                            modelProvinceStateSelected !==
+                                                null &&
+                                            modelDistrictSelected !== null &&
+                                            modelCommuneTownSelected !== null
+                                        "
+                                        :projectId="
+                                            getProjectById ? getProjectById : 0
+                                        "
+                                        :geoFenceLocationId="
+                                            getCountryId ? getCountryId : 0
+                                        "
+                                    />
+                                </div>
                                 <!-- Buttons Submits -->
-                                <div
+                                <!-- <div
                                     class="col-12 flex justify-content-end mt-2"
                                 >
-                                    <!--Buttons-->
                                     <el-button
                                         :loading="loadingSubmittedRole"
                                         type="info"
@@ -282,7 +733,7 @@
                                             }}</span>
                                         </div>
                                     </el-button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -302,14 +753,30 @@ import rolePermissionsManageHelper from "@/mixin/role_permissions_manage/rolePer
 /**
  *@Geographic manage for position
  * */
+import popupAddManageProjectName from "./position_module/manage_dept_projects/ManageListProjectDept";
 import PopupAddManageDepartmentPositionGeo from "./position_module/AddManageDepartmentPositionGeoCountry.vue";
+import PopupAddManageProvinceDept from "./position_module/dialogs_departments_country/dialogs_department_province_state/AddNewDepartmentPositionDialogState.vue";
+import PopupAddManageDistrictDept from "./position_module/dialogs_departments_country/dialogs_department_district_state/AddNewDepartmentPositionDistrictDialog.vue";
+import PopupAddManageCommuneDept from "./position_module/dialogs_departments_country/dialogs_department_commune/AddNewDepartmentPositionCommuneDialog.vue";
+// Manage Position base Departments
 import ManagePositionDeptModuleOnGeo from "./position_module/ManageDepartmentBaseOnGeoFence.vue";
+import ManagePositionDeptModuleOnGeoProvince from "./position_module/manage_dept_position_geo/mange_dept_position_province/ManageDepartmentBaseOnGeoFenceProvince";
+import ManagePositionDeptModuleOnGeoDistrict from "./position_module/manage_dept_position_geo/manage_dept_position_district/ManageDepartmentBaseOnGeoFenceDistrict.vue";
+import ManagePositionDeptModuleOnGeoCommuneTown from "./position_module/manage_dept_position_geo/manage_dept_position_commune/ManageDepartmentBaseOnGeoFenceCommune.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
     mixins: [rolePermissionsManageHelper],
     components: {
+        ManagePositionDeptModuleOnGeoProvince,
+        popupAddManageProjectName,
+        ManagePositionDeptModuleOnGeoDistrict,
+        ManagePositionDeptModuleOnGeoCommuneTown,
         PopupAddManageDepartmentPositionGeo,
         ManagePositionDeptModuleOnGeo,
+        PopupAddManageProvinceDept,
+        PopupAddManageDistrictDept,
+        PopupAddManageCommuneDept,
     },
     setup() {
         return { v$: useVuelidate() };
@@ -321,6 +788,10 @@ export default {
             new GeoLocationsManagementServices();
     },
     computed: {
+        ...mapGetters("geoCountry", ["countryAll"]),
+        ...mapGetters("geoProvince", ["provinceAll"]),
+        ...mapGetters("geoDistrict", ["districtAll"]),
+        ...mapGetters("geoCommune", ["communeAll"]),
         getProjectById() {
             return parseInt(this.projectNameBaseRole?.id)
                 ? parseInt(this.projectNameBaseRole?.id)
@@ -330,6 +801,36 @@ export default {
             return parseInt(this.modelCountryNameSelected?.id)
                 ? parseInt(this.modelCountryNameSelected?.id)
                 : 0;
+        },
+        getProvinceStateId() {
+            return parseInt(this.modelProvinceStateSelected?.id)
+                ? parseInt(this.modelProvinceStateSelected?.id)
+                : 0;
+        },
+        getDistrictStateId() {
+            return parseInt(this.modelDistrictSelected?.id)
+                ? parseInt(this.modelDistrictSelected?.id)
+                : 0;
+        },
+        getCommuneOrgId() {
+            return parseInt(this.modelCommuneTownSelected?.id)
+                ? parseInt(this.modelCommuneTownSelected?.id)
+                : 0;
+        },
+        allCountryPosition() {
+            return this.countryAll || [];
+        },
+        allStateCountryAddNewPosition() {
+            return this.provinceAll || [];
+        },
+        allStateDistrictAddNewPosition() {
+            return this.districtAll || [];
+        },
+        allCommuneCountryByComPosition() {
+            return this.communeAll || [];
+        },
+        getCommuneByVillagePosition() {
+            return this.selectVillageDeptPos || [];
         },
     },
     data() {
@@ -348,6 +849,10 @@ export default {
             // Check Permission
             checkViewPermission: {},
             permissionListByProject: [],
+            modelProvinceStateSelected: null,
+            selectVillageDeptPos: null,
+            modelDistrictSelected: null,
+            modelCommuneTownSelected: null,
             searchPermissionRole: "",
         };
     },
@@ -355,6 +860,9 @@ export default {
         return {
             projectNameBaseRole: { required },
             modelCountryNameSelected: { required },
+            modelProvinceStateSelected: { required },
+            modelDistrictSelected: { required },
+            modelCommuneTownSelected: { required },
         };
     },
     mounted() {
@@ -363,6 +871,11 @@ export default {
         this.getGeoLocationCountry();
     },
     methods: {
+        ...mapActions("geoCountry", ["getAllCountryActions"]),
+        ...mapActions("geoProvince", ["getAllProvinceActions"]),
+        ...mapActions("geoDistrict", ["getAllDistrictActions"]),
+        ...mapActions("geoCommune", ["getAllCommuneActions"]),
+        ...mapActions("geoVillages", ["getAllVillagesActions"]),
         /**
          * @Get All Projects
          * */
@@ -405,6 +918,161 @@ export default {
                         this.getOptCountryOnProject = Array.isArray(country)
                             ? country.slice()
                             : [];
+                    })
+                    .catch((error) => {
+                        return Promise.reject(error.message || []);
+                    });
+            } catch (error) {
+                return Promise.reject(error.message || []);
+            }
+        },
+        getProvinceByCountrySelectedOrgStr(countryParentId) {
+            if (
+                !Array.isArray(countryParentId) ||
+                !countryParentId?.length > 0
+            ) {
+                this.selectStateProvinceOptAddNew = null;
+            }
+            try {
+                if (
+                    !Array.isArray(countryParentId) ||
+                    countryParentId?.geo_ssn_location !== undefined ||
+                    countryParentId?.geo_ssn_location !== null
+                ) {
+                    const ssnSuperCountryCodeLocationGeo =
+                        countryParentId?.geo_ssn_location
+                            ? countryParentId?.geo_ssn_location
+                            : "";
+                    const geoLocationCountryType = "T2";
+                    this.countryProvinceIdOptSelected =
+                        ssnSuperCountryCodeLocationGeo
+                            ? ssnSuperCountryCodeLocationGeo
+                            : "";
+                    this.getGeoLocationStateByCountrySelected(
+                        geoLocationCountryType,
+                        ssnSuperCountryCodeLocationGeo
+                    );
+                }
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        getDistrictByProvinceSelectedOrgStr(provinceParentId) {
+            if (
+                !Array.isArray(provinceParentId) ||
+                !provinceParentId?.length > 0
+            ) {
+                this.selectSDistrictOptAddNew = null;
+            }
+            try {
+                if (
+                    !Array.isArray(provinceParentId) ||
+                    provinceParentId?.geo_ssn_location !== undefined ||
+                    provinceParentId?.geo_ssn_location !== null
+                ) {
+                    const ssnSuperProvinceCodeLocationGeo =
+                        provinceParentId?.geo_ssn_location
+                            ? provinceParentId?.geo_ssn_location
+                            : "";
+                    const geoLocationProvinceType = "T3";
+                    this.geoDistrictSSNProvinceOptSelected =
+                        ssnSuperProvinceCodeLocationGeo
+                            ? ssnSuperProvinceCodeLocationGeo
+                            : "";
+                    this.getGeoLocationDistrictByCountrySelected(
+                        geoLocationProvinceType,
+                        ssnSuperProvinceCodeLocationGeo
+                    );
+                }
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        getCommuneByDistrictSelectedOrgStr(parentDis) {
+            if (!Array.isArray(parentDis) || !parentDis?.length > 0) {
+                this.selectSDCommuneCityOptAddNew = null;
+            }
+            try {
+                if (
+                    !Array.isArray(parentDis) ||
+                    parentDis?.geo_ssn_location !== undefined ||
+                    parentDis?.geo_ssn_location !== null
+                ) {
+                    const ssnSuperProvinceCodeLocationGeo =
+                        parentDis?.geo_ssn_location
+                            ? parentDis?.geo_ssn_location
+                            : "";
+                    const geoLocationProvinceType = "T4";
+                    this.ssnCommuneCodeId = ssnSuperProvinceCodeLocationGeo
+                        ? ssnSuperProvinceCodeLocationGeo
+                        : [];
+                    this.getGeoLocationCommuneCapitalByCountrySelected(
+                        geoLocationProvinceType,
+                        ssnSuperProvinceCodeLocationGeo
+                    );
+                }
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        /**
+         * @Get Reload Country's
+         * */
+        getGeoLocationStateByCountrySelected(
+            provinceStateCode,
+            superSSNStateCode
+        ) {
+            try {
+                this.getAllProvinceActions(superSSNStateCode);
+                this.geoCountryId = superSSNStateCode ? superSSNStateCode : [];
+            } catch (error) {
+                return Promise.reject(error.message || []);
+            }
+        },
+        getGeoLocationDistrictByCountrySelected(
+            districtStateType,
+            superSSNDistrictCode
+        ) {
+            try {
+                this.geoLocationServicesOnProject
+                    .listGeoLocationDistrict(
+                        districtStateType,
+                        superSSNDistrictCode
+                    )
+                    .then((district) => {
+                        if (!district) {
+                            this.setDistrictCountryAddNew = [];
+                        }
+                        this.getAllDistrictActions(superSSNDistrictCode);
+                        this.ssnDistrictCodeId = superSSNDistrictCode
+                            ? superSSNDistrictCode
+                            : [];
+                        this.setDistrictCountryAddNew = Array.isArray(district)
+                            ? district.slice()
+                            : [];
+                    })
+                    .catch((error) => {
+                        return Promise.reject(error.message || []);
+                    });
+            } catch (error) {
+                return Promise.reject(error.message || []);
+            }
+        },
+        getGeoLocationCommuneCapitalByCountrySelected(
+            communeStateType,
+            superSSNCommuneCode
+        ) {
+            try {
+                this.geoLocationServicesOnProject
+                    .listGeoLocationCommune(
+                        communeStateType,
+                        superSSNCommuneCode
+                    )
+                    .then((commune) => {
+                        if (!commune) {
+                            this.setCommuneCountryAddNew = [];
+                        }
+                        this.getAllCommuneActions(superSSNCommuneCode);
                     })
                     .catch((error) => {
                         return Promise.reject(error.message || []);

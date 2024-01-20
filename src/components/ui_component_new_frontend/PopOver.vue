@@ -1,111 +1,102 @@
 <template>
-  <div
-    class="pop-over"
-    :class="{'has-layer': hasLayer}"
-  >
-    <div
-      class="layer"
-      :data-ignore="elemId"
-      @click.prevent="closePopOver"
-    />
-    <div
-      class="pop-over-inner"
-      :id="elemId"
-      v-outside-click="outsideClickFn"
-    >
-      <div class="pop-heading flex sided plr-20 plr-sm-15 ptb-10 b-b pos-rel">
-        <slot name="heading">
-          <h5 class="bold">
-            {{ title }}
-          </h5>
-        </slot>
-        <button
-          class="right-btn close-btn pos-static no-shadow"
-          aria-label="submit"
-          @click.prevent="closePopOver"
+    <div class="pop-over" :class="{ 'has-layer': hasLayer }">
+        <div
+            class="layer"
+            :data-ignore="elemId"
+            @click.prevent="closePopOver"
+        />
+        <div
+            class="pop-over-inner"
+            :id="elemId"
+            v-outside-click="outsideClickFn"
         >
-          <i
-            class="icon-ms close-icon"
-          />
-        </button>
-      </div>
-      <div
-        class="pop-over-content p-20 p-sm-15"
-      >
-        <slot
-          name="content"
-        />
-      </div>
-      <div
-        v-if="hasFooterSlot"
-        class="pop-footer b-t plr-20 plr-sm-15 pt-10 pb-10"
-      >
-        <slot
-          name="pop-footer"
-        />
-      </div>
+            <div
+                class="pop-heading flex sided plr-20 plr-sm-15 ptb-10 b-b pos-rel"
+            >
+                <slot name="heading">
+                    <h5 class="bold text-sm">
+                        {{ title }}
+                    </h5>
+                </slot>
+                <button
+                    class="right-btn close-btn pos-static no-shadow"
+                    aria-label="submit"
+                    @click.prevent="closePopOver"
+                >
+                    <i class="icon-ms close-icon" />
+                </button>
+            </div>
+            <div class="pop-over-content p-20 p-sm-15">
+                <slot name="content" />
+            </div>
+            <div
+                v-if="hasFooterSlot"
+                class="pop-footer b-t plr-20 plr-sm-15 pt-10 pb-10"
+            >
+                <slot name="pop-footer" />
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import outsideClick from '@/directive/outside-click.js'
+import outsideClick from "@/directive/outside-click.js";
 
-  export default {
-    name: 'PopOver',
+export default {
+    name: "PopOver",
     components: {},
-    directives: {outsideClick},
+    directives: { outsideClick },
     props: {
-      title: {
-        type: String,
-        default: '',
-      },
-      elemId: {
-        type: String,
-        default: '',
-      },
-      layer: {
-        type: Boolean,
-        default: false,
-      },
-      outsideClickOn: {
-        type: Boolean,
-        default: true,
-      }
+        title: {
+            type: String,
+            default: "",
+        },
+        elemId: {
+            type: String,
+            default: "",
+        },
+        layer: {
+            type: Boolean,
+            default: false,
+        },
+        outsideClickOn: {
+            type: Boolean,
+            default: true,
+        },
     },
     computed: {
-      isSmallerDevice(){
-        return window.innerWidth < 992
-      },
-      hasFooterSlot() {
-        return !!this.$slots['pop-footer']
-      }
+        isSmallerDevice() {
+            return window.innerWidth < 992;
+        },
+        hasFooterSlot() {
+            return !!this.$slots["pop-footer"];
+        },
     },
     data() {
-      return {
-        hasLayer: this.layer,
-      }
+        return {
+            hasLayer: this.layer,
+        };
     },
     methods: {
-      outsideClickFn(){
-        if(this.outsideClickOn){
-          this.closePopOver()
-        }
-      },
-      closePopOver() {
-        this.$emit('close')
-      }
+        outsideClickFn() {
+            if (this.outsideClickOn) {
+                this.closePopOver();
+            }
+        },
+        closePopOver() {
+            this.$emit("close");
+        },
     },
     mounted() {
-      if(this.isSmallerDevice){
-        this.hasLayer = true
-      }
-      if (this.hasLayer) {
-        document.body.classList.add('no-scroll')
-      }
+        if (this.isSmallerDevice) {
+            this.hasLayer = true;
+        }
+        if (this.hasLayer) {
+            document.body.classList.add("no-scroll");
+        }
     },
     unmounted() {
-      document.body.classList.remove('no-scroll')
-    }
-  }
+        document.body.classList.remove("no-scroll");
+    },
+};
 </script>

@@ -3,7 +3,7 @@
         <div class="container">
             <div class="center-text mb-sm-15">
                 <router-link to="/" class="my-2">
-                    <img src="../../assets/company_logo/ecommerce_logo.png" width="90" height="90" />
+                    <img src="../../assets/company_logo/geo_khm.png" width="90" height="90" />
                 </router-link>
             </div>  
              <!-- End -->

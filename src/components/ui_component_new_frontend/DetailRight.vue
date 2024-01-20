@@ -244,7 +244,7 @@
                             "
                             @click="
                                 $router.push(
-                                    '/vendor-dashboard/default-layouts'
+                                    '/vendor/user/list/crete-user-auth/ui-user-list'
                                 )
                             "
                         />

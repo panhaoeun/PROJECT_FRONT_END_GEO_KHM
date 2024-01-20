@@ -4,7 +4,7 @@
             <header class="flex flex-row border-bottom">
                 <nav class="flex flex-row">
                         <router-link to="/" class="navbar-brand" href="#">
-                            <img src="../../../assets/company_logo/ecommerce_logo.png" width="100" class="d-inline-block align-top" alt="">
+                            <img src="../../../assets/company_logo/geo_khm.png" width="100" class="d-inline-block align-top" alt="">
                         </router-link>
                 </nav>
             </header>

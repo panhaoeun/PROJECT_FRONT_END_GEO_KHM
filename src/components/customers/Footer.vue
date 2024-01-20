@@ -5,7 +5,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="contact-info-wrap">
                         <div class="footer-logo">
-                            <a href="#"><img src="../../assets/company_logo/ecommerce_logo.png" width="100" alt="logo"></a>
+                            <a href="#"><img src="../../assets/company_logo/geo_khm.png" width="100" alt="logo"></a>
                         </div>
                         <div class="single-contact-info">
                             <span>Our Location</span>

@@ -9,7 +9,7 @@
                     class="flex flex-column align-items-center justify-content-center"
                 >
                     <img
-                        src="../../assets/company_logo/ecommerce_logo.png"
+                        src="../../assets/company_logo/geo_khm.png"
                         class="w-1 text-center"
                     />
                 </a>
@@ -27,7 +27,7 @@
                         >
                             <div class="text-center mb-5">
                                 <div class="text-900 text-3xl font-medium mb-3">
-                                    Welcome, E24market!
+                                    Welcome, GEO-KHM!
                                 </div>
                                 <span class="text-600 font-medium"
                                     >Sign in to continue</span
@@ -227,17 +227,17 @@ export default {
                                 );
                                 if (response.userType === "Admin") {
                                     this.$router.push({
-                                        path: "/vendor-dashboard/default-layouts",
+                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
                                     });
                                 }
                                 if (response.userType === "Vendor") {
                                     this.$router.push({
-                                        path: "/vendor-dashboard/default-layouts",
+                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
                                     });
                                 }
                                 if (response.userType === "Delivery") {
                                     this.$router.push({
-                                        path: "/vendor-dashboard/default-layouts",
+                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
                                     });
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({ path: "/" });

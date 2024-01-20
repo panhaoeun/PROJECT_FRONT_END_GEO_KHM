@@ -98,6 +98,11 @@ export default {
         proceedToCheckout: "Proceed to checkout",
         submitting: "Submitting"
     },
+    projectOrgStr: {
+        isRequired: "{type} is required",
+        thisProject: "{type} this project",
+        thisDepartment: "{type} this department",
+    },
     addressPopup: {
         country: "Country",
         order: "Order",
@@ -159,6 +164,7 @@ export default {
         sellerWithdrawRequest: 'Seller Withdraw',
         usersMS: 'Users',
         permissionMS: 'Permissions',
+        orgChat: 'ORG-Structures',
         orderReportAnalysisMS: 'Reports',
         ordersReportMS: 'Order Report',
         productsReportMS: 'Product Report',
