@@ -6,7 +6,7 @@ import DefaultLayoutVendor from "../components/layouts/vendors/DefaultLayouts.vu
 const defaultChildRoutes = (prefix) => [
     /**@User Managements**/
     {
-        path: '/vendor/user/list/crete-user-auth/ui-user-list',
+        path: '/',
         // redirect: '/vendor/product_managements/index',
         name: prefix + '.dashboard_modules',
         meta: {

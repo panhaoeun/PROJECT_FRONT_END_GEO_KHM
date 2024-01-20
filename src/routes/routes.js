@@ -14,7 +14,7 @@ import {
     createRouter
 } from "vue-router";
 // import moduleRouteVendor from "./vendors";
-import moduleRouteCustomer from "./customers";
+// import moduleRouteCustomer from "./customers";
 import moduleAuthentication from "./authencation";
 import moduleGlobalStep from "./globaStepper";
 import moduleErrorPage from "./errorPage";
@@ -45,7 +45,7 @@ export const constantRoutes = [{
     },
     ...moduleErrorPage,
     ...moduleAuthentication,
-    ...moduleRouteCustomer,
+    // ...moduleRouteCustomer,
     ...moduleGlobalStep,
     // ...moduleRouteVendor
 ]

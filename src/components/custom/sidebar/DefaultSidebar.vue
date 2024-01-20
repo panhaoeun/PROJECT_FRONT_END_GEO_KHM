@@ -1,7 +1,7 @@
 <template>
   <aside id="first-tour" :class="`sidebar sidebar-base ${sidebarColor} ${sidebarMenuStyle} ${sidebarType.join(' ')}`" data-toggle="main-sidebar" data-sidebar="responsive">
     <div class="sidebar-header d-flex align-items-center justify-content-start">
-      <router-link :to="{ path: '/' }" class="navbar-brand">
+      <router-link :to="{ path: '/vendor/user/list/crete-user-auth/ui-user-list' }" class="navbar-brand">
         <brand-logo></brand-logo>
             <h4 class="logo-title" data-setting="app_name">
               <brand-name></brand-name>
