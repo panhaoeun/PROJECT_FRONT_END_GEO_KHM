@@ -33,48 +33,53 @@
             <div class="col-12">
                 <el-card slot="header" class="box-card">
                     <div class="formgrid grid">
-                        <div class="col-4 lg:col-6 field">
+                        <!-- Manages Destination Base Org.Str (Board Mgt Projects) -->
+                        <div class="col-6 lg:col-6 field">
                             <label for="name_en" class="text-sm font-semibold"
                                 >Projects</label
                             >
-                            <Dropdown
-                                v-model="selectedProject"
-                                :options="optProjectByPermissionList"
-                                optionLabel="shop_eng"
-                                placeholder="Select a projects"
-                                class="w-full text-sm"
-                                inputId="shopEng"
-                                aria-describedby="dd-error"
-                            >
-                                <template #value="slotProps">
-                                    <div
-                                        v-if="slotProps.value"
-                                        class="flex align-items-center"
-                                    >
-                                        <div class="text-sm">
-                                            {{
-                                                slotProps.value?.project_name ??
-                                                ""
-                                            }}
+                            <div class="flex field flex-row">
+                                <Dropdown
+                                    v-model="selectedProject"
+                                    :options="optProjectByPermissionList"
+                                    optionLabel="shop_eng"
+                                    placeholder="Select a projects"
+                                    class="w-full text-sm"
+                                    inputId="shopEng"
+                                    aria-describedby="dd-error"
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    slotProps.value?.project_name ??
+                                                    ""
+                                                }}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <span v-else class="text-sm">
-                                        {{ slotProps.placeholder }}
-                                    </span>
-                                </template>
-                                <template #option="slotProps">
-                                    <div
-                                        class="flex align-items-center text-sm"
-                                    >
-                                        <div class="text-sm">
-                                            {{
-                                                slotProps.option
-                                                    ?.project_name ?? ""
-                                            }}
+                                        <span v-else class="text-sm">
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div
+                                            class="flex align-items-center text-sm"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    slotProps.option
+                                                        ?.project_name ?? ""
+                                                }}
+                                            </div>
                                         </div>
-                                    </div>
-                                </template>
-                            </Dropdown>
+                                    </template>
+                                </Dropdown>
+                                <!-- Manage Management Board.Mgr (Projects) -->
+                                <manage-org-structures-of-board-mgt-project/>
+                            </div>
                         </div>
                         <!-- Button Filter-->
                         <div class="col-12 lg:col-6 field">
@@ -89,7 +94,7 @@
                     </div>
                 </el-card>
             </div>
-            <!-- Permission Module Role List -->
+            <!--Manage Org-Structures(Designation) List-->
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <OrganizationChart
@@ -124,8 +129,15 @@
 <script>
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 import ManagePermissionsRoleBaseProject from "@/services/vendors/user_permissions/ManagePermissionRoleProjects";
+/**
+ * @Managements of Org.Str (Manage Org (Designation Org.Structures => Positions))
+ * */
+import ManageOrgStructuresOfBoardMgtProject from "./manage_org_strictures/ManageOrgStructuresOfBoardMgtProject.vue";
 
 export default {
+    components: {
+        ManageOrgStructuresOfBoardMgtProject
+    },
     data() {
         return {
             loadingDataRolesProject: false,
