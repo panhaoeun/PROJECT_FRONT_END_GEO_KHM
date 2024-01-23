@@ -8,11 +8,11 @@
             label="Manage Org Structure"
         />
         <!-- Manage Position BoardMgt-->
-        <org-str-mgt-project-positions/>
+        <org-str-mgt-project-positions />
         <!-- Manage Employee -->
         <Button
             aria-label="Add Org Structure"
-            severity="info" 
+            severity="info"
             class="border-round-sm w-10rem h-2rem text-sm"
             outlined
             label="Manage Employee"
@@ -21,10 +21,10 @@
 </template>
 <!-- Manage OrgStructures Board.Mgt -->
 <script>
-import OrgStrMgtProjectPositions  from './board_manager_org_str_project/AddNewPositionBoardMgtOrgStrPro';
+import OrgStrMgtProjectPositions from "./board_manager_org_str_project/manage_position_mgt_org/ListPositionBoardMgtOrgStrPro";
 export default {
     components: {
-        OrgStrMgtProjectPositions
+        OrgStrMgtProjectPositions,
     },
     props: {},
     data() {

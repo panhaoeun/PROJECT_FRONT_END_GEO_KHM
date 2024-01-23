@@ -4,11 +4,12 @@
         severity="help"
         class="border-round-sm w-10rem h-2rem text-sm"
         outlined
-        label="Position"
+        label="Add New Position"
+        @click="openDialogsAddPositionBoardMgtOrgPro()"
     />
-     <!-- Dialog Departments -->
+    <!-- Dialog Departments -->
     <Dialog
-        v-model:visible="visibleDialogProjectName"
+        v-model:visible="visibleDialogAddPositionBoardMgt"
         modal
         :style="{ width: '30rem' }"
         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
@@ -33,29 +34,33 @@
                         <label
                             :class="{
                                 'p-invalid border-round-lg border-round-lg p-error':
-                                    v$.orgDeptBoardMgtPositionName.$invalid && submitted,
+                                    v$.orgDeptBoardMgtPositionName.$invalid &&
+                                    submitted
                             }"
                         >
                             Position<span class="p-error">*</span>
                         </label>
                         <InputText
                             id="position_name"
-                            placeholder="Please Enter New Project Name"
+                            placeholder="Please Enter Position"
                             :input="v$.orgDeptBoardMgtPositionName.$touch"
                             v-model="v$.orgDeptBoardMgtPositionName.$model"
                             :oninput="v$.orgDeptBoardMgtPositionName.$touch()"
                             :onblur="v$.orgDeptBoardMgtPositionName.$touch()"
                             :class="{
                                 'p-invalid border-round-lg p-error':
-                                    v$.orgDeptBoardMgtPositionName.$invalid && submitted,
+                                    v$.orgDeptBoardMgtPositionName.$invalid &&
+                                    submitted,
                             }"
                             type="text"
                             class="text-sm border-round-lg"
                         />
                         <small
                             v-if="
-                                (v$.orgDeptBoardMgtPositionName.$invalid && submitted) ||
-                                v$.orgDeptBoardMgtPositionName.$pending.$response
+                                (v$.orgDeptBoardMgtPositionName.$invalid &&
+                                    submitted) ||
+                                v$.orgDeptBoardMgtPositionName.$pending
+                                    .$response
                             "
                             class="p-error text-sm"
                             >{{
@@ -84,16 +89,16 @@
         <template #footer>
             <Button
                 label="Cancel"
-                @click="cancelAddProjectNameOrgStr()"
+                @click="cancelAddBoardMgtOrgStr()"
                 outlined
             />
             <Button
-                :label="loadingSubmittedAddProject ? 'Save..' : 'Create'"
-                :loading="loadingSubmittedAddProject"
+                :label="loadingSubmittedPosMgtStr ? 'Save..' : 'Create'"
+                :loading="loadingSubmittedPosMgtStr"
                 icon="pi pi-save"
                 severity="danger"
                 class="w-8rem"
-                @click="submittedAddNewProjectNameOrgStr()"
+                @click="submittedAddNewBoardMgtOrgStrPro(!v$.$invalid)"
                 autofocus
             />
         </template>
@@ -103,13 +108,17 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
+import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
 export default {
     components: {},
     props: {},
     data() {
         return {
-            orgDeptBoardMgtPositionName: '',
-            orgDeptBoardMgtDescription: ''
+            orgDeptBoardMgtPositionName: "",
+            orgDeptBoardMgtDescription: "",
+            visibleDialogAddPositionBoardMgt: false,
+            loadingSubmittedPosMgtStr: false,
+            submitted: false,
         };
     },
     validations() {
@@ -125,12 +134,17 @@ export default {
             v$: useVuelidate(),
         };
     },
+    mixins: [manageOrgStrMgtPositionHelper],
     created() {},
-    methods: {},
-    mounted() {},
+    methods: {
+        cancelAddBoardMgtOrgStr() {
+            this.visibleDialogAddPositionBoardMgt = false;
+        },
+        openDialogsAddPositionBoardMgtOrgPro() {
+            this.visibleDialogAddPositionBoardMgt = true;
+        },
+    },
 };
 </script>
-<style scoped>
-</style>
-<style lang='scss' scoped>
-</style>
+<style scoped></style>
+<style lang="scss" scoped></style>

@@ -34,7 +34,7 @@
                 <el-card slot="header" class="box-card">
                     <div class="formgrid grid">
                         <!-- Manages Destination Base Org.Str (Board Mgt Projects) -->
-                        <div class="col-6 lg:col-6 field">
+                        <div class="col-8 lg:col-12 field">
                             <label for="name_en" class="text-sm font-semibold"
                                 >Projects</label
                             >
@@ -55,8 +55,8 @@
                                         >
                                             <div class="text-sm">
                                                 {{
-                                                    slotProps.value?.project_name ??
-                                                    ""
+                                                    slotProps.value
+                                                        ?.project_name ?? ""
                                                 }}
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                     </template>
                                 </Dropdown>
                                 <!-- Manage Management Board.Mgr (Projects) -->
-                                <manage-org-structures-of-board-mgt-project/>
+                                <manage-org-structures-of-board-mgt-project />
                             </div>
                         </div>
                         <!-- Button Filter-->
@@ -97,28 +97,7 @@
             <!--Manage Org-Structures(Designation) List-->
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
-                    <OrganizationChart
-                        v-model:selectionKeys="selection"
-                        :value="data"
-                        collapsible
-                        selectionMode="multiple"
-                    >
-                        <template #person="slotProps">
-                            <div class="flex flex-column">
-                                <div
-                                    class="flex flex-column align-items-center"
-                                >
-                                    <span class="font-bold mb-2">{{
-                                        slotProps.node.data.name
-                                    }}</span>
-                                    <span>{{ slotProps.node.data.title }}</span>
-                                </div>
-                            </div>
-                        </template>
-                        <template #default="slotProps">
-                            <span>{{ slotProps.node.label }}</span>
-                        </template>
-                    </OrganizationChart>
+                    <!-- Manage Org-Structures(Board Manager Project) -->
                 </el-card>
             </div>
         </div>
@@ -130,13 +109,13 @@
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 import ManagePermissionsRoleBaseProject from "@/services/vendors/user_permissions/ManagePermissionRoleProjects";
 /**
- * @Managements of Org.Str (Manage Org (Designation Org.Structures => Positions))
+ * @Managements of Org.Str -> Org-str Board Mgt (Manage Org (Designation Org.Structures => Positions))
  * */
 import ManageOrgStructuresOfBoardMgtProject from "./manage_org_strictures/ManageOrgStructuresOfBoardMgtProject.vue";
 
 export default {
     components: {
-        ManageOrgStructuresOfBoardMgtProject
+        ManageOrgStructuresOfBoardMgtProject,
     },
     data() {
         return {
