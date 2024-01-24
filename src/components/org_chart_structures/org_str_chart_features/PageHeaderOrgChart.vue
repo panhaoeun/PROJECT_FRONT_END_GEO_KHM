@@ -1,4 +1,4 @@
-<template lang="pug">
+<template>
     <div>asdsa</div>
 </template>
 <script>
@@ -13,7 +13,5 @@ export default {
     mounted() {},
 };
 </script>
-<style scoped>
-</style>
-<style lang='scss' scoped>
-</style>
+<style scoped></style>
+<style lang="scss" scoped></style>

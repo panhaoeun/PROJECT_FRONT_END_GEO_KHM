@@ -1,7 +1,6 @@
-// const panzoom = require('panzoom');
-// import "core-js/es/map";
-// import 'core-js/es/set';
-// const _ = require('lodash');
+import "core-js/es/map";
+import 'core-js/es/set';
+const _ = require('lodash');
 
 const state = {
     geoOrgDept: []
