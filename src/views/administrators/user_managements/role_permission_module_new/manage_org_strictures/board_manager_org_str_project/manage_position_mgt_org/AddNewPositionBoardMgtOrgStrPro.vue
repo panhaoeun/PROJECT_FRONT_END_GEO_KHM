@@ -28,7 +28,29 @@
             class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
         >
             <div class="pop-over-content p-20 p-sm-15 card">
-                <!-- Project Name -->
+                <!-- Departments -->
+                <div class="flex gap-15">
+                    <div class="input-wrap flex-1">
+                        <label> Parent Positions </label>
+                        <TreeSelect
+                            v-model="selectedParentDeptOrgStrBoardMgt"
+                            :options="getAllDeptOrgStrProvinceState"
+                            aria-labelledby="parentDeptId"
+                            placeholder="Select Positions..."
+                            aria-describedby="parentDeptId"
+                            selectionMode="single"
+                            display="comma"
+                            emptyMessage="No result found position..."
+                            filter
+                            showClear
+                            class="border-round-lg border-round-lg w-full"
+                        />
+                        <small class="text-sm flex text-blue-600"
+                            >Leave it blank to create parent position</small
+                        >
+                    </div>
+                </div>
+                <!-- Positions Name -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
                         <label

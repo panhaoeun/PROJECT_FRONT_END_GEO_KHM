@@ -98,6 +98,7 @@
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <!-- Manage Org-Structures(Board Manager Project) -->
+                    <manage-assign-org-chart-base-on-mgt-geo/>
                 </el-card>
             </div>
         </div>
@@ -112,10 +113,12 @@ import ManagePermissionsRoleBaseProject from "@/services/vendors/user_permission
  * @Managements of Org.Str -> Org-str Board Mgt (Manage Org (Designation Org.Structures => Positions))
  * */
 import ManageOrgStructuresOfBoardMgtProject from "./manage_org_strictures/ManageOrgStructuresOfBoardMgtProject.vue";
+import ManageAssignOrgChartBaseOnMgtGeo from "./manage_org_strictures/GlobalOrgChartOfGeoDeptPost.vue";
 
 export default {
     components: {
         ManageOrgStructuresOfBoardMgtProject,
+        ManageAssignOrgChartBaseOnMgtGeo
     },
     data() {
         return {
@@ -150,55 +153,6 @@ export default {
             routesModule: [],
             moduleDetailRoutes: [],
             checkOut: false,
-            data: {
-                key: "0",
-                type: "person",
-                data: {
-                    image: "",
-                    name: "",
-                    title: "CEO",
-                },
-                children: [
-                    {
-                        key: "0_0",
-                        type: "person",
-                        data: {
-                            image: "",
-                            name: "",
-                            title: "CMO",
-                        },
-                        children: [
-                            {
-                                key: "0_0_0",
-                                label: "Sales",
-                            },
-                            {
-                                key: '0_0_"1',
-                                label: "Marketing",
-                            },
-                        ],
-                    },
-                    {
-                        key: "0_1",
-                        type: "person",
-                        data: {
-                            image: "",
-                            name: "",
-                            title: "CTO",
-                        },
-                        children: [
-                            {
-                                key: "0_1_0",
-                                label: "Development",
-                            },
-                            {
-                                key: "0_1_1",
-                                label: "UI/UX Design",
-                            },
-                        ],
-                    },
-                ],
-            },
             selection: {},
         };
     },

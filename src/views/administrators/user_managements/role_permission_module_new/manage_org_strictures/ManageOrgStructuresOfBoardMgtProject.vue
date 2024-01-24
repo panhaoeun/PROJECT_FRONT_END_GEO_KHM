@@ -1,12 +1,7 @@
 <template>
     <div class="pl-2 gap-1 flex align-items-center justify-content-center">
         <!-- Manage Org Structures -->
-        <Button
-            aria-label="Add Org Structure"
-            class="border-round-sm w-11rem h-2rem text-sm text-danger"
-            outlined
-            label="Manage Org Structure"
-        />
+        <manage-org-structure-board-mgt-project/>
         <!-- Manage Position BoardMgt-->
         <org-str-mgt-project-positions />
         <!-- Manage Employee -->
@@ -22,9 +17,11 @@
 <!-- Manage OrgStructures Board.Mgt -->
 <script>
 import OrgStrMgtProjectPositions from "./board_manager_org_str_project/manage_position_mgt_org/ListPositionBoardMgtOrgStrPro";
+import ManageOrgStructureBoardMgtProject from "./board_manager_org_str_project/manage_org_chart_board_mgt/ManageOrgChartBoardMgt"
 export default {
     components: {
         OrgStrMgtProjectPositions,
+        ManageOrgStructureBoardMgtProject
     },
     props: {},
     data() {
