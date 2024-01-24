@@ -39,6 +39,10 @@ import GeoLocationVillages from "./geo_location_country/geo_villages";
 import OrgDeptStrCountry from "./org_sl_geo_dept_pos/org_dept_stru/geoDeptStruCountry";
 import OrgPosStrCountry from "./org_sl_geo_dept_pos/org_pos_stru/geoDepPositionCountry";
 import ProjectNameBaseOrgStr from "./org_sl_geo_dept_pos/org_project_dept/geoDeptProjectName";
+/**
+ *@Org-Structures Chart 
+**/
+import orgChartStructure from "./org_global_str_chart/orgChartStructure";
 
 const store = createStore({
     namespaced: true,
@@ -108,7 +112,12 @@ const store = createStore({
         * */ 
         orgDeptStrCou: OrgDeptStrCountry,
         orgPosStrCou: OrgPosStrCountry,
-        orgProjectsName: ProjectNameBaseOrgStr
+        orgProjectsName: ProjectNameBaseOrgStr,
+        /***
+         *@Manage - Org-structures Chart 
+        **/
+       orgStrChart: orgChartStructure
+
     },
 });
 // Load all modules.
