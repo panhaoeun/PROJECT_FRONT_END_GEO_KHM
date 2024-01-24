@@ -34,7 +34,7 @@
                 <el-card slot="header" class="box-card">
                     <div class="formgrid grid">
                         <!-- Manages Destination Base Org.Str (Board Mgt Projects) -->
-                        <div class="col-8 lg:col-12 field">
+                        <div class="col-6 lg:col-6 field">
                             <label for="name_en" class="text-sm font-semibold"
                                 >Projects</label
                             >
@@ -77,19 +77,8 @@
                                         </div>
                                     </template>
                                 </Dropdown>
-                                <!-- Manage Management Board.Mgr (Projects) -->
-                                <manage-org-structures-of-board-mgt-project />
+
                             </div>
-                        </div>
-                        <!-- Button Filter-->
-                        <div class="col-12 lg:col-6 field">
-                            <Button
-                                icon="pi pi-filter"
-                                class="btn btn-primary h-3rem w-10rem"
-                                label="Filters"
-                                :loading="loadingBtnFilter"
-                                @click="filterProjectFindAllRole()"
-                            />
                         </div>
                     </div>
                 </el-card>
@@ -98,7 +87,7 @@
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <!-- Manage Org-Structures(Board Manager Project) -->
-                    <manage-assign-org-chart-base-on-mgt-geo/>
+                    <manage-org-structures-of-board-mgt-project />
                 </el-card>
             </div>
         </div>
@@ -113,12 +102,11 @@ import ManagePermissionsRoleBaseProject from "@/services/vendors/user_permission
  * @Managements of Org.Str -> Org-str Board Mgt (Manage Org (Designation Org.Structures => Positions))
  * */
 import ManageOrgStructuresOfBoardMgtProject from "./manage_org_strictures/ManageOrgStructuresOfBoardMgtProject.vue";
-import ManageAssignOrgChartBaseOnMgtGeo from "./manage_org_strictures/GlobalOrgChartOfGeoDeptPost.vue";
 
 export default {
     components: {
         ManageOrgStructuresOfBoardMgtProject,
-        ManageAssignOrgChartBaseOnMgtGeo
+        // ManageAssignOrgChartBaseOnMgtGeo
     },
     data() {
         return {
