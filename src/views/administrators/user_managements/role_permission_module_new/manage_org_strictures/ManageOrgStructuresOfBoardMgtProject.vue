@@ -12,12 +12,12 @@
             outlined
             label="Manage Employee"
         />
-        <!-- Manage Org Chart Base Mgt GEO -->
-        <ManageAssignOrgChartBaseOnMgtGeo 
-            org-data=""
-            :isShowLabels="false"
-        />
     </div>
+    <!-- Manage Org Chart Base Mgt GEO -->
+    <ManageAssignOrgChartBaseOnMgtGeo 
+        org-data=""
+        :isShowLabels="false"
+    />
 </template>
 <!-- Manage OrgStructures Board.Mgt -->
 <script>
