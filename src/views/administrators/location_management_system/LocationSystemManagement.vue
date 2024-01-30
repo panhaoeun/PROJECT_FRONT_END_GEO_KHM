@@ -56,11 +56,11 @@
                                             submitted,
                                     }"
                                     :options="listOptCountry"
-                                    optionLabel="shop_eng"
+                                    optionLabel="geo_english_name"
                                     filter
                                     placeholder="Select a Country"
                                     class="w-full text-sm"
-                                    inputId="shopEng"
+                                    inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
                                     <template #value="slotProps">
@@ -135,12 +135,12 @@
                                             v$.selectStateProvinceOpt
                                                 .$invalid && submitted,
                                     }"
-                                    optionLabel="shop_eng"
+                                    optionLabel="geo_english_name"
                                     @click="selectedProvinceStateFilter()"
                                     filter
                                     placeholder="Select a Province or State"
                                     class="w-full text-sm"
-                                    inputId="shopEng"
+                                    inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
                                     <template #value="slotProps">
@@ -254,8 +254,13 @@
                                         >
                                             <div class="text-sm">
                                                 {{
-                                                    geoNameToTitleCase(String(slotProps.option
-                                                        .geo_english_name ?? ""))
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.option
+                                                                .geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
                                                 }}
                                                 ({{
                                                     slotProps.option
@@ -296,7 +301,7 @@
                                     placeholder="Select a Commune"
                                     class="w-full text-sm"
                                     @click="selectedCommuneByFilter()"
-                                    inputId="shopEng"
+                                    inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
                                     <template #value="slotProps">
@@ -306,8 +311,13 @@
                                         >
                                             <div class="text-sm">
                                                 {{
-                                                    geoNameToTitleCase(String(slotProps.value
-                                                        ?.geo_english_name ?? ""))
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.value
+                                                                ?.geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
                                                 }}
                                                 ({{
                                                     slotProps.value
@@ -325,8 +335,13 @@
                                         >
                                             <div class="text-sm">
                                                 {{
-                                                    geoNameToTitleCase(String(slotProps.option
-                                                        .geo_english_name ?? ''))
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.option
+                                                                .geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
                                                 }}
                                                 ({{
                                                     slotProps.option
