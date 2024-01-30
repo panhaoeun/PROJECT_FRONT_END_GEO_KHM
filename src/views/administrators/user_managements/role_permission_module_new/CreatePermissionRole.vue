@@ -867,7 +867,6 @@ export default {
     },
     mounted() {
         this.getAllProjectObj();
-        this.getPermissionsManagementBaseProject();
         this.getGeoLocationCountry();
     },
     methods: {
@@ -1080,35 +1079,6 @@ export default {
             } catch (error) {
                 return Promise.reject(error.message || []);
             }
-        },
-        // Get Tree Permissions
-        getPermissionsManagementBaseProject() {
-            this.managerPermissionBaseOnProject
-                ?.getAllPermissionAddByProjects()
-                .then((permissions) => {
-                    try {
-                        /**
-                         * @Tree Table Permissions
-                         */
-                        if (
-                            !Array.isArray(permissions) ||
-                            !permissions?.length > 0
-                        ) {
-                            this.dataPermissionTreeTable = [];
-                        }
-                        if (
-                            !Array.isArray(permissions) ||
-                            permissions !== undefined ||
-                            permissions !== null
-                        ) {
-                            this.dataPermissionTreeTable = permissions
-                                ? permissions
-                                : "";
-                        }
-                    } catch (error) {
-                        return Promise.reject(error);
-                    }
-                });
         },
         // Get Select All Permissions Change
         toggleSelectionClearItem(rows) {

@@ -92,6 +92,7 @@ const scrollBehavior = (to, from, savedPosition) => {
 const routerModules = () => new createRouter({
     mode: 'history', // require service support
     history: createWebHistory(),
+    saveScrollPosition: true,
     scrollBehavior,
     base: process.env.BASE_URL,
     linkActiveClass: 'router-link-active',

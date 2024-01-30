@@ -28,6 +28,7 @@
                             <!-- Country filter -->
                             <div class="col-4 lg:col-6 field">
                                 <label for="name_en" class="text-sm font-semibold">Country</label>
+
                                 <Dropdown 
                                     showClear
                                     v-model="v$.selectedCountryOpt.$model"

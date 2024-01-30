@@ -24,7 +24,7 @@
                 class="inline-flex align-items-center justify-content-center gap-2"
             >
                 <span class="font-bold white-space-nowrap">
-                    Manage Projects
+                    Manage Position
                 </span>
             </div>
         </template>

@@ -31,6 +31,52 @@
                 <!-- Departments -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
+                        <label
+                            :class="{
+                                'p-invalid border-round-lg border-round-lg p-error':
+                                    v$.orgDeptBoardMgtBaseEmpId.$invalid &&
+                                    submitted,
+                            }"
+                        >
+                            Department of Org.Structure
+                        </label>
+                        <TreeSelect
+                            v-model="v$.orgDeptBoardMgtBaseEmpId.$model"
+                            :options="getAllDeptOrgStrProvinceState"
+                            aria-labelledby="parentDeptId"
+                            placeholder="Select Department of Org.Structure..."
+                            aria-describedby="parentDeptId"
+                            :class="{
+                                'p-invalid border-round-lg p-error':
+                                    v$.orgDeptBoardMgtBaseEmpId.$invalid &&
+                                    submitted,
+                            }"
+                            selectionMode="single"
+                            display="comma"
+                            emptyMessage="No result found department..."
+                            filter
+                            showClear
+                            class="border-round-lg border-round-lg w-full"
+                        />
+                        <small
+                            v-if="
+                                (v$.orgDeptBoardMgtBaseEmpId.$invalid &&
+                                    submitted) ||
+                                v$.orgDeptBoardMgtBaseEmpId.$pending.$response
+                            "
+                            class="p-error text-sm"
+                            >{{
+                                v$.orgDeptBoardMgtBaseEmpId.required.$message.replace(
+                                    "Value",
+                                    "Department"
+                                )
+                            }}
+                        </small>
+                    </div>
+                </div>
+                <!-- Departments -->
+                <div class="flex gap-15">
+                    <div class="input-wrap flex-1">
                         <label> Parent Positions </label>
                         <TreeSelect
                             v-model="selectedParentDeptOrgStrBoardMgt"
@@ -50,21 +96,21 @@
                         >
                     </div>
                 </div>
-                <!-- Positions Name -->
+                <!-- Positions English Name -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
                         <label
                             :class="{
                                 'p-invalid border-round-lg border-round-lg p-error':
                                     v$.orgDeptBoardMgtPositionName.$invalid &&
-                                    submitted
+                                    submitted,
                             }"
                         >
-                            Position<span class="p-error">*</span>
+                            English Name<span class="p-error">*</span>
                         </label>
                         <InputText
                             id="position_name"
-                            placeholder="Please Enter Position"
+                            placeholder="Please Enter English Name"
                             :input="v$.orgDeptBoardMgtPositionName.$touch"
                             v-model="v$.orgDeptBoardMgtPositionName.$model"
                             :oninput="v$.orgDeptBoardMgtPositionName.$touch()"
@@ -92,6 +138,23 @@
                                 )
                             }}
                         </small>
+                    </div>
+                </div>
+                <!-- Position Khmer Name -->
+                 <div class="flex gap-15">
+                    <div class="input-wrap flex-1">
+                        <label
+                        >
+                            Khmer Name
+                        </label>
+                        <InputText
+                            id="position_name"
+                            placeholder="Please Enter English Name"
+                            :input="orgDeptBoardMgtPositionKhmerName"
+                            v-model="orgDeptBoardMgtPositionKhmerName"
+                            type="text"
+                            class="text-sm border-round-lg"
+                        />
                     </div>
                 </div>
                 <!-- Descriptions -->
@@ -141,6 +204,8 @@ export default {
             visibleDialogAddPositionBoardMgt: false,
             loadingSubmittedPosMgtStr: false,
             submitted: false,
+            orgDeptBoardMgtBaseEmpId: null,
+            orgDeptBoardMgtPositionKhmerName: ''
         };
     },
     validations() {
@@ -148,6 +213,9 @@ export default {
             orgDeptBoardMgtPositionName: {
                 required,
                 minLength: minLength(3),
+            },
+            orgDeptBoardMgtBaseEmpId: {
+                required,
             },
         };
     },
