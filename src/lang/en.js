@@ -172,7 +172,7 @@ export default {
         introduction: 'Introduction',
         documentation: 'Documentation',
         guide: 'Guide',
-        homeModule: 'Home',
+        homeModule: '',
         role: 'Role',
         roleName: 'Role Name',
         permission: 'Permission',

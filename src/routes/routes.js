@@ -5,7 +5,9 @@
 | Contains all of the routes for the application
 */
 import DefaultLayoutVendor from "../components/layouts/vendors/DefaultLayouts.vue";
-
+import {
+    isLoggedIn
+} from "@/utils/auth/auth";
 /*
     Imports Vue and VueRouter to extend with the routes.
 */
@@ -104,4 +106,23 @@ export function resetRouter() {
     const newRouter = routerModules();
     router.matcher = newRouter.matcher; // reset router
 }
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // this route requires auth, check if logged in
+        // if not, redirect to login page.
+        let signedIn = isLoggedIn();
+        if (!signedIn) {
+            next({
+                path: '/auth/login',
+                query: {
+                    redirect: to.fullPath
+                }
+            })
+        } else {
+            next()
+        }
+    } else {
+        next() // make sure to always call next()!
+    }
+})
 export default router;
