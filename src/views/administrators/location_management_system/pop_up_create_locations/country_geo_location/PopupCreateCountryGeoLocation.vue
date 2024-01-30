@@ -72,7 +72,7 @@
                     <button
                         class="ajax-btn outline-btn plr-20 mtb-5 border-round"
                         v-show="index != 0"
-                        @click.prevent="popUpCreateProvinceState()"
+                        @click.prevent="addMoreProvinceState()"
                     >
                         <span>Add More</span>
                     </button>
