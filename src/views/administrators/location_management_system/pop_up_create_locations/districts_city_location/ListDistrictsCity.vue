@@ -76,7 +76,7 @@
                 </Column>
                 <Column field="geo_english_name" header="Latin Name" sortField="geo_english_name" sortable>
                     <template #body="{ data }">
-                        {{ data?.geo_english_name }}
+                        {{ geoNameToTitleCaseDistrict(String((data?.geo_english_name))) }}
                     </template>
                 </Column>
                 <Column field="geo_longitude_location" header="Longitude" sortField="geo_longitude_location" sortable>
@@ -173,6 +173,13 @@ export default {
         };
     },
     methods: {
+        geoNameToTitleCaseDistrict(str) {
+            return str
+                .toLowerCase()
+                .replace(/(^|\s|-|')(\w)/g, function (match) {
+                    return match.toUpperCase();
+                });
+        },
         ...mapActions('common', ['fetchLocation', 'setToastMessage', 'setToastError', 'getRequest']),
         popUpCreateProvinceState(){
             this.openDialogDistrict = true;
