@@ -40,13 +40,15 @@
                             >
                             <div class="flex field flex-row">
                                 <Dropdown
+                                    showClear
                                     v-model="selectedProject"
                                     :options="optProjectByPermissionList"
-                                    optionLabel="shop_eng"
+                                    optionLabel="project_name"
                                     placeholder="Select a projects"
                                     class="w-full text-sm"
-                                    inputId="shopEng"
+                                    inputId="project_name"
                                     aria-describedby="dd-error"
+                                    filter
                                 >
                                     <template #value="slotProps">
                                         <div
@@ -77,7 +79,6 @@
                                         </div>
                                     </template>
                                 </Dropdown>
-
                             </div>
                         </div>
                     </div>

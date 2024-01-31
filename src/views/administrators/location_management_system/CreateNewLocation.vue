@@ -50,7 +50,7 @@
                                             :options="allCountry"
                                             optionLabel="geo_english_name"
                                             filter
-                                            @click.stop="onChangeSelectedCountry()"
+                                            @change="onChangeSelectedCountry()"
                                             placeholder="Select a Country"
                                             class="w-full text-sm"
                                             inputId="shopEng"
@@ -61,7 +61,6 @@
                                                     v-if="slotProps.value"
                                                     class="flex align-items-center"
                                                 >
-                                                    <!-- <img :alt="slotProps.value?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.geo_location_01.toLowerCase()}`" style="width: 18px" /> -->
                                                     <div class="text-sm">
                                                         {{
                                                             geoNameToTitleCase(
@@ -88,7 +87,6 @@
                                                 <div
                                                     class="flex align-items-center text-sm"
                                                 >
-                                                    <!-- <img :alt="slotProps.option?.geo_english_name" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.geo_location_01.toLowerCase()}`" style="width: 18px" /> -->
                                                     <div class="text-sm">
                                                         {{
                                                             geoNameToTitleCase(
@@ -194,6 +192,8 @@
                                         v-if="selectedCountry !== null"
                                         :countryProvinceId="
                                             getCountryIdOptSelectedProvince
+                                                ? getCountryIdOptSelectedProvince
+                                                : ''
                                         "
                                     />
                                 </div>
@@ -201,10 +201,7 @@
                             <!-- City / Districts -->
                             <div
                                 class="col-6 field"
-                                v-if="
-                                    selectStateProvinceOptAddNew !== null &&
-                                    selectedCountry !== null
-                                "
+                                v-if="selectStateProvinceOptAddNew !== null"
                             >
                                 <label
                                     for="country"
@@ -280,10 +277,12 @@
                                     <PopupCreateDistrict
                                         v-if="
                                             selectStateProvinceOptAddNew !==
-                                                null && selectedCountry !== null
+                                            null
                                         "
                                         :geoDistrictSSNProvinceId="
                                             getProvinceIdOptSelectedDistrict
+                                                ? getProvinceIdOptSelectedDistrict
+                                                : ''
                                         "
                                     />
                                 </div>
@@ -291,11 +290,7 @@
                             <!-- Town / Commune -->
                             <div
                                 class="col-6 field"
-                                v-if="
-                                    selectSDistrictOptAddNew !== null &&
-                                    selectStateProvinceOptAddNew !== null &&
-                                    selectedCountry !== null
-                                "
+                                v-if="selectSDistrictOptAddNew !== null"
                             >
                                 <label
                                     for="country"
@@ -372,21 +367,21 @@
                                         v-if="selectSDistrictOptAddNew !== null"
                                         :geoDistrictSSNCommuneId="
                                             getDistrictIdOptSelectedCommune
+                                                ? getDistrictIdOptSelectedCommune
+                                                : ''
                                         "
                                     />
                                 </div>
                             </div>
                             <!-- Villages for Town or Commune -->
                             <geo-village-by-commune-town-popup
-                                v-if="
-                                    selectStateProvinceOptAddNew !== null &&
-                                    selectSDCommuneCityOptAddNew !== null &&
-                                    selectSDistrictOptAddNew !== null &&
-                                    selectedCountry !== null
-                                "
+                                v-if="selectSDCommuneCityOptAddNew !== null"
                                 :geoDistrictSSNVillageId="
                                     getCommuneIdOptSelectedVillage
+                                        ? getCommuneIdOptSelectedVillage
+                                        : ''
                                 "
+                                :geoVillageName="selectSDCommuneCityOptAddNew"
                             />
                         </div>
                     </div>
@@ -422,6 +417,7 @@ export default {
             selectSDCommuneCityOptAddNew: null,
             countryProvinceIdOptSelected: null,
             geoDistrictSSNProvinceOptSelected: null,
+            ssnCommuneByVillageCodeId: null,
             geoCountryId: null,
             ssnDistrictCodeId: null,
             setDistrictCountryAddNew: [],
@@ -462,7 +458,7 @@ export default {
                 this.selectedCountry !== null
             ) {
                 const getCountryOptSelected =
-                    String(this.selectedCountry?.geo_ssn_location) ?? "";
+                    this.selectedCountry?.geo_ssn_location ?? "";
                 return getCountryOptSelected;
             }
             return null;
@@ -518,14 +514,14 @@ export default {
         ...mapActions("geoDistrict", ["getAllDistrictActions"]),
         ...mapActions("geoCommune", ["getAllCommuneActions"]),
         ...mapActions("geoVillages", ["getAllVillagesActions"]),
-        onChangeSelectedCountry(){
-            // if (
-            //     !Array.isArray(this.selectedCountry) ||
-            //     this.selectedCountry !== undefined ||
-            //     this.selectedCountry !== null
-            // ) {
-
-            // }
+        onChangeSelectedCountry() {
+            if (
+                !Array.isArray(this.selectedCountry) ||
+                this.selectedCountry !== undefined ||
+                this.selectedCountry !== null
+            ) {
+                this.selectStateProvinceOptAddNew = null;
+            }
         },
         // Case Title
         geoNameToTitleCase(str) {
@@ -542,6 +538,16 @@ export default {
                 !countryParentId?.length > 0
             ) {
                 this.selectStateProvinceOptAddNew = null;
+            }
+            /**
+             * @Check Clear District
+             * */
+            if (
+                !Array.isArray(this.selectStateProvinceOptAddNew) ||
+                this.selectStateProvinceOptAddNew !== undefined ||
+                this.selectStateProvinceOptAddNew !== null
+            ) {
+                this.selectSDistrictOptAddNew = null;
             }
             try {
                 if (
@@ -573,6 +579,16 @@ export default {
                 !provinceParentId?.length > 0
             ) {
                 this.selectSDistrictOptAddNew = null;
+            }
+            /**
+             * @Check Clear Commune
+             * */
+            if (
+                !Array.isArray(this.selectSDistrictOptAddNew) ||
+                this.selectSDistrictOptAddNew !== undefined ||
+                this.selectSDistrictOptAddNew !== null
+            ) {
+                this.selectSDCommuneCityOptAddNew = null;
             }
             try {
                 if (
@@ -616,9 +632,9 @@ export default {
                             ? districtParentId?.geo_ssn_location
                             : "";
                     const geoLocationProvinceType = "T4";
-                    this.ssnCommuneCodeId = ssnSuperProvinceCodeLocationGeo
+                    this.ssnCommuneByVillageCodeId = ssnSuperProvinceCodeLocationGeo
                         ? ssnSuperProvinceCodeLocationGeo
-                        : [];
+                        : null;
                     this.getGeoLocationCommuneCapitalByCountryAddNew(
                         geoLocationProvinceType,
                         ssnSuperProvinceCodeLocationGeo

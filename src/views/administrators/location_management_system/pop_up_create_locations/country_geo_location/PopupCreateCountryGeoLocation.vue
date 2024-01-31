@@ -10,12 +10,6 @@
         </template>
         <!-- Add new Geo Location -->
         <button
-            v-permission="[
-                {
-                    functionName: 'location_ms_system_module',
-                    moduleName: 'fun_create',
-                },
-            ]"
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus"
             type="button"
@@ -46,12 +40,6 @@
         >
             <button
                 @click.prevent="addMoreProvinceState()"
-                v-permission="[
-                    {
-                        functionName: 'location_ms_system_module',
-                        moduleName: 'fun_create',
-                    },
-                ]"
                 class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             >
                 <span>Add new goe country</span>
@@ -415,7 +403,7 @@
 <!-- Popup Province or State -->
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, numeric } from "@vuelidate/validators";
 import { reactive } from "vue";
 import GeoLocationOfCountryListPopup from "./ListPopupCountryGeoLocation.vue";
 import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
@@ -431,6 +419,7 @@ export default {
                 $each: helpers.forEach({
                     stateCode: {
                         required,
+                        numeric
                     },
                     stateKhmerName: {
                         required,
@@ -542,7 +531,7 @@ export default {
             for (let index = 0; index < arrayCountry.length; index++) {
                 let obj = {};
                 const countryIndex = arrayCountry[index];
-                (obj.addNewGeoCountryZipCode = countryIndex?.stateCode),
+                (obj.addNewGeoCountryZipCode = String(countryIndex?.stateCode)),
                     (obj.addNewGeoCountryKhmerName =
                         countryIndex?.stateKhmerName),
                     (obj.addNewGeoCountryEnglishName =

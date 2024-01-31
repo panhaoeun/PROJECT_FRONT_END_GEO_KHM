@@ -1,14 +1,9 @@
 <template>
     <div class="pl-2 gap-2 flex align-items-center justify-content-center">
+        <Toast />
         <!-- View all geo location-province -->
         <GeoLocationOfDistrictListPopup />
         <button
-            v-permission="[
-                {
-                    functionName: 'location_ms_system_module',
-                    moduleName: 'fun_create',
-                },
-            ]"
             class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
             icon="pi pi-plus"
             type="button"
@@ -40,12 +35,6 @@
             <button
                 @click.prevent="addMoreProvinceState()"
                 class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round"
-                v-permission="[
-                    {
-                        functionName: 'location_ms_system_module',
-                        moduleName: 'fun_create',
-                    },
-                ]"
             >
                 <span>Add new district</span>
             </button>
@@ -410,7 +399,7 @@
 <!-- Popup Province or State -->
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, numeric } from "@vuelidate/validators";
 import { reactive } from "vue";
 import GeoLocationOfDistrictListPopup from "./ListDistrictsCity.vue";
 import GeoLocationsManagementServices from "@/services/administrator/geo_locations_managements/GeoLocationManagementServices";
@@ -426,6 +415,7 @@ export default {
                 $each: helpers.forEach({
                     stateCode: {
                         required,
+                        numeric,
                     },
                     stateKhmerName: {
                         required,
@@ -459,7 +449,9 @@ export default {
     props: {
         geoDistrictSSNProvinceId: {
             type: String,
-            default: "",
+            default() {
+                return null;
+            },
         },
     },
     components: {
@@ -522,11 +514,34 @@ export default {
             const initialData = this.$options.data.call(this);
             Object.assign(this.$data, initialData);
         },
-        submittedProvinceState() {
+        async submittedProvinceState() {
             this.submitted = true;
             this.v.$touch();
             // stop here if form is invalid
             if (this.v.$invalid) return;
+            const isFormCorrect = await this.v.$validate();
+            // you can show some extra alert to the user or just leave the each field to show it's `$errors`.
+            if (isFormCorrect !== true || isFormCorrect == false) {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "Please Fix Below Errors.",
+                    detail: "Please input filed district have missing value!",
+                    life: 3000,
+                });
+                return false;
+            }
+            if (!isFormCorrect) return;
+            // Check Selected Province
+            if (
+                !this.geoDistrictSSNProvinceId ||
+                this.geoDistrictSSNProvinceId === null
+            ) {
+                this.$notify.error({
+                    title: "Please selected province",
+                    message: "Selected province is required",
+                });
+                throw new Error("Please selected province is required");
+            }
 
             let arrayProvinceDistrictObj = [];
             const arrayDistrictProvince = this.state?.moreProvinceState
@@ -538,7 +553,9 @@ export default {
                 obj.geoSuperSSNDistrictCountry = this.geoDistrictSSNProvinceId
                     ? this.geoDistrictSSNProvinceId
                     : null;
-                (obj.addNewGeoCountryDistrictZipCode = countryIndex?.stateCode),
+                (obj.addNewGeoCountryDistrictZipCode = String(
+                    countryIndex?.stateCode
+                )),
                     (obj.addNewGeoCountryDistrictKhmerName =
                         countryIndex?.stateKhmerName),
                     (obj.addNewGeoCountryDistrictEnglishName =

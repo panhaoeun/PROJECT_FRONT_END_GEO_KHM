@@ -53,7 +53,7 @@
                 <!-- Search Input Filter -->
                 <template #header>
                     <div class="flex flex-wrap  justify-content-between gap-2">
-                        <p>Country</p>
+                        <p>Villages</p>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
                             <InputText v-model="filtersGeoVillage['global'].value" placeholder="Search country" />
@@ -200,7 +200,7 @@ export default {
         popUpEditVillageByCommune(){
             this.openDialogVillageCommune = true;
             //Village List with query by commune
-            const superSSNVillagesCode = this.geoLocalVillage.geo_ssn_location;
+            const superSSNVillagesCode = this.geoLocalVillage ? this.geoLocalVillage : '';
             this.getAllVillagesActions(superSSNVillagesCode);
         },
         onRowEditSave(event) {
