@@ -1,18 +1,16 @@
 <template>
     <div class="pl-2 gap-1 flex align-items-center">
         <!-- Manage Org Structures -->
-        <manage-org-structure-board-mgt-project/>
+        <manage-org-structure-board-mgt-project 
+            :manageRootProjectId="getBoardMgtRootProjectId ? getBoardMgtRootProjectId : 0"
+        />
         <!-- Manage Departments -->
         <!-- <manage-org-structure-board-mgt-dept-emp-project/> -->
         <!-- Manage Position BoardMgt-->
-        <org-str-mgt-project-positions/>
-        
+        <org-str-mgt-project-positions />
     </div>
     <!-- Manage Org Chart Base Mgt GEO -->
-    <ManageAssignOrgChartBaseOnMgtGeo 
-        org-data=""
-        :isShowLabels="false"
-    />
+    <ManageAssignOrgChartBaseOnMgtGeo org-data="" :isShowLabels="false" />
 </template>
 <!-- Manage OrgStructures Board.Mgt -->
 <script>
@@ -26,15 +24,29 @@ export default {
         OrgStrMgtProjectPositions,
         ManageOrgStructureBoardMgtProject,
         // ManageOrgStructureBoardMgtDeptEmpProject,
-        ManageAssignOrgChartBaseOnMgtGeo
+        ManageAssignOrgChartBaseOnMgtGeo,
     },
-    props: {},
-    data() {
-        return {};
+    props: {
+        manageRootBoardProjectId: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
     },
-    created() {},
-    methods: {},
-    mounted() {},
+    computed: {
+        getBoardMgtRootProjectId() {
+            const getProjectIdDept = this.manageRootBoardProjectId
+                ? this.manageRootBoardProjectId
+                : 0;
+            if (
+                !getProjectIdDept ||
+                (getProjectIdDept > 0 && getProjectIdDept !== null)
+            ) {
+                return getProjectIdDept ? getProjectIdDept : 0;
+            }
+            return getProjectIdDept;
+        },
+    },
 };
 </script>
 <style scoped></style>

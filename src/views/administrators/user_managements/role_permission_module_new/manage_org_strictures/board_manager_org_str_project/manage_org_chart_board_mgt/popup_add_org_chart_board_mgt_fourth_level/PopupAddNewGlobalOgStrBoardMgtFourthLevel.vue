@@ -22,7 +22,7 @@
                 class="inline-flex align-items-center justify-content-center gap-2"
             >
                 <span class="font-bold white-space-nowrap"
-                    >Add New Structure Level 01</span
+                    >Add New Structure Level 04</span
                 >
             </div>
         </template>
@@ -34,10 +34,16 @@
                 <!-- Departments -->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
-                        <label> Parent Org Structure Level 01 </label>
+                        <label> Parent Org Structure Level 03 </label>
                         <Dropdown
-                            v-model="selectedParentDeptOrgStrBoardMgt"
-                            :options="getAllDeptOrgStrProvinceState"
+                            :options="getAllDeptOrgStrMgtOrg"
+                            v-model="v$.selectedParentDeptOrgStrBoardMgt.$model"
+                            :oninput="
+                                v$.selectedParentDeptOrgStrBoardMgt.$touch()
+                            "
+                            :onblur="
+                                v$.selectedParentDeptOrgStrBoardMgt.$touch()
+                            "
                             aria-labelledby="parentDeptId"
                             placeholder="Select Department..."
                             aria-describedby="parentDeptId"
@@ -48,9 +54,9 @@
                             showClear
                             class="border-round-lg border-round-lg w-full"
                         />
-                        <small class="text-sm flex text-blue-600"
-                            >Leave it blank to create parent org-structure level
-                            01</small
+                        <small class="text-sm text-red flex text-blue-600"
+                            >Please selected root level (Level 01) of
+                            org-structure</small
                         >
                     </div>
                 </div>
@@ -131,7 +137,7 @@
                 icon="pi pi-save"
                 severity="danger"
                 class="w-8rem"
-                @click="submittedAddNewOrgStrBoardMgt()"
+                @click="submittedAddOrgStrLevelFourthBaseOnSecond()"
                 autofocus
             />
         </template>
@@ -139,7 +145,8 @@
 </template>
 <!-- Script of Org-Strictures -->
 <script>
-import geoOrgStrDeptProvinceStateHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptProStateHelper";
+import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
+import manageOrgChartBoardMgtFourthLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtFourthHelper";
 import ManagePermissionsGeoFencePositionPermissionsServices from "@/services/administrator/geo_admin_position_manage_permissions/GeoAdminPositionPermissionsManagementServices";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
@@ -151,12 +158,18 @@ export default {
         };
     },
     props: {
-        deptProjectId: {
+        deptSecondLevelProjectId: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
+        deptCountrySecondLevelId: {
             type: Number,
             default: 0,
         },
-        deptCountryId: {
+        deptOrgStrRootLevelId: {
             type: Number,
+            required: true,
             default: 0,
         },
     },
@@ -166,9 +179,15 @@ export default {
                 required,
                 minLength: minLength(3),
             },
+            selectedParentDeptOrgStrBoardMgt: {
+                required,
+            },
         };
     },
-    mixins: [geoOrgStrDeptProvinceStateHelper],
+    mixins: [
+        manageOrgChartBoardMgtLevelHelper,
+        manageOrgChartBoardMgtFourthLevelHelper
+    ],
     data() {
         return {
             orgDeptStrCountryList: [],

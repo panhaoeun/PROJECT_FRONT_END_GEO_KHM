@@ -12,18 +12,6 @@ export default {
         getAllDeptOrgStrMgtOrg() {
             return this.allOrgBoardDeptStructureChart || [];
         },
-        getAllDeptOrgStrBoardSecondLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
-        },
-        getAllDeptOrgStrBoardThirdLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
-        },
-        getAllDeptOrgStrBoardFourLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
-        },
-        getAllDeptOrgStrBoardFiveLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
-        }
     },
     methods: {
         ...mapActions('orgStrDeptPosGeo', ['getAllGeoPositionDeptManageChart']),
@@ -33,32 +21,6 @@ export default {
         async getGloAllOrgStructureOptSelectedMultiChild(orgLevel, orgCountry, orgProjectId){
             console.log(orgLevel, orgCountry, orgProjectId)
         },  
-        // ----------------------- add new position in department structure chart - start
-        async btnSubmittedAddNewOrgStrMultiLevel(validate) {
-            this.loadingSubmittedAddNew = true;
-            this.submitted = true;
-            setTimeout(async () => {
-                this.loadingSubmittedAddNew = false;
-                if (!this.selectedOptOrgChartRootLevel !== "") {
-                    const validation = await this.v$.$validate();
-                    if (validation === false) {
-                        const errorValidation = this.v$.$errors;
-                        this.$notify.error({
-                            title: "Please selected org.structure level in required",
-                            message: errorValidation[0]?.$message ?
-                                errorValidation[0]?.$message :
-                                null,
-                            showClose: true,
-                        });
-                    }
-                }
-                // Validate
-                this.v$.$touch();
-                if (!validate) {
-                    return;
-                }
-            }, 1000);
-        },
         // Manage Org-structure and update data to Geo Projects table
         async submittedAddOrgStrMultiLevelGeoProjected() {
             try {
@@ -66,20 +28,31 @@ export default {
                 this.submitted = true;
                 setTimeout(async () => {
                     const getOptSelectedProId = parseInt(this.deptProjectIdAddNew) ? parseInt(this.deptProjectIdAddNew) : 0;
+                    const optSelectedRootLevel = this.secondBoardMgtLevelParentLevelId  ? this.secondBoardMgtLevelParentLevelId : 0;
+                    if (!optSelectedRootLevel || optSelectedRootLevel < 0 || typeof optSelectedRootLevel !== 'number' || optSelectedRootLevel !== 0){
+                        this.optSelectedRootLevel = 0;
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please selected root-level in required.",
+                            detail: "Please input filed root-level have missing value!",
+                            life: 3000
+                        });
+                        return false;
+                    }
                     if (!getOptSelectedProId || getOptSelectedProId <0 || typeof getOptSelectedProId !== 'number') {
-                         this.$toast.add({
+                        this.$toast.add({
                             severity: "error",
                             summary: "Please selected projected in required.",
                             detail: "Please input filed district have missing value!",
                             life: 3000
-                         });
+                        });
                         return false;
                     }
                     if (!this.orgStrBoardMgtEnglishName || this.orgStrBoardMgtEnglishName !== null && this.orgStrBoardMgtEnglishName !== '') {
                         const addNewOrgStrMgtPosDept = {
                             addNewSuperDeptOrgStrIdBySelectedParent: String(this.orgStrBoardMgtEnglishName),
-                            addNewMgrDeptOrgStrId: 0,
-                            addNewOrgChartLevel: 'SL01',
+                            addNewMgrDeptOrgStrId: optSelectedRootLevel ? optSelectedRootLevel : 0,
+                            addNewOrgChartLevel: 'SL02',
                             addNewOrgChartProId: getOptSelectedProId ? getOptSelectedProId : 0,
                             addNewOrgChartCountryId: this.deptCountryId ? this.deptCountryId : 0,
                             addNewOrgChartStrKhmerName: String(this.orgStrBoardMgtEnglishName) ? String(this.orgStrBoardMgtEnglishName) : '',
@@ -97,15 +70,15 @@ export default {
                                 this.loadingSubmittedAddMgtBoardStrOrg = false;
                                 this.visibleDialogOrgStrBoardMgt = false;
                                 // Reload Data In Datable in Dept org-str root level
-                                const orgLevelDeptBoard = "SL01";
+                                const orgLevelDeptBoard = "SL02";
                                 const rogLevelDeptBoardCountry = this.deptCountryId ? this.deptCountryId : 0;
                                 const orgLevelDeptBoarProId = getOptSelectedProId ? getOptSelectedProId : 0;
-                                this.fetchingDataGeoOrgChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId);
+                                this.fetchingDataGeoOrgSecondChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId);
                                 this.visibleDialogDepartment = false;
                                 this.$toast.add({
                                     severity: "success",
                                     summary:
-                                        "Successfully add new root org-structure.",
+                                        "Successfully add new second-level org-structure.",
                                     detail: addOrgStr.data?.message
                                         ? addOrgStr.data?.message
                                         : null,
@@ -124,7 +97,7 @@ export default {
                                 summary: "Please Fix Below Errors.",
                                 detail: error?.response.data.error?.message
                                     ? error?.response.data.error?.message
-                                    : "Please input filed org-structure have missing value!",
+                                    : "Please input filed second-level org-structure have missing value!",
                                 life: 3000,
                             });
                             if (error?.response.data.error.error?.errors) {
@@ -143,7 +116,7 @@ export default {
                                         summary: "Please Fix Below Errors.",
                                         detail: validationError
                                             ? validationError
-                                            : "Please input filed org-structure have missing value!",
+                                            : "Please input filed second-level org-structure have missing value!",
                                         life: 3000,
                                     });
                                 }
@@ -188,7 +161,7 @@ export default {
                 throw Error(error.message ? error.message : error);
             }
         },
-        async fetchingDataGeoOrgChartStructure(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId) {
+        async fetchingDataGeoOrgSecondChartStructure(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId) {
             this.fetchingDeptOrg = true;
             setTimeout(async () => {
                 try {

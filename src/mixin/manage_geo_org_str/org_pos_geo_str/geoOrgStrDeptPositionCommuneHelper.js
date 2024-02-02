@@ -9,7 +9,7 @@ export default {
         this.geoDeptPosOrgStrServices = new ManagePermissionsGeoFencePositionPermissionsServices();
     },
     computed: {
-        ...mapGetters("orgPosStrCou", ["allGeoPositionOrgStr"]),
+        ...mapGetters("orgStrDeptPosGeo", ["allGeoPositionOrgStr"]),
         getAllPositionOrgStr() {
             return this.allGeoPositionOrgStr || [];
         }
@@ -23,7 +23,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('orgPosStrCou', ['getAllGeoPositionOrgCountryStr']),
+        ...mapActions('orgStrDeptPosGeo', ['getAllGeoPositionDeptManageChart']),
         addNewGeoOrgDeptBaseOnPositionLevelCountry(validate) {
             this.submitted = true;
             this.loadingDeptOrgBtn = true;

@@ -43,6 +43,7 @@ import ProjectNameBaseOrgStr from "./org_sl_geo_dept_pos/org_project_dept/geoDep
  *@Org-Structures Chart 
 **/
 import orgChartStructure from "./org_global_str_chart/orgChartStructure";
+import orgStrDeptPosChartManage from "./org_structure_dept_pos_chart/orgStructureDeptPosGeoChartManage";
 
 const store = createStore({
     namespaced: true,
@@ -116,7 +117,12 @@ const store = createStore({
         /***
          *@Manage - Org-structures Chart 
         **/
-       orgStrChart: orgChartStructure
+       orgStrChart: orgChartStructure,
+        /***
+         *@Manage - Org-structures Chart Structure  - Department of Information Position
+        **/
+       orgStrDeptPosGeo: orgStrDeptPosChartManage,
+
 
     },
 });

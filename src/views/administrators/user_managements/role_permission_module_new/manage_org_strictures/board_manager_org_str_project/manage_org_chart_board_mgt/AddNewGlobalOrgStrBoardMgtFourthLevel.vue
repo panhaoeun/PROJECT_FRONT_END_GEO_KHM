@@ -23,7 +23,7 @@
                 class="inline-flex align-items-center justify-content-center gap-2"
             >
                 <span class="font-bold white-space-nowrap">
-                    Manage Parent Level 01 (Root Level)
+                    Manage Org-Structure Second Level
                 </span>
             </div>
         </template>
@@ -35,17 +35,26 @@
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
                         <!--Add New Org-Structure Board Mgt-->
-                        <PopupAddNewParentRootBoardOrgStrMgt
-                            :deptProjectIdAddNew="getProjectDeptStrId"
+                        <PopupAddNewGlobalOgStrBoardMgtSecondLevel
+                            ref="addNewGlobalOgStrBoardMgtSecondLevelRef"
+                            :deptOrgStrRootLevelId="
+                                getRootParentLevelId ? getRootParentLevelId : 0
+                            "
+                            :deptSecondLevelProjectId="
+                                getRootProjectId ? getRootProjectId : 0
+                            "
+                            :deptCountrySecondLevelId="
+                                getRootCountryId ? getRootCountryId : 0
+                            "
                         />
                     </div>
                 </div>
-                <!-- Add Manage Org Chat-Multiple Level -->
+                <!-- Add Manage Org Chat-Multiple Level 02 -->
                 <div
                     class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 card border-round gap-15"
                 >
                     <DataTable
-                        :value="getAllDeptOrgStrMgtOrg"
+                        :value="getAllDeptOrgStrBoardSecondLevel"
                         class="p-datatable-scrollable text-sm"
                         :rowHover="true"
                         contextMenu
@@ -77,7 +86,9 @@
                         <!-- Empty Org-Structure -->
                         <template #empty>No data org-structure...</template>
                         <!-- Loading Org-Structure Data -->
-                        <template #loading> Loading org-structure data. Please wait... </template>
+                        <template #loading>
+                            Loading org-structure data. Please wait...
+                        </template>
                         <Column
                             field="orgStrDeptName"
                             header="Org-Name"
@@ -131,27 +142,37 @@
         </template>
     </Dialog>
 </template>
-<!-- Script of global-org-str-board-mgt parent(Root) -->
+<!-- Script of global-org-str-board-mgt -->
 <script>
-import PopupAddNewParentRootBoardOrgStrMgt from "./popup_add_org_chart_boat_mgt/PopupAddNewParentRootBoardOrgStrMgt";
+import PopupAddNewGlobalOgStrBoardMgtSecondLevel from "./popup_add_org_chart_board_mgt_fourth_level/PopupAddNewGlobalOgStrBoardMgtFourthLevel";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
+import manageOrgChartBoardMgtThirdLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtThirdHelper";
 import { FilterMatchMode } from "primevue/api";
 export default {
     components: {
-        PopupAddNewParentRootBoardOrgStrMgt,
+        PopupAddNewGlobalOgStrBoardMgtSecondLevel,
     },
     props: {
-        countryIdOrgRoot: {
-            type: Number, 
+        secondBoardMgtLevelProId: {
+            type: Number,
             required: true,
-            default: 0
+            default: 0,
         },
-        projectIdOrgRoot: {
-            type: Number, 
+        secondBoardMgtLevelCountryId: {
+            type: Number,
             required: true,
-            default: 0
-        }
+            default: 0,
+        },
+        secondBoardMgtLevelFourthLevelId: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
     },
+    mixins: [
+        manageOrgChartBoardMgtLevelHelper,
+        manageOrgChartBoardMgtThirdLevelHelper
+    ],
     data() {
         return {
             visibleDialogOrgStrBoard: false,
@@ -160,22 +181,44 @@ export default {
             },
         };
     },
-    mounted() {
-        const orgLevelDeptBoard = "SL01";
-        const rogLevelDeptBoardCountry = this.deptCountryId ? this.deptCountryId : 0;
-        const orgLevelDeptBoarProId = this.getProjectDeptStrId ? this.getProjectDeptStrId : 0;
-        this.fetchingDataGeoOrgChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId);
-    },
     computed: {
-        getProjectDeptStrId(){
-            const getOrgRootId = this.projectIdOrgRoot ? this.projectIdOrgRoot : 0;
-            if(getOrgRootId > 0 || getOrgRootId !== null && typeof getOrgRootId !== "string"){
-                return getOrgRootId ? getOrgRootId : 0;
+        getRootParentLevelId() {
+            const getRootLevelId = this.secondBoardMgtLevelFourthLevelId
+                ? this.secondBoardMgtLevelFourthLevelId
+                : 0;
+            if (
+                getRootLevelId !== null ||
+                (getRootLevelId !== 0 && getRootLevelId > 0)
+            ) {
+                return getRootLevelId ? getRootLevelId : 0;
             }
-            return getOrgRootId;
-        }
-    },  
-    mixins: [manageOrgChartBoardMgtLevelHelper],
+            return getRootLevelId ? getRootLevelId : 0;
+        },
+        getRootCountryId() {
+            const getRootLevelCountryId = this.secondBoardMgtLevelCountryId
+                ? this.secondBoardMgtLevelCountryId
+                : 0;
+            if (
+                getRootLevelCountryId !== null ||
+                (getRootLevelCountryId !== 0 && getRootLevelCountryId > 0)
+            ) {
+                return getRootLevelCountryId ? getRootLevelCountryId : 0;
+            }
+            return getRootLevelCountryId ? getRootLevelCountryId : 0;
+        },
+        getRootProjectId() {
+            const getRootLevelProjectId = this.secondBoardMgtLevelProId
+                ? this.secondBoardMgtLevelProId
+                : 0;
+            if (
+                getRootLevelProjectId !== null ||
+                (getRootLevelProjectId !== 0 && getRootLevelProjectId > 0)
+            ) {
+                return getRootLevelProjectId ? getRootLevelProjectId : 0;
+            }
+            return getRootLevelProjectId ? getRootLevelProjectId : 0;
+        },
+    },
     methods: {
         showDialogAddNewGloOrgStrBoardMgt() {
             this.visibleDialogOrgStrBoard = true;

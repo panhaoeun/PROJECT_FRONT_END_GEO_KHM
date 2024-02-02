@@ -88,7 +88,9 @@
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <!-- Manage Org-Structures(Board Manager Project) -->
-                    <manage-org-structures-of-board-mgt-project />
+                    <manage-org-structures-of-board-mgt-project 
+                        :manageRootBoardProjectId="getProjectDestination"
+                    />
                 </el-card>
             </div>
         </div>
@@ -145,7 +147,15 @@ export default {
             selection: {},
         };
     },
-    computed: {},
+    computed: {
+        getProjectDestination(){
+            const getProject = this.selectedProject || this.selectedProject;
+            if(!getProject || getProject !== null || typeof getProject != "object"){
+                return parseInt(getProject?.id) ? parseInt(getProject?.id) : 0;   
+            }
+            return getProject;
+        }
+    },
     created() {
         this.permissionRoleProject = new ManagePermissionsRoleBaseProject();
     },

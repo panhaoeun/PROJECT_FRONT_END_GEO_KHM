@@ -108,7 +108,7 @@
                 icon="pi pi-save"
                 severity="danger"
                 class="w-8rem"
-                @click="submittedAddNewOrgStrBoardMgt()"
+                @click="submittedAddOrgStrMultiLevelGeoProjected()"
                 autofocus
             />
         </template>
@@ -116,7 +116,7 @@
 </template>
 <!-- Script of Org-Strictures -->
 <script>
-import geoOrgStrDeptProvinceStateHelper from "@/mixin/manage_geo_org_str/org_dept_geo_str/geoOrgStrDeptProStateHelper";
+import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
 import ManagePermissionsGeoFencePositionPermissionsServices from "@/services/administrator/geo_admin_position_manage_permissions/GeoAdminPositionPermissionsManagementServices";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
@@ -128,12 +128,14 @@ export default {
         };
     },
     props: {
-        deptProjectId: {
+        deptProjectIdAddNew: {
             type: Number,
+            required: true,
             default: 0,
         },
         deptCountryId: {
             type: Number,
+            required: true,
             default: 0,
         },
     },
@@ -145,7 +147,7 @@ export default {
             },
         };
     },
-    mixins: [geoOrgStrDeptProvinceStateHelper],
+    mixins: [manageOrgChartBoardMgtLevelHelper],
     data() {
         return {
             orgDeptStrCountryList: [],
@@ -175,13 +177,6 @@ export default {
         },
         cancelAddOrgBoardMgt() {
             this.visibleDialogOrgStrBoardMgt = false;
-        },
-        submittedAddNewOrgStrBoardMgt(validate) {
-            try {
-                this.addNewGeoOrgDeptProvinceState(validate);
-            } catch (error) {
-                return Promise.reject(error);
-            }
         },
         resetFromAddDeptOrgStr() {
             this.selectedParentDeptOrgStrBoardMgt = null;

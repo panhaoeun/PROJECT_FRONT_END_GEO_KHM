@@ -9,7 +9,7 @@
     <!-- List Org.Structures of board mgt -->
     <Dialog
         v-model:visible="showModalOrgStructures"
-        header="Manage Of Org Structure"
+        header="Manage Of Org Structures"
         :style="{ width: '75vw' }"
         modal
         maximizable
@@ -44,11 +44,11 @@
                                 <span class="p-error">*</span>
                             </label>
                             <div class="flex field flex-row">
-                                <TreeSelect
+                                <Dropdown
                                     v-model="
                                         v$.selectedOptOrgChartRootLevel.$model
                                     "
-                                    :options="objTreeSelectOrgStrBoardMgt"
+                                    :options="getAllDeptOrgStrMgtOrg"
                                     :class="{
                                         'p-invalid border-round-lg border-round-lg p-error':
                                             v$.selectedOptOrgChartRootLevel
@@ -58,7 +58,9 @@
                                     class="w-full border-round-lg"
                                 />
                                 <!-- Add New Parent(Root Level) Org-Structure Board Mgt -->
-                                <add-new-parent-root-org-str-board-mgt/>
+                                <add-new-parent-root-org-str-board-mgt
+                                    :projectIdOrgRoot="getProjectId ? getProjectId : 0"
+                                />
                             </div>
                             <small
                                 v-if="
@@ -84,14 +86,17 @@
                                 <span class="p-error">*</span>
                             </label>
                             <div class="flex field flex-row">
-                                <TreeSelect
+                                <Dropdown
                                     v-model="selectedOptOrgChartRootLevel"
-                                    :options="objTreeSelectOrgStrBoardMgt"
+                                    :options="getAllDeptOrgStrBoardSecondLevel"
                                     placeholder="Select Structure Level 02"
                                     class="w-full border-round-lg"
                                 />
                                 <!-- Add New Level 02 -->
-                                <add-new-global-org-str-board-mgt />
+                                <add-new-global-org-str-board-mgt-second-level 
+                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
+                                    :secondBoardMgtLevelParentLevelId="getParentLevelOrgStructure ? getParentLevelOrgStructure : 0"
+                                />
                             </div>
                         </div>
                         <!-- Stricture Org Level 03-->
@@ -101,14 +106,17 @@
                                 <span class="p-error">*</span>
                             </label>
                             <div class="flex field flex-row">
-                                <TreeSelect
+                                <Dropdown
                                     v-model="selectedOptOrgChartRootLevel"
-                                    :options="objTreeSelectOrgStrBoardMgt"
+                                    :options="getAllDeptOrgStrBoardThirdLevel"
                                     placeholder="Select Structure Level 03"
                                     class="w-full border-round-lg"
                                 />
                                 <!-- Add New Level 03 -->
-                                <add-new-global-org-str-board-mgt />
+                                <add-new-global-org-str-board-mgt-third-level 
+                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
+                                    :secondBoardMgtLevelThirdLevelId="getSecondLevelOrgStructure ? getSecondLevelOrgStructure : 0"
+                                />
                             </div>
                         </div>
                         <!-- Stricture Org Level 04-->
@@ -118,14 +126,17 @@
                                 <span class="p-error">*</span>
                             </label>
                             <div class="flex field flex-row">
-                                <TreeSelect
+                                <Dropdown
                                     v-model="selectedOptOrgChartRootLevel"
-                                    :options="objTreeSelectOrgStrBoardMgt"
+                                    :options="getAllDeptOrgStrBoardFourLevel"
                                     placeholder="Select Structure Level 04"
                                     class="w-full border-round-lg"
                                 />
                                 <!-- Add New Level 04 -->
-                                <add-new-global-org-str-board-mgt />
+                                <add-new-global-org-str-board-mgt-forth-level 
+                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
+                                    :secondBoardMgtLevelFourthLevelId="getThirdLevelOrgStructure ? getThirdLevelOrgStructure : 0"
+                                />
                             </div>
                         </div>
                         <!-- Stricture Org Level 05-->
@@ -135,14 +146,17 @@
                                 <span class="p-error">*</span>
                             </label>
                             <div class="flex field flex-row">
-                                <TreeSelect
+                                <Dropdown
                                     v-model="selectedOptOrgChartRootLevel"
-                                    :options="objTreeSelectOrgStrBoardMgt"
+                                    :options="getAllDeptOrgStrBoardFiveLevel"
                                     placeholder="Select Structure Level 05"
                                     class="w-full border-round-lg"
                                 />
-                                <!-- Add New Level 02-->
-                                <add-new-global-org-str-board-mgt />
+                                <!-- Add New Level 05-->
+                                <add-new-global-org-str-board-mgt-five-level 
+                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
+                                    :secondBoardMgtLevelFourthLevelId="getFourthLevelOrgStructure ? getFourthLevelOrgStructure : 0"
+                                />
                             </div>
                         </div>
                     </div>
@@ -161,8 +175,8 @@
             <Button
                 :label="
                     loadingSubmittedAddNew
-                        ? 'Saving New Org.Structure'
-                        : 'Add New Org.Structure'
+                    ? 'Saving New Org.Structure'
+                    : 'Add New Org.Structure'
                 "
                 icon="pi pi-send"
                 :loading="loadingSubmittedAddNew"
@@ -175,8 +189,11 @@
 <script>
 import { FilterMatchMode } from "primevue/api";
 // Global org-chat-board-mgt
-import AddNewGlobalOrgStrBoardMgt from "./AddNewGlobalOrgStrBoardMgt";
 import AddNewParentRootOrgStrBoardMgt from "./ManageParentRootOrgStrBoardMgt";
+import AddNewGlobalOrgStrBoardMgtSecondLevel from "./AddNewGlobalOrgStrBoardMgtSecondLevel";
+import AddNewGlobalOrgStrBoardMgtThirdLevel from "./AddNewGlobalOrgStrBoardMgtThirdLevel";
+import AddNewGlobalOrgStrBoardMgtForthLevel from "./AddNewGlobalOrgStrBoardMgtFourthLevel";
+import AddNewGlobalOrgStrBoardMgtFiveLevel from "./AddNewGlobalOrgStrBoardMgtFiveLevel";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
@@ -185,6 +202,13 @@ export default {
     setup() {
         return { v$: useVuelidate() };
     },
+    props: {
+        manageRootProjectId: {
+            type: Number,
+            required: true,
+            default: 0,
+        }
+    },
     validations() {
         return {
             selectedOptOrgChartRootLevel: { required },
@@ -192,10 +216,56 @@ export default {
     },
     mixins: [manageOrgChartBoardMgtLevelHelper],
     components: {
-        AddNewGlobalOrgStrBoardMgt,
+        AddNewGlobalOrgStrBoardMgtSecondLevel,
         AddNewParentRootOrgStrBoardMgt,
+        AddNewGlobalOrgStrBoardMgtThirdLevel,
+        AddNewGlobalOrgStrBoardMgtForthLevel,
+        AddNewGlobalOrgStrBoardMgtFiveLevel
     },
-    props: {},
+    computed: {
+        getProjectId(){
+            const getProjectIdDept = this.manageRootProjectId ? this.manageRootProjectId : 0;
+            if(!getProjectIdDept || getProjectIdDept > 0 && getProjectIdDept !== null){
+                return getProjectIdDept ? getProjectIdDept : 0;
+            }
+            return getProjectIdDept; 
+        },
+        getParentLevelOrgStructure(){
+            const getOptSelectedOrgParentLevel = this.selectedOptOrgChartRootLevel ? this.selectedOptOrgChartRootLevel : 0;
+            if(!getOptSelectedOrgParentLevel || typeof  getOptSelectedOrgParentLevel  !== 'undefined' && getOptSelectedOrgParentLevel !== null){
+                return getOptSelectedOrgParentLevel?.orgSupDeptStrId ? getOptSelectedOrgParentLevel?.orgSupDeptStrId : 0;
+            }
+            return null; 
+        },
+        getSecondLevelOrgStructure(){
+            const getOptSelectedOrgSecondLevel = this.selectedOptOrgChartSecondLevel ? this.selectedOptOrgChartSecondLevel : 0;
+            if(!getOptSelectedOrgSecondLevel || typeof  getOptSelectedOrgSecondLevel  !== 'undefined' && getOptSelectedOrgSecondLevel !== null){
+                return getOptSelectedOrgSecondLevel?.orgSupDeptStrId ? getOptSelectedOrgSecondLevel?.orgSupDeptStrId : 0;
+            }
+            return null; 
+        },
+        getThirdLevelOrgStructure(){
+            const getOptSelectedOrgThirdLevel = this.selectedOptOrgChartThirdLevel ? this.selectedOptOrgChartThirdLevel : 0;
+            if(!getOptSelectedOrgThirdLevel || typeof  getOptSelectedOrgThirdLevel  !== 'undefined' && getOptSelectedOrgThirdLevel !== null){
+                return getOptSelectedOrgThirdLevel?.orgSupDeptStrId ? getOptSelectedOrgThirdLevel?.orgSupDeptStrId : 0;
+            }
+            return null; 
+        },
+        getFourthLevelOrgStructure(){
+            const getOptSelectedOrgFourthLevel = this.selectedOptOrgChartFourthLevel ? this.selectedOptOrgChartFourthLevel : 0;
+            if(!getOptSelectedOrgFourthLevel || typeof  getOptSelectedOrgFourthLevel  !== 'undefined' && getOptSelectedOrgFourthLevel !== null){
+                return getOptSelectedOrgFourthLevel?.orgSupDeptStrId ? getOptSelectedOrgFourthLevel?.orgSupDeptStrId : 0;
+            }
+            return null; 
+        },
+        getFiveLevelOrgStructure(){
+            const getOptSelectedOrgFiveLevel = this.selectedOptOrgChartFiveLevel ? this.selectedOptOrgChartFiveLevel : 0;
+            if(!getOptSelectedOrgFiveLevel || typeof  getOptSelectedOrgFiveLevel  !== 'undefined' && getOptSelectedOrgFiveLevel !== null){
+                return getOptSelectedOrgFiveLevel?.orgSupDeptStrId ? getOptSelectedOrgFiveLevel?.orgSupDeptStrId : 0;
+            }
+            return null; 
+        }
+    },  
     data() {
         return {
             objTreeSelectOrgStrBoardMgt: [],
@@ -207,15 +277,16 @@ export default {
             submitted: false,
             // Multi-Level Manage Organization Chart
             selectedOptOrgChartRootLevel: null,
+            selectedOptOrgChartSecondLevel: null,
+            selectedOptOrgChartThirdLevel: null,
+            selectedOptOrgChartFourthLevel: null,
+            selectedOptOrgChartFiveLevel: null,
         };
     },
-    created() {},
     methods: {
         openDialogOrgStructure() {
             this.showModalOrgStructures = true;
-        }
+        },
     },
 };
 </script>
-<style scoped></style>
-<style lang="scss" scoped></style>
