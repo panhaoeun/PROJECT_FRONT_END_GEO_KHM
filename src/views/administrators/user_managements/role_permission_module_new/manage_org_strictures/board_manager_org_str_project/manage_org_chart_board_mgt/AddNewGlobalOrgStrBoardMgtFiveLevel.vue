@@ -163,7 +163,7 @@ export default {
             required: true,
             default: 0,
         },
-        secondBoardMgtLevelFourthLevelId: {
+        secondBoardMgtLevelFiveLevelId: {
             type: Number,
             required: true,
             default: 0,
@@ -183,8 +183,8 @@ export default {
     },
     computed: {
         getRootParentLevelId() {
-            const getRootLevelId = this.secondBoardMgtLevelFourthLevelId
-                ? this.secondBoardMgtLevelFourthLevelId
+            const getRootLevelId = this.secondBoardMgtLevelFiveLevelId
+                ? this.secondBoardMgtLevelFiveLevelId
                 : 0;
             if (
                 getRootLevelId !== null ||

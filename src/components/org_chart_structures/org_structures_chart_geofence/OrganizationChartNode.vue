@@ -22,11 +22,13 @@
                                         sizeWidth="70"
                                     />
                                 </div>
-                                <span class="mr-10 p-10">{{ String(datasource.name).toUpperCase() }}</span>
+                                <span class="mr-10 p-10">{{
+                                    String(datasource.name).toUpperCase() ?? ""
+                                }}</span>
                             </div>
                             <div class="content">
                                 <h6 class="text-sm">
-                                    {{ datasource.department }}
+                                    {{ String(datasource.department) ?? "" }}
                                 </h6>
                                 <span class="">
                                     {{ datasource.position }}

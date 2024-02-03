@@ -22,7 +22,7 @@ export default {
             console.log(orgLevel, orgCountry, orgProjectId)
         },  
         // Manage Org-structure and update data to Geo Projects table
-        async submittedAddOrgStrMultiLevelGeoProjected() {
+        async submittedAddOrgSecondLevelOfProject() {
             try {
                 this.loadingSubmittedAddMgtBoardStrOrg = true;
                 this.submitted = true;

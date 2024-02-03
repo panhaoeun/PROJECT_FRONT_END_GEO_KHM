@@ -40,7 +40,7 @@
                         >
                             Department of Org.Structure
                         </label>
-                        <TreeSelect
+                        <Dropdown
                             v-model="v$.orgDeptBoardMgtBaseEmpId.$model"
                             :options="getAllDeptOrgStrProvinceState"
                             aria-labelledby="parentDeptId"
@@ -53,11 +53,46 @@
                             }"
                             selectionMode="single"
                             display="comma"
-                            emptyMessage="No result found department..."
+                            emptyMessage="No result found Org.Structure..."
                             filter
                             showClear
                             class="border-round-lg border-round-lg w-full"
-                        />
+                        >
+                            <template #value="slotProps">
+                                <div
+                                    v-if="slotProps.value"
+                                    class="flex align-items-center"
+                                >
+                                    <div class="text-sm">
+                                        {{
+                                            geoNameToTitleCase(
+                                                String(
+                                                    slotProps.value
+                                                        ?.geo_english_name ?? ""
+                                                )
+                                            )
+                                        }}
+                                    </div>
+                                </div>
+                                <span v-else class="text-sm">
+                                    {{ slotProps.placeholder }}
+                                </span>
+                            </template>
+                            <template #option="slotProps">
+                                <div class="flex align-items-center text-sm">
+                                    <div class="text-sm">
+                                        {{
+                                            geoNameToTitleCase(
+                                                String(
+                                                    slotProps.option
+                                                        .geo_english_name ?? ""
+                                                )
+                                            )
+                                        }}
+                                    </div>
+                                </div>
+                            </template>
+                        </Dropdown>
                         <small
                             v-if="
                                 (v$.orgDeptBoardMgtBaseEmpId.$invalid &&
@@ -72,28 +107,6 @@
                                 )
                             }}
                         </small>
-                    </div>
-                </div>
-                <!-- Departments -->
-                <div class="flex gap-15">
-                    <div class="input-wrap flex-1">
-                        <label> Parent Positions </label>
-                        <TreeSelect
-                            v-model="selectedParentDeptOrgStrBoardMgt"
-                            :options="getAllDeptOrgStrProvinceState"
-                            aria-labelledby="parentDeptId"
-                            placeholder="Select Positions..."
-                            aria-describedby="parentDeptId"
-                            selectionMode="single"
-                            display="comma"
-                            emptyMessage="No result found position..."
-                            filter
-                            showClear
-                            class="border-round-lg border-round-lg w-full"
-                        />
-                        <small class="text-sm flex text-blue-600"
-                            >Leave it blank to create parent position</small
-                        >
                     </div>
                 </div>
                 <!-- Positions English Name -->
@@ -141,12 +154,9 @@
                     </div>
                 </div>
                 <!-- Position Khmer Name -->
-                 <div class="flex gap-15">
+                <div class="flex gap-15">
                     <div class="input-wrap flex-1">
-                        <label
-                        >
-                            Khmer Name
-                        </label>
+                        <label> Khmer Name </label>
                         <InputText
                             id="position_name"
                             placeholder="Please Enter English Name"
@@ -193,6 +203,7 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
+import geoLocationVillagesHelper from "@/mixin/geoLocationVillagesHelper";
 import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
 export default {
     components: {},
@@ -205,7 +216,7 @@ export default {
             loadingSubmittedPosMgtStr: false,
             submitted: false,
             orgDeptBoardMgtBaseEmpId: null,
-            orgDeptBoardMgtPositionKhmerName: ''
+            orgDeptBoardMgtPositionKhmerName: "",
         };
     },
     validations() {
@@ -224,7 +235,7 @@ export default {
             v$: useVuelidate(),
         };
     },
-    mixins: [manageOrgStrMgtPositionHelper],
+    mixins: [manageOrgStrMgtPositionHelper, geoLocationVillagesHelper],
     created() {},
     methods: {
         cancelAddBoardMgtOrgStr() {

@@ -1,8 +1,10 @@
 <template>
     <div class="pl-2 gap-1 flex align-items-center">
         <!-- Manage Org Structures -->
-        <manage-org-structure-board-mgt-project 
-            :manageRootProjectId="getBoardMgtRootProjectId ? getBoardMgtRootProjectId : 0"
+        <manage-org-structure-board-mgt-project
+            :manageRootProjectId="
+                getBoardMgtRootProjectId ? getBoardMgtRootProjectId : 0
+            "
         />
         <!-- Manage Departments -->
         <!-- <manage-org-structure-board-mgt-dept-emp-project/> -->
@@ -10,7 +12,10 @@
         <org-str-mgt-project-positions />
     </div>
     <!-- Manage Org Chart Base Mgt GEO -->
-    <ManageAssignOrgChartBaseOnMgtGeo org-data="" :isShowLabels="false" />
+    <ManageAssignOrgChartBaseOnMgtGeo
+        :projectIdOrdDeptBoard="getBoardMgtRootProjectId"
+        :orgData="getAllBoardManagerOfProject"
+    />
 </template>
 <!-- Manage OrgStructures Board.Mgt -->
 <script>
@@ -19,6 +24,7 @@ import ManageOrgStructureBoardMgtProject from "./board_manager_org_str_project/m
 // import ManageOrgStructureBoardMgtDeptEmpProject from "./board_manager_org_str_project/manage_dept_emp_board_mgt/ManageOrgChartBoardMgtDeptEmp.vue";
 // Manage Org.Structures Board Mgt
 import ManageAssignOrgChartBaseOnMgtGeo from "./GlobalOrgChartOfGeoDeptPost.vue";
+import { mapGetters } from "vuex";
 export default {
     components: {
         OrgStrMgtProjectPositions,
@@ -34,6 +40,10 @@ export default {
         },
     },
     computed: {
+        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardHierarchyStructure"]),
+        getAllBoardManagerOfProject() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
         getBoardMgtRootProjectId() {
             const getProjectIdDept = this.manageRootBoardProjectId
                 ? this.manageRootBoardProjectId
@@ -49,5 +59,3 @@ export default {
     },
 };
 </script>
-<style scoped></style>
-<style lang="scss" scoped></style>

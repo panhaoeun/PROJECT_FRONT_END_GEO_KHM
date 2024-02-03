@@ -45,6 +45,10 @@
                             </label>
                             <div class="flex field flex-row">
                                 <Dropdown
+                                    filter
+                                    showClear
+                                    dataKey="orgStrId"
+                                    clear
                                     v-model="
                                         v$.selectedOptOrgChartRootLevel.$model
                                     "
@@ -56,10 +60,39 @@
                                     }"
                                     placeholder="Select Parent Level 01 (Root Level)"
                                     class="w-full border-round-lg"
-                                />
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div>
+                                                {{
+                                                    slotProps.value
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex align-items-center">
+                                            <div>
+                                                {{
+                                                    slotProps.option
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
                                 <!-- Add New Parent(Root Level) Org-Structure Board Mgt -->
                                 <add-new-parent-root-org-str-board-mgt
-                                    :projectIdOrgRoot="getProjectId ? getProjectId : 0"
+                                    :projectIdOrgRoot="
+                                        getProjectId ? getProjectId : 0
+                                    "
                                 />
                             </div>
                             <small
@@ -87,15 +120,52 @@
                             </label>
                             <div class="flex field flex-row">
                                 <Dropdown
-                                    v-model="selectedOptOrgChartRootLevel"
+                                    filter
+                                    showClear
+                                    dataKey="orgStrId"
+                                    clear
+                                    v-model="selectedOptOrgChartSecondLevel"
                                     :options="getAllDeptOrgStrBoardSecondLevel"
                                     placeholder="Select Structure Level 02"
                                     class="w-full border-round-lg"
-                                />
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div>
+                                                {{
+                                                    slotProps.value
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex align-items-center">
+                                            <div>
+                                                {{
+                                                    slotProps.option
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
                                 <!-- Add New Level 02 -->
-                                <add-new-global-org-str-board-mgt-second-level 
-                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
-                                    :secondBoardMgtLevelParentLevelId="getParentLevelOrgStructure ? getParentLevelOrgStructure : 0"
+                                <add-new-global-org-str-board-mgt-second-level
+                                    :secondBoardMgtLevelProId="
+                                        getProjectId ? getProjectId : 0
+                                    "
+                                    :secondBoardMgtLevelParentLevelId="
+                                        getParentLevelOrgStructure
+                                            ? getParentLevelOrgStructure
+                                            : 0
+                                    "
                                 />
                             </div>
                         </div>
@@ -107,15 +177,52 @@
                             </label>
                             <div class="flex field flex-row">
                                 <Dropdown
-                                    v-model="selectedOptOrgChartRootLevel"
+                                    filter
+                                    showClear
+                                    dataKey="orgStrId"
+                                    clear
+                                    v-model="selectedOptOrgChartThirdLevel"
                                     :options="getAllDeptOrgStrBoardThirdLevel"
                                     placeholder="Select Structure Level 03"
                                     class="w-full border-round-lg"
-                                />
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div>
+                                                {{
+                                                    slotProps.value
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex align-items-center">
+                                            <div>
+                                                {{
+                                                    slotProps.option
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
                                 <!-- Add New Level 03 -->
-                                <add-new-global-org-str-board-mgt-third-level 
-                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
-                                    :secondBoardMgtLevelThirdLevelId="getSecondLevelOrgStructure ? getSecondLevelOrgStructure : 0"
+                                <add-new-global-org-str-board-mgt-third-level
+                                    :secondBoardMgtLevelProId="
+                                        getProjectId ? getProjectId : 0
+                                    "
+                                    :secondBoardMgtLevelThirdLevelId="
+                                        getSecondLevelOrgStructure
+                                            ? getSecondLevelOrgStructure
+                                            : 0
+                                    "
                                 />
                             </div>
                         </div>
@@ -127,15 +234,52 @@
                             </label>
                             <div class="flex field flex-row">
                                 <Dropdown
-                                    v-model="selectedOptOrgChartRootLevel"
+                                    filter
+                                    showClear
+                                    dataKey="orgStrId"
+                                    clear
+                                    v-model="selectedOptOrgChartFourthLevel"
                                     :options="getAllDeptOrgStrBoardFourLevel"
                                     placeholder="Select Structure Level 04"
                                     class="w-full border-round-lg"
-                                />
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div>
+                                                {{
+                                                    slotProps.value
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex align-items-center">
+                                            <div>
+                                                {{
+                                                    slotProps.option
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
                                 <!-- Add New Level 04 -->
-                                <add-new-global-org-str-board-mgt-forth-level 
-                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
-                                    :secondBoardMgtLevelFourthLevelId="getThirdLevelOrgStructure ? getThirdLevelOrgStructure : 0"
+                                <add-new-global-org-str-board-mgt-forth-level
+                                    :secondBoardMgtLevelProId="
+                                        getProjectId ? getProjectId : 0
+                                    "
+                                    :secondBoardMgtLevelFourthLevelId="
+                                        getThirdLevelOrgStructure
+                                            ? getThirdLevelOrgStructure
+                                            : 0
+                                    "
                                 />
                             </div>
                         </div>
@@ -147,15 +291,52 @@
                             </label>
                             <div class="flex field flex-row">
                                 <Dropdown
-                                    v-model="selectedOptOrgChartRootLevel"
+                                    filter
+                                    showClear
+                                    dataKey="orgStrId"
+                                    clear
+                                    v-model="selectedOptOrgChartFiveLevel"
                                     :options="getAllDeptOrgStrBoardFiveLevel"
                                     placeholder="Select Structure Level 05"
                                     class="w-full border-round-lg"
-                                />
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div>
+                                                {{
+                                                    slotProps.value
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex align-items-center">
+                                            <div>
+                                                {{
+                                                    slotProps.option
+                                                        ?.orgStrDeptName
+                                                }}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
                                 <!-- Add New Level 05-->
-                                <add-new-global-org-str-board-mgt-five-level 
-                                    :secondBoardMgtLevelProId="getProjectId ? getProjectId : 0"
-                                    :secondBoardMgtLevelFourthLevelId="getFourthLevelOrgStructure ? getFourthLevelOrgStructure : 0"
+                                <add-new-global-org-str-board-mgt-five-level
+                                    :secondBoardMgtLevelProId="
+                                        getProjectId ? getProjectId : 0
+                                    "
+                                    :secondBoardMgtLevelFiveLevelId="
+                                        getFourthLevelOrgStructure
+                                            ? getFourthLevelOrgStructure
+                                            : 0
+                                    "
                                 />
                             </div>
                         </div>
@@ -175,8 +356,8 @@
             <Button
                 :label="
                     loadingSubmittedAddNew
-                    ? 'Saving New Org.Structure'
-                    : 'Add New Org.Structure'
+                        ? 'Saving New Org.Structure'
+                        : 'Add New Org.Structure'
                 "
                 icon="pi pi-send"
                 :loading="loadingSubmittedAddNew"
@@ -207,7 +388,7 @@ export default {
             type: Number,
             required: true,
             default: 0,
-        }
+        },
     },
     validations() {
         return {
@@ -220,52 +401,101 @@ export default {
         AddNewParentRootOrgStrBoardMgt,
         AddNewGlobalOrgStrBoardMgtThirdLevel,
         AddNewGlobalOrgStrBoardMgtForthLevel,
-        AddNewGlobalOrgStrBoardMgtFiveLevel
+        AddNewGlobalOrgStrBoardMgtFiveLevel,
     },
     computed: {
-        getProjectId(){
-            const getProjectIdDept = this.manageRootProjectId ? this.manageRootProjectId : 0;
-            if(!getProjectIdDept || getProjectIdDept > 0 && getProjectIdDept !== null){
+        getProjectId() {
+            const getProjectIdDept = this.manageRootProjectId
+                ? this.manageRootProjectId
+                : 0;
+            if (
+                !getProjectIdDept ||
+                (getProjectIdDept > 0 && getProjectIdDept !== null)
+            ) {
                 return getProjectIdDept ? getProjectIdDept : 0;
             }
-            return getProjectIdDept; 
+            return getProjectIdDept;
         },
-        getParentLevelOrgStructure(){
-            const getOptSelectedOrgParentLevel = this.selectedOptOrgChartRootLevel ? this.selectedOptOrgChartRootLevel : 0;
-            if(!getOptSelectedOrgParentLevel || typeof  getOptSelectedOrgParentLevel  !== 'undefined' && getOptSelectedOrgParentLevel !== null){
-                return getOptSelectedOrgParentLevel?.orgSupDeptStrId ? getOptSelectedOrgParentLevel?.orgSupDeptStrId : 0;
+        getParentLevelOrgStructure() {
+            const getOptSelectedOrgParentLevel = this
+                .selectedOptOrgChartRootLevel
+                ? this.selectedOptOrgChartRootLevel
+                : 0;
+            if (
+                !getOptSelectedOrgParentLevel ||
+                (typeof getOptSelectedOrgParentLevel !== "undefined" &&
+                    getOptSelectedOrgParentLevel !== null)
+            ) {
+                return getOptSelectedOrgParentLevel?.orgSupDeptStrId
+                    ? getOptSelectedOrgParentLevel?.orgSupDeptStrId
+                    : 0;
             }
-            return null; 
+            return null;
         },
-        getSecondLevelOrgStructure(){
-            const getOptSelectedOrgSecondLevel = this.selectedOptOrgChartSecondLevel ? this.selectedOptOrgChartSecondLevel : 0;
-            if(!getOptSelectedOrgSecondLevel || typeof  getOptSelectedOrgSecondLevel  !== 'undefined' && getOptSelectedOrgSecondLevel !== null){
-                return getOptSelectedOrgSecondLevel?.orgSupDeptStrId ? getOptSelectedOrgSecondLevel?.orgSupDeptStrId : 0;
+        getSecondLevelOrgStructure() {
+            const getOptSelectedOrgSecondLevel = this
+                .selectedOptOrgChartSecondLevel
+                ? this.selectedOptOrgChartSecondLevel
+                : 0;
+            if (
+                !getOptSelectedOrgSecondLevel ||
+                (typeof getOptSelectedOrgSecondLevel !== "undefined" &&
+                    getOptSelectedOrgSecondLevel !== null)
+            ) {
+                return getOptSelectedOrgSecondLevel?.orgSupDeptStrId
+                    ? getOptSelectedOrgSecondLevel?.orgSupDeptStrId
+                    : 0;
             }
-            return null; 
+            return null;
         },
-        getThirdLevelOrgStructure(){
-            const getOptSelectedOrgThirdLevel = this.selectedOptOrgChartThirdLevel ? this.selectedOptOrgChartThirdLevel : 0;
-            if(!getOptSelectedOrgThirdLevel || typeof  getOptSelectedOrgThirdLevel  !== 'undefined' && getOptSelectedOrgThirdLevel !== null){
-                return getOptSelectedOrgThirdLevel?.orgSupDeptStrId ? getOptSelectedOrgThirdLevel?.orgSupDeptStrId : 0;
+        getThirdLevelOrgStructure() {
+            const getOptSelectedOrgThirdLevel = this
+                .selectedOptOrgChartThirdLevel
+                ? this.selectedOptOrgChartThirdLevel
+                : 0;
+            if (
+                !getOptSelectedOrgThirdLevel ||
+                (typeof getOptSelectedOrgThirdLevel !== "undefined" &&
+                    getOptSelectedOrgThirdLevel !== null)
+            ) {
+                return getOptSelectedOrgThirdLevel?.orgSupDeptStrId
+                    ? getOptSelectedOrgThirdLevel?.orgSupDeptStrId
+                    : 0;
             }
-            return null; 
+            return null;
         },
-        getFourthLevelOrgStructure(){
-            const getOptSelectedOrgFourthLevel = this.selectedOptOrgChartFourthLevel ? this.selectedOptOrgChartFourthLevel : 0;
-            if(!getOptSelectedOrgFourthLevel || typeof  getOptSelectedOrgFourthLevel  !== 'undefined' && getOptSelectedOrgFourthLevel !== null){
-                return getOptSelectedOrgFourthLevel?.orgSupDeptStrId ? getOptSelectedOrgFourthLevel?.orgSupDeptStrId : 0;
+        getFourthLevelOrgStructure() {
+            const getOptSelectedOrgFourthLevel = this
+                .selectedOptOrgChartFourthLevel
+                ? this.selectedOptOrgChartFourthLevel
+                : 0;
+            if (
+                !getOptSelectedOrgFourthLevel ||
+                (typeof getOptSelectedOrgFourthLevel !== "undefined" &&
+                    getOptSelectedOrgFourthLevel !== null)
+            ) {
+                return getOptSelectedOrgFourthLevel?.orgSupDeptStrId
+                    ? getOptSelectedOrgFourthLevel?.orgSupDeptStrId
+                    : 0;
             }
-            return null; 
+            return null;
         },
-        getFiveLevelOrgStructure(){
-            const getOptSelectedOrgFiveLevel = this.selectedOptOrgChartFiveLevel ? this.selectedOptOrgChartFiveLevel : 0;
-            if(!getOptSelectedOrgFiveLevel || typeof  getOptSelectedOrgFiveLevel  !== 'undefined' && getOptSelectedOrgFiveLevel !== null){
-                return getOptSelectedOrgFiveLevel?.orgSupDeptStrId ? getOptSelectedOrgFiveLevel?.orgSupDeptStrId : 0;
+        getFiveLevelOrgStructure() {
+            const getOptSelectedOrgFiveLevel = this.selectedOptOrgChartFiveLevel
+                ? this.selectedOptOrgChartFiveLevel
+                : 0;
+            if (
+                !getOptSelectedOrgFiveLevel ||
+                (typeof getOptSelectedOrgFiveLevel !== "undefined" &&
+                    getOptSelectedOrgFiveLevel !== null)
+            ) {
+                return getOptSelectedOrgFiveLevel?.orgSupDeptStrId
+                    ? getOptSelectedOrgFiveLevel?.orgSupDeptStrId
+                    : 0;
             }
-            return null; 
-        }
-    },  
+            return null;
+        },
+    },
     data() {
         return {
             objTreeSelectOrgStrBoardMgt: [],
@@ -283,9 +513,27 @@ export default {
             selectedOptOrgChartFiveLevel: null,
         };
     },
+    mounted() {
+        // Open Reload Data Opt for the org-structures
+        this.openReloadDeptOrgStrMgtBoardRootLevel();
+    },
     methods: {
         openDialogOrgStructure() {
             this.showModalOrgStructures = true;
+        },
+        openReloadDeptOrgStrMgtBoardRootLevel() {
+            try {
+                const getProjectId = this.getProjectId ? this.getProjectId : 0;
+                const getOrgLevelType = "SL01";
+                const getOrgCountry = this.getProjectId ? this.getProjectId : 0;
+                this.fetchingDataGeoOrgChartStructure(
+                    getOrgLevelType,
+                    getOrgCountry,
+                    getProjectId
+                );
+            } catch (error) {
+                throw Error(error ? error.message : "");
+            }
         },
     },
 };

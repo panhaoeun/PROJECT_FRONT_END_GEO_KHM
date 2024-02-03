@@ -8,21 +8,21 @@ export default {
         this.serviceManageStructuresProject = new ManageOrgChartStructureGeoProjectServices();
     },
     computed: {
-        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardDeptStructureChart"]),
+        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardDeptStructureChart", "allOrgBoardDeptStructure02LevelChart", "allOrgBoardDeptStructure03LevelChart", "allOrgBoardDeptStructure04LevelChart", "allOrgBoardDeptStructure05LevelChart"]),
         getAllDeptOrgStrMgtOrg() {
             return this.allOrgBoardDeptStructureChart || [];
         },
         getAllDeptOrgStrBoardSecondLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
+            return this.allOrgBoardDeptStructure02LevelChart || [];
         },
         getAllDeptOrgStrBoardThirdLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
+            return this.allOrgBoardDeptStructure03LevelChart || [];
         },
         getAllDeptOrgStrBoardFourLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
+            return this.allOrgBoardDeptStructure04LevelChart || [];
         },
         getAllDeptOrgStrBoardFiveLevel() {
-            return this.allOrgBoardDeptStructureChart || [];
+            return this.allOrgBoardDeptStructure05LevelChart || [];
         }
     },
     methods: {
@@ -195,7 +195,12 @@ export default {
                     if (!orgStrChartProjectId) {
                         throw Error('Please selected project id is required');
                     }
-                    this.getAllGeoPositionDeptManageChart(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId);
+                    const optSelectedStrBoardLevel = {
+                        orgStrChartLevel,
+                        orgStrChartCountryId, 
+                        orgStrChartProjectId
+                    }
+                    this.getAllGeoPositionDeptManageChart(optSelectedStrBoardLevel);
                 } catch (e) {
                     return Promise.reject(e);
                 }

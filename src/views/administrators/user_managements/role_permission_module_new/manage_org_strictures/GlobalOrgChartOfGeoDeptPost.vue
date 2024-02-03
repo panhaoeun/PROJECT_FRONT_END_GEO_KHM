@@ -1,7 +1,8 @@
 <template>
     <div class="gap-3 my-4 flex justify-content-center">
         <OrgStructureChartGeoFenceHierarchyLevel
-            :datasource="ds"
+            :datasource="dataHierarchyDept"
+            pan="true"
             @node-click="selectNode"
         >
             <template v-slot="{ nodeData }">
@@ -20,6 +21,7 @@
 <script>
 import OrgStructureChartGeoFenceHierarchyLevel from "../../../../../components/org_chart_structures/org_structures_chart_geofence/OrgStructureChartGeoFenceHierarchyLevel";
 import AssignUserBasePermDeptOnOrgChat from "../management_org_structure_geo_perm/manage_geo_perm_dept_mgt_board/AssignUserBasePermDeptOnOrgChat.vue";
+
 export default {
     components: {
         OrgStructureChartGeoFenceHierarchyLevel,
@@ -27,62 +29,106 @@ export default {
     },
     props: {
         orgData: {
-            type: Array,
+            type: Object,
             require: true,
-            default: () => [],
+            default: () => {},
+        },
+        projectIdOrdDeptBoard: {
+            type: Number,
+            require: true,
+            default: () => 0,
         },
     },
     data() {
         return {
             openDialogDeptEmpMgtAssign: false,
             selection: {},
-            ds: {
+            dataHierarchyDept: {
                 id: "1",
-                name: "Panha",
-                department: "general manager",
-                profile: '',
+                name: "GEO-KHRM",
+                department: "Governing Board",
+                position: "Directed",
+                profile: "",
                 children: [
                     {
                         id: "2",
                         name: "Bo Miao",
-                        department: "department manager",
+                        department: "National Congress",
+                        position: "Secretary",
                     },
                     {
                         id: "3",
                         name: "Su Miao",
-                        department: "department manager",
+                        department: "Provincial Labor Support Council",
                         position: "IT Manager",
                         children: [
                             {
                                 id: "4",
                                 name: "Tie Hua",
-                                department: "senior engineer",
-                                position: "position",
+                                department: "President",
+                                position: "",
                             },
                             {
                                 id: "5",
                                 name: "Hei Hei",
-                                department: "senior engineer",
+                                department: "President",
                                 children: [
                                     {
                                         id: "6",
                                         name: "Pang Pang",
-                                        department: "engineer",
-                                        position: "position",
+                                        department: "Communication Specialist",
+                                        position: "",
                                     },
                                     {
                                         id: "7",
-                                        name: "Xiang Xiang",
-                                        department: "UE engineer",
-                                        position: "position",
+                                        name: "Mr.Bao",
+                                        department: "Operations Specialist",
+                                        position: "",
                                     },
                                 ],
+                            },
+                        ],
+                    },
+                    {
+                        id: "8",
+                        name: "Geo",
+                        department: "National Congress",
+                        children: [
+                            {
+                                id: "9",
+                                name: "Phil Acreas",
+                                department: "Operations Director",
+                                position: "",
+                            },
+                            {
+                                id: "10",
+                                name: "Debby Lethem",
+                                department: "Program Director",
+                                position: "",
                             },
                         ],
                     },
                 ],
             },
         };
+    },
+    computed: {
+        getConvertArrayToObject() {
+            let object = {};
+            this.orgData.forEach((item) => {
+                let children = item.children;
+                object[item.id] = item;
+                object[item.id].children = {};
+                children.forEach((child) => {
+                    object[item.id].children[child.id] = child;
+                });
+            });
+            const result = Object.fromEntries(
+                Object.entries(object).map(([key, { value }]) => [key, value])
+            );
+            console.log(result);
+            return object;
+        },
     },
     methods: {
         selectNode(nodeData) {

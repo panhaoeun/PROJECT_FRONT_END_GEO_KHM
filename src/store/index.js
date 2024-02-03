@@ -35,15 +35,16 @@ import GeoLocationVillages from "./geo_location_country/geo_villages";
 
 /**
  *@Org-Structures Department and Positions 
-* */ 
+ * */
 import OrgDeptStrCountry from "./org_sl_geo_dept_pos/org_dept_stru/geoDeptStruCountry";
 import OrgPosStrCountry from "./org_sl_geo_dept_pos/org_pos_stru/geoDepPositionCountry";
 import ProjectNameBaseOrgStr from "./org_sl_geo_dept_pos/org_project_dept/geoDeptProjectName";
 /**
  *@Org-Structures Chart 
-**/
+ **/
 import orgChartStructure from "./org_global_str_chart/orgChartStructure";
 import orgStrDeptPosChartManage from "./org_structure_dept_pos_chart/orgStructureDeptPosGeoChartManage";
+import orgStrPosChartManage from "./org_structure_dept_pos_chart/orgStructurePositionGeoChartManage";
 
 const store = createStore({
     namespaced: true,
@@ -110,18 +111,19 @@ const store = createStore({
         geoVillages: GeoLocationVillages,
         /***
          *@Geo-fence org-structures 
-        * */ 
+         * */
         orgDeptStrCou: OrgDeptStrCountry,
         orgPosStrCou: OrgPosStrCountry,
         orgProjectsName: ProjectNameBaseOrgStr,
         /***
          *@Manage - Org-structures Chart 
-        **/
-       orgStrChart: orgChartStructure,
+         **/
+        orgStrChart: orgChartStructure,
         /***
          *@Manage - Org-structures Chart Structure  - Department of Information Position
-        **/
-       orgStrDeptPosGeo: orgStrDeptPosChartManage,
+         **/
+        orgStrDeptPosGeo: orgStrDeptPosChartManage,
+        orgStrPos: orgStrPosChartManage,
 
 
     },

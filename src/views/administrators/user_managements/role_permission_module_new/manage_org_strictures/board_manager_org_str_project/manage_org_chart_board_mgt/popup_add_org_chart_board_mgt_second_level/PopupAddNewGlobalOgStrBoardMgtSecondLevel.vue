@@ -137,7 +137,7 @@
                 icon="pi pi-save"
                 severity="danger"
                 class="w-8rem"
-                @click="submittedAddNewOrgStrBoardMgt()"
+                @click="submittedAddOrgSecondLevelOfProject()"
                 autofocus
             />
         </template>
@@ -217,13 +217,6 @@ export default {
         },
         cancelAddOrgBoardMgt() {
             this.visibleDialogOrgStrBoardMgt = false;
-        },
-        submittedAddNewOrgStrBoardMgt(validate) {
-            try {
-                this.addNewGeoOrgDeptProvinceState(validate);
-            } catch (error) {
-                return Promise.reject(error);
-            }
         },
         resetFromAddDeptOrgStr() {
             this.selectedParentDeptOrgStrBoardMgt = null;

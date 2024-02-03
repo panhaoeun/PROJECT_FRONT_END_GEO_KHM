@@ -13,39 +13,8 @@ const getters = {
     allOrgBoardDeptStructureChart: ({
         geoStrDeptGeo
     }) => geoStrDeptGeo ? geoStrDeptGeo : [],
-    allOrgBoardDeptStructure02LevelChart: ({
-         geoStrDeptChartLevel02
-    }) => geoStrDeptChartLevel02 ? geoStrDeptChartLevel02 : [],
-    allOrgBoardDeptStructure03LevelChart: ({
-          geoStrDeptChartLevel03
-    }) => geoStrDeptChartLevel03 ? geoStrDeptChartLevel03 : [],
-    allOrgBoardDeptStructure04LevelChart: ({
-         geoStrDeptChartLevel04
-    }) => geoStrDeptChartLevel04 ? geoStrDeptChartLevel04 : [],
-    allOrgBoardDeptStructure05LevelChart: ({
-        geoStrDeptChartLevel05
-    }) => geoStrDeptChartLevel05 ? geoStrDeptChartLevel05 : [],
-    // Hierarchy Data
-    allOrgBoardHierarchyStructure: ({
-        orgBoardMgtStr
-    }) => orgBoardMgtStr ? orgBoardMgtStr : [],
 }
 const mutations = {
-    SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
-        state.geoStrDeptGeo = orgDeptPos ? orgDeptPos : [];
-    },
-    SET_ORG_STR_GEO_DEPT_POS_CHART_LEVEL_02(state, geoStrDeptChartLevel02) {
-        state.geoStrDeptChartLevel02 = geoStrDeptChartLevel02 ? geoStrDeptChartLevel02 : [];
-    },
-    SET_ORG_STR_GEO_DEPT_POS_CHART_LEVEL_03(state, geoStrDeptChartLevel03) {
-        state.geoStrDeptChartLevel03 = geoStrDeptChartLevel03 ? geoStrDeptChartLevel03 : [];
-    },
-    SET_ORG_STR_GEO_DEPT_POS_CHART_LEVEL_04(state, geoStrDeptChartLevel03) {
-        state.geoStrDeptChartLevel04 = geoStrDeptChartLevel03 ? geoStrDeptChartLevel03 : [];
-    },
-    SET_ORG_STR_GEO_DEPT_POS_CHART_LEVEL_05(state, geoStrDeptChartLevel03) {
-        state.geoStrDeptChartLevel05 = geoStrDeptChartLevel03 ? geoStrDeptChartLevel03 : [];
-    },
     // Get Hierarchy data for Structure Base Project or Country
     SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT(state, orgBoardMgtStr){
         state.orgBoardMgtStr = orgBoardMgtStr ? orgBoardMgtStr : [];
