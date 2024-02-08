@@ -8,6 +8,7 @@ const state = {
     geoStrDeptChartLevel04: [],
     geoStrDeptChartLevel05: [],
     orgBoardMgtStr: [],
+    positionDeptOrgBoardMgt: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -28,7 +29,11 @@ const getters = {
     // Hierarchy Data
     allOrgBoardHierarchyStructure: ({
         orgBoardMgtStr
-    }) => orgBoardMgtStr ? orgBoardMgtStr : [],
+    }) => orgBoardMgtStr ? orgBoardMgtStr : {},
+    // Get Position Based on Management Board Department
+    allOrgBoardPositionBaseDeptBoardHierarchyStructure: ({
+        positionDeptOrgBoardMgt
+    }) => positionDeptOrgBoardMgt ? positionDeptOrgBoardMgt : {},
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -48,7 +53,11 @@ const mutations = {
     },
     // Get Hierarchy data for Structure Base Project or Country
     SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT(state, orgBoardMgtStr){
-        state.orgBoardMgtStr = orgBoardMgtStr ? orgBoardMgtStr : [];
+        state.orgBoardMgtStr = orgBoardMgtStr ? orgBoardMgtStr : {};
+    },
+    // Get Relist Position of Department base project or country
+    SET_POSITION_DEPT_ORG_STR_GEO_LEVEL(state, positionDeptOrgBoardMgt) {
+        state.positionDeptOrgBoardMgt = positionDeptOrgBoardMgt ? positionDeptOrgBoardMgt : {};
     }
 }
 const actions = {
@@ -59,8 +68,10 @@ const actions = {
             const orgStrChartLevelAc = params?.orgStrChartLevel ? params?.orgStrChartLevel : 'SL01';
             const orgStrCountryIdAc = parseInt(params?.orgStrChartCountryId) ? parseInt(params?.orgStrChartCountryId) : 0;
             const orgStrProjectIdAc = parseInt(params?.orgStrChartProjectId) ? parseInt(params?.orgStrChartProjectId) : 0;
-            geoDeptOrgStrServices.listOrgStructureLevelProjectGeo(orgStrChartLevelAc, orgStrCountryIdAc, orgStrProjectIdAc).then((deptOrg) => {
-                const getAllDeptOrgStrChart = Array.isArray(deptOrg) ? deptOrg.slice() : [];
+            // Super Chart Id
+            const orgStrSuperChartIdAcc = params?.orgStrSuperChartId ? params?.orgStrSuperChartId : 0;
+            geoDeptOrgStrServices.listOrgStructureLevelProjectGeo(orgStrChartLevelAc, orgStrCountryIdAc, orgStrProjectIdAc, orgStrSuperChartIdAcc).then((deptOrg) => {
+                const getAllDeptOrgStrChart = deptOrg ? deptOrg : {};
                 if (!deptOrg) {
                     commit('SET_ORG_STR_GEO_DEPT_POS', []);
                 }
@@ -82,12 +93,12 @@ const actions = {
                 commit('SET_ORG_STR_GEO_DEPT_POS', getAllDeptOrgStrChart ? getAllDeptOrgStrChart : []);
                 return getAllDeptOrgStrChart ? getAllDeptOrgStrChart : [];
             }).catch((error) => {
+                console.log(error)
                 throw Error(error);
             });
         } catch (error) {
            throw Error(error);
         }
-
     },
     /**
      * @Hierarchy Data Chart Structure Base Project Board Manager
@@ -108,13 +119,39 @@ const actions = {
             countryIdOrgStr = 0;
        }
        geoDeptOrgStrServices.hierarchyDataOrgStructureGeoProject(projectIdOrgStr, countryIdOrgStr).then((orgDeptStr) => {
-            const getAllHierarchyData = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : [];
+            const getAllHierarchyData = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : {};
             if (!orgDeptStr) {
-                commit('SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT', []);
+                commit('SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT', {});
             }else{
-                commit('SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT', getAllHierarchyData ? getAllHierarchyData : [])
+                commit('SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT', getAllHierarchyData ? getAllHierarchyData : {})
             } 
        });
+   },
+    /**
+     * @Data Chart Position of the chart manager (department of position of the chart)
+    */
+   async setRelistPositionDataByDepartment({commit}, payload) {
+        try{
+            const getParentOrgStrId = payload?.getParentPosOrgId;
+            const getParentSuperPosOrgStrId = payload?.getSuperOrgPosId;
+            const getOrgPosStrLevel = payload?.getOrgPosLevel;
+            let parentOrgPosSuperId;
+            if (getParentSuperPosOrgStrId !== null || getParentSuperPosOrgStrId !== '') {
+                parentOrgPosSuperId = getParentSuperPosOrgStrId ? getParentSuperPosOrgStrId : 0;
+            } else {
+                parentOrgPosSuperId = 0;
+            }
+            geoDeptOrgStrServices.listOrgStructureLevelDeptPositionGeo(getParentOrgStrId, parentOrgPosSuperId, getOrgPosStrLevel).then((orgDeptPosStr) => {
+                const getAllPositionBaseOrgStr = Array.isArray(orgDeptPosStr) ? orgDeptPosStr.slice() : {};
+                if (!orgDeptPosStr) {
+                    commit('SET_POSITION_DEPT_ORG_STR_GEO_LEVEL', {});
+                } else {
+                    commit('SET_POSITION_DEPT_ORG_STR_GEO_LEVEL', getAllPositionBaseOrgStr ? getAllPositionBaseOrgStr : {})
+                }
+            });
+        }catch(error){
+            throw Error(error);
+        }
    }
 }
 

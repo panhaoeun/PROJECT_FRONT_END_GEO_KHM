@@ -1,10 +1,11 @@
 <template>
     <Button
         aria-label="Add Org Structure"
-        class="border-round-sm w-11rem h-2rem text-sm text-danger"
+        class="border-round-sm w-13rem h-2.5rem text-sm text-danger"
         outlined
         label="Manage Org Structure"
         @click.prevent="openDialogOrgStructure()"
+        icon="pi pi-sitemap"
     />
     <!-- List Org.Structures of board mgt -->
     <Dialog
@@ -49,6 +50,9 @@
                                     showClear
                                     dataKey="orgStrId"
                                     clear
+                                    @click.passive="
+                                        openReloadDeptOrgStrMgtBoardRootLevel()
+                                    "
                                     v-model="
                                         v$.selectedOptOrgChartRootLevel.$model
                                     "
@@ -124,6 +128,9 @@
                                     showClear
                                     dataKey="orgStrId"
                                     clear
+                                    @click.prevent="
+                                        openDataSecondLevelSelectedParentLevel()
+                                    "
                                     v-model="selectedOptOrgChartSecondLevel"
                                     :options="getAllDeptOrgStrBoardSecondLevel"
                                     placeholder="Select Structure Level 02"
@@ -181,6 +188,9 @@
                                     showClear
                                     dataKey="orgStrId"
                                     clear
+                                    @click.prevent="
+                                        openDataThirdLevelSelectedSecondLevel()
+                                    "
                                     v-model="selectedOptOrgChartThirdLevel"
                                     :options="getAllDeptOrgStrBoardThirdLevel"
                                     placeholder="Select Structure Level 03"
@@ -367,6 +377,8 @@
         </template>
     </Dialog>
 </template>
+
+<!--Script of Manage chart board manager-->
 <script>
 import { FilterMatchMode } from "primevue/api";
 // Global org-chat-board-mgt
@@ -378,8 +390,10 @@ import AddNewGlobalOrgStrBoardMgtFiveLevel from "./AddNewGlobalOrgStrBoardMgtFiv
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
+import manageGlobalOrgChartMgt from "@/mixin/manage_geo_org_str/manageGlobalOrgChartStructure";
 
 export default {
+    name: "ManageOrgChart",
     setup() {
         return { v$: useVuelidate() };
     },
@@ -395,106 +409,13 @@ export default {
             selectedOptOrgChartRootLevel: { required },
         };
     },
-    mixins: [manageOrgChartBoardMgtLevelHelper],
+    mixins: [manageOrgChartBoardMgtLevelHelper, manageGlobalOrgChartMgt],
     components: {
         AddNewGlobalOrgStrBoardMgtSecondLevel,
         AddNewParentRootOrgStrBoardMgt,
         AddNewGlobalOrgStrBoardMgtThirdLevel,
         AddNewGlobalOrgStrBoardMgtForthLevel,
         AddNewGlobalOrgStrBoardMgtFiveLevel,
-    },
-    computed: {
-        getProjectId() {
-            const getProjectIdDept = this.manageRootProjectId
-                ? this.manageRootProjectId
-                : 0;
-            if (
-                !getProjectIdDept ||
-                (getProjectIdDept > 0 && getProjectIdDept !== null)
-            ) {
-                return getProjectIdDept ? getProjectIdDept : 0;
-            }
-            return getProjectIdDept;
-        },
-        getParentLevelOrgStructure() {
-            const getOptSelectedOrgParentLevel = this
-                .selectedOptOrgChartRootLevel
-                ? this.selectedOptOrgChartRootLevel
-                : 0;
-            if (
-                !getOptSelectedOrgParentLevel ||
-                (typeof getOptSelectedOrgParentLevel !== "undefined" &&
-                    getOptSelectedOrgParentLevel !== null)
-            ) {
-                return getOptSelectedOrgParentLevel?.orgSupDeptStrId
-                    ? getOptSelectedOrgParentLevel?.orgSupDeptStrId
-                    : 0;
-            }
-            return null;
-        },
-        getSecondLevelOrgStructure() {
-            const getOptSelectedOrgSecondLevel = this
-                .selectedOptOrgChartSecondLevel
-                ? this.selectedOptOrgChartSecondLevel
-                : 0;
-            if (
-                !getOptSelectedOrgSecondLevel ||
-                (typeof getOptSelectedOrgSecondLevel !== "undefined" &&
-                    getOptSelectedOrgSecondLevel !== null)
-            ) {
-                return getOptSelectedOrgSecondLevel?.orgSupDeptStrId
-                    ? getOptSelectedOrgSecondLevel?.orgSupDeptStrId
-                    : 0;
-            }
-            return null;
-        },
-        getThirdLevelOrgStructure() {
-            const getOptSelectedOrgThirdLevel = this
-                .selectedOptOrgChartThirdLevel
-                ? this.selectedOptOrgChartThirdLevel
-                : 0;
-            if (
-                !getOptSelectedOrgThirdLevel ||
-                (typeof getOptSelectedOrgThirdLevel !== "undefined" &&
-                    getOptSelectedOrgThirdLevel !== null)
-            ) {
-                return getOptSelectedOrgThirdLevel?.orgSupDeptStrId
-                    ? getOptSelectedOrgThirdLevel?.orgSupDeptStrId
-                    : 0;
-            }
-            return null;
-        },
-        getFourthLevelOrgStructure() {
-            const getOptSelectedOrgFourthLevel = this
-                .selectedOptOrgChartFourthLevel
-                ? this.selectedOptOrgChartFourthLevel
-                : 0;
-            if (
-                !getOptSelectedOrgFourthLevel ||
-                (typeof getOptSelectedOrgFourthLevel !== "undefined" &&
-                    getOptSelectedOrgFourthLevel !== null)
-            ) {
-                return getOptSelectedOrgFourthLevel?.orgSupDeptStrId
-                    ? getOptSelectedOrgFourthLevel?.orgSupDeptStrId
-                    : 0;
-            }
-            return null;
-        },
-        getFiveLevelOrgStructure() {
-            const getOptSelectedOrgFiveLevel = this.selectedOptOrgChartFiveLevel
-                ? this.selectedOptOrgChartFiveLevel
-                : 0;
-            if (
-                !getOptSelectedOrgFiveLevel ||
-                (typeof getOptSelectedOrgFiveLevel !== "undefined" &&
-                    getOptSelectedOrgFiveLevel !== null)
-            ) {
-                return getOptSelectedOrgFiveLevel?.orgSupDeptStrId
-                    ? getOptSelectedOrgFiveLevel?.orgSupDeptStrId
-                    : 0;
-            }
-            return null;
-        },
     },
     data() {
         return {
@@ -513,27 +434,9 @@ export default {
             selectedOptOrgChartFiveLevel: null,
         };
     },
-    mounted() {
-        // Open Reload Data Opt for the org-structures
-        this.openReloadDeptOrgStrMgtBoardRootLevel();
-    },
     methods: {
         openDialogOrgStructure() {
             this.showModalOrgStructures = true;
-        },
-        openReloadDeptOrgStrMgtBoardRootLevel() {
-            try {
-                const getProjectId = this.getProjectId ? this.getProjectId : 0;
-                const getOrgLevelType = "SL01";
-                const getOrgCountry = this.getProjectId ? this.getProjectId : 0;
-                this.fetchingDataGeoOrgChartStructure(
-                    getOrgLevelType,
-                    getOrgCountry,
-                    getProjectId
-                );
-            } catch (error) {
-                throw Error(error ? error.message : "");
-            }
         },
     },
 };

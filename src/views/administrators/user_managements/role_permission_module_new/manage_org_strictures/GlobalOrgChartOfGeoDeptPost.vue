@@ -1,7 +1,7 @@
 <template>
     <div class="gap-3 my-4 flex justify-content-center">
         <OrgStructureChartGeoFenceHierarchyLevel
-            :datasource="dataHierarchyDept"
+            :datasource="orgData"
             pan="true"
             @node-click="selectNode"
         >

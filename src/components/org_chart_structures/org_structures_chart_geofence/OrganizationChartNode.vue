@@ -1,5 +1,8 @@
 <template>
     <table>
+        {{
+            createTreeOrgChartGlobal()
+        }}
         <tbody>
             <tr>
                 <td
@@ -13,7 +16,15 @@
                         class="node"
                         :id="datasource.id"
                         @click.stop="handleClick(datasource)"
+                        @contextmenu.prevent="onHandleChangeChange()"
                     >
+                        <!-- Menu -->
+                        <Menu
+                            ref="menu"
+                            id="overlay_menu"
+                            :model="items"
+                            :popup="true"
+                        />
                         <slot :node-data="datasource">
                             <div class="title">
                                 <div class="avatar">
@@ -79,6 +90,7 @@
 <!-- Script -->
 <script>
 import AvatarIconsOrgChart from "./AvatarIconsOrgChart.vue";
+import _ from "lodash";
 export default {
     name: "node",
     components: {
@@ -89,10 +101,48 @@ export default {
         handleClick: Function,
     },
     data() {
-        return {};
+        return {
+            items: [
+                {
+                    label: "Manage Position",
+                    icon: "pi pi-cog",
+                },
+                {
+                    label: "Manage Manager",
+                    icon: "pi pi-user-plus",
+                },
+            ],
+        };
     },
     created() {},
-    methods: {},
+    methods: {
+        onHandleChangeChange() {
+            this.$refs.menu.toggle(event);
+        },
+        rooDataOrgChart() {
+            const staffOrgChart = this.datasource.filter(
+                (e) => e.deptOrgStrSuperOrgStrId
+            );
+            staffOrgChart.forEach((org) => {
+                return org.children.forEach((child) => {
+                    console.log(child);
+                    return child;
+                });
+            });
+        },
+        createTreeOrgChartGlobal(array, parent, nextparent, tree) {
+            console.log(array, parent, nextparent, tree);
+            tree = typeof tree !== "undefined" ? tree : [];
+            parent =
+                typeof parent !== "undefined"
+                    ? parent
+                    : {
+                          id: "",
+                      };
+            var children = _.remove(array, (child) => console.log(child));
+            console.log(children);
+        },
+    },
     mounted() {},
 };
 </script>

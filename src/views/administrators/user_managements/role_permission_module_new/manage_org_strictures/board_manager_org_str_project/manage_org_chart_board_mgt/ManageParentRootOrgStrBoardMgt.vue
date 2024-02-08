@@ -77,7 +77,9 @@
                         <!-- Empty Org-Structure -->
                         <template #empty>No data org-structure...</template>
                         <!-- Loading Org-Structure Data -->
-                        <template #loading> Loading org-structure data. Please wait... </template>
+                        <template #loading>
+                            Loading org-structure data. Please wait...
+                        </template>
                         <Column
                             field="orgStrDeptName"
                             header="Org-Name"
@@ -131,6 +133,7 @@
         </template>
     </Dialog>
 </template>
+
 <!-- Script of global-org-str-board-mgt parent(Root) -->
 <script>
 import PopupAddNewParentRootBoardOrgStrMgt from "./popup_add_org_chart_boat_mgt/PopupAddNewParentRootBoardOrgStrMgt";
@@ -142,15 +145,15 @@ export default {
     },
     props: {
         countryIdOrgRoot: {
-            type: Number, 
+            type: Number,
             required: true,
-            default: 0
+            default: 0,
         },
         projectIdOrgRoot: {
-            type: Number, 
+            type: Number,
             required: true,
-            default: 0
-        }
+            default: 0,
+        },
     },
     data() {
         return {
@@ -162,19 +165,34 @@ export default {
     },
     mounted() {
         const orgLevelDeptBoard = "SL01";
-        const rogLevelDeptBoardCountry = this.deptCountryId ? this.deptCountryId : 0;
-        const orgLevelDeptBoarProId = this.getProjectDeptStrId ? this.getProjectDeptStrId : 0;
-        this.fetchingDataGeoOrgChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId);
+        const rogLevelDeptBoardCountry = this.deptCountryId
+            ? this.deptCountryId
+            : 0;
+        const orgLevelDeptBoarProId = this.getProjectDeptStrId
+            ? this.getProjectDeptStrId
+            : 0;
+        const orgDeptSuperId = 0;
+        this.fetchingDataGeoOrgChartStructure(
+            orgLevelDeptBoard,
+            rogLevelDeptBoardCountry,
+            orgLevelDeptBoarProId,
+            orgDeptSuperId
+        );
     },
     computed: {
-        getProjectDeptStrId(){
-            const getOrgRootId = this.projectIdOrgRoot ? this.projectIdOrgRoot : 0;
-            if(getOrgRootId > 0 || getOrgRootId !== null && typeof getOrgRootId !== "string"){
+        getProjectDeptStrId() {
+            const getOrgRootId = this.projectIdOrgRoot
+                ? this.projectIdOrgRoot
+                : 0;
+            if (
+                getOrgRootId > 0 ||
+                (getOrgRootId !== null && typeof getOrgRootId !== "string")
+            ) {
                 return getOrgRootId ? getOrgRootId : 0;
             }
             return getOrgRootId;
-        }
-    },  
+        },
+    },
     mixins: [manageOrgChartBoardMgtLevelHelper],
     methods: {
         showDialogAddNewGloOrgStrBoardMgt() {

@@ -5,8 +5,8 @@ export default class ManageOrgChartStructureGeoProjectServices {
      * @api {post} 
      *  @api (Org-Structure API endpoints) /addOrganizationStructure/ Add Organization Structure Information
      */
-    async listOrgStructureLevelProjectGeo(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId) {
-        return await http.get(`/admin/geo-location-route/list-new-multi-level/org-chart-structures?orgChartStrLevel=${orgStrChartLevel}&orgChartStrGeoDeptCountryId=${orgStrChartCountryId}&orgChartStrGeoDeptProId=${orgStrChartProjectId}`).then((result) => {
+    async listOrgStructureLevelProjectGeo(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId, orgChartStrSuperId) {
+        return await http.get(`/admin/geo-location-route/list-new-multi-level/org-chart-structures?orgChartStrLevel=${orgStrChartLevel}&orgChartStrGeoDeptCountryId=${orgStrChartCountryId}&orgChartStrGeoDeptProId=${orgStrChartProjectId}&orgChartStrSuperId=${orgChartStrSuperId}`).then((result) => {
             if (!result) {
                 return false;
             }
@@ -16,7 +16,7 @@ export default class ManageOrgChartStructureGeoProjectServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error || error.message);
         });
     }
     async createNewOrgStructureGeoProjectGeo(countryGeo) {
@@ -39,15 +39,15 @@ export default class ManageOrgChartStructureGeoProjectServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error);
         });
     }
     /** 
      * @api {post} 
      *  @api (Org-Structure Position API endpoints) /addOrganizationStructure/ Add Organization Structure Information
      */
-    async listOrgStructureLevelDeptPositionGeo(parentDeptPosId) {
-        return await http.get(`/admin/geo-location-route/list-position-dept-filter/org-chart-structures?orgPosDeptParentId=${parentDeptPosId}`).then((result) => {
+    async listOrgStructureLevelDeptPositionGeo(parentDeptPosId, orgChartStrSuperId, getOrgPosStrLevel) {
+        return await http.get(`/admin/geo-location-route/list-position-dept-filter/org-chart-structures?orgPosDeptParentId=${parentDeptPosId}&orgChartStrSuperId=${orgChartStrSuperId}&orgDepPosStrLevel=${getOrgPosStrLevel}`).then((result) => {
             if (!result) {
                 return false;
             }
@@ -57,7 +57,7 @@ export default class ManageOrgChartStructureGeoProjectServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error || error.message);
         });
     }
     async createNewOrgStrDeptPositionGeoProject(deptPos) {

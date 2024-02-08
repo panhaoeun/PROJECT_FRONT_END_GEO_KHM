@@ -77,7 +77,7 @@ export default {
                     }
                     if (!this.orgStrBoardMgtEnglishName || this.orgStrBoardMgtEnglishName !== null && this.orgStrBoardMgtEnglishName !== '') {
                         const addNewOrgStrMgtPosDept = {
-                            addNewSuperDeptOrgStrIdBySelectedParent: String(this.orgStrBoardMgtEnglishName),
+                            addNewSuperDeptOrgStrIdBySelectedParent: this.selectedOptOrgChartRootLevel ? this.selectedOptOrgChartRootLevel : 0,
                             addNewMgrDeptOrgStrId: 0,
                             addNewOrgChartLevel: 'SL01',
                             addNewOrgChartProId: getOptSelectedProId ? getOptSelectedProId : 0,
@@ -100,7 +100,8 @@ export default {
                                 const orgLevelDeptBoard = "SL01";
                                 const rogLevelDeptBoardCountry = this.deptCountryId ? this.deptCountryId : 0;
                                 const orgLevelDeptBoarProId = getOptSelectedProId ? getOptSelectedProId : 0;
-                                this.fetchingDataGeoOrgChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId);
+                                const orgRootLevelBoardProId = this.selectedOptOrgChartRootLevel ? this.selectedOptOrgChartRootLevel : 0;
+                                this.fetchingDataGeoOrgChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId, orgRootLevelBoardProId);
                                 this.visibleDialogDepartment = false;
                                 this.$toast.add({
                                     severity: "success",
@@ -188,7 +189,7 @@ export default {
                 throw Error(error.message ? error.message : error);
             }
         },
-        async fetchingDataGeoOrgChartStructure(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId) {
+        async fetchingDataGeoOrgChartStructure(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId, orgStrSuperChartId) {
             this.fetchingDeptOrg = true;
             setTimeout(async () => {
                 try {
@@ -198,7 +199,8 @@ export default {
                     const optSelectedStrBoardLevel = {
                         orgStrChartLevel,
                         orgStrChartCountryId, 
-                        orgStrChartProjectId
+                        orgStrChartProjectId,
+                        orgStrSuperChartId
                     }
                     this.getAllGeoPositionDeptManageChart(optSelectedStrBoardLevel);
                 } catch (e) {

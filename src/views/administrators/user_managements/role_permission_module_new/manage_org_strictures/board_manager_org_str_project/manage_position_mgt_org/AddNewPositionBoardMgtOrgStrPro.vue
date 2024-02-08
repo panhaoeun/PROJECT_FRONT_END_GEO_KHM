@@ -1,12 +1,15 @@
 <template>
-    <Button
-        aria-label="Add Positions"
-        severity="help"
-        class="border-round-sm w-10rem h-2rem text-sm"
-        outlined
-        label="Add New Position"
-        @click="openDialogsAddPositionBoardMgtOrgPro()"
-    />
+    <Toast />
+    <div class="flex align-items-center justify-content-end">
+        <Button
+            aria-label="Add Positions"
+            severity="help"
+            class="border-round-sm w-10rem h-2rem text-sm"
+            outlined
+            label="Add New Position"
+            @click="openDialogsAddPositionBoardMgtOrgPro()"
+        />
+    </div>
     <!-- Dialog Departments -->
     <Dialog
         v-model:visible="visibleDialogAddPositionBoardMgt"
@@ -40,12 +43,13 @@
                         >
                             Department of Org.Structure
                         </label>
-                        <Dropdown
+                        <TreeSelect
                             v-model="v$.orgDeptBoardMgtBaseEmpId.$model"
-                            :options="getAllDeptOrgStrProvinceState"
-                            aria-labelledby="parentDeptId"
+                            :options="getAllDeptOrgStrPositionMgtBoard"
+                            aria-labelledby="deptOrgStrId"
+                            inputId="deptOrgStrId"
                             placeholder="Select Department of Org.Structure..."
-                            aria-describedby="parentDeptId"
+                            aria-describedby="deptOrgStrId"
                             :class="{
                                 'p-invalid border-round-lg p-error':
                                     v$.orgDeptBoardMgtBaseEmpId.$invalid &&
@@ -58,41 +62,35 @@
                             showClear
                             class="border-round-lg border-round-lg w-full"
                         >
+                            <!--Placeholder Board-->
                             <template #value="slotProps">
-                                <div
-                                    v-if="slotProps.value"
-                                    class="flex align-items-center"
+                                <template
+                                    v-if="
+                                        slotProps !== null &&
+                                        slotProps !== undefined &&
+                                        slotProps.value !== 'object'
+                                    "
                                 >
-                                    <div class="text-sm">
-                                        {{
-                                            geoNameToTitleCase(
-                                                String(
-                                                    slotProps.value
-                                                        ?.geo_english_name ?? ""
-                                                )
-                                            )
-                                        }}
-                                    </div>
-                                </div>
+                                    <template
+                                        v-for="(orgDept, i) in slotProps.value"
+                                        :key="i"
+                                    >
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div class="text-sm">
+                                                {{ orgDept.label }}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </template>
                                 <span v-else class="text-sm">
                                     {{ slotProps.placeholder }}
                                 </span>
                             </template>
-                            <template #option="slotProps">
-                                <div class="flex align-items-center text-sm">
-                                    <div class="text-sm">
-                                        {{
-                                            geoNameToTitleCase(
-                                                String(
-                                                    slotProps.option
-                                                        .geo_english_name ?? ""
-                                                )
-                                            )
-                                        }}
-                                    </div>
-                                </div>
-                            </template>
-                        </Dropdown>
+                            <!--Customize of department of mgt board-->
+                        </TreeSelect>
                         <small
                             v-if="
                                 (v$.orgDeptBoardMgtBaseEmpId.$invalid &&
@@ -103,7 +101,7 @@
                             >{{
                                 v$.orgDeptBoardMgtBaseEmpId.required.$message.replace(
                                     "Value",
-                                    "Department"
+                                    "Department of Org.Structure"
                                 )
                             }}
                         </small>
@@ -205,6 +203,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import geoLocationVillagesHelper from "@/mixin/geoLocationVillagesHelper";
 import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
+import { mapGetters } from "vuex";
 export default {
     components: {},
     props: {},
@@ -234,6 +233,19 @@ export default {
         return {
             v$: useVuelidate(),
         };
+    },
+    computed: {
+        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardHierarchyStructure"]),
+        getAllDeptOrgStrPositionMgtBoard() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
+        geoNameToTitleCaseOrgBoard(str) {
+            return str
+                .toLowerCase()
+                .replace(/(^|\s|-|')(\w)/g, function (match) {
+                    return match.toUpperCase();
+                });
+        },
     },
     mixins: [manageOrgStrMgtPositionHelper, geoLocationVillagesHelper],
     created() {},

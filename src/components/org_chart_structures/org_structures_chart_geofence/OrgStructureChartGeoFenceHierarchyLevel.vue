@@ -21,12 +21,6 @@
                     :datasource="datasource"
                     :handle-click="handleClick"
                 >
-                    <!-- <template
-                        v-for="slot in Object.keys(scopedSlots)"
-                        :v-slot="slot"
-                    >
-                        <slot :name="slot" v-bind="scope" />
-                    </template> -->
                 </organization-chart-node>
             </div>
         </div>

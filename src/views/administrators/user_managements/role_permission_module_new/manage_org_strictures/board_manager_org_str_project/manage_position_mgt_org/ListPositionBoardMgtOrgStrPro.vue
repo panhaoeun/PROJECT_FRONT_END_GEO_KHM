@@ -4,8 +4,9 @@
             <Button
                 aria-label="Add Positions"
                 severity="help"
-                class="border-round-sm w-10rem h-2rem text-sm"
+                class="border-round-sm w-13rem h-2.5rem text-sm"
                 outlined
+                icon="pi pi-briefcase"
                 label="Manage Position"
                 @click="openDialogsAddPositionBoardMgtOrgPro()"
             />
@@ -33,17 +34,79 @@
             class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
         >
             <div class="pop-over-content p-20 p-sm-15 card">
+                <!-- Add more -->
+                <AddNewPositionBoardMgtOrgStrPro />
                 <!-- Modify Dialogs Positions Board Mgt Org-Structures -->
-                <!-- <PopupEditedProject
-                    v-if="openEditedProjectFrm"
-                    :geoOrgProjectStrData="editPopupProjectStrData"
-                    @close="closingPopupEditedProjectStr"
-                /> -->
+                <PopupEditedBoardMgtPosition
+                    v-if="openEditedBoardMgtDialogs"
+                    :openEditBoardMgtId="openEditBoardMgtData ? openEditBoardMgtData : ''"
+                    @close="closingPopupEditedPosIdOrgStrDialogs"
+                />
                 <!-- Departments -->
                 <div class="flex gap-15">
-                    <div class="input-wrap flex-1">
-                        <!-- Add more -->
-                        <AddNewPositionBoardMgtOrgStrPro />
+                    <div
+                        class="inline-flex align-items-center align-content-between justify-content-between gap-5"
+                    >
+                        <!-- Dropdown of departments org-dept -->
+                        <div
+                            class="flex align-items-center justify-content-start"
+                        >
+                            <div class="input-wrap flex-1">
+                                <label>Org.Structure </label>
+                                <TreeSelect
+                                    @change="
+                                        onChangeSelectedDeptOrgStructureBoardMgt(
+                                            $event
+                                        )
+                                    "
+                                    v-model="orgDeptBoardMgtBaseEmpIdSelected"
+                                    :options="
+                                        getListAllDeptOrgStrPositionMgtBoard
+                                    "
+                                    aria-labelledby="deptOrgStrId"
+                                    inputId="deptOrgStrId"
+                                    placeholder="Select Department of Org.Structure..."
+                                    aria-describedby="deptOrgStrId"
+                                    selectionMode="single"
+                                    display="comma"
+                                    emptyMessage="No result found Org.Structure..."
+                                    filter
+                                    showClear
+                                    class="border-round-lg border-round-lg w-30rem sm:w-26rem"
+                                >
+                                    <!--Placeholder Board-->
+                                    <template #value="slotProps">
+                                        <template
+                                            v-if="
+                                                slotProps !== null &&
+                                                slotProps !== undefined &&
+                                                slotProps.value !== 'object'
+                                            "
+                                        >
+                                            <template
+                                                v-for="(
+                                                    orgDept, i
+                                                ) in slotProps.value"
+                                                :key="i"
+                                            >
+                                                <div
+                                                    v-if="slotProps.value"
+                                                    class="flex align-items-center"
+                                                >
+                                                    <div class="text-sm">
+                                                        {{ orgDept?.label }}
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <span v-else class="text-sm">
+                                            {{ slotProps?.placeholder }}
+                                        </span>
+                                    </template>
+                                    <!--Customize of department of mgt board-->
+                                </TreeSelect>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -56,18 +119,17 @@
                             :rows="10"
                             dataKey="id"
                             :paginator="true"
-                            :value="getAllProjectOnOrgStr"
+                            :value="getPositionBaseDept"
                             :rowHover="true"
                             contextMenu
-                            v-model:filters="filtersGeoProjects"
+                            v-model:filters="filtersGeoPositionDept"
                             filterDisplay="menu"
-                            :loading="fetchingOrgStrDeptProject"
-                            :filters="filtersGeoProjects"
+                            :loading="fetchingOrgStrDeptPosId"
+                            :filters="filtersGeoPositionDept"
                             responsiveLayout="scroll"
                             :globalFilterFields="[
-                                'representative.project_name',
-                                'project_name',
-                                'project_status',
+                                'representative.deptPosName',
+                                'deptPosName',
                             ]"
                             v-model:selection="selectedGeoProjectId"
                             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -84,7 +146,7 @@
                                         <i class="pi pi-search" />
                                         <InputText
                                             v-model="
-                                                filtersGeoProjects['global']
+                                                filtersGeoPositionDept['global']
                                                     .value
                                             "
                                             placeholder="Search positions"
@@ -93,22 +155,22 @@
                                 </div>
                             </template>
                             <!-- Column -->
-                            <template #empty> No projects found. </template>
+                            <template #empty>
+                                No department org-structure found.
+                            </template>
                             <template #loading>
-                                Loading projects data. Please wait.
+                                Loading department org-structure data. Please wait...
                             </template>
                             <Column
-                                field="project_name"
+                                field="deptPosName"
                                 header="Position"
-                                sortField="project_name"
+                                sortField="deptPosName"
                                 sortable
                             >
                                 <template #body="{ data }">
                                     <span>
                                         {{
-                                            String(
-                                                data?.project_name
-                                            ).toString()
+                                            String(data?.deptPosName).toString()
                                         }}</span
                                     >
                                 </template>
@@ -123,15 +185,8 @@
                                         icon="pi pi-pencil"
                                         outline
                                         class="p-button-rounded p-button-success mr-2"
-                                        v-permission="[
-                                            {
-                                                functionName:
-                                                    'location_ms_system_module',
-                                                moduleName: 'fun_edit',
-                                            },
-                                        ]"
                                         @click="
-                                            editGeoOrgDeptProjectStr(
+                                            editGeoOrgDeptPosStrByPosIdDialog(
                                                 slotProps?.data
                                             )
                                         "
@@ -141,17 +196,10 @@
                                         outline
                                         class="p-button-rounded p-button-warning"
                                         @click="
-                                            confirmDeletedGeoProjectName(
+                                            confirmDeletedDeptPosOrgStrById(
                                                 slotProps?.data
                                             )
                                         "
-                                        v-permission="[
-                                            {
-                                                functionName:
-                                                    'location_ms_system_module',
-                                                moduleName: 'fun_delete',
-                                            },
-                                        ]"
                                     />
                                 </template>
                             </Column>
@@ -164,16 +212,16 @@
             <Button
                 label="Cancel"
                 class="w-6rem"
-                @click="cancelAddGeoCountry()"
+                @click="cancelAddDeptPostMgt()"
                 outlined
             />
         </template>
     </Dialog>
     <!-- Deleted Dialogs Project -->
     <Dialog
-        v-model:visible="deletedGeoProjectDialogs"
+        v-model:visible="deletedGeoDeptPosMgtDialogs"
         :style="{ width: '450px' }"
-        header="Confirm delete geo-country locations"
+        header="Confirm delete positions base org-structure"
         :modal="true"
     >
         <div class="confirmation-content">
@@ -188,13 +236,13 @@
                 label="No"
                 icon="pi pi-times"
                 text
-                @click="deletedGeoProjectDialogs = false"
+                @click="deletedGeoDeptPosMgtDialogs = false"
             />
             <Button
                 label="Yes"
                 icon="pi pi-check"
                 text
-                @click="confirmDeletedProjectById(deletedDialogDataProjectId)"
+                @click="confirmRemoveDeptPosMgtBoardById()"
             />
         </template>
     </Dialog>
@@ -206,16 +254,16 @@ import AddNewPositionBoardMgtOrgStrPro from "./AddNewPositionBoardMgtOrgStrPro.v
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
-// import PopupEditedProject from "./PopupEditedProject.vue";
+import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
+import PopupEditedBoardMgtPosition from "./PopupEditedBoardMgtPosition.vue";
 import { FilterMatchMode } from "primevue/api";
 import { mapGetters } from "vuex";
-
 export default {
     components: {
         AddNewPositionBoardMgtOrgStrPro,
-        // PopupEditedProject,
+        PopupEditedBoardMgtPosition,
     },
-    mixins: [geoDeptOrgProjects],
+    mixins: [geoDeptOrgProjects, manageOrgStrMgtPositionHelper],
     setup() {
         return { v$: useVuelidate() };
     },
@@ -232,8 +280,12 @@ export default {
     },
     computed: {
         ...mapGetters("orgDeptStrCou", ["allGeoDeptOrg"]),
+        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardHierarchyStructure"]),
         getDeptProjectId() {
             return parseInt(this.projectId) ? parseInt(this.projectId) : 0;
+        },
+        getListAllDeptOrgStrPositionMgtBoard() {
+            return this.allOrgBoardHierarchyStructure || [];
         },
         getDeptCountryId() {
             return parseInt(this.geoFenceLocation)
@@ -243,11 +295,21 @@ export default {
         getAllOrgDept() {
             return this.allGeoDeptOrg ? this.allGeoDeptOrg : [];
         },
+        getAllBoardManagerOfProject() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
+        geoNameToTitleCaseOrgBoard(str) {
+            return str
+                .toLowerCase()
+                .replace(/(^|\s|-|')(\w)/g, function (match) {
+                    return match.toUpperCase();
+                });
+        },
     },
     data() {
         return {
             openEditedProjectFrm: false,
-            deletedGeoProjectDialogs: false,
+            deletedGeoDeptPosMgtDialogs: false,
             dataPositionsCountry: [],
             visibleDialogBoardMgtOrgStr: false,
             loadingPopupCountry: false,
@@ -256,30 +318,22 @@ export default {
             departmentByCountryOptSelect: null,
             getOptDepartmentOfCountry: [],
             selectedGeoProjectId: null,
-            filtersGeoProjects: {
+            filtersGeoPositionDept: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
-            deletedDialogDataProjectId: 0,
+            dataDeletedOrgBoardPosId: 0,
             editPopupProjectStrData: null,
+            orgDeptBoardMgtBaseEmpIdSelected: null,
+            fetchingOrgStrDeptPosId: false,
         };
     },
-    mounted() {
-        this.reloadFetchingDataOrgStrProject();
-    },
+    mounted() {},
     methods: {
-        cancelAddGeoCountry() {
+        cancelAddDeptPostMgt() {
             this.visibleDialogBoardMgtOrgStr = false;
         },
         openDialogsAddPositionBoardMgtOrgPro() {
             this.visibleDialogBoardMgtOrgStr = true;
-        },
-        // Reloaded
-        async reloadFetchingDataOrgStrProject() {
-            try {
-                this.fetchingDataGeoProStateOrgStr();
-            } catch (error) {
-                return Promise.reject(error);
-            }
         },
     },
 };
