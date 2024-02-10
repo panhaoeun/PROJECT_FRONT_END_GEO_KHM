@@ -4,6 +4,14 @@ import {
     mapGetters
 } from "vuex";
 export default {
+    data(){
+        return{
+            openEditDialogParentLevel: false,
+            dataEditParentLevel: null,
+            deletedDialogLevelRootMgt: false,
+            deletedMgtLevelId: false,
+        }
+    },
     created() {
         this.serviceManageStructuresProject = new ManageOrgChartStructureGeoProjectServices();
     },
@@ -173,19 +181,100 @@ export default {
             } catch (error) {
                 throw Error(error.message);
             }
-
         },
-        async editManageOrgStrBoardMgt() {
+        // Edit 
+        async editManageOrgStrBoardMgtParentLevel(data) {
             try {
-                console.log("D")
+                this.openEditDialogParentLevel = true;
+                this.dataEditParentLevel = Object.assign(data) ? Object.assign(data) : null
             } catch (error) {
                 throw Error(error.message ? error.message : error);
             }
         },
-        async confirmRemoveOrgStrBoardById() {
+        async closingPopupEditedBoardMgtStrDialogs(){
+            setTimeout(() => {
+                this.openEditDialogParentLevel = false;
+            },100);
+        },
+        // Level 01
+        async submittedDialogEditBoardMgtParentLevel(){
             try {
-                console.log("D")
+                if( this.getPosEditParentLevel?.label){
+                    this.submittingBoardParentLevel = true;
+                    const editDataParentLevelBoardMgt = {
+                        modifyOrgChartStrEnglishName: String(this.getPosEditParentLevel.orgStrDeptName).toString(),
+                        modifyOrgChartStrKhName: String(this.getPosEditParentLevel.orgStrDeptKhmerName).toString(),
+                        modifyCheckOrgStatus: true,
+                        modifyOrgChartNotedStructure: String(this.getPosEditParentLevel.orgDeptStrNoted).toString()
+                    }
+                    this.serviceManageStructuresProject.modifyNewOrgStructureGeoProjectGeo(this.getPosEditParentLevel?.orgStrId, editDataParentLevelBoardMgt)
+                    .then(async (editProject) => {
+                        if (editProject?.status === 200) {
+                            this.fetchingDataGeoOrgChartStructure(this.getPosEditParentLevel.orgDeptStrLevel, this.getPosEditParentLevel?.geoCountryId, this.getPosEditParentLevel?.projectId, this.getPosEditParentLevel.orgSupDeptStrId);
+                            setTimeout(async () => {
+                                this.hasParentLevelBoardMgt01LevelErrors = false
+                                this.submittingBoardParentLevel = false;
+                                this.$toast.add({
+                                    severity: "success",
+                                    summary: "Editing Country Department Successfully.",
+                                    detail: editProject.data ?.message ? editProject.data ?.message :  null,
+                                    life: 3000,
+                                });
+                                this.submittingBoardParentLevel = false;
+                            }, 1000);
+                        }
+                        if (!this.hasParentLevelBoardMgt01LevelErrors) {
+                            this.$emit('close')
+                        }
+                    }).catch((error) => {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Unsuccessfully updated geo department.",
+                            detail: error?.message ? error?.message : '',
+                            life: 3000,
+                        });
+                        this.submittingDeptProvinceData = false;
+                    });
+                }
             } catch (error) {
+                throw Error(error || error.message);
+            }
+        },
+        async confirmRemoveOrgStrBoardById(data) {
+            try {
+                if(!data || data !== undefined || typeof data !== 'undefined') {
+                    this.deletedMgtLevelId = parseInt(data?.orgStrId) ? parseInt(data?.orgStrId): 0;
+                    this.deletedDialogLevelRootMgt = true;
+                }
+            } catch (error) {
+                throw Error(error.message ? error.message : error);
+            }
+        },
+        async confirmDeletedBoardMgtParentLevelOrgStr(orgStr){
+            try{
+                this.deletedDialogLevelRootMgt = false;
+                this.serviceManageStructuresProject.removeNewOrgStructureGeoProjectGeo(orgStr?.orgStrId).then(async (state) => {
+                    if(state?.status === 200){
+                        this.setToastMessage(state.data?.message);
+                        this.deletedGeoProvinceDialogs = false;
+                        this.$notify({
+                            title: 'Delete Org-Structure Successfully',
+                            message:state.data?.message ? state.data?.message : '',
+                            type: 'success'
+                        });
+                        this.fetchingDataGeoOrgChartStructure(orgStr.orgDeptStrLevel, orgStr?.geoCountryId,orgStr?.projectId, orgStr.orgSupDeptStrId);
+                    }
+                    return state ? state : [];
+                }).catch((error) => {
+                    this.setToastError(error?.message)
+                    this.$notify({
+                        title: 'Unsuccessfully Commune Successfully',
+                        message:error?.message ? error?.message : '',
+                        type: 'error'
+                    });
+                    return Promise.reject(error?.message || []);
+                });
+            }catch(error){
                 throw Error(error.message ? error.message : error);
             }
         },

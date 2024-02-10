@@ -122,6 +122,7 @@ import Tag from 'primevue/tag';
 import TreeTable from 'primevue/treetable';
 import Tree from 'primevue/tree';
 import ProgressSpinner from 'primevue/progressspinner';
+import ContextMenu from 'primevue/contextmenu';
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -249,6 +250,7 @@ app.use(ConfirmationService);
 app.component('FileUpload', FileUpload);
 app.component('ConfirmDialog', ConfirmDialog);
 app.component('Fieldset', Fieldset);
+app.component('ContextMenu', ContextMenu);
 //Vue Uoloads
 app.component('file-upload', VueUploadComponent);
 app.component('TreeTable', TreeTable);

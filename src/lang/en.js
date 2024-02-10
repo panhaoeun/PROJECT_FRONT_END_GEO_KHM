@@ -102,6 +102,7 @@ export default {
         isRequired: "{type} is required",
         thisProject: "{type} this project",
         thisPosition: "{type} this position",
+        thisOrgStructure: "{type} this org-structure",
         thisDepartment: "{type} this department",
     },
     addressPopup: {

@@ -52,6 +52,7 @@ export default{
                 this.selectedCountryOptOrgStr !== null
             ) {
                 this.selectedProvinceOptOrgStr = null;
+                this.hideOrgStructureDeptPos = "T1"
             }
         },
         /**
@@ -81,6 +82,7 @@ export default{
                 this.selectedProvinceOptOrgStr !== null
             ) {
                 this.selectedDistrictOptOrgStr = null;
+                this.hideOrgStructureDeptPos = "T2"
             }
             try {
                 if (
@@ -122,6 +124,7 @@ export default{
                 this.selectedDistrictOptOrgStr !== null
             ) {
                 this.selectedCommuneOptOrgStr = null;
+                this.hideOrgStructureDeptPos = "T3";
             }
             try {
                 if (
@@ -163,6 +166,7 @@ export default{
                 this.selectedCommuneOptOrgStr !== null
             ) {
                 this.selectedVillagesOptOrgStr = null;
+                this.hideOrgStructureDeptPos = "T4";
             }
             try {
                 if (
@@ -194,6 +198,7 @@ export default{
                     !communeParentId?.length > 0
                 ) {
                     this.selectedVillagesOptOrgStr = null;
+                    this.hideOrgStructureDeptPos = "T5";
                 }
                 if (
                     !Array.isArray(communeParentId) ||

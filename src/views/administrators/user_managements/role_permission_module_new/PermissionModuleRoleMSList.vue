@@ -412,13 +412,76 @@
                     </div>
                 </el-card>
             </div>
-            <!--Manage Org-Structures(Designation) List-->
+            <!--Manage Org-Structures(Designation) base on Board Management or Geo-fence location-->
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <!-- Manage Org-Structures(Board Manager Project) -->
                     <manage-org-structures-of-board-mgt-project
+                        v-if="
+                            selectedProject !== null &&
+                            hideOrgStructureDeptPos === 'T0'
+                        "
                         :manageRootBoardProjectId="getProjectDestination"
                     />
+                    <!-- Manage Org-Structures(Geo Fencing) on country-->
+                    <manage-org-structures-of-country-geo-project
+                        v-if="
+                            selectedProject !== null &&
+                            selectedCountryOptOrgStr != null &&
+                            hideOrgStructureDeptPos === 'T1'
+                        "
+                    />
+                    <!-- Manage Org-Structures(Geo Fencing) on province-->
+                    <manage-org-structures-of-province-geo-project
+                        v-if="
+                            selectedProject !== null &&
+                            selectedProvinceOptOrgStr != null &&
+                            hideOrgStructureDeptPos === 'T2'
+                        "
+                    />
+                    <!-- Manage Org-Structures(Geo Fencing) on district-->
+                    <manage-org-structures-of-district-geo-project
+                        v-if="
+                            selectedDistrictOptOrgStr != null &&
+                            hideOrgStructureDeptPos === 'T3'
+                        "
+                    />
+                    <!-- Manage Org-Structures(Geo Fencing) on commune-->
+                    <manage-org-structures-of-commune-geo-project
+                        v-if="
+                            selectedCommuneOptOrgStr != null &&
+                            hideOrgStructureDeptPos === 'T4'
+                        "
+                    />
+                    <!-- Manage Org-Structures(Geo Fencing) on villages-->
+                    <manage-org-structures-of-village-geo-project
+                        v-if="
+                            selectedVillagesOptOrgStr != null &&
+                            hideOrgStructureDeptPos === 'T5'
+                        "
+                    />
+                    <!-- Check Empty Org-structure of board manager or geo-locations -->
+                    <div
+                        v-if="
+                            hideOrgStructureDeptPos == '' ||
+                            typeof hideOrgStructureDeptPos === 'undefined'
+                        "
+                        class="text-center justify-content-center gap-10"
+                    >
+                        <img
+                            class="text-center justify-content-center"
+                            src="./hierarchical-icon.png"
+                            alt="Image"
+                            width="250"
+                        />
+                        <div class="flex flex-column p-3">
+                            <h5>No Org. Structure</h5>
+                            <small class="text-red-500"
+                                >Please selected one option view
+                                org-structure..</small
+                            >
+                        </div>
+                    </div>
                 </el-card>
             </div>
         </div>
@@ -433,6 +496,12 @@ import ManagePermissionsRoleBaseProject from "@/services/vendors/user_permission
  * @Managements of Org.Str -> Org-str Board Mgt (Manage Org (Designation Org.Structures => Positions))
  * */
 import ManageOrgStructuresOfBoardMgtProject from "./manage_org_strictures/ManageOrgStructuresOfBoardMgtProject.vue";
+import ManageOrgStructuresOfCountryGeoProject from "./manage_org_strictures/ManageOrgStructuresOfCountryGeoBasePro.vue";
+import ManageOrgStructuresOfProvinceGeoProject from "./manage_org_strictures/ManageOrgStructuresOfProvinceGeoBasePro";
+import ManageOrgStructuresOfDistrictGeoProject from "./manage_org_strictures/ManageOrgStructuresOfDistrictGeoBasePro";
+import ManageOrgStructuresOfCommuneGeoProject from "./manage_org_strictures/ManageOrgStructuresOfCommuneGeoBasePro";
+import ManageOrgStructuresOfVillageGeoProject from "./manage_org_strictures/ManageOrgStructuresOfVillagesGeoBasePro";
+
 import geoLocationVillagesHelper from "@/mixin/geoLocationVillagesHelper";
 import geoGlobalOrgStrLocationHelper from "@/mixin/getGeoGlobalOrgStrLocationHelper";
 import { mapActions } from "vuex";
@@ -440,6 +509,11 @@ import { mapActions } from "vuex";
 export default {
     components: {
         ManageOrgStructuresOfBoardMgtProject,
+        ManageOrgStructuresOfCountryGeoProject,
+        ManageOrgStructuresOfProvinceGeoProject,
+        ManageOrgStructuresOfDistrictGeoProject,
+        ManageOrgStructuresOfCommuneGeoProject,
+        ManageOrgStructuresOfVillageGeoProject,
     },
     mixins: [geoLocationVillagesHelper, geoGlobalOrgStrLocationHelper],
     data() {
@@ -481,6 +555,7 @@ export default {
             selectedDistrictOptOrgStr: null,
             selectedCommuneOptOrgStr: null,
             selectedVillagesOptOrgStr: null,
+            hideOrgStructureDeptPos: "",
         };
     },
     computed: {
@@ -549,6 +624,7 @@ export default {
                     getProjectId,
                     getCountryId,
                 });
+                this.hideOrgStructureDeptPos = "T0";
             } catch (error) {
                 throw Error(error);
             }

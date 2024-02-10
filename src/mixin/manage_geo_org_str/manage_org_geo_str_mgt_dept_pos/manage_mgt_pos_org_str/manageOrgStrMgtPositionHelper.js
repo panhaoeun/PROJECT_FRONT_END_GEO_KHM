@@ -190,10 +190,11 @@ export default {
                             message:String(message.data?.message).toString() ? String(message.data?.message).toString() : '',
                             type: 'error'
                         });
-                        this.submittingProvinceData = false;
+                        this.submittingBoardMgtData = false;
                     });
                 }else{
                     this.hasBoardMgtPositionErrors = false;
+                    this.submittingBoardMgtData = false;
                 }
             }catch(error){
                 throw Error(error || error.message);

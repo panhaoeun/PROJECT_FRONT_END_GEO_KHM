@@ -38,6 +38,14 @@
                         <PopupAddNewParentRootBoardOrgStrMgt
                             :deptProjectIdAddNew="getProjectDeptStrId"
                         />
+                        <!-- Edit Org-structure Board Parent Level 01 -->
+                        <PopupEditParentLevel01BoardDeptOrgChart
+                            v-if="openEditDialogParentLevel"
+                            :openEditBoardParentLevel="
+                                dataEditParentLevel ? dataEditParentLevel : null
+                            "
+                            @close="closingPopupEditedBoardMgtStrDialogs"
+                        />
                     </div>
                 </div>
                 <!-- Add Manage Org Chat-Multiple Level -->
@@ -82,12 +90,12 @@
                         </template>
                         <Column
                             field="orgStrDeptName"
-                            header="Org-Name"
+                            header="English Name"
                             style="width: 25%"
                         ></Column>
                         <Column
-                            field="name"
-                            header="Org-Name"
+                            field="orgStrDeptKhmerName"
+                            header="Khmer Name"
                             style="width: 25%"
                         ></Column>
                         <!-- Action Org-Str Dept -->
@@ -102,7 +110,7 @@
                                     outline
                                     class="p-button-rounded p-button-success mr-2"
                                     @click="
-                                        editManageOrgStrBoardMgt(
+                                        editManageOrgStrBoardMgtParentLevel(
                                             slotProps?.data
                                         )
                                     "
@@ -132,16 +140,47 @@
             />
         </template>
     </Dialog>
+    <!-- Popup Deleted Global Level Org-Structure -->
+    <Dialog
+        v-model:visible="deletedDialogLevelRootMgt"
+        :style="{ width: '450px' }"
+        header="Confirm"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deletedDialogLevelRootMgt = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                text
+                @click="confirmDeletedBoardMgtParentLevelOrgStr(deletedMgtLevelId)"
+            />
+        </template>
+    </Dialog>
 </template>
 
 <!-- Script of global-org-str-board-mgt parent(Root) -->
 <script>
 import PopupAddNewParentRootBoardOrgStrMgt from "./popup_add_org_chart_boat_mgt/PopupAddNewParentRootBoardOrgStrMgt";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
+import PopupEditParentLevel01BoardDeptOrgChart from "./popup_add_org_chart_boat_mgt/PopupEditParentLevel01BoardDeptOrgChart.vue";
 import { FilterMatchMode } from "primevue/api";
 export default {
     components: {
         PopupAddNewParentRootBoardOrgStrMgt,
+        PopupEditParentLevel01BoardDeptOrgChart,
     },
     props: {
         countryIdOrgRoot: {
