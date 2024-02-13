@@ -42,6 +42,9 @@ export default class ManageOrgChartStructureGeoProjectServices {
             throw Error(error);
         });
     }
+    async createStoreEmpOrgDeptPosition(orgStrPosId) {
+        return http.post("/admin/geo-location-route/add-new-multi-level/org-chart-structures", orgStrPosId ? orgStrPosId : {});
+    }
     /** 
      * @api {post} 
      *  @api (Org-Structure Position API endpoints) /addOrganizationStructure/ Add Organization Structure Information

@@ -29,6 +29,7 @@ const actions = {
             const orgStrCountryIdAc = parseInt(params?.orgStrChartCountryId) ? parseInt(params?.orgStrChartCountryId) : 0;
             const orgStrProjectIdAc = parseInt(params?.orgStrChartProjectId) ? parseInt(params?.orgStrChartProjectId) : 0;
             geoDeptOrgStrServices.listOrgStructureLevelProjectGeo(orgStrChartLevelAc, orgStrCountryIdAc, orgStrProjectIdAc).then((deptOrg) => {
+                console.log(deptOrg)
                 const getAllDeptOrgStrChart = Array.isArray(deptOrg) ? deptOrg.slice() : [];
                 if (!deptOrg) {
                     commit('SET_ORG_STR_GEO_DEPT_POS', []);

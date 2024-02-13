@@ -120,6 +120,7 @@ import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage
 import ManagePermissionsGeoFencePositionPermissionsServices from "@/services/administrator/geo_admin_position_manage_permissions/GeoAdminPositionPermissionsManagementServices";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
+import manageGlobalOrgChartMgt from "@/mixin/manage_geo_org_str/manageGlobalOrgChartStructure";
 
 export default {
     setup() {
@@ -147,7 +148,7 @@ export default {
             },
         };
     },
-    mixins: [manageOrgChartBoardMgtLevelHelper],
+    mixins: [manageOrgChartBoardMgtLevelHelper,manageGlobalOrgChartMgt],
     data() {
         return {
             orgDeptStrCountryList: [],
@@ -161,6 +162,7 @@ export default {
             descriptionOrgStrBoardMgt: "",
             submitted: false,
             deptCountryDataParentsOrgStr: [],
+            addNewOrgChartLevelParen: "SL01"
         };
     },
     created() {

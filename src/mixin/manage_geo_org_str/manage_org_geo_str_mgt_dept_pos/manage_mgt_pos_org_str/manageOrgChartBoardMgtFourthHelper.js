@@ -27,9 +27,9 @@ export default {
                 this.loadingSubmittedAddMgtBoardStrOrg = true;
                 this.submitted = true;
                 setTimeout(async () => {
-                    const getOptSelectedProId = parseInt(this.deptProjectIdAddNew) ? parseInt(this.deptProjectIdAddNew) : 0;
-                    const optSelectedRootLevel = this.fourthBoardMgtLevelParentLevelId ? this.fourthBoardMgtLevelParentLevelId : 0;
-                    if (!optSelectedRootLevel || optSelectedRootLevel < 0 || typeof optSelectedRootLevel !== 'number' || optSelectedRootLevel !== 0){
+                    const getOptSelectedProId = parseInt(this.deptSecondLevelProjectId) ? parseInt(this.deptSecondLevelProjectId) : 0;
+                    const optSelectedRootLevel = this.deptOrgStrRootLevelId ? this.deptOrgStrRootLevelId : 0;
+                    if (optSelectedRootLevel ==null || optSelectedRootLevel < 0  || optSelectedRootLevel == ''){
                         this.optSelectedRootLevel = 0;
                         this.$toast.add({
                             severity: "error",
@@ -39,7 +39,7 @@ export default {
                         });
                         return false;
                     }
-                    if (!getOptSelectedProId || getOptSelectedProId <0 || typeof getOptSelectedProId !== 'number') {
+                    if (getOptSelectedProId == null || getOptSelectedProId <0 || getOptSelectedProId ==  '') {
                         this.$toast.add({
                             severity: "error",
                             summary: "Please selected projected in required.",
@@ -50,13 +50,12 @@ export default {
                     }
                     if (!this.orgStrBoardMgtEnglishName || this.orgStrBoardMgtEnglishName !== null && this.orgStrBoardMgtEnglishName !== '') {
                         const addNewOrgStrMgtPosDept = {
-                            addNewSuperDeptOrgStrIdBySelectedParent: String(this.orgStrBoardMgtEnglishName),
-                            addNewMgrDeptOrgStrId: optSelectedRootLevel ? optSelectedRootLevel : 0,
+                            addNewSuperDeptOrgStrIdBySelectedParent: optSelectedRootLevel ? optSelectedRootLevel : 0,
                             addNewOrgChartLevel: 'SL04',
                             addNewOrgChartProId: getOptSelectedProId ? getOptSelectedProId : 0,
-                            addNewOrgChartCountryId: this.deptCountryId ? this.deptCountryId : 0,
-                            addNewOrgChartStrKhmerName: String(this.orgStrBoardMgtEnglishName) ? String(this.orgStrBoardMgtEnglishName) : '',
-                            addNewOrgChartStrEnglishName: String(this.orgStrBoardMgtKhmerName) ? String(this.orgStrBoardMgtKhmerName) : '',
+                            addNewOrgChartCountryId: this.deptCountrySecondLevelId ? this.deptCountrySecondLevelId : 0,
+                            addNewOrgChartStrKhmerName: String(this.orgStrBoardMgtKhmerName) ? String(this.orgStrBoardMgtKhmerName) : '',
+                            addNewOrgChartStrEnglishName: String(this.orgStrBoardMgtEnglishName) ? String(this.orgStrBoardMgtEnglishName) : '',
                             addNewOrgChartStrNoted: String(this.descriptionOrgStrBoardMgt) ? String(this.descriptionOrgStrBoardMgt) : ''
                         }
                         // Add New Organization Chart Root Level Info
@@ -71,7 +70,7 @@ export default {
                                 this.visibleDialogOrgStrBoardMgt = false;
                                 // Reload Data In Datable in Dept org-str root level
                                 const orgLevelDeptBoard = "SL04";
-                                const rogLevelDeptBoardCountry = this.deptCountryId ? this.deptCountryId : 0;
+                                const rogLevelDeptBoardCountry = this.deptCountrySecondLevelId ? this.deptCountrySecondLevelId : 0;
                                 const orgLevelDeptBoarProId = getOptSelectedProId ? getOptSelectedProId : 0;
                                 this.fetchingDataGeoOrgFourthChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId);
                                 this.visibleDialogDepartment = false;

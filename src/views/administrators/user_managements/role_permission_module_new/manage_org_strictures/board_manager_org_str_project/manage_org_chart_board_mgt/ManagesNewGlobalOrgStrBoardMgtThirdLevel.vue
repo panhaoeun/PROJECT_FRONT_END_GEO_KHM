@@ -23,7 +23,7 @@
                 class="inline-flex align-items-center justify-content-center gap-2"
             >
                 <span class="font-bold white-space-nowrap">
-                    Manage Org-Structure Second Level
+                    Manage Org-Structure Third Level
                 </span>
             </div>
         </template>
@@ -38,7 +38,7 @@
                         <PopupAddNewGlobalOgStrBoardMgtSecondLevel
                             ref="addNewGlobalOgStrBoardMgtSecondLevelRef"
                             :deptOrgStrRootLevelId="
-                                getRootParentLevelId ? getRootParentLevelId : 0
+                                getSecondeLevelId ? getSecondeLevelId : 0
                             "
                             :deptSecondLevelProjectId="
                                 getRootProjectId ? getRootProjectId : 0
@@ -182,9 +182,9 @@ export default {
         };
     },
     computed: {
-        getRootParentLevelId() {
-            const getRootLevelId = this.secondBoardMgtLevelParentLevelId
-                ? this.secondBoardMgtLevelParentLevelId
+        getSecondeLevelId() {
+            const getRootLevelId = this.secondBoardMgtLevelThirdLevelId
+                ? this.secondBoardMgtLevelThirdLevelId
                 : 0;
             if (
                 getRootLevelId !== null ||

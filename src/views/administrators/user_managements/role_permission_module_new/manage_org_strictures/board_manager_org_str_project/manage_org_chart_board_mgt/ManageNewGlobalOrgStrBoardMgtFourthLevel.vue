@@ -23,7 +23,7 @@
                 class="inline-flex align-items-center justify-content-center gap-2"
             >
                 <span class="font-bold white-space-nowrap">
-                    Manage Org-Structure Second Level
+                    Manage Org-Structure Four Level
                 </span>
             </div>
         </template>
@@ -144,9 +144,9 @@
 </template>
 <!-- Script of global-org-str-board-mgt -->
 <script>
-import PopupAddNewGlobalOgStrBoardMgtSecondLevel from "./popup_add_org_chart_board_mgt_five_level/PopupAddNewGlobalOgStrBoardMgtFiveLevel";
+import PopupAddNewGlobalOgStrBoardMgtSecondLevel from "./popup_add_org_chart_board_mgt_fourth_level/PopupAddNewGlobalOgStrBoardMgtFourthLevel";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
-import manageOrgChartBoardMgtFiveLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtFiveLevelHelper";
+import manageOrgChartBoardMgtThirdLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtThirdHelper";
 import { FilterMatchMode } from "primevue/api";
 export default {
     components: {
@@ -163,7 +163,7 @@ export default {
             required: true,
             default: 0,
         },
-        secondBoardMgtLevelFiveLevelId: {
+        secondBoardMgtLevelFourthLevelId: {
             type: Number,
             required: true,
             default: 0,
@@ -171,7 +171,7 @@ export default {
     },
     mixins: [
         manageOrgChartBoardMgtLevelHelper,
-        manageOrgChartBoardMgtFiveLevelHelper
+        manageOrgChartBoardMgtThirdLevelHelper
     ],
     data() {
         return {
@@ -183,8 +183,8 @@ export default {
     },
     computed: {
         getRootParentLevelId() {
-            const getRootLevelId = this.secondBoardMgtLevelFiveLevelId
-                ? this.secondBoardMgtLevelFiveLevelId
+            const getRootLevelId = this.secondBoardMgtLevelFourthLevelId
+                ? this.secondBoardMgtLevelFourthLevelId
                 : 0;
             if (
                 getRootLevelId !== null ||

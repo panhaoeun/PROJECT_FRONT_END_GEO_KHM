@@ -1,4 +1,5 @@
 <template>
+    <Toast />
     <KeepAlive>
         <div class="pl-2 gap-2 flex align-items-center justify-content-center">
             <Button
@@ -165,7 +166,9 @@
                 label="Yes"
                 icon="pi pi-check"
                 text
-                @click="confirmDeletedBoardMgtParentLevelOrgStr(deletedMgtLevelId)"
+                @click="
+                    confirmDeletedBoardMgtParentLevelOrgStr(deletedMgtLevelId)
+                "
             />
         </template>
     </Dialog>

@@ -9,7 +9,7 @@ export default {
             openEditDialogParentLevel: false,
             dataEditParentLevel: null,
             deletedDialogLevelRootMgt: false,
-            deletedMgtLevelId: false,
+            deletedMgtLevelId: null,
         }
     },
     created() {
@@ -47,7 +47,7 @@ export default {
             this.submitted = true;
             setTimeout(async () => {
                 this.loadingSubmittedAddNew = false;
-                if (!this.selectedOptOrgChartRootLevel !== "") {
+                if (this.selectedOptOrgChartRootLevel !== "") {
                     const validation = await this.v$.$validate();
                     if (validation === false) {
                         const errorValidation = this.v$.$errors;
@@ -59,6 +59,17 @@ export default {
                             showClose: true,
                         });
                     }
+                    /**
+                    ** @Add new org - structure multiple levels
+                    **/ 
+                   const addNewDeptLevel = {
+                        addNewAssignOrgStrId: '',
+                        addNewAssignEmpId: "",
+                        addNewAssignPositionId: "",
+                        addNewNotedOrgStr: ''
+                   }
+                   //Org-Structure multi-level structure
+                   this.serviceManageStructuresProject.createStoreEmpOrgDeptPosition(addNewDeptLevel ? addNewDeptLevel : {});                   
                 }
                 // Validate
                 this.v$.$touch();
@@ -85,13 +96,13 @@ export default {
                     }
                     if (!this.orgStrBoardMgtEnglishName || this.orgStrBoardMgtEnglishName !== null && this.orgStrBoardMgtEnglishName !== '') {
                         const addNewOrgStrMgtPosDept = {
-                            addNewSuperDeptOrgStrIdBySelectedParent: this.selectedOptOrgChartRootLevel ? this.selectedOptOrgChartRootLevel : 0,
+                            addNewSuperDeptOrgStrIdBySelectedParent: this.getSecondLevelOrgStructure ? this.getSecondLevelOrgStructure : 0,
                             addNewMgrDeptOrgStrId: 0,
-                            addNewOrgChartLevel: 'SL01',
+                            addNewOrgChartLevel: this.addNewOrgChartLevelParen ? this.addNewOrgChartLevelParen : 'SL01',
                             addNewOrgChartProId: getOptSelectedProId ? getOptSelectedProId : 0,
                             addNewOrgChartCountryId: this.deptCountryId ? this.deptCountryId : 0,
-                            addNewOrgChartStrKhmerName: String(this.orgStrBoardMgtEnglishName) ? String(this.orgStrBoardMgtEnglishName) : '',
-                            addNewOrgChartStrEnglishName: String(this.orgStrBoardMgtKhmerName) ? String(this.orgStrBoardMgtKhmerName) : '',
+                            addNewOrgChartStrKhmerName: String(this.orgStrBoardMgtKhmerName) ? String(this.orgStrBoardMgtKhmerName) : '',
+                            addNewOrgChartStrEnglishName: String(this.orgStrBoardMgtEnglishName) ? String(this.orgStrBoardMgtEnglishName) : '',
                             addNewOrgChartStrNoted: String(this.descriptionOrgStrBoardMgt) ? String(this.descriptionOrgStrBoardMgt) : ''
                         }
                         // Add New Organization Chart Root Level Info
@@ -105,10 +116,10 @@ export default {
                                 this.loadingSubmittedAddMgtBoardStrOrg = false;
                                 this.visibleDialogOrgStrBoardMgt = false;
                                 // Reload Data In Datable in Dept org-str root level
-                                const orgLevelDeptBoard = "SL01";
+                                const orgLevelDeptBoard = this.addNewOrgChartLevelParen ? this.addNewOrgChartLevelParen : 'SL01';
                                 const rogLevelDeptBoardCountry = this.deptCountryId ? this.deptCountryId : 0;
                                 const orgLevelDeptBoarProId = getOptSelectedProId ? getOptSelectedProId : 0;
-                                const orgRootLevelBoardProId = this.selectedOptOrgChartRootLevel ? this.selectedOptOrgChartRootLevel : 0;
+                                const orgRootLevelBoardProId = this.getSecondLevelOrgStructure ? this.getSecondLevelOrgStructure : 0;
                                 this.fetchingDataGeoOrgChartStructure(orgLevelDeptBoard, rogLevelDeptBoardCountry, orgLevelDeptBoarProId, orgRootLevelBoardProId);
                                 this.visibleDialogDepartment = false;
                                 this.$toast.add({
@@ -196,10 +207,10 @@ export default {
                 this.openEditDialogParentLevel = false;
             },100);
         },
-        // Level 01
+        //Edited Level 01(Parent Level)
         async submittedDialogEditBoardMgtParentLevel(){
             try {
-                if( this.getPosEditParentLevel?.label){
+                if( this.getPosEditParentLevel?.orgStrDeptName){
                     this.submittingBoardParentLevel = true;
                     const editDataParentLevelBoardMgt = {
                         modifyOrgChartStrEnglishName: String(this.getPosEditParentLevel.orgStrDeptName).toString(),
@@ -243,7 +254,7 @@ export default {
         async confirmRemoveOrgStrBoardById(data) {
             try {
                 if(!data || data !== undefined || typeof data !== 'undefined') {
-                    this.deletedMgtLevelId = parseInt(data?.orgStrId) ? parseInt(data?.orgStrId): 0;
+                    this.deletedMgtLevelId = data ? data : '';
                     this.deletedDialogLevelRootMgt = true;
                 }
             } catch (error) {
@@ -255,18 +266,17 @@ export default {
                 this.deletedDialogLevelRootMgt = false;
                 this.serviceManageStructuresProject.removeNewOrgStructureGeoProjectGeo(orgStr?.orgStrId).then(async (state) => {
                     if(state?.status === 200){
-                        this.setToastMessage(state.data?.message);
                         this.deletedGeoProvinceDialogs = false;
                         this.$notify({
                             title: 'Delete Org-Structure Successfully',
                             message:state.data?.message ? state.data?.message : '',
                             type: 'success'
                         });
-                        this.fetchingDataGeoOrgChartStructure(orgStr.orgDeptStrLevel, orgStr?.geoCountryId,orgStr?.projectId, orgStr.orgSupDeptStrId);
+                        // Fetching Data from org-structure
+                        this.fetchingDataGeoOrgChartStructure(orgStr.orgDeptStrLevel, orgStr?.geoCountryId,orgStr?.projectId, orgStr.orgStrMgrId);
                     }
                     return state ? state : [];
                 }).catch((error) => {
-                    this.setToastError(error?.message)
                     this.$notify({
                         title: 'Unsuccessfully Commune Successfully',
                         message:error?.message ? error?.message : '',
@@ -278,6 +288,7 @@ export default {
                 throw Error(error.message ? error.message : error);
             }
         },
+        // Fetching Data Org-structure from level
         async fetchingDataGeoOrgChartStructure(orgStrChartLevel, orgStrChartCountryId, orgStrChartProjectId, orgStrSuperChartId) {
             this.fetchingDeptOrg = true;
             setTimeout(async () => {

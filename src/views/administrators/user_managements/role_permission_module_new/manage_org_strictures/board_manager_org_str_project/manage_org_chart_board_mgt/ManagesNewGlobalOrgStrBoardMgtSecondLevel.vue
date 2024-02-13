@@ -37,6 +37,9 @@
                         <!--Add New Org-Structure Board Mgt-->
                         <PopupAddNewGlobalOgStrBoardMgtSecondLevel
                             ref="addNewGlobalOgStrBoardMgtSecondLevelRef"
+                            :orgDataRootLevel="
+                                orgRootLevelData ? orgRootLevelData : {}
+                            "
                             :deptOrgStrRootLevelId="
                                 getRootParentLevelId ? getRootParentLevelId : 0
                             "
@@ -46,6 +49,14 @@
                             :deptCountrySecondLevelId="
                                 getRootCountryId ? getRootCountryId : 0
                             "
+                        />
+                        <!-- Edit Org-structure Board Parent Level 02 -->
+                        <PopupEditParentLevel01BoardDeptOrgChart
+                            v-if="openEditDialogSecondLevel"
+                            :openEditBoardParentLevel="
+                                dataEditSecondLevel ? dataEditSecondLevel : null
+                            "
+                            @close="closingPopupEditedSecondMgtStrDialogs"
                         />
                     </div>
                 </div>
@@ -91,12 +102,12 @@
                         </template>
                         <Column
                             field="orgStrDeptName"
-                            header="Org-Name"
+                            header="English Name"
                             style="width: 25%"
                         ></Column>
                         <Column
-                            field="name"
-                            header="Org-Name"
+                            field="orgStrDeptKhmerName"
+                            header="Khmer Name"
                             style="width: 25%"
                         ></Column>
                         <!-- Action Org-Str Dept -->
@@ -141,18 +152,57 @@
             />
         </template>
     </Dialog>
+    <!-- Popup Deleted Global Level Org-Structure -->
+    <Dialog
+        v-model:visible="deletedDialogLevelSecondMgt"
+        :style="{ width: '450px' }"
+        header="Confirm"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deletedDialogLevelSecondMgt = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                text
+                @click="
+                    confirmDeletedBoardMgtSecondLevelOrgStr(dataRemoveSecondLevel)
+                "
+            />
+        </template>
+    </Dialog>
 </template>
 <!-- Script of global-org-str-board-mgt -->
 <script>
-import PopupAddNewGlobalOgStrBoardMgtSecondLevel from "./popup_add_org_chart_board_mgt_fourth_level/PopupAddNewGlobalOgStrBoardMgtFourthLevel";
+import PopupEditParentLevel01BoardDeptOrgChart from "./popup_add_org_chart_boat_mgt/PopupEditParentLevel01BoardDeptOrgChart.vue";
+import PopupAddNewGlobalOgStrBoardMgtSecondLevel from "./popup_add_org_chart_board_mgt_second_level/PopupAddNewGlobalOgStrBoardMgtSecondLevel";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
-import manageOrgChartBoardMgtThirdLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtThirdHelper";
+import manageOrgChartBoardMgtSecondLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtSecondHelper";
+import manageGlobalOrgChartMgt from "@/mixin/manage_geo_org_str/manageGlobalOrgChartStructure";
 import { FilterMatchMode } from "primevue/api";
 export default {
     components: {
         PopupAddNewGlobalOgStrBoardMgtSecondLevel,
+        PopupEditParentLevel01BoardDeptOrgChart,
     },
     props: {
+        orgRootLevelData: {
+            type: Object,
+            required: true,
+            default: () => {},
+        },
         secondBoardMgtLevelProId: {
             type: Number,
             required: true,
@@ -163,7 +213,7 @@ export default {
             required: true,
             default: 0,
         },
-        secondBoardMgtLevelFourthLevelId: {
+        secondBoardMgtLevelParentLevelId: {
             type: Number,
             required: true,
             default: 0,
@@ -171,7 +221,8 @@ export default {
     },
     mixins: [
         manageOrgChartBoardMgtLevelHelper,
-        manageOrgChartBoardMgtThirdLevelHelper
+        manageOrgChartBoardMgtSecondLevelHelper,
+        manageGlobalOrgChartMgt,
     ],
     data() {
         return {
@@ -183,8 +234,8 @@ export default {
     },
     computed: {
         getRootParentLevelId() {
-            const getRootLevelId = this.secondBoardMgtLevelFourthLevelId
-                ? this.secondBoardMgtLevelFourthLevelId
+            const getRootLevelId = this.secondBoardMgtLevelParentLevelId
+                ? this.secondBoardMgtLevelParentLevelId
                 : 0;
             if (
                 getRootLevelId !== null ||

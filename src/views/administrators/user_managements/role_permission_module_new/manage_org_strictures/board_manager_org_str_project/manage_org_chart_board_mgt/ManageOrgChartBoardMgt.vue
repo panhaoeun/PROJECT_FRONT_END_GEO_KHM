@@ -50,7 +50,7 @@
                                     showClear
                                     dataKey="orgStrId"
                                     clear
-                                    @click.passive="
+                                    @click.stop="
                                         openReloadDeptOrgStrMgtBoardRootLevel()
                                     "
                                     v-model="
@@ -164,13 +164,22 @@
                                     </template>
                                 </Dropdown>
                                 <!-- Add New Level 02 -->
-                                <add-new-global-org-str-board-mgt-second-level
+                                <manages-new-global-org-str-board-mgt-second-level
+                                    v-if="
+                                        selectedOptOrgChartRootLevel !== null &&
+                                        selectedOptOrgChartRootLevel !== ''
+                                    "
+                                    :orgRootLevelData="
+                                        getAllDeptOrgStrMgtOrg
+                                            ? getAllDeptOrgStrMgtOrg
+                                            : []
+                                    "
                                     :secondBoardMgtLevelProId="
                                         getProjectId ? getProjectId : 0
                                     "
                                     :secondBoardMgtLevelParentLevelId="
-                                        getParentLevelOrgStructure
-                                            ? getParentLevelOrgStructure
+                                        getSecondLevelOrgStructure
+                                            ? getSecondLevelOrgStructure
                                             : 0
                                     "
                                 />
@@ -224,13 +233,18 @@
                                     </template>
                                 </Dropdown>
                                 <!-- Add New Level 03 -->
-                                <add-new-global-org-str-board-mgt-third-level
+                                <manages-new-global-org-str-board-mgt-third-level
+                                    v-if="
+                                        selectedOptOrgChartSecondLevel !==
+                                            undefined &&
+                                        selectedOptOrgChartSecondLevel !== null
+                                    "
                                     :secondBoardMgtLevelProId="
                                         getProjectId ? getProjectId : 0
                                     "
                                     :secondBoardMgtLevelThirdLevelId="
-                                        getSecondLevelOrgStructure
-                                            ? getSecondLevelOrgStructure
+                                        getThirdLevelOrgStructure
+                                            ? getThirdLevelOrgStructure
                                             : 0
                                     "
                                 />
@@ -248,6 +262,9 @@
                                     showClear
                                     dataKey="orgStrId"
                                     clear
+                                    @click.prevent="
+                                        openDataFourLevelSelectedThirdLevel()
+                                    "
                                     v-model="selectedOptOrgChartFourthLevel"
                                     :options="getAllDeptOrgStrBoardFourLevel"
                                     placeholder="Select Structure Level 04"
@@ -281,13 +298,18 @@
                                     </template>
                                 </Dropdown>
                                 <!-- Add New Level 04 -->
-                                <add-new-global-org-str-board-mgt-forth-level
+                                <manages-new-global-org-str-board-mgt-fourth-level
+                                    v-if="
+                                        selectedOptOrgChartThirdLevel !==
+                                            undefined &&
+                                        selectedOptOrgChartThirdLevel !== null
+                                    "
                                     :secondBoardMgtLevelProId="
                                         getProjectId ? getProjectId : 0
                                     "
                                     :secondBoardMgtLevelFourthLevelId="
-                                        getThirdLevelOrgStructure
-                                            ? getThirdLevelOrgStructure
+                                        getFourthLevelOrgStructure
+                                            ? getFourthLevelOrgStructure
                                             : 0
                                     "
                                 />
@@ -305,6 +327,9 @@
                                     showClear
                                     dataKey="orgStrId"
                                     clear
+                                    @click.prevent="
+                                        openDataFiveLevelSelectedFourLevel()
+                                    "
                                     v-model="selectedOptOrgChartFiveLevel"
                                     :options="getAllDeptOrgStrBoardFiveLevel"
                                     placeholder="Select Structure Level 05"
@@ -338,13 +363,19 @@
                                     </template>
                                 </Dropdown>
                                 <!-- Add New Level 05-->
-                                <add-new-global-org-str-board-mgt-five-level
+                                <manages-new-global-org-str-board-mgt-five-level
+                                    v-if="
+                                        selectedOptOrgChartFourthLevel !==
+                                            null &&
+                                        selectedOptOrgChartFourthLevel !==
+                                            undefined
+                                    "
                                     :secondBoardMgtLevelProId="
                                         getProjectId ? getProjectId : 0
                                     "
                                     :secondBoardMgtLevelFiveLevelId="
-                                        getFourthLevelOrgStructure
-                                            ? getFourthLevelOrgStructure
+                                        getFiveLevelOrgStructure
+                                            ? getFiveLevelOrgStructure
                                             : 0
                                     "
                                 />
@@ -366,8 +397,8 @@
             <Button
                 :label="
                     loadingSubmittedAddNew
-                        ? 'Saving New Org.Structure'
-                        : 'Add New Org.Structure'
+                        ? 'Saving Org.Structure'
+                        : 'Add Org.Structure'
                 "
                 icon="pi pi-send"
                 :loading="loadingSubmittedAddNew"
@@ -383,10 +414,10 @@
 import { FilterMatchMode } from "primevue/api";
 // Global org-chat-board-mgt
 import AddNewParentRootOrgStrBoardMgt from "./ManageParentRootOrgStrBoardMgt";
-import AddNewGlobalOrgStrBoardMgtSecondLevel from "./AddNewGlobalOrgStrBoardMgtSecondLevel";
-import AddNewGlobalOrgStrBoardMgtThirdLevel from "./AddNewGlobalOrgStrBoardMgtThirdLevel";
-import AddNewGlobalOrgStrBoardMgtForthLevel from "./AddNewGlobalOrgStrBoardMgtFourthLevel";
-import AddNewGlobalOrgStrBoardMgtFiveLevel from "./AddNewGlobalOrgStrBoardMgtFiveLevel";
+import ManagesNewGlobalOrgStrBoardMgtSecondLevel from "./ManagesNewGlobalOrgStrBoardMgtSecondLevel";
+import ManagesNewGlobalOrgStrBoardMgtThirdLevel from "./ManagesNewGlobalOrgStrBoardMgtThirdLevel";
+import ManagesNewGlobalOrgStrBoardMgtFourthLevel from "./ManageNewGlobalOrgStrBoardMgtFourthLevel";
+import ManagesNewGlobalOrgStrBoardMgtFiveLevel from "./ManageNewGlobalOrgStrBoardMgtFiveLevel.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
@@ -411,11 +442,11 @@ export default {
     },
     mixins: [manageOrgChartBoardMgtLevelHelper, manageGlobalOrgChartMgt],
     components: {
-        AddNewGlobalOrgStrBoardMgtSecondLevel,
+        ManagesNewGlobalOrgStrBoardMgtSecondLevel,
         AddNewParentRootOrgStrBoardMgt,
-        AddNewGlobalOrgStrBoardMgtThirdLevel,
-        AddNewGlobalOrgStrBoardMgtForthLevel,
-        AddNewGlobalOrgStrBoardMgtFiveLevel,
+        ManagesNewGlobalOrgStrBoardMgtThirdLevel,
+        ManagesNewGlobalOrgStrBoardMgtFourthLevel,
+        ManagesNewGlobalOrgStrBoardMgtFiveLevel,
     },
     data() {
         return {

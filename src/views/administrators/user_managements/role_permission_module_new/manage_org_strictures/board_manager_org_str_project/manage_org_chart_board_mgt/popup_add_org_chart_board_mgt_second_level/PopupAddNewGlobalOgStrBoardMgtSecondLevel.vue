@@ -2,10 +2,10 @@
     <Toast />
     <div class="pl-2 gap-2 flex align-items-right justify-content-end">
         <Button
-            aria-label="Add New Structure Level 01"
+            aria-label="Add New Structure Level 02"
             class="border-round-lg h-2.1rem"
             icon="pi pi-plus"
-            label="Add New Structure Level 01"
+            label="Add New Structure Level 02"
             :loading="btnLoadingBoardMgt"
             @click="openDialogAddOrgStrBoardMgt()"
         />
@@ -31,35 +31,6 @@
             class="shipping-rule mb-20 mb-sm-15 border-1 border-primary-100 border-round gap-15"
         >
             <div class="pop-over-content p-20 p-sm-15 card">
-                <!-- Departments -->
-                <div class="flex gap-15">
-                    <div class="input-wrap flex-1">
-                        <label> Parent Org Structure Level 01 </label>
-                        <Dropdown
-                            :options="getAllDeptOrgStrMgtOrg"
-                            v-model="v$.selectedParentDeptOrgStrBoardMgt.$model"
-                            :oninput="
-                                v$.selectedParentDeptOrgStrBoardMgt.$touch()
-                            "
-                            :onblur="
-                                v$.selectedParentDeptOrgStrBoardMgt.$touch()
-                            "
-                            aria-labelledby="parentDeptId"
-                            placeholder="Select Department..."
-                            aria-describedby="parentDeptId"
-                            selectionMode="single"
-                            display="comma"
-                            emptyMessage="No result found department..."
-                            filter
-                            showClear
-                            class="border-round-lg border-round-lg w-full"
-                        />
-                        <small class="text-sm text-red flex text-blue-600"
-                            >Please selected root level (Level 01) of
-                            org-structure</small
-                        >
-                    </div>
-                </div>
                 <!-- New Org Structure Khmer Name-->
                 <div class="flex gap-15">
                     <div class="input-wrap flex-1">
@@ -150,6 +121,7 @@ import manageOrgChartBoardMgtSecondLevelHelper from "@/mixin/manage_geo_org_str/
 import ManagePermissionsGeoFencePositionPermissionsServices from "@/services/administrator/geo_admin_position_manage_permissions/GeoAdminPositionPermissionsManagementServices";
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
+import manageGlobalOrgChartMgt from "@/mixin/manage_geo_org_str/manageGlobalOrgChartStructure";
 
 export default {
     setup() {
@@ -158,6 +130,11 @@ export default {
         };
     },
     props: {
+        orgDataRootLevel: {
+            type: Object,
+            required: true,
+            default: () => {},
+        },
         deptSecondLevelProjectId: {
             type: Number,
             required: true,
@@ -186,7 +163,8 @@ export default {
     },
     mixins: [
         manageOrgChartBoardMgtLevelHelper,
-        manageOrgChartBoardMgtSecondLevelHelper
+        manageOrgChartBoardMgtSecondLevelHelper,
+        manageGlobalOrgChartMgt,
     ],
     data() {
         return {

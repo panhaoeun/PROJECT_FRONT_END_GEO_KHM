@@ -185,7 +185,7 @@ export default {
                 orgStrDeptKhmerName: "",
                 deptGeoMgtPosNoted: "",
                 orgSupDeptStrId: "",
-                orgStrMgrId: "",
+                orgDeptStrNoted: "",
                 orgDeptStrLevel: ""
             };
         }
