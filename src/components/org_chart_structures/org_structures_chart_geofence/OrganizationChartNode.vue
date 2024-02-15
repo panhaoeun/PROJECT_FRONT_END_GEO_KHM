@@ -1,8 +1,6 @@
 <template>
+    <!-- Popup Edited Assign Position or Manages -->
     <table>
-        {{
-            createTreeOrgChartGlobal()
-        }}
         <tbody>
             <tr>
                 <td
@@ -15,16 +13,8 @@
                     <div
                         class="node"
                         :id="datasource.id"
-                        @click.stop="handleClick(datasource)"
-                        @contextmenu.prevent="onHandleChangeChange()"
+                        @contextmenu.prevent="handleClick(datasource)"
                     >
-                        <!-- Menu -->
-                        <Menu
-                            ref="menu"
-                            id="overlay_menu"
-                            :model="items"
-                            :popup="true"
-                        />
                         <slot :node-data="datasource">
                             <div class="title">
                                 <div class="avatar">
@@ -102,16 +92,8 @@ export default {
     },
     data() {
         return {
-            items: [
-                {
-                    label: "Manage Position",
-                    icon: "pi pi-cog",
-                },
-                {
-                    label: "Manage Manager",
-                    icon: "pi pi-user-plus",
-                },
-            ],
+            openDialogAssignPoId: false,
+            
         };
     },
     created() {},
@@ -142,6 +124,7 @@ export default {
             var children = _.remove(array, (child) => console.log(child));
             console.log(children);
         },
+       
     },
     mounted() {},
 };

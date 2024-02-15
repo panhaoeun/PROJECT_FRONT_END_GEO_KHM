@@ -1,4 +1,17 @@
 <template>
+    <!-- Popup Edited Assign Position or Manages -->
+    <global-assign-positions
+        v-if="openDialogAssignPoId"
+        :geoOrgProjectStrData="editPopupProjectStrData"
+        @close="closingEditDialogPositionId"
+    />
+    <global-assign-manager-employee
+        v-if="openDialogAssignPoId"
+        :geoOrgProjectStrData="editPopupProjectStrData"
+        @close="closingEditDialogPositionId"
+    />
+    <!-- Menu -->
+    <Menu ref="menu" id="overlay_menu" :model="contentMenu" :popup="true" />
     <div
         :v-slot="{ scopedSlots }"
         class="orgchart-container"
@@ -31,10 +44,14 @@
 <script>
 import $ from "jquery";
 import OrganizationChartNode from "./OrganizationChartNode.vue";
+import GlobalAssignPositions from "./GlobalEditedAssignPositions";
+import GlobalAssignManagerEmployee from "./GlobalEditedAssignPositions";
 export default {
     name: "Hierarchy",
     components: {
         OrganizationChartNode,
+        GlobalAssignPositions,
+        GlobalAssignManagerEmployee
     },
     props: {
         datasource: {
@@ -67,10 +84,34 @@ export default {
             startX: 0,
             startY: 0,
             transformVal: "",
+            contentMenu: [
+                {
+                    label: "Manage Position",
+                    icon: "pi pi-cog",
+                    command: () => {
+                        this.openDialogAssignPosition();
+                    },
+                },
+                {
+                    label: "Manage Manager",
+                    icon: "pi pi-user-plus",
+                    command: () => {},
+                },
+            ],
+            openDialogAssignPoId: false,
         };
     },
     methods: {
+        // Dialogs Position and Employee Assignments
+        closingEditDialogPositionId() {
+            this.openDialogAssignPoId = true;
+        },
+        openDialogAssignPosition() {
+            this.openDialogAssignPoId = true;
+        },
+
         handleClick(nodeData) {
+            this.$refs.menu.show(event);
             this.$emit("node-click", nodeData);
         },
         panEndHandler() {

@@ -101,6 +101,7 @@ export default {
     projectOrgStr: {
         isRequired: "{type} is required",
         thisProject: "{type} this project",
+        assignPosition: "{type} assign position",
         thisPosition: "{type} this position",
         thisOrgStructure: "{type} this org-structure",
         thisDepartment: "{type} this department",

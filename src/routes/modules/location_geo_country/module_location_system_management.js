@@ -33,7 +33,8 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [{
             icon: 'chartPie',
             permissions: ['location_ms_system_module']
         },
-        component: () => import("../../../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),
+        component: () => import("../../../views/administrators/org_chart_structure_managements_new/FeatureOrgChartStructuresManagements.vue"),
+        // component: () => import("../../../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),
     },
     {
         path: "/admin/manage-user-org-chat-geo-khm-add-new",

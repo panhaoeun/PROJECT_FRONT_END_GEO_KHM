@@ -1,312 +1,285 @@
 <template>
-    <!-- Open Dialogs Org-structure-->
-    <Toast />
-    <global-assign-position-dept-geo
-        v-if="openDialogOrgStrChartAssignPosition"
-        @close="closingPopupPositionOrgChart"
-        dataOrgStrChartDept=""
-    />
-    <!-- DHX -->
-    <section>
-        <highcharts :options="chartOptions"></highcharts>
-    </section>
+    <div>
+        <vo-edit
+            style="background: #fff"
+            :data="chartData"
+            :exportButton="true"
+            :toggleCollapse="true"
+            exportButtonName="导出"
+            exportFilename="test"
+        >
+        </vo-edit>
+        <div id="edit-panel" class="view-state edit-container">
+            <div class="item item-half">
+                <div class="input-node-container">
+                    <label class="selected-node-group">Selected Node</label>
+                    <input
+                        type="text"
+                        id="selected-node"
+                        class="selected-node-group new-node"
+                    />
+                </div>
+                <div>
+                    <label>New Node</label>
+                    <ul id="new-nodelist">
+                        <li><input type="text" class="new-node" /></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="node-type-panel" class="radio-panel item">
+                <input
+                    type="radio"
+                    name="node-type"
+                    id="rd-parent"
+                    value="parent"
+                    class=""
+                /><label for="rd-parent">Root</label>
+                <input
+                    type="radio"
+                    name="node-type"
+                    id="rd-child"
+                    value="children"
+                /><label for="rd-child">Child</label>
+                <input
+                    type="radio"
+                    name="node-type"
+                    id="rd-sibling"
+                    value="siblings"
+                /><label for="rd-sibling">Sibling</label>
+            </div>
+            <div class="item">
+                <button @click="addNodes">Add</button>
+                <button @click="deleteNodes">Delete</button>
+                <button @click="exportJSON">Export JSON</button>
+            </div>
+        </div>
+        <pre class="json-container">
+          <code class="json">
+            JSON
+          </code>
+      </pre>
+    </div>
 </template>
-<!-- Hierarchy opened dialogs org-structure-->
-<script>
-import dhxRequire from "./formCDN";
-// import { workers } from "./data";
-import GlobalAssignPositionDeptGeo from "./GlobalAssignPositionDeptGeo";
-export default {
-    name: "OrgChartEditorCustomShape",
-    components: {
-        GlobalAssignPositionDeptGeo,
-    },
-    props: {
-        orgStrData: {
-            type: Object,
-            required: true,
-            default: () => {},
-        },
-    },
-    data: () => ({
-        openDialogOrgStrChartAssignPosition: false,
-        diagram: null,
-        editor: null,
-        contextMenu: null,
-        collapsed: true,
-        expanded: false,
-        items: [
-            {
-                label: "Position",
-                icon: "pi pi-briefcase",
-            },
-            {
-                label: "Manager",
-                icon: "pi pi-user-plus",
-                command: () => {
-                    console.log(this.openPopupDialogOrgStructureChartAssPos);
-                },
-            },
-        ],
-        chartOptions: {
-            chart: {
-                height: 600,
-                inverted: true,
-            },
-            title: {
-                text: "Highcharts Org Chart",
-            },
 
-            accessibility: {
-                point: {
-                    descriptionFormat:
-                        "{add index 1}. {toNode.name}" +
-                        "{#if (ne toNode.name toNode.id)}, {toNode.id}{/if}, " +
-                        "reports to {fromNode.id}",
-                },
-            },
-            series: [
+<script>
+// import { VoEdit } from "../../../assets/org_chart_vue_dept/js/vue-orgchart.min.js";
+// import dhxRequire from "./formCDN";
+export default {
+    // components: { VoEdit },
+    created() {
+        this.chartData = {
+            name: "JavaScript",
+            children: [
+                { name: "Angular" },
                 {
-                    type: "organization",
-                    name: "Highsoft",
-                    keys: ["from", "to"],
-                    data: [
-                        ["Shareholders", "Board"],
-                        ["Board", "CEO"],
-                        ["CEO", "CTO"],
-                        ["CEO", "CPO"],
-                        ["CEO", "CSO"],
-                        ["CEO", "HR"],
-                        ["CTO", "Product"],
-                        ["CTO", "Web"],
-                        ["CSO", "Sales"],
-                        ["HR", "Market"],
-                        ["CSO", "Market"],
-                        ["HR", "Market"],
-                        ["CTO", "Market"],
-                    ],
-                    levels: [
-                        {
-                            level: 0,
-                            color: "silver",
-                            dataLabels: {
-                                color: "black",
-                            },
-                            height: 25,
-                        },
-                        {
-                            level: 1,
-                            color: "silver",
-                            dataLabels: {
-                                color: "black",
-                            },
-                            height: 25,
-                        },
-                        {
-                            level: 2,
-                            color: "#980104",
-                        },
-                        {
-                            level: 4,
-                            color: "#359154",
-                        },
-                    ],
-                    nodes: [
-                        {
-                            id: "Shareholders",
-                        },
-                        {
-                            id: "Board",
-                        },
-                        {
-                            id: "CEO",
-                            title: "CEO",
-                            name: "Atle Sivertsen",
-                            image: "https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2022/06/30081411/portrett-sorthvitt.jpg",
-                        },
-                        {
-                            id: "HR",
-                            title: "CFO",
-                            name: "Anne Jorunn Fjærestad",
-                            color: "#007ad0",
-                            image: "https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131210/Highsoft_04045_.jpg",
-                        },
-                        {
-                            id: "CTO",
-                            title: "CTO",
-                            name: "Christer Vasseng",
-                            image: "https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131120/Highsoft_04074_.jpg",
-                        },
-                        {
-                            id: "CPO",
-                            title: "CPO",
-                            name: "Torstein Hønsi",
-                            image: "https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131213/Highsoft_03998_.jpg",
-                        },
-                        {
-                            id: "CSO",
-                            title: "CSO",
-                            name: "Anita Nesse",
-                            image: "https://wp-assets.highcharts.com/www-highcharts-com/blog/wp-content/uploads/2020/03/17131156/Highsoft_03834_.jpg",
-                        },
-                        {
-                            id: "Product",
-                            name: "Product developers",
-                        },
-                        {
-                            id: "Web",
-                            name: "Web devs, sys admin",
-                        },
-                        {
-                            id: "Sales",
-                            name: "Sales team",
-                        },
-                        {
-                            id: "Market",
-                            name: "Marketing team",
-                            column: 5,
-                        },
-                    ],
-                    colorByPoint: false,
-                    color: "#007ad0",
-                    dataLabels: {
-                        color: "white",
-                    },
-                    borderColor: "white",
-                    nodeWidth: 65,
+                    name: "React",
+                    children: [{ name: "Preact" }],
+                },
+                {
+                    name: "Vue",
+                    children: [{ name: "Moon" }],
                 },
             ],
-            tooltip: {
-                outside: true,
-            },
-            exporting: {
-                allowHTML: true,
-                sourceWidth: 800,
-                sourceHeight: 600,
-            },
-        },
-    }),
+        };
+    },
     mounted() {
-        dhxRequire([
-            "https://code.highcharts.com/highcharts.js",
-            "https://cdn.jsdelivr.net/npm/highcharts-vue@1.3.5/dist/highcharts-vue.min.js",
-        ]).then(() => {});
+        this.$nextTick(this.mountOrgchart());
     },
     methods: {
-        /**
-         * @Open Dialogs Position and Manager(Employee)
-         * */
-        closingPopupPositionOrgChart() {
-            this.openDialogOrgStrChartAssignPosition = false;
+        mountOrgchart() {
+            this.$children.forEach((item) => {
+                item.orgchart !== undefined
+                    ? (this.orgchart = item.orgchart)
+                    : null;
+            });
         },
-        openPopupDialogOrgStructureChartAssPos() {
-            this.openDialogOrgStrChartAssignPosition = true;
+        addNodes() {
+            let chartContainer = document.getElementById("chart-container");
+            let nodeVals = [];
+            Array.from(
+                document
+                    .getElementById("new-nodelist")
+                    .querySelectorAll(".new-node")
+            ).forEach((item) => {
+                let validVal = item.value.trim();
+                if (validVal) {
+                    nodeVals.push(validVal);
+                }
+            });
+            let selectedNode = document.getElementById(
+                document.getElementById("selected-node").dataset.node
+            );
+            if (!nodeVals.length) {
+                alert("Please input value for new node");
+                return;
+            }
+            let nodeType = document.querySelector(
+                'input[name="node-type"]:checked'
+            );
+            if (!nodeType) {
+                alert("Please select a node type");
+                return;
+            }
+            if (
+                nodeType.value !== "parent" &&
+                !document.querySelector(".orgchart")
+            ) {
+                alert(
+                    "Please creat the root node firstly when you want to build up the orgchart from the scratch"
+                );
+                return;
+            }
+            if (nodeType.value !== "parent" && !selectedNode) {
+                alert("Please select one node in orgchart");
+                return;
+            }
+            /* eslint-disable */
+            if (nodeType.value === "parent") {
+                if (!chartContainer.children.length) {
+                    // if the original chart has been deleted
+                    this.orgchart = new OrgChart({
+                        chartContainer: "#chart-container",
+                        data: { name: nodeVals[0] },
+                        parentNodeSymbol: "fa-th-large",
+                        createNode: function (node, data) {
+                            node.id = this.getId();
+                        },
+                    });
+                    this.orgchart.chart.classList.add("view-state");
+                } else {
+                    this.orgchart.addParent(
+                        chartContainer.querySelector(".node"),
+                        { name: nodeVals[0], Id: this.getId() }
+                    );
+                }
+            } else if (nodeType.value === "siblings") {
+                this.orgchart.addSiblings(selectedNode, {
+                    siblings: nodeVals.map((item) => {
+                        return {
+                            name: item,
+                            relationship: "110",
+                            Id: this.getId(),
+                        };
+                    }),
+                });
+            } else {
+                let hasChild = selectedNode.parentNode.colSpan > 1;
+                if (!hasChild) {
+                    let rel = nodeVals.length > 1 ? "110" : "100";
+                    this.orgchart.addChildren(selectedNode, {
+                        children: nodeVals.map((item) => {
+                            return {
+                                name: item,
+                                relationship: rel,
+                                Id: this.getId(),
+                            };
+                        }),
+                    });
+                } else {
+                    this.orgchart.addSiblings(
+                        closest(selectedNode, (el) => el.nodeName === "TABLE")
+                            .querySelector(".nodes")
+                            .querySelector(".node"),
+                        {
+                            siblings: nodeVals.map(function (item) {
+                                return {
+                                    name: item,
+                                    relationship: "110",
+                                    Id: this.getId(),
+                                };
+                            }),
+                        }
+                    );
+                }
+            }
         },
-        runEditor() {
-            this.expanded = true;
-            this.collapsed = false;
-            this.editor.import(this.diagram);
+        deleteNodes() {
+            let sNodeInput = document.getElementById("selected-node");
+            let sNode = document.getElementById(sNodeInput.dataset.node);
+            if (!sNode) {
+                alert("Please select one node in orgchart");
+                return;
+            } else if (
+                sNode ===
+                document.querySelector(".orgchart").querySelector(".node")
+            ) {
+                if (
+                    !window.confirm(
+                        "Are you sure you want to delete the whole chart?"
+                    )
+                ) {
+                    return;
+                }
+            }
+            this.orgchart.removeNodes(sNode);
+            sNodeInput.value = "";
+            sNodeInput.dataset.node = "";
         },
-        applyButton() {
-            this.collapsed = true;
-            this.expanded = false;
-            this.diagram.data.parse(this.editor.serialize());
+        exportJSON() {
+            let datasourceJSON = {};
+            let ChartJSON = this.orgchart.getChartJSON();
+            datasourceJSON = JSON.stringify(ChartJSON, null, 2);
+            if (document.getElementsByTagName("code")[0]) {
+                let code = document.getElementsByTagName("code")[0];
+                code.innerHTML = datasourceJSON;
+            }
+            return datasourceJSON;
         },
-        resetButton() {
-            this.collapsed = true;
-            this.expanded = false;
+        getId() {
+            return (
+                new Date().getTime() * 1000 + Math.floor(Math.random() * 1001)
+            );
         },
-        // Show Dialog Buttons
-        show(event, shape) {
-            // eslint-disable-next-line no-undef
-            this.$refs.menuOrgChart.show(event);
-            console.log(shape, this.$refs);
-            event.preventDefault();
-        },
-    },
-    computed: {
-        classObject: function () {
-            return {
-                "dhx_sample-container__with-editor":
-                    this.expanded && !this.collapsed,
-                "dhx_sample-container__without-editor":
-                    this.collapsed && !this.expanded,
-            };
-        },
-    },
-    beforeUnmount() {
-        if (this.diagram) {
-            this.diagram.destructor();
-        }
     },
 };
 </script>
-
-<!--Style of org-structure -->
 <style>
-.highcharts-figure,
-.highcharts-data-table table {
-    min-width: 360px;
-    max-width: 800px;
-    margin: 1em auto;
+html {
+    background: #f0f2f5;
 }
-
-.highcharts-data-table table {
-    font-family: Verdana, sans-serif;
-    border-collapse: collapse;
-    border: 1px solid #ebebeb;
-    margin: 10px auto;
+@media (min-width: 768px) {
+    .input-node-container {
+        margin-top: -20px;
+        margin-bottom: 15px;
+    }
+}
+.edit-container {
+    border-radius: 5px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.edit-container .item {
+    flex: 1;
+}
+.edit-container .item-half {
+    height: 24px;
+    flex: 0 0 45%;
     text-align: center;
-    width: 100%;
-    max-width: 500px;
 }
-
-.highcharts-data-table caption {
-    padding: 1em 0;
-    font-size: 1.2em;
-    color: #555;
-}
-
-.highcharts-data-table th {
-    font-weight: 600;
-    padding: 0.5em;
-}
-
-.highcharts-data-table td,
-.highcharts-data-table th,
-.highcharts-data-table caption {
-    padding: 0.5em;
-}
-
-.highcharts-data-table thead tr,
-.highcharts-data-table tr:nth-child(even) {
-    background: #f8f8f8;
-}
-
-.highcharts-data-table tr:hover {
-    background: #f1f7ff;
-}
-
-#container h4 {
-    text-transform: none;
-    font-size: 14px;
-    font-weight: normal;
-}
-
-#container p {
-    font-size: 13px;
-    line-height: 16px;
-}
-
-@media screen and (max-width: 600px) {
-    #container h4 {
-        font-size: 2.3vw;
-        line-height: 3vw;
+@media (max-width: 768px) {
+    .edit-container {
+        height: 140px;
+        flex-direction: column;
+        flex: 1;
     }
-
-    #container p {
-        font-size: 2.3vw;
-        line-height: 3vw;
+    .edit-container .item {
+        flex: auto;
     }
+}
+.json-container {
+    margin-right: 15px;
+    float: right;
+    border-radius: 5px;
+}
+.json {
+    margin-top: -12.5px;
+    margin-left: 10px;
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #383a42;
+    background: #fff;
 }
 </style>

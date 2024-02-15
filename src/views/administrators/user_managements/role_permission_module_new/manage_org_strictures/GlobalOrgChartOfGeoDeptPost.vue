@@ -1,34 +1,35 @@
 <template>
     <div class="gap-3 my-4 flex justify-content-center">
-        <!-- <OrgStructureChartGeoFenceHierarchyLevel
-            :datasource="orgData"
+        <!-- {{ getConvertArrayToObject }} -->
+        <OrgStructureChartGeoFenceHierarchyLevel
+            :datasource="getConvertArrayToObject"
             pan="true"
             @node-click="selectNode"
         >
             <template v-slot="{ nodeData }">
                 <b @click="selectNode(nodeData)">{{ nodeData.name }}</b>
             </template>
-        </OrgStructureChartGeoFenceHierarchyLevel> -->
-        <OrgStructureChartNewHierarchy/>
+        </OrgStructureChartGeoFenceHierarchyLevel>
+        <!-- <OrgStructureChartNewHierarchy/> -->
         <!-- Assign User Base Level Chart -->
-        <AssignUserBasePermDeptOnOrgChat
-            @close="closingPopupEditedAssEmpMgtBoard"
+        <!-- <AssignUserBasePermDeptOnOrgChat
+            @close="closingPopupAssignPosId"
             v-if="openDialogDeptEmpMgtAssign"
-        />
+        /> -->
     </div>
 </template>
 
 <!-- Manage Global Org-Strictures Of Board Mgt Project-->
 <script>
-// import OrgStructureChartGeoFenceHierarchyLevel from "../../../../../components/org_chart_structures/org_structures_chart_geofence/OrgStructureChartGeoFenceHierarchyLevel";
-import AssignUserBasePermDeptOnOrgChat from "../management_org_structure_geo_perm/manage_geo_perm_dept_mgt_board/AssignUserBasePermDeptOnOrgChat.vue";
-import OrgStructureChartNewHierarchy from "../../../../../components/org_chart_structures/org_structure_chart_new_hierarchy/OrgStructureChartNewHierarchy";
+import OrgStructureChartGeoFenceHierarchyLevel from "../../../../../components/org_chart_structures/org_structures_chart_geofence/OrgStructureChartGeoFenceHierarchyLevel";
+// import AssignUserBasePermDeptOnOrgChat from "../management_org_structure_geo_perm/manage_geo_perm_dept_mgt_board/AssignUserBasePermDeptOnOrgChat.vue";
+// import OrgStructureChartNewHierarchy from "../../../../../components/org_chart_structures/org_structure_chart_new_hierarchy/OrgStructureChartNewHierarchy";
 
 export default {
     components: {
-        OrgStructureChartNewHierarchy,
-        // OrgStructureChartGeoFenceHierarchyLevel,
-        AssignUserBasePermDeptOnOrgChat,
+        // OrgStructureChartNewHierarchy,
+        OrgStructureChartGeoFenceHierarchyLevel,
+        // AssignUserBasePermDeptOnOrgChat,
     },
     props: {
         orgData: {
@@ -48,66 +49,50 @@ export default {
             selection: {},
             dataHierarchyDept: {
                 id: "1",
-                name: "GEO-KHRM",
-                department: "Governing Board",
-                position: "Directed",
+                name: "GEO-KHM-01",
+                department: "Yearly Meeting",
+                position: "",
                 profile: "",
                 children: [
                     {
                         id: "2",
-                        name: "Bo Miao",
-                        department: "National Congress",
+                        name: "GEO-KHM-02",
+                        department: "Board Committee",
                         position: "Secretary",
-                    },
-                    {
-                        id: "3",
-                        name: "Su Miao",
-                        department: "Provincial Labor Support Council",
-                        position: "IT Manager",
                         children: [
                             {
-                                id: "4",
-                                name: "Tie Hua",
-                                department: "President",
+                                id: "3",
+                                name: "GEO-KHM-03",
+                                department: "Director",
                                 position: "",
-                            },
-                            {
-                                id: "5",
-                                name: "Hei Hei",
-                                department: "President",
                                 children: [
                                     {
-                                        id: "6",
-                                        name: "Pang Pang",
-                                        department: "Communication Specialist",
+                                        id: "5",
+                                        name: "GEO-KHM-05",
+                                        department: "Admin",
                                         position: "",
+                                        children: [
+                                            {
+                                                id: "5.1",
+                                                name: "GEO-KHM-001",
+                                                department: "D1",
+                                                position: "",
+                                            },
+                                            {
+                                                id: "5.2",
+                                                name: "GEO-KHM-002",
+                                                department: "D2",
+                                                position: "",
+                                            },
+                                        ],
                                     },
                                     {
-                                        id: "7",
-                                        name: "Mr.Bao",
-                                        department: "Operations Specialist",
+                                        id: "6",
+                                        name: "GEO-KHM-06",
+                                        department: "Finance",
                                         position: "",
                                     },
                                 ],
-                            },
-                        ],
-                    },
-                    {
-                        id: "8",
-                        name: "Geo",
-                        department: "National Congress",
-                        children: [
-                            {
-                                id: "9",
-                                name: "Phil Acreas",
-                                department: "Operations Director",
-                                position: "",
-                            },
-                            {
-                                id: "10",
-                                name: "Debby Lethem",
-                                department: "Program Director",
-                                position: "",
                             },
                         ],
                     },
@@ -119,17 +104,8 @@ export default {
         getConvertArrayToObject() {
             let object = {};
             this.orgData.forEach((item) => {
-                let children = item.children;
-                object[item.id] = item;
-                object[item.id].children = {};
-                children.forEach((child) => {
-                    object[item.id].children[child.id] = child;
-                });
+                object = Object.assign({}, item ? item : {});
             });
-            const result = Object.fromEntries(
-                Object.entries(object).map(([key, { value }]) => [key, value])
-            );
-            console.log(result);
             return object;
         },
     },
@@ -138,7 +114,7 @@ export default {
             console.log(nodeData);
             this.openDialogDeptEmpMgtAssign = true;
         },
-        closingPopupEditedAssEmpMgtBoard() {
+        closingPopupAssignPosId() {
             this.openDialogDeptEmpMgtAssign = false;
         },
     },

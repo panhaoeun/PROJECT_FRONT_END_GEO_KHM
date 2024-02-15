@@ -1,15 +1,15 @@
 <template>
     <div class="gap-3 my-4 flex justify-content-center">
-        <!-- <OrgStructureChartGeoFenceHierarchyLevel
-            :datasource="orgData"
+        <OrgStructureChartGeoFenceHierarchyLevel
+            :datasource="dataHierarchyDept"
             pan="true"
             @node-click="selectNode"
         >
             <template v-slot="{ nodeData }">
                 <b @click="selectNode(nodeData)">{{ nodeData.name }}</b>
             </template>
-        </OrgStructureChartGeoFenceHierarchyLevel> -->
-        <OrgStructureChartNewHierarchy/>
+        </OrgStructureChartGeoFenceHierarchyLevel>
+        <!-- <OrgStructureChartNewHierarchy/> -->
         <!-- Assign User Base Level Chart -->
         <AssignUserBasePermDeptOnOrgChat
             @close="closingPopupEditedAssEmpMgtBoard"
@@ -20,14 +20,14 @@
 
 <!-- Manage Global Org-Strictures Of Board Mgt Project-->
 <script>
-// import OrgStructureChartGeoFenceHierarchyLevel from "../../../../../components/org_chart_structures/org_structures_chart_geofence/OrgStructureChartGeoFenceHierarchyLevel";
+import OrgStructureChartGeoFenceHierarchyLevel from "../../../../../components/org_chart_structures/org_structures_chart_geofence/OrgStructureChartGeoFenceHierarchyLevel";
 import AssignUserBasePermDeptOnOrgChat from "../management_org_structure_geo_perm/manage_geo_perm_dept_mgt_board/AssignUserBasePermDeptOnOrgChat.vue";
-import OrgStructureChartNewHierarchy from "../../../../../components/org_chart_structures/org_structure_chart_new_hierarchy/OrgStructureChartNewHierarchy";
+// import OrgStructureChartNewHierarchy from "../../../../../components/org_chart_structures/org_structure_chart_new_hierarchy/OrgStructureChartNewHierarchy";
 
 export default {
     components: {
-        OrgStructureChartNewHierarchy,
-        // OrgStructureChartGeoFenceHierarchyLevel,
+        // OrgStructureChartNewHierarchy,
+        OrgStructureChartGeoFenceHierarchyLevel,
         AssignUserBasePermDeptOnOrgChat,
     },
     props: {

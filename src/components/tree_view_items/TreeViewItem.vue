@@ -1,56 +1,68 @@
 <template>
     <li
-        class="tree-node"
-        v-if="!data.delete"
-        :class="{
-            'is-opend': data?.opended,
-            'is-close': !data?.opended,
-        }"
         role="treeitem"
-        @click.stop="(e) => onNodeCLick(e, data)"
+        :class="classes"
+        class="tree-node"
+        :draggable="draggable"
         @mouseover.stop="data.isHover != data.isHover"
         @mouseout.stop="data.isHover != data.isHover"
-        @contextmenu.stop="(e) => onContextmenu(e)"
+        @dragstart.stop="onItemDragStart($event, _self, _self.model)"
+        @dragend.stop.prevent="onItemDragEnd($event, _self, _self.model)"
+        @dragover.stop.prevent="isDragEnter = true"
+        @dragenter.stop.prevent="isDragEnter = true"
+        @dragleave.stop.prevent="isDragEnter = false"
+        @drop.stop.prevent="handleItemDrop($event, _self, _self.model)"
     >
+        <!-- Tree Icons -->
         <div
             role="presentation"
             class="tree-node__background"
-            v-if="data.isHover"
-        ></div>
+            :class="wholeRowClasses"
+            v-if="isWholeRow"
+        >
+            <i
+                :class="{
+                    'tree-anchor': isFolder,
+                    'tree-node__icon': isFolder,
+                }"
+                role="presentation"
+            ></i>
+        </div>
+        <!-- Dropdown Chart Org -->
         <i
+            class="tree-node__icon tree-ocl"
+            role="presentation"
+            @click="handleItemToggle"
             :class="{
                 'tree-anchor': isFolder,
                 'tree-node__icon': isFolder,
             }"
-            role="presentation"
         ></i>
-
-        <div
-            :class="{
-                'tree-anchor': true,
-                'tree-selected': data?.selected,
-            }"
-        >
+        <i
+            class="tree-icon tree-ocl"
+            role="presentation"
+            @click="handleItemToggle"
+        ></i>
+        <div :class="anchorClasses" v-on="events">
             <i
-                class="tree-node__icon"
+                class="tree-icon tree-checkbox"
+                role="presentation"
                 :class="{
                     'no-filder': !isFolder,
                 }"
-                role="presentation"
+                v-if="showCheckbox && !model.loading"
             ></i>
-            <span v-if="!data.rename" class="tree-node__text">{{
-                data.text
-            }}</span>
-            <input
-                v-else
-                :id="data.id + ''"
-                class="tree-node__input"
-                type="text"
-                :value="data.text"
-                @input="(e) => onRename(e, data)"
-                @blur="(e) => onBlur(e, data)"
-                @click.stop="(e) => {}"
-            />
+            <slot :vm="this" :model="model">
+                <i
+                    :class="themeIconClasses"
+                    role="presentation"
+                    v-if="!model.loading"
+                ></i>
+                <span
+                    class="tree-node__text"
+                    v-html="model[textFieldName]"
+                ></span>
+            </slot>
         </div>
         <!-- Tree View Item -->
         <ul
@@ -58,80 +70,281 @@
             ref="group"
             class="tree-node__children"
             v-if="isFolder"
+            :style="groupStyle"
         >
             <tree-view-item
-                v-for="(child, index) in data?.children"
+                v-for="(child, index) in model[childrenFieldName]"
                 :key="index"
                 :data="child"
-                :menu="menu"
-                @iconClick="data.opended != data.opended"
+                :text-field-name="textFieldName"
+                :value-field-name="valueFieldName"
+                :children-field-name="childrenFieldName"
+                :item-events="itemEvents"
+                :whole-row="wholeRow"
+                :show-checkbox="showCheckbox"
+                :allow-transition="allowTransition"
+                :height="height"
+                :parent-item="model[childrenFieldName]"
+                :draggable="draggable"
+                :drag-over-background-color="dragOverBackgroundColor"
+                :on-item-click="onItemClick"
+                :on-item-toggle="onItemToggle"
+                :on-item-drag-start="onItemDragStart"
+                :on-item-drag-end="onItemDragEnd"
+                :on-item-drop="onItemDrop"
+                :klass="
+                    index === model[childrenFieldName].length - 1
+                        ? 'tree-last'
+                        : ''
+                "
+                @iconClick="model.opened != model.opened"
             >
+                <template v-slot>
+                    <i
+                        :class="themeIconClasses"
+                        role="presentation"
+                        v-if="!model.loading"
+                    ></i>
+                    <span v-html="model[textFieldName]"></span>
+                </template>
             </tree-view-item>
         </ul>
     </li>
 </template>
-
-<!-- Tree Items -->
 <script>
-import Emit from "@/utils/tree_view/eventTreeView";
-import { isEqual, isEmpty } from "lodash";
-import CreateMenu from "@/utils/tree_view/createMenuTreeView";
-
 export default {
-    name: "VTreeItem",
+    name: "TreeViewItem",
     props: {
         data: { type: Object, required: true },
-        menu: CreateMenu,
+        textFieldName: { type: String },
+        valueFieldName: { type: String },
+        childrenFieldName: { type: String },
+        itemEvents: { type: Object },
+        wholeRow: { type: Boolean, default: false },
+        showCheckbox: { type: Boolean, default: false },
+        allowTransition: { type: Boolean, default: true },
+        height: { type: Number, default: 24 },
+        parentItem: { type: Array },
+        draggable: { type: Boolean, default: false },
+        dragOverBackgroundColor: { type: String },
+        onItemClick: {
+            type: Function,
+            default: () => false,
+        },
+        onItemToggle: {
+            type: Function,
+            default: () => false,
+        },
+        onItemDragStart: {
+            type: Function,
+            default: () => false,
+        },
+        onItemDragEnd: {
+            type: Function,
+            default: () => false,
+        },
+        onItemDrop: {
+            type: Function,
+            default: () => false,
+        },
+        klass: String,
     },
     data() {
         return {
-            prevNode: {},
-            selectNode: {},
+            isHover: false,
+            isDragEnter: false,
+            model: this.data,
+            maxHeight: 0,
+            events: {},
         };
     },
-    watch: {},
+    watch: {
+        isDragEnter(newValue) {
+            if (newValue) {
+                this.$el.style.backgroundColor = this.dragOverBackgroundColor;
+            } else {
+                this.$el.style.backgroundColor = "inherit";
+            }
+        },
+        data(newValue) {
+            this.model = newValue;
+        },
+        "model.opened": {
+            handler: function (val, oldVal) {
+                console.log(val, oldVal);
+                this.onItemToggle(this, this.model);
+                this.handleGroupMaxHeight();
+            },
+            deep: true,
+        },
+    },
     computed: {
         isFolder() {
-            return this.data?.children;
+            return (
+                this.model[this.childrenFieldName] &&
+                this.model[this.childrenFieldName].length
+            );
+        },
+        classes() {
+            return [
+                { "tree-node": true },
+                { "tree-open": this.model.opened },
+                { "tree-closed": !this.model.opened },
+                { "tree-leaf": !this.isFolder },
+                { "tree-loading": !!this.model.loading },
+                { "tree-drag-enter": this.isDragEnter },
+                { [this.klass]: !!this.klass },
+                { "is-opend": this.model.opened },
+                { "is-close": !this.model.opened },
+            ];
+        },
+        anchorClasses() {
+            return [
+                { "tree-anchor": true },
+                { "tree-disabled": this.model.disabled },
+                { "tree-selected": this.model.selected },
+                { "tree-hovered": this.isHover },
+                { "tree-selected": this.model?.selected },
+            ];
+        },
+        wholeRowClasses() {
+            return [
+                { "tree-wholerow": true },
+                { "tree-wholerow-clicked": this.model.selected },
+                { "tree-wholerow-hovered": this.isHover },
+            ];
+        },
+        themeIconClasses() {
+            return [
+                { "tree-icon": true },
+                { "tree-themeicon": true },
+                { [this.model.icon]: !!this.model.icon },
+                { "tree-themeicon-custom": !!this.model.icon },
+            ];
+        },
+        isWholeRow() {
+            if (this.wholeRow) {
+                if (this.$parent.model === undefined) {
+                    return true;
+                } else if (this.$parent.model.opened === true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        },
+        groupStyle() {
+            return {
+                position: this.model.opened ? "" : "relative",
+                "max-height": !this.allowTransition
+                    ? this.maxHeight + "px"
+                    : "",
+                "transition-duration": !this.allowTransition
+                    ? Math.ceil(
+                          this.model[this.childrenFieldName].length / 100
+                      ) *
+                          300 +
+                      "ms"
+                    : "",
+                "transition-property": !this.allowTransition
+                    ? "max-height"
+                    : "",
+                display: !this.allowTransition
+                    ? "block"
+                    : this.model.opened
+                    ? "block"
+                    : "none",
+            };
         },
     },
     methods: {
-        onNodeCLick(e, data) {
-            data.opended = !data.opended;
-            if (!isEqual(data, this.prevNode)) {
-                data.selected = !data.selected;
-                this.selectNode = data;
-                // Only one node is allowed to be selected
-                if (!isEmpty(this.prevNode)) {
-                    this.prevNode.selected = false;
-                }
-                this.prevNode = data;
+        handleItemToggle() {
+            if (this.isFolder) {
+                this.model.opened = !this.model.opened;
+                this.onItemToggle(this, this.model);
             }
-            // // close menu
-            this.menu.hiddenMenu(e);
-            // toggle selectBar
-            Emit.emit("toggleSelectBar", e, data.selected ? "block" : "none");
         },
-        // tree-item recurse self and to use emit bus
-        onContextmenu(e) {
-            Emit.emit("contextMenu", e, this.selectNode);
+        handleGroupMaxHeight() {
+            if (!this.allowTransition) {
+                let length = 0;
+                let childHeight = 0;
+                if (this.model.opened) {
+                    length = this.$children.length;
+                    for (let children of this.$children) {
+                        childHeight += children.maxHeight;
+                    }
+                }
+                this.maxHeight = length * this.height + childHeight;
+                if (this.$parent.$options._componentTag === "tree-item") {
+                    this.$parent.handleGroupMaxHeight();
+                }
+            }
         },
-        // rename
-        onRename(e, data) {
-            const value = e.srcElement.value || "";
-            data.text = value;
+        handleItemClick(e) {
+            if (this.model.disabled) return;
+            this.model.selected = !this.model.selected;
+            this.onItemClick(this, this.model, e);
         },
-        onBlur(e, data) {
-            data.rename = !data.rename;
+        handleItemMouseOver() {
+            this.isHover = true;
+        },
+        handleItemMouseOut() {
+            this.isHover = false;
+        },
+        handleItemDrop(e, oriNode, oriItem) {
+            this.$el.style.backgroundColor = "inherit";
+            this.onItemDrop(e, oriNode, oriItem);
         },
     },
-    created() {},
-    mounted() {},
+    created() {
+        const self = this;
+        const events = {
+            click: this.handleItemClick,
+            mouseover: this.handleItemMouseOver,
+            mouseout: this.handleItemMouseOut,
+        };
+        for (let itemEvent in this.itemEvents) {
+            let itemEventCallback = this.itemEvents[itemEvent];
+            // eslint-disable-next-line no-prototype-builtins
+            if (events.hasOwnProperty(itemEvent)) {
+                let eventCallback = events[itemEvent];
+                events[itemEvent] = function (event) {
+                    eventCallback(self, self.model, event);
+                    itemEventCallback(self, self.model, event);
+                };
+            } else {
+                events[itemEvent] = function (event) {
+                    itemEventCallback(self, self.model, event);
+                };
+            }
+        }
+        this.events = events;
+    },
+    mounted() {
+        this.handleGroupMaxHeight();
+    },
 };
 </script>
 
 <!-- Styles SCSS File View Item -->
 <style scoped lang="scss">
+.tree-icon {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    text-align: center;
+}
+.tree-icon:empty {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    text-align: center;
+}
 .tree-node {
     cursor: pointer;
     background-position: -292px -4px;
