@@ -8,6 +8,7 @@ const state = {
     geoStrDeptChartLevel04: [],
     geoStrDeptChartLevel05: [],
     orgBoardMgtStr: [],
+    orgJobDescProId: [],
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -18,6 +19,10 @@ const mutations = {
     // Get Hierarchy data for Structure Base Project or Country
     SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT(state, orgBoardMgtStr){
         state.orgBoardMgtStr = orgBoardMgtStr ? orgBoardMgtStr : [];
+    },
+    // Job Descriptions 
+    SET_JOB_DESC_DATA_BOARD_MGT_PRO(state, orgJobDescProId){
+        state.orgJobDescProId = orgJobDescProId ? orgJobDescProId : [];
     }
 }
 const actions = {
@@ -64,7 +69,7 @@ const actions = {
     */
    async setDepartmentDataByCountryProjectId({commit}, payload){    
        const getProjectId  = payload?.getProjectId;
-        const getCountryId = payload?.getCountryId;
+       const getCountryId = payload?.getCountryId;
        let projectIdOrgStr;
        let countryIdOrgStr;
        if (getProjectId !== null && !isNaN(Number(getProjectId)) || getProjectId !== '') {
@@ -85,6 +90,29 @@ const actions = {
                 commit('SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT', getAllHierarchyData ? getAllHierarchyData : [])
             } 
        });
+   },
+    /**
+     * @Job Description base org-structures
+    */
+   async setJobDescriptionBaseOrgStrId({
+           commit
+       }, payload) {
+        const getOrgStrId  = payload?.orgStrId;
+        const getJobType = payload?.jobDecType;
+        let orgStrDecId;
+        if (getOrgStrId !== null && !isNaN(Number(getOrgStrId)) || getOrgStrId !== '') {
+            orgStrDecId = parseInt(getOrgStrId) ? parseInt(getOrgStrId) : 0;
+        } else {
+            orgStrDecId = 0;
+        }
+        geoDeptOrgStrServices.listJobDescriptionBaseOrgStrId(orgStrDecId, getJobType).then((orgDeptStr) => {
+            const getAllJobDescription = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : [];
+            if (!orgDeptStr) {
+                commit('SET_JOB_DESC_DATA_BOARD_MGT_PRO', []);
+            } else {
+                commit('SET_JOB_DESC_DATA_BOARD_MGT_PRO', getAllJobDescription ? getAllJobDescription : [])
+            }
+        });
    }
 }
 

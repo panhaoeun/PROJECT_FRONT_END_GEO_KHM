@@ -1,7 +1,9 @@
 <template>
     <DataTable
         v-model:section="selectedPositionData"
-        :value="getPositionBaseDeptLevelProject"
+        :value="
+            getJobDescriptionsBaseProject ? getJobDescriptionsBaseProject : {}
+        "
         :paginator="true"
         filterDisplay="menu"
         dataKey="id"
@@ -20,7 +22,9 @@
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
                 <!-- Search Products -->
-                <p class="justify-content-center font-bold">List Positions</p>
+                <p class="justify-content-center font-bold">
+                    List Job Descriptions
+                </p>
                 <span
                     class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
                 >
@@ -34,20 +38,20 @@
             </div>
         </template>
         <!-- Empty Positions -->
-        <template #empty>Empty position for org-structure</template>
+        <template #empty>Empty job descriptions</template>
         <!-- Loading Positions -->
         <template #loading>
-            Loading position for org-structure data. Please wait...
+            Loading job descriptions data. Please wait...
         </template>
         <!--------------Columns----------->
         <Column
-            field="positionKhmerName"
+            field="jobDesKhmer"
             header="Khmer Name"
             sortable
             style="width: 30%"
         ></Column>
         <Column
-            field="deptPosName"
+            field="jobDesEng"
             header="English Name"
             sortable
             style="width: 30%"
@@ -64,6 +68,14 @@
                         icon="pi pi-pencil"
                         outlined
                         rounded
+                        severity="info"
+                        class="mr-2"
+                        @click.prevent="dialogConfirmRemovePositions(data)"
+                    />
+                    <Button
+                        icon="pi pi-trash"
+                        outlined
+                        rounded
                         severity="secondary"
                         class="mr-2"
                         @click.prevent="dialogConfirmRemovePositions(data)"
@@ -77,7 +89,7 @@
 <!-- Script of list data global positions -->
 <script>
 import { FilterMatchMode } from "primevue/api";
-import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
+import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 export default {
     components: {},
     props: {
@@ -87,9 +99,10 @@ export default {
             default: () => {},
         },
     },
-    mixins: [managerPositionOrgStructureProjectLevelZeroHelper],
+    mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
     data() {
         return {
+            positionDataJobDes: null,
             selectedPositionData: false,
             visibleConfirmRemove: false,
             dataObjPosition: null,

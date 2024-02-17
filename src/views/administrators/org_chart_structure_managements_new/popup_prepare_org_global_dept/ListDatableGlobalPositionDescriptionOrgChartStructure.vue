@@ -1,7 +1,7 @@
 <template>
     <DataTable
         v-model:section="selectedPositionData"
-        :value="getPositionBaseDeptLevelProject"
+        :value="getJobDescriptionsPositionBaseProject"
         :paginator="true"
         filterDisplay="menu"
         dataKey="id"
@@ -20,7 +20,7 @@
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
                 <!-- Search Products -->
-                <p class="justify-content-center font-bold">List Positions</p>
+                <p class="justify-content-center font-bold">List Positions Description</p>
                 <span
                     class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
                 >
@@ -34,20 +34,20 @@
             </div>
         </template>
         <!-- Empty Positions -->
-        <template #empty>Empty position for org-structure</template>
+        <template #empty>Empty position descriptions</template>
         <!-- Loading Positions -->
         <template #loading>
-            Loading position for org-structure data. Please wait...
+            Loading position descriptions data. Please wait...
         </template>
         <!--------------Columns----------->
         <Column
-            field="positionKhmerName"
+            field="jobDesKhmer"
             header="Khmer Name"
             sortable
             style="width: 30%"
         ></Column>
         <Column
-            field="deptPosName"
+            field="jobDesEng"
             header="English Name"
             sortable
             style="width: 30%"
@@ -77,9 +77,10 @@
 <!-- Script of list data global positions -->
 <script>
 import { FilterMatchMode } from "primevue/api";
-import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
+import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 export default {
     components: {},
+    mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
     props: {
         positionData: {
             type: Array,
@@ -87,7 +88,6 @@ export default {
             default: () => {},
         },
     },
-    mixins: [managerPositionOrgStructureProjectLevelZeroHelper],
     data() {
         return {
             selectedPositionData: false,

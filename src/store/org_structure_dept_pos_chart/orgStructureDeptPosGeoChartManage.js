@@ -8,7 +8,9 @@ const state = {
     geoStrDeptChartLevel04: [],
     geoStrDeptChartLevel05: [],
     orgBoardMgtStr: [],
-    positionDeptOrgBoardMgt: []
+    positionDeptOrgBoardMgt: [],
+    orgJobDescProId: [],
+    orgPosJobDescProId: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -34,6 +36,13 @@ const getters = {
     allOrgBoardPositionBaseDeptBoardHierarchyStructure: ({
         positionDeptOrgBoardMgt
     }) => positionDeptOrgBoardMgt ? positionDeptOrgBoardMgt : {},
+    // Job Descriptions
+    allOrgJobDescriptionBaseProject: ({
+        orgJobDescProId
+    }) => orgJobDescProId ? orgJobDescProId : {},
+    allOrgPosJobDescriptionBaseProject: ({
+        orgPosJobDescProId
+    }) => orgPosJobDescProId ? orgPosJobDescProId : {},
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -58,6 +67,13 @@ const mutations = {
     // Get Relist Position of Department base project or country
     SET_POSITION_DEPT_ORG_STR_GEO_LEVEL(state, positionDeptOrgBoardMgt) {
         state.positionDeptOrgBoardMgt = positionDeptOrgBoardMgt ? positionDeptOrgBoardMgt : {};
+    },
+    // Job Descriptions 
+    SET_JOB_DESC_DATA_BOARD_MGT_PRO(state, orgJobDescProId) {
+        state.orgJobDescProId = orgJobDescProId ? orgJobDescProId : [];
+    },
+    SET_JOB_POST_DESC_DATA_BOARD_MGT_PRO(state, orgPosJobDescProId) {
+        state.orgPosJobDescProId = orgPosJobDescProId ? orgPosJobDescProId : [];
     }
 }
 const actions = {
@@ -152,6 +168,35 @@ const actions = {
         }catch(error){
             throw Error(error);
         }
+   },
+    /**
+     * @Job Description base org-structures
+    */
+   async setJobDescriptionBaseOrgStrId({
+           commit
+       }, payload) {
+        const getOrgStrId  = payload?.orgStrId;
+        const getJobType = payload?.jobDecType;
+        let orgStrDecId;
+        if (getOrgStrId !== null && !isNaN(Number(getOrgStrId)) || getOrgStrId !== '') {
+            orgStrDecId = parseInt(getOrgStrId) ? parseInt(getOrgStrId) : 0;
+        } else {
+            orgStrDecId = 0;
+        }
+        geoDeptOrgStrServices.listJobDescriptionBaseOrgStrId(orgStrDecId, getJobType).then((orgDeptStr) => {
+            const getAllJobDescription = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : [];
+            if (!orgDeptStr) {
+                commit('SET_JOB_DESC_DATA_BOARD_MGT_PRO', []);
+            } else {
+                if (getJobType === "Department") {
+                    commit('SET_JOB_DESC_DATA_BOARD_MGT_PRO', getAllJobDescription ? getAllJobDescription : [])
+                } else if (getJobType === "Position" ){
+                    commit('SET_JOB_POST_DESC_DATA_BOARD_MGT_PRO', getAllJobDescription ? getAllJobDescription : [])
+                }else{ 
+                    return [];
+                }
+            }
+        });
    }
 }
 

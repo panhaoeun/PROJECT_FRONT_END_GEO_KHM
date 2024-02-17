@@ -17,7 +17,6 @@ export default {
                 .selectedOptOrgChartRootLevel
                 ? this.selectedOptOrgChartRootLevel
                 : 0;
-                console.log(getOptSelectedOrgParentLevel)
             if (
                 !getOptSelectedOrgParentLevel ||
                 (typeof getOptSelectedOrgParentLevel !== "undefined" &&

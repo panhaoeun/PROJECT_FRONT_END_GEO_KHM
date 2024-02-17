@@ -56,7 +56,7 @@ div {
 }
 html,
 body {
-    font-family: "Rubik", sans-serif;
+    font-family: 'Cerebri Sans','Khmer OS Battambong',sans-serif;
     font-size: 14px;
     font-weight: 400;
     background: #ffffff;
@@ -67,7 +67,7 @@ ul {
     margin-bottom: 0px;
 }
 p {
-    font-family: "Rubik", sans-serif;
+    font-family: 'Cerebri Sans','Khmer OS Battambong',sans-serif;
     font-size: 14px;
     line-height: 1.7;
     font-weight: 400;
@@ -75,6 +75,26 @@ p {
     -webkit-font-smoothing: antialiased;
     -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
     text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+}
+.font-global-khmer{
+    font-size: 14px;
+    line-height: 1.7;
+    font-weight: 400;
+    color: #828282;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+    font-family: 'Cerebri Sans','Khmer OS Battambong',sans-serif;
+}
+.p-datatable .p-datatable-tbody > tr > td{
+ font-size: 14px;
+    line-height: 1.7;
+    font-weight: 400;
+    color: #828282;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+    font-family: 'Cerebri Sans','Khmer OS Battambong',sans-serif;
 }
 p a {
     display: inline;

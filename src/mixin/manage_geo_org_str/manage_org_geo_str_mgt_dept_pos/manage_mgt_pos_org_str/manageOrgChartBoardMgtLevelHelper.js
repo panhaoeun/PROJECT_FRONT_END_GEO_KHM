@@ -17,6 +17,11 @@ export default {
     },
     computed: {
         ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardDeptStructureChart", "allOrgBoardDeptStructure02LevelChart", "allOrgBoardDeptStructure03LevelChart", "allOrgBoardDeptStructure04LevelChart", "allOrgBoardDeptStructure05LevelChart"]),
+        // Hierarchy Org-Structure Chart
+        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardHierarchyStructure"]),
+        getAllBoardManagerOfProjectOrgStructureChart01() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
         getAllDeptOrgStrMgtOrg() {
             return this.allOrgBoardDeptStructureChart || [];
         },
@@ -186,8 +191,6 @@ export default {
                         return false;
                     }
                     if (!isFormCorrect) return;
-
-
                 }, 1000);
             } catch (error) {
                 throw Error(error.message);

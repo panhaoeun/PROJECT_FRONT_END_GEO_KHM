@@ -64,7 +64,12 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Projects-->
-                                <popup-add-edit-global-assign-org-project />
+                                <popup-add-edit-global-assign-org-project
+                                    v-if="
+                                        selectedProject !== null &&
+                                        hideOrgStructureDeptPos === 'T0'
+                                    "
+                                />
                             </div>
                         </div>
                         <!-- Manages Destination Base Org.Str Base Country (Board Mgt Projects Base Country) -->
@@ -136,7 +141,13 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Country-->
-                                <popup-add-edit-global-assign-org-project />
+                                <popup-add-edit-global-assign-org-project
+                                    v-if="
+                                        selectedProject !== null &&
+                                        selectedCountryOptOrgStr != null &&
+                                        hideOrgStructureDeptPos === 'T1'
+                                    "
+                                />
                             </div>
                         </div>
                         <!-- Manages Destination Base Org.Str Base Province (Board Mgt Projects Base Province) -->
@@ -212,7 +223,13 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Province or State-->
-                                <popup-add-edit-global-assign-org-project />
+                                <popup-add-edit-global-assign-org-project
+                                    v-if="
+                                        selectedProject !== null &&
+                                        selectedProvinceOptOrgStr != null &&
+                                        hideOrgStructureDeptPos === 'T2'
+                                    "
+                                />
                             </div>
                         </div>
                         <!-- Manages Destination Base Org.Str Base District (Board Mgt Projects Base District) -->
@@ -288,7 +305,12 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for District-->
-                                <popup-add-edit-global-assign-org-project />
+                                <popup-add-edit-global-assign-org-project
+                                    v-if="
+                                        selectedDistrictOptOrgStr != null &&
+                                        hideOrgStructureDeptPos === 'T3'
+                                    "
+                                />
                             </div>
                         </div>
                         <!-- Manages Destination Base Org.Str Base District (Board Mgt Projects Base Commune) -->
@@ -364,7 +386,12 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Commune-->
-                                <popup-add-edit-global-assign-org-project />
+                                <popup-add-edit-global-assign-org-project
+                                    v-if="
+                                        selectedCommuneOptOrgStr != null &&
+                                        hideOrgStructureDeptPos === 'T4'
+                                    "
+                                />
                             </div>
                         </div>
                         <!-- Manages Destination Base Org.Str Base Villages (Board Mgt Projects Base Villages) -->
@@ -440,7 +467,12 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Villages-->
-                                <popup-add-edit-global-assign-org-project />
+                                <popup-add-edit-global-assign-org-project
+                                    v-if="
+                                        selectedVillagesOptOrgStr != null &&
+                                        hideOrgStructureDeptPos === 'T5'
+                                    "
+                                />
                             </div>
                         </div>
                     </div>
@@ -450,55 +482,92 @@
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <!-- Manage Org-Structures(Board Manager Project) -->
-                    <manage-org-structures-of-board-mgt-project
+                    <org-structure-chart-base-project
                         v-if="
                             selectedProject !== null &&
                             hideOrgStructureDeptPos === 'T0'
                         "
-                        :manageRootBoardProjectId="getProjectDestination"
+                        :orgDataStrProjects="
+                            getAllBoardManagerOfProjectOrgStructureChart01
+                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                                : {}
+                        "
+                        :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on country-->
-                    <manage-org-structures-of-country-geo-project
+                    <org-structure-chart-base-country
                         v-if="
                             selectedProject !== null &&
                             selectedCountryOptOrgStr != null &&
                             hideOrgStructureDeptPos === 'T1'
                         "
+                        :orgDataStrProjects="
+                            getAllBoardManagerOfProjectOrgStructureChart01
+                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                                : {}
+                        "
+                        :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on province-->
-                    <manage-org-structures-of-province-geo-project
+                    <org-structure-chart-base-provinces
                         v-if="
                             selectedProject !== null &&
                             selectedProvinceOptOrgStr != null &&
                             hideOrgStructureDeptPos === 'T2'
                         "
+                        :orgDataStrProjects="
+                            getAllBoardManagerOfProjectOrgStructureChart01
+                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                                : {}
+                        "
+                        :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on district-->
-                    <manage-org-structures-of-district-geo-project
+                    <org-structure-chart-base-district
                         v-if="
                             selectedDistrictOptOrgStr != null &&
                             hideOrgStructureDeptPos === 'T3'
                         "
+                        :orgDataStrProjects="
+                            getAllBoardManagerOfProjectOrgStructureChart01
+                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                                : {}
+                        "
+                        :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on commune-->
-                    <manage-org-structures-of-commune-geo-project
+                    <org-structure-chart-base-commune
                         v-if="
-                            selectedCommuneOptOrgStr != null &&
-                            hideOrgStructureDeptPos === 'T4'
+                            selectedProject !== null &&
+                            hideOrgStructureDeptPos === 'T3'
                         "
+                        :orgDataStrProjects="
+                            getAllBoardManagerOfProjectOrgStructureChart01
+                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                                : {}
+                        "
+                        :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on villages-->
-                    <manage-org-structures-of-village-geo-project
+                    <org-structure-chart-base-villages
                         v-if="
                             selectedVillagesOptOrgStr != null &&
                             hideOrgStructureDeptPos === 'T5'
                         "
+                        :orgDataStrProjects="
+                            getAllBoardManagerOfProjectOrgStructureChart01
+                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                                : {}
+                        "
+                        :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Check Empty Org-structure of board manager or geo-locations -->
                     <div
                         v-if="
                             hideOrgStructureDeptPos == '' ||
-                            typeof hideOrgStructureDeptPos === 'undefined'
+                            typeof hideOrgStructureDeptPos === 'undefined' ||
+                            selectedProject == '' ||
+                            selectedProject == null
                         "
                         class="text-center justify-content-center gap-10"
                     >
@@ -527,17 +596,37 @@ import { FilterMatchMode, FilterOperator } from "primevue/api";
 import ManagePermissionsRoleBaseProject from "@/services/vendors/user_permissions/ManagePermissionRoleProjects";
 import geoLocationVillagesHelper from "@/mixin/geoLocationVillagesHelper";
 import geoGlobalOrgStrLocationHelper from "@/mixin/getGeoGlobalOrgStrLocationHelper";
+import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
 import { mapActions } from "vuex";
 /**
  *@Global Popup Group Org-structure and Positions
  **/
 import PopupAddEditGlobalAssignOrgProject from "./popup_prepare_org_global_dept/popup_org_project_dept_global/PopupAddEditGlobalAssignOrgPro";
+/**
+ * Global Prepare Organization-Structure Position and Department Chart
+ * */
+import OrgStructureChartBaseProject from "./org_structure_chart_geo_project/OrgStructureChartProject.vue";
+import OrgStructureChartBaseCountry from "./org_structure_chart_geo_project/OrgStructureChartCountry.vue";
+import OrgStructureChartBaseProvinces from "./org_structure_chart_geo_project/OrgStructureChartProvince.vue";
+import OrgStructureChartBaseDistrict from "./org_structure_chart_geo_project/OrgStructureChartDistrict.vue";
+import OrgStructureChartBaseCommune from "./org_structure_chart_geo_project/OrgStructureChartCommune.vue";
+import OrgStructureChartBaseVillages from "./org_structure_chart_geo_project/OrgStructureChartVillages.vue";
 
 export default {
     components: {
         PopupAddEditGlobalAssignOrgProject,
+        OrgStructureChartBaseProject,
+        OrgStructureChartBaseCountry,
+        OrgStructureChartBaseProvinces,
+        OrgStructureChartBaseDistrict,
+        OrgStructureChartBaseCommune,
+        OrgStructureChartBaseVillages,
     },
-    mixins: [geoLocationVillagesHelper, geoGlobalOrgStrLocationHelper],
+    mixins: [
+        geoLocationVillagesHelper,
+        geoGlobalOrgStrLocationHelper,
+        manageOrgChartBoardMgtLevelHelper,
+    ],
     data() {
         return {
             loadingDataRolesProject: false,

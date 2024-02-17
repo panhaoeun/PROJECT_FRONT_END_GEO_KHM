@@ -402,7 +402,7 @@
                                 v-model:filters="filtersGeoVillageSystem"
                                 :filters="filtersGeoVillageSystem"
                                 responsiveLayout="scroll"
-                                class="p-datatable-scrollable text-sm"
+                                class="p-datatable-scrollable text-sm font-global-khmer"
                                 :globalFilterFields="[
                                     'representative.geo_zip_code',
                                     'geo_khmer_name',
@@ -480,6 +480,12 @@
                                         header="Khmer Name"
                                         sortField="geo_khmer_name"
                                         sortable
+                                        class="font-global-khmer"
+                                        style="
+                                            font-family: 'Cerebri Sans',
+                                                'Khmer OS Battambong',
+                                                sans-serif;
+                                        "
                                     >
                                         <template #body="{ data }">
                                             <span class="font-bold">

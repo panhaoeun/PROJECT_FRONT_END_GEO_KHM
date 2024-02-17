@@ -1,40 +1,57 @@
 <template>
-    <div class="layout-content">
+    <div class="layout-content px-2 py-2">
         <Toast />
-        <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
+        <form
+            class="grid grid-nogutter flex-wrap gap-3 p-fluid"
+            @submit.prevent="handleEditStructureOrgProChartSubmit"
+        >
+            <!-- Spinner -->
+            <transition name="fade" mode="out-in">
+                <div
+                    class="spinner-wrapper flex layer-white"
+                    v-if="loadingSpinner"
+                >
+                    <spinner :radius="100" />
+                </div>
+            </transition>
             <div class="col-12 lg:col-12 text-sm">
                 <div class="grid formgrid">
-                    <!-- English Name -->
+                    <!-- English -->
                     <div class="col-6 field">
-                        <label for="name_en"
-                            >English Name<span class="p-error">*</span></label
+                        <label
+                            for="name_en"
+                            :class="{
+                                'p-error':
+                                    !editOrgStructureData?.orgName &&
+                                    hasOrgStructureDataErrors,
+                            }"
+                            >English</label
                         >
                         <InputText
                             id="english_name"
-                            placeholder="Edit english name for org-structure"
+                            placeholder="Edit khmer name for org-structure"
                             type="text"
                             class="py-3 border-round-lg"
-                            v-model="v$.editNameEngProjectOrgStr.$model"
+                            v-model="editOrgStructureData.orgName"
                             :class="{
-                                'p-invalid p-error':
-                                    v$.editNameEngProjectOrgStr.$invalid &&
-                                    submitted,
+                                invalid:
+                                    !editOrgStructureData?.orgName &&
+                                    hasOrgStructureDataErrors,
                             }"
                         />
-                        <small
+                        <span
+                            class="error"
                             v-if="
-                                (v$.editNameEngProjectOrgStr.$invalid &&
-                                    submitted) ||
-                                v$.editNameEngProjectOrgStr.$pending.$response
+                                !editOrgStructureData?.orgName &&
+                                hasOrgStructureDataErrors
                             "
-                            class="p-error"
-                            >{{
-                                v$.editNameEngProjectOrgStr.required.$message.replace(
-                                    "Value",
-                                    "English Name"
-                                ) || v$.editNameEngProjectOrgStr.$params.min
+                        >
+                            {{
+                                $t("projectOrgStr.isRequired", {
+                                    type: "English Name",
+                                })
                             }}
-                        </small>
+                        </span>
                     </div>
                     <!-- Khmer Name -->
                     <div class="col-6 field">
@@ -44,7 +61,7 @@
                             placeholder="Edit khmer name for org-structure"
                             type="text"
                             class="py-3 border-round-lg"
-                            v-model="editNameKhmerProjectOrgStr"
+                            v-model="editOrgStructureData.khmerName"
                         />
                     </div>
                     <!-- Descriptions -->
@@ -57,27 +74,37 @@
                             placeholder="Descriptions for org-structure"
                             type="text"
                             class="py-3 border-round-lg"
-                            v-model="editDescriptionProjectOrgStr"
+                            v-model="editOrgStructureData.descriptionEdited"
                         />
                     </div>
                     <!-- Save button  -->
                     <div class="col-12 flex justify-content-end mt-4">
-                        <Button
-                            icon="pi pi-check"
-                            class="p-button-lg py-3 w-10rem text-sm"
-                            type="submit"
-                            :label="loadingBtnEdit ? 'Saving...' : 'Create'"
-                            :loading="loadingBtnEdit"
-                            @click.prevent="
-                                handleEditStructureOrgProChartSubmit(
-                                    !v$.$invalid
-                                )
-                            "
-                        />
+                        <div class="flex j-end gap-10">
+                            <button
+                                class="outline-btn plr-30 plr-sm-15 border-round"
+                                aria-label="Country cancel"
+                                @click.prevent="$emit('close')"
+                            >
+                                {{ $t("addressPopup.cancel") }}
+                            </button>
+                            <ajax-button
+                                class="primary-btn plr-30 plr-sm-15 border-round"
+                                :fetching-data="submittingProjectDataLoading"
+                                :loading-text="$t('addressPopup.saving')"
+                                :text="
+                                    $t('projectOrgStr.thisOrgManagement', {
+                                        type:
+                                            editing > 0
+                                                ? $t('addressPopup.update')
+                                                : $t('addressPopup.save'),
+                                    })
+                                "
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </template>
 
@@ -85,9 +112,28 @@
 <script>
 import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-
+import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
+import Spinner from "@/components/ui_component_new_frontend/Spinner";
+import { mapActions } from "vuex";
+import managerOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageOrgStructureChartProjectLevelZeroHelper";
+import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
 export default {
     setup: () => ({ v$: useVuelidate() }),
+    components: {
+        AjaxButton,
+        Spinner,
+    },
+    props: {
+        editOrgStrData: {
+            type: Object,
+            required: true,
+            default: () => {},
+        },
+    },
+    mixins: [
+        managerOrgStructureProjectLevelZeroHelper,
+        manageOrgChartBoardMgtLevelHelper,
+    ],
     data() {
         return {
             loadingBtnEdit: false,
@@ -95,6 +141,10 @@ export default {
             editNameEngProjectOrgStr: "",
             editNameKhmerProjectOrgStr: "",
             editDescriptionProjectOrgStr: "",
+            orgStrEditDataName: null,
+            hasOrgStructureDataErrors: false,
+            submittingProjectDataLoading: false,
+            loadingSpinner: false,
         };
     },
     //Validations
@@ -106,21 +156,39 @@ export default {
             },
         };
     },
-    methods: {
-        async handleEditStructureOrgProChartSubmit(validate) {
-            try {
-                this.submitted = true;
-                this.loadingBtnEdit = true;
-                setTimeout(() => {
-                    this.loadingBtnEdit = false;
-                    if (!validate) {
-                        return false;
-                    }
-                }, 1000);
-            } catch (error) {
-                throw Error(error || error.message);
+    computed: {
+        nameOrgStructEdit() {
+            return this.editOrgStrData?.orgName || "";
+        },
+        editing() {
+            return this.orgStrEditDataName && this.orgStrEditDataName.id;
+        },
+        editOrgStructureData() {
+            if (this.editOrgStrData) {
+                const editOrgStrId = {
+                    ...this.orgStrEditDataName,
+                    ...this.editOrgStrData,
+                };
+                return editOrgStrId;
+            } else {
+                const orgStrEditDataName = {
+                    id: 0,
+                    textName: "",
+                    orgName: "",
+                    khmerName: "",
+                    descriptionEdited: "",
+                };
+                return orgStrEditDataName;
             }
         },
+    },
+    methods: {
+        ...mapActions("common", [
+            "fetchLocation",
+            "setToastMessage",
+            "setToastError",
+            "getRequest",
+        ]),
         resetForm() {
             (this.editNameEngProjectOrgStr = ""),
                 (this.proCategoryNameKh = ""),

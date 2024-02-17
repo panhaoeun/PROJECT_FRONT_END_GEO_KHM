@@ -189,6 +189,7 @@ import { required, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { reactive } from "vue";
 import ListDatableGlobalPositionOrgChartStructure from "../../ListDatableGlobalPositionOrgChartStructure.vue";
+import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 export default {
     setup: () => {
         const rules = {
@@ -213,6 +214,30 @@ export default {
         const v$ = useVuelidate(rules, state);
         return { v$, state };
     },
+    props: {
+        orgStrNameEditedId: {
+            type: Object,
+            required: true,
+            default: () => {},
+        },
+    },
+    computed: {
+        getOrgStructureAdd() {
+            const getOrgStrData = this.orgStrNameEditedId
+                ? this.orgStrNameEditedId
+                : {};
+            if (
+                (getOrgStrData !== null && getOrgStrData !== undefined) ||
+                typeof getOrgStrData !== "object"
+            ) {
+                return getOrgStrData;
+            } else {
+                throw Error(
+                    "Please selected org-structure for create positions"
+                );
+            }
+        },
+    },
     data() {
         return {
             loadingBtnEdit: false,
@@ -228,50 +253,14 @@ export default {
                     editDescriptionProjectOrgStr: "",
                 },
             ],
+            orgPositionLevel: "GL01"
         };
     },
+    mixins: [managerPositionOrgStructureProjectLevelZeroHelper],
     components: {
         ListDatableGlobalPositionOrgChartStructure,
     },
     methods: {
-        async handleEditStructureOrgProChartSubmit(validate) {
-            try {
-                this.submitted = true;
-                this.loadingBtnEdit = true;
-                this.v$.$touch();
-                setTimeout(async () => {
-                    this.loadingBtnEdit = false;
-                    if (!validate) {
-                        const isFormCorrect = await this.v$.$validate();
-                        if (isFormCorrect !== true || isFormCorrect == false) {
-                            this.$toast.add({
-                                severity: "error",
-                                summary: "Please Fix Below Errors.",
-                                detail: "Please input filed position form have missing value!",
-                                life: 3000,
-                            });
-                            return false;
-                        }
-                        return false;
-                    }
-                    // Check get value multiple inputs fields
-                    // let objectPositionData;
-                    const objInputPositionsFiled = this.state?.dyNamicAddNewFrm
-                        ? this.state?.dyNamicAddNewFrm
-                        : [];
-                    for (
-                        let index = 0;
-                        index < objInputPositionsFiled.length;
-                        index++
-                    ) {
-                        let objFiled = {};
-                        console.log(objFiled);
-                    }
-                }, 1000);
-            } catch (error) {
-                throw Error(error || error.message);
-            }
-        },
         onClickAddMorePositionOrgStructures() {
             try {
                 this.loadingAddMoreFrom = true;

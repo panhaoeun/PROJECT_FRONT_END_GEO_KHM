@@ -3,14 +3,21 @@
         <!-- Button-->
         <div class="gap-5 px-2 py-2">
             <Button
-                label="Root"
+                label="Root Node"
                 icon="pi pi-sitemap"
-                @click.prevent="addRootOrgStructure()"
-                class="w-7rem h-2rem text-sm"
+                severity="help"
+                @click.prevent="addRootNodeOrgStructure()"
+                class="w-8rem h-2rem text-sm mr-2"
+            />
+            <Button
+                label="Child Node"
+                icon="pi pi-sitemap"
+                @click.prevent="addChildNodeOrgStructure()"
+                class="w-8rem h-2rem text-sm"
+                severity="secondary"
             />
         </div>
         <!-- Tree Vew -->
-        {{ editingItem }}
         <div class="px-2 py-2 gap-5">
             <VTreeView
                 :data="orgChartProjectData"
@@ -18,98 +25,163 @@
                 default-expand-all
                 @item-click="onClickItemOrgStructureTreeView"
                 whole-row
-                allow-batch
                 :itemEvents="itemEvents"
                 draggable
+                ref="tree"
+                show-checkbox
             >
             </VTreeView>
         </div>
+        <!-- Open Edit Org-Structure Modal-->
+        <popup-edit-global-org-structure
+            :dialog="visibleDialogsOrgStr"
+            :getDataEditOrgStr="getIdEditOrgStructure"
+            @close-dialog="closeDialogEditOrgStrName()"
+        />
+        <!-- Context Menu -->
+        <ContextMenu ref="contextMenu" :model="contextMenu" class="w-15rem" />
     </div>
 </template>
+
 <!-- Manage of Tree Vew Org-Structure Chart base on projects -->
 <script>
-import VTreeView from "@/components/tree_view_items/TreeViewComponents.vue";
+import VTreeView from "@/components/tree_view_items/TreeViewComponents";
+import managerOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageOrgStructureChartProjectLevelZeroHelper";
+import PopupEditGlobalOrgStructure from "../PopupEditGlobalOrgStructure";
+// Functions Toggle the global organization
 export default {
     components: {
         VTreeView,
+        PopupEditGlobalOrgStructure,
     },
-    props: {},
+    mixins: [managerOrgStructureProjectLevelZeroHelper],
+    props: {
+        orgChartStructureData: {
+            type: Array,
+            required: true,
+            default: () => {
+                return [];
+            },
+        },
+    },
     data() {
+        const self = this;
         return {
             orgChartProjectData: [
                 {
-                    text: "Same but with checkboxes",
+                    text: "Yearly Mattings",
+                    opened: true,
                     children: [
                         {
-                            text: "initially selected",
-                            selected: true,
-                            children: [
-                                {
-                                    text: "initially selected",
-                                    selected: true,
-                                },
-                            ],
-                        },
-                        {
-                            text: "custom icon",
-                            icon: "fa fa-warning icon-state-danger",
-                        },
-                        {
-                            text: "initially open",
-                            icon: "fa fa-folder icon-state-default",
+                            text: "Director",
                             opened: true,
                             children: [
                                 {
-                                    text: "Another node",
+                                    text: "Admin",
+                                    opened: true,
+                                    children: [
+                                        {
+                                            text: "D1",
+                                        },
+                                        {
+                                            text: "D2",
+                                        },
+                                    ],
+                                },
+                                {
+                                    text: "Fiance",
+                                    opened: true,
+                                    children: [
+                                        {
+                                            text: "D1",
+                                        },
+                                        {
+                                            text: "D2",
+                                        },
+                                        {
+                                            text: "D3",
+                                        },
+                                    ],
+                                },
+                                {
+                                    text: "Technical",
+                                    opened: true,
+                                    children: [
+                                        {
+                                            text: "D1",
+                                        },
+                                        {
+                                            text: "D2",
+                                        },
+                                        {
+                                            text: "D3",
+                                        },
+                                    ],
                                 },
                             ],
-                        },
-                        {
-                            text: "custom icon",
-                            icon: "fa fa-warning icon-state-warning",
-                        },
-                        {
-                            text: "disabled node",
-                            icon: "fa fa-check icon-state-success",
-                            disabled: true,
                         },
                     ],
                 },
             ],
             editingItem: {},
             editingNode: null,
+            getNodeModel: null,
             itemEvents: {
                 mouseover: function () {
                     console.log("mouseover");
                 },
-                contextmenu: function () {
-                    console.log(arguments[2]);
+                contextmenu: function (node) {
                     arguments[2].preventDefault();
-                    console.log("contextmenu");
+                    // Content Menus Edit Dialog
+                    self.toggleItemEditOrgStructureName(
+                        arguments[2],
+                        node?.model
+                    );
                 },
             },
+            visibleDialogsOrgStr: false,
+            getEditObjName: null,
+            contextMenu: [
+                {
+                    label: "Rename Edit",
+                    icon: "pi pi-file-edit",
+                    command: () => {},
+                },
+                {
+                    label: "Prepare Org Structure",
+                    icon: "pi pi-link",
+                    command: () => {},
+                },
+            ],
         };
     },
-    created() {},
+    computed: {
+        getIdEditOrgStructure() {
+            const getObjData = this.getEditObjName ? this.getEditObjName : null;
+            if (
+                (getObjData !== null && typeof getObjData !== "object") ||
+                getObjData !== undefined
+            ) {
+                return getObjData;
+            }
+            return {};
+        },
+    },
     methods: {
+        toggleItemEditOrgStructureName($event, node) {
+            // Context Menu
+            this.$refs.contextMenu.show($event);
+            if (node !== undefined || (node !== "" && node !== null)) {
+                this.getEditObjName = node ? node : {};
+            }
+        },
         onClickItemOrgStructureTreeView(node) {
             this.editingNode = node;
             this.editingItem = node.model;
         },
-        addRootOrgStructure() {
-            if (this.editingItem.id !== undefined) {
-                console.log(this.editingItem.addBefore);
-                this.editingItem.addBefore(
-                    {
-                        text: this.editingItem.text + " before",
-                    },
-                    this.editingNode
-                );
-            }
+        closeDialogEditOrgStrName() {
+            this.visibleDialogsOrgStr = false;
         },
     },
-    mounted() {},
 };
 </script>
-<style scoped></style>
-<style lang="scss" scoped></style>

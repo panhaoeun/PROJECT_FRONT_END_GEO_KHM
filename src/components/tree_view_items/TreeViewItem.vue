@@ -97,7 +97,6 @@
                         ? 'tree-last'
                         : ''
                 "
-                @iconClick="model.opened != model.opened"
             >
                 <template v-slot>
                     <i
@@ -105,7 +104,7 @@
                         role="presentation"
                         v-if="!model.loading"
                     ></i>
-                    <span v-html="model[textFieldName]"></span>
+                    <span v-html="String(child?.text).toString() || ''"></span>
                 </template>
             </tree-view-item>
         </ul>

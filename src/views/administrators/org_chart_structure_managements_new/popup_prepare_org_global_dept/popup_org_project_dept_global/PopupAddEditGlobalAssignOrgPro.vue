@@ -13,6 +13,7 @@
                 icon="pi pi-file-edit"
                 severity="secondary"
                 label="Edit"
+                @click.prevent="openDialogsEditAddAssignOrgStr()"
                 class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round text-sm"
             />
         </div>
@@ -22,18 +23,25 @@
         :dialog="dialogOpenOrgStrId"
         @close-dialog="closeDialogAssignOrgProject()"
     />
+    <popup-edit-org-structure-chart
+        :dialog="dialogEditOrgStrId"
+        @close-dialog="closeDialogEditAssignOrgProject()"
+    />
 </template>
 <!-- Script of popup assign org-projects -->
 <script>
 import PopupAddNewOrgStructureChart from "./PopupAddNewOrgStrChart";
+import PopupEditOrgStructureChart from "./PopupEditOrgStrChartProject.vue";
 export default {
     components: {
         PopupAddNewOrgStructureChart,
+        PopupEditOrgStructureChart,
     },
     props: {},
     data() {
         return {
             dialogOpenOrgStrId: false,
+            dialogEditOrgStrId: false,
         };
     },
     created() {},
@@ -41,8 +49,14 @@ export default {
         closeDialogAssignOrgProject() {
             this.dialogOpenOrgStrId = false;
         },
+        closeDialogEditAssignOrgProject() {
+            this.dialogOpenOrgStrId = false;
+        },
         openDialogsAddAssignOrgStr() {
             this.dialogOpenOrgStrId = true;
+        },
+        openDialogsEditAddAssignOrgStr() {
+            this.dialogEditOrgStrId = true;
         },
     },
 };

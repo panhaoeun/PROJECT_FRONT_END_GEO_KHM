@@ -175,8 +175,7 @@
                     </div>
                     <!--List Positions Assign to org-structure-->
                     <div class="col-12 field px-2 py-2">
-                        <list-datable-global-position-org-chart-structure
-                            positionData=""
+                        <list-datable-global-job-description-org-chart-structure
                         />
                     </div>
                 </div>
@@ -190,8 +189,33 @@
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { reactive } from "vue";
-import ListDatableGlobalPositionOrgChartStructure from "../../ListDatableGlobalPositionOrgChartStructure.vue";
+import ListDatableGlobalJobDescriptionOrgChartStructure from "../../ListDatableGlobalJobDescriptionOrgChartStructure.vue";
+import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 export default {
+     props: {
+        orgStrNameEditedId: {
+            type: Object,
+            required: true,
+            default: () => {},
+        },
+    },
+    computed: {
+        getOrgStructureAdd() {
+            const getOrgStrData = this.orgStrNameEditedId
+                ? this.orgStrNameEditedId
+                : {};
+            if (
+                (getOrgStrData !== null && getOrgStrData !== undefined) ||
+                typeof getOrgStrData !== "object"
+            ) {
+                return getOrgStrData;
+            } else {
+                throw Error(
+                    "Please selected org-structure for create positions"
+                );
+            }
+        },
+    },
     setup: () => {
         const rules = {
             dyNamicAddNewFrmJobDes: {
@@ -215,6 +239,7 @@ export default {
         const v$ = useVuelidate(rules, state);
         return { v$, state };
     },
+    mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
     data() {
         return {
             loadingBtnEdit: false,
@@ -230,10 +255,11 @@ export default {
                     editDescriptionProjectOrgStr: "",
                 },
             ],
+            addJobDescType: "Department"
         };
     },
     components: {
-        ListDatableGlobalPositionOrgChartStructure,
+        ListDatableGlobalJobDescriptionOrgChartStructure,
     },
     methods: {
         async handleEditStructureOrgProChartSubmit(validate) {

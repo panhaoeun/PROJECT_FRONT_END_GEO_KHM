@@ -31,6 +31,7 @@
 <!-- Script of Tree View Item -->
 <script>
 import TreeItem from "./TreeViewItem.vue";
+import { reactive } from 'vue'  
 
 let ITEM_ID = 0;
 let ITEM_HEIGHT_SMALL = 18;
@@ -122,6 +123,11 @@ export default {
             ) {
                 this.id = item.id || ITEM_ID++;
                 this[textFieldName] = item[textFieldName] || "";
+                this.orgLevel = item.orgDeptLevel || "";
+                this.countryId = item.deptOrgStrGeoCountryId || 0;
+                this.subIdOrg = item.deptOrgStrSubId || 0;
+                this.superIdOrg = item.deptOrgStrSuperOrgStrId || 0;
+                this.projectId = item.deptOrgStrProjectId || 0;
                 this[valueFieldName] =
                     item[valueFieldName] || item[textFieldName];
                 this.icon = item.icon || "";
@@ -331,8 +337,9 @@ export default {
     },
     mounted() {
         if (this.async) {
-            this.$set(this.data, 0, this.initializeLoading());
+            reactive(this.data, 0, this.initializeLoading());
             this.handleAsyncLoad(this.data, this);
+            this.initializeLoading();
         }
     },
     components: {
