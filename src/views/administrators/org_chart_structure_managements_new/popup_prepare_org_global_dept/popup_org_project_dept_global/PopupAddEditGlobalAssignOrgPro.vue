@@ -50,7 +50,7 @@ export default {
             this.dialogOpenOrgStrId = false;
         },
         closeDialogEditAssignOrgProject() {
-            this.dialogOpenOrgStrId = false;
+            this.dialogEditOrgStrId = false;
         },
         openDialogsAddAssignOrgStr() {
             this.dialogOpenOrgStrId = true;

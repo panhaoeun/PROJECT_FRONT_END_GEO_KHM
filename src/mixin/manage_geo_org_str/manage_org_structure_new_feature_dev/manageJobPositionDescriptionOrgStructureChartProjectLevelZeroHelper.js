@@ -6,7 +6,10 @@ import {
 export default {
     data() {
         return {
-                
+            openDataJobPos: null,
+            openEditedJobDescDialogs: false,
+            deletedJobDescDialogs: false,
+            deletedJobDescId: 0
         }
     },
     created() {
@@ -46,7 +49,7 @@ export default {
         /**
          * @Global Org-Structure for manage base on project and geo-fence locations  of Projects
          * */
-        async handleEditStructureOrgProChartSubmit(validate) {
+        async handleEditJobDescriptionsSubmit(validate) {
             try {
                 this.submitted = true;
                 this.loadingBtnEdit = true;
@@ -68,8 +71,8 @@ export default {
                     }
                     // Check get value multiple inputs fields
                     // let objectPositionData;
-                    const objInputPositionsFiled = this.state?.dyNamicAddNewFrm
-                        ? this.state?.dyNamicAddNewFrm
+                    const objInputPositionsFiled = this.state?.dyNamicAddNewFrmJobDes
+                        ? this.state?.dyNamicAddNewFrmJobDes
                         : [];
                     for (
                         let index = 0;
@@ -86,27 +89,27 @@ export default {
                         const addNewPositionParentObj = {
                             ...objFiled,
                         }
-                        this.geoDeptOrgStrServicesPosition?.createNewOrgStrDeptPositionGeoProject(
+                        this.geoDeptOrgStrServicesPosition?.createNewJobDescBaseOrStrId(
                             addNewPositionParentObj
                             ? addNewPositionParentObj
                             : {}
-                        ) .then(async (addNewProject) => {
-                        if (addNewProject?.data.success === true) {
+                        ) .then(async (jobDes) => {
+                        if (jobDes?.data.success === true) {
                             this.loadingBtnEdit = false;
                             this.visibleDialogAddPositionBoardMgt = false;
-                            // Relist Get Board Manager Department Positions
-                            await this.getPositionDeptBoardMgtBySuper(parseInt(this.getOrgStructureAdd.id) ?? 0, this.addJobDescType);
+                            // Relist Get Board Manager Job Descriptions Data
+                            await this.getJobDescriptionType(parseInt(this.getOrgStructureAdd.id) ?? 0, this.addJobDescType);
                             this.$toast.add({
                                 severity: "success",
                                 summary:
                                     "Successfully add new job descriptions.",
-                                detail: String(addNewProject.data?.message).toString()
-                                    ? String(addNewProject.data?.message).toString()
+                                detail: String(jobDes.data?.message).toString()
+                                    ? String(jobDes.data?.message).toString()
                                     : null,
                                 life: 3000,
                             });
                             // Clear Data Input Position department
-                            this.state.dyNamicAddNewFrm = [{
+                            this.state.dyNamicAddNewFrmJobDes = [{
                                 editNameEngProjectOrgStr: "",
                                 editNameKhmerProjectOrgStr: "",
                                 editDescriptionProjectOrgStr: "",
@@ -150,6 +153,145 @@ export default {
             } catch (error) {
                 throw Error(error || error.message);
             }
+        },
+        /*
+        ** @Edit and Dialogs Removes
+        */
+       async openEditDialogsJobDescRename(data){
+            if(data !== undefined || data !== null){
+                this.openDataJobDesc = data ? data : {};
+                this.openEditedJobDescDialogs = true;
+            }
+       },
+       async saveModifyJobDescriptionBaseOrgStructureId(){
+            try{
+                console.log(this.getPosEditJobDes,"ss")
+                if(this.getPosEditJobDes?.jobDesEng 
+                    && this.getPosEditJobDes?.jobDesEng !== null
+                    && typeof this.getPosEditJobDes !== 'undefined'
+                ){
+                    this.submittingJobDesc = true;
+                    const parentJobDescOrgStrId = parseInt(this.getPosEditJobDes?.orgStrId) ? parseInt(this.getPosEditJobDes?.orgStrId) : 0;
+                    const parentJobDesId = parseInt(this.getPosEditJobDes?.jobDesId) ? parseInt(this.getPosEditJobDes?.jobDesId) : 0;
+                    const jobDesStatus = parseInt(this.getPosEditJobDes?.jobDeStatus) ? parseInt(this.getPosEditJobDes?.jobDeStatus) : 0
+                    const editDataJobDescDept = {
+                        modifyOrgDeptId: parentJobDescOrgStrId ? parentJobDescOrgStrId : 0,
+                        modifyJobDeOrgStrEnglishName: String(this.getPosEditJobDes?.jobDesEng).toString(),
+                        modifyJobDeOrgStrKhmerName: String(this.getPosEditJobDes?.jobDesKhmer).toString(),
+                        modifyJobDesOrgStrDescription: String(this.projectStrGeoData?.jobDesNoted).toString(),
+                        statusJobDesType: jobDesStatus ? jobDesStatus : ""
+                    }
+                    this.geoDeptOrgStrServicesPosition.modifyNewOrgStructureJobDescriptions(parentJobDesId, editDataJobDescDept ? editDataJobDescDept : {})
+                    .then(async (jobDes) => {
+                        if(jobDes?.status === 200){
+                            setTimeout(async () => {
+                                this.hasJobDescErrors = false
+                                this.submittingJobDesc = false;
+                                this.$notify({
+                                    title: 'Editing job description successfully!',
+                                    message:String(jobDes.data?.message).toString() ? String(jobDes.data?.message).toString() : '',
+                                    type: 'success'
+                                });
+                                /**
+                                 * @Relist Get Job Descriptions 
+                                */ 
+                                await this.getJobDescriptionType(parentJobDesId, jobDesStatus);
+                                if (!this.hasJobDescErrors) {
+                                    this.$emit('close')
+                                }
+                            }, 1000);
+                        }
+                    }).catch((error)=> {
+                        let message = error?.message;
+                        this.setToastError(message);
+                        this.$notify({
+                            title: 'Unsuccessfully updated base job descriptions',
+                            message:String(message.data?.message).toString() ? String(message.data?.message).toString() : '',
+                            type: 'error'
+                        });
+                        this.submittingJobDesc = false;
+                    });
+                }else{
+                    this.hasJobDescErrors = false;
+                    this.submittingJobDesc = false;
+                }
+            }catch(error){
+                throw Error(error || error.message);
+            }
+       },
+       closingPopupEditedJobPosDesIdOrgStrDialogs(){
+            this.openEditedJobDescDialogs = false;
+       },
+       // Remove Job Description
+       confirmDeletedJobDesOrgStrById(id) {
+            this.deletedJobDescDialogs = true;
+            if (id !== null && id !== undefined || !isNaN(Number(id)) && id !== '') {
+                this.deletedJobDescId = parseInt(id?.jobDesId);
+            }
+       },
+       async confirmRemoveJobDescOrgStructureById() {
+            const getDeletedJobDescStrId = this.deletedJobDescId ? this.deletedJobDescId : 0;
+            setTimeout(async () => {
+                try {
+                    if (getDeletedJobDescStrId !== null &&
+                        getDeletedJobDescStrId !== undefined ||
+                        !isNaN(Number(getDeletedJobDescStrId)) &&
+                        getDeletedJobDescStrId !== ''
+                    ) {
+                        this.geoDeptOrgStrServicesPosition?.removeNewOrgStructureJobDesc(getDeletedJobDescStrId).then(async (removeJobDec) => {
+                        if (removeJobDec?.data.success === true) {
+                            this.deletedGeoDeptPosMgtDialogs = false;
+                            // Reload Data In Datable in Job Descriptions
+                            await this.getJobDescriptionType(getDeletedJobDescStrId, this.addJobDescType);
+                            this.deletedJobDescDialogs = false;
+                            this.$toast.add({
+                                severity: "success",
+                                summary:
+                                    "Successfully remove job description.",
+                                detail: removeJobDec.data?.message
+                                    ? removeJobDec.data?.message
+                                    : null,
+                                life: 3000,
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        this.deletedJobDescDialogs = true;
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please Fix Below Errors.",
+                            detail: error?.response.data.error?.message
+                                ? error?.response.data.error?.message
+                                : "Error remove job description!",
+                            life: 3000,
+                        });
+                        if (error?.response.data.error.error?.errors) {
+                            for (
+                                let index = 0;
+                                index <
+                                error.response.data.error.error?.errors
+                                    .length;
+                                index++
+                            ) {
+                                const validationError =
+                                    error.response.data.error.error
+                                        ?.errors[index].message ?? [];
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: validationError
+                                        ? validationError
+                                        : "Please input filed job description have missing value!",
+                                    life: 3000,
+                                });
+                            }
+                        }
+                    });
+                    }
+                } catch (error) {
+                    throw Error(error || error.message);
+                }
+            },1000);
         },
         /**
          * @Reload Positions base board manager()

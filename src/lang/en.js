@@ -103,6 +103,7 @@ export default {
         thisProject: "{type} this project",
         assignPosition: "{type} assign position",
         thisPosition: "{type} this position",
+        thisJobDescription: "{type} this job description",
         thisOrgStructure: "{type} this org-structure",
         thisDepartment: "{type} this department",
         thisOrgManagement: "{type} this org-structure",

@@ -502,8 +502,8 @@
                             hideOrgStructureDeptPos === 'T1'
                         "
                         :orgDataStrProjects="
-                            getAllBoardManagerOfProjectOrgStructureChart01
-                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                            getAllBoardManagerOfProjectOrgStructureChart02
+                                ? getAllBoardManagerOfProjectOrgStructureChart02
                                 : {}
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
@@ -516,8 +516,8 @@
                             hideOrgStructureDeptPos === 'T2'
                         "
                         :orgDataStrProjects="
-                            getAllBoardManagerOfProjectOrgStructureChart01
-                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                            getAllBoardManagerOfProjectOrgStructureChart03
+                                ? getAllBoardManagerOfProjectOrgStructureChart03
                                 : {}
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
@@ -529,8 +529,8 @@
                             hideOrgStructureDeptPos === 'T3'
                         "
                         :orgDataStrProjects="
-                            getAllBoardManagerOfProjectOrgStructureChart01
-                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                            getAllBoardManagerOfProjectOrgStructureChart04
+                                ? getAllBoardManagerOfProjectOrgStructureChart04
                                 : {}
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
@@ -542,8 +542,8 @@
                             hideOrgStructureDeptPos === 'T3'
                         "
                         :orgDataStrProjects="
-                            getAllBoardManagerOfProjectOrgStructureChart01
-                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                            getAllBoardManagerOfProjectOrgStructureChart05
+                                ? getAllBoardManagerOfProjectOrgStructureChart05
                                 : {}
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
@@ -555,8 +555,8 @@
                             hideOrgStructureDeptPos === 'T5'
                         "
                         :orgDataStrProjects="
-                            getAllBoardManagerOfProjectOrgStructureChart01
-                                ? getAllBoardManagerOfProjectOrgStructureChart01
+                            getAllBoardManagerOfProjectOrgStructureChart06
+                                ? getAllBoardManagerOfProjectOrgStructureChart06
                                 : {}
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
@@ -668,23 +668,6 @@ export default {
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
         };
-    },
-    computed: {
-        getProjectDestination() {
-            const getProject = this.selectedProject || this.selectedProject;
-            if (!getProject || getProject !== null) {
-                return parseInt(getProject?.id) ? parseInt(getProject?.id) : 0;
-            }
-            return getProject;
-        },
-        getCountryOfGeoLocationOrgStr() {
-            const getCountry =
-                this.selectedCountryOptOrgStr || this.selectedCountryOptOrgStr;
-            if (!getCountry || getCountry !== null) {
-                return parseInt(getCountry?.id) ? parseInt(getCountry?.id) : 0;
-            }
-            return getCountry;
-        },
     },
     created() {
         this.permissionRoleProject = new ManagePermissionsRoleBaseProject();

@@ -45,13 +45,30 @@
             header="Khmer Name"
             sortable
             style="width: 30%"
-        ></Column>
+        >
+            <template #body="{ data }">
+                <span
+                    v-if="
+                        data?.positionKhmerName !== null &&
+                        data?.positionKhmerName !== undefined
+                    "
+                >
+                    {{
+                        String(data?.positionKhmerName).toString() || "N/A"
+                    }}</span
+                >
+            </template>
+        </Column>
         <Column
             field="deptPosName"
             header="English Name"
             sortable
             style="width: 30%"
-        ></Column>
+        >
+            <template #body="{ data }">
+                <span> {{ String(data?.deptPosName).toString() }}</span>
+            </template>
+        </Column>
         <!-- Actions Buttons -->
         <Column
             headerStyle="width: 15rem; text-align: center; alignment-item:center;"
@@ -64,22 +81,68 @@
                         icon="pi pi-pencil"
                         outlined
                         rounded
+                        severity="info"
+                        class="mr-2"
+                        @click.prevent="editGeoOrgDeptPosStrByPosIdDialog(data)"
+                    />
+                    <Button
+                        icon="pi pi-trash"
+                        outlined
+                        rounded
                         severity="secondary"
                         class="mr-2"
-                        @click.prevent="dialogConfirmRemovePositions(data)"
+                        @click="confirmDeletedDeptPosOrgStrById(data)"
                     />
                 </div>
             </template>
         </Column>
     </DataTable>
+    <!-- Dialogs Position Edited -->
+    <OpenEditedPositionsOrgStructure
+        v-if="openEditedBoardMgtDialogs"
+        @close="closingPopupEditedPosIdOrgStrDialogs"
+        :open-edit-board-position="
+            openEditBoardMgtData ? openEditBoardMgtData : {}
+        "
+    />
+    <!-- Deleted Dialogs Project -->
+    <Dialog
+        v-model:visible="deletedGeoDeptPosMgtDialogs"
+        :style="{ width: '450px' }"
+        header="Confirm delete positions base org-structure"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deletedGeoDeptPosMgtDialogs = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                text
+                @click="confirmRemoveDeptPosMgtBoardById()"
+            />
+        </template>
+    </Dialog>
     <!-- Dialogs confirm Remove -->
 </template>
 <!-- Script of list data global positions -->
 <script>
 import { FilterMatchMode } from "primevue/api";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
+import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
+import OpenEditedPositionsOrgStructure from "../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditPositionOrgStructureData.vue";
 export default {
-    components: {},
     props: {
         positionData: {
             type: Array,
@@ -87,18 +150,25 @@ export default {
             default: () => {},
         },
     },
-    mixins: [managerPositionOrgStructureProjectLevelZeroHelper],
+    mixins: [
+        managerPositionOrgStructureProjectLevelZeroHelper,
+        manageOrgStrMgtPositionHelper,
+    ],
     data() {
         return {
+            deletedGeoDeptPosMgtDialogs: false,
             selectedPositionData: false,
             visibleConfirmRemove: false,
+            openedDialogVisiblePos: false,
             dataObjPosition: null,
             filtersDataPositionData: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
         };
     },
-    created() {},
+    components: {
+        OpenEditedPositionsOrgStructure,
+    },
     methods: {
         dialogConfirmRemovePositions(data) {
             this.visibleConfirmRemove = true;

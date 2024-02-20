@@ -3,8 +3,8 @@
         <Dialog
             v-model:visible="openDialogs"
             modal
-            header="Org Chart Structure Management"
-            :style="{ width: '90rem' }"
+            header="Edit Org Chart Structure Management"
+            :style="{ width: '100rem' }"
             maximizable
         >
             <!-- Contents -->
@@ -12,30 +12,18 @@
                 <div class="flex start mlr--5 grid grid-nogutter">
                     <!-- Tree View of Org-chart Projects -->
                     <div
-                        class="col-lg-5 col-md-12 flex column h-full org-structure-new"
+                        class="col-lg-6 col-md-12 flex column h-full org-structure-new"
                     >
                         <div class="start mlr--5">
-                            <!-- Button-->
-                            <div class="gap-5 px-2 py-2">
-                                <Button
-                                    label="Root Node"
-                                    icon="pi pi-sitemap"
-                                    severity="help"
-                                    @click.prevent="addRootNodeOrgStructure()"
-                                    class="w-8rem h-2rem text-sm mr-2"
-                                />
-                                <Button
-                                    label="Child Node"
-                                    icon="pi pi-sitemap"
-                                    @click.prevent="addChildNodeOrgStructure()"
-                                    class="w-8rem h-2rem text-sm"
-                                    severity="secondary"
-                                />
-                            </div>
                             <!-- Tree Vew -->
                             <div class="px-2 py-2 gap-5">
+                                <p>TreeView Org Structures</p>
                                 <VTreeView
-                                    :data="orgChartProjectData"
+                                    :data="
+                                        getAllBoardManagerOfProjectOrgStructureChart01
+                                            ? getAllBoardManagerOfProjectOrgStructureChart01
+                                            : {}
+                                    "
                                     highlight-current="true"
                                     default-expand-all
                                     @item-click="
@@ -49,12 +37,6 @@
                                 >
                                 </VTreeView>
                             </div>
-                            <!-- Open Edit Org-Structure Modal-->
-                            <popup-edit-global-org-structure
-                                :dialog="visibleDialogsOrgStr"
-                                :getDataEditOrgStr="getIdEditOrgStructure"
-                                @close-dialog="closeDialogEditOrgStrName()"
-                            />
                             <!-- Context Menu -->
                             <ContextMenu
                                 ref="contextMenu"
@@ -64,7 +46,7 @@
                         </div>
                     </div>
                     <!-- Tab of view org-chart  of projects -->
-                    <div class="col-lg-7 col-md-12 flex column h-full">
+                    <div class="col-lg-6 col-md-12 flex column h-full">
                         <TabView
                             v-model:activeIndex="activeDialogPositionId"
                             class="text-sm"
@@ -120,7 +102,7 @@
                     text
                     class="w-7rem"
                     severity="secondary"
-                    @click.prevent="close"
+                    @click="close"
                     autofocus
                 />
             </template>
@@ -130,7 +112,6 @@
 
 <!-- Popup Edit Org-Structure-->
 <script>
-// import TreeViewOrgStructureProject from "./manage_org_structure_sub/TreeViewOrgStructureProjectChart";
 import EditOrgStructureManagementBaseProjects from "./manage_org_structure_sub/EditOrgStructureManagementBaseProjectChart";
 import AssignPositionManageOrgStructure from "./manage_org_structure_sub/AssignPositionManageOrgStructure";
 import AssignJobDescriptionManageOrgStructure from "./manage_org_structure_sub/AssignJobDescriptionsManageOrgStructure";
@@ -139,14 +120,15 @@ import AssignPositionDescriptionManageOrgStructure from "./manage_org_structure_
 import VTreeView from "@/components/tree_view_items/TreeViewComponents";
 // Functions Toggle the global organization structure tree view component
 import managerOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageOrgStructureChartProjectLevelZeroHelper";
+import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
 
 export default {
     components: {
         VTreeView,
-        EditOrgStructureManagementBaseProjects,
         AssignPositionManageOrgStructure,
         AssignJobDescriptionManageOrgStructure,
         AssignPositionDescriptionManageOrgStructure,
+        EditOrgStructureManagementBaseProjects,
     },
     props: {
         editedId: Number,
@@ -270,7 +252,10 @@ export default {
             ],
         };
     },
-    mixins: [managerOrgStructureProjectLevelZeroHelper],
+    mixins: [
+        managerOrgStructureProjectLevelZeroHelper,
+        manageOrgChartBoardMgtLevelHelper,
+    ],
     methods: {
         close() {
             this.$emit("close-dialog");

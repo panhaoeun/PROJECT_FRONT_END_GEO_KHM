@@ -88,8 +88,10 @@
                                 {{ $t("addressPopup.cancel") }}
                             </button>
                             <ajax-button
+                                v-if="editOrgStrData"
                                 class="primary-btn plr-30 plr-sm-15 border-round"
                                 :fetching-data="submittingProjectDataLoading"
+                                :disabled="submittingProjectDataLoading"
                                 :loading-text="$t('addressPopup.saving')"
                                 :text="
                                     $t('projectOrgStr.thisOrgManagement', {

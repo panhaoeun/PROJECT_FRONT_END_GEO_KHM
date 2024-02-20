@@ -165,7 +165,7 @@
                                     "
                                     :loading="loadingBtnEdit"
                                     @click.prevent="
-                                        handleEditStructureOrgProChartSubmit(
+                                        handleEditJobDescriptionsSubmit(
                                             !v$.$invalid
                                         )
                                     "
@@ -176,6 +176,7 @@
                     <!--List Positions Assign to org-structure-->
                     <div class="col-12 field px-2 py-2">
                         <list-datable-global-job-description-org-chart-structure
+                            jobDescriptionData=""
                         />
                     </div>
                 </div>
@@ -192,7 +193,7 @@ import { reactive } from "vue";
 import ListDatableGlobalJobDescriptionOrgChartStructure from "../../ListDatableGlobalJobDescriptionOrgChartStructure.vue";
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 export default {
-     props: {
+    props: {
         orgStrNameEditedId: {
             type: Object,
             required: true,
@@ -255,7 +256,7 @@ export default {
                     editDescriptionProjectOrgStr: "",
                 },
             ],
-            addJobDescType: "Department"
+            addJobDescType: "Department",
         };
     },
     components: {

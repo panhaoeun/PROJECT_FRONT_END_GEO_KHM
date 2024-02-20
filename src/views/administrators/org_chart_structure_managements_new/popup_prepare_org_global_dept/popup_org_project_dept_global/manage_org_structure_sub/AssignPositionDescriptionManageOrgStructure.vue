@@ -31,10 +31,10 @@
                                 class="pop-over-content p-20 p-sm-15 card"
                                 v-for="(
                                     inputNew, key
-                                ) in state.dyNamicAddNewFrmPositionDes"
+                                ) in state.dyNamicAddNewFrmJobDes"
                                 :key="key"
                                 :set="
-                                    v$.dyNamicAddNewFrmPositionDes.$each[index]
+                                    v$.dyNamicAddNewFrmJobDes.$each[index]
                                 "
                             >
                                 <div
@@ -80,7 +80,7 @@
                                             :class="{
                                                 'p-invalid border-round-lg border-round-lg p-error':
                                                     v$
-                                                        .dyNamicAddNewFrmPositionDes
+                                                        .dyNamicAddNewFrmJobDes
                                                         .$each.$response
                                                         .$errors[key]
                                                         .editNameEngProjectOrgStr
@@ -101,7 +101,7 @@
                                             :class="{
                                                 'p-invalid border-round-lg border-round-lg p-error':
                                                     v$
-                                                        .dyNamicAddNewFrmPositionDes
+                                                        .dyNamicAddNewFrmJobDes
                                                         .$each.$response
                                                         .$errors[key]
                                                         .editNameEngProjectOrgStr
@@ -111,7 +111,7 @@
 
                                         <small
                                             v-if="
-                                                v$.dyNamicAddNewFrmPositionDes
+                                                v$.dyNamicAddNewFrmJobDes
                                                     .$each.$response.$data[key]
                                                     .editNameEngProjectOrgStr
                                                     .$invalid && submitted
@@ -119,7 +119,7 @@
                                             class="p-error text-sm"
                                         >
                                             {{
-                                                v$.dyNamicAddNewFrmPositionDes.$each.$response.$errors[
+                                                v$.dyNamicAddNewFrmJobDes.$each.$response.$errors[
                                                     key
                                                 ].editNameEngProjectOrgStr[0].$message.replace(
                                                     "Value",
@@ -169,7 +169,7 @@
                                     "
                                     :loading="loadingBtnEdit"
                                     @click.prevent="
-                                        handleEditStructureOrgProChartSubmit(
+                                        handleEditJobDescriptionsSubmit(
                                             !v$.$invalid
                                         )
                                     "
@@ -179,9 +179,7 @@
                     </div>
                     <!--List Positions Assign to org-structure-->
                     <div class="col-12 field px-2 py-2">
-                        <list-datable-global-position-description-org-chart-structure
-                            positionData=""
-                        />
+                        <list-datable-global-position-description-org-chart-structure />
                     </div>
                 </div>
             </div>
@@ -223,7 +221,7 @@ export default {
     },
     setup: () => {
         const rules = {
-            dyNamicAddNewFrmPositionDes: {
+            dyNamicAddNewFrmJobDes: {
                 $each: helpers.forEach({
                     editNameEngProjectOrgStr: {
                         required,
@@ -233,7 +231,7 @@ export default {
             },
         };
         const state = reactive({
-            dyNamicAddNewFrmPositionDes: [
+            dyNamicAddNewFrmJobDes: [
                 {
                     editNameEngProjectOrgStr: "",
                     editNameKhmerProjectOrgStr: "",
@@ -253,7 +251,7 @@ export default {
             editNameEngProjectOrgStr: "",
             editNameKhmerProjectOrgStr: "",
             editDescriptionProjectOrgStr: "",
-            dyNamicAddNewFrmPositionDes: [
+            dyNamicAddNewFrmJobDes: [
                 {
                     editNameEngProjectOrgStr: "",
                     editNameKhmerProjectOrgStr: "",
@@ -290,8 +288,8 @@ export default {
                     // Check get value multiple inputs fields
                     // let objectPositionData;
                     const objInputPositionsFiled = this.state
-                        ?.dyNamicAddNewFrmPositionDes
-                        ? this.state?.dyNamicAddNewFrmPositionDes
+                        ?.dyNamicAddNewFrmJobDes
+                        ? this.state?.dyNamicAddNewFrmJobDes
                         : [];
                     for (
                         let index = 0;
@@ -311,7 +309,7 @@ export default {
                 this.loadingAddMoreFromPositionDes = true;
                 setTimeout(() => {
                     this.loadingAddMoreFromPositionDes = false;
-                    this.state.dyNamicAddNewFrmPositionDes.push({
+                    this.state.dyNamicAddNewFrmJobDes.push({
                         editNameEngProjectOrgStr: "",
                         editNameKhmerProjectOrgStr: "",
                         editDescriptionProjectOrgStr: "",
@@ -322,7 +320,7 @@ export default {
             }
         },
         removeJobDesOrgStructureByKey(index) {
-            this.state.dyNamicAddNewFrmPositionDes.splice(index, 1);
+            this.state.dyNamicAddNewFrmJobDes.splice(index, 1);
         },
         resetForm() {
             (this.state.editNameEngProjectOrgStr = ""),

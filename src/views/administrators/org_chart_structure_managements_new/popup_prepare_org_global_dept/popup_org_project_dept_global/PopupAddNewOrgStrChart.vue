@@ -39,7 +39,6 @@
                                     @item-click="
                                         onClickItemOrgStructureTreeView
                                     "
-                                    :async="asyncReloadDataOrgStructure"
                                     whole-row
                                     :itemEvents="itemEvents"
                                     draggable
@@ -151,7 +150,7 @@ import VTreeView from "@/components/tree_view_items/TreeViewComponents";
 import managerOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageOrgStructureChartProjectLevelZeroHelper";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
-
+import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 export default {
     components: {
         VTreeView,
@@ -263,6 +262,7 @@ export default {
         managerOrgStructureProjectLevelZeroHelper,
         manageOrgChartBoardMgtLevelHelper,
         managerPositionOrgStructureProjectLevelZeroHelper,
+        managerJobPositionOrgStructureProjectLevelZeroHelper,
     ],
     methods: {
         close() {
@@ -325,6 +325,14 @@ export default {
                  * @Edit Org-Structures and positions for projects
                  * */
                 this.getPositionDeptBoardMgtBySuper(parseInt(newName.id) ?? 0);
+                this.getJobDescriptionType(
+                    parseInt(newName.id) ?? 0,
+                    "Department"
+                );
+                this.getJobDescriptionType(
+                    parseInt(newName.id) ?? 0,
+                    "Position"
+                );
             }
             this.orgStrNameEditedId = getOrgPrepareEditName
                 ? getOrgPrepareEditName

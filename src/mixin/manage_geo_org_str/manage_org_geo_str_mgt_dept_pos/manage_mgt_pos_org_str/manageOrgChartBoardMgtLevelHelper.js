@@ -22,6 +22,21 @@ export default {
         getAllBoardManagerOfProjectOrgStructureChart01() {
             return this.allOrgBoardHierarchyStructure || [];
         },
+        getAllBoardManagerOfProjectOrgStructureChart02() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
+        getAllBoardManagerOfProjectOrgStructureChart03() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
+        getAllBoardManagerOfProjectOrgStructureChart04() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
+        getAllBoardManagerOfProjectOrgStructureChart05() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
+        getAllBoardManagerOfProjectOrgStructureChart06() {
+            return this.allOrgBoardHierarchyStructure || [];
+        },
         getAllDeptOrgStrMgtOrg() {
             return this.allOrgBoardDeptStructureChart || [];
         },

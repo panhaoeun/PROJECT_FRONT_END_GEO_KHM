@@ -9,11 +9,15 @@ const state = {
     geoStrDeptChartLevel05: [],
     orgBoardMgtStr: [],
     orgJobDescProId: [],
+    orgPosJobDescProId: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
         geoStrDeptGeo
     }) => geoStrDeptGeo ? geoStrDeptGeo : [],
+     allOrgPosJobDescriptionBaseProject: ({
+         orgPosJobDescProId
+     }) => orgPosJobDescProId ? orgPosJobDescProId : {},
 }
 const mutations = {
     // Get Hierarchy data for Structure Base Project or Country
@@ -97,8 +101,8 @@ const actions = {
    async setJobDescriptionBaseOrgStrId({
            commit
        }, payload) {
-        const getOrgStrId  = payload?.orgStrId;
-        const getJobType = payload?.jobDecType;
+        const getOrgStrId  = payload?.getOrgStrId;
+        const getJobType = payload?.getJobDescType;
         let orgStrDecId;
         if (getOrgStrId !== null && !isNaN(Number(getOrgStrId)) || getOrgStrId !== '') {
             orgStrDecId = parseInt(getOrgStrId) ? parseInt(getOrgStrId) : 0;

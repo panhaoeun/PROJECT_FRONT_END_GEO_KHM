@@ -20,7 +20,9 @@
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
                 <!-- Search Products -->
-                <p class="justify-content-center font-bold">List Positions Description</p>
+                <p class="justify-content-center font-bold">
+                    List Positions Description
+                </p>
                 <span
                     class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
                 >
@@ -64,22 +66,67 @@
                         icon="pi pi-pencil"
                         outlined
                         rounded
+                        severity="info"
+                        class="mr-2"
+                        @click.prevent="openEditDialogsJobDescRename(data)"
+                    />
+                    <Button
+                        icon="pi pi-trash"
+                        outlined
+                        rounded
                         severity="secondary"
                         class="mr-2"
-                        @click.prevent="dialogConfirmRemovePositions(data)"
+                        @click.prevent="confirmDeletedJobDesOrgStrById(data)"
                     />
                 </div>
             </template>
         </Column>
     </DataTable>
-    <!-- Dialogs confirm Remove -->
+    <!-- Deleted Dialogs Positions Descriptions -->
+    <Dialog
+        v-model:visible="deletedJobDescDialogs"
+        :style="{ width: '450px' }"
+        header="Confirm delete position description"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deletedJobDescDialogs = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                text
+                @click="confirmRemoveJobDescOrgStructureById()"
+            />
+        </template>
+    </Dialog>
+    <!-- Edited Job Descriptions -->
+    <OpenEditedJobDescriptionOrgStructure
+        v-if="openEditedJobDescDialogs"
+        @close="closingPopupEditedJobPosDesIdOrgStrDialogs"
+        :open-edit-board-job-des="openDataJobDesc ? openDataJobDesc : {}"
+    />
 </template>
 <!-- Script of list data global positions -->
 <script>
 import { FilterMatchMode } from "primevue/api";
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
+import OpenEditedJobDescriptionOrgStructure from "../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditJobDescriptionOrgStrData.vue";
 export default {
-    components: {},
+    components: {
+        OpenEditedJobDescriptionOrgStructure,
+    },
     mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
     props: {
         positionData: {
@@ -99,37 +146,6 @@ export default {
         };
     },
     created() {},
-    methods: {
-        dialogConfirmRemovePositions(data) {
-            this.visibleConfirmRemove = true;
-            this.dataObjPosition = data ? data : {};
-            this.$confirm.require({
-                message: "Do you want to delete this record?",
-                header: "Danger Zone",
-                icon: "pi pi-info-circle",
-                rejectLabel: "Cancel",
-                acceptLabel: "Delete",
-                rejectClass: "p-button-secondary p-button-outlined",
-                acceptClass: "p-button-danger",
-                accept: () => {
-                    this.$toast.add({
-                        severity: "info",
-                        summary: "Confirmed",
-                        detail: "Record deleted",
-                        life: 3000,
-                    });
-                },
-                reject: () => {
-                    this.$toast.add({
-                        severity: "error",
-                        summary: "Rejected",
-                        detail: "You have rejected",
-                        life: 3000,
-                    });
-                },
-            });
-        },
-    },
     mounted() {},
 };
 </script>

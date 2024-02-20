@@ -28,7 +28,9 @@ const getters = {
     allOrgBoardDeptStructure05LevelChart: ({
         geoStrDeptChartLevel05
     }) => geoStrDeptChartLevel05 ? geoStrDeptChartLevel05 : [],
-    // Hierarchy Data
+    /**
+     * @Hierarchy Data base Org - Structure Chart - Position Management Structure
+     * */ 
     allOrgBoardHierarchyStructure: ({
         orgBoardMgtStr
     }) => orgBoardMgtStr ? orgBoardMgtStr : {},
@@ -60,7 +62,9 @@ const mutations = {
     SET_ORG_STR_GEO_DEPT_POS_CHART_LEVEL_05(state, geoStrDeptChartLevel03) {
         state.geoStrDeptChartLevel05 = geoStrDeptChartLevel03 ? geoStrDeptChartLevel03 : [];
     },
-    // Get Hierarchy data for Structure Base Project or Country
+    /**
+     * @Hierarchy Data base Org - Structure Chart - Position Management Structure
+    * */
     SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT(state, orgBoardMgtStr){
         state.orgBoardMgtStr = orgBoardMgtStr ? orgBoardMgtStr : {};
     },
@@ -175,8 +179,8 @@ const actions = {
    async setJobDescriptionBaseOrgStrId({
            commit
        }, payload) {
-        const getOrgStrId  = payload?.orgStrId;
-        const getJobType = payload?.jobDecType;
+        const getOrgStrId  = payload?.getOrgStrId;
+        const getJobType = payload?.getJobDescType;
         let orgStrDecId;
         if (getOrgStrId !== null && !isNaN(Number(getOrgStrId)) || getOrgStrId !== '') {
             orgStrDecId = parseInt(getOrgStrId) ? parseInt(getOrgStrId) : 0;
