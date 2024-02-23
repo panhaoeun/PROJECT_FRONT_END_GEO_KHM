@@ -78,6 +78,14 @@
             <template #body="{ data }">
                 <div class="flex flex-wrap gap-2">
                     <Button
+                        icon="pi pi-briefcase"
+                        severity="help"
+                        outlined
+                        rounded
+                        class="mr-2"
+                        @click.prevent="openDialogAssignTOR(data)"
+                    />
+                    <Button
                         icon="pi pi-pencil"
                         outlined
                         rounded
@@ -98,12 +106,17 @@
         </Column>
     </DataTable>
     <!-- Dialogs Position Edited -->
-    <OpenEditedPositionsOrgStructure
+    <open-edited-positions-org-structure
         v-if="openEditedBoardMgtDialogs"
         @close="closingPopupEditedPosIdOrgStrDialogs"
         :open-edit-board-position="
             openEditBoardMgtData ? openEditBoardMgtData : {}
         "
+    />
+    <!-- Terms of Reference of Positions -->
+    <assign-terms-reference-positions
+        :dialog="clingAssignTORVisible"
+        @close-dialog="clingAssignDialog"
     />
     <!-- Deleted Dialogs Project -->
     <Dialog
@@ -142,6 +155,7 @@ import { FilterMatchMode } from "primevue/api";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
 import OpenEditedPositionsOrgStructure from "../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditPositionOrgStructureData.vue";
+import AssignTermsReferencePositions from "./manage_tor_management_prepare/ManagementTORBasePosition.vue";
 export default {
     props: {
         positionData: {
@@ -160,46 +174,22 @@ export default {
             selectedPositionData: false,
             visibleConfirmRemove: false,
             openedDialogVisiblePos: false,
+            assignTORPositionId: null,
             dataObjPosition: null,
             filtersDataPositionData: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
+            clingAssignTORVisible: false,
         };
     },
     components: {
         OpenEditedPositionsOrgStructure,
+        AssignTermsReferencePositions,
     },
     methods: {
-        dialogConfirmRemovePositions(data) {
-            this.visibleConfirmRemove = true;
-            this.dataObjPosition = data ? data : {};
-            this.$confirm.require({
-                message: "Do you want to delete this record?",
-                header: "Danger Zone",
-                icon: "pi pi-info-circle",
-                rejectLabel: "Cancel",
-                acceptLabel: "Delete",
-                rejectClass: "p-button-secondary p-button-outlined",
-                acceptClass: "p-button-danger",
-                accept: () => {
-                    this.$toast.add({
-                        severity: "info",
-                        summary: "Confirmed",
-                        detail: "Record deleted",
-                        life: 3000,
-                    });
-                },
-                reject: () => {
-                    this.$toast.add({
-                        severity: "error",
-                        summary: "Rejected",
-                        detail: "You have rejected",
-                        life: 3000,
-                    });
-                },
-            });
+        clingAssignDialog() {
+            this.clingAssignTORVisible = false;
         },
     },
-    mounted() {},
 };
 </script>

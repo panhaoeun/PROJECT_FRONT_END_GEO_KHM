@@ -1,5 +1,6 @@
 <template>
     <li
+        style="padding: 0px"
         role="treeitem"
         :class="classes"
         class="tree-node"
@@ -23,7 +24,7 @@
             <i
                 :class="{
                     'tree-anchor': isFolder,
-                    'tree-node__icon': isFolder,
+                    'tree-icon': isFolder,
                 }"
                 role="presentation"
             ></i>
@@ -38,14 +39,9 @@
                 'tree-node__icon': isFolder,
             }"
         ></i>
-        <i
-            class="tree-icon tree-ocl"
-            role="presentation"
-            @click="handleItemToggle"
-        ></i>
         <div :class="anchorClasses" v-on="events">
             <i
-                class="tree-icon tree-checkbox"
+                class="tree-node__icon tree-checkbox"
                 role="presentation"
                 :class="{
                     'no-filder': !isFolder,
@@ -398,10 +394,6 @@ export default {
         &:focus {
             outline: none;
         }
-    }
-
-    &__children {
-        margin-left: 16px;
     }
 }
 

@@ -22,6 +22,9 @@
     <popup-add-new-org-structure-chart
         :dialog="dialogOpenOrgStrId"
         @close-dialog="closeDialogAssignOrgProject()"
+        :org-structure-level="orgDeptLevel ? orgDeptLevel : ''"
+        :org-structure-geo-id="orgDeptGeoFenceId ? orgDeptGeoFenceId : 0"
+        :projectId="orgDeptProId ? orgDeptProId : 0"
     />
     <popup-edit-org-structure-chart
         :dialog="dialogEditOrgStrId"
@@ -31,13 +34,29 @@
 <!-- Script of popup assign org-projects -->
 <script>
 import PopupAddNewOrgStructureChart from "./PopupAddNewOrgStrChart";
-import PopupEditOrgStructureChart from "./PopupEditOrgStrChartProject.vue";
+import PopupEditOrgStructureChart from "./PopupEditOrgStrChartProject";
 export default {
     components: {
         PopupAddNewOrgStructureChart,
         PopupEditOrgStructureChart,
     },
-    props: {},
+    props: {
+        orgDeptLevel: {
+            type: String,
+            required: true,
+            default: () => {},
+        },
+        orgDeptGeoFenceId: {
+            type: Number,
+            required: true,
+            default: () => {},
+        },
+        orgDeptProId: {
+            type: Number,
+            required: true,
+            default: () => {},
+        },
+    },
     data() {
         return {
             dialogOpenOrgStrId: false,

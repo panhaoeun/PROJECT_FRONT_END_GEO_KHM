@@ -23,9 +23,15 @@
                                         sizeWidth="70"
                                     />
                                 </div>
-                                <span class="mr-10 p-10">{{
-                                    String(datasource.name).toUpperCase() ?? ""
-                                }}</span>
+                                <span class="mr-10 p-10">
+                                    {{
+                                        String(
+                                            datasource?.name
+                                                ? datasource?.name
+                                                : "No Name"
+                                        ).toString()
+                                    }}
+                                </span>
                             </div>
                             <div class="content">
                                 <h6 class="text-sm">
@@ -62,15 +68,10 @@
                         v-for="child in datasource.children"
                         :key="child.id"
                     >
-                        <node :datasource="child" :handle-click="handleClick">
-                            <!-- {{ scopedSlots }} -->
-                            <!-- <template
-                                v-for="slot in Object.keys(scopedSlots)"
-                                :v-slot="slot"
-                            >
-                                <slot :name="slot" v-bind="scope" />
-                            </template> -->
-                        </node>
+                        <node
+                            :datasource="child"
+                            :handle-click="handleClick"
+                        ></node>
                     </td>
                 </tr>
             </template>
@@ -93,7 +94,6 @@ export default {
     data() {
         return {
             openDialogAssignPoId: false,
-            
         };
     },
     created() {},
@@ -124,7 +124,6 @@ export default {
             var children = _.remove(array, (child) => console.log(child));
             console.log(children);
         },
-       
     },
     mounted() {},
 };

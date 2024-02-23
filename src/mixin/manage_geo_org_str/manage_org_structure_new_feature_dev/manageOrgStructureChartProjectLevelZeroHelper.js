@@ -2,15 +2,106 @@ import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/
 export default {
     data() {
         return {
-            orgDeptStrLevel: "SL01"
+            orgDeptStrLevel: "SL01",
+            deletedDialogsOrgStructure: false,
+            submitted: false,
         }
     },
     created() {
         this.serviceManageStructuresGlobal = new ManageOrgChartStructureGeoProjectServices();
     },
+    computed: {
+        getOrgName() {
+           if (this.editingItem.id !== undefined) {
+                return this.editingItem.text;
+           }
+           return null;
+        }  
+    },
     methods: {
-        addRootNodeOrgStructure() {
+        openDialogsAddNewRootNodeOrgStr(){
+            this.visibleDialogsRootNodeOrgStr = true;
         },
+        addRootNodeOrgStructure(validate) {
+            try {
+                this.submitted = true;
+                this.loadingBtnRootNode = true;
+                setTimeout(() => {
+                    this.loadingBtnRootNode = false;
+                    /**
+                     * @Access add new root node to the org-structure
+                    * */ 
+                   if (this.orgStructureGeoId == null && this.orgStructureGeoId == null || this.orgStructureLevel === undefined) {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please Fix Below Errors.",
+                            detail: "Please input filed add node root level!",
+                            life: 3000,
+                        });
+                        return false;
+                   }
+                   if (
+                        this.addNewEmpRootNodeEng !== null 
+                        && this.addNewEmpRootNodeEng !== undefined 
+                        && typeof this.addNewEmpRootNodeEng !== 'object'
+                    ) {
+                        const addNewOrgStructureDataRoot = {
+                            statusAddNewRootNode: 'nodeRoot',
+                            addNewOrgChartLevel: String(this.orgStructureLevel).toString(),
+                            addNewOrgChartProId: parseInt(this.rootNodeProId) ? parseInt(this.rootNodeProId): 0,
+                            addNewOrgChartCountryId: parseInt(this.orgStructureGeoId) ? parseInt(this.orgStructureGeoId) : 0,
+                            addNewOrgChartStrKhmerName: String(this.addNewEmpRootNodeEng).toString()?.trim(),
+                            addNewOrgChartStrEnglishName: String(this.addNewEmpRootNodeKhmer).toString()?.trim(),
+                            addNewOrgChartStrNoted: String(this.descriptionDeptEmpRootNode).toString()?.trim()
+                        }
+                        this.serviceManageStructuresGlobal.createNewOrgStructureGeoProjectGeo(addNewOrgStructureDataRoot).then(async (orgStrData) => {
+                            if(orgStrData?.status === 200){
+                            this.$toast.add({
+                                    severity: "success",
+                                    summary: "Create Root Node Org-Structure Successfully.",
+                                    detail: orgStrData.data ?.message ? orgStrData.data ?.message :  null,
+                                    life: 3000,
+                                });
+                                this.fetchingDataGeoOrgChartStructure(this.orgStructureLevel, this.orgStructureGeoId, this.rootNodeProId, 0);
+                            }
+                            // Clear Form
+                            this.dialog = true;
+                            this.addNewEmpRootNodeEng = '';
+                            this.addNewEmpRootNodeKhmer = '';
+                            this.descriptionDeptEmpRootNode = '';
+
+                            return orgStrData ? orgStrData : [];
+                        }).catch((error) => {
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Unsuccessfully create root node org-structure successfully..",
+                                detail: error?.message ? error?.message : '',
+                                life: 3000,
+                            });
+                            this.dialog = true;
+                            throw Error(error || error.message);
+                        });
+                   }
+                    /**
+                     * @Validations org-structured new node root
+                    * */ 
+                    this.v$.$touch();
+                    if (!validate) {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please Fix Below Errors.",
+                            detail: "Please input filed add new root node!",
+                            life: 3000,
+                        });
+                        return;
+                    }
+                }, 1000);
+            } catch (error) {
+                throw Error(error.message || error);
+            }
+           
+          
+        },  
         addChildNodeOrgStructure() {
             if (this.editingItem.id !== undefined) {
                 const addNewChildName = this.editingItem.text + "New Child Node" + parseInt(this.editingItem.id);
@@ -35,10 +126,45 @@ export default {
         },
         removeNodeOrgStructure: function () {
             if (this.editingItem.id !== undefined) {
-                var index = this.editingNode.parentItem.indexOf(this.editingItem)
-                console.log(index, this.editingItem)
-                // this.editingNode.parentItem.splice(index, 1)
+                this.deletedDialogsOrgStructure = true;
             }
+        },
+        /*
+         * @Tree View Items (Tree View Item)
+        */
+        confirmRemoveOrgStructureDatByIdGlobal(){
+            if (this.editingItem.id !== undefined) {
+                // Confirms Dialogs
+                this.confirmDeleteOrgStDataByIdGlobal(this.editingItem.id);
+            }
+        },
+        confirmDeleteOrgStDataByIdGlobal(id){
+            const orgStrId = parseInt(id) ? parseInt(id) : 0;
+            this.serviceManageStructuresGlobal.removeNewOrgStructureGeoProjectGeo(orgStrId).then(async (state) => {
+                if(state?.status === 200){
+                   this.$toast.add({
+                        severity: "success",
+                        summary: "Editing Org-Structure Name Successfully.",
+                        detail: state.data ?.message ? state.data ?.message :  null,
+                        life: 3000,
+                    });
+                    const index = this.editingNode.parentItem.indexOf(this.editingItem);
+                    this.editingNode.parentItem.splice(index, 1);
+                    // Confirm Deleted 
+                    this.deletedDialogsOrgStructure = false;
+                    this.fetchingDataGeoOrgChartStructure(this.editingItem?.orgLevel, this.editingItem?.countryId, this.editingItem?.projectId, this.editingItem?.superIdOrg);
+                }
+                return state ? state : [];
+            }).catch((error) => {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "Unsuccessfully updated org-structure name.",
+                    detail: error?.message ? error?.message : '',
+                    life: 3000,
+                });
+                return Promise.reject(error?.message || []);
+            });
+            this.ajaxDeleting = 0
         },
         /**
          * @function add new org-structure base level 

@@ -113,9 +113,9 @@
 <!-- Popup Edit Org-Structure-->
 <script>
 import EditOrgStructureManagementBaseProjects from "./manage_org_structure_sub/EditOrgStructureManagementBaseProjectChart";
-import AssignPositionManageOrgStructure from "./manage_org_structure_sub/AssignPositionManageOrgStructure";
-import AssignJobDescriptionManageOrgStructure from "./manage_org_structure_sub/AssignJobDescriptionsManageOrgStructure";
-import AssignPositionDescriptionManageOrgStructure from "./manage_org_structure_sub/AssignPositionDescriptionManageOrgStructure";
+import AssignPositionManageOrgStructure from "./manage_org_structure_sub/manage_org_dept_edited/ManageEditedPositionGlobalOrgStructure";
+import AssignJobDescriptionManageOrgStructure from "./manage_org_structure_sub/manage_org_dept_edited/ManageEditedJobDescriptionOrgStructure.vue";
+import AssignPositionDescriptionManageOrgStructure from "./manage_org_structure_sub/manage_org_dept_edited/ManageEditPositionDescriptionOrgStructure.vue";
 // TreeView OrgStructure
 import VTreeView from "@/components/tree_view_items/TreeViewComponents";
 // Functions Toggle the global organization structure tree view component

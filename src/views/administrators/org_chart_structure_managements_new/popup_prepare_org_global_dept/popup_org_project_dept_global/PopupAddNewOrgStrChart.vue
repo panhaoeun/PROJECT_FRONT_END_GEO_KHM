@@ -1,4 +1,7 @@
 <template>
+    <!-- Confirm Dialogs -->
+    <ConfirmPopup id="confirm" aria-label="popup" />
+    <Toast />
     <div>
         <Dialog
             v-model:visible="openDialogs"
@@ -16,14 +19,32 @@
                         class="col-lg-5 col-md-12 flex column h-full org-structure-new"
                     >
                         <div class="start mlr--1">
-                            <!-- Button-->
+                            <!-- Add Root Nodes-->
                             <div class="gap-2 px-2 py-2">
                                 <Button
                                     label="Root Node"
                                     icon="pi pi-sitemap"
-                                    @click.prevent="addRootNodeOrgStructure()"
+                                    @click.prevent="
+                                        openDialogsAddNewRootNodeOrgStr()
+                                    "
                                     class="w-8rem h-2rem text-sm"
                                     severity="secondary"
+                                />
+                                <!-- Dialogs of Org-Structures Root Node-->
+                                <popup-add-root-node-global-org-structure
+                                    :dialog="visibleDialogsRootNodeOrgStr"
+                                    @close-dialog="closeDialogRotNodeOrgStr()"
+                                    :org-structure-level="
+                                        orgStructureLevel
+                                            ? orgStructureLevel
+                                            : ''
+                                    "
+                                    :org-structure-geo-id="
+                                        orgStructureGeoId
+                                            ? orgStructureGeoId
+                                            : 0
+                                    "
+                                    :rootNodeProId="projectId ? projectId : 0"
                                 />
                             </div>
                             <!-- Tree Vew -->
@@ -135,6 +156,47 @@
             </template>
         </Dialog>
     </div>
+    <!-- Deleted Dialogs Confirmations-->
+    <Dialog
+        v-model:visible="deletedDialogsOrgStructure"
+        :style="{ width: '510px' }"
+        :header="'Delete' + '\t' + getOrgName"
+        :modal="true"
+    >
+        <div class="confirmation-content">
+            <div
+                class="flex flex-row align-items-center surface-overlay border-round"
+            >
+                <div
+                    class="border-circle bg-primary inline-flex justify-content-center align-items-center h-2rem w-2rem mr-2"
+                >
+                    <i class="pi pi-question" style="font-size: 1rem" />
+                </div>
+
+                <span class="font-bold text-xl block mb-2 mt-4"
+                    >Are you sure that you want to delete
+                    {{ String(getOrgName).toString() }}</span
+                >
+            </div>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                outlined
+                text
+                @click="deletedDialogsOrgStructure = false"
+            />
+            <Button
+                label="Yes"
+                icon="pi pi-check"
+                severity="danger"
+                outlined
+                text
+                @click="confirmRemoveOrgStructureDatByIdGlobal()"
+            />
+        </template>
+    </Dialog>
 </template>
 
 <!-- Popup Edit Org-Structure-->
@@ -151,6 +213,10 @@ import managerOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_st
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
+/**
+ * @Assign Root Node Level to organization-structures
+ * */
+import popupAddRootNodeGlobalOrgStructure from "@/components/org_chart_structures/org_structures_chart_geofence/OrgStructureAddNewRootNode";
 export default {
     components: {
         VTreeView,
@@ -158,12 +224,28 @@ export default {
         AssignPositionManageOrgStructure,
         AssignJobDescriptionManageOrgStructure,
         AssignPositionDescriptionManageOrgStructure,
+        popupAddRootNodeGlobalOrgStructure,
     },
     props: {
         editedId: Number,
         dialog: {
             type: Boolean,
             default: false,
+            required: true,
+        },
+        orgStructureLevel: {
+            type: String,
+            default: null,
+            required: true,
+        },
+        orgStructureGeoId: {
+            type: String,
+            default: null,
+            required: true,
+        },
+        projectId: {
+            type: String,
+            default: null,
             required: true,
         },
     },
@@ -186,6 +268,7 @@ export default {
         const self = this;
         return {
             activeDialogPositionId: 0,
+            visibleDialogsRootNodeOrgStr: false,
             // Org-structure
             editingItem: {},
             editingNode: null,
@@ -201,6 +284,7 @@ export default {
                         arguments[2],
                         node?.model
                     );
+                    self.editingNode = node ? node : null;
                 },
             },
             asyncReloadDataOrgStructure(oriNode, resolve) {
@@ -281,6 +365,9 @@ export default {
         },
         closeDialogEditOrgStrName() {
             this.visibleDialogsOrgStr = false;
+        },
+        closeDialogRotNodeOrgStr() {
+            this.visibleDialogsRootNodeOrgStr = false;
         },
         renameOrgStructureProjectData() {
             let newName = this.getEditObjName ? this.getEditObjName : null;

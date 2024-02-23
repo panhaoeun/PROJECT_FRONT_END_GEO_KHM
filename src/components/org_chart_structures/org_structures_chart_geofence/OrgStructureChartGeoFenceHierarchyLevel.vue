@@ -6,9 +6,9 @@
         @close="closingEditDialogPositionId"
     />
     <global-assign-manager-employee
-        v-if="openDialogAssignPoId"
+        v-if="openDialogAssignEmployeeId"
         :geoOrgProjectStrData="editPopupProjectStrData"
-        @close="closingEditDialogPositionId"
+        @close="closingEditDialogEmployee"
     />
     <!-- Menu -->
     <Menu ref="menu" id="overlay_menu" :model="contentMenu" :popup="true" />
@@ -45,13 +45,13 @@
 import $ from "jquery";
 import OrganizationChartNode from "./OrganizationChartNode.vue";
 import GlobalAssignPositions from "./GlobalEditedAssignPositions";
-import GlobalAssignManagerEmployee from "./GlobalEditedAssignPositions";
+import GlobalAssignManagerEmployee from "./GlobalEditedAssignEmployee.vue";
 export default {
     name: "Hierarchy",
     components: {
         OrganizationChartNode,
         GlobalAssignPositions,
-        GlobalAssignManagerEmployee
+        GlobalAssignManagerEmployee,
     },
     props: {
         datasource: {
@@ -79,6 +79,7 @@ export default {
     },
     data() {
         return {
+            openDialogAssignEmployeeId: false,
             cursorVal: "default",
             panning: false,
             startX: 0,
@@ -95,7 +96,9 @@ export default {
                 {
                     label: "Manage Manager",
                     icon: "pi pi-user-plus",
-                    command: () => {},
+                    command: () => {
+                        this.openDialogAssignEmployee();
+                    },
                 },
             ],
             openDialogAssignPoId: false,
@@ -104,10 +107,16 @@ export default {
     methods: {
         // Dialogs Position and Employee Assignments
         closingEditDialogPositionId() {
-            this.openDialogAssignPoId = true;
+            this.openDialogAssignPoId = false;
+        },
+        closingEditDialogEmployee() {
+            this.openDialogAssignEmployeeId = false;
         },
         openDialogAssignPosition() {
             this.openDialogAssignPoId = true;
+        },
+        openDialogAssignEmployee() {
+            this.openDialogAssignEmployeeId = true;
         },
 
         handleClick(nodeData) {

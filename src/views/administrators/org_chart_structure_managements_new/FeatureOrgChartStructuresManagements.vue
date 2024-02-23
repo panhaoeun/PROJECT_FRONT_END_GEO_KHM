@@ -65,6 +65,13 @@
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Projects-->
                                 <popup-add-edit-global-assign-org-project
+                                    orgDeptLevel="SL00"
+                                    orgDeptGeoFenceId="0"
+                                    :orgDeptProId="
+                                        getProjectDestination
+                                            ? getProjectDestination
+                                            : null
+                                    "
                                     v-if="
                                         selectedProject !== null &&
                                         hideOrgStructureDeptPos === 'T0'
@@ -142,6 +149,17 @@
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Country-->
                                 <popup-add-edit-global-assign-org-project
+                                    orgDeptLevel="SL01"
+                                    :orgDeptGeoFenceId="
+                                        getCountryOfGeoLocationOrgStr
+                                            ? getCountryOfGeoLocationOrgStr
+                                            : null
+                                    "
+                                    :orgDeptProId="
+                                        getProjectDestination
+                                            ? getProjectDestination
+                                            : null
+                                    "
                                     v-if="
                                         selectedProject !== null &&
                                         selectedCountryOptOrgStr != null &&
@@ -229,6 +247,17 @@
                                         selectedProvinceOptOrgStr != null &&
                                         hideOrgStructureDeptPos === 'T2'
                                     "
+                                    orgDeptLevel="SL02"
+                                    :orgDeptGeoFenceId="
+                                        getProvinceOrgStructure
+                                            ? getProvinceOrgStructure
+                                            : null
+                                    "
+                                    :orgDeptProId="
+                                        getProjectDestination
+                                            ? getProjectDestination
+                                            : null
+                                    "
                                 />
                             </div>
                         </div>
@@ -309,6 +338,17 @@
                                     v-if="
                                         selectedDistrictOptOrgStr != null &&
                                         hideOrgStructureDeptPos === 'T3'
+                                    "
+                                    orgDeptLevel="SL03"
+                                    :orgDeptGeoFenceId="
+                                        getDistrictOrgStructure
+                                            ? getDistrictOrgStructure
+                                            : null
+                                    "
+                                    :orgDeptProId="
+                                        getProjectDestination
+                                            ? getProjectDestination
+                                            : null
                                     "
                                 />
                             </div>
@@ -391,6 +431,17 @@
                                         selectedCommuneOptOrgStr != null &&
                                         hideOrgStructureDeptPos === 'T4'
                                     "
+                                    orgDeptLevel="SL04"
+                                    :orgDeptGeoFenceId="
+                                        getCommuneOrgStructure
+                                            ? getCommuneOrgStructure
+                                            : null
+                                    "
+                                    :orgDeptProId="
+                                        getProjectDestination
+                                            ? getProjectDestination
+                                            : null
+                                    "
                                 />
                             </div>
                         </div>
@@ -471,6 +522,17 @@
                                     v-if="
                                         selectedVillagesOptOrgStr != null &&
                                         hideOrgStructureDeptPos === 'T5'
+                                    "
+                                    orgDeptLevel="SL05"
+                                    :orgDeptGeoFenceId="
+                                        getVillagesOrgStructure
+                                            ? getVillagesOrgStructure
+                                            : null
+                                    "
+                                    :orgDeptProId="
+                                        getProjectDestination
+                                            ? getProjectDestination
+                                            : null
                                     "
                                 />
                             </div>

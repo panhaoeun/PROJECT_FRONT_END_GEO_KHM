@@ -162,6 +162,13 @@ export default {
                 }
                 this.fetchingOrgStrDeptPosId = false;
             }, 1000);
-        }
+        },
+        /**
+         * @Dialogs of TOR Positions data
+        * */
+       openDialogAssignTOR(data) {
+            this.clingAssignTORVisible = true;
+            this.assignTORPositionId = data ? data : null;
+       }
     },
 }

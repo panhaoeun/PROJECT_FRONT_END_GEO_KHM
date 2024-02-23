@@ -107,6 +107,7 @@ export default {
         thisOrgStructure: "{type} this org-structure",
         thisDepartment: "{type} this department",
         thisOrgManagement: "{type} this org-structure",
+        thisOrgAssignEMp: "{type} this manager",
     },
     addressPopup: {
         country: "Country",

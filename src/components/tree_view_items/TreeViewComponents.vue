@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" role="tree" onselectstart="return false">
-        <ul :class="containerClasses" role="group">
+        <ul :class="containerClasses" role="group" style="padding-left: 0px">
             <tree-item
                 v-for="(child, index) in data"
                 :key="index"
@@ -31,7 +31,7 @@
 <!-- Script of Tree View Item -->
 <script>
 import TreeItem from "./TreeViewItem.vue";
-import { reactive } from 'vue'  
+import { reactive } from "vue";
 
 let ITEM_ID = 0;
 let ITEM_HEIGHT_SMALL = 18;
@@ -148,6 +148,7 @@ export default {
                 ),
                 item
             );
+            console.log(node)
             let self = this;
             node.addBefore = function (data, selectedNode) {
                 let newItem = self.initializeDataItem(data);
