@@ -4,6 +4,11 @@ import {
 } from "vuex";
 
 export default{
+    data() {
+        return {
+            getTypeGeoFenceFilter: null
+        }
+    },
     mounted() {
         this.getGeoLocationCountryOrgStr();
     },
@@ -98,9 +103,12 @@ export default{
                 !Array.isArray(this.selectedCountryOptOrgStr) ||
                 this.selectedCountryOptOrgStr !== undefined ||
                 this.selectedCountryOptOrgStr !== null
+                && this.selectedProject !== null &&
+                !Array.isArray(this.selectedProject)
             ) {
                 this.selectedProvinceOptOrgStr = null;
                 this.hideOrgStructureDeptPos = "T1"
+                this.getTypeGeoFenceFilter = "GEO-01";
                 // Org-Structure Country's
                 const getProjectId = this.getProjectDestination ?
                     this.getProjectDestination :
@@ -108,9 +116,11 @@ export default{
                 const getCountryId = this.getCountryOfGeoLocationOrgStr ?
                     this.getCountryOfGeoLocationOrgStr:
                     0;
+                const typeHierarchy = "GeoFence";
                 this.setDepartmentDataByCountryProjectId({
                     getProjectId,
                     getCountryId,
+                    typeHierarchy
                 });
             }
         },
@@ -149,6 +159,7 @@ export default{
                     countryParentId?.geo_ssn_location !== undefined ||
                     countryParentId?.geo_ssn_location !== null
                 ) {
+                    this.getTypeGeoFenceFilter = "GEO-02";
                     const ssnSuperCountryCodeLocationGeo =
                         countryParentId?.geo_ssn_location
                             ? countryParentId?.geo_ssn_location
@@ -169,9 +180,11 @@ export default{
                     const getCountryId = this.getProvinceOrgStructure ?
                         this.getProvinceOrgStructure:
                         0;
+                    const typeHierarchy = "GeoFence";
                     this.setDepartmentDataByCountryProjectId({
                         getProjectId,
                         getCountryId,
+                        typeHierarchy
                     });
                 }
             } catch (error) {
@@ -202,6 +215,7 @@ export default{
                     provinceParentId?.geo_ssn_location !== undefined ||
                     provinceParentId?.geo_ssn_location !== null
                 ) {
+                    this.getTypeGeoFenceFilter = "GEO-03";
                     const ssnSuperProvinceCodeLocationGeo =
                         provinceParentId?.geo_ssn_location
                             ? provinceParentId?.geo_ssn_location
@@ -222,9 +236,11 @@ export default{
                     const getCountryId = this.getDistrictOrgStructure ?
                         this.getDistrictOrgStructure:
                         0;
+                    const typeHierarchy = "GeoFence";
                     this.setDepartmentDataByCountryProjectId({
                         getProjectId,
                         getCountryId,
+                        typeHierarchy
                     });
                 }
             } catch (error) {
@@ -259,6 +275,7 @@ export default{
                         districtParentId?.geo_ssn_location
                             ? districtParentId?.geo_ssn_location
                             : "";
+                    this.getTypeGeoFenceFilter = "GEO-04";
                     const geoLocationProvinceType = "T4";
                     this.ssnCommuneByVillageCodeId = ssnSuperProvinceCodeLocationGeo
                         ? ssnSuperProvinceCodeLocationGeo
@@ -271,12 +288,14 @@ export default{
                     const getProjectId = this.getProjectDestination ?
                         this.getProjectDestination :
                         0;
-                    const getCountryId = this.getVillagesOrgStructure ?
-                        this.getVillagesOrgStructure:
+                    const getCountryId = this.getCommuneOrgStructure ?
+                        this.getCommuneOrgStructure:
                         0;
+                    const typeHierarchy = "GeoFence";
                     this.setDepartmentDataByCountryProjectId({
                         getProjectId,
                         getCountryId,
+                        typeHierarchy
                     });
                 }
             } catch (error) {
@@ -297,6 +316,7 @@ export default{
                     communeParentId?.geo_ssn_location !== undefined ||
                     communeParentId?.geo_ssn_location !== null
                 ) {
+                    this.getTypeGeoFenceFilter = "GEO-05";
                     const villageTypeCode = "T5";
                     const superSSNCodeDistrictSelect = communeParentId?.geo_ssn_location ? communeParentId?.geo_ssn_location : null;
                     this.geoLocationCommuneVillageListOrgStr(
@@ -307,12 +327,14 @@ export default{
                     const getProjectId = this.getProjectDestination ?
                         this.getProjectDestination :
                         0;
-                    const getCountryId = this.getCommuneOrgStructure ?
-                        this.getCommuneOrgStructure :
+                    const getCountryId = this.getVillagesOrgStructure ?
+                        this.getVillagesOrgStructure:
                         0;
+                    const typeHierarchy = "GeoFence";
                     this.setDepartmentDataByCountryProjectId({
                         getProjectId,
                         getCountryId,
+                        typeHierarchy
                     });
                 }
              } catch (error) {

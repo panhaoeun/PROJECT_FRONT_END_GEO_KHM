@@ -124,8 +124,9 @@ const actions = {
      * @Hierarchy Data Chart Structure Base Project Board Manager
     */
    async setDepartmentDataByCountryProjectId({commit}, payload){    
-       const getProjectId  = payload?.getProjectId;
+        const getProjectId  = payload?.getProjectId;
         const getCountryId = payload?.getCountryId;
+        const checkHierarchyType = payload?.typeHierarchy ? payload?.typeHierarchy : '';
        let projectIdOrgStr;
        let countryIdOrgStr;
        if (getProjectId !== null && !isNaN(Number(getProjectId)) || getProjectId !== '') {
@@ -138,8 +139,10 @@ const actions = {
        }else{
             countryIdOrgStr = 0;
        }
-       geoDeptOrgStrServices.hierarchyDataOrgStructureGeoProject(projectIdOrgStr, countryIdOrgStr).then((orgDeptStr) => {
+       console.log(getCountryId)
+       geoDeptOrgStrServices.hierarchyDataOrgStructureGeoProject(projectIdOrgStr, countryIdOrgStr, checkHierarchyType).then((orgDeptStr) => {
             const getAllHierarchyData = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : {};
+            console.log(getAllHierarchyData)
             if (!orgDeptStr) {
                 commit('SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT', {});
             }else{

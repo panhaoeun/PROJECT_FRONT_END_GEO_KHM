@@ -28,8 +28,8 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async removeNewOrgStructureGeoProjectGeo(orgChartStrId, stateGeo) {
         return http.delete(`/admin/geo-location-route/remove-new-multi-level/org-chart-structures/${orgChartStrId}`, stateGeo);
     }
-    async hierarchyDataOrgStructureGeoProject(orgChartProId, orgChartCountryId, orgDataStrChart) {
-        return http.get(`/admin/geo-location-route/generate-multi-level/org-chart-structures?orgChartDeptProId=${orgChartProId}&orgChartDeptCountryId=${orgChartCountryId}}`, orgDataStrChart ? orgDataStrChart : {}).then((result) => {
+    async hierarchyDataOrgStructureGeoProject(orgChartProId, orgChartCountryId, checkTypeOrgStr, orgDataStrChart) {
+        return http.get(`/admin/geo-location-route/generate-multi-level/org-chart-structures?orgChartDeptProId=${orgChartProId}&orgChartDeptCountryId=${orgChartCountryId}}&checkTypeHierarchyStr=${checkTypeOrgStr}`, orgDataStrChart ? orgDataStrChart : {}).then((result) => {
             if (!result) {
                 return false;
             }
@@ -71,6 +71,9 @@ export default class ManageOrgChartStructureGeoProjectServices {
     }
     async removedNewOrgStrDeptPositionGeoProject(deptProId, deptPos) {
         return http.delete(`/admin/geo-location-route/remove-position-dept-filter/org-chart-structures/${deptProId}`, deptPos);
+    }
+    async modifyOrgStructureAssignEmpPos(orgChartStrId, checkAssignTypeOrgChart, orgAssignData) {
+        return http.put(`/admin/geo-location-route/assign-level-manage-emp-pos/org-chart-structures?orgChartStrId=${orgChartStrId}&checkAssignTypeOrgChart=${checkAssignTypeOrgChart}`, orgAssignData);
     }
     /** 
      * @api {post} 

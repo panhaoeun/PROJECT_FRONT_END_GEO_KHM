@@ -74,7 +74,6 @@ const actions = {
    async setDepartmentDataByCountryProjectId({commit}, payload){    
        const getProjectId  = payload?.getProjectId;
        const getCountryId = payload?.getCountryId;
-       console.log(getCountryId)
        let projectIdOrgStr;
        let countryIdOrgStr;
        if (getProjectId !== null && !isNaN(Number(getProjectId)) || getProjectId !== '') {

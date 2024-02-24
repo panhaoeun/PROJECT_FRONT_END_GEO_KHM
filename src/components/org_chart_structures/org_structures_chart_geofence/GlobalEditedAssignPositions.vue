@@ -25,13 +25,34 @@
                             empty="Empty position"
                             filter="true"
                             v-model="selectedAssignPosition"
-                            :options="openDataAssPosition"
-                            optionLabel="name"
+                            :options="getPositionBaseDeptLevelProject"
+                            optionLabel="positionKhmerName"
                             placeholder="Select a Position"
                             checkmark
                             :highlightOnSelect="false"
                             class="w-full md:w-30rem border-round-lg"
-                        />
+                        >
+                            <template #value="slotProps">
+                                <div
+                                    v-if="slotProps.value"
+                                    class="flex align-items-center"
+                                >
+                                    <div>
+                                        {{ slotProps.value?.deptPosName }}
+                                    </div>
+                                </div>
+                                <span v-else>
+                                    {{ slotProps.placeholder }}
+                                </span>
+                            </template>
+                            <template #option="slotProps">
+                                <div class="flex align-items-center">
+                                    <div>
+                                        {{ slotProps.option?.deptPosName }}
+                                    </div>
+                                </div>
+                            </template>
+                        </Dropdown>
                     </div>
                 </div>
                 <div class="flex start mlr--5">
@@ -80,10 +101,13 @@
 import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";
 import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
+import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
+import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
 import { mapActions } from "vuex";
+
 export default {
     components: {
         Spinner,
@@ -109,7 +133,13 @@ export default {
             );
         },
     },
-    mixins: [geoDeptOrgProjects, util, validation],
+    mixins: [
+        geoDeptOrgProjects,
+        util,
+        validation,
+        managerPositionOrgStructureProjectLevelZeroHelper,
+        manageOrgStrMgtPositionHelper,
+    ],
     data() {
         return {
             loadingSpinner: false,

@@ -2,12 +2,12 @@
     <!-- Popup Edited Assign Position or Manages -->
     <global-assign-positions
         v-if="openDialogAssignPoId"
-        :geoOrgProjectStrData="editPopupProjectStrData"
+        :geoOrgProjectStrData="assignOrgStrData"
         @close="closingEditDialogPositionId"
     />
     <global-assign-manager-employee
         v-if="openDialogAssignEmployeeId"
-        :geoOrgProjectStrData="editPopupProjectStrData"
+        :assignEmployeeData="assignOrgStrData"
         @close="closingEditDialogEmployee"
     />
     <!-- Menu -->
@@ -75,6 +75,13 @@ export default {
             type: Number,
             required: false,
             default: 7,
+        },
+        assignOrgStrData: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
+            }
         },
     },
     data() {

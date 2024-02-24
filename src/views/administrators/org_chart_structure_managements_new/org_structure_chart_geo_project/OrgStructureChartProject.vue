@@ -1,6 +1,7 @@
 <template>
     <div class="gap-3 my-4 flex justify-content-center">
         <org-structure-chart-geo-fence-hierarchy-level
+            :assign-org-str-data="getOrgDataAssign ? getOrgDataAssign : null"
             :datasource="
                 getConvertArrayToObjectBaseProject
                     ? getConvertArrayToObjectBaseProject
@@ -26,6 +27,7 @@ export default {
     data() {
         return {
             openDialogAssignContentMenu: false,
+            getOrgDataAssign: null
         };
     },
     props: {
@@ -64,8 +66,8 @@ export default {
     },
     methods: {
         selectNode(nodeData) {
-            console.log(nodeData);
             this.openDialogAssignContentMenu = true;
+            this.getOrgDataAssign = nodeData ? nodeData : {};
         },
         closingPopupAssignPosId() {
             this.openDialogAssignContentMenu = false;

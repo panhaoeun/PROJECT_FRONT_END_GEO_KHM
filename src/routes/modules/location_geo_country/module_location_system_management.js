@@ -9,7 +9,9 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [{
             icon: 'location',
             permissions: ['location_ms_system_module']
         },
-        component: () => import("../../../views/administrators/location_management_system/LocationSystemManagement.vue"),
+        // Backup
+        // component: () => import("../../../views/administrators/location_management_system/LocationSystemManagement.vue"),
+        component: () => import("../../../views/administrators/location_management_system/LocationFilterSystemManagement.vue"),
     },
     {
         path: "/admin/locations/management_location_system/create-location",

@@ -776,9 +776,11 @@ export default {
                 const getCountryId = this.getCountryOfGeoLocationOrgStr
                     ? this.getCountryOfGeoLocationOrgStr
                     : 0;
+                const typeHierarchy = "Project";
                 this.setDepartmentDataByCountryProjectId({
                     getProjectId,
                     getCountryId,
+                    typeHierarchy,
                 });
                 this.hideOrgStructureDeptPos = "T0";
             } catch (error) {

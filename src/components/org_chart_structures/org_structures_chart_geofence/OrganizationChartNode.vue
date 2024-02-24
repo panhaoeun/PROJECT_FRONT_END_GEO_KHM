@@ -38,7 +38,7 @@
                                     {{ String(datasource.department) ?? "" }}
                                 </h6>
                                 <span class="">
-                                    {{ datasource.position }}
+                                    {{ datasource?.position ?? "" }}
                                 </span>
                             </div>
                         </slot>
