@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submittedDialogEditGeoLocalCountry">
+    <form @submit.prevent="submittedDialogEditGeoLocalGlobalData">
         <!-- Spinner -->
         <transition name="fade" mode="out-in">
             <div class="spinner-wrapper flex layer-white" v-if="loadingSpinner">
@@ -8,8 +8,12 @@
         </transition>
         <!-- Popup Dialog Geo Locations Country -->
         <pop-over
-            v-if="geoLocationCountryData"
-            :title="`Edit Country:` + ' ' + nameCountry"
+            v-if="geoLocationGlobalData"
+            :title="
+                `Edit ${String(geoGlobalName).toString()}:` +
+                ' ' +
+                nameGeoGlobal
+            "
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -21,23 +25,23 @@
                     class="flex start mlr--5"
                     :class="{
                         invalid:
-                            !geoLocationCountryData?.geo_zip_code &&
-                            hasAddressErrors,
+                            !geoLocationGlobalData?.geo_zip_code &&
+                            hasGeoGlobalErrors,
                     }"
                 >
                     <div
                         class="input-wrap mlr-5"
                         :class="{
                             invalid:
-                                !geoLocationCountryData?.geo_zip_code &&
-                                hasAddressErrors,
+                                !geoLocationGlobalData?.geo_zip_code &&
+                                hasGeoGlobalErrors,
                         }"
                     >
                         <label
                             :class="{
                                 'p-error':
-                                    !geoLocationCountryData.geo_zip_code &&
-                                    hasAddressErrors,
+                                    !geoLocationGlobalData.geo_zip_code &&
+                                    hasGeoGlobalErrors,
                             }"
                         >
                             Zip Code
@@ -66,15 +70,15 @@
                                     : $event.preventDefault()
                             "
                             class="border-round-lg text-sm w-15rem"
-                            v-model.number="geoLocationCountryData.geo_zip_code"
+                            v-model.number="geoLocationGlobalData.geo_zip_code"
                             type="text"
                             placeholder="Zip Code"
                         />
                         <span
                             class="error"
                             v-if="
-                                !geoLocationCountryData.geo_zip_code &&
-                                hasAddressErrors
+                                !geoLocationGlobalData.geo_zip_code &&
+                                hasGeoGlobalErrors
                             "
                         >
                             {{
@@ -88,15 +92,15 @@
                         class="input-wrap mlr-5"
                         :class="{
                             invalid:
-                                !geoLocationCountryData?.geo_khmer_name &&
-                                hasAddressErrors,
+                                !geoLocationGlobalData?.geo_khmer_name &&
+                                hasGeoGlobalErrors,
                         }"
                     >
                         <label
                             :class="{
                                 'p-error':
-                                    !geoLocationCountryData.geo_khmer_name &&
-                                    hasAddressErrors,
+                                    !geoLocationGlobalData.geo_khmer_name &&
+                                    hasGeoGlobalErrors,
                             }"
                         >
                             Khmer Name
@@ -120,14 +124,14 @@
                         <InputText
                             class="border-round-lg text-sm w-15rem"
                             type="text"
-                            v-model.trim="geoLocationCountryData.geo_khmer_name"
+                            v-model.trim="geoLocationGlobalData.geo_khmer_name"
                             placeholder="Khmer Name"
                         />
                         <span
                             class="error"
                             v-if="
-                                !geoLocationCountryData.geo_khmer_name &&
-                                hasAddressErrors
+                                !geoLocationGlobalData.geo_khmer_name &&
+                                hasGeoGlobalErrors
                             "
                         >
                             {{
@@ -141,15 +145,15 @@
                         class="input-wrap mlr-5"
                         :class="{
                             invalid:
-                                !geoLocationCountryData?.geo_english_name &&
-                                hasAddressErrors,
+                                !geoLocationGlobalData?.geo_english_name &&
+                                hasGeoGlobalErrors,
                         }"
                     >
                         <label
                             :class="{
                                 'p-error':
-                                    !geoLocationCountryData.geo_english_name &&
-                                    hasAddressErrors,
+                                    !geoLocationGlobalData.geo_english_name &&
+                                    hasGeoGlobalErrors,
                             }"
                         >
                             English Name
@@ -173,7 +177,7 @@
                         <InputText
                             class="border-round-lg text-sm w-15rem"
                             v-model.trim="
-                                geoLocationCountryData.geo_english_name
+                                geoLocationGlobalData.geo_english_name
                             "
                             type="text"
                             placeholder="English Name"
@@ -181,8 +185,8 @@
                         <span
                             class="error"
                             v-if="
-                                !geoLocationCountryData.geo_english_name &&
-                                hasAddressErrors
+                                !geoLocationGlobalData.geo_english_name &&
+                                hasGeoGlobalErrors
                             "
                         >
                             {{
@@ -198,15 +202,15 @@
                         class="input-wrap mlr-5"
                         :class="{
                             invalid:
-                                !geoLocationCountryData?.geo_longitude_location &&
-                                hasAddressErrors,
+                                !geoLocationGlobalData?.geo_longitude_location &&
+                                hasGeoGlobalErrors,
                         }"
                     >
                         <label
                             :class="{
                                 'p-error':
-                                    !geoLocationCountryData.geo_longitude_location &&
-                                    hasAddressErrors,
+                                    !geoLocationGlobalData.geo_longitude_location &&
+                                    hasGeoGlobalErrors,
                             }"
                         >
                             Longitude
@@ -231,15 +235,15 @@
                             class="border-round-lg text-sm w-15rem"
                             type="text"
                             v-model="
-                                geoLocationCountryData.geo_longitude_location
+                                geoLocationGlobalData.geo_longitude_location
                             "
                             placeholder="Longitude"
                         />
                         <span
                             class="error"
                             v-if="
-                                !geoLocationCountryData.geo_longitude_location &&
-                                hasAddressErrors
+                                !geoLocationGlobalData.geo_longitude_location &&
+                                hasGeoGlobalErrors
                             "
                         >
                             {{
@@ -253,15 +257,15 @@
                         class="input-wrap mlr-5"
                         :class="{
                             invalid:
-                                !geoLocationCountryData?.geo_latitude_location &&
-                                hasAddressErrors,
+                                !geoLocationGlobalData?.geo_latitude_location &&
+                                hasGeoGlobalErrors,
                         }"
                     >
                         <label
                             :class="{
                                 'p-error':
-                                    !geoLocationCountryData.geo_latitude_location &&
-                                    hasAddressErrors,
+                                    !geoLocationGlobalData.geo_latitude_location &&
+                                    hasGeoGlobalErrors,
                             }"
                         >
                             Latitude
@@ -285,7 +289,7 @@
                         <InputText
                             class="border-round-lg text-sm w-15rem"
                             v-model="
-                                geoLocationCountryData.geo_latitude_location
+                                geoLocationGlobalData.geo_latitude_location
                             "
                             type="text"
                             placeholder="Latitude"
@@ -293,8 +297,8 @@
                         <span
                             class="error"
                             v-if="
-                                !geoLocationCountryData.geo_latitude_location &&
-                                hasAddressErrors
+                                !geoLocationGlobalData.geo_latitude_location &&
+                                hasGeoGlobalErrors
                             "
                         >
                             {{
@@ -318,10 +322,10 @@
                     </button>
                     <ajax-button
                         class="primary-btn plr-30 plr-sm-15"
-                        :fetching-data="submittingCountryData"
+                        :fetching-data="submittingGlobalData"
                         :loading-text="$t('addressPopup.saving')"
                         :text="
-                            $t('addressPopup.thisCountry', {
+                            $t('addressPopup.thisAddress', {
                                 type:
                                     editing > 0
                                         ? $t('addressPopup.update')
@@ -343,15 +347,25 @@ import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import geoLocationCountryHelper from "@/mixin/geoLocationCountryHelper";
+import geoLocationCommuneHelper from "@/mixin/geoLocationCommuneHelper";
+import geoLocationDistrictHelper from "@/mixin/geoLocationDistrictHelper";
+import geoLocationProvinceHelper from "@/mixin/geoLocationProvinceHelper";
+import geoLocationVillagesHelper from "@/mixin/geoLocationProvinceHelper";
+
 import { mapActions } from "vuex";
 
 export default {
     data() {
         return {
             editionGeoCountry: null,
-            hasAddressErrors: false,
+            hasGeoGlobalErrors: false,
+            geoLocationGlobalData: null,
+            geoLocationGeoDistrictData: null,
+            geoLocationProvinceData: null,
+            geoLocationCommuneData: null,
+            geoLocationVillagesData: null,
             geoLocationCountryData: null,
-            submittingCountryData: false,
+            submittingGlobalData: false,
             loadingSpinner: false,
         };
     },
@@ -362,8 +376,14 @@ export default {
                 return null;
             },
         },
-        geoLocalCountry: {
+        geoLocalGlobalData: {
             type: Object,
+            default() {
+                return null;
+            },
+        },
+        geoGlobalName: {
+            type: String,
             default() {
                 return null;
             },
@@ -376,11 +396,11 @@ export default {
         },
     },
     computed: {
-        nameCountry() {
-            return this.geoLocalCountry?.geo_english_name || "";
+        nameGeoGlobal() {
+            return this.geoLocalGlobalData?.geo_english_name || "";
         },
         editing() {
-            return this.geoLocalCountry && this.geoLocalCountry?.id;
+            return this.geoLocalGlobalData && this.geoLocalGlobalData?.id;
         },
     },
     components: {
@@ -388,28 +408,92 @@ export default {
         Spinner,
         AjaxButton,
     },
-    mixins: [util, validation, geoLocationCountryHelper],
+    mixins: [
+        util,
+        validation,
+        geoLocationCountryHelper,
+        geoLocationCommuneHelper,
+        geoLocationDistrictHelper,
+        geoLocationProvinceHelper,
+        geoLocationVillagesHelper,
+    ],
     async mounted() {
-        if (this.geoLocalCountry) {
-            this.geoLocationCountryData = {
-                ...this.geoLocationCountryData,
-                ...this.geoLocalCountry,
+        if (this.geoLocalGlobalData) {
+            this.geoLocationGlobalData = {
+                ...this.geoLocationGlobalData,
+                ...this.geoLocalGlobalData,
             };
         } else {
-            this.geoLocationCountryData = {
+            this.geoLocationGlobalData = {
                 id: "",
                 geo_zip_code: "",
                 geo_khmer_name: "",
                 geo_english_name: "",
                 geo_latitude_location: "",
                 geo_longitude_location: "",
+                geo_type_code: "",
+                geo_type_name: "",
             };
         }
     },
     methods: {
-        async submittedDialogEditGeoLocalCountry() {
+        async submittedDialogEditGeoLocalGlobalData() {
             try {
-                await this.geoLocationCountryActions();
+                if (
+                    this.geoLocationGlobalData?.geo_zip_code &&
+                    this.geoLocationGlobalData?.geo_khmer_name &&
+                    this.geoLocationGlobalData?.geo_english_name &&
+                    this.geoLocationGlobalData?.geo_latitude_location &&
+                    this.geoLocationGlobalData?.geo_longitude_location
+                ) {
+                    this.submittingGlobalData = true;
+                    switch (String(this.geoLocationGlobalData?.geo_type_code)) {
+                        case "T1":
+                            // code block
+                            this.geoLocationCountryData = this
+                                .geoLocationGlobalData
+                                ? this.geoLocationGlobalData
+                                : {};
+                            await this.geoLocationCountryActions();
+                            break;
+                        case "T2":
+                            // code block
+                            this.geoLocationProvinceData = this
+                                .geoLocationGlobalData
+                                ? this.geoLocationGlobalData
+                                : {};
+                            await this.geoLocationProvinceActions();
+                            break;
+                        case "T3":
+                            // code block
+                            this.geoLocationGeoDistrictData = this
+                                .geoLocationGlobalData
+                                ? this.geoLocationGlobalData
+                                : {};
+                            await this.geoLocationDistrictByProvinceActions();
+                            break;
+                        case "T4":
+                            // code block
+                            this.geoLocationCommuneData = this
+                                .geoLocationGlobalData
+                                ? this.geoLocationGlobalData
+                                : {};
+                            await this.geoLocationCommuneActions();
+                            break;
+                        case "T5":
+                            // code block
+                            this.geoLocationVillagesData = this
+                                .geoLocationGlobalData
+                                ? this.geoLocationGlobalData
+                                : {};
+                            await this.geoLocationProvinceActions();
+                            break;
+                        default:
+                    }
+                } else {
+                    this.hasGeoGlobalErrors = false;
+                    this.submittingGlobalData = true;
+                }
             } catch (error) {
                 return Promise.reject(error);
             }

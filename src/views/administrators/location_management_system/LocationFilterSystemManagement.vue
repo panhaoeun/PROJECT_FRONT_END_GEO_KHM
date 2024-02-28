@@ -50,7 +50,7 @@
                                     showClear
                                     v-model="selectedCountryOpt"
                                     :options="allCountryOrgStr"
-                                    @change="getGeoLocationCountryOrgStr()"
+                                    @click="getGeoLocationCountryOrgStr()"
                                     optionLabel="geo_english_name"
                                     filter
                                     placeholder="Select a Country"
@@ -331,7 +331,7 @@
                                 </div>
                             </div>
                             <!-- Villages -->
-                            <div class="col-6 lg:col-12 xl:col-6 field">
+                            <div class="col-4 lg:col-12 xl:col-6 field">
                                 <label
                                     for="geo_country_org_str"
                                     class="text-sm font-semibold"
@@ -405,7 +405,7 @@
                                 </div>
                             </div>
                             <!-- Filters -->
-                            <div class="col-4 lg:col-12 xl:col-6 field">
+                            <!-- <div class="col-12 lg:col-12 xl:col-6 field">
                                 <Button
                                     icon="pi pi-filter"
                                     @click.prevent="
@@ -419,7 +419,7 @@
                                     type="submit"
                                     :loading="loadingBtnSubmitted"
                                 />
-                            </div>
+                            </div> -->
                         </div>
                     </el-card>
                 </form>
@@ -431,22 +431,27 @@
                         <!-- Check Geo-fence locations-country -->
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-01'"
+                            geoName="Country"
                             :geo-fence-data-filter="allCountryOrgStr"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-02'"
+                            geoName="Province or State"
                             :geo-fence-data-filter="allStateCountryAddNewOrgStr"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-03'"
+                            geoName="District"
                             :geo-fence-data-filter="allStateDistrictAddNew"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-04'"
+                            geoName="Commune"
                             :geo-fence-data-filter="allCommuneCountryByCom"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-05'"
+                            geoName="Villages"
                             :geo-fence-data-filter="getGeoLocationVillagesData"
                         />
                         <p v-else>Please select geo-fence filter</p>
@@ -561,6 +566,7 @@ export default {
          *  @List village by commune of district
             @Search Filter Commune By Village
         * */
+
         async searchFilterLocationCommuneByVillage(validForm) {
             try {
                 this.submitted = true;
@@ -700,26 +706,15 @@ export default {
                 return false;
             }
         },
-        geoLocationCommuneVillageList(villageType, superSSNCityCode) {
+        geoLocationCountryListClick() {
             try {
-                this.geoLocationServices
-                    .listGeoLocationVillageCommune(
-                        villageType,
-                        superSSNCityCode
-                    )
-                    .then((location) => {
-                        if (!location) {
-                            this.geoLocationListArray = [];
-                        }
-                        //Villages
-                        this.getAllVillagesActions(superSSNCityCode);
-                        this.geoLocationListArray = Array.isArray(location)
-                            ? location.slice()
-                            : [];
-                    })
-                    .catch((error) => {
-                        return Promise.reject(error.message || []);
-                    });
+                this.getTypeGeoFenceFilter = "GEO-01";
+                const geoLocationCountryType = "T1";
+                this.getGeoLocationStateByCountryAddNewOrgStr(
+                    geoLocationCountryType,
+                    ""
+                );
+                console.log(geoLocationCountryType);
             } catch (error) {
                 return Promise.reject(error.message || []);
             }

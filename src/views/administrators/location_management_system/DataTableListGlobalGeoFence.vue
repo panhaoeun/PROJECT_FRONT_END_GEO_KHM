@@ -18,6 +18,7 @@
                 :globalFilterFields="[
                     'representative.geo_zip_code',
                     'geo_khmer_name',
+                    'geo_zip_code',
                     'geo_english_name',
                     'geo_longitude_location',
                     'geo_latitude_location',
@@ -29,28 +30,31 @@
                 <!-- Search Input Filter -->
                 <template #header>
                     <div class="flex flex-wrap justify-content-between gap-2">
-                        <p>Country</p>
+                        <p>{{ String(geoName).toString() }}</p>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
                             <InputText
                                 v-model="
                                     filtersGeoFenceLocations['global'].value
                                 "
-                                placeholder="Search country"
+                                :placeholder="
+                                    `Search` +
+                                    '\t' +
+                                    String(geoName).toLocaleLowerCase()
+                                "
                             />
                         </span>
                     </div>
                 </template>
                 <!-- Column -->
-                <template #empty> No geo-location country found. </template>
-                <template #loading>
-                    Loading geo-location country data. Please wait.
+                <template #empty>
+                    No geo-location
+                    {{ String(geoName).toLocaleLowerCase() }} found.
                 </template>
-                <Column
-                    selectionMode="multiple"
-                    :styless="{ width: '3rem' }"
-                    :exportable="false"
-                ></Column>
+                <template #loading>
+                    Loading geo-location
+                    {{ String(geoName).toLocaleLowerCase() }} data. Please wait.
+                </template>
                 <Column
                     field="geo_zip_code"
                     header="Zip Code"
@@ -78,7 +82,7 @@
                     sortable
                 >
                     <template #body="{ data }">
-                        {{ data?.geo_khmer_name }}
+                        {{ String(data?.geo_khmer_name).toString() }}
                     </template>
                     <!-- Filter Khmer Name -->
                     <template #filter="{ filterModel, filterCallback }">
@@ -98,7 +102,7 @@
                     sortable
                 >
                     <template #body="{ data }">
-                        {{ data?.geo_english_name }}
+                        {{ String(data?.geo_english_name).toString() }}
                     </template>
                     <!-- Filter Khmer Name -->
                     <template #filter="{ filterModel, filterCallback }">
@@ -147,13 +151,15 @@
                                     moduleName: 'fun_edit',
                                 },
                             ]"
-                            @click="editGeoLocationCountry(slotProps?.data)"
+                            @click="editGeoGlobalEditLocations(slotProps?.data)"
                         />
                         <Button
                             icon="pi pi-trash"
                             outline
                             class="p-button-rounded p-button-warning"
-                            @click="confirmDeletedGeoCountry(slotProps?.data)"
+                            @click="
+                                confirmDeletedGeoFenceLocations(slotProps?.data)
+                            "
                             v-permission="[
                                 {
                                     functionName: 'location_ms_system_module',
@@ -169,9 +175,47 @@
     <!-- Pop Edited Country -->
     <EditPopupGeoGlobalLocations
         v-if="openDialogEditGeo"
-        :geoLocalCommune="editCommunePopup"
+        :geoLocalGlobalData="getGeoLocationDataEdited"
         @close="closeDialogGeoFenceLocation"
+        :geo-global-name="geoName ? geoName : ''"
     />
+    <!-- Deleted Dialog-->
+    <Dialog
+        v-model:visible="deleteGeoFenceDialog"
+        :style="{ width: '450px' }"
+        :header="
+            'Confirm Deleted' +
+            `\t` +
+            geoName +
+            ':' +
+            `\t` +
+            getNameGeoFenLocation
+        "
+        :modal="true"
+    >
+        <div class="confirmation-content flex align-items-center">
+            <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem"
+            />
+            <span>Are you sure you want to delete</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="deleteGeoFenceDialog = false"
+            />
+            <Button
+                :label="loadingBtnGeoFenDialog ? 'Loading...' : 'Yes'"
+                icon="pi pi-check"
+                :loading="loadingBtnGeoFenDialog"
+                text
+                @click="confirmDeletedGeoFenceLocationGlobal()"
+            />
+        </template>
+    </Dialog>
 </template>
 
 <!-- Script of Delivery -->
@@ -184,6 +228,9 @@ import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 import geoLocationCommuneHelper from "@/mixin/geoLocationCommuneHelper";
+import geoLocationCountryHelper from "@/mixin/geoLocationCountryHelper";
+import geoLocationDistrictHelper from "@/mixin/geoLocationDistrictHelper";
+import geoLocationProvinceHelper from "@/mixin/geoLocationProvinceHelper";
 
 /**
  *
@@ -195,6 +242,11 @@ export default {
         geoFenceDataFilter: {
             type: Object,
             required: true,
+        },
+        geoName: {
+            type: String,
+            required: true,
+            default: () => null,
         },
     },
     components: {
@@ -209,7 +261,11 @@ export default {
             loadingGeoFence: false,
             filtersGeoFenLocal: null,
             getDataGeoFenceLocations: null,
+            getGeoLocationDataEdited: null,
+            dataRemoveGeoFenceData: null,
             openDialogEditGeo: false,
+            deleteGeoFenceDialog: false,
+            loadingBtnGeoFenDialog: false,
             filtersGeoFenceLocations: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
                 geo_zip_code: {
@@ -240,10 +296,81 @@ export default {
         geoLocationVillagesHelper,
         getGeoGlobalOrgStrLocationHelper,
         geoLocationCommuneHelper,
+        geoLocationCountryHelper,
+        geoLocationDistrictHelper,
+        geoLocationProvinceHelper,
     ],
+    computed: {
+        getNameGeoFenLocation: {
+            get() {
+                return String(
+                    this.dataRemoveGeoFenceData?.geo_english_name
+                ).toString();
+            },
+            set(value) {
+                this.$emit("update:geoName", value);
+            },
+        },
+    },
     methods: {
         closeDialogGeoFenceLocation() {
             this.openDialogEditGeo = false;
+        },
+        editGeoGlobalEditLocations(data) {
+            this.openDialogEditGeo = true;
+            this.getGeoLocationDataEdited = data ? data : {};
+        },
+        confirmDeletedGeoFenceLocations(removeData) {
+            this.deleteGeoFenceDialog = true;
+            this.dataRemoveGeoFenceData = removeData.id ? removeData : null;
+        },
+        async confirmDeletedGeoFenceLocationGlobal() {
+            try {
+                this.loadingBtnGeoFenDialog = true;
+                setTimeout(() => {
+                    this.deleteGeoFenceDialog = false;
+                    this.loadingBtnGeoFenDialog = false;
+                    const getGeoFenDelId = this.dataRemoveGeoFenceData
+                        ? this.dataRemoveGeoFenceData
+                        : null;
+                    // Successfully Reload Data
+                    switch (String(this.dataRemoveGeoFenceData.geo_type_code)) {
+                        case "T1":
+                            this.deletingGeoCountryLocationsById(
+                                getGeoFenDelId
+                            );
+                            break;
+                        case "T2":
+                            this.deletingGeoProvinceLocationsById(
+                                getGeoFenDelId
+                            );
+                            break;
+                        case "T3":
+                            this.deletingGeoDistrictLocationsById(
+                                getGeoFenDelId
+                            );
+                            break;
+                        case "T4":
+                            this.deletingGeoCommuneLocationsById(
+                                getGeoFenDelId
+                            );
+                            break;
+                        case "T5":
+                            this.deletingGeoVillageLocationsById(
+                                getGeoFenDelId
+                            );
+                            break;
+                        default:
+                            this.$notify({
+                                title: "Error remove geo-fence location unsuccessfully, please try again!",
+                                type: "success",
+                            });
+                            break;
+                    }
+                }, 1000);
+            } catch (error) {
+                throw Error(error || error.message);
+            }
         },
     },
 };

@@ -11,7 +11,70 @@
         >
             <!-- Contents -->
             <div class="address-popup popup-top-auto z-100">
-                <div class="flex start mlr--5 grid grid-nogutter">dsadasd</div>
+                <div class="flex start mlr--5 grid grid-nogutter">
+                    <!-- Table TOR -->
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Role And Responsibilities</th>
+                                <th scope="col" style="width: 1rem">4</th>
+                                <th scope="col" style="width: 1rem">3</th>
+                                <th scope="col" style="width: 1rem">2</th>
+                                <th scope="col" style="width: 1rem">1</th>
+                                <th scope="col" style="width: 1rem">0</th>
+                                <th scope="col" style="width: 20rem">Noted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Executive appointments, except CEO</td>
+                                <td>
+                                    <Checkbox
+                                        v-model="checkRatingScore"
+                                        inputId="checkRatingScore"
+                                        name="checkRatingScore"
+                                        value="Cheese"
+                                    />
+                                </td>
+                                <td>
+                                    <Checkbox
+                                        v-model="checkRatingScore"
+                                        inputId="checkRatingScore"
+                                        name="checkRatingScore"
+                                        value="Cheese"
+                                    />
+                                </td>
+                                <td>
+                                    <Checkbox
+                                        v-model="checkRatingScore"
+                                        inputId="checkRatingScore"
+                                        name="checkRatingScore"
+                                        value="Cheese"
+                                    />
+                                </td>
+                                <td>
+                                    <Checkbox
+                                        v-model="checkRatingScore"
+                                        inputId="checkRatingScore"
+                                        name="checkRatingScore"
+                                        value="Cheese"
+                                    />
+                                </td>
+                                <td>
+                                    <Checkbox
+                                        v-model="checkRatingScore"
+                                        inputId="checkRatingScore"
+                                        name="checkRatingScore"
+                                        value="Cheese"
+                                    />
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!-- Footers -->
             <template #footer>
@@ -44,6 +107,11 @@ export default {
             default: false,
             required: true,
         },
+    },
+    data() {
+        return {
+            checkRatingScore: false,
+        };
     },
     mixins: [
         managerOrgStructureProjectLevelZeroHelper,

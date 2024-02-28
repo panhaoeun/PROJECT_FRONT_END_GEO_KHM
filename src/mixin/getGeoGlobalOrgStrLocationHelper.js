@@ -9,9 +9,6 @@ export default{
             getTypeGeoFenceFilter: null
         }
     },
-    mounted() {
-        this.getGeoLocationCountryOrgStr();
-    },
     computed: {
         ...mapGetters("geoCountry", ["countryAll"]),
         ...mapGetters("geoProvince", ["provinceAll"]),
@@ -130,6 +127,7 @@ export default{
          // Get All List
         getGeoLocationCountryOrgStr() {
             try {
+                this.getTypeGeoFenceFilter = "GEO-01";
                 this.getAllCountryActions();
             } catch (error) {
                 return Promise.reject(error.message || []);

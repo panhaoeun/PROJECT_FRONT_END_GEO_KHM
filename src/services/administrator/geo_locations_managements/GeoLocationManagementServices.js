@@ -12,7 +12,7 @@ export default class GeoLocationsManagementServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error || error.message);
         });
     }
     async listGeoLocationProvinceState(stateType, superSSNStateCode) {
@@ -26,7 +26,7 @@ export default class GeoLocationsManagementServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error || error.message);
         });
     }
     async listGeoLocationDistrict(districtType, superSSNDistrictCode) {
@@ -40,7 +40,7 @@ export default class GeoLocationsManagementServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error || error.message);
         });
     }
     async listGeoLocationCommune(communeType, ssnCommuneSangkat) {
@@ -54,10 +54,10 @@ export default class GeoLocationsManagementServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error || error.message);
         });
     }
-    async listGeoLocationVillageCommune(villageType,superSSNCityCode) {
+    async listGeoLocationVillageCommune(villageType, superSSNCityCode) {
         return await http.get(`/admin/geo-location-route/village-commune-location-list?superSSNCityCode=${superSSNCityCode ? superSSNCityCode : ''}&villageCode=${villageType ? villageType : "T5"}`).then((result) => {
             if (!result) {
                 return false;
@@ -68,7 +68,22 @@ export default class GeoLocationsManagementServices {
                 }
             }
         }).catch((error) => {
-            return Promise.reject(error);
+            throw Error(error || error.message);
+        });
+    }
+    // Filter Geo-fence locations
+    async getGeoFenceLocationGlobalDataFilter(geoGlobalType, superSsnGeoFenId) {
+        return await http.get(`/admin/geo-location-route/get-geo-global-fence-base-filter-data?getGeoFenGlobal=${superSsnGeoFenId ? superSsnGeoFenId : ''}&geoGlobalType=${geoGlobalType ? geoGlobalType : "T1"}`).then((result) => {
+            if (!result) {
+                return false;
+            }
+            if (result.status == 200) {
+                if (result.data.success == true) {
+                    return result.data.result.resultStatus;
+                }
+            }
+        }).catch((error) => {
+            throw Error(error || error.message);
         });
     }
     /** 
@@ -93,7 +108,7 @@ export default class GeoLocationsManagementServices {
     /** 
      * @api {put} 
      *  @api (Country,Province,District,Commune,Village)
-    */
+     */
     async editingCountryGeoLocation(geoCountryId, countryGeo) {
         return http.put(`/admin/geo-location-route/edited-new-location-country-geo/${geoCountryId}`, countryGeo);
     }
@@ -109,10 +124,17 @@ export default class GeoLocationsManagementServices {
     async editingVillageByCommuneGeoLocation(geoVillageId, villageGeo) {
         return http.put(`/admin/geo-location-route/edited-new-location-village-geo/${geoVillageId}`, villageGeo);
     }
+    // Geo-Fence locations data 
+    async editGlobalGeoDataLocations(geoGlobalId, geoLocation) {
+        return http.put(`/admin/geo-location-route/modify-geo-global-fence/${geoGlobalId}`, geoLocation);
+    }
+    async removedGlobalGeoDataLocations(geoGlobalId, geoLocation) {
+        return http.put(`/admin/geo-location-route/modify-geo-global-fence/${geoGlobalId}`, geoLocation);
+    }
     /** 
      * @api {deleted} 
      *  @api (Country,Province,District,Commune,Village)
-    */
+     */
     async deletedCountryGeoLocation(geoCountryId, countryGeo) {
         return http.delete(`/admin/geo-location-route/deleted-renew-location-country-geo/${geoCountryId}`, countryGeo);
     }
