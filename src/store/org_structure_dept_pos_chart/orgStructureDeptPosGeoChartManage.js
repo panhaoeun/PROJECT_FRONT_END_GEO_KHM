@@ -66,7 +66,6 @@ const mutations = {
      * @Hierarchy Data base Org - Structure Chart - Position Management Structure
     * */
     SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT(state, orgBoardMgtStr){
-        console.log(orgBoardMgtStr)
         state.orgBoardMgtStr = orgBoardMgtStr ? orgBoardMgtStr : {};
     },
     // Get Relist Position of Department base project or country
@@ -135,7 +134,7 @@ const actions = {
        countryIdOrgStr = parseInt(getCountryId) ? parseInt(getCountryId) : 0;
        geoDeptOrgStrServices.hierarchyDataOrgStructureGeoProject(projectIdOrgStr, countryIdOrgStr, checkHierarchyType).then((orgDeptStr) => {
             const getAllHierarchyData = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : {};
-            console.log(getAllHierarchyData)
+            console.log(getProjectId, getCountryId)
             if (!orgDeptStr) {
                 commit('SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT', {});
             }else{

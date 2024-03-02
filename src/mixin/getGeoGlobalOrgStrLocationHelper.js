@@ -63,10 +63,11 @@ export default{
         },
         getProvinceOrgStructure() {
             const getProvince = this.selectedProvinceOptOrgStr || this.selectedProvinceOptOrgStr;
-            if (!getProvince || getProvince !== null) {
-                return parseInt(getProvince?.id) ? parseInt(getProvince?.id) : 0;
+            let getProvinceId;
+            if (getProvince !== null) {
+                getProvinceId = Number(getProvince?.id )? Number(getProvince?.id ) : 0;
             }
-            return getProvince;
+            return getProvinceId;
         },
         getProvinceOrgStructureName() {
             const getCountry =
@@ -182,12 +183,12 @@ export default{
             }
         },
         getProvinceByCountrySelectedOrgStr(countryParentId) {
-            if (
-                !Array.isArray(countryParentId) ||
-                !countryParentId?.length > 0
-            ) {
-                this.selectedProvinceOptOrgStr = null;
-            }
+            // if (
+            //     !Array.isArray(countryParentId) ||
+            //     !countryParentId?.length > 0
+            // ) {
+            //     // this.selectedProvinceOptOrgStr = null;
+            // }
             /**
              * @Check Clear District
              * */
@@ -238,12 +239,12 @@ export default{
             }
         },
         getDistrictByProvinceSelectedOrgStr(provinceParentId) {
-            if (
-                !Array.isArray(provinceParentId) ||
-                !provinceParentId?.length > 0
-            ) {
-                this.selectedDistrictOptOrgStr = null;
-            }
+            // if (
+            //     !Array.isArray(provinceParentId) ||
+            //     !provinceParentId?.length > 0
+            // ) {
+            //     this.selectedDistrictOptOrgStr = null;
+            // }
             /**
              * @Check Clear Commune
              * */
@@ -294,12 +295,12 @@ export default{
             }
         },
         getCommuneByDistrictSelectedOrgStr(districtParentId) {
-            if (
-                !Array.isArray(districtParentId) ||
-                !districtParentId?.length > 0
-            ) {
-                this.selectedCommuneOptOrgStr = null;
-            }
+            // if (
+            //     !Array.isArray(districtParentId) ||
+            //     !districtParentId?.length > 0
+            // ) {
+            //     this.selectedCommuneOptOrgStr = null;
+            // }
             /**
              * @Check Clear Commune
             * */
@@ -354,7 +355,7 @@ export default{
                     !Array.isArray(communeParentId) ||
                     !communeParentId?.length > 0
                 ) {
-                    this.selectedVillagesOptOrgStr = null;
+                    // this.selectedVillagesOptOrgStr = null;
                     this.hideOrgStructureDeptPos = "T5";
                 }
                 if (
