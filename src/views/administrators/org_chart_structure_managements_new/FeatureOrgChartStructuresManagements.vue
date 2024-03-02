@@ -188,7 +188,7 @@
                                     :options="allStateCountryAddNewOrgStr"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @change="
+                                    @click="
                                         getProvinceByCountrySelectedOrgStr(
                                             selectedCountryOptOrgStr
                                         )
@@ -281,7 +281,7 @@
                                     :options="allStateDistrictAddNew"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @change="
+                                    @click.prevent="
                                         getDistrictByProvinceSelectedOrgStr(
                                             selectedProvinceOptOrgStr
                                         )
@@ -373,7 +373,7 @@
                                     :options="allCommuneCountryByCom"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @change="
+                                    @click.prevent="
                                         getCommuneByDistrictSelectedOrgStr(
                                             selectedDistrictOptOrgStr
                                         )
@@ -465,7 +465,7 @@
                                     :options="getGeoLocationVillagesData"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @change="
+                                    @click.prevent="
                                         getVillagesBySelectedOrgStr(
                                             selectedCommuneOptOrgStr
                                         )
