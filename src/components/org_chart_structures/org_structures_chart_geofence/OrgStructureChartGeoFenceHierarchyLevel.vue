@@ -10,6 +10,20 @@
         :assignEmployeeData="assignOrgStrData"
         @close="closingEditDialogEmployee"
     />
+    <globalList-assign-employee
+        :department-name="getOrgDeptName ? getOrgDeptName : ''"
+        v-if="openDialogListEmpHierarchy"
+        @close="closingDialogListEmpHierarchy"
+        :countEmp="4"
+    />
+    <!-- Org-Structures Data Container-->
+    <div class="org-structures container text-center">
+        <div class="justify-content-center align-item-center">
+            <h5 class="font-bold">
+                Organization Chart of {{ String(orgMainName).toString() }}
+            </h5>
+        </div>
+    </div>
     <!-- Menu -->
     <Menu ref="menu" id="overlay_menu" :model="contentMenu" :popup="true" />
     <div
@@ -46,14 +60,20 @@ import $ from "jquery";
 import OrganizationChartNode from "./OrganizationChartNode.vue";
 import GlobalAssignPositions from "./GlobalEditedAssignPositions";
 import GlobalAssignManagerEmployee from "./GlobalEditedAssignEmployee.vue";
+import GlobalListAssignEmployee from "./GlobalListEmployeeOfMainOrg";
 export default {
     name: "Hierarchy",
     components: {
         OrganizationChartNode,
         GlobalAssignPositions,
         GlobalAssignManagerEmployee,
+        GlobalListAssignEmployee,
     },
     props: {
+        orgMainName: {
+            type: String,
+            required: false,
+        },
         datasource: {
             type: Object,
             required: true,
@@ -81,12 +101,13 @@ export default {
             required: false,
             default: () => {
                 return {};
-            }
+            },
         },
     },
     data() {
         return {
             openDialogAssignEmployeeId: false,
+            getOrgDeptName: "",
             cursorVal: "default",
             panning: false,
             startX: 0,
@@ -94,12 +115,19 @@ export default {
             transformVal: "",
             contentMenu: [
                 {
-                    label: "Manage Position",
-                    icon: "pi pi-cog",
+                    label: "View Employee",
+                    icon: "pi pi-user",
                     command: () => {
-                        this.openDialogAssignPosition();
+                        this.openDialogListEmpHierarchyGlobal();
                     },
                 },
+                // {
+                //     label: "Manage Position",
+                //     icon: "pi pi-cog",
+                //     command: () => {
+                //         this.openDialogAssignPosition();
+                //     },
+                // },
                 {
                     label: "Manage Manager",
                     icon: "pi pi-user-plus",
@@ -108,6 +136,7 @@ export default {
                     },
                 },
             ],
+            openDialogListEmpHierarchy: false,
             openDialogAssignPoId: false,
         };
     },
@@ -125,10 +154,22 @@ export default {
         openDialogAssignEmployee() {
             this.openDialogAssignEmployeeId = true;
         },
-
+        closingDialogListEmpHierarchy() {
+            this.openDialogListEmpHierarchy = false;
+        },
+        openDialogListEmpHierarchyGlobal() {
+            this.openDialogListEmpHierarchy = true;
+        },
         handleClick(nodeData) {
             this.$refs.menu.show(event);
             this.$emit("node-click", nodeData);
+            /*
+            @Get Org-Structure Data 
+            */
+            this.getOrgStructureData(nodeData);
+        },
+        getOrgStructureData(data) {
+            this.getOrgDeptName = String(data?.department);
         },
         panEndHandler() {
             this.panning = false;

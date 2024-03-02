@@ -145,6 +145,8 @@ import AccordionTab from 'primevue/accordiontab';
 
 import VueSocialSharing from 'vue-social-sharing';
 import TreeSelect from 'primevue/treeselect';
+import DataView from 'primevue/dataview';
+import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions' // optional
 
 
 
@@ -259,6 +261,8 @@ app.component('ProgressSpinner', ProgressSpinner);
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
 app.component('TreeSelect', TreeSelect);
+app.component('DataView', DataView);
+app.component('DataViewLayoutOptions', DataViewLayoutOptions);
 /*
     @Front-End Library 
 */

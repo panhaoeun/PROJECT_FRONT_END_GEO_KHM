@@ -16,7 +16,7 @@
                         @contextmenu.prevent="handleClick(datasource)"
                     >
                         <slot :node-data="datasource">
-                            <div class="title">
+                            <div class="title w-20rem">
                                 <div class="avatar">
                                     <avatar-icons-org-chart
                                         sizeHeight="70"
@@ -33,9 +33,14 @@
                                     }}
                                 </span>
                             </div>
-                            <div class="content">
+                            <div class="content gap-10 w-20rem">
+                                <!-- Khmer Name -->
+                                <h5 class="mt-2 px-2 py-2">
+                                    {{ datasource.departmentKH ?? "" }}
+                                </h5>
                                 <h6 class="text-sm">
-                                    {{ String(datasource.department) ?? "" }}
+                                    {{ datasource.department ?? "" }}
+                                    <!-- {{ String(datasource.department) ?? "" }} -->
                                 </h6>
                                 <span class="">
                                     {{ datasource?.position ?? "" }}

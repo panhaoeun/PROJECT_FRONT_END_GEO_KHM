@@ -1,5 +1,5 @@
 <template>
-    <div class="gap-3 my-4 flex justify-content-center">
+    <div class="gap-3 my-4 flex justify-content-center flex-column">
         <org-structure-chart-geo-fence-hierarchy-level
             :assign-org-str-data="getOrgDataAssign ? getOrgDataAssign : null"
             :datasource="
@@ -7,6 +7,7 @@
                     ? getConvertArrayToObjectBaseProject
                     : {}
             "
+            :org-main-name="orgStrMainName ? orgStrMainName : null"
             pan="true"
             @node-click="selectNode"
         >
@@ -27,10 +28,15 @@ export default {
     data() {
         return {
             openDialogAssignContentMenu: false,
-            getOrgDataAssign: null
+            getOrgDataAssign: null,
         };
     },
     props: {
+        orgStrMainName: {
+            type: String,
+            require: true,
+            default: () => null,
+        },
         orgDataStrProjects: {
             type: Object,
             require: true,

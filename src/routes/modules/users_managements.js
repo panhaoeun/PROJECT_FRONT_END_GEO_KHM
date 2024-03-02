@@ -150,6 +150,32 @@ const defaultChildRoutesUsersMS = (prefix) => [
         component: () => import("../../views/vendors/vendor_management_account/UpdatedVendorAccount.vue"),
     },
     /**
+     * @Manage User Auth Role Module
+     ***/
+    {
+        path: "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module",
+        name: prefix + '.hrm_assign_employee',
+        meta: {
+            title: "userEmployee",
+            icon: 'bag',
+            requiresAuth: true,
+            permissions: ['users_modules']
+        },
+        component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/ListEmployeeGlobalAdminGeo.vue"),
+    },
+    {
+        path: "/admin/admin-management-employee-assign/hrm-add-new-employee-role-module",
+        name: prefix + '.hrm_assign_employee_add_new',
+        meta: {
+            title: "userEmployee",
+            icon: 'bag',
+            requiresAuth: true,
+            permissions: ['users_modules']
+        },
+        hidden: true,
+        component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/AddNewEmployeeGlobalAdminGeo.vue"),
+    },
+    /**
      * @Role and Permissions Managements
      * **/
     {
@@ -197,11 +223,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         },
         component: () => import("../../views/administrators/user_managements/role_permission_module_new/CreatePermissionRole.vue"),
     },
-    /**
-     * @Manage All Permission By Geo-fence
-     * @Manage on position by department with multiple level on geo-fence
-     * @Assign Position to user on geo-fence
-     * **/
+
 ]
 const moduleUsersManagementRouters = {
     path: '/vendor/users_managements',

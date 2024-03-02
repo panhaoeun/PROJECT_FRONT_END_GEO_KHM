@@ -27,7 +27,9 @@
                                     v-model="selectedProject"
                                     :options="optProjectByPermissionList"
                                     optionLabel="project_name"
-                                    @change="onClickChangeProjectList()"
+                                    @click.prevent="
+                                        getHierarchyDataOrgStrBoardMgt()
+                                    "
                                     placeholder="Select a projects"
                                     class="w-full text-sm"
                                     inputId="project_name"
@@ -70,7 +72,7 @@
                                     :orgDeptProId="
                                         getProjectDestination
                                             ? getProjectDestination
-                                            : null
+                                            : 0
                                     "
                                     v-if="
                                         selectedProject !== null &&
@@ -94,7 +96,9 @@
                                     v-model="selectedCountryOptOrgStr"
                                     :options="allCountryOrgStr"
                                     optionLabel="geo_english_name"
-                                    @change="onChangeSelectedCountryGeoOrgStr()"
+                                    @click.prevent="
+                                        onChangeSelectedCountryGeoOrgStr()
+                                    "
                                     filter
                                     placeholder="Select a Country"
                                     class="w-full text-sm"
@@ -148,7 +152,7 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Country-->
-                                <popup-add-edit-global-assign-org-project
+                                <popup-add-edit-global-assign-org-country
                                     orgDeptLevel="SL01"
                                     :orgDeptGeoFenceId="
                                         getCountryOfGeoLocationOrgStr
@@ -184,7 +188,7 @@
                                     :options="allStateCountryAddNewOrgStr"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @click="
+                                    @change="
                                         getProvinceByCountrySelectedOrgStr(
                                             selectedCountryOptOrgStr
                                         )
@@ -241,7 +245,7 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Province or State-->
-                                <popup-add-edit-global-assign-org-project
+                                <popup-add-edit-global-assign-org-province
                                     v-if="
                                         selectedProject !== null &&
                                         selectedProvinceOptOrgStr != null &&
@@ -277,7 +281,7 @@
                                     :options="allStateDistrictAddNew"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @click="
+                                    @change="
                                         getDistrictByProvinceSelectedOrgStr(
                                             selectedProvinceOptOrgStr
                                         )
@@ -334,7 +338,7 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for District-->
-                                <popup-add-edit-global-assign-org-project
+                                <popup-add-edit-global-assign-org-district
                                     v-if="
                                         selectedDistrictOptOrgStr != null &&
                                         hideOrgStructureDeptPos === 'T3'
@@ -369,7 +373,7 @@
                                     :options="allCommuneCountryByCom"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @click="
+                                    @change="
                                         getCommuneByDistrictSelectedOrgStr(
                                             selectedDistrictOptOrgStr
                                         )
@@ -426,7 +430,7 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Commune-->
-                                <popup-add-edit-global-assign-org-project
+                                <popup-add-edit-global-assign-org-commune
                                     v-if="
                                         selectedCommuneOptOrgStr != null &&
                                         hideOrgStructureDeptPos === 'T4'
@@ -461,7 +465,7 @@
                                     :options="getGeoLocationVillagesData"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @click="
+                                    @change="
                                         getVillagesBySelectedOrgStr(
                                             selectedCommuneOptOrgStr
                                         )
@@ -518,7 +522,7 @@
                                     </template>
                                 </Dropdown>
                                 <!--Popup Assign Org-Structures or Positions for Villages-->
-                                <popup-add-edit-global-assign-org-project
+                                <popup-add-edit-global-assign-org-village
                                     v-if="
                                         selectedVillagesOptOrgStr != null &&
                                         hideOrgStructureDeptPos === 'T5'
@@ -554,6 +558,11 @@
                                 ? getAllBoardManagerOfProjectOrgStructureChart01
                                 : {}
                         "
+                        :org-str-main-name="
+                            getProjectDestinationName
+                                ? getProjectDestinationName
+                                : ''
+                        "
                         :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on country-->
@@ -567,6 +576,11 @@
                             getAllBoardManagerOfProjectOrgStructureChart02
                                 ? getAllBoardManagerOfProjectOrgStructureChart02
                                 : {}
+                        "
+                        :org-str-main-name="
+                            getCountryOfGeoLocationOrgStrName
+                                ? getCountryOfGeoLocationOrgStrName
+                                : ''
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
                     />
@@ -582,6 +596,11 @@
                                 ? getAllBoardManagerOfProjectOrgStructureChart03
                                 : {}
                         "
+                        :org-str-main-name="
+                            getProvinceOrgStructureName
+                                ? getProvinceOrgStructureName
+                                : ''
+                        "
                         :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on district-->
@@ -595,18 +614,28 @@
                                 ? getAllBoardManagerOfProjectOrgStructureChart04
                                 : {}
                         "
+                        :org-str-main-name="
+                            getDistrictOrgStructureName
+                                ? getDistrictOrgStructureName
+                                : ''
+                        "
                         :projectIdOrgStructSelected="getProjectDestination"
                     />
                     <!-- Manage Org-Structures(Geo Fencing) on commune-->
                     <org-structure-chart-base-commune
                         v-if="
                             selectedProject !== null &&
-                            hideOrgStructureDeptPos === 'T3'
+                            hideOrgStructureDeptPos === 'T4'
                         "
                         :orgDataStrProjects="
                             getAllBoardManagerOfProjectOrgStructureChart05
                                 ? getAllBoardManagerOfProjectOrgStructureChart05
                                 : {}
+                        "
+                        :org-str-main-name="
+                            getCommuneOrgStructureName
+                                ? getCommuneOrgStructureName
+                                : ''
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
                     />
@@ -620,6 +649,11 @@
                             getAllBoardManagerOfProjectOrgStructureChart06
                                 ? getAllBoardManagerOfProjectOrgStructureChart06
                                 : {}
+                        "
+                        :org-str-main-name="
+                            getVillagesOrgStructureName
+                                ? getVillagesOrgStructureName
+                                : ''
                         "
                         :projectIdOrgStructSelected="getProjectDestination"
                     />
@@ -664,6 +698,11 @@ import { mapActions } from "vuex";
  *@Global Popup Group Org-structure and Positions
  **/
 import PopupAddEditGlobalAssignOrgProject from "./popup_prepare_org_global_dept/popup_org_project_dept_global/PopupAddEditGlobalAssignOrgPro";
+import PopupAddEditGlobalAssignOrgCountry from "./popup_prepare_org_global_dept/popup_org_project_dept_global/PopupAddEditGlobalAssignOrgCountry";
+import PopupAddEditGlobalAssignOrgProvince from "./popup_prepare_org_global_dept/popup_org_project_dept_global/PopupAddEditGlobalAssignOrgProvince";
+import PopupAddEditGlobalAssignOrgDistrict from "./popup_prepare_org_global_dept/popup_org_project_dept_global/PopupAddEditGlobalAssignOrgDistrict";
+import PopupAddEditGlobalAssignOrgCommune from "./popup_prepare_org_global_dept/popup_org_project_dept_global/PopupAddEditGlobalAssignOrgCommune";
+import PopupAddEditGlobalAssignOrgVillage from "./popup_prepare_org_global_dept/popup_org_project_dept_global/PopupAddEditGlobalAssignOrgVillages";
 /**
  * Global Prepare Organization-Structure Position and Department Chart
  * */
@@ -677,6 +716,11 @@ import OrgStructureChartBaseVillages from "./org_structure_chart_geo_project/Org
 export default {
     components: {
         PopupAddEditGlobalAssignOrgProject,
+        PopupAddEditGlobalAssignOrgCountry,
+        PopupAddEditGlobalAssignOrgProvince,
+        PopupAddEditGlobalAssignOrgDistrict,
+        PopupAddEditGlobalAssignOrgCommune,
+        PopupAddEditGlobalAssignOrgVillage,
         OrgStructureChartBaseProject,
         OrgStructureChartBaseCountry,
         OrgStructureChartBaseProvinces,
@@ -734,9 +778,6 @@ export default {
     created() {
         this.permissionRoleProject = new ManagePermissionsRoleBaseProject();
     },
-    mounted() {
-        this.getAllProjectObj();
-    },
     methods: {
         ...mapActions("orgStrDeptPosGeo", [
             "setDepartmentDataByCountryProjectId",
@@ -765,24 +806,27 @@ export default {
             });
         },
         // Level Org-Structures
-        onClickChangeProjectList() {
-            this.getHierarchyDataOrgStrBoardMgt();
-        },
-        getHierarchyDataOrgStrBoardMgt() {
+        async getHierarchyDataOrgStrBoardMgt() {
             try {
-                const getProjectId = this.getProjectDestination
-                    ? this.getProjectDestination
-                    : 0;
-                const getCountryId = this.getCountryOfGeoLocationOrgStr
-                    ? this.getCountryOfGeoLocationOrgStr
-                    : 0;
-                const typeHierarchy = "Project";
-                this.setDepartmentDataByCountryProjectId({
-                    getProjectId,
-                    getCountryId,
-                    typeHierarchy,
-                });
-                this.hideOrgStructureDeptPos = "T0";
+                if (
+                    !Array.isArray(this.selectedProject) ||
+                    this.selectedProject !== undefined ||
+                    this.selectedProject !== null
+                ) {
+                    // Get All Projects
+                    this.getAllProjectObj();
+                    const getProjectId = this.getProjectDestination
+                        ? this.getProjectDestination
+                        : 0;
+                    const getCountryId = 0;
+                    const typeHierarchy = "Project";
+                    this.getReloadOrgChartByDeptGeoProject(
+                        getProjectId,
+                        getCountryId,
+                        typeHierarchy
+                    );
+                    this.hideOrgStructureDeptPos = "T0";
+                }
             } catch (error) {
                 throw Error(error);
             }

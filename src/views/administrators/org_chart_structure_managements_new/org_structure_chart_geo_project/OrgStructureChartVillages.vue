@@ -1,5 +1,5 @@
 <template>
-    <div class="gap-3 my-4 flex justify-content-center">
+    <div class="gap-3 my-4 flex justify-content-center flex-column">
         <org-structure-chart-geo-fence-hierarchy-level
             :datasource="
                 getConvertArrayToObjectBaseProject
@@ -8,6 +8,7 @@
             "
             pan="true"
             @node-click="selectNode"
+            :org-main-name="orgStrMainName ? orgStrMainName : null"
         >
             <template v-slot="{ nodeData }">
                 <b @click="selectNode(nodeData)">{{ nodeData.name }}</b>
@@ -29,6 +30,11 @@ export default {
         };
     },
     props: {
+        orgStrMainName: {
+            type: String,
+            require: true,
+            default: () => null,
+        },
         orgDataStrProjects: {
             type: Object,
             require: true,

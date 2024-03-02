@@ -31,7 +31,7 @@
         </div>
         <!-- Dropdown Chart Org -->
         <i
-            class="tree-node__icon tree-ocl"
+            class="tree-ocl"
             role="presentation"
             @click="handleItemToggle"
             :class="{
@@ -41,7 +41,7 @@
         ></i>
         <div :class="anchorClasses" v-on="events">
             <i
-                class="tree-node__icon tree-checkbox"
+                class="tree-node__icon"
                 role="presentation"
                 :class="{
                     'no-filder': !isFolder,
@@ -54,10 +54,13 @@
                     role="presentation"
                     v-if="!model.loading"
                 ></i>
-                <span
-                    class="tree-node__text"
-                    v-html="model[textFieldName]"
-                ></span>
+                <span class="tree-node__text">{{
+                    truncateLongTextTree(
+                        String(model[textFieldName]).toString(),
+                        20,
+                        "\b"
+                    )
+                }}</span>
             </slot>
         </div>
         <!-- Tree View Item -->
@@ -100,7 +103,15 @@
                         role="presentation"
                         v-if="!model.loading"
                     ></i>
-                    <span v-html="String(child?.text).toString() || ''"></span>
+                    <span
+                        v-html="
+                            truncateLongTextTree(
+                                String(child?.text).toString(),
+                                15,
+                                '\b'
+                            ) || ''
+                        "
+                    ></span>
                 </template>
             </tree-view-item>
         </ul>
@@ -254,6 +265,17 @@ export default {
         },
     },
     methods: {
+        truncateLongTextTree(str, length, useWordBoundary) {
+            if (str.length <= length) {
+                return str;
+            }
+            const subString = str.slice(0, length - 1); // the original check
+            return (
+                (useWordBoundary
+                    ? subString.slice(0, subString.lastIndexOf(" "))
+                    : subString) + "..."
+            );
+        },
         handleItemToggle() {
             if (this.isFolder) {
                 this.model.opened = !this.model.opened;

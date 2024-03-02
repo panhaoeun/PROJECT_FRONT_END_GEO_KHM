@@ -29,7 +29,7 @@ export default class ManageOrgChartStructureGeoProjectServices {
         return http.delete(`/admin/geo-location-route/remove-new-multi-level/org-chart-structures/${orgChartStrId}`, stateGeo);
     }
     async hierarchyDataOrgStructureGeoProject(orgChartProId, orgChartCountryId, checkTypeOrgStr, orgDataStrChart) {
-        return http.get(`/admin/geo-location-route/generate-multi-level/org-chart-structures?orgChartDeptProId=${orgChartProId}&orgChartDeptCountryId=${orgChartCountryId}}&checkTypeHierarchyStr=${checkTypeOrgStr}`, orgDataStrChart ? orgDataStrChart : {}).then((result) => {
+        return http.get(`/admin/geo-location-route/generate-multi-level/org-chart-structures?orgChartDeptProId=${orgChartProId}&orgChartDeptCountryId=${orgChartCountryId}&checkTypeHierarchyStr=${checkTypeOrgStr}`, orgDataStrChart ? orgDataStrChart : {}).then((result) => {
             if (!result) {
                 return false;
             }

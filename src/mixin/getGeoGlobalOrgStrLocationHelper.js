@@ -33,8 +33,15 @@ export default{
         // Selected Value Selected
         getProjectDestination() {
             const getProject = this.selectedProject || this.selectedProject;
+            if (getProject !== null) {
+                return getProject?.id ? getProject?.id : 0;
+            }
+            return 1;
+        },
+        getProjectDestinationName() {
+            const getProject = this.selectedProject || this.selectedProject;
             if (!getProject || getProject !== null) {
-                return parseInt(getProject?.id) ? parseInt(getProject?.id) : 0;
+                return String(getProject?.project_name) ? String(getProject?.project_name) : '';
             }
             return getProject;
         },
@@ -46,12 +53,28 @@ export default{
             }
             return getCountry;
         },
+        getCountryOfGeoLocationOrgStrName() {
+            const getCountry =
+                this.selectedCountryOptOrgStr || this.selectedCountryOptOrgStr;
+            if (!getCountry || getCountry !== null) {
+                return String(getCountry?.geo_english_name) ? String(getCountry?.geo_english_name) : '';
+            }
+            return getCountry;
+        },
         getProvinceOrgStructure() {
             const getProvince = this.selectedProvinceOptOrgStr || this.selectedProvinceOptOrgStr;
             if (!getProvince || getProvince !== null) {
                 return parseInt(getProvince?.id) ? parseInt(getProvince?.id) : 0;
             }
             return getProvince;
+        },
+        getProvinceOrgStructureName() {
+            const getCountry =
+                this.selectedProvinceOptOrgStr || this.selectedProvinceOptOrgStr;
+            if (!getCountry || getCountry !== null) {
+                return String(getCountry?.geo_english_name) ? String(getCountry?.geo_english_name) : '';
+            }
+            return getCountry;
         },
         getDistrictOrgStructure() {
             const getDistrict = this.selectedDistrictOptOrgStr || this.selectedDistrictOptOrgStr;
@@ -60,6 +83,14 @@ export default{
             }
             return getDistrict;
         },
+        getDistrictOrgStructureName() {
+            const getCountry =
+                this.selectedDistrictOptOrgStr || this.selectedDistrictOptOrgStr;
+            if (!getCountry || getCountry !== null) {
+                return String(getCountry?.geo_english_name) ? String(getCountry?.geo_english_name) : '';
+            }
+            return getCountry;
+        },
         getCommuneOrgStructure() {
             const getCommune = this.selectedCommuneOptOrgStr || this.selectedCommuneOptOrgStr;
             if (!getCommune || getCommune !== null) {
@@ -67,12 +98,28 @@ export default{
             }
             return getCommune;
         },
+        getCommuneOrgStructureName() {
+            const getCountry =
+                this.selectedCommuneOptOrgStr || this.selectedCommuneOptOrgStr;
+            if (!getCountry || getCountry !== null) {
+                return String(getCountry?.geo_english_name) ? String(getCountry?.geo_english_name) : '';
+            }
+            return getCountry;
+        },
         getVillagesOrgStructure() {
             const getVillages = this.selectedVillagesOptOrgStr || this.selectedVillagesOptOrgStr;
             if (!getVillages || getVillages !== null) {
                 return parseInt(getVillages?.id) ? parseInt(getVillages?.id) : 0;
             }
             return getVillages;
+        },
+        getVillagesOrgStructureName() {
+            const getCountry =
+                this.selectedVillagesOptOrgStr || this.selectedVillagesOptOrgStr;
+            if (!getCountry || getCountry !== null) {
+                return String(getCountry?.geo_english_name) ? String(getCountry?.geo_english_name) : '';
+            }
+            return getCountry;
         },
     },
     methods: {
@@ -105,7 +152,6 @@ export default{
             ) {
                 this.selectedProvinceOptOrgStr = null;
                 this.hideOrgStructureDeptPos = "T1"
-                this.getTypeGeoFenceFilter = "GEO-01";
                 // Org-Structure Country's
                 const getProjectId = this.getProjectDestination ?
                     this.getProjectDestination :
@@ -114,6 +160,8 @@ export default{
                     this.getCountryOfGeoLocationOrgStr:
                     0;
                 const typeHierarchy = "GeoFence";
+                // Get Country
+                this.getGeoLocationCountryOrgStr();
                 this.setDepartmentDataByCountryProjectId({
                     getProjectId,
                     getCountryId,
@@ -179,11 +227,11 @@ export default{
                         this.getProvinceOrgStructure:
                         0;
                     const typeHierarchy = "GeoFence";
-                    this.setDepartmentDataByCountryProjectId({
+                    this.getReloadOrgChartByDeptGeoProject(
                         getProjectId,
                         getCountryId,
                         typeHierarchy
-                    });
+                    );
                 }
             } catch (error) {
                 return Promise.reject(error);
@@ -235,11 +283,11 @@ export default{
                         this.getDistrictOrgStructure:
                         0;
                     const typeHierarchy = "GeoFence";
-                    this.setDepartmentDataByCountryProjectId({
+                this.getReloadOrgChartByDeptGeoProject(
                         getProjectId,
                         getCountryId,
                         typeHierarchy
-                    });
+                    );
                 }
             } catch (error) {
                 return Promise.reject(error);
@@ -290,11 +338,11 @@ export default{
                         this.getCommuneOrgStructure:
                         0;
                     const typeHierarchy = "GeoFence";
-                    this.setDepartmentDataByCountryProjectId({
+                    this.getReloadOrgChartByDeptGeoProject(
                         getProjectId,
                         getCountryId,
                         typeHierarchy
-                    });
+                    );
                 }
             } catch (error) {
                 return Promise.reject(error);
@@ -329,15 +377,30 @@ export default{
                         this.getVillagesOrgStructure:
                         0;
                     const typeHierarchy = "GeoFence";
-                    this.setDepartmentDataByCountryProjectId({
+                    this.getReloadOrgChartByDeptGeoProject(
                         getProjectId,
                         getCountryId,
                         typeHierarchy
-                    });
+                    );
                 }
              } catch (error) {
                  return false;
              }
+        },
+        // Get reload data organization-chart
+        async getReloadOrgChartByDeptGeoProject(projectId, countryId, typeHierarchyGeoProject){
+            const getProjectId = projectId ?
+                projectId:
+                0;
+            const getCountryId = countryId ?
+                countryId:
+                0;
+            const typeHierarchy = typeHierarchyGeoProject ? typeHierarchyGeoProject  : "GeoFence";
+            this.setDepartmentDataByCountryProjectId({
+                getProjectId,
+                getCountryId,
+                typeHierarchy
+            });
         },
         /**
          * @Get Function Organization Chart Data Source Vuex Actions

@@ -25,7 +25,7 @@
         :org-structure-level="orgDeptLevel ? orgDeptLevel : ''"
         :org-structure-geo-id="orgDeptGeoFenceId ? orgDeptGeoFenceId : 0"
         :projectId="orgDeptProId ? orgDeptProId : 0"
-        :orgStructureData="getAllBoardManagerOfProjectOrgStructureChart01"
+        :orgStructureData="getAllBoardManagerOfProjectOrgStructureChart02"
     />
     <popup-edit-org-structure-chart
         :dialog="dialogEditOrgStrId"
@@ -38,11 +38,11 @@ import PopupAddNewOrgStructureChart from "./PopupAddNewOrgStrChart";
 import PopupEditOrgStructureChart from "./PopupEditOrgStrChartProject";
 import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
 export default {
-    mixins: [manageOrgChartBoardMgtLevelHelper],
     components: {
         PopupAddNewOrgStructureChart,
         PopupEditOrgStructureChart,
     },
+    mixins: [manageOrgChartBoardMgtLevelHelper],
     props: {
         orgDeptLevel: {
             type: String,

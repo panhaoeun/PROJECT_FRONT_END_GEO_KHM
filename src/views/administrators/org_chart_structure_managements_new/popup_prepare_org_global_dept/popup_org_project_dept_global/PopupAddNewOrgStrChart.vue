@@ -51,9 +51,7 @@
                             <div class="px-2 py-2 gap-5">
                                 <VTreeView
                                     :data="
-                                        getAllBoardManagerOfProjectOrgStructureChart01
-                                            ? getAllBoardManagerOfProjectOrgStructureChart01
-                                            : {}
+                                        orgStructureData ? orgStructureData : {}
                                     "
                                     highlight-current="true"
                                     default-expand-all
@@ -227,7 +225,15 @@ export default {
         popupAddRootNodeGlobalOrgStructure,
     },
     props: {
-        editedId: Number,
+        editedId: {
+            type: Number,
+            default: 0,
+        },
+        orgStructureData: {
+            type: Object,
+            default: () => {},
+            required: true,
+        },
         dialog: {
             type: Boolean,
             default: false,

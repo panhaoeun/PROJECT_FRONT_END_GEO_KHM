@@ -1,0 +1,322 @@
+<template>
+    <div>
+        <Dialog
+            v-model:visible="openDialogs"
+            modal
+            header="Edit Org Chart Structure Management"
+            :style="{ width: '100rem' }"
+            maximizable
+        >
+            <!-- Contents -->
+            <div class="address-popup popup-top-auto z-100">
+                <div class="flex start mlr--5 grid grid-nogutter">
+                    <!-- Tree View of Org-chart Projects -->
+                    <div
+                        class="col-lg-6 col-md-12 flex column h-full org-structure-new"
+                    >
+                        <div class="start mlr--5">
+                            <!-- Tree Vew -->
+                            <div class="px-2 py-2 gap-5">
+                                <p>TreeView Org Structures</p>
+                                <VTreeView
+                                    :data="
+                                        getAllBoardManagerOfProjectOrgStructureChart01
+                                            ? getAllBoardManagerOfProjectOrgStructureChart01
+                                            : {}
+                                    "
+                                    highlight-current="true"
+                                    default-expand-all
+                                    @item-click="
+                                        onClickItemOrgStructureTreeView
+                                    "
+                                    whole-row
+                                    :itemEvents="itemEvents"
+                                    draggable
+                                    ref="tree"
+                                    show-checkbox
+                                >
+                                </VTreeView>
+                            </div>
+                            <!-- Context Menu -->
+                            <ContextMenu
+                                ref="contextMenu"
+                                :model="contextMenu"
+                                class="w-15rem"
+                            />
+                        </div>
+                    </div>
+                    <!-- Tab of view org-chart  of projects -->
+                    <div class="col-lg-6 col-md-12 flex column h-full">
+                        <TabView
+                            v-model:activeIndex="activeDialogPositionId"
+                            class="text-sm"
+                        >
+                            <!-- Org-structure managements -->
+                            <TabPanel header="Edit Structure Management">
+                                <edit-org-structure-management-base-projects
+                                    :edit-org-str-data="
+                                        prepareObjEditOrgStrId
+                                            ? prepareObjEditOrgStrId
+                                            : null
+                                    "
+                                />
+                            </TabPanel>
+                            <!--Managements Position-->
+                            <TabPanel header="Positions">
+                                <assign-position-manage-org-structure
+                                    :org-str-name-edited-id="
+                                        orgStrNameEditedId
+                                            ? orgStrNameEditedId
+                                            : null
+                                    "
+                                />
+                            </TabPanel>
+                            <!--Managements Job Descriptions-->
+                            <TabPanel header="Job Description">
+                                <assign-job-description-manage-org-structure
+                                    :org-str-name-edited-id="
+                                        orgStrNameEditedId
+                                            ? orgStrNameEditedId
+                                            : null
+                                    "
+                                />
+                            </TabPanel>
+                            <!--Managements Job Descriptions-->
+                            <TabPanel header="Position Descriptions">
+                                <assign-position-description-manage-org-structure
+                                    :org-str-name-edited-id="
+                                        orgStrNameEditedId
+                                            ? orgStrNameEditedId
+                                            : null
+                                    "
+                                />
+                            </TabPanel>
+                        </TabView>
+                    </div>
+                </div>
+            </div>
+            <!-- Footers -->
+            <template #footer>
+                <Button
+                    label="Cancel"
+                    text
+                    class="w-7rem"
+                    severity="secondary"
+                    @click="close"
+                    autofocus
+                />
+            </template>
+        </Dialog>
+    </div>
+</template>
+
+<!-- Popup Edit Org-Structure-->
+<script>
+import EditOrgStructureManagementBaseProjects from "./manage_org_structure_sub/EditOrgStructureManagementBaseProjectChart";
+import AssignPositionManageOrgStructure from "./manage_org_structure_sub/manage_org_dept_edited/ManageEditedPositionGlobalOrgStructure";
+import AssignJobDescriptionManageOrgStructure from "./manage_org_structure_sub/manage_org_dept_edited/ManageEditedJobDescriptionOrgStructure.vue";
+import AssignPositionDescriptionManageOrgStructure from "./manage_org_structure_sub/manage_org_dept_edited/ManageEditPositionDescriptionOrgStructure.vue";
+// TreeView OrgStructure
+import VTreeView from "@/components/tree_view_items/TreeViewComponents";
+// Functions Toggle the global organization structure tree view component
+import managerOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageOrgStructureChartProjectLevelZeroHelper";
+import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgChartBoardMgtLevelHelper";
+
+export default {
+    components: {
+        VTreeView,
+        AssignPositionManageOrgStructure,
+        AssignJobDescriptionManageOrgStructure,
+        AssignPositionDescriptionManageOrgStructure,
+        EditOrgStructureManagementBaseProjects,
+    },
+    props: {
+        editedId: Number,
+        dialog: {
+            type: Boolean,
+            default: false,
+            required: true,
+        },
+    },
+    computed: {
+        openDialogs() {
+            return this.dialog || false;
+        },
+        getIdEditOrgStructure() {
+            const getObjData = this.getEditObjName ? this.getEditObjName : null;
+            if (
+                (getObjData !== null && typeof getObjData !== "object") ||
+                getObjData !== undefined
+            ) {
+                return getObjData;
+            }
+            return {};
+        },
+    },
+    data() {
+        const self = this;
+        return {
+            activeDialogPositionId: 0,
+            // Org-structure
+            orgChartProjectData: [
+                {
+                    text: "Yearly Mattings",
+                    opened: true,
+                    children: [
+                        {
+                            text: "Director",
+                            opened: true,
+                            children: [
+                                {
+                                    text: "Admin",
+                                    opened: true,
+                                    children: [
+                                        {
+                                            text: "D1",
+                                        },
+                                        {
+                                            text: "D2",
+                                        },
+                                    ],
+                                },
+                                {
+                                    text: "Fiance",
+                                    opened: true,
+                                    children: [
+                                        {
+                                            text: "D1",
+                                        },
+                                        {
+                                            text: "D2",
+                                        },
+                                        {
+                                            text: "D3",
+                                        },
+                                    ],
+                                },
+                                {
+                                    text: "Technical",
+                                    opened: true,
+                                    children: [
+                                        {
+                                            text: "D1",
+                                        },
+                                        {
+                                            text: "D2",
+                                        },
+                                        {
+                                            text: "D3",
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+            editingItem: {},
+            editingNode: null,
+            getNodeModel: null,
+            itemEvents: {
+                mouseover: function () {
+                    console.log("mouseover");
+                },
+                contextmenu: function (node) {
+                    arguments[2].preventDefault();
+                    // Content Menus Edit Dialog
+                    self.toggleItemEditOrgStructureName(
+                        arguments[2],
+                        node?.model
+                    );
+                },
+            },
+            visibleDialogsOrgStr: false,
+            getEditObjName: null,
+            prepareObjEditOrgStrId: null,
+            orgStrNameEditedId: null,
+            contextMenu: [
+                {
+                    label: "Rename Edit",
+                    icon: "pi pi-file-edit",
+                    command: () => {
+                        this.renameOrgStructureProjectData();
+                    },
+                },
+                {
+                    label: "Prepare Org Structure",
+                    icon: "pi pi-link",
+                    command: () => {
+                        this.prepareOrgStructureEdited();
+                    },
+                },
+            ],
+        };
+    },
+    mixins: [
+        managerOrgStructureProjectLevelZeroHelper,
+        manageOrgChartBoardMgtLevelHelper,
+    ],
+    methods: {
+        close() {
+            this.$emit("close-dialog");
+        },
+        toggleItemEditOrgStructureName($event, node) {
+            // Context Menu
+            this.$refs.contextMenu.show($event);
+            if (node !== undefined || (node !== "" && node !== null)) {
+                this.getEditObjName = node ? node : {};
+            }
+        },
+        onClickItemOrgStructureTreeView(node) {
+            this.editingNode = node;
+            this.editingItem = node.model;
+        },
+        closeDialogEditOrgStrName() {
+            this.visibleDialogsOrgStr = false;
+        },
+        renameOrgStructureProjectData() {
+            let newName = this.getEditObjName ? this.getEditObjName : null;
+            let getOrgEditName;
+            if (
+                newName !== null &&
+                newName !== "" &&
+                typeof newName !== "string"
+            ) {
+                getOrgEditName = {
+                    id: parseInt(newName.id, 0),
+                    textName: String(newName?.text).toString(),
+                    orgName: String(newName?.value).toString(),
+                };
+            }
+            this.prepareObjEditOrgStrId = getOrgEditName ? getOrgEditName : {};
+        },
+        prepareOrgStructureEdited() {
+            let newName = this.getEditObjName ? this.getEditObjName : null;
+            let getOrgPrepareEditName;
+            if (
+                newName !== null &&
+                newName !== "" &&
+                typeof newName !== "string"
+            ) {
+                getOrgPrepareEditName = {
+                    id: parseInt(newName.id, 1),
+                    textName: String(newName?.text).toString(),
+                    orgName: String(newName?.value).toString(),
+                };
+            }
+            this.orgStrNameEditedId = getOrgPrepareEditName
+                ? getOrgPrepareEditName
+                : {};
+        },
+    },
+};
+</script>
+<!-- Style Custom -->
+<style>
+.org-structure-new {
+    height: 100%;
+    border: 2px dashed #aaa;
+    border-radius: 5px;
+    text-align: center;
+}
+</style>

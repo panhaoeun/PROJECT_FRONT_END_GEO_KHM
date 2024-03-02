@@ -148,7 +148,6 @@ export default {
                 ),
                 item
             );
-            console.log(node)
             let self = this;
             node.addBefore = function (data, selectedNode) {
                 let newItem = self.initializeDataItem(data);

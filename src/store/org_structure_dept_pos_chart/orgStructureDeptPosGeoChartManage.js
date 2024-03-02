@@ -66,6 +66,7 @@ const mutations = {
      * @Hierarchy Data base Org - Structure Chart - Position Management Structure
     * */
     SET_HIERARCHY_DATA_ORG_STRUCTURE_BOARD_MGT(state, orgBoardMgtStr){
+        console.log(orgBoardMgtStr)
         state.orgBoardMgtStr = orgBoardMgtStr ? orgBoardMgtStr : {};
     },
     // Get Relist Position of Department base project or country
@@ -85,6 +86,7 @@ const actions = {
         commit
     }, params) {
         try {
+            console.log(params)
             const orgStrChartLevelAc = params?.orgStrChartLevel ? params?.orgStrChartLevel : 'SL01';
             const orgStrCountryIdAc = parseInt(params?.orgStrChartCountryId) ? parseInt(params?.orgStrChartCountryId) : 0;
             const orgStrProjectIdAc = parseInt(params?.orgStrChartProjectId) ? parseInt(params?.orgStrChartProjectId) : 0;
@@ -129,17 +131,8 @@ const actions = {
         const checkHierarchyType = payload?.typeHierarchy ? payload?.typeHierarchy : '';
        let projectIdOrgStr;
        let countryIdOrgStr;
-       if (getProjectId !== null && !isNaN(Number(getProjectId)) || getProjectId !== '') {
-            projectIdOrgStr =  parseInt(getProjectId) ? parseInt(getProjectId) : 0;
-       }else{
-            projectIdOrgStr = 0;
-       }
-       if (getCountryId !== null && getCountryId !== '' || getCountryId !== 'number' || typeof orgStrChartLevelAc !== 'string') {
-            countryIdOrgStr = parseInt(getCountryId) ? parseInt(getCountryId) : 0;
-       }else{
-            countryIdOrgStr = 0;
-       }
-       console.log(getCountryId)
+       projectIdOrgStr = parseInt(getProjectId) ? parseInt(getProjectId) : 0;
+       countryIdOrgStr = parseInt(getCountryId) ? parseInt(getCountryId) : 0;
        geoDeptOrgStrServices.hierarchyDataOrgStructureGeoProject(projectIdOrgStr, countryIdOrgStr, checkHierarchyType).then((orgDeptStr) => {
             const getAllHierarchyData = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : {};
             console.log(getAllHierarchyData)
