@@ -175,6 +175,19 @@ const defaultChildRoutesUsersMS = (prefix) => [
         hidden: true,
         component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/AddNewEmployeeGlobalAdminGeo.vue"),
     },
+    // Position 
+    // {
+    //     path: "/admin/admin-position-org-structure-dept",
+    //     name: prefix + '.hrm_assign_employee_position_org',
+    //     meta: {
+    //         title: "userEmployee",
+    //         icon: 'setting',
+    //         requiresAuth: true,
+    //         permissions: ['users_modules']
+    //     },
+    //     component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/ListEmployeeGlobalAdminGeo.vue"),
+    // },
+    // Job Descriptions
 
 
 
