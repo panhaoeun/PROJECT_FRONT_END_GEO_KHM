@@ -72,20 +72,14 @@
                             "
                         >
                             <Column
-                                field="full_latin_name"
+                                field="emp_id"
                                 header="Employee ID"
                                 sortable
                                 style="min-width: 10rem"
                             ></Column>
                             <Column
-                                field="full_latin_name"
-                                header="First Name"
-                                sortable
-                                style="min-width: 10rem"
-                            ></Column>
-                            <Column
-                                field="full_latin_name"
-                                header="Last Name"
+                                field="full_kh_name"
+                                header="Khmer Name"
                                 sortable
                                 style="min-width: 10rem"
                             ></Column>
@@ -96,19 +90,13 @@
                                 style="min-width: 10rem"
                             ></Column>
                             <Column
-                                field="full_latin_name"
+                                field="email_address"
                                 header="Email Address"
                                 sortable
                                 style="min-width: 10rem"
                             ></Column>
-                            <Column
-                                field="full_latin_name"
-                                header="Status"
-                                sortable
-                                style="min-width: 10rem"
-                            ></Column>
                             <!-- Actions -->
-                            <Column
+                            <!-- <Column
                                 :exportable="false"
                                 header="Options"
                                 style="min-width: 8rem"
@@ -129,7 +117,7 @@
                                         "
                                     />
                                 </template>
-                            </Column>
+                            </Column> -->
                         </template>
                         <!--------------Check Existed Data ----------->
                     </DataTable>
@@ -141,7 +129,32 @@
 <!-- Script of global-admin -->
 <script>
 import { FilterMatchMode } from "primevue/api";
+import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/manage_org_chart_structures/ManageOrgChartStructureGeoProjectServices";
 export default {
+    created() {
+        this.serviceManageStructuresProject =
+            new ManageOrgChartStructureGeoProjectServices();
+    },
+    mounted() {
+        this.serviceManageStructuresProject
+            .listStoreEmpOrgDept()
+            .then((users) => {
+                console.log(users);
+                if (!Array.isArray(users) || !users.length > 0) {
+                    this.$notify.error({
+                        title: "Error Entries Users List",
+                        showClose: false,
+                    });
+                }
+                if (
+                    !Array.isArray(users) ||
+                    users !== undefined ||
+                    users !== null
+                ) {
+                    this.listAdminEmpGlobal = users ? users : "";
+                }
+            });
+    },
     components: {},
     props: {},
     data() {
@@ -152,9 +165,7 @@ export default {
             },
         };
     },
-    created() {},
     methods: {},
-    mounted() {},
 };
 </script>
 <style scoped></style>

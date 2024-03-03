@@ -102,4 +102,23 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async removeNewOrgStructureJobDesc(jobDesId, data) {
         return http.delete(`/admin/geo-location-route/org-chart-structures/remove-job-dec-pos-dept/${jobDesId}`, data);
     }
+
+    // Employee
+    async listStoreEmpOrgDept(orgStrPosId) {
+        return http.get("/admin/get-employee-list-by-dept-org", orgStrPosId ? orgStrPosId : {}).then((result) => {
+            if (!result) {
+                return false;
+            }
+            if (result.status == 200) {
+                if (result.data.success == true) {
+                    return result.data.result.resultStatus;
+                }
+            }
+        }).catch((error) => {
+            throw Error(error || error.message);
+        });
+    }
+    async createStoreEmpOrg(orgStrPosId) {
+        return http.post("/admin/get-employee-add-new-by-dept-org", orgStrPosId ? orgStrPosId : {});
+    }
 }

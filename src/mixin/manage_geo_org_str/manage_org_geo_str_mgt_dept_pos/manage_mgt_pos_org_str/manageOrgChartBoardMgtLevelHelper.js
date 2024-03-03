@@ -55,6 +55,8 @@ export default {
     },
     methods: {
         ...mapActions('orgStrDeptPosGeo', ['getAllGeoPositionDeptManageChart']),
+        // Create Employee
+        
         /**
          * @Manage Organization - Structure Chart
         **/ 

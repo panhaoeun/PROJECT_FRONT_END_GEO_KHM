@@ -1,5 +1,6 @@
 <template>
     <div class="layout-content px-2 py-2">
+        <Toast />
         <!-- Titles -->
         <div class="flex justify-content-between my-2 px-2 py-2">
             <h2
@@ -47,7 +48,7 @@
                                                                 submitted,
                                                         }"
                                                     >
-                                                        Surname
+                                                        English Name
                                                         <span class="p-error"
                                                             >*</span
                                                         >
@@ -98,7 +99,7 @@
                                                         }"
                                                         class="text-sm font-semibold"
                                                     >
-                                                        First Name
+                                                        Khmer Name
                                                         <span class="p-error"
                                                             >*</span
                                                         >
@@ -142,55 +143,20 @@
                                                 <div class="field">
                                                     <label
                                                         for="name_en"
-                                                        :class="{
-                                                            'p-invalid border-round-lg p-error':
-                                                                v$.empEmailAddr
-                                                                    .$invalid &&
-                                                                submitted,
-                                                        }"
                                                         class="text-sm font-semibold"
                                                     >
                                                         Email Address
-                                                        <span class="p-error"
-                                                            >*</span
-                                                        >
                                                     </label>
                                                     <InputText
                                                         class="border-round-lg text-sm"
                                                         type="text"
-                                                        v-model="
-                                                            v$.empEmailAddr
-                                                                .$model
-                                                        "
-                                                        :class="{
-                                                            'p-invalid border-round-lg p-error':
-                                                                v$.empEmailAddr
-                                                                    .$invalid &&
-                                                                submitted,
-                                                        }"
+                                                        v-model="empEmailAddr"
                                                         placeholder="Email Address"
                                                     />
-                                                    <small
-                                                        v-if="
-                                                            (v$.empEmailAddr
-                                                                .$invalid &&
-                                                                submitted) ||
-                                                            v$.empEmailAddr
-                                                                .$pending
-                                                                .$response
-                                                        "
-                                                        class="p-error text-sm"
-                                                        >{{
-                                                            v$.empEmailAddr.required.$message.replace(
-                                                                "Value",
-                                                                "Email Address"
-                                                            )
-                                                        }}</small
-                                                    >
                                                 </div>
                                             </div>
                                             <!-- Phone Number -->
-                                            <div class="col-4 field">
+                                            <!-- <div class="col-4 field">
                                                 <div class="field">
                                                     <label
                                                         for="name_en"
@@ -244,6 +210,111 @@
                                                             )
                                                         }}</small
                                                     >
+                                                </div>
+                                            </div> -->
+                                            <!-- Gender -->
+                                            <div class="col-12 col-lg-4 field">
+                                                <div class="field">
+                                                    <label
+                                                        for="roles"
+                                                        class="text-sm"
+                                                        >Gender<span
+                                                            class="p-error"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <div
+                                                        class="flex flex-column"
+                                                    >
+                                                        <Dropdown
+                                                            v-model="
+                                                                selectedUserGender
+                                                            "
+                                                            class="border-round-lg text-sm"
+                                                            :options="
+                                                                userGender
+                                                            "
+                                                            optionLabel="name"
+                                                            placeholder="Select a Gender"
+                                                            :class="{
+                                                                'p-invalid p-error':
+                                                                    v$
+                                                                        .selectedUserGender
+                                                                        .$invalid &&
+                                                                    submitted,
+                                                            }"
+                                                        />
+                                                        <small
+                                                            v-if="
+                                                                (v$
+                                                                    .selectedUserGender
+                                                                    .$invalid &&
+                                                                    submitted) ||
+                                                                v$
+                                                                    .selectedUserGender
+                                                                    .$pending
+                                                                    .$response
+                                                            "
+                                                            class="p-error"
+                                                            >{{
+                                                                v$.selectedUserGender.required.$message.replace(
+                                                                    "Value",
+                                                                    "Gender"
+                                                                ) ||
+                                                                v$
+                                                                    .selectedUserGender
+                                                                    .$params.min
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Date of Birth -->
+                                            <div class="col-12 col-lg-4 field">
+                                                <div class="field">
+                                                    <label
+                                                        for="name_en"
+                                                        class="text-sm"
+                                                        >Date Of Birth<span
+                                                            class="p-error"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <Calendar
+                                                        placeholder="Date of birth"
+                                                        type="text"
+                                                        class="border-round-lg text-sm"
+                                                        v-model="
+                                                            v$.userDateOfBirth
+                                                                .$model
+                                                        "
+                                                        :class="{
+                                                            'p-invalid p-error':
+                                                                v$
+                                                                    .userDateOfBirth
+                                                                    .$invalid &&
+                                                                submitted,
+                                                        }"
+                                                    />
+                                                    <small
+                                                        v-if="
+                                                            (v$.userDateOfBirth
+                                                                .$invalid &&
+                                                                submitted) ||
+                                                            v$.userDateOfBirth
+                                                                .$pending
+                                                                .$response
+                                                        "
+                                                        class="p-error"
+                                                        >{{
+                                                            v$.userDateOfBirth.required.$message.replace(
+                                                                "Value",
+                                                                "Date of Birth"
+                                                            ) ||
+                                                            v$.userDateOfBirth
+                                                                .$params.min
+                                                        }}
+                                                    </small>
                                                 </div>
                                             </div>
                                             <!-- National -->
@@ -344,469 +415,6 @@
                                     </div>
                                 </TabPanel>
                                 <!-- Experience Info -->
-                                <TabPanel header="Experience">
-                                    <div class="m-0 p-0">
-                                        <div>
-                                            <template
-                                                class="grid formgrid border-1 border-round-lg py-2 px-2"
-                                            >
-                                                <!-- Types -->
-                                                <div
-                                                    class="col-4 lg:col-6 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="type_name"
-                                                            class="text-sm font-semibold"
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empTypeName
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                        >
-                                                            Type
-                                                            <span
-                                                                class="p-error"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <InputText
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                v$.empTypeName
-                                                                    .$model
-                                                            "
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empTypeName
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                            placeholder="Type"
-                                                        />
-                                                        <small
-                                                            v-if="
-                                                                (v$.empTypeName
-                                                                    .$invalid &&
-                                                                    submitted) ||
-                                                                v$.empTypeName
-                                                                    .$pending
-                                                                    .$response
-                                                            "
-                                                            class="p-error text-sm"
-                                                            >{{
-                                                                v$.empTypeName.required.$message.replace(
-                                                                    "Value",
-                                                                    "Type Name"
-                                                                )
-                                                            }}</small
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- Position Name -->
-                                                <div
-                                                    class="col-4 lg:col-6 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="type_name"
-                                                            class="text-sm font-semibold"
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperiencePosName
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                        >
-                                                            Position
-                                                            <span
-                                                                class="p-error"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <InputText
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                v$
-                                                                    .empExperiencePosName
-                                                                    .$model
-                                                            "
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperiencePosName
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                            placeholder="Software Developments"
-                                                        />
-                                                        <small
-                                                            v-if="
-                                                                (v$
-                                                                    .empExperiencePosName
-                                                                    .$invalid &&
-                                                                    submitted) ||
-                                                                v$
-                                                                    .empExperiencePosName
-                                                                    .$pending
-                                                                    .$response
-                                                            "
-                                                            class="p-error text-sm"
-                                                            >{{
-                                                                v$.empExperiencePosName.required.$message.replace(
-                                                                    "Value",
-                                                                    "Position Name"
-                                                                )
-                                                            }}</small
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- Company/Ministry -->
-                                                <div
-                                                    class="col-4 lg:col-6 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="type_name"
-                                                            class="text-sm font-semibold"
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceCompany
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                        >
-                                                            Company/Ministry
-                                                            <span
-                                                                class="p-error"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <InputText
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                v$
-                                                                    .empExperienceCompany
-                                                                    .$model
-                                                            "
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceCompany
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                            placeholder="C.A.I.T Co.ltd"
-                                                        />
-                                                        <small
-                                                            v-if="
-                                                                (v$
-                                                                    .empExperienceCompany
-                                                                    .$invalid &&
-                                                                    submitted) ||
-                                                                v$
-                                                                    .empExperienceCompany
-                                                                    .$pending
-                                                                    .$response
-                                                            "
-                                                            class="p-error text-sm"
-                                                            >{{
-                                                                v$.empExperienceCompany.required.$message.replace(
-                                                                    "Value",
-                                                                    "Company/Ministry"
-                                                                )
-                                                            }}</small
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- Employee Type-->
-                                                <div
-                                                    class="col-4 lg:col-6 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="employee_type"
-                                                            class="text-sm font-semibold"
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceTypeGeo
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                        >
-                                                            Employee Type
-                                                            <span
-                                                                class="p-error"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <InputText
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                v$
-                                                                    .empExperienceTypeGeo
-                                                                    .$model
-                                                            "
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceTypeGeo
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                            placeholder="Full Time"
-                                                        />
-                                                        <small
-                                                            v-if="
-                                                                (v$
-                                                                    .empExperienceTypeGeo
-                                                                    .$invalid &&
-                                                                    submitted) ||
-                                                                v$
-                                                                    .empExperienceTypeGeo
-                                                                    .$pending
-                                                                    .$response
-                                                            "
-                                                            class="p-error text-sm"
-                                                            >{{
-                                                                v$.empExperienceTypeGeo.required.$message.replace(
-                                                                    "Value",
-                                                                    "Employee Type"
-                                                                )
-                                                            }}</small
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- Address-->
-                                                <div
-                                                    class="col-4 lg:col-6 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="employee_type"
-                                                            class="text-sm font-semibold"
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceAddr
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                        >
-                                                            Address
-                                                            <span
-                                                                class="p-error"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <InputText
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                v$
-                                                                    .empExperienceAddr
-                                                                    .$model
-                                                            "
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceAddr
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                            placeholder="Address"
-                                                        />
-                                                        <small
-                                                            v-if="
-                                                                (v$
-                                                                    .empExperienceAddr
-                                                                    .$invalid &&
-                                                                    submitted) ||
-                                                                v$
-                                                                    .empExperienceAddr
-                                                                    .$pending
-                                                                    .$response
-                                                            "
-                                                            class="p-error text-sm"
-                                                            >{{
-                                                                v$.empExperienceAddr.required.$message.replace(
-                                                                    "Value",
-                                                                    "Address"
-                                                                )
-                                                            }}</small
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- Start Date-->
-                                                <div
-                                                    class="col-4 lg:col-6 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="employee_type"
-                                                            class="text-sm font-semibold"
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceStartDate
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                        >
-                                                            Start Date
-                                                            <span
-                                                                class="p-error"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <Calendar
-                                                            showIcon
-                                                            :showOnFocus="true"
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                v$
-                                                                    .empExperienceStartDate
-                                                                    .$model
-                                                            "
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceStartDate
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                            placeholder="Start Date"
-                                                        />
-                                                        <small
-                                                            v-if="
-                                                                (v$
-                                                                    .empExperienceStartDate
-                                                                    .$invalid &&
-                                                                    submitted) ||
-                                                                v$
-                                                                    .empExperienceStartDate
-                                                                    .$pending
-                                                                    .$response
-                                                            "
-                                                            class="p-error text-sm"
-                                                            >{{
-                                                                v$.empExperienceStartDate.required.$message.replace(
-                                                                    "Value",
-                                                                    "Start Date"
-                                                                )
-                                                            }}</small
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- End Date-->
-                                                <div
-                                                    class="col-4 lg:col-6 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="employee_type"
-                                                            class="text-sm font-semibold"
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceEndDate
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                        >
-                                                            End Date
-                                                            <span
-                                                                class="p-error"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <Calendar
-                                                            showIcon
-                                                            :showOnFocus="true"
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                v$
-                                                                    .empExperienceEndDate
-                                                                    .$model
-                                                            "
-                                                            :class="{
-                                                                'p-invalid border-round-lg p-error':
-                                                                    v$
-                                                                        .empExperienceEndDate
-                                                                        .$invalid &&
-                                                                    submitted,
-                                                            }"
-                                                            placeholder="End Date"
-                                                        />
-                                                        <small
-                                                            v-if="
-                                                                (v$
-                                                                    .empExperienceEndDate
-                                                                    .$invalid &&
-                                                                    submitted) ||
-                                                                v$
-                                                                    .empExperienceEndDate
-                                                                    .$pending
-                                                                    .$response
-                                                            "
-                                                            class="p-error text-sm"
-                                                            >{{
-                                                                v$.empExperienceEndDate.required.$message.replace(
-                                                                    "Value",
-                                                                    "End Date"
-                                                                )
-                                                            }}</small
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- Descriptions-->
-                                                <div
-                                                    class="col-12 lg:col-12 field"
-                                                >
-                                                    <div class="field">
-                                                        <label
-                                                            for="descriptions"
-                                                            class="text-sm font-semibold"
-                                                        >
-                                                            Description
-                                                        </label>
-                                                        <Textarea
-                                                            class="border-round-lg text-sm"
-                                                            type="text"
-                                                            v-model="
-                                                                empExperienceNotes
-                                                            "
-                                                            placeholder="Descriptions"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </template>
-                                            <!-- Add New Experiences -->
-                                            <div class="col-12 lg:col-6 field">
-                                                <div class="field">
-                                                    <Button
-                                                        icon="pi pi-plus-circle"
-                                                        class="border-round-lg text-sm w-10rem"
-                                                        type="button"
-                                                        label="Add Experience"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </TabPanel>
                             </TabView>
                             <!-- Buttons Submits Save -->
                             <div class="col-12 flex justify-content-end mt-4">
@@ -837,7 +445,8 @@
 <script>
 import { FilterMatchMode } from "primevue/api";
 import { useVuelidate } from "@vuelidate/core";
-import { maxLength, minLength, numeric, required } from "@vuelidate/validators";
+import { minLength, required } from "@vuelidate/validators";
+import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/manage_org_chart_structures/ManageOrgChartStructureGeoProjectServices";
 export default {
     components: {},
     props: {},
@@ -848,22 +457,28 @@ export default {
         return {
             empSurname: { required, minLength: minLength(3) },
             empFirstName: { required, minLength: minLength(3) },
-            empPhoneNumber: {
-                required,
-                numeric,
-                minLength: minLength(6),
-                maxLength: maxLength(11),
-            },
-            empEmailAddr: { required, minLength: minLength(3) },
+            // empPhoneNumber: {
+            //     required,
+            //     numeric,
+            //     minLength: minLength(6),
+            //     maxLength: maxLength(11),
+            // },
+            // empEmailAddr: { required, minLength: minLength(3) },
             empNational: { required, minLength: minLength(3) },
-            empTypeName: { required, minLength: minLength(3) },
-            empExperiencePosName: { required, minLength: minLength(3) },
-            empExperienceCompany: { required, minLength: minLength(3) },
-            empTypeGeo: { required, minLength: minLength(3) },
-            empExperienceTypeGeo: { required },
-            empExperienceAddr: { required },
-            empExperienceStartDate: { required },
-            empExperienceEndDate: { required },
+            userDateOfBirth: {
+                required,
+            },
+            selectedUserGender: {
+                required,
+            },
+            // empTypeName: { required, minLength: minLength(3) },
+            // empExperiencePosName: { required, minLength: minLength(3) },
+            // empExperienceCompany: { required, minLength: minLength(3) },
+            // empTypeGeo: { required, minLength: minLength(3) },
+            // empExperienceTypeGeo: { required },
+            // empExperienceAddr: { required },
+            // empExperienceStartDate: { required },
+            // empExperienceEndDate: { required },
         };
     },
     data() {
@@ -873,6 +488,12 @@ export default {
             filtersEmp: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
+            userGender: [
+                { name: "Male", gender_name: "male" },
+                { name: "Female", gender_name: "female" },
+            ],
+            selectedUserGender: null,
+            userDateOfBirth: "",
             loadingAddNewEmp: false,
             empSurname: "",
             empFirstName: "",
@@ -891,14 +512,22 @@ export default {
             submitted: false,
         };
     },
-    created() {},
+    created() {
+        this.serviceManageStructuresProject =
+            new ManageOrgChartStructureGeoProjectServices();
+    },
     methods: {
         async submitAddNewEmpGlobalGeo() {
             try {
                 this.loadingAddNewEmp = true;
                 this.submitted = true;
+
                 setTimeout(async () => {
                     this.loadingAddNewEmp = false;
+                    this.v$.$touch();
+                    if (this.v$.$invalid) {
+                        return false;
+                    }
                     /**
                      * @Validations
                      * */
@@ -926,19 +555,83 @@ export default {
                                 detail: "Please fill all required fields",
                                 life: 3000,
                             });
-                        } else {
-                            this.$toast.add({
-                                severity: "success",
-                                summary: "Success",
-                                detail: "Employee added successfully",
-                                life: 3000,
-                            });
                         }
                     }
-                    this.v$.$touch();
-                    if (this.v$.$invalid) {
-                        return false;
-                    }
+                    // this.serviceManageStructuresProject
+                    const addNewOrgStrMgtPosDept = {
+                        empNameEng: String(this.empSurname).toString(),
+                        empNameKh: String(this.empFirstName).toString(),
+                        empGender: this.selectedUserGender?.name,
+                        empDOB: this.userDateOfBirth,
+                        empStatus: "Approved",
+                        empType: "Admin",
+                        empStartDate: "",
+                        empNoted: String(this.empDescription).toString(),
+                        pathNameEmpProfile: "",
+                        orgDepartId: "",
+                        empAddress: String(this.empAddress).toString(),
+                        emailAddress: String(this.empEmailAddr),
+                    };
+                    console.log(addNewOrgStrMgtPosDept);
+                    // Add New Organization Chart Root Level Info
+                    this.serviceManageStructuresProject
+                        ?.createStoreEmpOrg(
+                            addNewOrgStrMgtPosDept ? addNewOrgStrMgtPosDept : []
+                        )
+                        .then(async (addOrgStr) => {
+                            if (addOrgStr?.data.success === true) {
+                                this.$router.push(
+                                    "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module"
+                                );
+                                this.loadingAddNewEmp = false;
+                                this.$toast.add({
+                                    severity: "success",
+                                    summary:
+                                        "Successfully add new root org-structure.",
+                                    detail: addOrgStr.data?.message
+                                        ? addOrgStr.data?.message
+                                        : null,
+                                    life: 3000,
+                                });
+                                // Clear Data Input
+                                this.orgStrBoardMgtEnglishName = "";
+                                this.orgStrBoardMgtKhmerName = "";
+                                this.descriptionOrgStrBoardMgt = "";
+                            }
+                        })
+                        .catch((error) => {
+                            this.loadingSubmittedAddMgtBoardStrOrg = false;
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Please Fix Below Errors.",
+                                detail: error?.response.data.error?.message
+                                    ? error?.response.data.error?.message
+                                    : "Please input filed add new employee value!",
+                                life: 3000,
+                            });
+                            if (error?.response.data.error.error?.errors) {
+                                for (
+                                    let index = 0;
+                                    index <
+                                    error.response.data.error.error?.errors
+                                        .length;
+                                    index++
+                                ) {
+                                    const validationError =
+                                        error.response.data.error.error?.errors[
+                                            index
+                                        ].message ?? [];
+                                    this.$toast.add({
+                                        severity: "error",
+                                        summary: "Please Fix Below Errors.",
+                                        detail: validationError
+                                            ? validationError
+                                            : "Please input add new employee have missing value!",
+                                        life: 3000,
+                                    });
+                                }
+                            }
+                        });
                 }, 1000);
             } catch (error) {
                 throw Error(error || error.message);

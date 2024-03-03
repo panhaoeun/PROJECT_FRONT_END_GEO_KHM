@@ -150,7 +150,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
         component: () => import("../../views/vendors/vendor_management_account/UpdatedVendorAccount.vue"),
     },
     /**
-     * @Manage User Auth Role Module
+     * @Manage User Auth Role Module Base organization
      ***/
     {
         path: "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module",
@@ -175,6 +175,11 @@ const defaultChildRoutesUsersMS = (prefix) => [
         hidden: true,
         component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/AddNewEmployeeGlobalAdminGeo.vue"),
     },
+
+
+
+
+
     /**
      * @Role and Permissions Managements
      * **/
