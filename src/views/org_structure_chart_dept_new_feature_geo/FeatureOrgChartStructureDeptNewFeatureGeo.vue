@@ -154,7 +154,7 @@
                                         </div>
                                     </template>
                                 </Dropdown>
-                                <!--Popup Assign Org-Structures Projects-->
+                                <!--Popup Assign Org-Structures National Congress-->
                                 <popup-add-edit-org-str-nation-country
                                     :treeOrgStructure="
                                         getAllOrgStructuresFeatureGeoNationCongress
@@ -248,11 +248,11 @@
                                         </div>
                                     </template>
                                 </Dropdown>
-                                <!--Popup Assign Org-Structures Projects-->
-                                <popup-add-edit-org-str-nation-country
+                                <!--Popup Assign Org-Structures Provinces-->
+                                <popup-add-edit-org-str-nation-provinces
                                     :treeOrgStructure="
-                                        getAllOrgStructuresFeatureGeoNationCongress
-                                            ? getAllOrgStructuresFeatureGeoNationCongress
+                                        getAllOrgStructuresFeatureGeoNationProvinces
+                                            ? getAllOrgStructuresFeatureGeoNationProvinces
                                             : {}
                                     "
                                     :companyId="
@@ -261,13 +261,295 @@
                                             : 0
                                     "
                                     :getCountryNationId="
-                                        getCountryOfGeoLocationOrgStr
-                                            ? getCountryOfGeoLocationOrgStr
+                                        getProvinceOrgStructure
+                                            ? getProvinceOrgStructure
                                             : 0
                                     "
                                     v-if="
-                                        selectedCountryOptOrgStr !== null &&
+                                        selectedProvinceOptOrgStr !== null &&
                                         hideOrgStructureDeptCompany === 'T2'
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <!-- Manages Destination Base Org.Str Base National District Structures (Board Mgt District Structures) -->
+                        <div class="col-6 lg:col-12 xl:col-6 field">
+                            <label
+                                for="geo_country_org_str"
+                                class="text-sm font-semibold"
+                                >District Structures</label
+                            >
+                            <div
+                                class="flex field flex-row justify-content-center text-sm item-center"
+                            >
+                                <Dropdown
+                                    showClear
+                                    v-model="selectedDistrictOptOrgStr"
+                                    :options="allStateDistrictAddNew"
+                                    optionLabel="geo_english_name"
+                                    @update:modelValue="
+                                        onChangeGetAllNationDistrictsStatures()
+                                    "
+                                    filter
+                                    placeholder="Select a District Structures"
+                                    class="w-full text-sm"
+                                    inputId="geo_english_name"
+                                    aria-describedby="dd-error"
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.value
+                                                                ?.geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}({{
+                                                    slotProps.value
+                                                        .geo_zip_code ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                        <span v-else class="text-sm">
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div
+                                            class="flex align-items-center text-sm"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.option
+                                                                .geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}
+                                                ({{
+                                                    slotProps.option
+                                                        .geo_zip_code ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
+                                <!--Popup Assign Org-Structures Provinces-->
+                                <popup-add-edit-org-str-nation-district
+                                    :treeOrgStructure="
+                                        getAllOrgStructuresFeatureGeoNationDistrict
+                                            ? getAllOrgStructuresFeatureGeoNationDistrict
+                                            : {}
+                                    "
+                                    :companyId="
+                                        getDeptOrgCompanyId
+                                            ? getDeptOrgCompanyId
+                                            : 0
+                                    "
+                                    :getCountryNationId="
+                                        getDistrictOrgStructure
+                                            ? getDistrictOrgStructure
+                                            : 0
+                                    "
+                                    v-if="
+                                        selectedDistrictOptOrgStr !== null &&
+                                        hideOrgStructureDeptCompany === 'T3'
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <!-- Manages Destination Base Org.Str Base National Commune Structures (Board Mgt Commune Structures) -->
+                        <div class="col-6 lg:col-12 xl:col-6 field">
+                            <label
+                                for="geo_country_org_str"
+                                class="text-sm font-semibold"
+                                >Commune Structures</label
+                            >
+                            <div
+                                class="flex field flex-row justify-content-center text-sm item-center"
+                            >
+                                <Dropdown
+                                    showClear
+                                    v-model="selectedCommuneOptOrgStr"
+                                    :options="allCommuneCountryByCom"
+                                    optionLabel="geo_english_name"
+                                    @update:modelValue="
+                                        onChangeGetAllNationCommuneStatures()
+                                    "
+                                    filter
+                                    placeholder="Select a Commune Structures"
+                                    class="w-full text-sm"
+                                    inputId="geo_english_name"
+                                    aria-describedby="dd-error"
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.value
+                                                                ?.geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}({{
+                                                    slotProps.value
+                                                        .geo_zip_code ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                        <span v-else class="text-sm">
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div
+                                            class="flex align-items-center text-sm"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.option
+                                                                .geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}
+                                                ({{
+                                                    slotProps.option
+                                                        .geo_zip_code ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
+                                <!--Popup Assign Org-Structures Provinces-->
+                                <popup-add-edit-org-str-nation-commune
+                                    :treeOrgStructure="
+                                        getAllOrgStructuresFeatureGeoNationCommune
+                                            ? getAllOrgStructuresFeatureGeoNationCommune
+                                            : {}
+                                    "
+                                    :companyId="
+                                        getDeptOrgCompanyId
+                                            g? getDeptOrgCompanyId
+                                            : 0
+                                    "
+                                    :getCountryNationId="
+                                        getCommuneOrgStructure
+                                            ? getCommuneOrgStructure
+                                            : 0
+                                    "
+                                    v-if="
+                                        selectedCommuneOptOrgStr !== null &&
+                                        hideOrgStructureDeptCompany === 'T4'
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <!-- Manages Destination Base Org.Str Base National Villages Structures (Board Mgt Villages Structures) -->
+                        <div class="col-6 lg:col-12 xl:col-6 field">
+                            <label
+                                for="geo_country_org_str"
+                                class="text-sm font-semibold"
+                                >Village Structures</label
+                            >
+                            <div
+                                class="flex field flex-row justify-content-center text-sm item-center"
+                            >
+                                <Dropdown
+                                    showClear
+                                    v-model="selectedVillagesOptOrgStr"
+                                    :options="getGeoLocationVillagesData"
+                                    optionLabel="geo_english_name"
+                                    @update:modelValue="
+                                        onChangeGetAllNationVillagesStatures()
+                                    "
+                                    filter
+                                    placeholder="Select a Village Structures"
+                                    class="w-full text-sm"
+                                    inputId="geo_english_name"
+                                    aria-describedby="dd-error"
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.value
+                                                                ?.geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}({{
+                                                    slotProps.value
+                                                        .geo_zip_code ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                        <span v-else class="text-sm">
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div
+                                            class="flex align-items-center text-sm"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.option
+                                                                .geo_english_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}
+                                                ({{
+                                                    slotProps.option
+                                                        .geo_zip_code ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
+                                <!--Popup Assign Org-Structures Provinces-->
+                                <popup-add-edit-org-str-nation-village
+                                    :treeOrgStructure="
+                                        getAllOrgStructuresFeatureGeoNationVillages
+                                            ? getAllOrgStructuresFeatureGeoNationVillages
+                                            : {}
+                                    "
+                                    :companyId="
+                                        getDeptOrgCompanyId
+                                            ? getDeptOrgCompanyId
+                                            : 0
+                                    "
+                                    :getCountryNationId="
+                                        getVillagesOrgStructure
+                                            ? getVillagesOrgStructure
+                                            : 0
+                                    "
+                                    v-if="
+                                        selectedVillagesOptOrgStr !== null &&
+                                        hideOrgStructureDeptCompany === 'T5'
                                     "
                                 />
                             </div>
@@ -306,16 +588,24 @@ import manageOrgChartBoardMgtLevelHelper from "@/mixin/manage_geo_org_str/manage
  *Org-Structures Board Management Interface
  ***/
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
-import OrgStructureHierarchyGlobalMulti from "./org_structure_hierachy_multi_level/OrgStructureHierachyGlobalMulti.vue";
+import OrgStructureHierarchyGlobalMulti from "./org_structure_hierachy_multi_level/OrgStructureHierachyGlobalMulti";
 // Popup Add and Edit Features Org-Structures
 import PopupAddEditOrgStrCompanyPro from "./popup_add_new_org_structures/PopupAddEditOrgStrCompanyPro";
 import PopupAddEditOrgStrNationCountry from "./popup_add_new_org_structures/PopupAddEditOrgStrNationCountry";
+import PopupAddEditOrgStrNationProvinces from "./popup_add_new_org_structures/PopupAddEditOrgStrNationProvinces";
+import PopupAddEditOrgStrNationDistrict from "./popup_add_new_org_structures/PopupAddEditOrgStrNationDistrict";
+import PopupAddEditOrgStrNationCommune from "./popup_add_new_org_structures/PopupAddEditOrgStrNationCommune";
+import PopupAddEditOrgStrNationVillage from "./popup_add_new_org_structures/PopupAddEditOrgStrNationVillages";
 
 export default {
     components: {
         OrgStructureHierarchyGlobalMulti,
         PopupAddEditOrgStrCompanyPro,
         PopupAddEditOrgStrNationCountry,
+        PopupAddEditOrgStrNationProvinces,
+        PopupAddEditOrgStrNationDistrict,
+        PopupAddEditOrgStrNationCommune,
+        PopupAddEditOrgStrNationVillage,
     },
     mixins: [
         geoLocationVillagesHelper,

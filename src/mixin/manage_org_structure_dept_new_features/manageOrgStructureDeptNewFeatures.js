@@ -73,6 +73,42 @@ export default {
                 return this.allOrgBoardHierarchyStructure || [];
             }
         },
+        getAllOrgStructuresFeatureGeoNationProvinces() {
+            const getOrgOrgDeptProvinceId = this.selectedProvinceOptOrgStr;
+            if (
+                getOrgOrgDeptProvinceId !== null ||
+                (getOrgOrgDeptProvinceId !== undefined && typeof getOrgOrgDeptProvinceId !== "object")
+            ) {
+                return this.allOrgBoardHierarchyStructure || [];
+            }
+        },
+        getAllOrgStructuresFeatureGeoNationDistrict() {
+            const getOrgOrgDeptDistrictId = this.selectedDistrictOptOrgStr;
+            if (
+                getOrgOrgDeptDistrictId !== null ||
+                (getOrgOrgDeptDistrictId !== undefined && typeof getOrgOrgDeptDistrictId !== "object")
+            ) {
+                return this.allOrgBoardHierarchyStructure || [];
+            }
+        },
+        getAllOrgStructuresFeatureGeoNationCommune() {
+            const getOrgOrgDeptCommuneId = this.selectedCommuneOptOrgStr;
+            if (
+                getOrgOrgDeptCommuneId !== null ||
+                (getOrgOrgDeptCommuneId !== undefined && typeof getOrgOrgDeptCommuneId !== "object")
+            ) {
+                return this.allOrgBoardHierarchyStructure || [];
+            }
+        },
+        getAllOrgStructuresFeatureGeoNationVillages() {
+            const getOrgOrgDeptCommuneId = this.selectedVillagesOptOrgStr;
+            if (
+                getOrgOrgDeptCommuneId !== null ||
+                (getOrgOrgDeptCommuneId !== undefined && typeof getOrgOrgDeptCommuneId !== "object")
+            ) {
+                return this.allOrgBoardHierarchyStructure || [];
+            }
+        },
     },
     created() {
         this.getOrgStructFeaturesNew = new ManageOrgChartStructureGeoProjectServices();
@@ -215,12 +251,13 @@ export default {
             try {
                 if (
                     !Array.isArray(this.selectedCountryOptOrgStr) ||
-                    this.selectedCountryOptOrgStr !== undefined ||
-                    this.selectedCountryOptOrgStr !== null &&
+                    this.selectedProvinceOptOrgStr !== undefined ||
+                    this.selectedProvinceOptOrgStr !== null &&
                     this.selectedProject !== null &&
                     !Array.isArray(this.selectedProject)
                 ) {
                     this.hideOrgStructureDeptCompany = "T2";
+                    this.selectedDistrictOptOrgStr = null;
                     // /**
                     //  * @Org - Strictures Manage
                     //  **/
@@ -228,13 +265,113 @@ export default {
                     const getProjectId = this.getDeptOrgCompanyId ?
                         this.getDeptOrgCompanyId :
                         0;
-                    const getCountryId = this.getCountryOfGeoLocationOrgStr;
+                    const getCountryId = this.getProvinceOrgStructure;
                     const typeHierarchy = "GeoFence";
                     this.getReloadOrgChartByDeptGeoProject(
                         getProjectId,
                         getCountryId,
                         typeHierarchy
                     );
+                    // Selected GeoFence District Congress
+                    this.getDistrictByProvinceSelectedOrgStr(this.selectedProvinceOptOrgStr);
+                }
+            } catch (error) {
+                throw Error(error || error.message)
+            }
+        },
+        // Get all Org Structures base on district structures all relist hierarchy 
+        async onChangeGetAllNationDistrictsStatures() {
+            try {
+                if (
+                    !Array.isArray(this.selectedDistrictOptOrgStr) ||
+                    this.selectedDistrictOptOrgStr !== undefined ||
+                    this.selectedDistrictOptOrgStr !== null &&
+                    this.selectedProject !== null &&
+                    !Array.isArray(this.selectedProject)
+                ) {
+                    this.hideOrgStructureDeptCompany = "T3";
+                    this.selectedCommuneOptOrgStr = null;
+                    // /**
+                    //  * @Org - Strictures Manage
+                    //  **/
+                    // // Get Districts
+                    const getProjectId = this.getDeptOrgCompanyId ?
+                        this.getDeptOrgCompanyId :
+                        0;
+                    const getCountryId = this.getDistrictOrgStructure;
+                    const typeHierarchy = "GeoFence";
+                    this.getReloadOrgChartByDeptGeoProject(
+                        getProjectId,
+                        getCountryId,
+                        typeHierarchy
+                    );
+                    // Selected GeoFence Communes Congress
+                    this.getCommuneByDistrictSelectedOrgStr(this.selectedDistrictOptOrgStr);
+                }
+            } catch (error) {
+                throw Error(error || error.message)
+            }
+        },
+        // Get all Org Structures base on villages structures all relist hierarchy 
+        async onChangeGetAllNationCommuneStatures() {
+             try {
+                 if (
+                     !Array.isArray(this.selectedCommuneOptOrgStr) ||
+                     this.selectedCommuneOptOrgStr !== undefined ||
+                     this.selectedCommuneOptOrgStr !== null &&
+                     this.selectedProject !== null &&
+                     !Array.isArray(this.selectedProject)
+                 ) {
+                     this.hideOrgStructureDeptCompany = "T4";
+                     this.selectedVillagesOptOrgStr = null;
+                     // /**
+                     //  * @Org - Strictures Manage
+                     //  **/
+                     // // Get Commune
+                     const getProjectId = this.getDeptOrgCompanyId ?
+                         this.getDeptOrgCompanyId :
+                         0;
+                     const getCountryId = this.getCommuneOrgStructure;
+                     const typeHierarchy = "GeoFence";
+                     this.getReloadOrgChartByDeptGeoProject(
+                         getProjectId,
+                         getCountryId,
+                         typeHierarchy
+                     );
+                 }
+             } catch (error) {
+                 throw Error(error || error.message)
+             }
+        },
+        // Get all Org Structures base on villages structures all relist hierarchy 
+        async onChangeGetAllNationVillagesStatures() {
+            try {
+                if (
+                    !Array.isArray(this.selectedVillagesOptOrgStr) ||
+                    this.selectedVillagesOptOrgStr !== undefined ||
+                    this.selectedVillagesOptOrgStr !== null &&
+                    this.selectedProject !== null &&
+                    !Array.isArray(this.selectedProject)
+                ) {
+                    this.hideOrgStructureDeptCompany = "T5";
+                    // Selected GeoFence Villages Congress
+                    this.getVillagesBySelectedOrgStr(this.selectedCommuneOptOrgStr);
+                    // this.selectedVillagesOptOrgStr = null;
+                    // /**
+                    //  * @Org - Strictures Manage
+                    //  **/
+                    // // Get Village
+                    const getProjectId = this.getDeptOrgCompanyId ?
+                        this.getDeptOrgCompanyId :
+                        0;
+                    const getCountryId = this.getVillagesOrgStructure;
+                    const typeHierarchy = "GeoFence";
+                    this.getReloadOrgChartByDeptGeoProject(
+                        getProjectId,
+                        getCountryId,
+                        typeHierarchy
+                    );
+
                 }
             } catch (error) {
                 throw Error(error || error.message)
