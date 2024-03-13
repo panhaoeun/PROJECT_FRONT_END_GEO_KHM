@@ -176,19 +176,29 @@ const defaultChildRoutesUsersMS = (prefix) => [
         component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/AddNewEmployeeGlobalAdminGeo.vue"),
     },
     // Position 
-    // {
-    //     path: "/admin/admin-position-org-structure-dept",
-    //     name: prefix + '.hrm_assign_employee_position_org',
-    //     meta: {
-    //         title: "userEmployee",
-    //         icon: 'setting',
-    //         requiresAuth: true,
-    //         permissions: ['users_modules']
-    //     },
-    //     component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/ListEmployeeGlobalAdminGeo.vue"),
-    // },
-    // Job Descriptions
-
+    {
+        path: "/admin/admin-position-org-structure-dept",
+        name: prefix + '.hrm_assign_employee_position_org',
+        meta: {
+            title: "userPosition",
+            icon: 'setting',
+            requiresAuth: true,
+            permissions: ['users_modules']
+        },
+        component: () => import("../../views/administrators/user_managements/users/manage_new_assign_position_org_str_dept/ListManageOrgPositionAssignNew.vue"),
+    },
+    // Job Descriptions 
+    {
+        path: "/admin/admin-job-description-org-structure-dept",
+        name: prefix + '.hrm_assign_employee_job_des_org',
+        meta: {
+            title: "jobDescription",
+            icon: 'file',
+            requiresAuth: true,
+            permissions: ['users_modules']
+        },
+        component: () => import("../../views/administrators/user_managements/users/manage_new_assign_position_org_str_dept/ListManageOrgJobDescriptionAssignNew.vue"),
+    },
 
 
 

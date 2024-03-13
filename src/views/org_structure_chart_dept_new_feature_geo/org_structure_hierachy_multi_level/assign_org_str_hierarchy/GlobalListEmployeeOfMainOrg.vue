@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submittedDialogEmpOrgSave">
+    <form @submit.prevent="submittedDialogEditGeoProjectStr">
         <!-- Spinner -->
         <transition name="fade" mode="out-in">
             <div class="spinner-wrapper flex layer-white" v-if="loadingSpinner">
@@ -183,7 +183,7 @@
     </form>
 </template>
 
-<!-- Script of emp-org-structures -->
+<!-- Script of edited projects -->
 <script>
 import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";
@@ -202,8 +202,9 @@ export default {
     props: {
         departmentName: {
             type: String,
-            required: true,
-            default: () => "No Department",
+            default() {
+                return null;
+            },
         },
         countEmp: {
             type: Number,
@@ -287,7 +288,7 @@ export default {
             "setToastError",
             "getRequest",
         ]),
-        submittedDialogEmpOrgSave() {},
+        getFirstCharacter() {},
     },
 };
 </script>

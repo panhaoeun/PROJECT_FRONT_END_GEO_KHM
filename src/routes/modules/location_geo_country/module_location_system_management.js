@@ -35,7 +35,7 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [{
             icon: 'chartPie',
             permissions: ['location_ms_system_module']
         },
-        component: () => import("../../../views/administrators/org_chart_structure_managements_new/FeatureOrgChartStructuresManagements.vue"),
+        component: () => import("../../../views/org_structure_chart_dept_new_feature_geo/FeatureOrgChartStructureDeptNewFeatureGeo.vue"),
         // component: () => import("../../../views/administrators/user_managements/role_permission_module_new/PermissionModuleRoleMSList.vue"),
     },
     {

@@ -165,6 +165,8 @@ export default {
         contentProduct: 'Message',
         userMSModule: 'HRM Management',
         userEmployee: 'Employee',
+        userPosition: 'Position',
+        jobDescription: 'Job Description',
         walletCustomer: 'Customer Wallet',
         customerMS: 'Customers',
         sellerMS: 'Sellers',

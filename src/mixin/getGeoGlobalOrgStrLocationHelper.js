@@ -16,10 +16,24 @@ export default{
         ...mapGetters("geoCommune", ["communeAll"]),
         ...mapGetters("geoVillages", ["getGeoVillageAll"]),
         allCountryOrgStr() {
-            return this.countryAll || [];
+            const getOrgOrgDeptCompanyId = this.selectedProject;
+            if (
+                getOrgOrgDeptCompanyId !== null ||
+                (getOrgOrgDeptCompanyId !== undefined && typeof getOrgOrgDeptCompanyId !== "object")
+            ) {
+                return this.countryAll || [];
+            }
+            return [];
         },
         allStateCountryAddNewOrgStr() {
-            return this.provinceAll || [];
+            const getOrgDeptCountryId = this.selectedCountryOptOrgStr;
+            if (
+                getOrgDeptCountryId !== null ||
+                (getOrgDeptCountryId !== undefined && typeof getOrgDeptCountryId !== "object")
+            ) {
+                return this.provinceAll || [];
+            }
+            return [];
         },
         allStateDistrictAddNew() {
             return this.districtAll || [];

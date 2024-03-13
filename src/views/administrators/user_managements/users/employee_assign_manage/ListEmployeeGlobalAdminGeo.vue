@@ -96,7 +96,7 @@
                                 style="min-width: 10rem"
                             ></Column>
                             <!-- Actions -->
-                            <!-- <Column
+                            <Column
                                 :exportable="false"
                                 header="Options"
                                 style="min-width: 8rem"
@@ -116,8 +116,23 @@
                                             })
                                         "
                                     />
+                                    <Button
+                                        icon="pi pi-trash"
+                                        outlined
+                                        rounded
+                                        severity="danger"
+                                        class="mr-2 bg-danger-500"
+                                        @click="
+                                            $router.push({
+                                                path: `/vendor/user/customer_info/list/admin/customer_view_details/${
+                                                    slotProps.data
+                                                        ?.customerId ?? ''
+                                                }`,
+                                            })
+                                        "
+                                    />
                                 </template>
-                            </Column> -->
+                            </Column>
                         </template>
                         <!--------------Check Existed Data ----------->
                     </DataTable>

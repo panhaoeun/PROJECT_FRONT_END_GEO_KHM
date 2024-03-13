@@ -156,7 +156,7 @@
                                                 </div>
                                             </div>
                                             <!-- Phone Number -->
-                                            <!-- <div class="col-4 field">
+                                            <div class="col-4 field">
                                                 <div class="field">
                                                     <label
                                                         for="name_en"
@@ -211,7 +211,7 @@
                                                         }}</small
                                                     >
                                                 </div>
-                                            </div> -->
+                                            </div>
                                             <!-- Gender -->
                                             <div class="col-12 col-lg-4 field">
                                                 <div class="field">
@@ -415,6 +415,73 @@
                                     </div>
                                 </TabPanel>
                                 <!-- Experience Info -->
+                                <TabPanel header="Experiences">
+                                    <p class="font-bold h-3">Work experience</p>
+                                    <Button
+                                        @click.prevent="openDialogExpInfo"
+                                        icon="pi pi-plus-circle"
+                                        aria-label="Submit"
+                                        label="Add New Experience"
+                                        class="w-15rem"
+                                    />
+                                    <dialog-popup-exp-info
+                                        :dialog-add-experience="
+                                            visibleDialogExpNew
+                                        "
+                                        @close-dialog="hideDialogExpNew"
+                                    />
+                                </TabPanel>
+                                <!-- Educations Info -->
+                                <TabPanel header="Educations">
+                                    <p class="font-bold h-3">Educations</p>
+                                    <Button
+                                        @click.prevent="openDialogEducationInfo"
+                                        icon="pi pi-plus-circle"
+                                        aria-label="Submit"
+                                        label="Add New Education"
+                                        class="w-15rem"
+                                    />
+                                    <dialog-popup-education-info
+                                        :dialog-add-experience="
+                                            visibleDialogEducationNew
+                                        "
+                                        @close-dialog="hideDialogEducationNew"
+                                    />
+                                </TabPanel>
+                                <!-- Skill -->
+                                <TabPanel header="Skills">
+                                    <p class="font-bold h-3">Skills</p>
+                                    <Button
+                                        @click.prevent="openDialogSkillInfo"
+                                        icon="pi pi-plus-circle"
+                                        aria-label="Submit"
+                                        label="Add New Skill"
+                                        class="w-15rem"
+                                    />
+                                    <dialog-popup-skill-info
+                                        :dialog-add-experience="
+                                            visibleDialogSkillNew
+                                        "
+                                        @close-dialog="hideDialogSkillNew"
+                                    />
+                                </TabPanel>
+                                <!-- Languages -->
+                                <TabPanel header="Languages">
+                                    <p class="font-bold h-3">Languages</p>
+                                    <Button
+                                        @click.prevent="openedLanguagesNew"
+                                        icon="pi pi-plus-circle"
+                                        aria-label="Submit"
+                                        label="Add New Languages"
+                                        class="w-15rem"
+                                    />
+                                    <dialog-popup-languages-info
+                                        :dialog-add-experience="
+                                            visibleDialogLanguagesNew
+                                        "
+                                        @close-dialog="hideDialogLanguagesNew"
+                                    />
+                                </TabPanel>
                             </TabView>
                             <!-- Buttons Submits Save -->
                             <div class="col-12 flex justify-content-end mt-4">
@@ -445,10 +512,17 @@
 <script>
 import { FilterMatchMode } from "primevue/api";
 import { useVuelidate } from "@vuelidate/core";
-import { minLength, required } from "@vuelidate/validators";
+import { minLength, numeric, maxLength, required } from "@vuelidate/validators";
 import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/manage_org_chart_structures/ManageOrgChartStructureGeoProjectServices";
+import DialogPopupExpInfo from "./popup_assign_more_emp/popup_experience_info/DialogPopupExperinceInfo.vue";
+import DialogPopupEducationInfo from "./popup_assign_more_emp/popup_education_info/DialogPopupEducationInfo.vue";
+import DialogPopupSkillInfo from "./popup_assign_more_emp/popup_skill_info/DialogPopupSkillInfo.vue";
 export default {
-    components: {},
+    components: {
+        DialogPopupExpInfo,
+        DialogPopupEducationInfo,
+        DialogPopupSkillInfo,
+    },
     props: {},
     setup() {
         return { v$: useVuelidate() };
@@ -457,12 +531,12 @@ export default {
         return {
             empSurname: { required, minLength: minLength(3) },
             empFirstName: { required, minLength: minLength(3) },
-            // empPhoneNumber: {
-            //     required,
-            //     numeric,
-            //     minLength: minLength(6),
-            //     maxLength: maxLength(11),
-            // },
+            empPhoneNumber: {
+                required,
+                numeric,
+                minLength: minLength(6),
+                maxLength: maxLength(11),
+            },
             // empEmailAddr: { required, minLength: minLength(3) },
             empNational: { required, minLength: minLength(3) },
             userDateOfBirth: {
@@ -471,14 +545,14 @@ export default {
             selectedUserGender: {
                 required,
             },
-            // empTypeName: { required, minLength: minLength(3) },
-            // empExperiencePosName: { required, minLength: minLength(3) },
-            // empExperienceCompany: { required, minLength: minLength(3) },
-            // empTypeGeo: { required, minLength: minLength(3) },
-            // empExperienceTypeGeo: { required },
-            // empExperienceAddr: { required },
-            // empExperienceStartDate: { required },
-            // empExperienceEndDate: { required },
+            empTypeName: { required, minLength: minLength(3) },
+            empExperiencePosName: { required, minLength: minLength(3) },
+            empExperienceCompany: { required, minLength: minLength(3) },
+            empTypeGeo: { required, minLength: minLength(3) },
+            empExperienceTypeGeo: { required },
+            empExperienceAddr: { required },
+            empExperienceStartDate: { required },
+            empExperienceEndDate: { required },
         };
     },
     data() {
@@ -510,6 +584,10 @@ export default {
             empExperienceNotes: "",
             empAddress: "",
             submitted: false,
+            visibleDialogExpNew: false,
+            visibleDialogEducationNew: false,
+            visibleDialogSkillNew: false,
+            visibleDialogLanguagesNew: false,
         };
     },
     created() {
@@ -517,6 +595,30 @@ export default {
             new ManageOrgChartStructureGeoProjectServices();
     },
     methods: {
+        async openDialogExpInfo() {
+            this.visibleDialogExpNew = true;
+        },
+        async hideDialogExpNew() {
+            this.visibleDialogExpNew = false;
+        },
+        async openDialogEducationInfo() {
+            this.visibleDialogEducationNew = true;
+        },
+        async hideDialogEducationNew() {
+            this.visibleDialogEducationNew = false;
+        },
+        async openDialogSkillInfo() {
+            this.visibleDialogSkillNew = true;
+        },
+        async hideDialogSkillNew() {
+            this.visibleDialogSkillNew = false;
+        },
+        async openedLanguagesNew(){
+            this.visibleDialogLanguagesNew = true;
+        },
+        async hideDialogLanguagesNew(){
+            this.visibleDialogLanguagesNew = false;
+        },
         async submitAddNewEmpGlobalGeo() {
             try {
                 this.loadingAddNewEmp = true;

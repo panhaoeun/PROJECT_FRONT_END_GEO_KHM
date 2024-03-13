@@ -77,6 +77,7 @@ import globalDirective from './plugins/global-directive';
 import globalMixin from './plugins/global-mixin';
 import BootstrapVue3 from 'bootstrap-vue-3';
 // PRIMEVUE
+import OrderList from 'primevue/orderlist';
 import OrganizationChart from 'primevue/organizationchart';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Fieldset from 'primevue/fieldset';
@@ -142,6 +143,7 @@ import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput';
 import MazInputTags from 'maz-ui/components/MazInputTags';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import MazStepper from "maz-ui/components/MazStepper";
 
 import VueSocialSharing from 'vue-social-sharing';
 import TreeSelect from 'primevue/treeselect';
@@ -220,10 +222,12 @@ app.component('Toast', Toast);
 app.component('Divider', Divider);
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios) // provide 'axios'
+app.component('OrderList', OrderList);
 app.component('MazBtn', MazBtn)
 app.component('MazInput', MazInput)
 app.component('MazPhoneNumberInput', MazPhoneNumberInput);
 app.component('MazInputTags', MazInputTags);
+app.component('MazStepper', MazStepper);
 app.component('Card', Card);
 app.component('InputMask', InputMask);
 app.component('Menubar', Menubar);

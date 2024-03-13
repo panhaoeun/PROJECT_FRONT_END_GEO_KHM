@@ -33,9 +33,7 @@
                                     inputNew, key
                                 ) in state.dyNamicAddNewFrmJobDes"
                                 :key="key"
-                                :set="
-                                    v$.dyNamicAddNewFrmJobDes.$each[index]
-                                "
+                                :set="v$.dyNamicAddNewFrmJobDes.$each[index]"
                             >
                                 <div
                                     class="flex justify-content-between flex-wrap"
@@ -79,8 +77,7 @@
                                             for="name_en"
                                             :class="{
                                                 'p-invalid border-round-lg border-round-lg p-error':
-                                                    v$
-                                                        .dyNamicAddNewFrmJobDes
+                                                    v$.dyNamicAddNewFrmJobDes
                                                         .$each.$response
                                                         .$errors[key]
                                                         .editNameEngProjectOrgStr
@@ -100,8 +97,7 @@
                                             "
                                             :class="{
                                                 'p-invalid border-round-lg border-round-lg p-error':
-                                                    v$
-                                                        .dyNamicAddNewFrmJobDes
+                                                    v$.dyNamicAddNewFrmJobDes
                                                         .$each.$response
                                                         .$errors[key]
                                                         .editNameEngProjectOrgStr
@@ -111,8 +107,8 @@
 
                                         <small
                                             v-if="
-                                                v$.dyNamicAddNewFrmJobDes
-                                                    .$each.$response.$data[key]
+                                                v$.dyNamicAddNewFrmJobDes.$each
+                                                    .$response.$data[key]
                                                     .editNameEngProjectOrgStr
                                                     .$invalid && submitted
                                             "
