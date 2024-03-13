@@ -13,6 +13,7 @@ export default {
     computed: {
         parentOrgStrCompanyId() {
             const getSuperParentOrgId = this.selectedParentDeptOrgStr;
+            console.log(getSuperParentOrgId)
             let deptParentOrgStrId;
             if (
                 getSuperParentOrgId !== null ||
@@ -22,7 +23,7 @@ export default {
                 const keyValId = Object.keys(getOrgMgtBoard)[0];
                 deptParentOrgStrId = keyValId.split(/[,-]+/).pop();
             }
-            return deptParentOrgStrId ? deptParentOrgStrId : '';
+            return deptParentOrgStrId ? deptParentOrgStrId : 0;
         }
     },
     methods: {
@@ -124,8 +125,14 @@ export default {
                             this.descriptionDeptEmpRootNode = '';
                             this.close();
                         })
-                        .catch(()=>{
-
+                        .catch((error) => {
+                            this.$toast.add({
+                                title: 'Unsuccessfully add new company org-structures',
+                                message:error?.message ? error?.message : '',
+                                severity: 'error',
+                                life: 3000,
+                            });
+                            this.loadingBtnOrgCompany = false;
                         });
                     }
                 }, 1000);

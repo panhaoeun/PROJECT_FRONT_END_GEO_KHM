@@ -143,7 +143,9 @@
         >
             <div class="my-2 px-2 py-2">
                 <div class="my-4">
-                    <h1 class="font-bold">
+                    <h1
+                        class="my-2 justify-content-center text-center flex flex-column font-global-moul-01 font-bold"
+                    >
                         Organizations Chart Structures Of
                         {{ "\n" + String(departmentName).toString("No Name") }}
                     </h1>
@@ -229,8 +231,15 @@
         <!-- No OrgChart -->
         <div v-else>
             <div class="my-2 px-2 py-2">
-                <div class="my-2">
-                    <h1 class="font-bold">Org Chart Example</h1>
+                <div
+                    class="my-2 justify-content-center text-center flex flex-column font-global-moul-01"
+                >
+                    <h1 class="font-bold font-global-moul-01">
+                        មិនមាននៃគំនូសតាងរចនាសម្ព័ន្ធ
+                    </h1>
+                    <h5 class="font-global-moul-01">
+                        Not Found Org Chart Structure
+                    </h5>
                     <small
                         >Please select company or nation congress structures for
                         view org-structures</small

@@ -24,7 +24,7 @@
         :company-id="companyId ? companyId : 0"
         :getCountryNationId="getCountryNationId ? getCountryNationId : 0"
         @close-dialog="closeOpenDialogAddNewOrgStrCompany()"
-        :treeOrgStructureDeptCompany="treeOrgStructure ? treeOrgStructure : {}"
+        :treeOrgStructureDeptNational="treeOrgStructure ? treeOrgStructure : {}"
     />
     <popup-edit-org-structure-chart
         :dialog="dialogOpenEditOrgStrChartCompany"

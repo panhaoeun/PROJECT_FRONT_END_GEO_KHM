@@ -5,24 +5,31 @@ export default {
         return {
             dialogOpenOrgStrChartCompany: false,
             dialogOpenEditOrgStrChartCompany: false,
+            selectedParentDeptOrgStrNationCongress: null
         }
     },
     created() {
         this.orgStructureChartHierarchy = new ManageOrgChartStructureGeoProjectServices();
     },
     computed: {
-        parentOrgStrCompanyId() {
-            const getSuperParentOrgId = this.selectedParentDeptOrgStr;
-            let deptParentOrgStrId;
+        parentOrgStructuresNationCongressId() {
+            const getSuperParentOrgId = this.selectedParentDeptOrgStrNationCongress ? this.selectedParentDeptOrgStrNationCongress : {};
+            let getSuperParentOrgNationCongressId;
             if (
-                getSuperParentOrgId !== null ||
+                getSuperParentOrgNationCongressId !== null ||
                 (getSuperParentOrgId !== undefined && typeof getSuperParentOrgId !== "object")
             ) {
                 const getOrgMgtBoard = getSuperParentOrgId ? getSuperParentOrgId : {};
                 const keyValId = Object.keys(getOrgMgtBoard)[0];
-                deptParentOrgStrId = keyValId.split(/[,-]+/).pop();
+                console.log(keyValId)
+                if (keyValId == null || keyValId === undefined) {
+                    getSuperParentOrgNationCongressId = 0;
+                }else{
+                    getSuperParentOrgNationCongressId = keyValId.split(/[,-]+/).pop();
+                }
+                console.log(getSuperParentOrgNationCongressId)
             }
-            return deptParentOrgStrId ? deptParentOrgStrId : '';
+            return getSuperParentOrgNationCongressId ? getSuperParentOrgNationCongressId : 0;
         }
     },
     methods: {
@@ -90,11 +97,13 @@ export default {
                         this.companyId > 0 ||
                         typeof this.addNewEmpRootNodeEng !== "object"
                     ) {
+                        const orgCountryId = this.getCountryNationId ? this.getCountryNationId : 0;
+                        const orgCompanyId = parseInt(this.companyId) ? parseInt(this.companyId) : 1;
                         const addNewObjRootTreeOrgStr = {
-                            addNewSuperDeptOrgStrIdBySelectedParent: this.parentOrgStrCompanyId ? this.parentOrgStrCompanyId : 0,
+                            addNewSuperDeptOrgStrIdBySelectedParent: this.parentOrgStructuresNationCongressId ? this.parentOrgStructuresNationCongressId : 0,
                             addNewOrgChartLevel: 'SL01',
-                            addNewOrgChartProId: parseInt(this.companyId) ? parseInt(this.companyId) : 0,
-                            addNewOrgChartCountryId: 0,
+                            addNewOrgChartProId: orgCompanyId ? orgCompanyId : 1,
+                            addNewOrgChartCountryId: orgCountryId ? orgCountryId : 0,
                             addNewOrgChartStrKhmerName: String(this.addNewEmpRootNodeKhmer).toString() ? String(this.addNewEmpRootNodeKhmer).toString() : '',
                             addNewOrgChartStrEnglishName: String(this.addNewEmpRootNodeEng).toString() ? String(this.addNewEmpRootNodeEng).toString() : '',
                             addNewOrgChartStrNoted: String(this.descriptionDeptEmpRootNode).toString() ? String(this.descriptionDeptEmpRootNode).toString() : ''
@@ -107,14 +116,12 @@ export default {
                             this.loadingBtnOrgCompany = false;
                             this.submitted = false;
                             // Reload Data In Datable in Dept org-str root level
-                            const typeHierarchyOrg = "Project";
-                            const orgCountryId = 0;
-                            const orgCompanyId = parseInt(this.companyId) ? parseInt(this.companyId) : 0;
+                            const typeHierarchyOrg = "GeoFence";
                             this.getReloadOrgChartByDeptGeoCompanyChart(orgCountryId, orgCompanyId, typeHierarchyOrg);
                             this.visibleDialogDepartment = false;
                             this.$toast.add({
                                 severity: "success",
-                                summary: "Successfully add new company org-structure.",
+                                summary: "Successfully add new national congress org-structure.",
                                 detail: orgStr.data?.message ??  null,
                                 life: 3000,
                             });
@@ -124,8 +131,14 @@ export default {
                             this.descriptionDeptEmpRootNode = '';
                             this.close();
                         })
-                        .catch(()=>{
-
+                        .catch((error) => {
+                            this.$toast.add({
+                                title: 'Unsuccessfully add new national congress org-structures',
+                                message:error?.message ? error?.message : '',
+                                severity: 'error',
+                                life: 3000,
+                            });
+                            this.loadingBtnOrgCompany = false;
                         });
                     }
                 }, 1000);

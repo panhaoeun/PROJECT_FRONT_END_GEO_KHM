@@ -20,8 +20,8 @@
                     <div class="input-wrap mlr-5">
                         <label> Parent department </label>
                         <TreeSelect
-                            v-model="selectedParentDeptOrgStr"
-                            :options="treeOrgStructureDeptCompany"
+                            v-model="selectedParentDeptOrgStrNationCongress"
+                            :options="treeOrgStructureDeptNational"
                             placeholder="Parent department"
                             class="border-round-lg text-sm w-27rem"
                         />
@@ -115,7 +115,7 @@
     </div>
 </template>
 
-<!-- Script of org-structures company -->
+<!-- Script of org-structures national congress -->
 <script>
 import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
@@ -143,7 +143,7 @@ export default {
             required: true,
             default: false,
         },
-        treeOrgStructureDeptCompany: {
+        treeOrgStructureDeptNational: {
             type: Object,
             required: true,
             default: () => {},
@@ -185,7 +185,7 @@ export default {
             addNewEmpRootNodeEng: "",
             statusAddNewRootNode: "nodeRoot",
             selectedParentDeptOrgStr: null,
-            dataOrgDeptStrCompany: [],
+            dataOrgDeptStrCompany: []
         };
     },
     created() {},

@@ -33,7 +33,7 @@ export default {
         },
         getOrgDeptCountNationSuperId() {
             const getProjectCountry = this.selectedCountryOptOrgStr || this.selectedCountryOptOrgStr;
-            if (getProjectCountry !== null) {
+            if (getProjectCountry !== null || (getProjectCountry !== undefined && typeof getProjectCountry !== "object")) {
                 return getProjectCountry.geo_ssn_location ? getProjectCountry.geo_ssn_location : 0;
             }
             return 0;
@@ -56,7 +56,7 @@ export default {
         // Hierarchy Org-Structure Chart
         ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardHierarchyStructure"]),
         getAllOrgStructureFeaturesGeoCompany() {
-            const getOrgOrgDeptCompanyId = this.selectedProject;
+            const getOrgOrgDeptCompanyId = this.selectedProject || this.selectedCountryOptOrgStr;
             if (
                 getOrgOrgDeptCompanyId !== null ||
                 (getOrgOrgDeptCompanyId !== undefined && typeof getOrgOrgDeptCompanyId !== "object")
@@ -65,10 +65,10 @@ export default {
             }
         },
         getAllOrgStructuresFeatureGeoNationCongress() {
-            const getOrgOrgDeptCompanyId = this.selectedProject;
+            const getOrgOrgDeptCountryId = this.selectedCountryOptOrgStr;
             if (
-                getOrgOrgDeptCompanyId !== null ||
-                (getOrgOrgDeptCompanyId !== undefined && typeof getOrgOrgDeptCompanyId !== "object")
+                getOrgOrgDeptCountryId !== null ||
+                (getOrgOrgDeptCountryId !== undefined && typeof getOrgOrgDeptCountryId !== "object")
             ) {
                 return this.allOrgBoardHierarchyStructure || [];
             }
@@ -149,9 +149,9 @@ export default {
         onChangeGetAllProjectCompany() {
             try {
                 if (
-                    !Array.isArray(this.selectedCountryOptOrgStr) ||
-                    this.selectedCountryOptOrgStr !== undefined ||
-                    this.selectedCountryOptOrgStr !== null &&
+                    !Array.isArray(this.selectedProject) ||
+                    this.selectedProject !== undefined ||
+                    this.selectedProject !== null &&
                     this.selectedProject !== null &&
                     !Array.isArray(this.selectedProject)
                 ) {
@@ -178,7 +178,7 @@ export default {
             }
         },
         // Get all Org Structures base on country all relist hierarchy 
-        onChangeGetAllNationCountryCongress() {
+        async onChangeGetAllNationCountryCongress() {
             try {
                 if (
                     !Array.isArray(this.selectedCountryOptOrgStr) ||
@@ -188,6 +188,39 @@ export default {
                     !Array.isArray(this.selectedProject)
                 ) {
                     this.hideOrgStructureDeptCompany = "T1";
+                    this.selectedProvinceOptOrgStr = null;
+                    // /**
+                    //  * @Org - Strictures Manage
+                    //  **/
+                    // // Get Country
+                    const getProjectId = this.getDeptOrgCompanyId ?
+                        this.getDeptOrgCompanyId :
+                        0;
+                    const getCountryId = this.getCountryOfGeoLocationOrgStr;
+                    const typeHierarchy = "GeoFence";
+                    this.getReloadOrgChartByDeptGeoProject(
+                        getProjectId,
+                        getCountryId,
+                        typeHierarchy
+                    );
+                    // Selected GeoFence Province Congress
+                    this.getProvinceByCountrySelectedOrgStr(this.selectedCountryOptOrgStr);
+                }
+            } catch (error) {
+                throw Error(error || error.message)
+            }
+        },
+        // Get all Org Structures base on province structures all relist hierarchy 
+        async onChangeGetAllNationProvinceStatures(){
+            try {
+                if (
+                    !Array.isArray(this.selectedCountryOptOrgStr) ||
+                    this.selectedCountryOptOrgStr !== undefined ||
+                    this.selectedCountryOptOrgStr !== null &&
+                    this.selectedProject !== null &&
+                    !Array.isArray(this.selectedProject)
+                ) {
+                    this.hideOrgStructureDeptCompany = "T2";
                     // /**
                     //  * @Org - Strictures Manage
                     //  **/

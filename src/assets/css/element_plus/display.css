@@ -29,6 +29,12 @@
   font-size: 14px;
   src: local('Khmer OS Battambong'), url(../../fonts/khmer_fonts/khmer_os_battambong.ttf) format('truetype');
 }
+.font-global-moul-01{
+    font-size: 23px;
+    line-height: 1.7;
+    font-weight: 400;
+    font-family: 'Poppins','Khmer M1',sans-serif;
+}
 body,
 html {
    font-family: 'Anek Kannada',sans-serif;
