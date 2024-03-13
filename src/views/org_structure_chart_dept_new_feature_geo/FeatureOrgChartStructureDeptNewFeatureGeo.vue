@@ -445,7 +445,7 @@
                                     "
                                     :companyId="
                                         getDeptOrgCompanyId
-                                            g? getDeptOrgCompanyId
+                                            ? getDeptOrgCompanyId
                                             : 0
                                     "
                                     :getCountryNationId="
