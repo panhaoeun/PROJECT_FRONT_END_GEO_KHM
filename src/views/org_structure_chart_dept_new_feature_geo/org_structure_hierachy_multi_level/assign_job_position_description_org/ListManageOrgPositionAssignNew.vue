@@ -20,7 +20,17 @@
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
                 <!-- Search Products -->
-                <p class="justify-content-center font-bold">List Positions</p>
+                <p class="justify-content-center font-bold">
+                    <Button
+                        type="button"
+                        label="Add New"
+                        icon="pi pi-plus"
+                        severity="warning"
+                        class="w-10rem h-2.1rem text-sm plr-20 mtb-5 border-round-lg"
+                        :loading="loadingAddJobDesPosition"
+                        @click="openJobDesPositionOrgStructure"
+                    />
+                </p>
                 <span
                     class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
                 >
@@ -105,20 +115,7 @@
             </template>
         </Column>
     </DataTable>
-    <!-- Dialogs Position Edited -->
-    <open-edited-positions-org-structure
-        v-if="openEditedBoardMgtDialogs"
-        @close="closingPopupEditedPosIdOrgStrDialogs"
-        :open-edit-board-position="
-            openEditBoardMgtData ? openEditBoardMgtData : {}
-        "
-    />
-    <!-- Terms of Reference of Positions -->
-    <assign-terms-reference-positions
-        :dialog="clingAssignTORVisible"
-        @close-dialog="clingAssignDialog"
-    />
-    <!-- Deleted Dialogs Project -->
+    <!-- Deleted Dialogs Position Job Descriptions By Id -->
     <Dialog
         v-model:visible="deletedGeoDeptPosMgtDialogs"
         :style="{ width: '450px' }"
@@ -147,14 +144,28 @@
             />
         </template>
     </Dialog>
-    <!-- Dialogs confirm Remove -->
+    <!-- Dialogs Position Job Descriptions Edited -->
+    <open-edited-positions-org-structure
+        v-if="openEditedBoardMgtDialogs"
+        @close="closingPopupEditedPosIdOrgStrDialogs"
+        :open-edit-board-position="
+            openEditBoardMgtData ? openEditBoardMgtData : {}
+        "
+    />
+    <!-- Add New Job Positions Descriptions -->
+    <OpenAddJobPositionsDescriptionOrgStructures
+        v-if="openJobDesPosition"
+        :dialog="openJobDesPosition"
+        @close-dialog="closeJobDesPositionOrgStr"
+    />
 </template>
 <!-- Script of list data global positions -->
 <script>
 import { FilterMatchMode } from "primevue/api";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
-// import OpenEditedPositionsOrgStructure from "../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditPositionOrgStructureData.vue";
+import OpenEditedPositionsOrgStructure from "../assign_job_position_description_org/global_assign_org_dept_structures_job_description/job_des_positions/EditPositionDesJobOrgStructureData";
+import OpenAddJobPositionsDescriptionOrgStructures from "./global_assign_org_dept_structures_job_description/job_des_positions/AssignPositionDescriptionManageOrgStructure";
 export default {
     props: {
         positionData: {
@@ -178,14 +189,27 @@ export default {
             filtersDataPositionData: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
-            clingAssignTORVisible: false,
+            loadingAddJobDesPosition: false,
+            openJobDesPosition: false,
         };
     },
     components: {
+        OpenEditedPositionsOrgStructure,
+        OpenAddJobPositionsDescriptionOrgStructures,
     },
     methods: {
         clingAssignDialog() {
             this.clingAssignTORVisible = false;
+        },
+        closeJobDesPositionOrgStr() {
+            this.openJobDesPosition = false;
+        },
+        openJobDesPositionOrgStructure() {
+            this.loadingAddJobDesPosition = true;
+            setTimeout(() => {
+                this.loadingAddJobDesPosition = false;
+                this.openJobDesPosition = true;
+            }, 1000);
         },
     },
 };

@@ -1,4 +1,5 @@
 <template>
+    {{ orgStructDeptJobDeptId }}
     <DataTable
         v-model:section="selectedPositionData"
         :value="
@@ -21,10 +22,14 @@
             <div
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
-                <!-- Search Products -->
-                <p class="justify-content-center font-bold">
-                    List Job Descriptions
-                </p>
+                <Button
+                    type="button"
+                    label="Add New"
+                    icon="pi pi-plus"
+                    class="w-10rem h-2.1rem text-sm plr-20 mtb-5 border-round-lg"
+                    :loading="loadingAddJobDesDept"
+                    @click="openDialogAddNewJobDesDeptOrgStr"
+                />
                 <span
                     class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
                 >
@@ -113,21 +118,29 @@
             />
         </template>
     </Dialog>
-    <!-- Edited Job Descriptions -->
-    <OpenEditedJobDescriptionOrgStructure
+    <!-- Edited Job Dept Descriptions -->
+    <OpenEditedJobDeptDescriptionOrgStructure
         v-if="openEditedJobDescDialogs"
         @close="closingPopupEditedJobPosDesIdOrgStrDialogs"
         :open-edit-board-job-des="openDataJobDesc ? openDataJobDesc : {}"
+    />
+    <!-- Add New Job Dept Descriptions -->
+    <OpenAddJobDescriptionDeptOrgStructures
+        v-if="dialogAddNewDeptOrgStr"
+        :dialog="dialogAddNewDeptOrgStr"
+        @close-dialog="closeDialogAddJobDesDepartmentOrg"
     />
 </template>
 <!-- Script of list data global positions -->
 <script>
 import { FilterMatchMode } from "primevue/api";
-import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
-// import OpenEditedJobDescriptionOrgStructure from "../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditJobDescriptionOrgStrData.vue";
+import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
+import OpenEditedJobDeptDescriptionOrgStructure from "./global_assign_org_dept_structures_job_description/job_dept_description/EditJobDescriptionDeptOrgStrData";
+import OpenAddJobDescriptionDeptOrgStructures from "./global_assign_org_dept_structures_job_description/job_dept_description/AssignJobDescriptionsDeptManageOrgStructureAddNew";
 export default {
     components: {
-        // OpenEditedJobDescriptionOrgStructure,
+        OpenEditedJobDeptDescriptionOrgStructure,
+        OpenAddJobDescriptionDeptOrgStructures,
     },
     props: {
         jobDescriptionData: {
@@ -135,20 +148,41 @@ export default {
             required: true,
             default: () => {},
         },
+        orgStructDeptJobDeptId: {
+            type: Number,
+            required: true,
+            default: () => 0,
+        },
     },
-    mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
+    mixins: [manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper],
     data() {
         return {
             positionDataJobDes: null,
             selectedPositionData: false,
             visibleConfirmRemove: false,
             dataObjPosition: null,
+            dialogAddNewDeptOrgStr: false,
+            loadingAddJobDesDept: false,
             filtersDataPositionData: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
         };
     },
-    created() {},
-    mounted() {},
+    mounted() {
+        const orgStrJobDesDeptId = this.orgStructDeptJobDeptId;
+        this.getJobDescriptionType(orgStrJobDesDeptId);
+    },
+    methods: {
+        closeDialogAddJobDesDepartmentOrg() {
+            this.dialogAddNewDeptOrgStr = false;
+        },
+        openDialogAddNewJobDesDeptOrgStr() {
+            this.loadingAddJobDesDept = true;
+            setTimeout(() => {
+                this.loadingAddJobDesDept = false;
+                this.dialogAddNewDeptOrgStr = true;
+            }, 1500);
+        },
+    },
 };
 </script>

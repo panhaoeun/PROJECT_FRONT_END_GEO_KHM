@@ -53,8 +53,16 @@
             v-if="isOpenAssignDesOrgStr"
             @close="closeOrgStrAssignData"
             :editOrgStrDeptName="orgNodeData ? orgNodeData : {}"
+            :orgAssignDesStructureId="idOrgStructures ? idOrgStructures : 0"
         />
-
+        <!-- Dialogs of add new node org-structures-->
+        <open-dialog-add-node-org-structures
+            v-if="isOpenDialogsAddNode"
+            :tree-org-structure-data="orgNodeData ? orgNodeData : {}"
+            :dialog="isOpenDialogsAddNode"
+            :orgDeptKey="keyOrgNodeStructure ? keyOrgNodeStructure : {}"
+            @close-dialog="closeDialogAddNodeOrgStructures"
+        />
         <!-- Context Menu Of Organization Chart-Hierarchy Global -->
         <Sidebar
             v-model:visible="isOpenDialogDrawer"
@@ -71,7 +79,9 @@
                     <li>
                         <a
                             v-ripple
-                            @click.prevent="openAddNewNodeOrg"
+                            @click.prevent="
+                                openAddNewNodeOrgStructuresHierarchy
+                            "
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-sitemap mr-2"></i>
@@ -166,7 +176,7 @@
                             <div
                                 class="flex font-global-khmer flex-column align-items-center w-full lg:w-12rem xl:w-12rem white-space-normal overflow-hidden"
                             >
-                                <!-- Img -->
+                                <!-- Employee Profile -->
                                 <img
                                     v-if="
                                         slotProps.node.empOrgStrProfile !==
@@ -174,8 +184,13 @@
                                         slotProps.node.empOrgStrProfile !== ''
                                     "
                                     :alt="slotProps.node.empName"
-                                    :src="slotProps.node.empOrgStrProfile"
-                                    class="mb-1 w-3rem h-3rem"
+                                    class="p-avatar p-component p-avatar-circle p-avatar-xl mr-2"
+                                    :src="
+                                        imageURLEmpOrgStructures(
+                                            slotProps.node?.empOrgStrProfile
+                                        )
+                                    "
+                                    @error="pictureLoadingError"
                                 />
                                 <Avatar
                                     :label="extendedSplit(slotProps.node.label)"
@@ -189,7 +204,7 @@
                                     v-else
                                 />
                                 <div
-                                    class="flex flex-column align-items-center white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                                    class="flex flex-column align-items-center white-space-nowrap overflow-hidden my-2 text-overflow-ellipsis"
                                 >
                                     <span
                                         class="font-bold mb-2 white-space-nowrap overflow-hidden text-overflow-ellipsis font-global-khmer"
@@ -276,13 +291,14 @@
     </div>
 </template>
 
-<!-- Org-Structure Hierarchy Global -->
+<!-- Org-Structure Hierarchy Global Levels-->
 <script>
 import Sidebar from "primevue/sidebar";
 import ViewDetailListEmpGlobalOrg from "./assign_org_str_hierarchy/GlobalListEmployeeOfMainOrg";
 import EditAssignEmpManagerGlobalOrg from "./assign_org_str_hierarchy/GlobalEditedAssignEmployeeOfMainOrg";
 import OpenEditOrgStructureName from "./assign_org_str_hierarchy/GlobalEditOrgStrName";
 import OpenGlobalAssignDescription from "./assign_org_str_hierarchy/OpenGlobalAssignDescription";
+import OpenDialogAddNodeOrgStructures from "./assign_org_str_hierarchy/AddNodeOrgStrHierarchyGlobal";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 
 export default {
@@ -292,6 +308,7 @@ export default {
         EditAssignEmpManagerGlobalOrg,
         OpenEditOrgStructureName,
         OpenGlobalAssignDescription,
+        OpenDialogAddNodeOrgStructures,
     },
     mixins: [manageOrgStructureDeptNewFeatures],
     created() {},
@@ -321,6 +338,11 @@ export default {
     },
     data() {
         return {
+            backupSrc: require("@/assets/img/avatars/not_profile.png"),
+            ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE.replace(
+                "https",
+                "http"
+            ),
             selectionKeyOrg: null,
             isOpenDialogDrawer: false,
             orgDeptName: "",
@@ -330,7 +352,9 @@ export default {
             isOpenEditOrgStrData: false,
             isOpenDialogEditRemoveOrgStr: false,
             isOpenAssignDesOrgStr: false,
-            envFilePath: process.env.VUE_APP_PATH_FILE,
+            isOpenDialogsAddNode: false,
+            keyOrgNodeStructure: null,
+            envFilePath: process.env.VUE_APP_PATH_FILE.replace("https", "http"),
             data: {
                 key: "0",
                 type: "person",
@@ -388,10 +412,18 @@ export default {
                 ],
             },
             loadingOrgStructuresRemoved: false,
+            didLoad: false,
             orgNodeData: [],
         };
     },
     methods: {
+        imageURLEmpOrgStructures(path) {
+            return (
+                this.ENV_HOST_PATH_FILE +
+                `uploads/user_profile/admin_staff/` +
+                path
+            );
+        },
         extendedSplit(str) {
             let splitFirstChart;
             if (typeof str !== "undefined") {
@@ -410,6 +442,7 @@ export default {
             this.isOpenDialogDrawer = true;
             this.orgDeptName = String(nodeData.department).toString();
             this.idOrgStructures = parseInt(nodeData.id) ?? 0;
+            this.keyOrgNodeStructure = String(nodeData.key).toString() ?? null;
             this.orgNodeData = nodeData ? nodeData : [];
             this.$emit("node-click", nodeData);
         },
@@ -429,7 +462,6 @@ export default {
         closeOrgStrAssignData() {
             this.isOpenAssignDesOrgStr = false;
         },
-        openAddNewNodeOrg() {},
         openEditOrgStructureData() {
             this.isOpenEditOrgStrData = true;
             this.isOpenDialogDrawer = false;
@@ -459,6 +491,20 @@ export default {
             } catch (error) {
                 throw Error(error || error.message);
             }
+        },
+        /**
+         * Add Org-Structures Node
+         **/
+        closeDialogAddNodeOrgStructures() {
+            this.isOpenDialogsAddNode = false;
+        },
+        openAddNewNodeOrgStructuresHierarchy() {
+            this.isOpenDialogDrawer = false;
+            this.isOpenDialogsAddNode = true;
+        },
+        pictureLoadingError(e) {
+            this.didLoad = false;
+            e.target.src = this.backupSrc;
         },
     },
     mounted() {},

@@ -505,27 +505,6 @@ export default{
                 return Promise.reject(error.message || []);
             }
         },
-        geoLocationCommuneVillageListOrgStrOnChangeFeatures(villageType, superSSNCityCode) {
-             try {
-                 this.geoLocationServices
-                     .listGeoLocationVillageCommune(
-                         villageType,
-                         superSSNCityCode
-                     )
-                     .then((location) => {
-                         if (!location) {
-                             this.geoLocationListArray = [];
-                         }
-                         //Villages
-                        this.getAllCommuneActions(location);
-                     })
-                     .catch((error) => {
-                         return Promise.reject(error.message || []);
-                     });
-             } catch (error) {
-                 return Promise.reject(error.message || []);
-             }
-        },
         geoLocationCommuneVillageListOrgStr(villageType, superSSNCityCode) {
              try {
                  this.geoLocationServices
@@ -534,7 +513,6 @@ export default{
                          superSSNCityCode
                      )
                      .then((location) => {
-                        console.log(location)
                          if (!location) {
                              this.geoLocationListArray = [];
                          }

@@ -383,34 +383,38 @@ export default {
         async removedOrgChartHierarchy(id) {
             try{
                 this.loadingOrgStructuresRemoved = true;
-                setInterval(() => {
+                setTimeout(() => {
                     this.loadingOrgStructuresRemoved = false;
                     this.deletedDialogLevelRootMgt = false;
                     const orgStrId = parseInt(id) ? parseInt(id) : 0;
                     this.getOrgStructFeaturesNew.removeNewOrgStructureGeoProjectGeo(orgStrId).then(async (orgStr) => {
-                        if(orgStr?.status === 200){
+                        // if(orgStr?.status === 200){
                             this.isOpenDialogEditRemoveOrgStr = false;
                             this.loadingOrgStructuresRemoved = false;
-                           this.$toast.add({
-                                summary: 'Delete Org-Structure Successfully',
-                                detail: orgStr.data?.message ?? '',
+                            // Fetching Data from org-structure
+                            this.$toast.add({
+                                summary: 'Delete Node of org-Structure successfully',
                                 severity: 'success'
                             });
-                            // Fetching Data from org-structure
-                            const projectRemoveId = parseInt(orgStr.result.resultStatus.project_id);
-                            const countryRemoveId = parseInt(orgStr.result.resultStatus.geo_country_id);
-                            this.getReloadOrgChartByDeptGeoProject(projectRemoveId, countryRemoveId);
-                        }
-                    }).catch((error) => {
-                        this.$toast.add({
-                            severity: "error",
-                            summary: "Unsuccessfully updated org-structures.",
-                            detail: error?.message ? error?.message : '',
-                            life: 3000,
-                        });
-                        throw Error(error || error.message)
+                            const projectRemoveId = parseInt(orgStr.project_id) ?? 1;
+                            const countryRemoveId = parseInt(orgStr.project_id) ?? 0;
+                            let checkTypeOrgNode;
+                            switch (projectRemoveId > 0 && countryRemoveId > 0) {
+                                case 'Projects':
+                                    checkTypeOrgNode = 'Projects';
+                                    break;
+                                case 'GeoFence':
+                                    checkTypeOrgNode = 'GeoFence';
+                                    break;
+                                default:
+                                    checkTypeOrgNode = "GeoFence"
+                                    break;
+                            }
+                            this.getReloadOrgChartByDeptGeoProject(projectRemoveId, countryRemoveId, checkTypeOrgNode);
+                        // }
                     });
                 }, 1500);
+              
             }catch(error){
                 throw Error(error.message ? error.message : error);
             }
@@ -446,7 +450,6 @@ export default {
                             // Fetching Data from org-structure Reload
                             const projectRemoveId = parseInt(orgStr.data.result.resultStatus.project_id);
                             const countryRemoveId = parseInt(orgStr.data.result.resultStatus.geo_country_id);
-                            console.log(orgStr.data.result.resultStatus.project_id)
                             this.getReloadOrgChartByDeptGeoProject(projectRemoveId, countryRemoveId);
                             // Closed Org-Strictures
                             if (!this.hasErrorNewOrgStr) {

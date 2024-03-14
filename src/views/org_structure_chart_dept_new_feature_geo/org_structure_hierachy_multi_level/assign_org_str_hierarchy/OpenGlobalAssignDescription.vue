@@ -30,20 +30,20 @@
                                 <!--Managements Job Descriptions-->
                                 <TabPanel header="Department Description">
                                     <list-department-descriptions
-                                        :org-str-name-edited-id="
-                                            orgStrNameEditedId
-                                                ? orgStrNameEditedId
-                                                : null
+                                        :orgStructDeptJobDeptId="
+                                            orgAssignDesStructureId
+                                                ? orgAssignDesStructureId
+                                                : 0
                                         "
                                     />
                                 </TabPanel>
                                 <!--Managements Job Descriptions-->
                                 <TabPanel header="Position Descriptions">
                                     <list-position-description-org
-                                        :org-str-name-edited-id="
-                                            orgStrNameEditedId
-                                                ? orgStrNameEditedId
-                                                : null
+                                        :orgStructDeptJobDeptId="
+                                            orgAssignDesStructureId
+                                                ? orgAssignDesStructureId
+                                                : 0
                                         "
                                     />
                                 </TabPanel>
@@ -88,6 +88,11 @@ export default {
         ListPositionDescriptionOrg,
     },
     props: {
+        orgAssignDesStructureId: {
+            type: Number,
+            required: true,
+            defaultValue: 0,
+        },
         editOrgStrDeptName: {
             type: Object,
             default() {
