@@ -4,7 +4,7 @@
         <Dialog
             v-model:visible="openDialogs"
             modal
-            header="Add Node Org Chart Structure"
+            header="Add New Position Description"
             :style="{ width: '50rem' }"
             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
             maximizable
@@ -15,6 +15,7 @@
             </template>
             <!-- Contents -->
             <div class="address-popup popup-top-auto z-100">
+                {{ orgStrNameEditedId }} orgStrNameEditedId
                 <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
                     <div class="col-12 lg:col-12 text-sm">
                         <div class="grid formgrid">
@@ -301,45 +302,6 @@ export default {
     methods: {
         close() {
             this.$emit("close-dialog");
-        },
-        async handleEditStructureOrgProChartSubmit(validate) {
-            try {
-                this.submitted = true;
-                this.loadingBtnEdit = true;
-                this.v$.$touch();
-                setTimeout(async () => {
-                    this.loadingBtnEdit = false;
-                    if (!validate) {
-                        const isFormCorrect = await this.v$.$validate();
-                        if (isFormCorrect !== true || isFormCorrect == false) {
-                            this.$toast.add({
-                                severity: "error",
-                                summary: "Please Fix Below Errors.",
-                                detail: "Please input filed position description form have missing value!",
-                                life: 3000,
-                            });
-                            return false;
-                        }
-                        return false;
-                    }
-                    // Check get value multiple inputs fields
-                    // let objectPositionData;
-                    const objInputPositionsFiled = this.state
-                        ?.dyNamicAddNewFrmJobDes
-                        ? this.state?.dyNamicAddNewFrmJobDes
-                        : [];
-                    for (
-                        let index = 0;
-                        index < objInputPositionsFiled.length;
-                        index++
-                    ) {
-                        let objFiled = {};
-                        console.log(objFiled);
-                    }
-                }, 1000);
-            } catch (error) {
-                throw Error(error || error.message);
-            }
         },
         onClickAddMorePositionDesOrgStructures() {
             try {

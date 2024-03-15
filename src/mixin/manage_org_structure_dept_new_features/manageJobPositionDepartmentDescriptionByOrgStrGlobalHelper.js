@@ -9,35 +9,40 @@ export default {
             openDataJobPos: null,
             openEditedJobDescDialogs: false,
             deletedJobDescDialogs: false,
-            deletedJobDescId: 0
+            deletedJobDescId: 0,
+            loadingPositionDeptJobDes: false
         }
     },
     created() {
         this.geoDeptOrgStrServicesPosition = new ManageOrgChartStructureGeoProjectServices();
     },
     computed: {
-        ...mapGetters('orgStrDeptPosGeo', ['allOrgJobDescriptionBaseProject', "allOrgPosJobDescriptionBaseProject"]),
-        getJobDescriptionsBaseProject() {
+        ...mapGetters('orgStrDeptPosGeo', ['allOrgJobDescriptionAssignDepartmentAssign', "allOrgJobPositionDescriptionAssign"]),
+        getJobDescriptionsDeptAssign() {
             const orgStrDeptJobDes =
-                this.allOrgJobDescriptionBaseProject ?
-                this.allOrgJobDescriptionBaseProject: [];
-            if (orgStrDeptJobDes !== null ||
-                orgStrDeptJobDes !==
+                this.allOrgJobDescriptionAssignDepartmentAssign ?
+                this.allOrgJobDescriptionAssignDepartmentAssign: [];
+            const orgDepOrgStrId = this.orgStructDeptJobDeptId ? this.orgStructDeptJobDeptId : 0;
+            if (orgDepOrgStrId !== null ||
+                orgDepOrgStrId !==
                 undefined &&
-                typeof orgStrDeptJobDes !== 'string'
+                typeof orgDepOrgStrId !== 'string'
+                && orgDepOrgStrId > 0
             ) {
                 return orgStrDeptJobDes ? orgStrDeptJobDes : []
             }
             return [];
         },
-        getJobDescriptionsPositionBaseProject() {
+        getJobDescriptionPositionAssign() {
             const orgStrDeptJobDesPos =
-                this.allOrgPosJobDescriptionBaseProject ?
-                this.allOrgPosJobDescriptionBaseProject: [];
-            if (orgStrDeptJobDesPos !== null ||
-                orgStrDeptJobDesPos !==
+                this.allOrgJobPositionDescriptionAssign ?
+                this.allOrgJobPositionDescriptionAssign: [];
+            const orgStrPositionJobDes = this.orgStructDeptJobPositionId ? this.orgStructDeptJobPositionId : 0;
+            if (orgStrPositionJobDes !== null ||
+                orgStrPositionJobDes !==
                 undefined &&
-                typeof orgStrDeptJobDesPos !== 'string'
+                typeof orgStrPositionJobDes !== 'string'
+                && orgStrPositionJobDes > 0
             ) {
                 return orgStrDeptJobDesPos ? orgStrDeptJobDesPos : []
             }
@@ -62,7 +67,7 @@ export default {
                             this.$toast.add({
                                 severity: "error",
                                 summary: "Please Fix Below Errors.",
-                                detail: "Please input filed position form have missing value!",
+                                message: 'Please input filed position form have missing value!',
                                 life: 3000,
                             });
                             return false;
@@ -100,10 +105,9 @@ export default {
                             // Relist Get Board Manager Job Descriptions Data
                             await this.getJobDescriptionType(parseInt(this.getOrgStructureAdd.id) ?? 0, this.addJobDescType);
                             this.$toast.add({
-                                severity: "success",
-                                summary:
-                                    "Successfully add new job descriptions.",
-                                detail: String(jobDes.data?.message).toString()
+                                severity: "error",
+                                summary: "Successfully add new job descriptions.",
+                               detail: String(jobDes.data?.message).toString()
                                     ? String(jobDes.data?.message).toString()
                                     : null,
                                 life: 3000,
@@ -155,7 +159,7 @@ export default {
             }
         },
         /*
-        ** @Edit and Dialogs Removes
+        ** @Edit and Dialogs Removes Department Descriptions
         */
        async openEditDialogsJobDescRename(data){
             if(data !== undefined || data !== null){
@@ -172,7 +176,7 @@ export default {
                     this.submittingJobDesc = true;
                     const parentJobDescOrgStrId = parseInt(this.getPosEditJobDes?.orgStrId) ? parseInt(this.getPosEditJobDes?.orgStrId) : 0;
                     const parentJobDesId = parseInt(this.getPosEditJobDes?.jobDesId) ? parseInt(this.getPosEditJobDes?.jobDesId) : 0;
-                    const jobDesStatus = parseInt(this.getPosEditJobDes?.jobDeStatus) ? parseInt(this.getPosEditJobDes?.jobDeStatus) : 0
+                    const jobDesStatus = this.getPosEditJobDes?.jobDeStatus ? this.getPosEditJobDes?.jobDeStatus : 0
                     const editDataJobDescDept = {
                         modifyOrgDeptId: parentJobDescOrgStrId ? parentJobDescOrgStrId : 0,
                         modifyJobDeOrgStrEnglishName: String(this.getPosEditJobDes?.jobDesEng).toString(),
@@ -186,10 +190,11 @@ export default {
                             setTimeout(async () => {
                                 this.hasJobDescErrors = false
                                 this.submittingJobDesc = false;
-                                this.$notify({
-                                    title: 'Editing job description successfully!',
+                                this.$toast.add({
+                                    severity: "success",
+                                    summary: "Editing Org Structures Job Description Successfully.",
                                     message:String(jobDes.data?.message).toString() ? String(jobDes.data?.message).toString() : '',
-                                    type: 'success'
+                                    life: 3000,
                                 });
                                 /**
                                  * @Relist Get Job Descriptions 
@@ -203,10 +208,11 @@ export default {
                     }).catch((error)=> {
                         let message = error?.message;
                         this.setToastError(message);
-                        this.$notify({
-                            title: 'Unsuccessfully updated base job descriptions',
-                            message:String(message.data?.message).toString() ? String(message.data?.message).toString() : '',
-                            type: 'error'
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Unsuccessfully updated base job descriptions",
+                            message:String(error.data?.message).toString() ? String(error.data?.message).toString() : '',
+                            life: 3000,
                         });
                         this.submittingJobDesc = false;
                     });
@@ -292,12 +298,98 @@ export default {
                 }
             },1000);
         },
+     
         /**
-         * @Reload Positions base board manager()
-         * */ 
+        *@Edit and Dialogs Removes Positions Descriptions
+        */
+        editGeoOrgDeptPosStrByPosIdDialog(position) {
+            this.dataEditOrgPositionDes = position ? position : {};
+            this.openEditedPositionDialogs = true;
+        },
+        closingPopupEditedPosIdOrgStrDialogs() {
+            this.openEditedPositionDialogs = true;
+            setTimeout(() => {
+                this.openEditedPositionDialogs = false;
+            }, 100);
+        },
+        confirmDeletedDeptPosOrgStrById(id) {
+            this.deletedGeoDeptPosMgtDialogs = true;
+            if (id.jobDesId !== null && id.jobDesId !== undefined || !isNaN(Number(id.jobDesId)) && id.jobDesId !== '') {
+                this.dataDeletedOrgBoardPosId = parseInt(id.jobDesId);
+            }
+        },
+        async confirmRemoveDeptPositionDescription() {
+            const getDeletedOrgStrId = parseInt(this.dataDeletedOrgBoardPosId) ? parseInt(this.dataDeletedOrgBoardPosId) : 0;
+            setTimeout(async () => {
+                try {
+                    if (getDeletedOrgStrId !== null &&
+                        getDeletedOrgStrId !== undefined ||
+                        !isNaN(Number(getDeletedOrgStrId)) &&
+                        getDeletedOrgStrId !== ''
+                    ) {
+                        this.geoDeptOrgStrServicesPosition?.removeNewOrgStructureJobDesc(getDeletedOrgStrId).then(async (removePosDept) => {
+                        if (removePosDept?.data.success === true) {
+                            this.deletedGeoDeptPosMgtDialogs = false;
+                            // Reload Data In Datable in Dept org-str geo-fence
+                            this.fetchingOrgStrDeptPosId = false;
+                            await this.getJobDescriptionType(getDeletedOrgStrId, this.addJobDescType);
+
+                            this.$toast.add({
+                                severity: "success",
+                                summary:
+                                    "Successfully remove position of departments.",
+                                detail: removePosDept.data?.message
+                                    ? removePosDept.data?.message
+                                    : null,
+                                life: 3000,
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        this.deletedGeoDeptPosMgtDialogs = true;
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please Fix Below Errors.",
+                            detail: error?.response.data.error?.message
+                                ? error?.response.data.error?.message
+                                : "Error remove positions!",
+                            life: 3000,
+                        });
+                        if (error?.response.data.error.error?.errors) {
+                            for (
+                                let index = 0;
+                                index <
+                                error.response.data.error.error?.errors
+                                    .length;
+                                index++
+                            ) {
+                                const validationError =
+                                    error.response.data.error.error
+                                        ?.errors[index].message ?? [];
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: validationError
+                                        ? validationError
+                                        : "Please input filed position have missing value!",
+                                    life: 3000,
+                                });
+                            }
+                        }
+                    });
+                    }
+                } catch (error) {
+                    throw Error(error || error.message);
+                }
+            },1000);
+        },
+
+
+        /**
+         * @Reload Positions and Department Job Descriptions
+         * */
         async getJobDescriptionType(getOrgId, getJobDescType = "Position") {
-            console.log(getOrgId)
-            this.fetchingOrgStrDeptPosId = true;
+            this.loadingPositionDeptJobDes = true;
             setTimeout(async () => {
                 try {
                     if (!getOrgId) {
@@ -305,17 +397,16 @@ export default {
                     }
                     if (getOrgId !== null && !isNaN(Number(getOrgId)) || getJobDescType !== '') {
                         let getOrgStrId = parseInt(getOrgId) ? parseInt(getOrgId) : 0;
-                        const optSelectedJobDescOrgId = {
+                        await this.setJobDescriptionBaseOrgStrId({
                             getOrgStrId,
                             getJobDescType
-                        }
-                        this.setJobDescriptionBaseOrgStrId(optSelectedJobDescOrgId);
+                        });
                     }
                 } catch (e) {
-                    return Promise.reject(e);
+                    throw Error(e || e.message);
                 }
-                this.fetchingOrgStrDeptPosId = false;
-            }, 1000);
+                this.loadingPositionDeptJobDes = false;
+            }, 1500);
         }
     },
 }

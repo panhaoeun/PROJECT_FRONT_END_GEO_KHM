@@ -1,12 +1,12 @@
 <template>
-    <form @submit.prevent="submittedDialogEditGeoProjectStr">
+    <form>
         <!-- Spinner -->
         <transition name="fade" mode="out-in">
             <div class="spinner-wrapper flex layer-white" v-if="loadingSpinner">
                 <spinner :radius="100" />
             </div>
         </transition>
-        <!-- Popup Dialog Geo Locations Country -->
+        <!-- Popup Dialog Geo Assign Descriptions -->
         <pop-over
             v-if="editOrgStrData"
             @close="$emit('close')"
@@ -20,7 +20,7 @@
             <!-- Contents -->
             <template v-slot:content>
                 <div class="flex start mlr--5">
-                    <div class="input-wrap mlr-5">
+                    <div class="input-wrap">
                         <div class="col-lg-12 col-md-12 flex column h-full">
                             <TabView
                                 v-model:activeIndex="activeDialogPositionId"
@@ -40,7 +40,7 @@
                                 <!--Managements Job Descriptions-->
                                 <TabPanel header="Position Descriptions">
                                     <list-position-description-org
-                                        :orgStructDeptJobDeptId="
+                                        :orgStructDeptJobPositionId="
                                             orgAssignDesStructureId
                                                 ? orgAssignDesStructureId
                                                 : 0
@@ -139,7 +139,9 @@ export default {
             "getRequest",
         ]),
         // Submited Actions for Multiple
-        submittedDialogEditGeoProjectStr() {},
+        submittedDialogEditGeoProjectStr() {
+            this.loadingSpinner = true;
+        },
     },
 };
 </script>

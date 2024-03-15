@@ -54,6 +54,7 @@
             @close="closeOrgStrAssignData"
             :editOrgStrDeptName="orgNodeData ? orgNodeData : {}"
             :orgAssignDesStructureId="idOrgStructures ? idOrgStructures : 0"
+            @on-click-assign-description="onOnClickAssignDescription"
         />
         <!-- Dialogs of add new node org-structures-->
         <open-dialog-add-node-org-structures
@@ -243,7 +244,7 @@
                 </OrganizationChart>
             </div>
         </div>
-        <!-- No OrgChart -->
+        <!-- No OrgChart Hierarchy Multiple-->
         <div v-else>
             <div class="my-2 px-2 py-2">
                 <div
@@ -446,8 +447,8 @@ export default {
             this.orgNodeData = nodeData ? nodeData : [];
             this.$emit("node-click", nodeData);
         },
-        onCollapsedNodeChange(nodeData) {
-            console.log(nodeData);
+        onOnClickAssignDescription() {
+            console.log(this.orgNodeData);
         },
         // Open Dialogs Hierarchy for global multi
         closeViewEmpOrgDialogs() {

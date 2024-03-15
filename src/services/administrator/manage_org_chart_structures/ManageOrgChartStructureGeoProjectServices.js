@@ -93,7 +93,7 @@ export default class ManageOrgChartStructureGeoProjectServices {
      * @api {post} 
      *  @api (Job Descriptions API endpoints) 
      */
-    async listJobDescriptionBaseOrgStrId(orgStrId, jobDescType) {
+    async listJobDescriptionBaseOrgStrId(orgStrId , jobDescType) {
         return await http.get(`/admin/geo-location-route/org-chart-structures/list-job-dec-pos-dept?orgIdJobDesc=${orgStrId}&jobDescType=${jobDescType}`).then((result) => {
             if (!result) {
                 return false;

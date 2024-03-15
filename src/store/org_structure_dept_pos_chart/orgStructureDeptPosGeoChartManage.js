@@ -38,11 +38,12 @@ const getters = {
     allOrgBoardPositionBaseDeptBoardHierarchyStructure: ({
         positionDeptOrgBoardMgt
     }) => positionDeptOrgBoardMgt ? positionDeptOrgBoardMgt : {},
+
     // Job Descriptions
-    allOrgJobDescriptionBaseProject: ({
+    allOrgJobDescriptionAssignDepartmentAssign: ({
         orgJobDescProId
     }) => orgJobDescProId ? orgJobDescProId : {},
-    allOrgPosJobDescriptionBaseProject: ({
+    allOrgJobPositionDescriptionAssign: ({
         orgPosJobDescProId
     }) => orgPosJobDescProId ? orgPosJobDescProId : {},
 }
@@ -73,10 +74,10 @@ const mutations = {
         state.positionDeptOrgBoardMgt = positionDeptOrgBoardMgt ? positionDeptOrgBoardMgt : {};
     },
     // Job Descriptions 
-    SET_JOB_DESC_DATA_BOARD_MGT_PRO(state, orgJobDescProId) {
+    SET_JOB_DESC_DATA_BOARD_DEPARTMENT(state, orgJobDescProId) {
         state.orgJobDescProId = orgJobDescProId ? orgJobDescProId : [];
     },
-    SET_JOB_POST_DESC_DATA_BOARD_MGT_PRO(state, orgPosJobDescProId) {
+    SET_JOB_POST_DESC_DATA_POSITION(state, orgPosJobDescProId) {
         state.orgPosJobDescProId = orgPosJobDescProId ? orgPosJobDescProId : [];
     }
 }
@@ -183,14 +184,16 @@ const actions = {
         geoDeptOrgStrServices.listJobDescriptionBaseOrgStrId(orgStrDecId, getJobType).then((orgDeptStr) => {
             const getAllJobDescription = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : [];
             if (!orgDeptStr) {
-                commit('SET_JOB_DESC_DATA_BOARD_MGT_PRO', []);
+                commit('SET_JOB_DESC_DATA_BOARD_DEPARTMENT', []);
+                commit('SET_JOB_POST_DESC_DATA_POSITION', []);
             } else {
                 if (getJobType === "Department") {
-                    commit('SET_JOB_DESC_DATA_BOARD_MGT_PRO', getAllJobDescription ? getAllJobDescription : [])
+                    commit('SET_JOB_DESC_DATA_BOARD_DEPARTMENT', getAllJobDescription ? getAllJobDescription : [])
                 } else if (getJobType === "Position" ){
-                    commit('SET_JOB_POST_DESC_DATA_BOARD_MGT_PRO', getAllJobDescription ? getAllJobDescription : [])
+                    commit('SET_JOB_POST_DESC_DATA_POSITION', getAllJobDescription ? getAllJobDescription : [])
                 }else{ 
-                    return [];
+                    commit('SET_JOB_DESC_DATA_BOARD_DEPARTMENT', []);
+                    commit('SET_JOB_POST_DESC_DATA_POSITION', []);
                 }
             }
         });

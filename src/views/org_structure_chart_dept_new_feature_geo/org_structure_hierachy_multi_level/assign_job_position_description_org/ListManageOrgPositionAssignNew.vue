@@ -1,18 +1,26 @@
 <template>
     <DataTable
         v-model:section="selectedPositionData"
-        :value="getPositionBaseDeptLevelProject"
+        :value="getJobDescriptionPositionAssign"
         :paginator="true"
         filterDisplay="menu"
         dataKey="id"
+        :loading="loadingPositionDeptJobDes"
         :rows="10"
-        class="p-datatable-scrollable text-sm"
+        :globalFilterFields="[
+            'representative.jobDesEng',
+            'jobDesEng',
+            'jobDesKhmer',
+            'jobDeStatus',
+        ]"
+        scrollable
+        class="p-datatable-scrollable text-sm card"
         removableSort
         tableStyle="min-width: 50rem"
         responsiveLayout="scroll"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 100]"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} positions"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} positions description"
     >
         <!-- Data Table Header -->
         <template #header>
@@ -38,7 +46,7 @@
                     <InputText
                         v-model="filtersDataPositionData['global'].value"
                         class="p-inputtext p-component w-full text-sm"
-                        placeholder="Search positions..."
+                        placeholder="Keyword Search Department Descriptions..."
                     />
                 </span>
             </div>
@@ -51,7 +59,7 @@
         </template>
         <!--------------Columns----------->
         <Column
-            field="positionKhmerName"
+            field="jobDesKhmer"
             header="Khmer Name"
             sortable
             style="width: 30%"
@@ -59,24 +67,22 @@
             <template #body="{ data }">
                 <span
                     v-if="
-                        data?.positionKhmerName !== null &&
-                        data?.positionKhmerName !== undefined
+                        data?.jobDesKhmer !== null &&
+                        data?.jobDesKhmer !== undefined
                     "
                 >
-                    {{
-                        String(data?.positionKhmerName).toString() || "N/A"
-                    }}</span
+                    {{ String(data?.jobDesKhmer).toString() || "N/A" }}</span
                 >
             </template>
         </Column>
         <Column
-            field="deptPosName"
+            field="jobDesEng"
             header="English Name"
             sortable
             style="width: 30%"
         >
             <template #body="{ data }">
-                <span> {{ String(data?.deptPosName).toString() }}</span>
+                <span> {{ String(data?.jobDesEng).toString() || "N/A" }}</span>
             </template>
         </Column>
         <!-- Actions Buttons -->
@@ -87,14 +93,14 @@
         >
             <template #body="{ data }">
                 <div class="flex flex-wrap gap-2">
-                    <Button
+                    <!-- <Button
                         icon="pi pi-briefcase"
                         severity="help"
                         outlined
                         rounded
                         class="mr-2"
                         @click.prevent="openDialogAssignTOR(data)"
-                    />
+                    /> -->
                     <Button
                         icon="pi pi-pencil"
                         outlined
@@ -140,16 +146,16 @@
                 label="Yes"
                 icon="pi pi-check"
                 text
-                @click="confirmRemoveDeptPosMgtBoardById()"
+                @click="confirmRemoveDeptPositionDescription()"
             />
         </template>
     </Dialog>
     <!-- Dialogs Position Job Descriptions Edited -->
     <open-edited-positions-org-structure
-        v-if="openEditedBoardMgtDialogs"
+        v-if="openEditedPositionDialogs"
         @close="closingPopupEditedPosIdOrgStrDialogs"
-        :open-edit-board-position="
-            openEditBoardMgtData ? openEditBoardMgtData : {}
+        :open-edit-position-job-des="
+            dataEditOrgPositionDes ? dataEditOrgPositionDes : {}
         "
     />
     <!-- Add New Job Positions Descriptions -->
@@ -157,13 +163,15 @@
         v-if="openJobDesPosition"
         :dialog="openJobDesPosition"
         @close-dialog="closeJobDesPositionOrgStr"
+        :orgStrNameEditedId="
+            orgStructDeptJobPositionId ? orgStructDeptJobPositionId : 0
+        "
     />
 </template>
 <!-- Script of list data global positions -->
 <script>
 import { FilterMatchMode } from "primevue/api";
-import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
-import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
+import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
 import OpenEditedPositionsOrgStructure from "../assign_job_position_description_org/global_assign_org_dept_structures_job_description/job_des_positions/EditPositionDesJobOrgStructureData";
 import OpenAddJobPositionsDescriptionOrgStructures from "./global_assign_org_dept_structures_job_description/job_des_positions/AssignPositionDescriptionManageOrgStructure";
 export default {
@@ -173,11 +181,13 @@ export default {
             required: true,
             default: () => {},
         },
+        orgStructDeptJobPositionId: {
+            type: Number,
+            required: true,
+            default: () => 0,
+        },
     },
-    mixins: [
-        managerPositionOrgStructureProjectLevelZeroHelper,
-        manageOrgStrMgtPositionHelper,
-    ],
+    mixins: [manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper],
     data() {
         return {
             deletedGeoDeptPosMgtDialogs: false,
@@ -188,14 +198,37 @@ export default {
             dataObjPosition: null,
             filtersDataPositionData: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+                jobDesEng: {
+                    value: null,
+                    matchMode: FilterMatchMode.STARTS_WITH,
+                },
+                jobDesKhmer: {
+                    value: null,
+                    matchMode: FilterMatchMode.STARTS_WITH,
+                },
             },
+            addJobDescType: "Position",
             loadingAddJobDesPosition: false,
             openJobDesPosition: false,
+            dataEditOrgPositionDes: null,
+            openEditedPositionDialogs: false,
+            openEditDialogsOrgDes: false,
+            dataDeletedOrgBoardPosId: 0,
         };
     },
     components: {
         OpenEditedPositionsOrgStructure,
         OpenAddJobPositionsDescriptionOrgStructures,
+    },
+    mounted() {
+        const orgStrJobDesPositionId = this.orgStructDeptJobPositionId
+            ? this.orgStructDeptJobPositionId
+            : 0;
+        const orgDeptJobDesPositionType = "Position";
+        this.getJobDescriptionType(
+            orgStrJobDesPositionId,
+            orgDeptJobDesPositionType
+        );
     },
     methods: {
         clingAssignDialog() {
@@ -209,7 +242,7 @@ export default {
             setTimeout(() => {
                 this.loadingAddJobDesPosition = false;
                 this.openJobDesPosition = true;
-            }, 1000);
+            }, 100);
         },
     },
 };

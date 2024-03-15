@@ -80,7 +80,8 @@ export default {
                         index++
                     ) {
                         let objFiled = {};
-                        objFiled.selectedOrgStructId = parseInt(this.getOrgStructureAdd.id) ?? 0;
+
+                        objFiled.selectedOrgStructId = parseInt(this.getOrgStructureAdd) ?? 0;
                         objFiled.addNewJobDesEnglishName = objInputPositionsFiled[index].editNameEngProjectOrgStr;
                         objFiled.addNewJobDesKhmerName = objInputPositionsFiled[index].editNameKhmerProjectOrgStr;
                         objFiled.addNewJobDesNoted = objInputPositionsFiled[index].editDescriptionProjectOrgStr;
@@ -97,8 +98,9 @@ export default {
                         if (jobDes?.data.success === true) {
                             this.loadingBtnEdit = false;
                             this.visibleDialogAddPositionBoardMgt = false;
+                            this.close();
                             // Relist Get Board Manager Job Descriptions Data
-                            await this.getJobDescriptionType(parseInt(this.getOrgStructureAdd.id) ?? 0, this.addJobDescType);
+                            await this.getJobDescriptionType(parseInt(this.getOrgStructureAdd) ?? 0, this.addJobDescType);
                             this.$toast.add({
                                 severity: "success",
                                 summary:
@@ -165,7 +167,6 @@ export default {
        },
        async saveModifyJobDescriptionBaseOrgStructureId(){
             try{
-                console.log(this.getPosEditJobDes,"ss")
                 if(this.getPosEditJobDes?.jobDesEng 
                     && this.getPosEditJobDes?.jobDesEng !== null
                     && typeof this.getPosEditJobDes !== 'undefined'

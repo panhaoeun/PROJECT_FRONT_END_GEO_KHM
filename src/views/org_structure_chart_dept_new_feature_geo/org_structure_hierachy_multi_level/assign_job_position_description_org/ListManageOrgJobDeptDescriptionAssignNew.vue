@@ -1,21 +1,27 @@
 <template>
-    {{ orgStructDeptJobDeptId }}
     <DataTable
-        v-model:section="selectedPositionData"
-        :value="
-            getJobDescriptionsBaseProject ? getJobDescriptionsBaseProject : {}
-        "
+        v-model:section="selectedPositionJobDesDeptData"
+        :value="getJobDescriptionsDeptAssign"
         :paginator="true"
+        :loading="loadingPositionDeptJobDes"
+        scrollable
         filterDisplay="menu"
+        :globalFilterFields="[
+            'representative.jobDesEng',
+            'jobDesEng',
+            'jobDesKhmer',
+            'jobDeStatus',
+        ]"
+        lazy
         dataKey="id"
         :rows="10"
-        class="p-datatable-scrollable text-sm"
+        class="p-datatable-scrollable text-sm card"
         removableSort
         tableStyle="min-width: 50rem"
         responsiveLayout="scroll"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 100]"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} positions"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} department description"
     >
         <!-- Data Table Header -->
         <template #header>
@@ -37,16 +43,16 @@
                     <InputText
                         v-model="filtersDataPositionData['global'].value"
                         class="p-inputtext p-component w-full text-sm"
-                        placeholder="Search positions..."
+                        placeholder="Keyword Search Department Description..."
                     />
                 </span>
             </div>
         </template>
-        <!-- Empty Positions -->
+        <!-- Empty Department -->
         <template #empty>Empty job descriptions</template>
-        <!-- Loading Positions -->
+        <!-- Loading Department -->
         <template #loading>
-            Loading job descriptions data. Please wait...
+            Loading department descriptions data. Please wait...
         </template>
         <!--------------Columns----------->
         <Column
@@ -128,6 +134,9 @@
     <OpenAddJobDescriptionDeptOrgStructures
         v-if="dialogAddNewDeptOrgStr"
         :dialog="dialogAddNewDeptOrgStr"
+        :orgStrNameEditedId="
+            orgStructDeptJobDeptId ? orgStructDeptJobDeptId : 0
+        "
         @close-dialog="closeDialogAddJobDesDepartmentOrg"
     />
 </template>
@@ -158,19 +167,31 @@ export default {
     data() {
         return {
             positionDataJobDes: null,
-            selectedPositionData: false,
+            selectedPositionJobDesDeptData: null,
             visibleConfirmRemove: false,
             dataObjPosition: null,
             dialogAddNewDeptOrgStr: false,
-            loadingAddJobDesDept: false,
+            loadingDeptAssignPoJobDes: false,
+            openDataJobDesc: null,
+            openEditedJobDescDialogs: false,
+            addJobDescType: "Department",
             filtersDataPositionData: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+                jobDesEng: {
+                    value: null,
+                    matchMode: FilterMatchMode.STARTS_WITH,
+                },
+                jobDesKhmer: {
+                    value: null,
+                    matchMode: FilterMatchMode.STARTS_WITH,
+                },
             },
         };
     },
     mounted() {
         const orgStrJobDesDeptId = this.orgStructDeptJobDeptId;
-        this.getJobDescriptionType(orgStrJobDesDeptId);
+        const orgDeptJobDesDeptType = "Department";
+        this.getJobDescriptionType(orgStrJobDesDeptId, orgDeptJobDesDeptType);
     },
     methods: {
         closeDialogAddJobDesDepartmentOrg() {
@@ -181,7 +202,7 @@ export default {
             setTimeout(() => {
                 this.loadingAddJobDesDept = false;
                 this.dialogAddNewDeptOrgStr = true;
-            }, 1500);
+            }, 100);
         },
     },
 };

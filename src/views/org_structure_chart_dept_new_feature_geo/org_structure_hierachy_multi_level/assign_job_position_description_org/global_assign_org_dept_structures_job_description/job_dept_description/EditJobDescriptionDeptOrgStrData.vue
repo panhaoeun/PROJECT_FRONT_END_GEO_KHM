@@ -12,7 +12,7 @@
         <!-- Popup Dialog Geo Locations Country -->
         <pop-over
             v-if="getPosEditJobDes"
-            :title="`Edit Position:` + ' ' + namePosition"
+            :title="`Edit Department Description:` + ' ' + namePosition"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -81,10 +81,11 @@
                 <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
                         <label> Job Description Noted </label>
-                        <TextArea
+                        <Textarea
+                            aria-labelledby="jobDesNoted"
+                            autoResize
                             class="border-round-lg text-sm w-30rem"
-                            v-model.number="getPosEditJobDes.jobDesNoted"
-                            type="text"
+                            v-model="getPosEditJobDes.jobDesNoted"
                             placeholder="Job Description Noted"
                         />
                     </div>
@@ -123,7 +124,7 @@
 <script>
 import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";
-import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
+import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
@@ -153,7 +154,7 @@ export default {
         },
     },
     mixins: [
-        managerJobPositionOrgStructureProjectLevelZeroHelper,
+        manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper,
         util,
         validation,
     ],
@@ -162,6 +163,7 @@ export default {
             loadingSpinnerPosition: false,
             getPosEditJobDes: null,
             hasJobDescErrors: false,
+            dataEmailData: "dataEmailData",
             submittingJobDesc: false,
         };
     },
