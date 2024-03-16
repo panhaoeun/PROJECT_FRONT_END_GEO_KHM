@@ -91,17 +91,17 @@ const defaultChildRoutesUsersMS = (prefix) => [
     /*
       @Users Managements
     */
-    {
-        path: "/vendor/user/list/crete-user-auth/ui-user-list",
-        name: prefix + '.user_auth_crud_list',
-        meta: {
-            title: "usersMS",
-            requiresAuth: true,
-            icon: 'user',
-            permissions: ['users_modules']
-        },
-        component: () => import("../../views/administrators/user_managements/users/UsersMSList.vue"),
-    },
+    // {
+    //     path: "/vendor/user/list/crete-user-auth/ui-user-list",
+    //     name: prefix + '.user_auth_crud_list',
+    //     meta: {
+    //         title: "usersMS",
+    //         requiresAuth: true,
+    //         icon: 'user',
+    //         permissions: ['users_modules']
+    //     },
+    //     component: () => import("../../views/administrators/user_managements/users/UsersMSList.vue"),
+    // },
     {
         path: "/vendor/user/list/crete-user-auth/ui-user-create",
         name: prefix + '.user_auth_crud_user_create',
@@ -161,7 +161,8 @@ const defaultChildRoutesUsersMS = (prefix) => [
             requiresAuth: true,
             permissions: ['users_modules']
         },
-        component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/ListEmployeeGlobalAdminGeo.vue"),
+        // component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/ListEmployeeGlobalAdminGeo.vue"),
+        component: () => import("../../views/administrators/user_managements/users/employee_assign_manage/NewFeatureEmployeeListAdmin.vue"),
     },
     {
         path: "/admin/admin-management-employee-assign/hrm-add-new-employee-role-module",

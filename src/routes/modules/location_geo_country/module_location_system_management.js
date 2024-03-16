@@ -4,7 +4,7 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [{
         path: "/admin/locations/management_location_system-list",
         name: prefix + '.management_location_system',
         meta: {
-            title: "locationMS",
+            title: "geoFenceLocation",
             requiresAuth: true,
             icon: 'location',
             permissions: ['location_ms_system_module']
@@ -18,7 +18,7 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [{
         name: prefix + '.management_location_system_location',
         hidden: true,
         meta: {
-            title: "locationMS",
+            title: "geoFenceLocation",
             requiresAuth: true,
             icon: 'location',
             permissions: ['location_ms_system_module']
