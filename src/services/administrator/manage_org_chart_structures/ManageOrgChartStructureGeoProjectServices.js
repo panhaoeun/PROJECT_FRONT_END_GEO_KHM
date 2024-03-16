@@ -135,4 +135,24 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async createStoreEmpOrg(orgStrPosId) {
         return http.post("/admin/get-employee-add-new-by-dept-org", orgStrPosId ? orgStrPosId : {});
     }
+    /**
+     * Assign Employee to the org-chart 
+    * */ 
+    async getAllListEmpOrgStructuresDeptAssignData(parentOrgPosSuperId, data) {
+        return http.get(`/admin/geo-location-route/org-chart-structures-department-employee/list-dept-org-emp?orgStrDeptId=${parentOrgPosSuperId}`, data ? data : {}).then((result) => {
+            if (!result) {
+                return false;
+            }
+            if (result.status == 200) {
+                if (result.data.success == true) {
+                    return result.data.result.resultStatus;
+                }
+            }
+        }).catch((error) => {
+            throw Error(error || error.message);
+        });
+    }
+    async addNewAssignEmployeeOrgStructure(orgEmpId, assignEmpDataOrg) {
+        return http.put(`/admin/geo-location-route/org-chart-structures-department-employee/add-dept-org-emp/${orgEmpId}`, assignEmpDataOrg ? assignEmpDataOrg : {});
+    }
 }

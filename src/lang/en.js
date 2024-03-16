@@ -101,6 +101,7 @@ export default {
     projectOrgStr: {
         isRequired: "{type} is required",
         thisProject: "{type} this project",
+        thisEmployee: "{type} this employee",
         assignPosition: "{type} assign position",
         thisPosition: "{type} this position",
         thisJobDescription: "{type} this job description",

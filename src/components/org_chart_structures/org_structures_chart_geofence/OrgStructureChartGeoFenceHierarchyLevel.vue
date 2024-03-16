@@ -60,14 +60,14 @@ import $ from "jquery";
 import OrganizationChartNode from "./OrganizationChartNode.vue";
 import GlobalAssignPositions from "./GlobalEditedAssignPositions";
 import GlobalAssignManagerEmployee from "./GlobalEditedAssignEmployee.vue";
-import GlobalListAssignEmployee from "./GlobalListEmployeeOfMainOrg";
+// import GlobalListAssignEmployee from "./GlobalListEmployeeOfMainOrg";
 export default {
     name: "Hierarchy",
     components: {
         OrganizationChartNode,
         GlobalAssignPositions,
         GlobalAssignManagerEmployee,
-        GlobalListAssignEmployee,
+        // GlobalListAssignEmployee,
     },
     props: {
         orgMainName: {

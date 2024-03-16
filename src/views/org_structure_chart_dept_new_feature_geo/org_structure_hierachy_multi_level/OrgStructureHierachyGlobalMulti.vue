@@ -33,6 +33,7 @@
         <ViewDetailListEmpGlobalOrg
             v-if="isOpenDialogViewEmpOrg"
             @close="closeViewEmpOrgDialogs"
+            :empOrgStrDataId="idOrgStructures ? idOrgStructures : 0"
             :department-name="departmentName"
         />
         <!-- Dialogs of View Assign Manager -->
@@ -295,7 +296,7 @@
 <!-- Org-Structure Hierarchy Global Levels-->
 <script>
 import Sidebar from "primevue/sidebar";
-import ViewDetailListEmpGlobalOrg from "./assign_org_str_hierarchy/GlobalListEmployeeOfMainOrg";
+import ViewDetailListEmpGlobalOrg from "./assign_org_str_hierarchy/GlobalAddListEmployeeOfMainOrg.vue";
 import EditAssignEmpManagerGlobalOrg from "./assign_org_str_hierarchy/GlobalEditedAssignEmployeeOfMainOrg";
 import OpenEditOrgStructureName from "./assign_org_str_hierarchy/GlobalEditOrgStrName";
 import OpenGlobalAssignDescription from "./assign_org_str_hierarchy/OpenGlobalAssignDescription";

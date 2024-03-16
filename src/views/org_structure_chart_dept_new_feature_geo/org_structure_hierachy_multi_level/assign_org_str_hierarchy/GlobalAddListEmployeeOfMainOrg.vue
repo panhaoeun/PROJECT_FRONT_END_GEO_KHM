@@ -1,0 +1,327 @@
+<template>
+    <form @submit.prevent="submittedDialogEditGeoProjectStr">
+        <!-- Spinner -->
+        <transition name="fade" mode="out-in">
+            <div class="spinner-wrapper flex layer-white" v-if="loadingSpinner">
+                <spinner :radius="100" />
+            </div>
+        </transition>
+        <!-- Popup Dialog Org-Structures Main Dept -->
+        <pop-over
+            v-if="positionAssignEdited"
+            :title="`Employee List:`"
+            @close="$emit('close')"
+            elem-id="user-address-pop-over"
+            :layer="true"
+            class="address-popup popup-top-auto z-100"
+        >
+            <!-- Contents -->
+            <template v-slot:content>
+                <div class="flex justify-content-end">
+                    <!-- Add Assign Button Employee -->
+                    <el-button
+                        type="info"
+                        size="large"
+                        class="btn btn-primary"
+                        @click.prevent="onAssignEmployeeOrgStructures()"
+                    >
+                        <div class="button">
+                            <i class="pi pi-plus" style="font-size: 1rem"></i>
+                            <span class="pl-2">Assign Employee</span>
+                        </div>
+                    </el-button>
+                </div>
+                <!-- Total Employees -->
+                <div
+                    class="d-flex flex-column justify-content-center mb-primary"
+                >
+                    <h1 class="text-center font-bold">
+                        {{ getDepartmentName }}
+                    </h1>
+                    <p class="text-center text-lg">
+                        Total Employee -
+                        {{ countEmpByDeptName }}
+                    </p>
+                </div>
+                <!-- List of dataview- -->
+                <div
+                    class="mb-primary border-bottom"
+                    style="width: 60rem"
+                    v-if="
+                        getAllDataEmpAssignOrgStr !== null ||
+                        (getAllDataEmpAssignOrgStr !== '' &&
+                            typeof getAllDataEmpAssignOrgStr !== 'object' &&
+                            getAllDataEmpAssignOrgStr.length > 0)
+                    "
+                >
+                    <DataTable
+                        ref="dt"
+                        :value="getAllDataEmpAssignOrgStr"
+                        v-model:selection="selectedCategoriesList"
+                        dataKey="id"
+                        :paginator="true"
+                        :rows="10"
+                        :filters="filters"
+                        :globalFilterFields="[
+                            'representative.empKhmerName',
+                            'empEmailAddress',
+                            'phoneNumber',
+                            'empEnglishName',
+                            'empKhmerName',
+                        ]"
+                        class="p-datatable-scrollable text-sm"
+                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                        :rowsPerPageOptions="[5, 10, 25]"
+                        :metaKeySelection="false"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} employee records"
+                    >
+                        <!-- Header -->
+                        <template #header>
+                            <div
+                                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+                            >
+                                <h4 class="m-0"></h4>
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search" />
+                                    <InputText
+                                        v-model="filters['global'].value"
+                                        :placeholder="$t('route.search')"
+                                    />
+                                </span>
+                            </div>
+                        </template>
+                        <!-- Empty Products -->
+                        <template #empty>
+                            This department has no employee!
+                        </template>
+                        <!-- Loading Products -->
+                        <template #loading>
+                            Loading employee list data. Please wait.
+                        </template>
+                        <!--------------Check Existed Data ----------->
+                        <div
+                            v-if="
+                                getAllDataEmpAssignOrgStr &&
+                                getAllDataEmpAssignOrgStr.length > 0 &&
+                                getAllDataEmpAssignOrgStr != ''
+                            "
+                        >
+                            <!-- Columns -->
+                            <Column field="id" header="Khmer Name" sortable>
+                                <template #body="{ data }">
+                                    <div class="flex flex-column">
+                                        <div class="flex px-2 py-2">
+                                            <span>{{
+                                                data?.empKhmerName ?? "N/A"
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                            <Column field="id" header="English Name" sortable>
+                                <template #body="{ data }">
+                                    <div class="flex flex-column">
+                                        <div class="flex px-2 py-2">
+                                            <span>{{
+                                                data?.empEnglishName ?? "N/A"
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                            <Column field="id" header="Phone Number" sortable>
+                                <template #body="{ data }">
+                                    <div class="flex flex-column">
+                                        <div class="flex px-2 py-2">
+                                            <span>{{
+                                                data?.phoneNumber ?? "0"
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                            <Column field="id" header="Email Address" sortable>
+                                <template #body="{ data }">
+                                    <div class="flex flex-column">
+                                        <div class="flex px-2 py-2">
+                                            <span>{{
+                                                data?.empEmailAddress ?? "N/A"
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                        </div>
+                    </DataTable>
+                </div>
+            </template>
+            <!-- Footer -->
+            <template v-slot:pop-footer>
+                <div class="flex j-end gap-10">
+                    <button
+                        class="outline-btn plr-30 plr-sm-15 border-round"
+                        aria-label="Country cancel"
+                        @click.prevent="$emit('close')"
+                    >
+                        {{ $t("addressPopup.cancel") }}
+                    </button>
+                </div>
+            </template>
+        </pop-over>
+        <!-- Popup Add Employee Assign -->
+        <GlobalAddListEmployeeOfMainOrg
+            v-if="openDialogEmpOrg"
+            :orgAssignId="empOrgStrDataId ? empOrgStrDataId : 0"
+            @close="closeDialogEmpOrgAssign"
+            :departmentName="departmentName ? departmentName : ''"
+        />
+    </form>
+</template>
+
+<!-- Script of assign-org-structures -->
+<script>
+import Spinner from "@/components/ui_component_new_frontend/Spinner";
+import PopOver from "@/components/ui_component_new_frontend/PopOver";
+import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
+import GlobalAddListEmployeeOfMainOrg from "../assign_employee_dept_pos/GlobalAssignEmpDeptAddNewGeoOrg.vue";
+import util from "@/mixin/util";
+import validation from "@/mixin/validation";
+import { mapActions } from "vuex";
+import { FilterMatchMode } from "primevue/api";
+
+export default {
+    components: {
+        Spinner,
+        PopOver,
+        GlobalAddListEmployeeOfMainOrg,
+    },
+    props: {
+        departmentName: {
+            type: String,
+            default() {
+                return null;
+            },
+        },
+        empOrgStrDataId: {
+            type: Number,
+            default() {
+                return 0;
+            },
+        },
+        assignPositionData: {
+            type: Object,
+            default() {
+                return null;
+            },
+        },
+    },
+    computed: {
+        getDepartmentName() {
+            return this.departmentName || "";
+        },
+        countEmpByDeptName() {
+            let countEmpAssignNo;
+            if (
+                !this.empOrgStrDataId ||
+                (this.empOrgStrDataId !== null &&
+                    typeof this.assignGetAllEmpToOrgChart !== "string")
+            ) {
+                return (countEmpAssignNo =
+                    parseInt(this.assignGetAllEmpToOrgChart?.count) || 0);
+            }
+            return countEmpAssignNo ? countEmpAssignNo : 0;
+        },
+        getAllDataEmpAssignOrgStr() {
+            let getEmpAssData;
+            if (
+                !this.empOrgStrDataId ||
+                (this.empOrgStrDataId !== null &&
+                    typeof this.assignGetAllEmpToOrgChart !== "string")
+            ) {
+                return (getEmpAssData =
+                    this.assignGetAllEmpToOrgChart?.rows || []);
+            }
+            return getEmpAssData ? getEmpAssData : 0;
+        },
+        editingAssPosData() {
+            return (
+                this.assignPositionData &&
+                parseInt(this.assignPositionData.deptOrgStrId)
+            );
+        },
+    },
+    mixins: [
+        geoDeptOrgProjects,
+        util,
+        validation,
+        manageOrgStructureDeptNewFeatures,
+    ],
+    data() {
+        return {
+            loadingSpinner: false,
+            positionAssignEdited: null,
+            hasAssignPositionErrors: false,
+            submittingPositionData: false,
+            openDataAssPosition: [],
+            selectedAssignPosition: null,
+            layout: "list",
+            getDataEmpOrg: [],
+            sortOrderEmpGlobal: null,
+            sortFieldEmpGlobal: null,
+            openDialogEmpOrg: false,
+            filters: {
+                global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+            },
+        };
+    },
+    async mounted() {
+        if (this.assignPositionData) {
+            this.positionAssignEdited = {
+                ...this.positionAssignEdited,
+                ...this.assignPositionData,
+            };
+        } else {
+            this.positionAssignEdited = {
+                id: 0,
+                project_name: "",
+                project_noted: "",
+            };
+        }
+        // Reload org-structure assign employees
+        const getEmpOrgStrId = parseInt(this.empOrgStrDataId)
+            ? parseInt(this.empOrgStrDataId)
+            : 0;
+        this.getReloadAssignEmpOrgStructure(getEmpOrgStrId);
+    },
+    methods: {
+        ...mapActions("common", [
+            "fetchLocation",
+            "setToastMessage",
+            "setToastError",
+            "getRequest",
+        ]),
+        extendedSplitEmp(str) {
+            let splitFirstChart;
+            if (typeof str !== "undefined") {
+                splitFirstChart = String(str)
+                    .split(/\s/)
+                    .reduce(
+                        (response, word) => (response += word.slice(0, 1)),
+                        ""
+                    )
+                    .toUpperCase();
+                return splitFirstChart;
+            }
+            return "ORG";
+        },
+        // Org-Structures Chart Assign Employee
+        onAssignEmployeeOrgStructures() {
+            this.openDialogEmpOrg = true;
+        },
+        closeDialogEmpOrgAssign() {
+            this.openDialogEmpOrg = false;
+        },
+    },
+};
+</script>

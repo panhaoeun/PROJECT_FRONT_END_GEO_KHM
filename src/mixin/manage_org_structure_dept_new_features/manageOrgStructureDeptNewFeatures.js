@@ -54,7 +54,7 @@ export default {
             return deptParentOrgStrIdDept ? deptParentOrgStrIdDept : '';
         },
         // Hierarchy Org-Structure Chart
-        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardHierarchyStructure"]),
+        ...mapGetters("orgStrDeptPosGeo", ["allOrgBoardHierarchyStructure", "allOrgAssignEmpByDeptStr"]),
         getAllOrgStructureFeaturesGeoCompany() {
             const getOrgOrgDeptCompanyId = this.selectedProject || this.selectedCountryOptOrgStr;
             if (
@@ -109,6 +109,17 @@ export default {
                 return this.allOrgBoardHierarchyStructure || [];
             }
         },
+        // Assign Employees Org-Chart
+        assignGetAllEmpToOrgChart(){
+            const getOrgAssignEmpId = this.empOrgStrDataId;
+            if (
+                getOrgAssignEmpId !== null ||
+                (getOrgAssignEmpId !== undefined && typeof getOrgAssignEmpId !== "object")
+                && getOrgAssignEmpId > 0
+            ) {
+                return this.allOrgAssignEmpByDeptStr || [];
+            }
+        }
     },
     created() {
         this.getOrgStructFeaturesNew = new ManageOrgChartStructureGeoProjectServices();
@@ -134,6 +145,7 @@ export default {
         // Hierarchy Org-Structure Level 1 : Country -> Province/ State -> District -> Commune -> Village
         ...mapActions("orgStrDeptPosGeo", [
             "setDepartmentDataByCountryProjectId",
+            "setOrgStructureDeptChartEmpAssign"
         ]),
         // Get Employee Main 
         getEmployeeMainBaseOrgStructures(){
@@ -471,6 +483,141 @@ export default {
             }
         },
         /**
+         * @Submitted Org Structured Assign Employee and Position
+         * */
+        async submittedAssignOrgEmpPosition(){
+            try {
+                
+                this.submittingAssignEmpData = true;
+                this.submitted = true;
+
+                setTimeout(async () => {
+                    this.submittingAssignEmpData = false;
+                    /**
+                     * @Validations
+                     * */
+                    if (
+                        this.selectedAssignPositionOrg !== null 
+                        || this.selectedAssignPositionOrg !== ''
+                        || this.selectedAssignEmp !== null
+                    ) {
+                        const validation = await this.v$.$validate();
+                        if (validation === false) {
+                            const errorValidation = this.v$.$errors;
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Please input filed in required",
+                                 message: errorValidation[0]?.$message
+                                    ? errorValidation[0]?.$message
+                                    : "",
+                                life: 3000,
+                            });
+                            this.submittingAssignEmpData = false;
+                        }
+                    } else {
+                        if (this.v$.$invalid === true) {
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Error",
+                                detail: "Please fill all required fields",
+                                life: 3000,
+                            });
+                            this.submittingAssignEmpData = false;
+                        }
+                    }
+                    const selectedOrgId = parseInt(this.orgAssignId) ? parseInt(this.orgAssignId) : 0;
+                    if (selectedOrgId < 0 || selectedOrgId  == null || selectedOrgId == '') {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please selected org-structure chart!, not found",
+                            life: 3000,
+                        });
+                    }
+                    const addNewOrgStrMgtPosDept = {
+                        selectedOrgEmpId: this.selectedAssignEmployeeOrg ? this.selectedAssignEmployeeOrg : 0,
+                        selectedPositionOrgDeptId: 0,
+                        addNotedEmpAssignOrg: String(this.assignEmpNoted).toString(),
+                    };
+                    // Assign Employee Base Org-Structured Assignment
+                    if (!this.selectedAssignPositionOrg !== null ||
+                       this.selectedAssignPositionOrg !== '' ||
+                       this.selectedAssignEmp !== null
+                    ) {
+                     this.getOrgStructFeaturesNew
+                        ?.addNewAssignEmployeeOrgStructure(selectedOrgId,
+                            addNewOrgStrMgtPosDept ? addNewOrgStrMgtPosDept : []
+                        )
+                        .then(async (addOrgStr) => {
+                            if (addOrgStr?.data.success === true) {
+                                this.submittingAssignEmpData = false;
+                                this.hasErrorAssignStrEmp = false;
+                                this.$toast.add({
+                                    severity: "success",
+                                    summary:
+                                        "Successfully assign department org-chart to employee.",
+                                    detail: addOrgStr.data?.message
+                                        ? addOrgStr.data?.message
+                                        : null,
+                                    life: 3000,
+                                });
+                                // Reload org-structure assign employees
+                                const getEmpOrgStrId = selectedOrgId ?
+                                    selectedOrgId:
+                                    0;
+                                this.getReloadAssignEmpOrgStructure(getEmpOrgStrId);
+
+                                if (!this.hasErrorAssignStrEmp) {
+                                    // Clear Data Input
+                                    this.assignEmpNoted = "";
+                                    this.selectedAssignEmp = "";
+                                    this.selectedAssignPositionOrg = "";
+                                    this.$emit('close')
+                                }
+                            }
+                        })
+                        .catch((error) => {
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Please Fix Below Errors.",
+                                detail: error?.response.data.error?.message
+                                    ? error?.response.data.error?.message
+                                    : "Please input filed add new employee value!",
+                                life: 3000,
+                            });
+                            if (error?.response.data.error.error?.errors) {
+                                for (
+                                    let index = 0;
+                                    index <
+                                    error.response.data.error.error?.errors
+                                        .length;
+                                    index++
+                                ) {
+                                    const validationError =
+                                        error.response.data.error.error?.errors[
+                                            index
+                                        ].message ?? [];
+                                    this.$toast.add({
+                                        severity: "error",
+                                        summary: "Please Fix Below Errors.",
+                                        detail: validationError
+                                            ? validationError
+                                            : "Please input add new employee have missing value!",
+                                        life: 3000,
+                                    });
+                                }
+                            }
+                        });
+                        this.v$.$touch();
+                        if (this.v$.$invalid) {
+                            return false;
+                        }
+                   }
+                }, 1000);
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+        },
+        /**
          * @Get reload data organization - chart
          * */ 
         async getReloadOrgChartByDeptGeoProject(projectId, countryId, typeHierarchyGeoProject) {
@@ -487,6 +634,17 @@ export default {
                 typeHierarchy
             });
         },
+        /**
+         * @Get reload data organization chart assign employees
+        * */
+         async getReloadAssignEmpOrgStructure(empOrgId) {
+             const getOrgStrAssId = empOrgId ?
+                 empOrgId:
+                 0;
+             this.setOrgStructureDeptChartEmpAssign({
+                getOrgStrAssId
+             });
+         },
 
     }
 }

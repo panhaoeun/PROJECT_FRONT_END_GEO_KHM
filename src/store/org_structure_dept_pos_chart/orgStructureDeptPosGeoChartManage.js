@@ -10,7 +10,8 @@ const state = {
     orgBoardMgtStr: [],
     positionDeptOrgBoardMgt: [],
     orgJobDescProId: [],
-    orgPosJobDescProId: []
+    orgPosJobDescProId: [],
+    orgDeptEmpDataId: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -46,6 +47,10 @@ const getters = {
     allOrgJobPositionDescriptionAssign: ({
         orgPosJobDescProId
     }) => orgPosJobDescProId ? orgPosJobDescProId : {},
+    // Assign  Employee Get All
+    allOrgAssignEmpByDeptStr: ({
+        orgDeptEmpDataId
+    }) => orgDeptEmpDataId ? orgDeptEmpDataId : {},
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -79,6 +84,10 @@ const mutations = {
     },
     SET_JOB_POST_DESC_DATA_POSITION(state, orgPosJobDescProId) {
         state.orgPosJobDescProId = orgPosJobDescProId ? orgPosJobDescProId : [];
+    },
+    // Assign EMployee
+    SET_ORG_STR_ASSIGN_EMP_DATA(state, orgDeptEmpDataId){
+        state.orgDeptEmpDataId = orgDeptEmpDataId ? orgDeptEmpDataId : [];
     }
 }
 const actions = {
@@ -197,7 +206,33 @@ const actions = {
                 }
             }
         });
-   }
+   },
+    /**
+     * @Data Org-Structures Assign Base Employee
+    */
+    async setOrgStructureDeptChartEmpAssign({
+        commit
+    }, payload) {
+        try {
+            const getParentOrgDeptAssignStrId = payload?.getOrgStrAssId;
+            let parentOrgPosSuperId;
+            if (getParentOrgDeptAssignStrId !== null || getParentOrgDeptAssignStrId !== '') {
+                parentOrgPosSuperId = getParentOrgDeptAssignStrId ? getParentOrgDeptAssignStrId : 0;
+            } else {
+                parentOrgPosSuperId = 0;
+            }
+            geoDeptOrgStrServices.getAllListEmpOrgStructuresDeptAssignData(parentOrgPosSuperId).then((assignEmpData) => {
+                const getAllEmpDataOrg = assignEmpData ? assignEmpData : {};
+                if (!assignEmpData) {
+                    commit('SET_ORG_STR_ASSIGN_EMP_DATA', {});
+                } else {
+                    commit('SET_ORG_STR_ASSIGN_EMP_DATA', getAllEmpDataOrg ? getAllEmpDataOrg : {})
+                }
+            });
+        } catch (error) {
+            throw Error(error);
+        }
+    },
 }
 
 export default {

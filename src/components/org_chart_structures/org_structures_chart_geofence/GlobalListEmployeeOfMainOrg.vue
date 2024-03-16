@@ -22,7 +22,7 @@
                 >
                     <h3 class="text-center">{{ getDepartmentName }}</h3>
                     <p class="text-center text-lg">
-                        Total Employee -
+                        Total Employee -asdasdasd
                         {{ parseInt(countEmpByDeptName).toFixed() }}
                     </p>
                 </div>
@@ -205,7 +205,7 @@ export default {
             required: true,
             default: () => "No Department",
         },
-        countEmp: {
+        countEmpOrgId: {
             type: Number,
             default() {
                 return 0;
@@ -223,7 +223,7 @@ export default {
             return this.departmentName || "";
         },
         countEmpByDeptName() {
-            return this.countEmp || 0;
+            return this.countEmpOrgId || 0;
         },
         editingAssPosData() {
             return (
