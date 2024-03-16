@@ -135,6 +135,9 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async createStoreEmpOrg(orgStrPosId) {
         return http.post("/admin/get-employee-add-new-by-dept-org", orgStrPosId ? orgStrPosId : {});
     }
+    async removeEmpOrgDept(jobDesId, data) {
+        return http.delete(`/admin/geo-location-route/org-chart-structures/remove-job-dec-pos-dept/${jobDesId}`, data);
+    }
     /**
      * Assign Employee to the org-chart 
     * */ 

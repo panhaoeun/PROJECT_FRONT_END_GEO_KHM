@@ -132,8 +132,7 @@
                                         @click="
                                             $router.push({
                                                 path: `/vendor/user/customer_info/list/admin/customer_view_details/${
-                                                    slotProps.data
-                                                        ?.customerId ?? ''
+                                                    slotProps.data?.id ?? 0
                                                 }`,
                                             })
                                         "
@@ -145,12 +144,9 @@
                                         severity="danger"
                                         class="mr-2 bg-danger-500"
                                         @click="
-                                            $router.push({
-                                                path: `/vendor/user/customer_info/list/admin/customer_view_details/${
-                                                    slotProps.data
-                                                        ?.customerId ?? ''
-                                                }`,
-                                            })
+                                            openDialogRemoveAdmin(
+                                                slotProps.data?.id ?? 0
+                                            )
                                         "
                                     />
                                 </template>
@@ -162,6 +158,34 @@
             </div>
         </div>
     </div>
+    <!-- Dialogs Confirm Deleted Org-Structures Employees-->
+    <Dialog
+        v-model:visible="openDialogRemoveEmpId"
+        :style="{ width: '600px' }"
+        class="text-sm"
+        :header="'Confirm Org Chart Structures' + '\n' + orgDeptName"
+        :modal="true"
+    >
+        <div class="confirmation-content flex flex-row">
+            <i class="pi pi-exclamation-triangle" style="font-size: 2rem" />
+            <span>Are you sure you want to delete org-strictures</span>
+        </div>
+        <template #footer>
+            <Button
+                label="No"
+                icon="pi pi-times"
+                text
+                @click="openDialogRemoveEmpId = false"
+            />
+            <Button
+                :label="btnLoadRemoveEmp ? 'Loading...' : 'Remove'"
+                icon="pi pi-check"
+                text
+                :loading="btnLoadRemoveEmp"
+                @click.prevent="openRemoveAdminDialogsEmpOrg()"
+            />
+        </template>
+    </Dialog>
 </template>
 <!-- Script of global-admin -->
 <script>
@@ -177,10 +201,7 @@ export default {
             .listStoreEmpOrgDept()
             .then((users) => {
                 if (!Array.isArray(users) || !users.length > 0) {
-                    this.$notify.error({
-                        title: "Error Entries Users List",
-                        showClose: false,
-                    });
+                    throw Error(users);
                 }
                 if (
                     !Array.isArray(users) ||
@@ -199,9 +220,42 @@ export default {
             filtersEmp: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
+            openDialogRemoveEmpId: false,
+            btnLoadRemoveEmp: false,
+            orgEmpDeptId: 0,
         };
     },
-    methods: {},
+    methods: {
+        openDialogRemoveAdmin(id) {
+            this.orgEmpDeptId = parseInt(id) ? parseInt(id) : 0;
+            this.openDialogRemoveEmpId = true;
+        },
+        openRemoveAdminDialogsEmpOrg() {
+            try {
+                this.openDialogRemoveEmpId = true;
+                this.btnLoadRemoveEmp = true;
+                setTimeout(() => {
+                    this.openDialogRemoveEmpId = false;
+                    this.btnLoadRemoveEmp = false;
+                    this.serviceManageStructuresProject
+                        .removeEmpOrgDept(this.orgEmpDeptId)
+                        .then(async () => {
+                            this.openDialogRemoveEmpId = false;
+                            this.loadingOrgStructuresRemoved = false;
+                            // Fetching Data from org-structure
+                            window.location.reload();
+                            this.$toast.add({
+                                summary:
+                                    "Delete employee of org-Structure successfully",
+                                severity: "success",
+                            });
+                        });
+                }, 1000);
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+        },
+    },
 };
 </script>
 <style scoped></style>
