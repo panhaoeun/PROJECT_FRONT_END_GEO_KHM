@@ -154,14 +154,14 @@
             "
         >
             <div class="my-2 px-2 py-2">
-                <div class="my-4">
+                <!-- <div class="my-4">
                     <h1
                         class="my-2 justify-content-center text-center flex flex-column font-global-moul-01 font-bold"
                     >
                         Organizations Chart Structures Of
                         {{ "\n" + String(departmentName).toString("No Name") }}
                     </h1>
-                </div>
+                </div> -->
                 <!-- Org-Chart Structured -->
                 <OrganizationChart
                     v-model:selectionKeys="selectionKeyOrg"
@@ -170,7 +170,7 @@
                     expanded
                     selectionMode="single"
                     @node-select="onSelectedNodeChange"
-                    styleClass="bg-teal-100 text-white border-round-xl"
+                    styleClass="bg-teal-100 text-white border-round-xl align-items-center justify-content-center"
                 >
                     <template #default="slotProps">
                         <div class="flex flex-column">

@@ -23,6 +23,38 @@ export default {
             }
             return getCountryName;
         },
+        getOrgChartDeptProvinceName() {
+            const getProvinceName =
+                this.selectedProvinceOptOrgStr || this.selectedProvinceOptOrgStr;
+            if (!getProvinceName || getProvinceName !== null) {
+                return getProvinceName?.geo_english_name ?? 'No Department Name';
+            }
+            return getProvinceName;
+        },
+        getOrgChartDeptDistrictName() {
+            const getDistrictName =
+                this.selectedDistrictOptOrgStr || this.selectedDistrictOptOrgStr;
+            if (!getDistrictName || getDistrictName !== null) {
+                return getDistrictName?.geo_english_name ?? 'No Department Name';
+            }
+            return getDistrictName;
+        },
+        getOrgChartDeptCommuneName() {
+            const getCommuneName =
+                this.selectedCommuneOptOrgStr || this.selectedCommuneOptOrgStr;
+            if (!getCommuneName || getCommuneName !== null) {
+                return getCommuneName?.geo_english_name ?? 'No Department Name';
+            }
+            return getCommuneName;
+        },
+        getOrgChartDeptVillagesName() {
+            const getVillageName =
+                this.selectedVillagesOptOrgStr || this.selectedVillagesOptOrgStr;
+            if (!getVillageName || getVillageName !== null) {
+                return getVillageName?.geo_english_name ?? 'No Department Name';
+            }
+            return getVillageName;
+        },
         // Org-Chart Id 
         getDeptOrgCompanyId() {
             const getProjectCom = this.selectedProject || this.selectedProject;
@@ -153,11 +185,7 @@ export default {
                 .listStoreEmpOrgDept()
                 .then((emp) => {
                     if (!Array.isArray(emp) || !emp.length > 0) {
-                        this.$toast.add({
-                            summary: 'Error entires employee base org-structures',
-                            detail: emp.data?.message ?? '',
-                            severity: 'success'
-                        });
+                       throw Error(emp);
                     }
                     if (
                         !Array.isArray(emp) ||

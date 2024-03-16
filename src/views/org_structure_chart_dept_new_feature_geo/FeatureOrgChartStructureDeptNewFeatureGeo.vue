@@ -562,16 +562,28 @@
             <div class="col-12">
                 <el-card slot="header" class="box-card py-2 px-2">
                     <!-- Get Org-Structures Base National Congress -->
+                    <div class="my-4">
+                        <h1
+                            class="justify-content-center text-center flex flex-column font-global-moul-01 font-bold"
+                        >
+                            <ul class="border-bottom pb-1">
+                                Organizations Chart Structures Of
+                                {{
+                                    "\n" +
+                                    String(
+                                        getOrgDeptNameGlobalName
+                                            ? getOrgDeptNameGlobalName
+                                            : "No Department"
+                                    ).toString("No Name")
+                                }}
+                            </ul>
+                        </h1>
+                    </div>
                     <OrgStructureHierarchyGlobalMulti
                         :orgTreeData="
                             getAllOrgStructureFeaturesGeoCompany
                                 ? getAllOrgStructureFeaturesGeoCompany
                                 : {}
-                        "
-                        :departmentName="
-                            getOrgChartDeptNameCompanyPro
-                                ? getOrgChartDeptNameCompanyPro
-                                : 'No Name'
                         "
                     />
                 </el-card>
@@ -628,6 +640,38 @@ export default {
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
         };
+    },
+    computed: {
+        getOrgDeptNameGlobalName() {
+            const getOrgDeptOrgGlobalName = this.hideOrgStructureDeptCompany
+                ? this.hideOrgStructureDeptCompany
+                : "T0";
+            let orgStricturesDeptOrg;
+            switch (getOrgDeptOrgGlobalName) {
+                case "T0":
+                    orgStricturesDeptOrg = this.getOrgChartDeptNameCompanyPro;
+                    break;
+                case "T1":
+                    orgStricturesDeptOrg = this.getOrgChartDeptCountryName;
+                    break;
+                case "T2":
+                    orgStricturesDeptOrg = this.getOrgChartDeptProvinceName;
+                    break;
+                case "T3":
+                    orgStricturesDeptOrg = this.getOrgChartDeptDistrictName;
+                    break;
+                case "T4":
+                    orgStricturesDeptOrg = this.getOrgChartDeptCommuneName;
+                    break;
+                case "T5":
+                    orgStricturesDeptOrg = this.getOrgChartDeptVillagesName;
+                    break;
+                default:
+                    orgStricturesDeptOrg;
+                    break;
+            }
+            return orgStricturesDeptOrg;
+        },
     },
 };
 </script>

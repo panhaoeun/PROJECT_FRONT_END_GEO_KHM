@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <!-- Positions -->
-                    <div class="flex start mlr--5 w-auto">
+                    <!-- <div class="flex start mlr--5 w-auto">
                         <div class="input-wrap mlr-5" style="width: 50rem" >
                             <label
                                 :class="{
@@ -204,7 +204,7 @@
                                 }}</small
                             >
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Descriptions -->
                     <div class="flex start mlr--5">
                         <div class="input-wrap mlr-5" style="width: 50rem">
@@ -268,9 +268,9 @@ export default {
             selectedAssignEmp: {
                 required,
             },
-            selectedAssignPositionOrg: {
-                required,
-            },
+            // selectedAssignPositionOrg: {
+            //     required,
+            // },
         };
     },
     components: {

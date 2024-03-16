@@ -74,21 +74,43 @@
                             <Column
                                 field="emp_id"
                                 header="Employee ID"
+                                sortField="emp_id"
                                 sortable
-                                style="min-width: 10rem"
-                            ></Column>
+                            >
+                                <template #body="{ data }">
+                                    {{ data?.emp_id ?? "N/A" }}
+                                </template>
+                            </Column>
                             <Column
                                 field="full_kh_name"
                                 header="Khmer Name"
+                                sortField="full_kh_name"
                                 sortable
-                                style="min-width: 10rem"
-                            ></Column>
+                            >
+                                <template #body="{ data }">
+                                    {{ data?.full_kh_name }}
+                                </template>
+                            </Column>
                             <Column
                                 field="full_latin_name"
-                                header="Phone"
+                                header="English Name"
+                                sortField="full_latin_name"
                                 sortable
-                                style="min-width: 10rem"
-                            ></Column>
+                            >
+                                <template #body="{ data }">
+                                    {{ data?.full_latin_name ?? "N/A" }}
+                                </template>
+                            </Column>
+                            <Column
+                                field="phone_number"
+                                header="Phone Number"
+                                sortField="phone_number"
+                                sortable
+                            >
+                                <template #body="{ data }">
+                                    {{ data?.phone_number ?? "N/A" }}
+                                </template>
+                            </Column>
                             <Column
                                 field="email_address"
                                 header="Email Address"
@@ -154,7 +176,6 @@ export default {
         this.serviceManageStructuresProject
             .listStoreEmpOrgDept()
             .then((users) => {
-                console.log(users);
                 if (!Array.isArray(users) || !users.length > 0) {
                     this.$notify.error({
                         title: "Error Entries Users List",

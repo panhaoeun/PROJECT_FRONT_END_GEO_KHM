@@ -178,8 +178,7 @@
                                                         class="border-round-lg text-sm"
                                                         type="number"
                                                         :useGrouping="false"
-                                                        :min="1"
-                                                        :max="12"
+                                                        :min="0"
                                                         v-model.number="
                                                             v$.empPhoneNumber
                                                                 .$model
@@ -337,11 +336,7 @@
                                                     </label>
                                                     <InputText
                                                         class="border-round-lg text-sm"
-                                                        type="text"
-                                                        :useGrouping="false"
-                                                        :min="1"
-                                                        :max="12"
-                                                        v-model.number="
+                                                        v-model="
                                                             v$.empNational
                                                                 .$model
                                                         "
@@ -613,10 +608,10 @@ export default {
         async hideDialogSkillNew() {
             this.visibleDialogSkillNew = false;
         },
-        async openedLanguagesNew(){
+        async openedLanguagesNew() {
             this.visibleDialogLanguagesNew = true;
         },
-        async hideDialogLanguagesNew(){
+        async hideDialogLanguagesNew() {
             this.visibleDialogLanguagesNew = false;
         },
         async submitAddNewEmpGlobalGeo() {
@@ -626,114 +621,116 @@ export default {
 
                 setTimeout(async () => {
                     this.loadingAddNewEmp = false;
-                    this.v$.$touch();
-                    if (this.v$.$invalid) {
-                        return false;
-                    }
                     /**
                      * @Validations
                      * */
                     if (
-                        !this.empSurname ||
-                        this.empFirstName !== null ||
-                        !this.empPhoneNumber
+                        this.empSurname !== null ||
+                        this.empSurname !== "" ||
+                        this.userDateOfBirth != null
                     ) {
                         const validation = await this.v$.$validate();
                         if (validation === false) {
                             const errorValidation = this.v$.$errors;
-                            this.$notify.error({
-                                title: "Please input filed in required",
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Please input filed in required",
                                 message: errorValidation[0]?.$message
                                     ? errorValidation[0]?.$message
                                     : "",
-                                showClose: true,
-                            });
-                        }
-                    } else {
-                        if (this.v$.$invalid === true) {
-                            this.$toast.add({
-                                severity: "error",
-                                summary: "Error",
-                                detail: "Please fill all required fields",
                                 life: 3000,
                             });
+                            this.loadingAddNewEmp = false;
                         }
                     }
-                    // this.serviceManageStructuresProject
-                    const addNewOrgStrMgtPosDept = {
-                        empNameEng: String(this.empSurname).toString(),
-                        empNameKh: String(this.empFirstName).toString(),
-                        empGender: this.selectedUserGender?.name,
-                        empDOB: this.userDateOfBirth,
-                        empStatus: "Approved",
-                        empType: "Admin",
-                        empStartDate: "",
-                        empNoted: String(this.empDescription).toString(),
-                        pathNameEmpProfile: "",
-                        orgDepartId: "",
-                        empAddress: String(this.empAddress).toString(),
-                        emailAddress: String(this.empEmailAddr),
-                    };
-                    console.log(addNewOrgStrMgtPosDept);
-                    // Add New Organization Chart Root Level Info
-                    this.serviceManageStructuresProject
-                        ?.createStoreEmpOrg(
-                            addNewOrgStrMgtPosDept ? addNewOrgStrMgtPosDept : []
-                        )
-                        .then(async (addOrgStr) => {
-                            if (addOrgStr?.data.success === true) {
-                                this.$router.push(
-                                    "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module"
-                                );
-                                this.loadingAddNewEmp = false;
-                                this.$toast.add({
-                                    severity: "success",
-                                    summary:
-                                        "Successfully add new root org-structure.",
-                                    detail: addOrgStr.data?.message
-                                        ? addOrgStr.data?.message
-                                        : null,
-                                    life: 3000,
-                                });
-                                // Clear Data Input
-                                this.orgStrBoardMgtEnglishName = "";
-                                this.orgStrBoardMgtKhmerName = "";
-                                this.descriptionOrgStrBoardMgt = "";
-                            }
-                        })
-                        .catch((error) => {
-                            this.loadingSubmittedAddMgtBoardStrOrg = false;
-                            this.$toast.add({
-                                severity: "error",
-                                summary: "Please Fix Below Errors.",
-                                detail: error?.response.data.error?.message
-                                    ? error?.response.data.error?.message
-                                    : "Please input filed add new employee value!",
-                                life: 3000,
-                            });
-                            if (error?.response.data.error.error?.errors) {
-                                for (
-                                    let index = 0;
-                                    index <
-                                    error.response.data.error.error?.errors
-                                        .length;
-                                    index++
-                                ) {
-                                    const validationError =
-                                        error.response.data.error.error?.errors[
-                                            index
-                                        ].message ?? [];
+                    if (
+                        !this.empSurname !== null ||
+                        this.empFirstName !== "" ||
+                        this.userDateOfBirth !== null
+                    ) {
+                        const addNewOrgStrMgtPosDept = {
+                            empNameEng: String(this.empSurname).toString(),
+                            empNameKh: String(this.empFirstName).toString(),
+                            empGender: this.selectedUserGender?.name,
+                            empDOB: this.userDateOfBirth,
+                            empStatus: "Approved",
+                            empType: "Admin",
+                            empStartDate: "",
+                            empPhoneNumber: parseInt(this.empPhoneNumber)
+                                ? parseInt(this.empPhoneNumber)
+                                : 0,
+                            empNoted: String(this.empDescription).toString(),
+                            pathNameEmpProfile: "",
+                            orgDepartId: 0,
+                            empAddress: String(this.empAddress).toString(),
+                            emailAddress: String(this.empEmailAddr),
+                        };
+                        // Add New Organization Chart Root Level Info
+                        this.serviceManageStructuresProject
+                            ?.createStoreEmpOrg(
+                                addNewOrgStrMgtPosDept
+                                    ? addNewOrgStrMgtPosDept
+                                    : []
+                            )
+                            .then(async (addOrgStr) => {
+                                if (addOrgStr?.data.success === true) {
+                                    this.$router.push(
+                                        "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module"
+                                    );
+                                    this.loadingAddNewEmp = false;
                                     this.$toast.add({
-                                        severity: "error",
-                                        summary: "Please Fix Below Errors.",
-                                        detail: validationError
-                                            ? validationError
-                                            : "Please input add new employee have missing value!",
+                                        severity: "success",
+                                        summary:
+                                            "Successfully add new root org-structure.",
+                                        detail: addOrgStr.data?.message
+                                            ? addOrgStr.data?.message
+                                            : null,
                                         life: 3000,
                                     });
+                                    // Clear Data Input
+                                    this.orgStrBoardMgtEnglishName = "";
+                                    this.orgStrBoardMgtKhmerName = "";
+                                    this.descriptionOrgStrBoardMgt = "";
                                 }
-                            }
-                        });
+                            })
+                            .catch((error) => {
+                                this.loadingSubmittedAddMgtBoardStrOrg = false;
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: error?.response.data.error?.message
+                                        ? error?.response.data.error?.message
+                                        : "Please input filed add new employee value!",
+                                    life: 3000,
+                                });
+                                if (error?.response.data.error.error?.errors) {
+                                    for (
+                                        let index = 0;
+                                        index <
+                                        error.response.data.error.error?.errors
+                                            .length;
+                                        index++
+                                    ) {
+                                        const validationError =
+                                            error.response.data.error.error
+                                                ?.errors[index].message ?? [];
+                                        this.$toast.add({
+                                            severity: "error",
+                                            summary: "Please Fix Below Errors.",
+                                            detail: validationError
+                                                ? validationError
+                                                : "Please input add new employee have missing value!",
+                                            life: 3000,
+                                        });
+                                    }
+                                }
+                            });
+                    }
+
+                    this.v$.$touch();
+                    if (this.v$.$invalid) {
+                        return false;
+                    }
                 }, 1000);
             } catch (error) {
                 throw Error(error || error.message);
