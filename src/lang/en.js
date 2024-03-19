@@ -110,6 +110,10 @@ export default {
         thisOrgManagement: "{type} this org-structure",
         thisOrgAssignEMp: "{type} this manager",
     },
+    positionDeptOrg: {
+        isRequired: "{type} is required",
+        englishName: "English name",
+    },
     addressPopup: {
         country: "Country",
         order: "Order",
@@ -124,6 +128,7 @@ export default {
         cancel: "Cancel",
         update: "Update",
         thisAddress: "{type} this address",
+        thisPosition: "{type} this position",
         thisCountry: "{type} this country",
         thisDistrict: "{type} this district",
         thisCommune: "{type} this commune",

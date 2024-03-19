@@ -178,7 +178,7 @@
     </form>
 </template>
 
-<!-- Script of assign-org-structures -->
+<!-- Script of assign-org-structures  -->
 <script>
 import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";

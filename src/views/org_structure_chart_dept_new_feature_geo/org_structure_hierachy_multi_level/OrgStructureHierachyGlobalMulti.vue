@@ -65,19 +65,88 @@
             :orgDeptKey="keyOrgNodeStructure ? keyOrgNodeStructure : {}"
             @close-dialog="closeDialogAddNodeOrgStructures"
         />
+        <!-- =======Management Dialogs Position========= -->
+        <OpenDialogAddNewPositionOrgDept
+            v-if="dialogDeptLogAddPosition"
+            @close="closedDialogAddNewPosition"
+            :editOrgStrDeptName="orgNodeData ? orgNodeData : {}"
+            :department-org-name="orgDeptName"
+            :orgAssignDesStructureId="idOrgStructures ? idOrgStructures : 0"
+        />
+        <!-- List Position -->
+        <AssignListAllPositionDeptOrg
+            v-if="dialogDeptOrgDeptListPos"
+            @close="closeDialogsListPositionDeptOrg"
+            :editOrgStrDeptName="orgNodeData ? orgNodeData : {}"
+            :department-org-name="orgDeptName"
+            :orgAssignDesStructureId="idOrgStructures ? idOrgStructures : 0"
+        />
+        <!-- Job Dep. Position -->
+        <OpenAssignDeptJobPositionDescription
+            v-if="dialogDeptPosJobDes"
+            @close="closeDialogDeptJobDes"
+            :editOrgStrDeptName="orgNodeData ? orgNodeData : {}"
+            :department-org-name="orgDeptName"
+            :orgAssignDesStructureId="idOrgStructures ? idOrgStructures : 0"
+        />
+        <!-- =======Management Dialogs Position========= -->
         <!-- Context Menu Of Organization Chart-Hierarchy Global -->
         <Sidebar
             v-model:visible="isOpenDialogDrawer"
-            header="View Org Structure"
             position="right"
+            :style="{ width: '30rem' }"
         >
-            <template #header class="border-1">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold">View Org Structure</span>
-                </div>
-            </template>
+            <!--  Action Buttons -->
             <div class="overflow-y-auto">
-                <ul class="list-none p-3 m-0">
+                <!-- Header Org-Structures -->
+                <div>
+                    <div
+                        class="flex w-full justify-content-around flex-wrap text-center gap-10"
+                    >
+                        <h6
+                            class="font-bold text-md flex text-sm flex-column align-items-center gap-10 justify-content-center"
+                        >
+                            <span
+                                class="font-global-moul-18"
+                                v-if="
+                                    orgDeptNameKh !== null ||
+                                    orgDeptNameKh !== ''
+                                "
+                                >ការគ្រប់គ្រងរចនាសម្ព័ន្ធរបស់
+                                <label
+                                    class="text-pink-500 font-global-moul-18 text-md"
+                                >
+                                    {{ orgDeptNameKh }}</label
+                                ></span
+                            >
+                            <span class="text-sm" v-if="orgDeptNameKh !== null"
+                                >Org. Structure Management:
+                                <label class="text-pink-500">
+                                    {{ orgDeptName }}</label
+                                ></span
+                            >
+                            <span
+                                class="font-global-moul-18"
+                                v-if="
+                                    orgDeptNameKh == null || orgDeptNameKh == ''
+                                "
+                                >Org. Structure Management:
+                                <label
+                                    class="text-pink-500 font-global-moul-18 text-md"
+                                >
+                                    {{ orgDeptName }}</label
+                                ></span
+                            >
+                        </h6>
+
+                        <div
+                            class="border-bottom-2 border-600 border-dashed border-primary-500 surface-overlay font-bold w-full surface-overlay font-bold flex align-items-center justify-content-center border-none surface-border"
+                        ></div>
+                    </div>
+                </div>
+                <!-- List FUnctions -->
+                <ul class="list-none p-3 gap-10 m-0">
+                    <!--=========== Department Information =========-->
                     <li>
                         <a
                             v-ripple
@@ -87,7 +156,7 @@
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-sitemap mr-2"></i>
-                            <span class="font-medium">Add Node</span>
+                            <span class="font-medium">Add New Department</span>
                         </a>
                     </li>
                     <li>
@@ -97,7 +166,7 @@
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-file-edit mr-2"></i>
-                            <span class="font-medium">Edit</span>
+                            <span class="font-medium">Edit Department</span>
                         </a>
                     </li>
                     <li>
@@ -106,9 +175,9 @@
                             @click.prevent="openAssignOrgStructureDescription"
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
-                            <i class="pi pi-sitemap mr-2"></i>
+                            <i class="pi pi-cog mr-2"></i>
                             <span class="font-medium"
-                                >Assign Description Organization Structure</span
+                                >Manage Dept. Job Description</span
                             >
                         </a>
                     </li>
@@ -125,21 +194,93 @@
                     <li>
                         <a
                             v-ripple
-                            @click.prevent="openViewEmployeeListBaseOrg"
-                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
-                        >
-                            <i class="pi pi-building mr-2"></i>
-                            <span class="font-medium">View Employee</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            v-ripple
                             @click.prevent="openRemoveOrgStrBaseId"
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-trash mr-2"></i>
                             <span class="font-medium">Remove</span>
+                        </a>
+                    </li>
+                    <hr />
+                    <!--=========== Positions ============-->
+                    <li>
+                        <a
+                            @click.prevent="openDialogsAddNewPositionDept"
+                            v-ripple
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-shopping-bag mr-2"></i>
+                            <span class="font-medium">Add New Position</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            @click.prevent="openDialogListPositionDeptOrg"
+                            v-ripple
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-list mr-2"></i>
+                            <span class="font-medium">List Position</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            @click.prevent="openDialogRemovePositionOrgDept"
+                            v-ripple
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-trash mr-2"></i>
+                            <span class="font-medium">Remove Position</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            @click.prevent="openManageDeptPositionJobDesDialog"
+                            v-ripple
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-database mr-2"></i>
+                            <span class="font-medium"
+                                >Manage Dept. Position Job Descriptions</span
+                            >
+                        </a>
+                    </li>
+                    <hr />
+                    <!--============= Human Resources ============-->
+                    <li>
+                        <a
+                            v-ripple
+                            @click.prevent="openViewEmployeeListBaseOrg"
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-users mr-2"></i>
+                            <span class="font-medium"
+                                >List of Human Resources</span
+                            >
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            v-ripple
+                            @click.prevent="openViewEmployeeListBaseOrg"
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-clone mr-2"></i>
+                            <span class="font-medium"
+                                >Assign Position to Officer</span
+                            >
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            v-ripple
+                            @click.prevent="openViewEmployeeListBaseOrg"
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-history mr-2"></i>
+                            <span class="font-medium"
+                                >List of Historical Officer</span
+                            >
                         </a>
                     </li>
                 </ul>
@@ -302,6 +443,10 @@ import OpenEditOrgStructureName from "./assign_org_str_hierarchy/GlobalEditOrgSt
 import OpenGlobalAssignDescription from "./assign_org_str_hierarchy/OpenGlobalAssignDescription";
 import OpenDialogAddNodeOrgStructures from "./assign_org_str_hierarchy/AddNodeOrgStrHierarchyGlobal";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+// Features fo position
+import OpenDialogAddNewPositionOrgDept from "./assign_org_dept_positions/AddAssignOrgDeptPosition.vue";
+import OpenAssignDeptJobPositionDescription from "./assign_org_dept_positions/AssignJobPositionDesDeptOrg.vue";
+import AssignListAllPositionDeptOrg from "./assign_org_dept_positions/AssignListAllPositionDeptOrg";
 
 export default {
     components: {
@@ -311,6 +456,10 @@ export default {
         OpenEditOrgStructureName,
         OpenGlobalAssignDescription,
         OpenDialogAddNodeOrgStructures,
+        // Positions of the assign
+        OpenDialogAddNewPositionOrgDept,
+        OpenAssignDeptJobPositionDescription,
+        AssignListAllPositionDeptOrg,
     },
     mixins: [manageOrgStructureDeptNewFeatures],
     created() {},
@@ -356,6 +505,10 @@ export default {
             isOpenAssignDesOrgStr: false,
             isOpenDialogsAddNode: false,
             keyOrgNodeStructure: null,
+            orgDeptNameKh: null,
+            dialogDeptLogAddPosition: false,
+            dialogDeptPosJobDes: false,
+            dialogDeptOrgDeptListPos: false,
             envFilePath: process.env.VUE_APP_PATH_FILE.replace("https", "http"),
             data: {
                 key: "0",
@@ -443,6 +596,7 @@ export default {
         onSelectedNodeChange(nodeData) {
             this.isOpenDialogDrawer = true;
             this.orgDeptName = String(nodeData.department).toString();
+            this.orgDeptNameKh = String(nodeData.departmentKH).toString();
             this.idOrgStructures = parseInt(nodeData.id) ?? 0;
             this.keyOrgNodeStructure = String(nodeData.key).toString() ?? null;
             this.orgNodeData = nodeData ? nodeData : [];
@@ -484,6 +638,29 @@ export default {
             this.isOpenAssignDesOrgStr = true;
             this.isOpenDialogDrawer = false;
         },
+        // Positions
+        openDialogsAddNewPositionDept() {
+            this.dialogDeptLogAddPosition = true;
+            this.isOpenDialogDrawer = false;
+        },
+        closedDialogAddNewPosition() {
+            this.dialogDeptLogAddPosition = false;
+        },
+        openManageDeptPositionJobDesDialog() {
+            this.dialogDeptPosJobDes = true;
+            this.isOpenDialogDrawer = false;
+        },
+        closeDialogDeptJobDes() {
+            this.dialogDeptPosJobDes = false;
+        },
+        openDialogListPositionDeptOrg() {
+            this.dialogDeptOrgDeptListPos = true;
+        },
+        closeDialogsListPositionDeptOrg() {
+            this.dialogDeptOrgDeptListPos = false;
+        },
+        openDialogRemovePositionOrgDept() {},
+        closeDialogPositionDeptOrg() {},
         /**
          * Org-Structures Hierarchy Multi-Level Structure Methods
          **/

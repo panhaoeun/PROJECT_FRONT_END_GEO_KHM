@@ -49,7 +49,7 @@
             </div>
         </template>
         <!-- Empty Department -->
-        <template #empty>Empty job descriptions</template>
+        <template #empty>Empty job dept. job descriptions</template>
         <!-- Loading Department -->
         <template #loading>
             Loading department descriptions data. Please wait...

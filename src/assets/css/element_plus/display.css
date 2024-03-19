@@ -35,6 +35,12 @@
     font-weight: 400;
     font-family: 'Poppins','Khmer M1',sans-serif;
 }
+.font-global-moul-18{
+    font-size: 20px;
+    line-height: 1.7;
+    font-weight: 400;
+    font-family: 'Poppins','Khmer M1',sans-serif;
+}
 body,
 html {
    font-family: 'Anek Kannada',sans-serif;

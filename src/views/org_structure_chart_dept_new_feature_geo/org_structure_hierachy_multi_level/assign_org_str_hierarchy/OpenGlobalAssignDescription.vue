@@ -10,46 +10,21 @@
         <pop-over
             v-if="editOrgStrData"
             @close="$emit('close')"
-            :title="
-                'Assign Description Organization Structure:' + '\t' + orgStrName
-            "
+            :title="'Manage Dept. Job Description:' + '\t' + orgStrName"
             elem-id="edit-org-structure-pop-over"
             :layer="true"
             class="address-popup popup-top-auto text-left"
         >
             <!-- Contents -->
             <template v-slot:content>
-                <div class="flex start mlr--5">
-                    <div class="input-wrap">
-                        <div class="col-lg-12 col-md-12 flex column h-full">
-                            <TabView
-                                v-model:activeIndex="activeDialogPositionId"
-                                class="text-sm"
-                                style="width: 60rem"
-                            >
-                                <!--Managements Job Descriptions-->
-                                <TabPanel header="Department Description">
-                                    <list-department-descriptions
-                                        :orgStructDeptJobDeptId="
-                                            orgAssignDesStructureId
-                                                ? orgAssignDesStructureId
-                                                : 0
-                                        "
-                                    />
-                                </TabPanel>
-                                <!--Managements Job Descriptions-->
-                                <TabPanel header="Position Descriptions">
-                                    <list-position-description-org
-                                        :orgStructDeptJobPositionId="
-                                            orgAssignDesStructureId
-                                                ? orgAssignDesStructureId
-                                                : 0
-                                        "
-                                    />
-                                </TabPanel>
-                            </TabView>
-                        </div>
-                    </div>
+                <div style="width: 80rem">
+                    <list-department-descriptions
+                        :orgStructDeptJobDeptId="
+                            orgAssignDesStructureId
+                                ? orgAssignDesStructureId
+                                : 0
+                        "
+                    />
                 </div>
             </template>
             <!-- Footer -->
@@ -78,14 +53,14 @@ import validation from "@/mixin/validation";
 import { mapActions } from "vuex";
 // Assign List org-structures
 import ListDepartmentDescriptions from "../assign_job_position_description_org/ListManageOrgJobDeptDescriptionAssignNew";
-import ListPositionDescriptionOrg from "../assign_job_position_description_org/ListManageOrgPositionAssignNew";
+// import ListPositionDescriptionOrg from "../assign_job_position_description_org/ListManageOrgPositionAssignNew";
 export default {
     components: {
         Spinner,
         PopOver,
         // AjaxButton,
         ListDepartmentDescriptions,
-        ListPositionDescriptionOrg,
+        // ListPositionDescriptionOrg,
     },
     props: {
         orgAssignDesStructureId: {
