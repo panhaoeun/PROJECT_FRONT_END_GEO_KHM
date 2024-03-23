@@ -18,7 +18,7 @@ export default {
     methods: {
         submittedDialogAssignEmployeeOrgDept() {
               try {
-               if( this.employeeAssignEdited?.department){
+               if(!this.employeeAssignEdited?.department){
                     this.submittingPositionData = true;
                     const editOrgStrDeptFeature = {
                         assignEmpIdOrgStrChart: parseInt(this.getOrgDeptEmpNameAssign) ?? 0,
@@ -57,6 +57,8 @@ export default {
                         });
                         this.submittingOrgStrData = false;
                     });
+                }else{
+                    this.hasErrorNewOrgStr = false;
                 }
             } catch (error) {
                 throw Error(error || error.message);

@@ -71,7 +71,7 @@
             @close="closedDialogAddNewPosition"
             :editOrgStrDeptName="orgNodeData ? orgNodeData : {}"
             :department-org-name="orgDeptName"
-            :orgAssignDesStructureId="idOrgStructures ? idOrgStructures : 0"
+            :orgStrDeptPosId="idOrgStructures ? idOrgStructures : 0"
         />
         <!-- List Position -->
         <AssignListAllPositionDeptOrg
@@ -88,6 +88,13 @@
             :editOrgStrDeptName="orgNodeData ? orgNodeData : {}"
             :department-org-name="orgDeptName"
             :orgAssignDesStructureId="idOrgStructures ? idOrgStructures : 0"
+        />
+        <!-- Popup Position Job Dept Employee Assign -->
+        <GlobalAddListEmployeeOfMainOrg
+            v-if="openDialogEmpOrgAssignOfficer"
+            :orgAssignId="idOrgStructures ? idOrgStructures : 0"
+            @close="closeDialogEmpOrgAssignOfficer"
+            :departmentName="departmentName ? departmentName : ''"
         />
         <!-- =======Management Dialogs Position========= -->
         <!-- Context Menu Of Organization Chart-Hierarchy Global -->
@@ -223,16 +230,16 @@
                             <span class="font-medium">List Position</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a
-                            @click.prevent="openDialogRemovePositionOrgDept"
+                            @click.prevent="openAssignPositionOfficerDialog"
                             v-ripple
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-trash mr-2"></i>
                             <span class="font-medium">Remove Position</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a
                             @click.prevent="openManageDeptPositionJobDesDialog"
@@ -262,7 +269,7 @@
                     <li>
                         <a
                             v-ripple
-                            @click.prevent="openViewEmployeeListBaseOrg"
+                            @click.prevent="openAssignPositionOfficerDialog"
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-clone mr-2"></i>
@@ -404,7 +411,7 @@
                     >
                 </div>
                 <!-- OrgChart -->
-                <OrganizationChart :value="data" collapsible>
+                <OrganizationChart :value="dataOrgStr" collapsible>
                     <template #person="slotProps">
                         <div class="flex flex-column">
                             <div class="flex flex-column align-items-center">
@@ -442,11 +449,15 @@ import EditAssignEmpManagerGlobalOrg from "./assign_org_str_hierarchy/GlobalEdit
 import OpenEditOrgStructureName from "./assign_org_str_hierarchy/GlobalEditOrgStrName";
 import OpenGlobalAssignDescription from "./assign_org_str_hierarchy/OpenGlobalAssignDescription";
 import OpenDialogAddNodeOrgStructures from "./assign_org_str_hierarchy/AddNodeOrgStrHierarchyGlobal";
+
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
+
 // Features fo position
 import OpenDialogAddNewPositionOrgDept from "./assign_org_dept_positions/AddAssignOrgDeptPosition.vue";
 import OpenAssignDeptJobPositionDescription from "./assign_org_dept_positions/AssignJobPositionDesDeptOrg.vue";
 import AssignListAllPositionDeptOrg from "./assign_org_dept_positions/AssignListAllPositionDeptOrg";
+import GlobalAddListEmployeeOfMainOrg from "./assign_employee_dept_pos/GlobalAssignEmpDeptAddNewGeoOrg.vue";
 
 export default {
     components: {
@@ -460,8 +471,12 @@ export default {
         OpenDialogAddNewPositionOrgDept,
         OpenAssignDeptJobPositionDescription,
         AssignListAllPositionDeptOrg,
+        GlobalAddListEmployeeOfMainOrg,
     },
-    mixins: [manageOrgStructureDeptNewFeatures],
+    mixins: [
+        manageOrgStructureDeptNewFeatures,
+        manageOrgDeptPositionStructuresHelper,
+    ],
     created() {},
     props: {
         orgTreeData: {
@@ -510,7 +525,8 @@ export default {
             dialogDeptPosJobDes: false,
             dialogDeptOrgDeptListPos: false,
             envFilePath: process.env.VUE_APP_PATH_FILE.replace("https", "http"),
-            data: {
+            openDialogEmpOrgAssignOfficer: false,
+            dataOrgStr: {
                 key: "0",
                 type: "person",
                 styleClass: "bg-indigo-100 text-white border-round-xl",
@@ -659,8 +675,13 @@ export default {
         closeDialogsListPositionDeptOrg() {
             this.dialogDeptOrgDeptListPos = false;
         },
-        openDialogRemovePositionOrgDept() {},
-        closeDialogPositionDeptOrg() {},
+        openAssignPositionOfficerDialog() {
+            this.openDialogEmpOrgAssignOfficer = true;
+             this.isOpenDialogDrawer = false;
+        },
+        closeDialogEmpOrgAssignOfficer() {
+            this.openDialogEmpOrgAssignOfficer = false;
+        },
         /**
          * Org-Structures Hierarchy Multi-Level Structure Methods
          **/

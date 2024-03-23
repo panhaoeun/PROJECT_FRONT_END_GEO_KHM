@@ -27,6 +27,7 @@
                             }"
                         >
                             Manager
+                            <span class="p-error text-danger">*</span>
                         </label>
                         <Dropdown
                             :class="{
@@ -88,6 +89,20 @@
                                 </div>
                             </template>
                         </Dropdown>
+                        <!-- Position -->
+                        <span
+                            class="error"
+                            v-if="
+                                !hasErrorNewOrgStr.department &&
+                                hasErrorNewOrgStr
+                            "
+                        >
+                            {{
+                                $t("projectOrgStr.isRequired", {
+                                    type: "Position of english name",
+                                })
+                            }}
+                        </span>
                     </div>
                 </div>
                 <div class="flex start mlr--5">

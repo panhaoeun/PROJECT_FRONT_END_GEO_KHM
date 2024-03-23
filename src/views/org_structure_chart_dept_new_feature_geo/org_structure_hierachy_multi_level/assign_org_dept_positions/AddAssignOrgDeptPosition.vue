@@ -8,7 +8,7 @@
         </transition>
         <!-- Pop Over Dialogs -->
         <pop-over
-            :title="'Assign Positions: ' + '\n' + departmentOrgName"
+            :title="'Add New Positions: ' + '\n' + departmentOrgName"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -111,6 +111,7 @@
     </form>
 </template>
 
+<!-- Add Org Dept -->
 <script>
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
@@ -140,6 +141,12 @@ export default {
         },
     },
     props: {
+        orgStrDeptPosId: {
+            type: Number,
+            required: true,
+            defaultValue: 0,
+            default: 0,
+        },
         departmentOrgName: {
             type: String,
             defaultValue: "No Department",

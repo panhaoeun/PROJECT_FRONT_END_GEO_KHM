@@ -11,7 +11,8 @@ const state = {
     positionDeptOrgBoardMgt: [],
     orgJobDescProId: [],
     orgPosJobDescProId: [],
-    orgDeptEmpDataId: []
+    orgDeptEmpDataId: [],
+    jobPosJobDescOrg: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -51,6 +52,9 @@ const getters = {
     allOrgAssignEmpByDeptStr: ({
         orgDeptEmpDataId
     }) => orgDeptEmpDataId ? orgDeptEmpDataId : {},
+    allOrgJobPositionByDeptStr: ({
+          jobPosJobDescOrg
+    }) => jobPosJobDescOrg ? jobPosJobDescOrg : {},
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -84,6 +88,9 @@ const mutations = {
     },
     SET_JOB_POST_DESC_DATA_POSITION(state, orgPosJobDescProId) {
         state.orgPosJobDescProId = orgPosJobDescProId ? orgPosJobDescProId : [];
+    },
+    SET_JOB_POSITION_DESC_DATA_BOARD_DEPARTMENT(state, jobPosJobDescOrg) {
+        state.jobPosJobDescOrg = jobPosJobDescOrg ? jobPosJobDescOrg : [];
     },
     // Assign EMployee
     SET_ORG_STR_ASSIGN_EMP_DATA(state, orgDeptEmpDataId){
@@ -207,6 +214,26 @@ const actions = {
             }
         });
    },
+   async setJobPositionDescriptionBaseOrgStrId({
+           commit
+       }, payload) {
+        const getPosDesOrgStrId  = payload?.getOrgPosDesStrId;
+        let orgStrPosDecId;
+        if (getPosDesOrgStrId !== null && !isNaN(Number(getPosDesOrgStrId)) || getPosDesOrgStrId !== '') {
+            orgStrPosDecId = parseInt(getPosDesOrgStrId) ? parseInt(getPosDesOrgStrId) : 0;
+        } else {
+            orgStrPosDecId = 0;
+        }
+        geoDeptOrgStrServices.listJobPositionDescriptionBaseOrgStrId(orgStrPosDecId).then((orgDeptStr) => {
+            const getAllJobPositionDescription = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : [];
+            if (!orgDeptStr) {
+                commit('SET_JOB_POSITION_DESC_DATA_BOARD_DEPARTMENT', []);
+            } else {
+                commit('SET_JOB_POSITION_DESC_DATA_BOARD_DEPARTMENT', getAllJobPositionDescription ? getAllJobPositionDescription : [])
+            }
+        });
+   },
+   
     /**
      * @Data Org-Structures Assign Base Employee
     */

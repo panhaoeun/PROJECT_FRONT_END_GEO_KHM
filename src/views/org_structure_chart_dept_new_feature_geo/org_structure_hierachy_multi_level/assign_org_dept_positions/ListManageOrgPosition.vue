@@ -1,16 +1,16 @@
 <template>
     <DataTable
         v-model:section="selectedPositionData"
-        :value="positionDeptOrgJobDes"
+        :value="positionAllDeptOrg"
         :paginator="true"
         filterDisplay="menu"
         dataKey="id"
         :rows="10"
         :globalFilterFields="[
-            'representative.posDesNameEng',
-            'posDesNameEng',
-            'posDesNameKh',
-            'positionDesId',
+            'representative.positionKhmerName',
+            'positionKhmerName',
+            'positionKhmerName',
+            'deptGeoMgtPosId',
         ]"
         scrollable
         class="p-datatable-scrollable text-sm card"
@@ -27,10 +27,7 @@
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
                 <!-- Search Products -->
-                <p
-                    class="justify-content-center font-bold"
-                    v-if="showAddPosition == true"
-                >
+                <p class="justify-content-center font-bold">
                     <Button
                         type="button"
                         label="Add New"
@@ -48,19 +45,17 @@
                     <InputText
                         v-model="filtersDataPositionData['global'].value"
                         class="p-inputtext p-component w-full text-sm"
-                        placeholder="Keyword search position descriptions..."
+                        placeholder="Keyword search position..."
                     />
                 </span>
             </div>
         </template>
         <!-- Empty Positions -->
-        <template #empty
-            >Empty list dept. position description for org-structure</template
-        >
+        <template #empty>Empty list dept. position for org-structure</template>
         <!-- Loading Positions -->
         <template #loading>
-            Loading position list dept. position description for org-structure
-            data. Please wait...
+            Loading position list dept. position for org-structure data. Please
+            wait...
         </template>
         <!--------------Columns----------->
         <Column
@@ -72,24 +67,26 @@
             <template #body="{ data }">
                 <span
                     v-if="
-                        data?.posDesNameKh !== null &&
-                        data?.posDesNameKh !== undefined
+                        data?.positionKhmerName !== null &&
+                        data?.positionKhmerName !== undefined
                     "
                 >
-                    {{ String(data?.posDesNameKh).toString() || "N/A" }}</span
+                    {{
+                        String(data?.positionKhmerName).toString() || "N/A"
+                    }}</span
                 >
                 <span v-else>N/A</span>
             </template>
         </Column>
         <Column
-            field="posDesNameKh"
+            field="deptPosName"
             header="English Name"
             sortable
             style="width: 30%"
         >
             <template #body="{ data }">
                 <span>
-                    {{ String(data?.posDesNameKh).toString() || "N/A" }}</span
+                    {{ String(data?.deptPosName).toString() || "N/A" }}</span
                 >
             </template>
         </Column>
@@ -115,7 +112,7 @@
                         rounded
                         severity="info"
                         class="mr-2"
-                        @click.prevent="openEditDialogsJobDescRename(data)"
+                        @click.prevent="editGeoPositionDeptOrgStrDialog(data)"
                     />
                     <Button
                         icon="pi pi-trash"
@@ -123,7 +120,7 @@
                         rounded
                         severity="secondary"
                         class="mr-2"
-                        @click="confirmDeletedJobDesOrgStrById(data)"
+                        @click="confirmDialogOrgPositionStructures(data)"
                     />
                 </div>
             </template>
@@ -131,7 +128,7 @@
     </DataTable>
     <!-- Deleted Dialogs Position Job Descriptions By Id -->
     <Dialog
-        v-model:visible="deletedJobDescDialogs"
+        v-model:visible="deletedGeoDeptPosMgtDialogs"
         :style="{ width: '550px' }"
         :header="'Confirm delete  this positions'"
         :modal="true"
@@ -153,7 +150,7 @@
                 class="w-10rem"
                 severity="secondary"
                 text
-                @click="deletedJobDescDialogs = false"
+                @click="deletedGeoDeptPosMgtDialogs = false"
             />
             <Button
                 label="Yes"
@@ -161,23 +158,26 @@
                 icon="pi pi-check"
                 class="w-10rem"
                 :loading="loadingRemoveDeptPos"
-                @click="confirmRemoveJobDescOrgStructurePositionDept()"
+                @click="confirmRemoveDeptPositionOrgStr()"
             />
         </template>
     </Dialog>
     <!-- Dialogs Position Job Descriptions Edited -->
     <open-edited-positions-org-structure
-        v-if="openEditedJobDescDialogs"
-        :position-obj-dept-org="positionDeptOrg ? positionDeptOrg : null"
-        @close="closingPopupEditedJobPosDesIdOrgStrDialogs"
-        :open-editPosition-job-des="openDataJobDesc ? openDataJobDesc : {}"
+        v-if="openEditedPositionDialogs"
+        @close="closingPopupEditedPosIdOrgStrDialogs"
+        :open-edit-position-org="
+            dataEditOrgPositionDes ? dataEditOrgPositionDes : {}
+        "
     />
     <!-- Add New Job Positions Descriptions -->
     <OpenDialogAddNewPositionOrgDept
         v-if="openJobDesPosition"
         :dialog="openJobDesPosition"
-        @close-dialog="closeJobDesPositionOrgStr"
-        :orgStrNameEditedId="orgStrDeptPosId ? orgStrDeptPosId : 0"
+        @close="closeJobDesPositionOrgStr"
+        :orgStrNameEditedId="
+            orgStructDeptJobPositionId ? orgStructDeptJobPositionId : 0
+        "
         :orgStrDeptPosId="orgStrDeptPosId ? orgStrDeptPosId : 0"
     />
 </template>
@@ -185,22 +185,11 @@
 <script>
 import { FilterMatchMode } from "primevue/api";
 import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
-import OpenEditedPositionsOrgStructure from "./assign_job_des_position_global/EditPositionDesJobOrgStructureData.vue";
-import OpenDialogAddNewPositionOrgDept from "../assign_org_dept_positions/assign_job_des_position_global/AssignPositionDescriptionManageOrgStructure.vue";
-import manageOrgDeptJobDesPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionJobDescriptionDeptOrgHelper";
+import OpenEditedPositionsOrgStructure from "./assign_job_des_position_global/EditPositionOrgStructureData.vue";
+import OpenDialogAddNewPositionOrgDept from "../assign_org_dept_positions/AddAssignOrgDeptPosition.vue";
+import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
 export default {
     props: {
-        showAddPosition: {
-            type: Boolean,
-            required: true,
-            defaultValue: 0,
-            default: false,
-        },
-        positionDeptOrg: {
-            type: Object,
-            required: true,
-            default: () => null,
-        },
         orgStrDeptPosId: {
             type: Number,
             required: true,
@@ -217,11 +206,6 @@ export default {
             required: true,
             default: () => {},
         },
-        positionDeptOrgJobDes: {
-            type: Object,
-            required: true,
-            default: () => {},
-        },
         orgStructDeptJobPositionId: {
             type: Number,
             required: true,
@@ -230,17 +214,15 @@ export default {
     },
     mixins: [
         manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper,
-        manageOrgDeptJobDesPositionStructuresHelper,
+        manageOrgDeptPositionStructuresHelper,
     ],
     data() {
         return {
-            deletedJobDescDialogs: false,
+            deletedGeoDeptPosMgtDialogs: false,
             loadingRemoveDeptPos: false,
-            selectedPositionData: null,
+            selectedPositionData: false,
             visibleConfirmRemove: false,
-            openDataJobDesc: null,
             openedDialogVisiblePos: false,
-            openEditedJobDescDialogs: false,
             loadingAddNewPosition: false,
             assignTORPositionId: null,
             dataObjPosition: null,

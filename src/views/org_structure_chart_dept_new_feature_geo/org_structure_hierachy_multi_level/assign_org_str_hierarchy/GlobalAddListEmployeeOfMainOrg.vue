@@ -7,9 +7,10 @@
             </div>
         </transition>
         <!-- Popup Dialog Org-Structures Main Dept -->
+
         <pop-over
             v-if="positionAssignEdited"
-            :title="`Employee List:`"
+            :title="`Employee List:` + departmentOrgName"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -198,6 +199,12 @@ export default {
     },
     props: {
         departmentName: {
+            type: String,
+            default() {
+                return null;
+            },
+        },
+        departmentOrgName: {
             type: String,
             default() {
                 return null;

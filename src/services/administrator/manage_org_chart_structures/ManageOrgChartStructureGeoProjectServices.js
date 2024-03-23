@@ -91,9 +91,9 @@ export default class ManageOrgChartStructureGeoProjectServices {
     }
     /** 
      * @api {post} 
-     *  @api (Job Descriptions API endpoints) 
+     *  @api (Department Job Descriptions API endpoints) 
      */
-    async listJobDescriptionBaseOrgStrId(orgStrId , jobDescType) {
+    async listJobDescriptionBaseOrgStrId(orgStrId, jobDescType) {
         return await http.get(`/admin/geo-location-route/org-chart-structures/list-job-dec-pos-dept?orgIdJobDesc=${orgStrId}&jobDescType=${jobDescType}`).then((result) => {
             if (!result) {
                 return false;
@@ -116,7 +116,33 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async removeNewOrgStructureJobDesc(jobDesId, data) {
         return http.delete(`/admin/geo-location-route/org-chart-structures/remove-job-dec-pos-dept/${jobDesId}`, data);
     }
-
+    /** 
+     * @api {post} 
+     *  @api (Position Job Descriptions API endpoints) 
+    */
+   async listJobPositionDescriptionBaseOrgStrId(positionId) {
+       return await http.get(`/admin/geo-location-route/org-chart-structures/list-position-dept-des?positionId=${positionId}`).then((result) => {
+           if (!result) {
+               return false;
+           }
+           if (result.status == 200) {
+               if (result.data.success == true) {
+                   return result.data.result.resultStatus.rows;
+               }
+           }
+       }).catch((error) => {
+           throw Error(error || error.message);
+       });
+   }
+    async createNewPositionJobDescBaseOrStrId(jobPosDescription) {
+        return http.post("/admin/geo-location-route/org-chart-structures/add-new-position-dept-des", jobPosDescription ? jobPosDescription : {});
+    }
+    async modifyNewOrgStructurePositionJobDescriptions(jobPosDecId, data) {
+        return http.put(`/admin/geo-location-route/org-chart-structures/modify-position-dept-des/${jobPosDecId}`, data);
+    }
+    async removeNewOrgStructurePositionJobDesc(jobPosDesId, data) {
+        return http.delete(`/admin/geo-location-route/org-chart-structures/remove-position-dept-des/${jobPosDesId}`, data);
+    }
     // Employee
     async listStoreEmpOrgDept(orgStrPosId) {
         return http.get("/admin/get-employee-list-by-dept-org", orgStrPosId ? orgStrPosId : {}).then((result) => {
@@ -140,7 +166,7 @@ export default class ManageOrgChartStructureGeoProjectServices {
     }
     /**
      * Assign Employee to the org-chart 
-    * */ 
+     * */
     async getAllListEmpOrgStructuresDeptAssignData(parentOrgPosSuperId, data) {
         return http.get(`/admin/geo-location-route/org-chart-structures-department-employee/list-dept-org-emp?orgStrDeptId=${parentOrgPosSuperId}`, data ? data : {}).then((result) => {
             if (!result) {

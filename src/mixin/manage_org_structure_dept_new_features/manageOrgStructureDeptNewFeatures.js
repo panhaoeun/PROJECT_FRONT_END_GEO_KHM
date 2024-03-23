@@ -527,7 +527,7 @@ export default {
                     if (
                         this.selectedAssignPositionOrg !== null 
                         || this.selectedAssignPositionOrg !== ''
-                        || this.selectedAssignEmp !== null
+                        || this.selectedAssignEmp !== null && this.selectedAssignPositionOrg !== null
                     ) {
                         const validation = await this.v$.$validate();
                         if (validation === false) {
@@ -563,7 +563,7 @@ export default {
                     }
                     const addNewOrgStrMgtPosDept = {
                         selectedOrgEmpId: this.selectedAssignEmployeeOrg ? this.selectedAssignEmployeeOrg : 0,
-                        selectedPositionOrgDeptId: 0,
+                        selectedPositionOrgDeptId: this.getPositionSelectedDeptOrgStrId ? this.getPositionSelectedDeptOrgStrId : 0,
                         addNotedEmpAssignOrg: String(this.assignEmpNoted).toString(),
                     };
                     // Assign Employee Base Org-Structured Assignment

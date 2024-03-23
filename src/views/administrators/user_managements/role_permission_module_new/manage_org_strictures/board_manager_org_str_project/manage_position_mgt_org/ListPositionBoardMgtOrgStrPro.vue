@@ -39,7 +39,9 @@
                 <!-- Modify Dialogs Positions Board Mgt Org-Structures -->
                 <PopupEditedBoardMgtPosition
                     v-if="openEditedBoardMgtDialogs"
-                    :openEditBoardMgtId="openEditBoardMgtData ? openEditBoardMgtData : ''"
+                    :openEditBoardMgtId="
+                        openEditBoardMgtData ? openEditBoardMgtData : ''
+                    "
                     @close="closingPopupEditedPosIdOrgStrDialogs"
                 />
                 <!-- Departments -->
@@ -159,7 +161,8 @@
                                 No department org-structure found.
                             </template>
                             <template #loading>
-                                Loading department org-structure data. Please wait...
+                                Loading department org-structure data. Please
+                                wait...
                             </template>
                             <Column
                                 field="deptPosName"

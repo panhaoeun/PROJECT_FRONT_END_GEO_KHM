@@ -197,7 +197,7 @@
                     text
                     class="w-10rem border-round-lg"
                     severity="success"
-                    @click.prevent="close"
+                    @click.prevent="close()"
                     autofocus
                 />
                 <Button
@@ -216,12 +216,12 @@
     </div>
 </template>
 
-<!-- Scripts of org-structure management base projects -->
+<!-- Scripts of org-structure management base position job descriptions -->
 <script>
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { reactive } from "vue";
-import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
+import manageOrgDeptJobDesPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionJobDescriptionDeptOrgHelper";
 export default {
     props: {
         orgStrNameEditedId: {
@@ -278,7 +278,7 @@ export default {
         const v$ = useVuelidate(rules, state);
         return { v$, state };
     },
-    mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
+    mixins: [manageOrgDeptJobDesPositionStructuresHelper],
     data() {
         return {
             loadingBtnEdit: false,

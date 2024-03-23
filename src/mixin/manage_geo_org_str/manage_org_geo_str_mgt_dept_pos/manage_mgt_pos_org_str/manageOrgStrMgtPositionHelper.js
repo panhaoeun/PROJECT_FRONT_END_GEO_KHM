@@ -193,7 +193,7 @@ export default {
                         this.submittingBoardMgtData = false;
                     });
                 }else{
-                    this.hasBoardMgtPositionErrors = false;
+                    this.hasBoardMgtPositionErrors = true;
                     this.submittingBoardMgtData = false;
                 }
             }catch(error){

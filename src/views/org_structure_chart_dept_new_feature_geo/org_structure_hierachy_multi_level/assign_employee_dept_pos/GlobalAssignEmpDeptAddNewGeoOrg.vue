@@ -112,21 +112,22 @@
                         </div>
                     </div>
                     <!-- Positions -->
-                    <!-- <div class="flex start mlr--5 w-auto">
-                        <div class="input-wrap mlr-5" style="width: 50rem" >
+                    <div class="flex start mlr--5 w-auto">
+                        <div class="input-wrap mlr-5" style="width: 50rem">
                             <label
                                 :class="{
-                                    'p-invalid p-error':
+                                    'p-invalid p-error text-danger':
                                         v$.selectedAssignPositionOrg.$invalid &&
                                         submitted &&
                                         hasErrorAssignStrEmp,
                                 }"
                             >
-                                Position <span class="p-error">*</span>
+                                Position
+                                <span class="p-error p-invalid">*</span>
                             </label>
                             <Dropdown
                                 showClear
-                                :options="getEmpDataOrgDept"
+                                :options="getPositionBaseDept"
                                 v-model="v$.selectedAssignPositionOrg.$model"
                                 :class="{
                                     'p-invalid p-error':
@@ -134,11 +135,11 @@
                                         submitted &&
                                         hasErrorAssignStrEmp,
                                 }"
-                                optionLabel="geo_english_name"
+                                optionLabel="deptPosName"
                                 empty="Empty Position"
                                 filter
                                 placeholder="Select a position"
-                                inputId="geo_english_name"
+                                inputId="deptPosName"
                                 aria-describedby="dd-error"
                                 :highlightOnSelect="false"
                                 class="w-full border-round-lg"
@@ -153,12 +154,12 @@
                                                 geoNameToTitleCase(
                                                     String(
                                                         slotProps.value
-                                                            ?.full_kh_name ?? ""
+                                                            ?.deptPosName ?? ""
                                                     )
                                                 )
                                             }}({{
                                                 slotProps.value
-                                                    .full_latin_name ?? ""
+                                                    .positionKhmerName ?? ""
                                             }})
                                         </div>
                                     </div>
@@ -175,13 +176,13 @@
                                                 geoNameToTitleCase(
                                                     String(
                                                         slotProps.option
-                                                            .full_kh_name ?? ""
+                                                            .deptPosName ?? ""
                                                     )
                                                 )
                                             }}
                                             ({{
                                                 slotProps.option
-                                                    .full_latin_name ?? ""
+                                                    .positionKhmerName ?? ""
                                             }})
                                         </div>
                                     </div>
@@ -204,7 +205,7 @@
                                 }}</small
                             >
                         </div>
-                    </div> -->
+                    </div>
                     <!-- Descriptions -->
                     <div class="flex start mlr--5">
                         <div class="input-wrap mlr-5" style="width: 50rem">
@@ -260,6 +261,7 @@ import { useVuelidate } from "@vuelidate/core";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 import manageGlobalOrgEmployeeHelper from "@/mixin/manage_geo_org_str/manageGlobalOrgEmployeeHelper";
 import { mapActions } from "vuex";
+import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
 export default {
     setup: () => ({ v$: useVuelidate() }),
     //Validations
@@ -268,9 +270,9 @@ export default {
             selectedAssignEmp: {
                 required,
             },
-            // selectedAssignPositionOrg: {
-            //     required,
-            // },
+            selectedAssignPositionOrg: {
+                required,
+            },
         };
     },
     components: {
@@ -315,12 +317,29 @@ export default {
             }
             return orgStrEmpId;
         },
+        getPositionSelectedDeptOrgStrId() {
+            const orgStrPositionSelected = this.selectedAssignPositionOrg
+                ? this.selectedAssignPositionOrg
+                : null;
+            if (
+                orgStrPositionSelected !== null ||
+                (orgStrPositionSelected !== undefined &&
+                    typeof orgStrPositionSelected !== "object" &&
+                    orgStrPositionSelected > 0)
+            ) {
+                return parseInt(orgStrPositionSelected?.deptPosId)
+                    ? parseInt(orgStrPositionSelected?.deptPosId)
+                    : 0;
+            }
+            return 0;
+        },
     },
     mixins: [
         util,
         validation,
         manageOrgStructureDeptNewFeatures,
         manageGlobalOrgEmployeeHelper,
+        manageOrgDeptPositionStructuresHelper,
     ],
     data() {
         return {
@@ -336,6 +355,11 @@ export default {
         };
     },
     async mounted() {
+        const getPosDeptOrgId = parseInt(this.orgAssignId)
+            ? parseInt(this.orgAssignId)
+            : 0;
+        this.getAllReloadPositionDeptOrg(getPosDeptOrgId);
+        // Get All Position Dept Job Description
         if (this.geoOrgProjectStrData) {
             this.projectStrGeoData = {
                 ...this.projectStrGeoData,

@@ -17,7 +17,16 @@
             <template v-slot:content>
                 <div style="width: 80rem">
                     <!-- List of Position JD Org Dept -->
-                    <ListManageOrgPositionAssignJobDes />
+                    <ListManageOrgPositionAll
+                        :orgStrDeptPosId="
+                            orgAssignDesStructureId
+                                ? orgAssignDesStructureId
+                                : 0
+                        "
+                        :positionAllDeptOrg="
+                            getPositionBaseDept ? getPositionBaseDept : {}
+                        "
+                    />
                 </div>
             </template>
             <!-- Footers -->
@@ -36,14 +45,16 @@
     </form>
 </template>
 
+<!-- Position Dept Org-Structures -->
 <script>
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";
-import addressHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
 // import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
-import ListManageOrgPositionAssignJobDes from "./ListManageOrgPositionAssignJobDes";
+import ListManageOrgPositionAll from "./ListManageOrgPosition";
+import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
+import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
 
 export default {
     name: "AssignJobPositionDept",
@@ -66,6 +77,12 @@ export default {
         },
     },
     props: {
+        orgAssignDesStructureId: {
+            type: Number,
+            required: true,
+            defaultValue: 0,
+            default: 0,
+        },
         departmentOrgName: {
             type: String,
             defaultValue: "No Department",
@@ -77,7 +94,7 @@ export default {
     components: {
         Spinner,
         // AjaxButton,
-        ListManageOrgPositionAssignJobDes,
+        ListManageOrgPositionAll,
         PopOver,
         //   Dropdown
     },
@@ -86,7 +103,12 @@ export default {
             return this.addressData && this.addressData.id;
         },
     },
-    mixins: [util, validation, addressHelper],
+    mixins: [
+        util,
+        validation,
+        manageOrgDeptPositionStructuresHelper,
+        manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper,
+    ],
     methods: {
         async savingAssignPositionDeptSubmitted() {
             await this.assignOrgDeptPositionActions();
@@ -95,7 +117,9 @@ export default {
             }
         },
     },
-    created() {},
-    async mounted() {},
+    async mounted() {
+        const parentOrgId = parseInt(this.orgAssignDesStructureId);
+        this.getAllReloadPositionDeptOrg(parentOrgId);
+    },
 };
 </script>
