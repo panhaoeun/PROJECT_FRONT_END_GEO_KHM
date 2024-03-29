@@ -10,7 +10,7 @@
         <pop-over
             v-if="editOrgStrData"
             @close="$emit('close')"
-            :title="'Manage Dept. Job Description:' + '\t' + orgStrName"
+            :title="'Manage Dept. Job Descriptions:' + '\t' + orgStrName"
             elem-id="edit-org-structure-pop-over"
             :layer="true"
             class="address-popup popup-top-auto text-left"

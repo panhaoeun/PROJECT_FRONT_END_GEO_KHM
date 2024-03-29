@@ -178,7 +178,6 @@
                                                         class="border-round-lg text-sm"
                                                         type="number"
                                                         :useGrouping="false"
-                                                        :min="0"
                                                         v-model.number="
                                                             v$.empPhoneNumber
                                                                 .$model

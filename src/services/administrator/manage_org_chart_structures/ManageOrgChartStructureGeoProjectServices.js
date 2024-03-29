@@ -1,4 +1,5 @@
 import http from "../../../../http-access-control-json";
+import httpFormData from "../../../../http-access-control";
 
 export default class ManageOrgChartStructureGeoProjectServices {
     /** 
@@ -57,7 +58,7 @@ export default class ManageOrgChartStructureGeoProjectServices {
         return http.post("/admin/geo-location-route/add-new-multi-level/org-chart-structures", orgStrPosId ? orgStrPosId : {});
     }
     async assignStoreEmpDeptForOrgStructure(assignEmpOrgId, orgStrPosData) {
-        return http.put(`/admin/geo-org-structures-dept-assign-employee-manager/${assignEmpOrgId}`, orgStrPosData ? orgStrPosData : {});
+        return httpFormData.put(`/admin/geo-org-structures-dept-assign-employee-manager/${assignEmpOrgId}`, orgStrPosData ? orgStrPosData : {});
     }
     /** 
      * @api {post} 
@@ -119,21 +120,21 @@ export default class ManageOrgChartStructureGeoProjectServices {
     /** 
      * @api {post} 
      *  @api (Position Job Descriptions API endpoints) 
-    */
-   async listJobPositionDescriptionBaseOrgStrId(positionId) {
-       return await http.get(`/admin/geo-location-route/org-chart-structures/list-position-dept-des?positionId=${positionId}`).then((result) => {
-           if (!result) {
-               return false;
-           }
-           if (result.status == 200) {
-               if (result.data.success == true) {
-                   return result.data.result.resultStatus.rows;
-               }
-           }
-       }).catch((error) => {
-           throw Error(error || error.message);
-       });
-   }
+     */
+    async listJobPositionDescriptionBaseOrgStrId(positionId) {
+        return await http.get(`/admin/geo-location-route/org-chart-structures/list-position-dept-des?positionId=${positionId}`).then((result) => {
+            if (!result) {
+                return false;
+            }
+            if (result.status == 200) {
+                if (result.data.success == true) {
+                    return result.data.result.resultStatus.rows;
+                }
+            }
+        }).catch((error) => {
+            throw Error(error || error.message);
+        });
+    }
     async createNewPositionJobDescBaseOrStrId(jobPosDescription) {
         return http.post("/admin/geo-location-route/org-chart-structures/add-new-position-dept-des", jobPosDescription ? jobPosDescription : {});
     }
@@ -184,4 +185,21 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async addNewAssignEmployeeOrgStructure(orgEmpId, assignEmpDataOrg) {
         return http.put(`/admin/geo-location-route/org-chart-structures-department-employee/add-dept-org-emp/${orgEmpId}`, assignEmpDataOrg ? assignEmpDataOrg : {});
     }
+    /**
+     * History Work 
+    * */ 
+   async getAllListHistoryOfEmpPosDept(empDeptHistory, data) {
+       return http.get(`/admin/get-history-employee-list-get-dept-org/history-emp-dept-officer?historyEmpDeptId=${empDeptHistory}`, data ? data : {}).then((result) => {
+           if (!result) {
+               return false;
+           }
+           if (result.status == 200) {
+               if (result.data.success == true) {
+                   return result.data.result.resultStatus;
+               }
+           }
+       }).catch((error) => {
+           throw Error(error || error.message);
+       });
+   }
 }

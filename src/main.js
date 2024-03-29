@@ -124,6 +124,8 @@ import TreeTable from 'primevue/treetable';
 import Tree from 'primevue/tree';
 import ProgressSpinner from 'primevue/progressspinner';
 import ContextMenu from 'primevue/contextmenu';
+import ProgressBar from 'primevue/progressbar';
+
 // Databases
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -257,6 +259,7 @@ app.component('FileUpload', FileUpload);
 app.component('ConfirmDialog', ConfirmDialog);
 app.component('Fieldset', Fieldset);
 app.component('ContextMenu', ContextMenu);
+app.component('ProgressBar', ProgressBar);
 //Vue Uoloads
 app.component('file-upload', VueUploadComponent);
 app.component('TreeTable', TreeTable);

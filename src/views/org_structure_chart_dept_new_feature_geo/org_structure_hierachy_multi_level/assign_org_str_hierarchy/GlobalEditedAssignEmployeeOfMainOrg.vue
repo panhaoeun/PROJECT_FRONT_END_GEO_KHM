@@ -1,5 +1,9 @@
 <template>
-    <form @submit.prevent="submittedDialogAssignEmployeeOrgDept">
+    <Toast />
+    <form
+        @submit.prevent="submittedDialogAssignEmployeeOrgDept"
+        enctype="multipart/form-data"
+    >
         <!-- Spinner -->
         <transition name="fade" mode="out-in">
             <div class="spinner-wrapper flex layer-white" v-if="loadingSpinner">
@@ -17,11 +21,12 @@
         >
             <!-- Contents -->
             <template v-slot:content>
+                <!-- Assign Managers -->
                 <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
                         <label
                             :class="{
-                                'p-error':
+                                'p-error text-danger':
                                     !employeeAssignEdited?.department &&
                                     hasErrorNewOrgStr,
                             }"
@@ -32,10 +37,16 @@
                         <Dropdown
                             :class="{
                                 'p-error':
-                                    !editOrgStrData?.department &&
+                                    !employeeAssignEdited?.department &&
                                     hasErrorNewOrgStr,
                             }"
                             showClear
+                            :selectOnFocus="
+                                employeeAssignEdited.empId ==
+                                employeeAssignEdited.empId
+                                    ? true
+                                    : false
+                            "
                             v-model="selectedAssignEmp"
                             :options="getEmpDataOrgDept"
                             optionLabel="geo_english_name"
@@ -91,28 +102,96 @@
                         </Dropdown>
                         <!-- Position -->
                         <span
-                            class="error"
+                            class="error flex"
                             v-if="
-                                !hasErrorNewOrgStr.department &&
+                                !employeeAssignEdited.department &&
                                 hasErrorNewOrgStr
                             "
                         >
                             {{
                                 $t("projectOrgStr.isRequired", {
-                                    type: "Position of english name",
+                                    type: "Assign Manager",
                                 })
                             }}
                         </span>
                     </div>
                 </div>
+                <!-- Assign Date -->
+                <div class="flex start mlr--5">
+                    <div class="input-wrap mlr-5">
+                        <label
+                            :class="{
+                                'p-error':
+                                    !employeeAssignEdited?.orgDeptDateAss &&
+                                    hasErrorNewOrgStr,
+                            }"
+                        >
+                            Assign Date
+                            <span class="p-error text-danger">*</span>
+                        </label>
+                        <Calendar
+                            :class="{
+                                'p-error':
+                                    !employeeAssignEdited?.orgDeptDateAss &&
+                                    hasErrorNewOrgStr,
+                            }"
+                            class="w-full md:w-30rem border-round-lg"
+                            showButtonBar
+                            dateFormat="yy-mm-dd"
+                            v-model="employeeAssignEdited.orgDeptDateAss"
+                            showIcon
+                            iconDisplay="input"
+                        />
+                        <!-- Position -->
+                        <span
+                            class="error flex"
+                            v-if="
+                                !employeeAssignEdited.orgDeptDateAss &&
+                                hasErrorNewOrgStr
+                            "
+                        >
+                            {{
+                                $t("projectOrgStr.isRequired", {
+                                    type: "Assign date",
+                                })
+                            }}
+                        </span>
+                    </div>
+                </div>
+                <!-- Assign Upload Files -->
+                <div class="flex start mlr--5">
+                    <div class="input-wrap mlr-5">
+                        <label> Upload File</label>
+                        <FileUpload
+                            mode="basic"
+                            name="file[]"
+                            ref="file"
+                            :multiple="true"
+                            :maxFileSize="500000000"
+                            :fileLimit="5"
+                            :showCancelButton="true"
+                            :showUploadButton="true"
+                            :previewWidth="60"
+                            accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps"
+                            @select="onAdvancedUpload($event)"
+                            chooseLabel="Browse"
+                            class="border-round-lg text-sm w-30rem"
+                        >
+                            <template #empty>
+                                <p>Drag and drop files to here to upload.</p>
+                            </template>
+                        </FileUpload>
+                    </div>
+                </div>
+                <!-- Descriptions -->
                 <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
                         <label> Descriptions </label>
-                        <TextArea
+                        <Textarea
                             class="border-round-lg text-sm w-30rem"
                             v-model="employeeAssignEdited.descriptionNoted"
                             type="text"
-                            placeholder="Descriptions"
+                            placeholder="Please enter descriptions"
                         />
                     </div>
                 </div>
@@ -135,8 +214,8 @@
                             $t('projectOrgStr.thisOrgAssignEMp', {
                                 type:
                                     editingAssEmployeeData > 0
-                                        ? $t('addressPopup.update')
-                                        : $t('addressPopup.save'),
+                                        ? $t('addressPopup.assign')
+                                        : $t('addressPopup.update'),
                             })
                         "
                     />
@@ -164,6 +243,13 @@ export default {
         AjaxButton,
     },
     props: {
+        departmentOrgName: {
+            type: String,
+            required: true,
+            default() {
+                return "No Department";
+            },
+        },
         assignEmployeeData: {
             type: Object,
             default() {
@@ -193,12 +279,19 @@ export default {
         return {
             loadingSpinner: false,
             employeeAssignEdited: null,
+            fileUploadOrg: null,
             hasAssignPositionErrors: false,
             submittingPositionData: false,
             openDataAssEmp: [],
             selectedAssignEmp: null,
             descriptionDeptEmpAssign: null,
             hasErrorNewOrgStr: false,
+            pathFile: {
+                id: 0,
+                user_name: "",
+                position_id: "",
+                image: "",
+            },
         };
     },
     async mounted() {
@@ -230,6 +323,50 @@ export default {
                 .replace(/(^|\s|-|')(\w)/g, function (match) {
                     return match.toUpperCase();
                 });
+        },
+        beforeFileUpload(rawFile) {
+            if (
+                (rawFile.type !== "image/jpeg" &&
+                    rawFile.type !== "image/png") ||
+                rawFile.type !== "application/pdf"
+            ) {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "Picture must be JPG or PNG format!",
+                    life: 3000,
+                });
+                return false;
+            } else if (rawFile.size / 1056 / 1056 > 2) {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "Picture size can not exceed 2MB!",
+                    life: 3000,
+                });
+                return false;
+            }
+            return true;
+        },
+        onAdvancedUpload(event) {
+            if (!Array.isArray(event) || event !== null &&  (!Array.isArray(event.files) || !event.files.length > 0) ) {
+                this.fileUploadOrg = event.files;
+            }
+            // let files = this.$refs.file.files[0];
+            // this.fileUploadOrg = files;
+            // console.log(files)
+            // this.createImage(files);
+        },
+        createImage(file) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.pathFile.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            this.$toast.add({
+                severity: "info",
+                summary: "Upload File",
+                detail: "File uploaded successfully!",
+                life: 3000,
+            });
         },
     },
 };

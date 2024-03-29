@@ -10,7 +10,7 @@
 
         <pop-over
             v-if="positionAssignEdited"
-            :title="`Employee List:` + departmentOrgName"
+            :title="`Employee list of:` + '\n' + getDepartmentName"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
@@ -40,7 +40,7 @@
                         {{ getDepartmentName }}
                     </h1>
                     <p class="text-center text-lg">
-                        Total Employee -
+                        Total Employee - 
                         {{ countEmpByDeptName }}
                     </p>
                 </div>
@@ -174,7 +174,7 @@
             v-if="openDialogEmpOrg"
             :orgAssignId="empOrgStrDataId ? empOrgStrDataId : 0"
             @close="closeDialogEmpOrgAssign"
-            :departmentName="departmentName ? departmentName : ''"
+            :departmentName="departmentOrgName ? departmentOrgName : ''"
         />
     </form>
 </template>
@@ -198,16 +198,11 @@ export default {
         GlobalAddListEmployeeOfMainOrg,
     },
     props: {
-        departmentName: {
-            type: String,
-            default() {
-                return null;
-            },
-        },
         departmentOrgName: {
             type: String,
+            required: true,
             default() {
-                return null;
+                return "No Department";
             },
         },
         empOrgStrDataId: {
@@ -225,7 +220,7 @@ export default {
     },
     computed: {
         getDepartmentName() {
-            return this.departmentName || "";
+            return this.departmentOrgName || "";
         },
         countEmpByDeptName() {
             let countEmpAssignNo;

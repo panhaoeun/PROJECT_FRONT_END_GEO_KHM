@@ -227,17 +227,17 @@ export default {
                                 );
                                 if (response.userType === "Admin") {
                                     this.$router.push({
-                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
+                                        path: "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module",
                                     });
                                 }
                                 if (response.userType === "Vendor") {
                                     this.$router.push({
-                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
+                                        path: "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module",
                                     });
                                 }
                                 if (response.userType === "Delivery") {
                                     this.$router.push({
-                                        path: "/vendor/user/list/crete-user-auth/ui-user-list",
+                                        path: "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module",
                                     });
                                 } else if (response.userType === "Customer") {
                                     this.$router.push({ path: "/" });

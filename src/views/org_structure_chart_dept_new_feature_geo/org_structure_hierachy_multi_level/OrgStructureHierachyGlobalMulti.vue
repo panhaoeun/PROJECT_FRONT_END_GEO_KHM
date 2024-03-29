@@ -34,13 +34,14 @@
             v-if="isOpenDialogViewEmpOrg"
             @close="closeViewEmpOrgDialogs"
             :empOrgStrDataId="idOrgStructures ? idOrgStructures : 0"
-            :department-name="departmentName"
+            :departmentOrgName="orgDeptName ? orgDeptName : ''"
         />
         <!-- Dialogs of View Assign Manager -->
         <EditAssignEmpManagerGlobalOrg
             v-if="isOpenDialogEditAssignEmpOrg"
             @close="closeAssignEmpOrgStructureData"
             :assignEmployeeData="orgNodeData ? orgNodeData : {}"
+            :departmentOrgName="orgDeptName ? orgDeptName : ''"
         />
         <!-- Dialogs of View Assign Employee -->
         <OpenEditOrgStructureName
@@ -94,8 +95,16 @@
             v-if="openDialogEmpOrgAssignOfficer"
             :orgAssignId="idOrgStructures ? idOrgStructures : 0"
             @close="closeDialogEmpOrgAssignOfficer"
-            :departmentName="departmentName ? departmentName : ''"
+            :departmentName="orgDeptName ? orgDeptName : ''"
         />
+        <!-- Popup Assign History to Officer -->
+        <OpenDialogHistoryOfficerOrgStr
+            v-if="openDialogHistoryOfficer"
+            :orgAssignId="idOrgStructures ? idOrgStructures : 0"
+            @close="closeDialogHistoryOfficer"
+            :departmentOrgName="orgDeptName ? orgDeptName : ''"
+        />
+
         <!-- =======Management Dialogs Position========= -->
         <!-- Context Menu Of Organization Chart-Hierarchy Global -->
         <Sidebar
@@ -281,7 +290,9 @@
                     <li>
                         <a
                             v-ripple
-                            @click.prevent="openViewEmployeeListBaseOrg"
+                            @click.prevent="
+                                openViewHistoryOfficerEmployeeListBaseOrg
+                            "
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-history mr-2"></i>
@@ -458,6 +469,7 @@ import OpenDialogAddNewPositionOrgDept from "./assign_org_dept_positions/AddAssi
 import OpenAssignDeptJobPositionDescription from "./assign_org_dept_positions/AssignJobPositionDesDeptOrg.vue";
 import AssignListAllPositionDeptOrg from "./assign_org_dept_positions/AssignListAllPositionDeptOrg";
 import GlobalAddListEmployeeOfMainOrg from "./assign_employee_dept_pos/GlobalAssignEmpDeptAddNewGeoOrg.vue";
+import OpenDialogHistoryOfficerOrgStr from "./assign_history_officer_dept_org/GlobalListAssignHistoryOfficerOrgEmp.vue";
 
 export default {
     components: {
@@ -472,6 +484,7 @@ export default {
         OpenAssignDeptJobPositionDescription,
         AssignListAllPositionDeptOrg,
         GlobalAddListEmployeeOfMainOrg,
+        OpenDialogHistoryOfficerOrgStr,
     },
     mixins: [
         manageOrgStructureDeptNewFeatures,
@@ -519,6 +532,7 @@ export default {
             isOpenDialogEditRemoveOrgStr: false,
             isOpenAssignDesOrgStr: false,
             isOpenDialogsAddNode: false,
+            openDialogHistoryOfficer: false,
             keyOrgNodeStructure: null,
             orgDeptNameKh: null,
             dialogDeptLogAddPosition: false,
@@ -611,10 +625,10 @@ export default {
         },
         onSelectedNodeChange(nodeData) {
             this.isOpenDialogDrawer = true;
-            this.orgDeptName = String(nodeData.department).toString();
-            this.orgDeptNameKh = String(nodeData.departmentKH).toString();
-            this.idOrgStructures = parseInt(nodeData.id) ?? 0;
-            this.keyOrgNodeStructure = String(nodeData.key).toString() ?? null;
+            this.orgDeptName = String(nodeData?.department).toString();
+            this.orgDeptNameKh = String(nodeData?.departmentKH).toString();
+            this.idOrgStructures = parseInt(nodeData?.id) ?? 0;
+            this.keyOrgNodeStructure = String(nodeData?.key).toString() ?? null;
             this.orgNodeData = nodeData ? nodeData : [];
             this.$emit("node-click", nodeData);
         },
@@ -677,10 +691,17 @@ export default {
         },
         openAssignPositionOfficerDialog() {
             this.openDialogEmpOrgAssignOfficer = true;
-             this.isOpenDialogDrawer = false;
+            this.isOpenDialogDrawer = false;
         },
         closeDialogEmpOrgAssignOfficer() {
             this.openDialogEmpOrgAssignOfficer = false;
+        },
+        closeDialogHistoryOfficer() {
+            this.openDialogHistoryOfficer = false;
+        },
+        openViewHistoryOfficerEmployeeListBaseOrg() {
+            this.openDialogHistoryOfficer = true;
+            this.isOpenDialogDrawer = false;
         },
         /**
          * Org-Structures Hierarchy Multi-Level Structure Methods

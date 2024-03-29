@@ -5,7 +5,7 @@
             <h2
                 class="relative text-black text-xl section section-title:before"
             >
-                {{ $t("users.addUsers") }}
+                Add New Employee
             </h2>
             <el-button
                 class="btn btn-primary text-sm"
@@ -157,7 +157,7 @@
                                                     >*</span
                                                 ></label
                                             >
-                                            <InputNumber
+                                            <InputText
                                                 type="number"
                                                 :useGrouping="false"
                                                 :min="0"
@@ -196,8 +196,7 @@
                                         </div>
                                     </div>
                                     <!--Password and Confirm Password -->
-                                    <div class="col-12 col-lg-4 field">
-                                        <!-- Password -->
+                                    <!-- <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="name_en" class="text-sm"
                                                 >Password<span class="p-error"
@@ -242,7 +241,6 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-4 field">
-                                        <!-- Confirm Password -->
                                         <div class="field">
                                             <label
                                                 for="confirmPassword"
@@ -267,7 +265,6 @@
                                                         submitted,
                                                 }"
                                             />
-                                            <!-- Validations -->
                                             <div class="flex-column flex">
                                                 <small
                                                     v-if="
@@ -295,7 +292,7 @@
                                                 </small>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- Date of Birth -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
@@ -544,8 +541,10 @@
                             icon="pi pi-check"
                             type="submit"
                             :disabled="isProcessingSubmit"
-                            :label="isProcessingSubmit ? 'Process...' : 'Save'"
-                            class="p-button-lg py-3 w-5rem p-button-outlined w-10rem mr-3"
+                            :label="
+                                isProcessingSubmit ? 'Process...' : 'Update'
+                            "
+                            class="p-button-lg py-4 w-15rem p-button-outlined"
                         />
                     </div>
                 </form>
@@ -667,14 +666,14 @@ export default {
                 required,
                 minLength: minLength(6),
             },
-            userMSPassword: {
-                required,
-                minLength: minLength(6),
-            },
-            confirmPassword: {
-                required,
-                minLength: minLength(6),
-            },
+            // userMSPassword: {
+            //     required,
+            //     minLength: minLength(6),
+            // },
+            // confirmPassword: {
+            //     required,
+            //     minLength: minLength(6),
+            // },
         };
     },
     methods: {
@@ -727,7 +726,7 @@ export default {
         //============Uploads Files================
         handleChangeUser(file) {
             this.fileUserMS = file.raw;
-            console.log(this.fileUserMS);
+            // console.log(this.fileUserMS);
             //Check Upload File
             this.beforeAvatarUpload(file.raw);
             this.objClassUserPer.upLoadHideUserMS = true;
@@ -768,7 +767,7 @@ export default {
                 if (!isFormValidUserMS) {
                     if (!this.fileUserMS || this.fileUserMS !== "") {
                         this.errMessageUploadFile =
-                            "Please upload profile image...";
+                            "Please upload profile image";
                         return false;
                     }
                     return;
@@ -778,7 +777,6 @@ export default {
                     this.userMSNameEng !== null ||
                     this.userMSNameKh !== "" ||
                     this.userMSPhoneNum !== "" ||
-                    this.userMSPassword !== "" ||
                     this.fileUserMS !== ""
                 ) {
                     // Data Response
@@ -788,7 +786,7 @@ export default {
                         empNameKh: this.userMSNameKh,
                         empEmail: this.emailMSUser,
                         empPhone: parseInt(this.userMSPhoneNum),
-                        empPassword: this.userMSPassword,
+                        empPassword: "admin123",
                         empType: "Admin",
                         userProfile: this.fileUserMS,
                         empStatus: "Approved",

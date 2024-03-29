@@ -17,13 +17,16 @@ export default {
     },
     methods: {
         submittedDialogAssignEmployeeOrgDept() {
-              try {
-               if(!this.employeeAssignEdited?.department){
+            try {
+                console.log(this.employeeAssignEdited)
+               if (this.employeeAssignEdited?.department !== null || this.employeeAssignEdited?.orgDeptDateAss !== null) {
                     this.submittingPositionData = true;
                     const editOrgStrDeptFeature = {
                         assignEmpIdOrgStrChart: parseInt(this.getOrgDeptEmpNameAssign) ?? 0,
                         assignEmpOrgStrStatus: true,
-                        assignEmpOrgStrChartDeptNoted: String(this.employeeAssignEdited.descriptionNoted)
+                        assignEmpJonPosDate: this.employeeAssignEdited.orgDeptDateAss,
+                        assignEmpOrgStrChartDeptNoted: String(this.employeeAssignEdited.descriptionNoted),
+                        assignFileOrgStrDept: this.fileUploadOrg
                     }
                     this.getOrgStructFeaturesNew.assignStoreEmpDeptForOrgStructure(this.employeeAssignEdited?.deptOrgStrId, editOrgStrDeptFeature)
                     .then(async (assignEmp) => {
@@ -58,7 +61,13 @@ export default {
                         this.submittingOrgStrData = false;
                     });
                 }else{
-                    this.hasErrorNewOrgStr = false;
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "Error",
+                        detail: "Please fill all required fields",
+                        life: 3000,
+                    });
+                    this.hasErrorNewOrgStr = true;
                 }
             } catch (error) {
                 throw Error(error || error.message);

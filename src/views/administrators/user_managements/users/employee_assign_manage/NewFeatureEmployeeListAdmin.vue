@@ -326,9 +326,10 @@ export default {
         const userPerMSServices = new UserPermissionsMSServices();
         userPerMSServices.getListUserData().then((users) => {
             if (!Array.isArray(users) || !users.length > 0) {
-                this.$notify.error({
-                    title: "Error Entries Users List",
-                    showClose: false,
+                this.$toast.add({
+                    severity: "error",
+                    summary: "Error entries employee list",
+                    life: 3000,
                 });
             }
             if (

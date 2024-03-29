@@ -115,6 +115,7 @@ export default {
         englishName: "English name",
     },
     addressPopup: {
+        assign: 'Assing',
         country: "Country",
         order: "Order",
         state: "State",

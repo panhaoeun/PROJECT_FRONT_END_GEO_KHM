@@ -5,7 +5,7 @@
             <h2
                 class="relative text-black text-3xl section section-title:before"
             >
-               {{ $t('userinfo.editUser') }}
+                Edit Employee
             </h2>
             <el-button
                 type="info"
@@ -13,13 +13,13 @@
                 class="btn btn-primary"
                 @click.prevent="
                     $router.push(
-                        '/vendor/user/list/crete-user-auth/ui-user-list'
+                        '/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module'
                     )
                 "
             >
                 <div class="flex justify-between pl-2">
                     <i class="pi pi-arrow-left" style="font-size: 1rem"></i>
-                    <span class="pl-2">{{$t('route.routeBack')}}</span>
+                    <span class="pl-2">{{ $t("route.routeBack") }}</span>
                 </div>
             </el-button>
         </div>
@@ -48,15 +48,18 @@
                                         <!-- Name Khmer -->
                                         <div class="field">
                                             <label class="text-sm" for="name_en"
-                                                >{{ $t('userinfo.fullNameInKhmer') }}
-                                               <span class="p-error"
-                                                    >*</span
-                                                >
-                                            </label
-                                            >
+                                                >{{
+                                                    $t(
+                                                        "userinfo.fullNameInKhmer"
+                                                    )
+                                                }}
+                                                <span class="p-error">*</span>
+                                            </label>
                                             <InputText
                                                 id="product_name"
-                                                :placeholder="$t('userinfo.khmerName')"
+                                                :placeholder="
+                                                    $t('userinfo.khmerName')
+                                                "
                                                 type="text"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -99,14 +102,16 @@
                                         <!-- Name Category -->
                                         <div class="field">
                                             <label for="name_en" class="text-sm"
-                                                >{{ $t('userinfo.fullNameInEn') }}<span
-                                                    class="p-error"
+                                                >{{ $t("userinfo.fullNameInEn")
+                                                }}<span class="p-error"
                                                     >*</span
                                                 ></label
                                             >
                                             <InputText
                                                 id="userMSNameKh"
-                                                :placeholder="$t('userinfo.englishName')"
+                                                :placeholder="
+                                                    $t('userinfo.englishName')
+                                                "
                                                 type="text"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -148,10 +153,18 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">{{ $t('userinfo.email') }}</label>
+                                            <label
+                                                for="name_en"
+                                                class="text-sm"
+                                                >{{
+                                                    $t("userinfo.email")
+                                                }}</label
+                                            >
                                             <InputText
                                                 id="email_add"
-                                                :placeholder="$t('userinfo.email')"
+                                                :placeholder="
+                                                    $t('userinfo.email')
+                                                "
                                                 type="email"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -164,17 +177,21 @@
                                     <div class="col-12 col-lg-4 field">
                                         <!-- Name Category -->
                                         <div class="field">
-                                            <label for="name_en"
-                                                class="text-sm"
-                                                >{{ $t('userinfo.phone') }}<span
-                                                    class="p-error"
+                                            <label for="name_en" class="text-sm"
+                                                >{{ $t("userinfo.phone")
+                                                }}<span class="p-error"
                                                     >*</span
                                                 ></label
                                             >
                                             <InputText
                                                 id="product_name"
-                                                :placeholder="$t('userinfo.phone')"
-                                                type="text"
+                                                :placeholder="
+                                                    $t('userinfo.phone')
+                                                "
+                                                type="number"
+                                                required
+                                                inputmode="numeric"
+                                                min="5"
                                                 @keypress="inputOnlyNumber"
                                                 class="py-3 border-round-lg"
                                                 v-model="
@@ -213,8 +230,7 @@
                                         </div>
                                     </div>
                                     <!-- Current Password -->
-                                    <div class="col-12 col-lg-4 field">
-                                        <!-- Password -->
+                                    <!-- <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="name_en"
                                                 class="text-sm"
@@ -235,10 +251,9 @@
                                             />
                                            
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!--Password and Confirm Password -->
-                                    <div class="col-12 col-lg-4 field">
-                                        <!-- Password -->
+                                    <!-- <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label for="name_en"
                                                 class="text-sm"
@@ -257,9 +272,8 @@
                                                         .userMSPassword"
                                             />
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-lg-4 field">
-                                        <!-- Confirm Password -->
+                                    </div> -->
+                                    <!-- <div class="col-12 col-lg-4 field">
                                         <div class="field">
                                             <label 
                                                 for="confirmPassword"
@@ -278,7 +292,6 @@
                                                 class="border-round-lg"
                                                 v-model="confirmPassword"
                                             />
-                                            <!-- Validations -->
                                             <div class="flex-column flex">
                                                 <small
                                                     class="p-error"
@@ -288,140 +301,291 @@
                                                 </small>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- Date Of Birth -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Date Of Birth<span class="p-error">*</span></label>
-                                            <Calendar 
-                                                placeholder="Date of birth" 
-                                                class="border-round-lg text-sm" v-model="v$.userMSUpdatedArrFiled.userDateOfBirth.$model"
-                                                :class="{ 'p-invalid p-error': v$.userMSUpdatedArrFiled.userDateOfBirth.$invalid && submitted }" />
+                                            <label for="name_en" class="text-sm"
+                                                >Date Of Birth<span
+                                                    class="p-error"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <Calendar
+                                                placeholder="Date of birth"
+                                                class="border-round-lg text-sm"
+                                                v-model="
+                                                    v$.userMSUpdatedArrFiled
+                                                        .userDateOfBirth.$model
+                                                "
+                                                :class="{
+                                                    'p-invalid p-error':
+                                                        v$.userMSUpdatedArrFiled
+                                                            .userDateOfBirth
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                            />
                                             <small
-                                                v-if="(v$.userMSUpdatedArrFiled.userDateOfBirth.$invalid && submitted) || 
-                                                v$.userMSUpdatedArrFiled.userDateOfBirth.$pending.$response"
+                                                v-if="
+                                                    (v$.userMSUpdatedArrFiled
+                                                        .userDateOfBirth
+                                                        .$invalid &&
+                                                        submitted) ||
+                                                    v$.userMSUpdatedArrFiled
+                                                        .userDateOfBirth
+                                                        .$pending.$response
+                                                "
                                                 class="p-error"
                                             >
-                                                {{ v$.userMSUpdatedArrFiled.userDateOfBirth.required.$message.replace('Value','Date of Birth') || 
-                                                v$.userMSUpdatedArrFiled.userDateOfBirth.$params.min }}
+                                                {{
+                                                    v$.userMSUpdatedArrFiled.userDateOfBirth.required.$message.replace(
+                                                        "Value",
+                                                        "Date of Birth"
+                                                    ) ||
+                                                    v$.userMSUpdatedArrFiled
+                                                        .userDateOfBirth.$params
+                                                        .min
+                                                }}
                                             </small>
                                         </div>
                                     </div>
                                     <!-- Started Dated -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Start Date<span class="p-error">*</span></label>
-                                            <Calendar 
-                                                placeholder="Date of birth" 
-                                                class="border-round-lg text-sm" v-model="v$.userMSUpdatedArrFiled.userStartDate.$model"
-                                                :class="{ 'p-invalid p-error': v$.userMSUpdatedArrFiled.userStartDate.$invalid && submitted }" />
+                                            <label for="name_en" class="text-sm"
+                                                >Start Date<span class="p-error"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <Calendar
+                                                placeholder="Date of birth"
+                                                class="border-round-lg text-sm"
+                                                v-model="
+                                                    v$.userMSUpdatedArrFiled
+                                                        .userStartDate.$model
+                                                "
+                                                :class="{
+                                                    'p-invalid p-error':
+                                                        v$.userMSUpdatedArrFiled
+                                                            .userStartDate
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                            />
                                             <small
-                                                v-if="(v$.userMSUpdatedArrFiled.userStartDate.$invalid && submitted) || 
-                                                v$.userMSUpdatedArrFiled.userStartDate.$pending.$response"
+                                                v-if="
+                                                    (v$.userMSUpdatedArrFiled
+                                                        .userStartDate
+                                                        .$invalid &&
+                                                        submitted) ||
+                                                    v$.userMSUpdatedArrFiled
+                                                        .userStartDate.$pending
+                                                        .$response
+                                                "
                                                 class="p-error"
                                             >
-                                                {{ v$.userMSUpdatedArrFiled.userStartDate.required.$message.replace('Value','Start Date') || 
-                                                v$.userMSUpdatedArrFiled.userStartDate.$params.min }}
+                                                {{
+                                                    v$.userMSUpdatedArrFiled.userStartDate.required.$message.replace(
+                                                        "Value",
+                                                        "Start Date"
+                                                    ) ||
+                                                    v$.userMSUpdatedArrFiled
+                                                        .userStartDate.$params
+                                                        .min
+                                                }}
                                             </small>
                                         </div>
                                     </div>
                                     <!-- Gender -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label for="roles" class="text-sm">Gender<span class="p-error">*</span></label>
-                                           <div class="flex flex-column">
-                                                <Dropdown
-                                                    v-model="userMSUpdatedArrFiled.selectedUserGender"
-                                                    class="border-round-lg text-sm"
-                                                    :options="userGender" 
-                                                    :showClear="true"
-                                                    optionLabel="name" 
-                                                    option-value="name"
-                                                    placeholder="Select a Gender" 
-                                                    :class="{ 'p-invalid p-error': v$.userMSUpdatedArrFiled.selectedUserGender.$invalid && submitted }" 
-                                                />
-                                                <small
-                                                    v-if="(v$.userMSUpdatedArrFiled.selectedUserGender.$invalid && submitted) || v$.userMSUpdatedArrFiled.selectedUserGender.$pending.$response"
-                                                    class="p-error">{{ v$.userMSUpdatedArrFiled.selectedUserGender.required.$message.replace('Value',
-                                                        'Gender') || v$.userMSUpdatedArrFiled.selectedUserGender.$params.min }}
-                                                </small>
-                                           </div>
-                                        </div>
-                                    </div>
-                                    <!--User Permissions -->
-                                    <div class="col-12 col-lg-4 field">
-                                        <div class="field">
-                                            <label for="roles"
-                                                class="text-sm"
-                                                >{{ $t('userinfo.role') }}<span class="p-error"
+                                            <label for="roles" class="text-sm"
+                                                >Gender<span class="p-error"
                                                     >*</span
                                                 ></label
                                             >
                                             <div class="flex flex-column">
-                                                    <Dropdown 
-                                                        @change="getPermissionCurrent"
-                                                        :options="permissionListDropDownView" 
-                                                        filter  
-                                                        v-model="userMSUpdatedArrFiled.selectOptValuePermission" 
-                                                        inputId="id"
-                                                        optionLabel="role_name" 
-                                                        placeholder="Select a Role" 
-                                                        aria-describedby="dd-error"
-                                                        class="w-full border-round-lg text-sm"
-                                                        :class="{ 'p-invalid p-error': v$.userMSUpdatedArrFiled.selectOptValuePermission.$invalid && submitted }"
-                                                    >
-                                                            <template #value="slotProps">
-                                                                <div v-if="slotProps.value" class="flex align-items-center">
-                                                                    <div>{{ slotProps.value?.role_name }}</div>
-                                                                </div>
-                                                                <span v-else>
-                                                                    {{ slotProps.placeholder }}
-                                                                </span>
-                                                            </template>
-                                                            <template #option="slotProps">
-                                                                <div class="flex align-items-center">
-                                                                    <div>{{ slotProps.option?.role_name }}</div>
-                                                                </div>
-                                                            </template>
-                                                    </Dropdown>
-                                                    <small
-                                                        v-if="(v$.userMSUpdatedArrFiled.selectOptValuePermission.$invalid && submitted) || v$.userMSUpdatedArrFiled.selectOptValuePermission.$pending.$response"
-                                                        class="p-error">{{ v$.userMSUpdatedArrFiled.selectOptValuePermission.required.$message.replace('Value',
-                                                            'Role') || v$.userMSUpdatedArrFiled.selectOptValuePermission.$params.min }}
-                                                    </small>
+                                                <Dropdown
+                                                    v-model="
+                                                        userMSUpdatedArrFiled.selectedUserGender
+                                                    "
+                                                    class="border-round-lg text-sm"
+                                                    :options="userGender"
+                                                    :showClear="true"
+                                                    optionLabel="name"
+                                                    option-value="name"
+                                                    placeholder="Select a Gender"
+                                                    :class="{
+                                                        'p-invalid p-error':
+                                                            v$
+                                                                .userMSUpdatedArrFiled
+                                                                .selectedUserGender
+                                                                .$invalid &&
+                                                            submitted,
+                                                    }"
+                                                />
+                                                <small
+                                                    v-if="
+                                                        (v$
+                                                            .userMSUpdatedArrFiled
+                                                            .selectedUserGender
+                                                            .$invalid &&
+                                                            submitted) ||
+                                                        v$.userMSUpdatedArrFiled
+                                                            .selectedUserGender
+                                                            .$pending.$response
+                                                    "
+                                                    class="p-error"
+                                                    >{{
+                                                        v$.userMSUpdatedArrFiled.selectedUserGender.required.$message.replace(
+                                                            "Value",
+                                                            "Gender"
+                                                        ) ||
+                                                        v$.userMSUpdatedArrFiled
+                                                            .selectedUserGender
+                                                            .$params.min
+                                                    }}
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
+                                    <!--User Permissions -->
+                                    <!-- <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="roles" class="text-sm"
+                                                >{{ $t("userinfo.role")
+                                                }}<span class="p-error"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <div class="flex flex-column">
+                                                <Dropdown
+                                                    @change="
+                                                        getPermissionCurrent
+                                                    "
+                                                    :options="
+                                                        permissionListDropDownView
+                                                    "
+                                                    filter
+                                                    v-model="
+                                                        userMSUpdatedArrFiled.selectOptValuePermission
+                                                    "
+                                                    inputId="id"
+                                                    optionLabel="role_name"
+                                                    placeholder="Select a Role"
+                                                    aria-describedby="dd-error"
+                                                    class="w-full border-round-lg text-sm"
+                                                    :class="{
+                                                        'p-invalid p-error':
+                                                            v$
+                                                                .userMSUpdatedArrFiled
+                                                                .selectOptValuePermission
+                                                                .$invalid &&
+                                                            submitted,
+                                                    }"
+                                                >
+                                                    <template
+                                                        #value="slotProps"
+                                                    >
+                                                        <div
+                                                            v-if="
+                                                                slotProps.value
+                                                            "
+                                                            class="flex align-items-center"
+                                                        >
+                                                            <div>
+                                                                {{
+                                                                    slotProps
+                                                                        .value
+                                                                        ?.role_name
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <span v-else>
+                                                            {{
+                                                                slotProps.placeholder
+                                                            }}
+                                                        </span>
+                                                    </template>
+                                                    <template
+                                                        #option="slotProps"
+                                                    >
+                                                        <div
+                                                            class="flex align-items-center"
+                                                        >
+                                                            <div>
+                                                                {{
+                                                                    slotProps
+                                                                        .option
+                                                                        ?.role_name
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </Dropdown>
+                                                <small
+                                                    v-if="
+                                                        (v$
+                                                            .userMSUpdatedArrFiled
+                                                            .selectOptValuePermission
+                                                            .$invalid &&
+                                                            submitted) ||
+                                                        v$.userMSUpdatedArrFiled
+                                                            .selectOptValuePermission
+                                                            .$pending.$response
+                                                    "
+                                                    class="p-error"
+                                                    >{{
+                                                        v$.userMSUpdatedArrFiled.selectOptValuePermission.required.$message.replace(
+                                                            "Value",
+                                                            "Role"
+                                                        ) ||
+                                                        v$.userMSUpdatedArrFiled
+                                                            .selectOptValuePermission
+                                                            .$params.min
+                                                    }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div> -->
                                     <!--=========User Address===========-->
                                     <div class="col-12 col-lg-12 field">
                                         <div class="field">
-                                            <label for="name_en" class="text-sm">Address</label>
-                                            <Textarea 
-                                                id="empAdminAddress" 
-                                                placeholder="Address" 
+                                            <label for="name_en" class="text-sm"
+                                                >Address</label
+                                            >
+                                            <Textarea
+                                                id="empAdminAddress"
+                                                placeholder="Address"
                                                 type="text"
-                                                class="py-3 border-round-lg text-sm" v-model="userMSUpdatedArrFiled.empAdminAddress" />
+                                                class="py-3 border-round-lg text-sm"
+                                                v-model="
+                                                    userMSUpdatedArrFiled.empAdminAddress
+                                                "
+                                            />
                                         </div>
                                     </div>
                                     <!-- Updated Employee Profile -->
                                     <div class="col-12 field">
                                         <div class="field">
-                                            <label for="name_en"
-                                                class="text-sm"
-                                                >{{ $t('userinfo.profileImage') }}<span
-                                                    class="p-error"
-                                                    >*</span
-                                                >
+                                            <label for="name_en" class="text-sm"
+                                                >{{ $t("userinfo.profileImage")
+                                                }}<span class="p-error">*</span>
                                             </label>
                                             <!-- Upload Files -->
                                             <el-upload
                                                 action="#"
                                                 list-type="picture-card"
-                                                :on-preview="handlePictureCardPreview"
+                                                :on-preview="
+                                                    handlePictureCardPreview
+                                                "
                                                 :on-remove="handleRemove"
                                                 :auto-upload="false"
                                                 :on-change="handleChangeUser"
-                                                :on-exceed="handleExceedEmpProfile"
+                                                :on-exceed="
+                                                    handleExceedEmpProfile
+                                                "
                                                 :class="objClassUserPer"
                                                 :file-list="fileListEmpProfile"
                                                 ref="file"
@@ -433,9 +597,17 @@
                                                     style="font-size: 2rem"
                                                 ></i>
                                                 <!-- Preview Image -->
-                                                <el-dialog v-model="dialogVisible">
-                                                    <img w-ful class="w-full" :src="this.dialogImageUrl"
-                                                        alt="Preview Image" />
+                                                <el-dialog
+                                                    v-model="dialogVisible"
+                                                >
+                                                    <img
+                                                        w-ful
+                                                        class="w-full"
+                                                        :src="
+                                                            this.dialogImageUrl
+                                                        "
+                                                        alt="Preview Image"
+                                                    />
                                                 </el-dialog>
                                             </el-upload>
                                             <div class="flex flex-column">
@@ -450,16 +622,18 @@
                                     </div>
                                 </div>
                             </div>
-                             <!--User Noted -->
+                            <!--User Noted -->
                             <div class="col-12 col-lg-12 field">
                                 <div class="field">
                                     <label for="">Descriptions</label>
                                     <Editor
-                                        editorStyle="height: 400px" 
-                                        placeholder="Descriptions" 
+                                        editorStyle="height: 400px"
+                                        placeholder="Descriptions"
                                         type="text"
-                                        class="py-3 border-round-lg" 
-                                        v-model="userMSUpdatedArrFiled.userUserDescription" 
+                                        class="py-3 border-round-lg"
+                                        v-model="
+                                            userMSUpdatedArrFiled.userUserDescription
+                                        "
                                     />
                                 </div>
                             </div>
@@ -471,8 +645,8 @@
                         <Button
                             icon="pi pi-check"
                             type="submit"
-                            label="Save"
-                            class="p-button-lg py-3 p-button-outlined w-10rem mr-3"
+                            label="Update"
+                            class="p-button-lg py-4 p-button-outlined w-15rem"
                         />
                     </div>
                 </form>
@@ -493,7 +667,7 @@ export default {
     setup: () => ({ v$: useVuelidate() }),
     data() {
         return {
-            ENV_HOST_PATH_FILE : process.env.VUE_APP_PATH_FILE,
+            ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE,
             selectUpdateOptValuePermission: null,
             activeName: "english-tabs",
             activetab: 1,
@@ -519,11 +693,11 @@ export default {
                 upLoadHideUserMS: false,
             },
             fileUserMS: null,
-            selectOptValuePermission: '',
+            selectOptValuePermission: "",
             permissionListDropDownView: [],
             userGender: [
-                { name: 'Male', gender_name: 'male' },
-                { name: 'Female', gender_name: 'female' }
+                { name: "Male", gender_name: "male" },
+                { name: "Female", gender_name: "female" },
             ],
             permissionList: "",
             userMSUpdatedArrFiled: {
@@ -538,10 +712,10 @@ export default {
                 userStartDate: null,
                 selectedUserGender: null,
                 empAdminAddress: "",
-                userUserDescription: ''
+                userUserDescription: "",
             },
             formErrorsUserMS: {},
-            currentGender: null
+            currentGender: null,
         };
     },
     components() {
@@ -558,14 +732,18 @@ export default {
         this.isUserAuthArr = this.$store.state.auth.userArr;
         //List Permissions
         this.userMSServices.getListRolesData().then((permission) => {
-             if (!Array.isArray(permission) || !permission.length > 0) {
+            if (!Array.isArray(permission) || !permission.length > 0) {
                 this.$notify.error({
-                    title: 'Error Entries Users Role',
-                    showClose: false
+                    title: "Error Entries Users Role",
+                    showClose: false,
                 });
             }
-            if (!Array.isArray(permission) || permission !== undefined || permission !== null) {
-                permission.forEach(perm => {
+            if (
+                !Array.isArray(permission) ||
+                permission !== undefined ||
+                permission !== null
+            ) {
+                permission.forEach((perm) => {
                     this.permissionListDropDownView.push({
                         id: perm?.id,
                         role_name: perm?.role_name,
@@ -590,35 +768,33 @@ export default {
                     required,
                     minLength: minLength(6),
                 },
-                selectOptValuePermission: {
-                    required
-                },
+                // selectOptValuePermission: {
+                //     required,
+                // },
                 userDateOfBirth: {
-                    required
+                    required,
                 },
-                userStartDate:{ 
-                    required
+                userStartDate: {
+                    required,
                 },
                 selectedUserGender: {
-                    required
-                }
+                    required,
+                },
             },
         };
     },
     methods: {
         formatDate(date) {
-            if(!date){
-                return false; 
+            if (!date) {
+                return false;
             }
             var d = new Date(date),
-                month = '' + (d.getMonth() + 1),
-                day = '' + d.getDate(),
+                month = "" + (d.getMonth() + 1),
+                day = "" + d.getDate(),
                 year = d.getFullYear();
-            if (month.length < 2) 
-                month = '0' + month;
-            if (day.length < 2) 
-                day = '0' + day;
-            return [month,day,year].join('/');
+            if (month.length < 2) month = "0" + month;
+            if (day.length < 2) day = "0" + day;
+            return [month, day, year].join("/");
         },
         /*
             Input Only Phone Number
@@ -649,10 +825,10 @@ export default {
                         this.permissionList = perMID;
                     })
                     .catch((err) => {
-                       return Promise.reject(err);
+                        return Promise.reject(err);
                     });
             } catch (error) {
-                    return Promise.reject(error);
+                return Promise.reject(error);
             }
         },
         // Confirm Password
@@ -669,20 +845,21 @@ export default {
             return true;
         },
         //============Uploads Files================
-        async handleExceedEmpProfile(files, fileList){
+        async handleExceedEmpProfile(files, fileList) {
             this.$message.warning(
                 `Currently, 01 pictures are limited to be selected.
                         This time, it is selected ${files.length} 
-                        Pictures selected ${files.length + fileList.length
-                } Pictures`
+                        Pictures selected ${
+                            files.length + fileList.length
+                        } Pictures`
             );
         },
-        async reListEmployeeAdminProfile(profile){
+        async reListEmployeeAdminProfile(profile) {
             const productImg = `${this.ENV_HOST_PATH_FILE}uploads/user_profile/admin_staff/${profile}`;
             // Push Thumbnail
             this.fileListEmpProfile.push({
-                name: profile ? profile : '',
-                url: productImg
+                name: profile ? profile : "",
+                url: productImg,
             });
         },
         handleChangeUser(file) {
@@ -694,8 +871,8 @@ export default {
         },
         handleRemove(file, fileList) {
             const fileRemoveUpload = Array.from(file);
-            fileRemoveUpload.splice(fileList,0);
-            this.objClassUserPer.upLoadShowUserMS = true; 
+            fileRemoveUpload.splice(fileList, 0);
+            this.objClassUserPer.upLoadShowUserMS = true;
             this.objClassUserPer.upLoadHideUserMS = false;
         },
         handlePictureCardPreview(file) {
@@ -736,33 +913,58 @@ export default {
                     ) {
                         try {
                             if (userId.data.success == true) {
-                                const userResult = userId.data.result.resultStatus?.userResult;
-                                const empResult = userId.data.result.resultStatus?.empResult;
-                                if(userResult !== undefined){
+                                const userResult =
+                                    userId.data.result.resultStatus?.userResult;
+                                const empResult =
+                                    userId.data.result.resultStatus?.empResult;
+                                if (userResult !== undefined) {
                                     userResult.forEach((result) => {
-                                        if(!result){
-                                            this.userMSUpdatedArrFiled.selectOptValuePermission = [];
+                                        if (!result) {
+                                            this.userMSUpdatedArrFiled.selectOptValuePermission =
+                                                [];
                                         }
-                                        this.userMSUpdatedArrFiled.userMSPhoneNum = result?.user_phonenumber;
-                                        this.userMSUpdatedArrFiled.emailMSUser =  result?.user_email;
-                                        this.userMSUpdatedArrFiled.selectOptValuePermission =  {id: result?.role_id, role_name: result?.role_name};
-                                    })
-                                }else{
-                                    this.userMSUpdatedArrFiled.selectOptValuePermission = [];
+                                        this.userMSUpdatedArrFiled.userMSPhoneNum =
+                                            result?.user_phonenumber;
+                                        this.userMSUpdatedArrFiled.emailMSUser =
+                                            result?.user_email;
+                                        this.userMSUpdatedArrFiled.selectOptValuePermission =
+                                            {
+                                                id: result?.role_id,
+                                                role_name: result?.role_name,
+                                            };
+                                    });
+                                } else {
+                                    this.userMSUpdatedArrFiled.selectOptValuePermission =
+                                        [];
                                 }
-                                this.userMSUpdatedArrFiled.selectedUserGender = empResult?.gender ?? '';
-                                this.userMSUpdatedArrFiled.userDateOfBirth = this.formatDate(empResult?.dob) ? this.formatDate(empResult?.dob) : null;
-                                this.userMSUpdatedArrFiled.userStartDate = this.formatDate(empResult?.start_dated) ? this.formatDate(empResult?.start_dated) : null;
-                                this.userMSUpdatedArrFiled.userMSNameEng = empResult?.full_latin_name ?? '';
-                                this.userMSUpdatedArrFiled.userMSNameKh = empResult?.full_kh_name ?? '';
-                                this.userMSUpdatedArrFiled.empAdminAddress = empResult?.emp_address ?? '';
-                                this.userMSUpdatedArrFiled.userUserDescription = empResult?.emp_noted ?? '';
+                                this.userMSUpdatedArrFiled.selectedUserGender =
+                                    empResult?.gender ?? "";
+                                this.userMSUpdatedArrFiled.userDateOfBirth =
+                                    this.formatDate(empResult?.dob)
+                                        ? this.formatDate(empResult?.dob)
+                                        : null;
+                                this.userMSUpdatedArrFiled.userStartDate =
+                                    this.formatDate(empResult?.start_dated)
+                                        ? this.formatDate(
+                                              empResult?.start_dated
+                                          )
+                                        : null;
+                                this.userMSUpdatedArrFiled.userMSNameEng =
+                                    empResult?.full_latin_name ?? "";
+                                this.userMSUpdatedArrFiled.userMSNameKh =
+                                    empResult?.full_kh_name ?? "";
+                                this.userMSUpdatedArrFiled.empAdminAddress =
+                                    empResult?.emp_address ?? "";
+                                this.userMSUpdatedArrFiled.userUserDescription =
+                                    empResult?.emp_noted ?? "";
                                 this.currentGender = empResult?.gender;
-                                //Employee Profile 
-                                this.reListEmployeeAdminProfile(empResult?.profile ?? '');
+                                //Employee Profile
+                                this.reListEmployeeAdminProfile(
+                                    empResult?.profile ?? ""
+                                );
                             }
                         } catch (error) {
-                           return Promise.reject(error);
+                            return Promise.reject(error);
                         }
                     }
                 })
@@ -774,11 +976,11 @@ export default {
             try {
                 this.submitted = true;
                 if (!isFormValidUpdateMS) {
-                    if (!this.fileUserMS || this.fileUserMS !== "") {
-                        this.errMessageUploadFile =
-                            "Please upload profile image...";
-                        return false;
-                    }
+                    // if (!this.fileUserMS || this.fileUserMS !== "") {
+                    //     this.errMessageUploadFile =
+                    //         "Please upload profile image...";
+                    //     return false;
+                    // }
                     return;
                 }
                 if (
@@ -786,59 +988,85 @@ export default {
                     this.userMSUpdatedArrFiled.userMSNameEng !== null ||
                     this.userMSUpdatedArrFiled.userMSNameKh !== "" ||
                     this.userMSUpdatedArrFiled.userMSPhoneNum !== "" ||
-                    this.fileUserMS !== ""
-                    || this.selectUpdateOptValuePermission !== ""
+                    this.selectUpdateOptValuePermission !== ""
                 ) {
                     // Data Response
                     const dataUserMSUpdated = {
-                        empRoleId: this.selectUpdateOptValuePermission?.id ?? 0,
+                        empRoleId: 7,
                         empNameEng: this.userMSUpdatedArrFiled.userMSNameEng,
                         empNameKh: this.userMSUpdatedArrFiled.userMSNameKh,
                         empEmail: this.userMSUpdatedArrFiled.emailMSUser,
-                        empGender: this.userMSUpdatedArrFiled.selectedUserGender?.name ? this.userMSUpdatedArrFiled.selectedUserGender?.name : this.currentGender,
-                        empDOB: new Date(this.userMSUpdatedArrFiled.userDateOfBirth).toISOString(),
-                        empStartDate: new Date(this.userMSUpdatedArrFiled.userStartDate).toISOString(),
+                        empGender: this.userMSUpdatedArrFiled.selectedUserGender
+                            ?.name
+                            ? this.userMSUpdatedArrFiled.selectedUserGender
+                                  ?.name
+                            : this.currentGender,
+                        empDOB: new Date(
+                            this.userMSUpdatedArrFiled.userDateOfBirth
+                        ).toISOString(),
+                        empStartDate: new Date(
+                            this.userMSUpdatedArrFiled.userStartDate
+                        ).toISOString(),
                         empPhone: this.userMSUpdatedArrFiled.userMSPhoneNum,
-                        newPassword: this.userMSUpdatedArrFiled.userMSPassword,
-                        currentPassword: this.userMSUpdatedArrFiled.userMSCurrentPassword,
-                        userStatus:"Active",
-                        empStatus: 'Approved',
+                        newPassword: "",
+                        currentPassword: "",
+                        userStatus: "Active",
+                        empStatus: "Approved",
                         userProfile: this.fileUserMS,
                         empAddress: this.userMSUpdatedArrFiled.empAdminAddress,
-                        empNoted: this.userMSUpdatedArrFiled.userUserDescription
+                        empNoted:
+                            this.userMSUpdatedArrFiled.userUserDescription,
                     };
-                    console.log(dataUserMSUpdated,this.$route.params.id, "dataUserMSUpdated")
                     const empAdminID = this.$route.params.id;
-                    this.userMSServices.updatedEmpAdminAccount(empAdminID ? empAdminID : '', dataUserMSUpdated)
-                    .then((response) => {
+                    this.userMSServices
+                        .updatedEmpAdminAccount(
+                            empAdminID ? empAdminID : "",
+                            dataUserMSUpdated
+                        )
+                        .then((response) => {
                             if (response.data.success == true) {
                                 this.$notify.success({
-                                    title: 'Successful updated admin account',
-                                    message: response.data?.message ? response.data?.message : '' ,
-                                    showClose: true
+                                    title: "Successful updated admin account",
+                                    message: response.data?.message
+                                        ? response.data?.message
+                                        : "",
+                                    showClose: true,
                                 });
                                 // Push Router
                                 this.$router.push(
-                                    "/vendor/user/list/crete-user-auth/ui-user-list"
+                                    "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module"
                                 );
                             }
                         })
                         .catch((error) => {
                             this.$notify.error({
-                                title: 'Unsuccessfully updated admin account',
-                                message: error.response.data.error.message ?? 'Unsuccessfully updated admin account',
-                                showClose: false
-                            });  
-                            if(error.response.data.error.error.errors){
-                                for (let index = 0; index < error.response.data.error.error.errors.length; index++) {
-                                    const messageValidation = error.response.data.error.error.errors[index].message ?? '';
+                                title: "Unsuccessfully updated admin account",
+                                message:
+                                    error.response.data.error.message ??
+                                    "Unsuccessfully updated admin account",
+                                showClose: false,
+                            });
+                            if (error.response.data.error.error.errors) {
+                                for (
+                                    let index = 0;
+                                    index <
+                                    error.response.data.error.error.errors
+                                        .length;
+                                    index++
+                                ) {
+                                    const messageValidation =
+                                        error.response.data.error.error.errors[
+                                            index
+                                        ].message ?? "";
                                     this.$notify.error({
-                                        title: 'Unsuccessfully updated admin account',
-                                        message: messageValidation ?? 'Unsuccessfully updated admin account',
-                                        showClose: true
-                                    });   
+                                        title: "Unsuccessfully updated admin account",
+                                        message:
+                                            messageValidation ??
+                                            "Unsuccessfully updated admin account",
+                                        showClose: true,
+                                    });
                                 }
-                            } 
+                            }
                             return false;
                         });
                 }

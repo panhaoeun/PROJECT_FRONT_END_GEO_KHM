@@ -199,7 +199,7 @@ export default {
                                 /**
                                  * @Relist Get Job Descriptions 
                                 */ 
-                                await this.getJobDescriptionType(parentJobDesId, jobDesStatus);
+                                await this.getJobDescriptionType(parentJobDescOrgStrId, jobDesStatus);
                                 if (!this.hasJobDescErrors) {
                                     this.$emit('close')
                                 }
@@ -228,14 +228,17 @@ export default {
             this.openEditedJobDescDialogs = false;
        },
        // Remove Job Description
-       confirmDeletedJobDesOrgStrById(id) {
+       confirmDeletedJobDesOrgStrById(data) {
             this.deletedJobDescDialogs = true;
-            if (id !== null && id !== undefined || !isNaN(Number(id)) && id !== '') {
-                this.deletedJobDescId = parseInt(id?.jobDesId);
+            if (data !== null && data !== undefined || !isNaN(Number(data)) && data !== '') {
+                this.deletedJobDescId = parseInt(data?.jobDesId);
+                this.orgDepOrgIdRemove = parseInt(data?.orgStrId);
+                this.jobDeptName = data?.jobDesEng;
             }
        },
        async confirmRemoveJobDescOrgStructureById() {
             const getDeletedJobDescStrId = this.deletedJobDescId ? this.deletedJobDescId : 0;
+            this.loadingRemoveJobDeptDes = true;
             setTimeout(async () => {
                 try {
                     if (getDeletedJobDescStrId !== null &&
@@ -246,8 +249,9 @@ export default {
                         this.geoDeptOrgStrServicesPosition?.removeNewOrgStructureJobDesc(getDeletedJobDescStrId).then(async (removeJobDec) => {
                         if (removeJobDec?.data.success === true) {
                             this.deletedGeoDeptPosMgtDialogs = false;
+                            this.loadingRemoveJobDeptDes = false;
                             // Reload Data In Datable in Job Descriptions
-                            await this.getJobDescriptionType(getDeletedJobDescStrId, this.addJobDescType);
+                            await this.getJobDescriptionType(this.orgDepOrgIdRemove, this.addJobDescType);
                             this.deletedJobDescDialogs = false;
                             this.$toast.add({
                                 severity: "success",
@@ -262,6 +266,7 @@ export default {
                     })
                     .catch((error) => {
                         this.deletedJobDescDialogs = true;
+                        this.loadingRemoveJobDeptDes =false;
                         this.$toast.add({
                             severity: "error",
                             summary: "Please Fix Below Errors.",
@@ -294,6 +299,7 @@ export default {
                     });
                     }
                 } catch (error) {
+                    this.loadingRemoveJobDeptDes =false;
                     throw Error(error || error.message);
                 }
             },1000);

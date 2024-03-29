@@ -102,12 +102,15 @@
         header="Confirm delete job description"
         :modal="true"
     >
-        <div class="confirmation-content">
+        <div class="confirmation-content flex">
             <i
-                class="pi pi-exclamation-triangle mr-3"
+                class="pi pi-exclamation-triangle mr-3 text-red-500"
                 style="font-size: 2rem"
             />
-            <span>Are you sure you want to delete</span>
+            <span
+                >Are you sure you want to delete this
+                {{ String(jobDeptName).toString() }} ?</span
+            >
         </div>
         <template #footer>
             <Button
@@ -117,9 +120,10 @@
                 @click="deletedJobDescDialogs = false"
             />
             <Button
-                label="Yes"
+                :label="loadingRemoveJobDeptDes ? 'Loading...' : 'Remove'"
                 icon="pi pi-check"
                 text
+                :loading="loadingRemoveJobDeptDes"
                 @click="confirmRemoveJobDescOrgStructureById()"
             />
         </template>
@@ -186,6 +190,9 @@ export default {
                     matchMode: FilterMatchMode.STARTS_WITH,
                 },
             },
+            loadingRemoveJobDeptDes: false,
+            jobDeptName: "",
+            orgDepOrgIdRemove: 0,
         };
     },
     mounted() {

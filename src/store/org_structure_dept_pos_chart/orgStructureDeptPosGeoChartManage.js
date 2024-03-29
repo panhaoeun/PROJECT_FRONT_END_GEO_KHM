@@ -12,7 +12,8 @@ const state = {
     orgJobDescProId: [],
     orgPosJobDescProId: [],
     orgDeptEmpDataId: [],
-    jobPosJobDescOrg: []
+    jobPosJobDescOrg: [],
+    orgDeptHistoryPosition: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -55,6 +56,10 @@ const getters = {
     allOrgJobPositionByDeptStr: ({
           jobPosJobDescOrg
     }) => jobPosJobDescOrg ? jobPosJobDescOrg : {},
+    // History work 
+    getAllHistoryWorkDeptOrgPos: ({
+        orgDeptHistoryPosition
+    }) => orgDeptHistoryPosition ? orgDeptHistoryPosition : {}
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -95,6 +100,10 @@ const mutations = {
     // Assign EMployee
     SET_ORG_STR_ASSIGN_EMP_DATA(state, orgDeptEmpDataId){
         state.orgDeptEmpDataId = orgDeptEmpDataId ? orgDeptEmpDataId : [];
+    },
+    // History work
+    SET_HISTORY_WORK_DEPT_EMP_POST_DATA(state,orgHistoryWork){
+        state.orgDeptHistoryPosition = orgHistoryWork ? orgHistoryWork : [];
     }
 }
 const actions = {
@@ -254,6 +263,32 @@ const actions = {
                     commit('SET_ORG_STR_ASSIGN_EMP_DATA', {});
                 } else {
                     commit('SET_ORG_STR_ASSIGN_EMP_DATA', getAllEmpDataOrg ? getAllEmpDataOrg : {})
+                }
+            });
+        } catch (error) {
+            throw Error(error);
+        }
+    },
+    /**
+     * @Data Get History Employee or Department 
+    */
+    async setJobHistoryOfficerEmpDeptPosition({
+        commit
+    }, payload) {
+        try {
+            const getHistoryWorkEmpId = payload?.getHistoryDeptWorkId;
+            let getOrgHistoryWorkEmpId;
+            if (getHistoryWorkEmpId !== null || getHistoryWorkEmpId !== '') {
+                getOrgHistoryWorkEmpId = getHistoryWorkEmpId ? getHistoryWorkEmpId : 0;
+            } else {
+                getOrgHistoryWorkEmpId = 0;
+            }
+            geoDeptOrgStrServices.getAllListHistoryOfEmpPosDept(getOrgHistoryWorkEmpId).then((historyWork) => {
+                const getAllHistoryWork = historyWork ? historyWork : {};
+                if (!getAllHistoryWork) {
+                    commit('SET_HISTORY_WORK_DEPT_EMP_POST_DATA', {});
+                } else {
+                    commit('SET_HISTORY_WORK_DEPT_EMP_POST_DATA', getAllHistoryWork ? getAllHistoryWork : {})
                 }
             });
         } catch (error) {
