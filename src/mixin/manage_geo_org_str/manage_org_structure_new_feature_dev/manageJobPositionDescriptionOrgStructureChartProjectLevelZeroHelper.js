@@ -70,27 +70,18 @@ export default {
                         return false;
                     }
                     // Check get value multiple inputs fields
-                    // let objectPositionData;
-                    const objInputPositionsFiled = this.state?.dyNamicAddNewFrmJobDes
-                        ? this.state?.dyNamicAddNewFrmJobDes
-                        : [];
-                    for (
-                        let index = 0;
-                        index < objInputPositionsFiled.length;
-                        index++
-                    ) {
-                        let objFiled = {};
-
-                        objFiled.selectedOrgStructId = parseInt(this.getOrgStructureAdd) ?? 0;
-                        objFiled.addNewJobDesEnglishName = objInputPositionsFiled[index].editNameEngProjectOrgStr;
-                        objFiled.addNewJobDesKhmerName = objInputPositionsFiled[index].editNameKhmerProjectOrgStr;
-                        objFiled.addNewJobDesNoted = objInputPositionsFiled[index].editDescriptionProjectOrgStr;
-                        objFiled.addJobDesType = this.addJobDescType;
-                        // Add the new org-structures
-                        const addNewPositionParentObj = {
-                            ...objFiled,
-                        }
-                        this.geoDeptOrgStrServicesPosition?.createNewJobDescBaseOrStrId(
+                    let objFiled = {};
+                    objFiled.selectedOrgStructId = parseInt(this.getOrgStructureAdd) ?? 0;
+                    objFiled.addNewJobDesEnglishName = String(this.addJobDeptNameEngProjectOrgStr).toString();
+                    objFiled.addNewJobDesKhmerName = String(this.addJobDeptNameKhmerProjectOrgStr).toString();
+                    objFiled.addNewJobDesNoted = String(this.addJobDeptDescriptionProjectOrgStr).toString();
+                    objFiled.addJobDesType = this.addJobDescType;
+                    objFiled.assignFileOrgStrDept = this.filesJobDeptDes ? this.filesJobDeptDes : {};
+                    // Add the new org-structures
+                    const addNewPositionParentObj = {
+                        ...objFiled,
+                    }
+                    this.geoDeptOrgStrServicesPosition?.createNewJobDescBaseOrStrId(
                             addNewPositionParentObj
                             ? addNewPositionParentObj
                             : {}
@@ -150,7 +141,6 @@ export default {
                             }
                         }
                     });
-                    }
                 }, 1000);
             } catch (error) {
                 throw Error(error || error.message);
@@ -180,7 +170,8 @@ export default {
                         modifyJobDeOrgStrEnglishName: String(this.getPosEditJobDes?.jobDesEng).toString(),
                         modifyJobDeOrgStrKhmerName: String(this.getPosEditJobDes?.jobDesKhmer).toString(),
                         modifyJobDesOrgStrDescription: String(this.projectStrGeoData?.jobDesNoted).toString(),
-                        statusJobDesType: jobDesStatus ? jobDesStatus : ""
+                        statusJobDesType: jobDesStatus ? jobDesStatus : "",
+                        assignFileOrgStrDept: this.files ? this.files : []
                     }
                     this.geoDeptOrgStrServicesPosition.modifyNewOrgStructureJobDescriptions(parentJobDesId, editDataJobDescDept ? editDataJobDescDept : {})
                     .then(async (jobDes) => {

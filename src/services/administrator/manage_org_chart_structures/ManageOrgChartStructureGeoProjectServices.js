@@ -109,10 +109,10 @@ export default class ManageOrgChartStructureGeoProjectServices {
         });
     }
     async createNewJobDescBaseOrStrId(jobDescription) {
-        return http.post("/admin/geo-location-route/org-chart-structures/add-new-job-dec-pos-dept", jobDescription ? jobDescription : {});
+        return httpFormData.post("/admin/geo-location-route/org-chart-structures/add-new-job-dec-pos-dept", jobDescription ? jobDescription : {});
     }
     async modifyNewOrgStructureJobDescriptions(jobDecId, data) {
-        return http.put(`/admin/geo-location-route/org-chart-structures/modify-job-dec-pos-dept/${jobDecId}`, data);
+        return httpFormData.put(`/admin/geo-location-route/org-chart-structures/modify-job-dec-pos-dept/${jobDecId}`, data);
     }
     async removeNewOrgStructureJobDesc(jobDesId, data) {
         return http.delete(`/admin/geo-location-route/org-chart-structures/remove-job-dec-pos-dept/${jobDesId}`, data);
@@ -136,10 +136,10 @@ export default class ManageOrgChartStructureGeoProjectServices {
         });
     }
     async createNewPositionJobDescBaseOrStrId(jobPosDescription) {
-        return http.post("/admin/geo-location-route/org-chart-structures/add-new-position-dept-des", jobPosDescription ? jobPosDescription : {});
+        return httpFormData.post("/admin/geo-location-route/org-chart-structures/add-new-position-dept-des", jobPosDescription ? jobPosDescription : {});
     }
     async modifyNewOrgStructurePositionJobDescriptions(jobPosDecId, data) {
-        return http.put(`/admin/geo-location-route/org-chart-structures/modify-position-dept-des/${jobPosDecId}`, data);
+        return httpFormData.put(`/admin/geo-location-route/org-chart-structures/modify-position-dept-des/${jobPosDecId}`, data);
     }
     async removeNewOrgStructurePositionJobDesc(jobPosDesId, data) {
         return http.delete(`/admin/geo-location-route/org-chart-structures/remove-position-dept-des/${jobPosDesId}`, data);
@@ -183,7 +183,7 @@ export default class ManageOrgChartStructureGeoProjectServices {
         });
     }
     async addNewAssignEmployeeOrgStructure(orgEmpId, assignEmpDataOrg) {
-        return http.put(`/admin/geo-location-route/org-chart-structures-department-employee/add-dept-org-emp/${orgEmpId}`, assignEmpDataOrg ? assignEmpDataOrg : {});
+        return httpFormData.put(`/admin/geo-location-route/org-chart-structures-department-employee/add-dept-org-emp/${orgEmpId}`, assignEmpDataOrg ? assignEmpDataOrg : {});
     }
     /**
      * History Work 

@@ -13,7 +13,7 @@
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"
-            :title="`Assign Employee This Department: ${departmentName}`"
+            :title="`Assign Employee By Position: ${departmentName}`"
             class="address-popup popup-top-auto z-100"
         >
             <!-- Contents -->
@@ -206,16 +206,166 @@
                             >
                         </div>
                     </div>
+                    <!-- Upload Files Department Job Descriptions-->
+                    <div class="flex start mlr--5 w-auto">
+                        <div class="input-wrap mlr-5" style="width: 50rem">
+                            <label> Upload File </label>
+                            <FileUpload
+                                name="demo[]"
+                                url="/api/upload"
+                                :multiple="true"
+                                accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps"
+                                :maxFileSize="300000000"
+                                @select="onSelectedFiles"
+                                :fileLimit="5"
+                                :previewWidth="500"
+                            >
+                                <template
+                                    #header="{
+                                        chooseCallback,
+                                        clearCallback,
+                                        files,
+                                    }"
+                                >
+                                    <div
+                                        class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
+                                    >
+                                        <div class="flex gap-2">
+                                            <Button
+                                                @click="chooseCallback()"
+                                                icon="pi pi-images"
+                                                rounded
+                                                class="w-3rem h-3rem"
+                                                outlined
+                                            ></Button>
+                                            <Button
+                                                @click="clearCallback()"
+                                                icon="pi pi-times"
+                                                rounded
+                                                outlined
+                                                class="w-3rem h-3rem"
+                                                severity="danger"
+                                                :disabled="
+                                                    !files || files.length === 0
+                                                "
+                                            ></Button>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template
+                                    #content="{ files, removeFileCallback }"
+                                >
+                                    <div v-if="files.length > 0">
+                                        <div
+                                            class="flex flex-wrap p-0 sm:p-2 gap-1"
+                                        >
+                                            <div
+                                                v-for="(file, index) of files"
+                                                :key="
+                                                    file.name +
+                                                    file.type +
+                                                    file.size
+                                                "
+                                                class="card m-0 px-2 flex flex-row border-1 item-center surface-border align-items-center gap-2 w-full"
+                                            >
+                                                <div
+                                                    class="ml-3"
+                                                    v-if="
+                                                        file.type !==
+                                                        'application/pdf'
+                                                    "
+                                                >
+                                                    <img
+                                                        role="presentation"
+                                                        :alt="file.name"
+                                                        :src="file.objectURL"
+                                                        width="100"
+                                                        height="50"
+                                                    />
+                                                </div>
+                                                <div v-else class="ml-3">
+                                                    <i
+                                                        class="pi pi-file-pdf text-danger"
+                                                        style="font-size: 2rem"
+                                                    ></i>
+                                                </div>
+                                                <span
+                                                    class="font-semibold text-sm"
+                                                    >{{ file.name }}</span
+                                                >
+                                                <div class="text-red-500">
+                                                    ({{
+                                                        formatSize(file.size)
+                                                    }})
+                                                </div>
+                                                <!-- Button remove -->
+                                                <Button
+                                                    icon="pi pi-times"
+                                                    @click="
+                                                        onRemoveTemplatingFile(
+                                                            file,
+                                                            removeFileCallback,
+                                                            index
+                                                        )
+                                                    "
+                                                    rounded
+                                                    text
+                                                    severity="danger"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template #empty>
+                                    <div
+                                        class="flex align-items-center justify-content-center flex-column"
+                                    >
+                                        <i
+                                            class="pi pi-cloud-upload border-2 border-circle p-5 text-8xl text-400 border-400"
+                                        />
+                                        <p class="mt-4 mb-0">
+                                            Drag and drop files to here to
+                                            upload.
+                                        </p>
+                                    </div>
+                                </template>
+                            </FileUpload>
+                        </div>
+                    </div>
                     <!-- Descriptions -->
                     <div class="flex start mlr--5">
                         <div class="input-wrap mlr-5" style="width: 50rem">
                             <label> Descriptions </label>
-                            <TextArea
-                                class="border-round-lg text-sm w-30rem"
+                            <Editor
                                 v-model="assignEmpNoted"
-                                type="text"
-                                placeholder="Please enter description"
-                            />
+                                editorStyle="height: 320px;"
+                                placeholder="Please description of job department"
+                            >
+                                <template v-slot:toolbar>
+                                    <span class="ql-formats">
+                                        <!-- Add font size dropdown -->
+                                        <select class="ql-size">
+                                            <option value="small"></option>
+                                            <!-- Note a missing, thus falsy value, is used to reset to default -->
+                                            <option selected></option>
+                                            <option value="large"></option>
+                                            <option value="huge"></option>
+                                        </select>
+                                        <button
+                                            v-tooltip.bottom="'Bold'"
+                                            class="ql-bold"
+                                        ></button>
+                                        <button
+                                            v-tooltip.bottom="'Italic'"
+                                            class="ql-italic"
+                                        ></button>
+                                        <button
+                                            v-tooltip.bottom="'Underline'"
+                                            class="ql-underline"
+                                        ></button>
+                                    </span>
+                                </template>
+                            </Editor>
                         </div>
                     </div>
                 </div>
@@ -352,6 +502,9 @@ export default {
             selectedAssignEmp: null,
             selectedAssignPositionOrg: null,
             hasErrorAssignStrEmp: false,
+            totalSize: 0,
+            totalSizePercent: 0,
+            fileEmpAssignUploadOrg: [],
         };
     },
     async mounted() {
@@ -389,6 +542,24 @@ export default {
         },
         closeDialogEmpOrgAssign() {
             this.openDialogEmpOrg = false;
+        },
+        // Upload FIles
+        onRemoveTemplatingFile(file, removeFileCallback, index) {
+            removeFileCallback(index);
+            this.totalSize -= parseInt(this.formatSize(file.size));
+            this.totalSizePercent = this.totalSize / 10;
+        },
+        onClearTemplatingUpload(clear) {
+            clear();
+            this.totalSize = 0;
+            this.totalSizePercent = 0;
+        },
+        // Selected FIle Upload
+        onSelectedFiles(event) {
+            this.fileEmpAssignUploadOrg = event.files;
+            this.fileEmpAssignUploadOrg.forEach((file) => {
+                this.totalSize += parseInt(this.formatSize(file.size));
+            });
         },
     },
 };

@@ -109,8 +109,7 @@
                 >
                     {{
                         String(
-                            data.tbl_org_position_geo_fence
-                                .positionNameEng
+                            data.tbl_org_position_geo_fence.positionNameEng
                         ).toString() || "N/A"
                     }}</span
                 >
@@ -119,30 +118,29 @@
         </Column>
         <Column
             field="historyDateWork"
-            header="Start Date"
+            header="Hired Date"
             sortable
             style="width: 20%"
         >
             <template #body="{ data }">
-                <span>
-                    {{
-                        Date(data?.historyDateWork) || "N/A"
-                    }}</span
-                >
+                <span> {{ formatDate(data?.historyDateWork) || "N/A" }}</span>
             </template>
         </Column>
+        <!-- Actions -->
         <Column
-            field="historyWorkEndDate"
-            header="End Date"
-            sortable
-            style="width: 20%"
+            :exportable="false"
+            class="text-md font-medium"
+            header="Actions"
+            style="min-width: 8rem"
         >
-            <template #body="{ data }">
-                <span>
-                    {{
-                        String(data?.historyWorkEndDate).toString() || "N/A"
-                    }}</span
-                >
+            <template #body="slotProps">
+                <Button
+                    icon="pi pi-file-pdf"
+                    outlined
+                    rounded
+                    class="mr-2"
+                    @click.prevent="openDialogHistoryOfficerEmp(slotProps?.data)"
+                />
             </template>
         </Column>
     </DataTable>
@@ -184,13 +182,14 @@
     </Dialog>
 
     <!-- Dialogs Position Job Descriptions Edited -->
-    <!-- <open-edited-positions-org-structure
-        v-if="openEditedPositionDialogs"
-        @close="closingPopupEditedPosIdOrgStrDialogs"
-        :open-edit-position-org="
-            dataEditOrgPositionDes ? dataEditOrgPositionDes : {}
+    <view-detail-history-officer
+        v-if="dialogHistoryEmp"
+        @close="closeHistoryWorkOfficer"
+        :department-name="departmentNameOrg"
+        :org-history-officer-work="
+            dataHistoryOfficerEmp ? dataHistoryOfficerEmp : {}
         "
-    /> -->
+    />
     <!-- Add New Job Positions Descriptions -->
     <!-- <OpenDialogAddNewPositionOrgDept
         v-if="openJobDesPosition"
@@ -208,8 +207,17 @@
 import { FilterMatchMode } from "primevue/api";
 import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
 import manageHistoryWorkJobDeptPosOrgHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageHistoryWorkJobDeptPosOrgHelper";
+import ViewDetailHistoryOfficer from "./ViewDetailHistoryOfficerDeptOrg.vue";
 export default {
+    components: {
+        ViewDetailHistoryOfficer,
+    },
     props: {
+        departmentNameOrg: {
+            type: String,
+            defaultValue: "",
+            default: "No Department",
+        },
         orgStrDeptPosId: {
             type: Number,
             required: true,
@@ -261,10 +269,11 @@ export default {
             addJobDescType: "Position",
             loadingAddJobDesPosition: false,
             openJobDesPosition: false,
-            dataEditOrgPositionDes: null,
+            dataHistoryOfficerEmp: null,
             openEditedPositionDialogs: false,
             openEditDialogsOrgDes: false,
             dataDeletedOrgBoardPosId: 0,
+            dialogHistoryEmp: false,
         };
     },
     mounted() {
@@ -284,12 +293,29 @@ export default {
         closeJobDesPositionOrgStr() {
             this.openJobDesPosition = false;
         },
+        formatDate(date) {
+            var d = new Date(date),
+                month = "" + (d.getMonth() + 1),
+                day = "" + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = "0" + month;
+            if (day.length < 2) day = "0" + day;
+            return [year, month, day].join("-");
+        },
         openJobDesPositionOrgStructure() {
             this.loadingAddJobDesPosition = true;
             setTimeout(() => {
                 this.loadingAddJobDesPosition = false;
                 this.openJobDesPosition = true;
             }, 100);
+        },
+        openDialogHistoryOfficerEmp(history) {
+            this.dialogHistoryEmp = true;
+            this.dataHistoryOfficerEmp = history ? history : {};
+        },
+        closeHistoryWorkOfficer() {
+            this.dialogHistoryEmp = false;
         },
     },
 };

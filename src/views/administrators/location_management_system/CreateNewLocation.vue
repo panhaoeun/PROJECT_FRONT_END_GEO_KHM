@@ -50,7 +50,7 @@
                                             :options="allCountry"
                                             optionLabel="geo_english_name"
                                             filter
-                                            @change="onChangeSelectedCountry()"
+                                            @change="d()"
                                             placeholder="Select a Country"
                                             class="w-full text-sm"
                                             inputId="shopEng"
@@ -514,7 +514,7 @@ export default {
         ...mapActions("geoDistrict", ["getAllDistrictActions"]),
         ...mapActions("geoCommune", ["getAllCommuneActions"]),
         ...mapActions("geoVillages", ["getAllVillagesActions"]),
-        onChangeSelectedCountry() {
+        d() {
             if (
                 !Array.isArray(this.selectedCountry) ||
                 this.selectedCountry !== undefined ||

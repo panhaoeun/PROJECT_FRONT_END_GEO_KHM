@@ -73,85 +73,76 @@ export default {
                     }
                     // Check get value multiple inputs fields
                     // let objectPositionData;
-                    const objInputPositionsFiled = this.state?.dyNamicAddNewFrmJobDes
-                        ? this.state?.dyNamicAddNewFrmJobDes
-                        : [];
-                    for (
-                        let index = 0;
-                        index < objInputPositionsFiled.length;
-                        index++
-                    ) {
                         let objFiled = {};
-
                         objFiled.selectedPositionOrgDeptId = positionId ? positionId : 0;
-                        objFiled.addNewPositionJobDesEnglishName = objInputPositionsFiled[index].editNameEngProjectOrgStr;
-                        objFiled.addNewPositionJobDesKhmerName = objInputPositionsFiled[index].editNameKhmerProjectOrgStr;
-                        objFiled.addNewPositionJobDesNoted = objInputPositionsFiled[index].editDescriptionProjectOrgStr;
+                        objFiled.addNewPositionJobDesEnglishName = String(this.addNewPosDesNameEngPositionOrgStr).toString();
+                        objFiled.addNewPositionJobDesKhmerName = String(this.addNewPosDesNameKhmerPositionOrgStr).toString();
+                        objFiled.addNewPositionJobDesNoted = String(this.addNewPosDesDescriptionPositionOrgStr).toString();
+                        objFiled.assignFileOrgStrDept = this.filesJobDeptPosDes ? this.filesJobDeptPosDes : []
                         // Add the new org-structures
                         const addNewPositionParentObj = {
                             ...objFiled,
                         }
                         this.geoDeptOrgStrServicesPosition?.createNewPositionJobDescBaseOrStrId(
-                            addNewPositionParentObj
-                            ? addNewPositionParentObj
-                            : {}
-                        ) .then(async (jobDes) => {
-                        if (jobDes?.data.success === true) {
-                            this.loadingBtnEdit = false;
-                            this.visibleDialogAddPositionBoardMgt = false;
-                            this.close();
-                            // Relist Get Board Manager Job Descriptions Data
-                            await this.getAllReloadPositionDesBasePositionId(positionId);
-                            this.$toast.add({
-                                severity: "success",
-                                summary:
-                                    "Successfully add new job position descriptions.",
-                                detail: String(jobDes.data?.message).toString()
-                                    ? String(jobDes.data?.message).toString()
-                                    : null,
-                                life: 3000,
-                            });
-                            // Clear Data Input Position department
-                            this.state.dyNamicAddNewFrmJobDes = [{
-                                editNameEngProjectOrgStr: "",
-                                editNameKhmerProjectOrgStr: "",
-                                editDescriptionProjectOrgStr: "",
-                            }]
-                        }
-                    })
-                    .catch((error) => {
-                        this.loadingSubmittedAddProject = false;
-                        this.$toast.add({
-                            severity: "error",
-                            summary: "Please Fix Below Errors.",
-                            detail: error?.response.data.error?.message
-                                ? error?.response.data.error?.message
-                                : "Please input filed job position descriptions have missing value!",
-                            life: 3000,
-                        });
-                        if (error?.response.data.error.error?.errors) {
-                            for (
-                                let index = 0;
-                                index <
-                                error.response.data.error.error?.errors
-                                    .length;
-                                index++
-                            ) {
-                                const validationError =
-                                    error.response.data.error.error
-                                        ?.errors[index].message ?? [];
+                                addNewPositionParentObj
+                                ? addNewPositionParentObj
+                                : {}
+                            ) .then(async (jobDes) => {
+                            if (jobDes?.data.success === true) {
+                                this.loadingBtnEdit = false;
+                                this.visibleDialogAddPositionBoardMgt = false;
+                                this.close();
+                                // Relist Get Board Manager Job Descriptions Data
+                                await this.getAllReloadPositionDesBasePositionId(positionId);
                                 this.$toast.add({
-                                    severity: "error",
-                                    summary: "Please Fix Below Errors.",
-                                    detail: validationError
-                                        ? validationError
-                                        : "Please input filed job position descriptions have missing value!",
+                                    severity: "success",
+                                    summary:
+                                        "Successfully add new job position descriptions.",
+                                    detail: String(jobDes.data?.message).toString()
+                                        ? String(jobDes.data?.message).toString()
+                                        : null,
                                     life: 3000,
                                 });
+                                // Clear Data Input Position department
+                                this.addNewPosDesNameEngPositionOrgStr = '';
+                                this.addNewPosDesNameKhmerPositionOrgStr = '';
+                                this.addNewPosDesDescriptionPositionOrgStr = '';
+                                
                             }
-                        }
-                    });
-                    }
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                            this.loadingSubmittedAddProject = false;
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Please Fix Below Errors.",
+                                detail: error?.response.data.error?.message
+                                    ? error?.response.data.error?.message
+                                    : "Please input filed job position descriptions have missing value!",
+                                life: 3000,
+                            });
+                            if (error?.response.data.error.error?.errors) {
+                                for (
+                                    let index = 0;
+                                    index <
+                                    error.response.data.error.error?.errors
+                                        .length;
+                                    index++
+                                ) {
+                                    const validationError =
+                                        error.response.data.error.error
+                                            ?.errors[index].message ?? [];
+                                    this.$toast.add({
+                                        severity: "error",
+                                        summary: "Please Fix Below Errors.",
+                                        detail: validationError
+                                            ? validationError
+                                            : "Please input filed job position descriptions have missing value!",
+                                        life: 3000,
+                                    });
+                                }
+                            }
+                        });
                 }, 1000);
             } catch (error) {
                 throw Error(error || error.message);
@@ -173,14 +164,14 @@ export default {
                     && typeof this.getPosEditJobDes !== 'undefined'
                 ){
                     this.submittingJobDesc = true;
-                    console.log(this.getPositionSelectedDeptId)
                     const positionId = this.getPositionSelectedDeptId ? this.getPositionSelectedDeptId : parseInt(this.getPosEditJobDes.positionId);
                     const parentJobDesPosId = parseInt(this.getPosEditJobDes?.positionDesId) ? parseInt(this.getPosEditJobDes?.positionDesId) : 0;
                     const editDataJobDescDept = {
                         modifyPositionDeptId: positionId ? positionId : 0,
                         modifyJobPosDeptEnglishName: String(this.getPosEditJobDes?.posDesNameEng).toString(),
                         modifyJobPosDeptKhmerName: String(this.getPosEditJobDes?.posDesNameKh).toString(),
-                        modifyJobPosDeptDescription: String(this.projectStrGeoData?.posNotedDes).toString()
+                        modifyJobPosDeptDescription: String(this.projectStrGeoData?.posNotedDes).toString(),
+                        assignFileOrgStrDept: this.fileUploadEditPosDesOrg ? this.fileUploadEditPosDesOrg : []
                     }
                     this.geoDeptOrgStrServicesPosition.modifyNewOrgStructurePositionJobDescriptions(parentJobDesPosId, editDataJobDescDept ? editDataJobDescDept : {})
                     .then(async (jobDes) => {
@@ -204,6 +195,7 @@ export default {
                             }, 1000);
                         }
                     }).catch((error)=> {
+                        console.log(error);
                         let message = error?.message;
                         this.setToastError(message);
                         this.$notify({
@@ -318,10 +310,10 @@ export default {
                     }
                     if (positionDeptOrgId !== null && !isNaN(Number(positionDeptOrgId)) || positionDeptOrgId !== '') {
                         let getOrgStrPosId = parseInt(positionDeptOrgId) ? parseInt(positionDeptOrgId) : 0;
-                        const optSelectedJobDescPosOrgId = {
+                        const getOrgPosDesStrId = {
                             getOrgStrPosId
                         }
-                        this.setJobPositionDescriptionBaseOrgStrId(optSelectedJobDescPosOrgId);
+                        this.setJobPositionDescriptionBaseOrgStrId(getOrgPosDesStrId);
                     }
                 } catch (e) {
                     return Promise.reject(e);

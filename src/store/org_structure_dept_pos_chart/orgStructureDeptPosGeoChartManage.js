@@ -226,6 +226,7 @@ const actions = {
    async setJobPositionDescriptionBaseOrgStrId({
            commit
        }, payload) {
+        console.log(payload)
         const getPosDesOrgStrId  = payload?.getOrgPosDesStrId;
         let orgStrPosDecId;
         if (getPosDesOrgStrId !== null && !isNaN(Number(getPosDesOrgStrId)) || getPosDesOrgStrId !== '') {
@@ -235,6 +236,7 @@ const actions = {
         }
         geoDeptOrgStrServices.listJobPositionDescriptionBaseOrgStrId(orgStrPosDecId).then((orgDeptStr) => {
             const getAllJobPositionDescription = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : [];
+            console.log(getAllJobPositionDescription)
             if (!orgDeptStr) {
                 commit('SET_JOB_POSITION_DESC_DATA_BOARD_DEPARTMENT', []);
             } else {

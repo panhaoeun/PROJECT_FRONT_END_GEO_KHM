@@ -3,7 +3,9 @@
     <div class="layout-content px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h2 class="font-primary text-3xl font-medium">Locations</h2>
+            <h2 class="font-primary text-3xl font-medium">
+                Manage Geo-Fence Location
+            </h2>
             <el-button
                 type="info"
                 size="large"
@@ -24,7 +26,7 @@
                     ]"
                 >
                     <i class="pi pi-plus"></i>
-                    <span class="pl-2"> Create New </span>
+                    <span class="pl-2"> Add New </span>
                 </div>
             </el-button>
         </div>
@@ -48,13 +50,15 @@
                                 >
                                 <Dropdown
                                     showClear
-                                    v-model="selectedCountryOpt"
-                                    :options="allCountryOrgStr"
-                                    @click="getGeoLocationCountryOrgStr()"
+                                    v-model="selectedCountryOptOrgStr"
+                                    :options="allCountryGeoLocation"
+                                    @update:modelValue="
+                                        onChangeSelectedCountryGeoOrgStr()
+                                    "
                                     optionLabel="geo_english_name"
                                     filter
                                     placeholder="Select a Country"
-                                    class="w-full text-sm"
+                                    class="w-full text-sm border-round-lg"
                                     inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
@@ -122,13 +126,13 @@
                                         :options="allStateCountryAddNewOrgStr"
                                         optionLabel="geo_english_name"
                                         filter
-                                        @click="
+                                        @update:modelValue="
                                             getProvinceByCountrySelectedOrgStr(
-                                                selectedCountryOpt
+                                                selectedCountryOptOrgStr
                                             )
                                         "
                                         placeholder="Select a Province or State"
-                                        class="w-full text-sm"
+                                        class="w-full text-sm border-round-lg"
                                         inputId="geo_english_name"
                                         aria-describedby="dd-error"
                                     >
@@ -198,13 +202,13 @@
                                         :options="allStateDistrictAddNew"
                                         optionLabel="geo_english_name"
                                         filter
-                                        @click="
+                                        @update:modelValue="
                                             getDistrictByProvinceSelectedOrgStr(
                                                 selectedProvinceOptOrgStr
                                             )
                                         "
                                         placeholder="Select a District"
-                                        class="w-full text-sm"
+                                        class="w-full text-sm border-round-lg"
                                         inputId="geo_english_name"
                                         aria-describedby="dd-error"
                                     >
@@ -272,13 +276,13 @@
                                         :options="allCommuneCountryByCom"
                                         optionLabel="geo_english_name"
                                         filter
-                                        @click="
+                                        @before-show="
                                             getCommuneByDistrictSelectedOrgStr(
                                                 selectedDistrictOptOrgStr
                                             )
                                         "
                                         placeholder="Select a Commune"
-                                        class="w-full text-sm"
+                                        class="w-full text-sm border-round-lg"
                                         inputId="geo_english_name"
                                         aria-describedby="dd-error"
                                     >
@@ -346,13 +350,13 @@
                                         :options="getGeoLocationVillagesData"
                                         optionLabel="geo_english_name"
                                         filter
-                                        @click="
+                                        @before-show="
                                             getVillagesBySelectedOrgStr(
                                                 selectedCommuneOptOrgStr
                                             )
                                         "
                                         placeholder="Select a Village"
-                                        class="w-full text-sm"
+                                        class="w-full text-sm border-round-lg"
                                         inputId="geo_english_name"
                                         aria-describedby="dd-error"
                                     >
@@ -432,27 +436,29 @@
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-01'"
                             geoName="Country"
-                            :geo-fence-data-filter="allCountryOrgStr"
+                            :geo-fence-data-filter="
+                                getAllCountryGeoLocationListData
+                            "
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-02'"
                             geoName="Province or State"
-                            :geo-fence-data-filter="allStateCountryAddNewOrgStr"
+                            :geo-fence-data-filter="allStateCountryOrgStrListData"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-03'"
                             geoName="District"
-                            :geo-fence-data-filter="allStateDistrictAddNew"
+                            :geo-fence-data-filter="allStateDistrictListData"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-04'"
                             geoName="Commune"
-                            :geo-fence-data-filter="allCommuneCountryByCom"
+                            :geo-fence-data-filter="allCommuneCountryByComListData"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-05'"
                             geoName="Villages"
-                            :geo-fence-data-filter="getGeoLocationVillagesData"
+                            :geo-fence-data-filter="getGeoLocationVillagesListData"
                         />
                         <p v-else>Please select geo-fence filter</p>
                     </div>
@@ -500,6 +506,7 @@ export default {
             zeroCountryState: 0,
             countryRegion: null,
             submitted: false,
+            selectedCountryOptOrgStr: null,
             listOptCountry: [],
             selectedCountryOpt: null,
             listOptProvince: [],
@@ -549,6 +556,9 @@ export default {
         return {
             selectedCountryOpt: { required },
         };
+    },
+    mounted() {
+        this.geoLocationCountryListClick();
     },
     components: {
         GlobalDataTableGeoFence,
@@ -708,13 +718,7 @@ export default {
         },
         geoLocationCountryListClick() {
             try {
-                this.getTypeGeoFenceFilter = "GEO-01";
-                const geoLocationCountryType = "T1";
-                this.getGeoLocationStateByCountryAddNewOrgStr(
-                    geoLocationCountryType,
-                    ""
-                );
-                console.log(geoLocationCountryType);
+                this.getGeoLocationCountryOrgStr();
             } catch (error) {
                 return Promise.reject(error.message || []);
             }

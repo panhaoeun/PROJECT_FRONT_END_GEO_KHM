@@ -18,6 +18,7 @@
                 <div style="width: 80rem">
                     <!-- List of Position JD Org Dept -->
                     <ListManageHistoryOfficerEmp
+                        :departmentNameOrg="departmentOrgName"
                         :orgStrDeptPosId="orgAssignId ? orgAssignId : 0"
                         :positionAllDeptOrg="
                             getPositionBaseDept ? getPositionBaseDept : {}

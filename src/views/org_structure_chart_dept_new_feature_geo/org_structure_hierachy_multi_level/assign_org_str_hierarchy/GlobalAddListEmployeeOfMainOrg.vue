@@ -40,14 +40,14 @@
                         {{ getDepartmentName }}
                     </h1>
                     <p class="text-center text-lg">
-                        Total Employee - 
+                        Total Employee -
                         {{ countEmpByDeptName }}
                     </p>
                 </div>
                 <!-- List of dataview- -->
                 <div
                     class="mb-primary border-bottom"
-                    style="width: 60rem"
+                    style="width: 90rem"
                     v-if="
                         getAllDataEmpAssignOrgStr !== null ||
                         (getAllDataEmpAssignOrgStr !== '' &&
@@ -70,11 +70,13 @@
                             'empEnglishName',
                             'empKhmerName',
                         ]"
+                        showGridlines
                         class="p-datatable-scrollable text-sm"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         :rowsPerPageOptions="[5, 10, 25]"
                         :metaKeySelection="false"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} employee records"
+
                     >
                         <!-- Header -->
                         <template #header>
@@ -126,6 +128,36 @@
                                             <span>{{
                                                 data?.empEnglishName ?? "N/A"
                                             }}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </Column>
+                            <!-- Columns -->
+                            <Column
+                                field="tbl_org_position_geo_fence"
+                                header="Position"
+                                sortable
+                            >
+                                <template #body="{ data }">
+                                    <div
+                                        class="flex flex-column"
+                                        v-if="
+                                            data?.tbl_org_position_geo_fence !==
+                                                null ||
+                                            data?.tbl_org_position_geo_fence !==
+                                                ''
+                                        "
+                                    >
+                                        <div class="flex px-2 py-2">
+                                            <span>{{
+                                                data?.tbl_org_position_geo_fence
+                                                    ?.positionNameEng ?? "N/A"
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div class="flex px-2 py-2">
+                                            <span>N/A</span>
                                         </div>
                                     </div>
                                 </template>

@@ -81,19 +81,7 @@
                         />
                     </div>
                 </div>
-                <div class="flex start mlr--5">
-                    <div class="input-wrap mlr-5">
-                        <label> Description </label>
-                        <Textarea
-                            style="width: 50rem"
-                            aria-labelledby="jobDesNoted"
-                            autoResize
-                            class="border-round-lg text-sm"
-                            v-model="getPosEditJobDes.jobDesNoted"
-                            placeholder="Please description of job department"
-                        />
-                    </div>
-                </div>
+
                 <!-- Upload Files -->
                 <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
@@ -224,6 +212,41 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex start mlr--5">
+                    <div class="input-wrap mlr-5">
+                        <label> Description </label>
+                        <Editor
+                            v-model="getPosEditJobDes.jobDesNoted"
+                            editorStyle="height: 320px; width: 50rem"
+                            placeholder="Please description of job department"
+                        >
+                            <template v-slot:toolbar>
+                                <span class="ql-formats">
+                                    <!-- Add font size dropdown -->
+                                    <select class="ql-size">
+                                        <option value="small"></option>
+                                        <!-- Note a missing, thus falsy value, is used to reset to default -->
+                                        <option selected></option>
+                                        <option value="large"></option>
+                                        <option value="huge"></option>
+                                    </select>
+                                    <button
+                                        v-tooltip.bottom="'Bold'"
+                                        class="ql-bold"
+                                    ></button>
+                                    <button
+                                        v-tooltip.bottom="'Italic'"
+                                        class="ql-italic"
+                                    ></button>
+                                    <button
+                                        v-tooltip.bottom="'Underline'"
+                                        class="ql-underline"
+                                    ></button>
+                                </span>
+                            </template>
+                        </Editor>
+                    </div>
+                </div>
             </template>
             <!-- Footer -->
             <template v-slot:pop-footer>
@@ -319,7 +342,6 @@ export default {
                 orgDeptParentId: 0,
                 deptGeoPosLevel: "",
                 deptGeoMgtPosNoted: "",
-                
             };
         }
     },
@@ -341,7 +363,6 @@ export default {
             this.totalSizePercent = 0;
         },
         onSelectedFiles(event) {
-            console.log(event);
             this.files = event.files;
             this.files.forEach((file) => {
                 this.totalSize += parseInt(this.formatSize(file.size));
@@ -357,7 +378,6 @@ export default {
         formatSize(bytes) {
             const k = 1024;
             const dm = 3;
-            console.log(this.$primevue);
             const sizes = this.$primevue.config.locale.fileSizeTypes;
 
             if (bytes === 0) {

@@ -565,6 +565,7 @@ export default {
                         selectedOrgEmpId: this.selectedAssignEmployeeOrg ? this.selectedAssignEmployeeOrg : 0,
                         selectedPositionOrgDeptId: this.getPositionSelectedDeptOrgStrId ? this.getPositionSelectedDeptOrgStrId : 0,
                         addNotedEmpAssignOrg: String(this.assignEmpNoted).toString(),
+                        assignFileOrgStrDept: this.fileEmpAssignUploadOrg ? this.fileEmpAssignUploadOrg : []
                     };
                     // Assign Employee Base Org-Structured Assignment
                     if (!this.selectedAssignPositionOrg !== null ||

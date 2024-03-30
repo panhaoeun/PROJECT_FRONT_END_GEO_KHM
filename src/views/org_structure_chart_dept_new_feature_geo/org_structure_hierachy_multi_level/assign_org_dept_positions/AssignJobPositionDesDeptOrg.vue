@@ -205,7 +205,7 @@ export default {
                 if (
                     positionDeptId !== null ||
                     positionDeptId !== undefined ||
-                    this.selectedPositionDeptOrg !== null
+                    typeof positionDeptId !== 'object'
                 ) {
                     this.addPositionBtnStatus = true;
                     this.getAllReloadPositionJobDescriptionDeptOrg(
