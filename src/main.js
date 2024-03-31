@@ -12,7 +12,7 @@ import {
    @E-Commerces
    @Library E-Commerces
 */
-// import "./assets/commerce_frontend_/css/commerce_frontend.css";
+import "@/assets/css/group_chat_messager/group_chat.css";
 // // Global Font and Icons
 // import "./assets/commerce_frontend_/css/icon_font_global.css";
 // // Customize Plugins
