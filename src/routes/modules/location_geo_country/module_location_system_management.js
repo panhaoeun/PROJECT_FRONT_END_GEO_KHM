@@ -50,6 +50,18 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [{
         },
         component: () => import("../../../views/administrators/user_managements/role_permission_module_new/CreatePermissionRole.vue"),
     },
+    // Message Chart
+    {
+        path: "/admin/app-chart-org-chart-message-group",
+        name: prefix + '.admin_org_chart_message_emp_manager',
+        meta: {
+            title: "chart",
+            requiresAuth: true,
+            icon: 'chat',
+            permissions: ['location_ms_system_module']
+        },
+        component: () => import("../../../views/administrators/org_chart_structure_managements_new/chat/chat_group_app_org_chart_team/AppGroupChatOrgTeam"),
+    },
 ]
 const moduleProductManagementRouters = {
     path: '/admin/locations',

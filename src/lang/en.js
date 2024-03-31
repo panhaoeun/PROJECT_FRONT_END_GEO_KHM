@@ -182,6 +182,7 @@ export default {
         usersMS: 'Users & Roles',
         permissionMS: 'Permissions',
         orgChat: 'ORG-Structures',
+        chart: 'Chart',
         orderReportAnalysisMS: 'Reports',
         ordersReportMS: 'Order Report',
         productsReportMS: 'Product Report',
