@@ -6,6 +6,10 @@ import {
     CartService
 } from "@/services/customers/add_to_cart/CartCustomerService";
 
+import {
+    PerfectScrollbarPlugin
+} from 'vue3-perfect-scrollbar';
+import 'vue3-perfect-scrollbar/style.css';
 
 
 /*
@@ -197,7 +201,7 @@ import {
 } from './utils/auth/handlingExpiredToken';
 app.use(Vuex);
 app.use(store);
-
+app.use(PerfectScrollbarPlugin)
 /* @Routers */
 app.use(pinia);
 app.use(routes);
