@@ -1730,7 +1730,7 @@
   resolved "https://registry.npmjs.org/@polka/url/-/url-1.0.0-next.21.tgz"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@popperjs/core@^2.11.6", "@popperjs/core@^2.11.8", "@popperjs/core@npm:@sxzz/popperjs-es@^2.11.7":
+"@popperjs/core@^2.11.0", "@popperjs/core@^2.11.6", "@popperjs/core@^2.11.8", "@popperjs/core@^2.9.2", "@popperjs/core@npm:@sxzz/popperjs-es@^2.11.7":
   version "2.11.8"
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
@@ -6280,15 +6280,15 @@ icss-utils@^5.0.0, icss-utils@^5.1.0:
   resolved "https://registry.npmjs.org/icss-utils/-/icss-utils-5.1.0.tgz"
   integrity sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==
 
+idb@^7.1.0, idb@7.1.1:
+  version "7.1.1"
+  resolved "https://registry.npmjs.org/idb/-/idb-7.1.1.tgz"
+  integrity sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==
+
 idb@7.0.1:
   version "7.0.1"
   resolved "https://registry.npmjs.org/idb/-/idb-7.0.1.tgz"
   integrity sha512-UUxlE7vGWK5RfB/fDwEGgRf84DY/ieqNha6msMV99UsEMQhJ1RwbCd8AYBj3QMgnE3VZnfQvm4oKVCJTYlqIgg==
-
-idb@7.1.1:
-  version "7.1.1"
-  resolved "https://registry.npmjs.org/idb/-/idb-7.1.1.tgz"
-  integrity sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==
 
 ieee754@^1.1.13, ieee754@^1.1.4:
   version "1.2.1"
@@ -10894,7 +10894,7 @@ vue-upload-component@^3.1.8:
   resolved "https://registry.npmjs.org/vue-upload-component/-/vue-upload-component-3.1.8.tgz"
   integrity sha512-8LHCrgmEZPg+1hbkKjQgMce2uasmGLEnIsLE8YG+vNyfNDuaQA71T+5t6kdDSG/szeh+E8mjb26uEd9WkVSFtg==
 
-vue@*, "vue@^2 || ^3.2.13", "vue@^2.0.0 || >=3.0.0", "vue@^2.5.0 || ^3.0.0", vue@^2.5.18, "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.0.0", vue@^3.0.0, "vue@^3.0.0 || ^2.0.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.5, vue@^3.2.0, vue@^3.2.25, vue@^3.2.45, vue@^3.3.0, vue@^3.3.4, "vue@>= 3.0.0 < 4", vue@3.3.4:
+vue@*, "vue@^2 || ^3.2.13", "vue@^2.0.0 || >=3.0.0", "vue@^2.5.0 || ^3.0.0", vue@^2.5.18, "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.0.0", vue@^3.0.0, "vue@^3.0.0 || ^2.0.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.5, vue@^3.2.0, vue@^3.2.20, vue@^3.2.23, vue@^3.2.25, vue@^3.2.45, vue@^3.3.0, vue@^3.3.4, "vue@>= 3.0.0 < 4", vue@3.3.4:
   version "3.3.4"
   resolved "https://registry.npmjs.org/vue/-/vue-3.3.4.tgz"
   integrity sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==
@@ -10926,6 +10926,15 @@ vue3-autocounter@^1.0.6:
   resolved "https://registry.npmjs.org/vue3-autocounter/-/vue3-autocounter-1.0.6.tgz"
   integrity sha512-jOgCD2WaOjt/tOAAGKDm2DTyQRdKyfqJv5ElUz/vR0ZJgUd4yDd6UX6+2YU3LQpY4qoFNZkzLloAfALAqK041g==
 
+vue3-emoji-picker@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.npmjs.org/vue3-emoji-picker/-/vue3-emoji-picker-1.1.8.tgz"
+  integrity sha512-k9tVHeQEBVLzVCLYAkFaI1nib3FJFQwdPhWD5khJkhks3ktg3g12z5wPGOSDpIuSLNtelRGvq1qdmZuJu5khfA==
+  dependencies:
+    "@popperjs/core" "^2.11.0"
+    idb "^7.1.0"
+    vue "^3.2.23"
+
 vue3-form-wizard@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npmjs.org/vue3-form-wizard/-/vue3-form-wizard-0.2.1.tgz"
@@ -10937,6 +10946,14 @@ vue3-perfect-scrollbar@^2.0.0:
   integrity sha512-nSWVcRyViCgt0Pe3RhU3w/BllLcFSrEzYOGlRBjSyhVmiZlERHHziffW+9P8L0IMEWouC5t+uYrgNJGSAElqMA==
   dependencies:
     perfect-scrollbar "^1.5.5"
+
+vue3-popper@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/vue3-popper/-/vue3-popper-1.5.0.tgz"
+  integrity sha512-xaEnx90YBnlSg5G2yWqm2DHWHg+DB99UVRp4VsyTF0QLXyHrqSuE1Xo5+sG0AQq/lBcrGMlk5NU5xE2MDLKViw==
+  dependencies:
+    "@popperjs/core" "^2.9.2"
+    debounce "^1.2.1"
 
 vuex@^4.0.2:
   version "4.1.0"

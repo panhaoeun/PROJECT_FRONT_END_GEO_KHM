@@ -9,7 +9,8 @@ import {
 import {
     PerfectScrollbarPlugin
 } from 'vue3-perfect-scrollbar';
-import 'vue3-perfect-scrollbar/style.css';
+import ScrollPanel from 'primevue/scrollpanel';
+
 
 
 /*
@@ -60,6 +61,14 @@ import "@glidejs/glide/dist/css/glide.core.min.css";
 import ProductZoomer from 'vue-product-zoomer';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import "./assets/customer_ecommerce_web_new/styles/styles.styl";
+
+// popper
+import Popper from 'vue3-popper';
+//Emoji Picker 
+import EmojiPicker from 'vue3-emoji-picker';
+// import css
+import 'vue3-emoji-picker/css'
+
 
 // Header Menu Categories
 import "./assets/customer_ecommerce_web_new/css/header_menu.css";
@@ -201,7 +210,9 @@ import {
 } from './utils/auth/handlingExpiredToken';
 app.use(Vuex);
 app.use(store);
-app.use(PerfectScrollbarPlugin)
+app.use(PerfectScrollbarPlugin, {
+    componentName: 'PerfectScrollbar'
+});
 /* @Routers */
 app.use(pinia);
 app.use(routes);
@@ -274,6 +285,9 @@ app.component('AccordionTab', AccordionTab);
 app.component('TreeSelect', TreeSelect);
 app.component('DataView', DataView);
 app.component('DataViewLayoutOptions', DataViewLayoutOptions);
+app.component('Popper', Popper);
+app.component('ScrollPanel', ScrollPanel);
+app.component('EmojiPicker', EmojiPicker);
 /*
     @Front-End Library 
 */

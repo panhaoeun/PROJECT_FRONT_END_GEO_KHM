@@ -31,7 +31,7 @@
                                         onChangeGetAllProjectCompany()
                                     "
                                     placeholder="Select a company structures"
-                                    class="w-full text-sm"
+                                    class="w-full text-sm border-round-lg"
                                     inputId="project_name"
                                     aria-describedby="dd-error"
                                     filter
@@ -104,7 +104,7 @@
                                     "
                                     filter
                                     placeholder="Select a National Structures"
-                                    class="w-full text-sm"
+                                    class="w-full text-sm border-round-lg"
                                     inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
@@ -198,7 +198,7 @@
                                     "
                                     filter
                                     placeholder="Select a Province Structures"
-                                    class="w-full text-sm"
+                                    class="w-full text-sm border-round-lg"
                                     inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
@@ -292,7 +292,7 @@
                                     "
                                     filter
                                     placeholder="Select a District Structures"
-                                    class="w-full text-sm"
+                                    class="w-full text-sm border-round-lg"
                                     inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
@@ -386,7 +386,7 @@
                                     "
                                     filter
                                     placeholder="Select a Commune Structures"
-                                    class="w-full text-sm"
+                                    class="w-full text-sm border-round-lg"
                                     inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
@@ -464,7 +464,7 @@
                         <div class="col-6 lg:col-12 xl:col-6 field">
                             <label
                                 for="geo_country_org_str"
-                                class="text-sm font-semibold"
+                                class="text-sm font-semibold border-round-lg"
                                 >Village Structures</label
                             >
                             <div
@@ -480,7 +480,7 @@
                                     "
                                     filter
                                     placeholder="Select a Village Structures"
-                                    class="w-full text-sm"
+                                    class="w-full text-sm border-round-lg"
                                     inputId="geo_english_name"
                                     aria-describedby="dd-error"
                                 >
