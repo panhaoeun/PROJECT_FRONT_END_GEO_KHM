@@ -669,63 +669,7 @@
                                 </div>
                             </perfect-scrollbar>
                             <!-- Writing messages  -->
-                            <div class="p-4 absolute bottom-0 left-0 w-full">
-                                <div
-                                    class="sm:flex w-full space-x-3 rtl:space-x-reverse items-center"
-                                >
-                                    <div class="relative flex-1">
-                                        <input
-                                            class="form-input rounded-full border-0 bg-[#f4f4f4] px-12 focus:outline-none py-2"
-                                            placeholder="Type a message"
-                                            v-model="textMessage"
-                                            @keyup.enter.exact="sendMessage()"
-                                        />
-                                        <button
-                                            type="button"
-                                            class="absolute ltr:left-4 rtl:right-4 top-1/2 -translate-y-1/2 hover:text-primary"
-                                        >
-                                            <icon-mood-smile />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="absolute ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 hover:text-primary"
-                                            @click="sendMessage()"
-                                        >
-                                            <icon-send />
-                                        </button>
-                                    </div>
-                                    <div
-                                        class="items-center space-x-3 rtl:space-x-reverse sm:py-0 py-3 hidden sm:block"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary"
-                                        >
-                                            <icon-microphone-off />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary"
-                                        >
-                                            <icon-download />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary"
-                                        >
-                                            <icon-camera />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary"
-                                        >
-                                            <icon-horizontal-dots
-                                                class="opacity-70"
-                                            />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <RoomChatMessageFooter />
                         </div>
                     </template>
                 </div>
@@ -754,11 +698,13 @@ import IconCopy from "@/components/icons/icon-copy.vue";
 import IconTrashLines from "@/components/icons/icon-trash-lines.vue";
 import IconShare from "@/components/icons/icon-share.vue";
 import IconMoodSmile from "@/components/icons/icon-mood-smile.vue";
-import IconSend from "@/components/icons/icon-send.vue";
-import IconMicrophoneOff from "@/components/icons/icon-microphone-off.vue";
-import IconDownload from "@/components/icons/icon-download.vue";
-import IconCamera from "@/components/icons/icon-camera.vue";
 import IconMessage from "@/components/icons/icon-message.vue";
+
+
+/**
+ * Global Functions
+ * */
+import RoomChatMessageFooter from "./room_chat_message_footer/RoomChatMessageFooter";
 
 // useMeta({ title: "Chat" });
 // const store = useAppStore();
@@ -882,6 +828,7 @@ const sendMessage = () => {
         scrollToBottom();
     }
 };
+console.log(sendMessage);
 
 const scrollToBottom = () => {
     if (isShowUserChat.value) {

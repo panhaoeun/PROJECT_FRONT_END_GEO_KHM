@@ -66,8 +66,7 @@ import "./assets/customer_ecommerce_web_new/styles/styles.styl";
 import Popper from 'vue3-popper';
 //Emoji Picker 
 import EmojiPicker from 'vue3-emoji-picker';
-// import css
-import 'vue3-emoji-picker/css'
+
 
 
 // Header Menu Categories
