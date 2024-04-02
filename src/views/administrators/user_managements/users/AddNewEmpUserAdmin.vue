@@ -22,590 +22,556 @@
         </div>
         <!--Create Products-->
         <el-card class="box-card px-6 py-6">
-            <!-- Toast Alert -->    
+            <!-- Toast Alert -->
             <Toast />
             <!-- Tabs -->
-            <el-tabs v-model="activeName" class="demo-tabs text-xl">
-                <form
-                    enctype="multipart/form-data"
-                    @submit.prevent="handleAddNewEmpAdminSubmit(!v$.$invalid)"
-                >
-                    <!--Form Submitted-->
-                    <TabView>
-                        <TabPanel header="Personal Info">
-                            <!-- English -->
-                            <div
-                                class="grid grid-nogutter flex-wrap gap-3 p-fluid"
-                            >
-                                <div class="col-12 lg:col-12">
-                                    <!-- Form Layouts -->
-                                    <div class="grid formgrid">
-                                        <!-- Full Name in Khmer -->
-                                        <div class="col-12 col-lg-4 field">
-                                            <!-- Name Khmer -->
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >{{
-                                                        $t(
-                                                            "userinfo.fullNameInKhmer"
-                                                        )
-                                                    }}<span class="p-error"
-                                                        >*</span
-                                                    ></label
-                                                >
-                                                <InputText
-                                                    id="userMSNameKh"
-                                                    placeholder="English Name"
-                                                    type="text"
-                                                    class="py-3 border-round-lg text-sm"
-                                                    v-model="
-                                                        v$.userMSNameKh.$model
-                                                    "
-                                                    :class="{
-                                                        'p-invalid p-error':
-                                                            v$.userMSNameKh
-                                                                .$invalid &&
-                                                            submitted,
-                                                    }"
-                                                />
-                                                <small
-                                                    v-if="
-                                                        (v$.userMSNameKh
-                                                            .$invalid &&
-                                                            submitted) ||
-                                                        v$.userMSNameKh.$pending
-                                                            .$response
-                                                    "
-                                                    class="p-error"
-                                                    >{{
-                                                        v$.userMSNameKh.required.$message.replace(
-                                                            "Value",
-                                                            "Full Name in Khmer"
-                                                        ) ||
-                                                        v$.userMSNameKh.$params
-                                                            .min
-                                                    }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <!--Full Name in Latin -->
-                                        <div class="col-12 col-lg-4 field">
-                                            <!-- Name Category -->
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >{{
-                                                        $t(
-                                                            "userinfo.fullNameInEn"
-                                                        )
-                                                    }}<span class="p-error"
-                                                        >*</span
-                                                    ></label
-                                                >
-                                                <InputText
-                                                    id="product_name"
-                                                    placeholder="Khmer Name"
-                                                    type="text"
-                                                    class="py-3 border-round-lg text-sm"
-                                                    v-model="
-                                                        v$.userMSNameEng.$model
-                                                    "
-                                                    :class="{
-                                                        'p-invalid p-error':
-                                                            v$.userMSNameEng
-                                                                .$invalid &&
-                                                            submitted,
-                                                    }"
-                                                />
-                                                <small
-                                                    v-if="
-                                                        (v$.userMSNameEng
-                                                            .$invalid &&
-                                                            submitted) ||
-                                                        v$.userMSNameEng
-                                                            .$pending.$response
-                                                    "
-                                                    class="p-error"
-                                                    >{{
-                                                        v$.userMSNameEng.required.$message.replace(
-                                                            "Value",
-                                                            "Full Name in English"
-                                                        ) ||
-                                                        v$.userMSNameEng.$params
-                                                            .min
-                                                    }}</small
-                                                >
-                                            </div>
-                                        </div>
-                                        <!--Full Name in Latin -->
-                                        <div class="col-12 col-lg-4 field">
-                                            <!-- Name Category -->
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >Email</label
-                                                >
-                                                <InputText
-                                                    id="email_add"
-                                                    placeholder="Email"
-                                                    type="email"
-                                                    class="py-3 border-round-lg text-sm"
-                                                    v-model="emailMSUser"
-                                                />
-                                            </div>
-                                        </div>
-                                        <!--Phone number -->
-                                        <div class="col-12 col-lg-4 field">
-                                            <!-- Name Category -->
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >Phone Number<span
-                                                        class="p-error"
-                                                        >*</span
-                                                    ></label
-                                                >
-                                                <InputText
-                                                    type="number"
-                                                    :useGrouping="false"
-                                                    :min="0"
-                                                    id="product_name"
-                                                    placeholder="Phone Number"
-                                                    @keypress="inputOnlyNumber"
-                                                    class="py-3 border-round-lg text-sm"
-                                                    v-model="
-                                                        v$.userMSPhoneNum.$model
-                                                    "
-                                                    :class="{
-                                                        'p-invalid p-error':
-                                                            v$.userMSPhoneNum
-                                                                .$invalid &&
-                                                            submitted,
-                                                    }"
-                                                />
-                                                <small
-                                                    v-if="
-                                                        (v$.userMSPhoneNum
-                                                            .$invalid &&
-                                                            submitted) ||
-                                                        v$.userMSPhoneNum
-                                                            .$pending.$response
-                                                    "
-                                                    class="p-error"
-                                                    >{{
-                                                        v$.userMSPhoneNum.required.$message.replace(
-                                                            "Value",
-                                                            "Phone Number"
-                                                        ) ||
-                                                        v$.userMSPhoneNum
-                                                            .$params.min
-                                                    }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <!--Password and Confirm Password -->
-                                        <!-- <div class="col-12 col-lg-4 field">
+            <form
+                enctype="multipart/form-data"
+                @submit.prevent="handleAddNewEmpAdminSubmit(!v$.$invalid)"
+            >
+                <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
+                    <div
+                        class="col-12 lg:col-12 justify-content-center items-center"
+                    >
+                        <!-- Step Elements -->
+                        <el-steps
+                            :active="active"
+                            align-center
+                            :space="200"
+                            process-status="error"
+                            finish-status="success"
+                        >
+                            <!-- Personal Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-user text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Profile</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                            <!-- Experience Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-briefcase text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Experience</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                            <!-- Experience Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-book text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Education</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                            <!-- Skill Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-list text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Skill</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                            <!-- Languages Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-language text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Languages</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                            <!-- Hobbies Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-sync text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Hobbies</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                            <!-- Reference Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-user-plus text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Reference</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                            <!-- Reviews Information -->
+                            <el-step>
+                                <template #icon>
+                                    <i
+                                        class="pi pi-eye text-red-500 text-center"
+                                        style="font-size: 1.5rem"
+                                    ></i>
+                                </template>
+                                <template #title>
+                                    <p class="text-primary">Review</p>
+                                </template>
+                                <template #description> </template>
+                            </el-step>
+                        </el-steps>
+
+                        <!-- Personal Informational -->
+                        <transition name="slide-fade">
+                            <sections v-show="active === 0">
+                                <div class="grid formgrid mt-6 container">
+                                    <!-- Full Name in Khmer -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <!-- Name Khmer -->
                                         <div class="field">
                                             <label for="name_en" class="text-sm"
-                                                >Password<span class="p-error"
+                                                >{{
+                                                    $t(
+                                                        "userinfo.fullNameInKhmer"
+                                                    )
+                                                }}<span class="p-error"
                                                     >*</span
                                                 ></label
                                             >
-                                            <Password
-                                                id="userMSPassword"
-                                                placeholder="Password"
+                                            <InputText
+                                                id="userMSNameKh"
+                                                placeholder="English Name"
                                                 type="text"
-                                                toggleMask
-                                                ref="MSPasswordRef"
-                                                class="border-round-lg text-sm"
-                                                v-model="
-                                                    v$.userMSPassword.$model
-                                                "
+                                                class="py-3 border-round-lg text-sm"
+                                                v-model="v$.userMSNameKh.$model"
                                                 :class="{
                                                     'p-invalid p-error':
-                                                        v$.userMSPassword
+                                                        v$.userMSNameKh
                                                             .$invalid &&
                                                         submitted,
                                                 }"
                                             />
                                             <small
                                                 v-if="
-                                                    (v$.userMSPassword
-                                                        .$invalid &&
+                                                    (v$.userMSNameKh.$invalid &&
                                                         submitted) ||
-                                                    v$.userMSPassword.$pending
+                                                    v$.userMSNameKh.$pending
                                                         .$response
                                                 "
                                                 class="p-error"
                                                 >{{
-                                                    v$.userMSPassword.required.$message.replace(
+                                                    v$.userMSNameKh.required.$message.replace(
                                                         "Value",
-                                                        "Password"
+                                                        "Full Name in Khmer"
                                                     ) ||
-                                                    v$.userMSPassword.$params
+                                                    v$.userMSNameKh.$params.min
+                                                }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <!--Full Name in Latin -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <!-- Name Category -->
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm"
+                                                >{{ $t("userinfo.fullNameInEn")
+                                                }}<span class="p-error"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <InputText
+                                                id="product_name"
+                                                placeholder="Khmer Name"
+                                                type="text"
+                                                class="py-3 border-round-lg text-sm"
+                                                v-model="
+                                                    v$.userMSNameEng.$model
+                                                "
+                                                :class="{
+                                                    'p-invalid p-error':
+                                                        v$.userMSNameEng
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                            />
+                                            <small
+                                                v-if="
+                                                    (v$.userMSNameEng
+                                                        .$invalid &&
+                                                        submitted) ||
+                                                    v$.userMSNameEng.$pending
+                                                        .$response
+                                                "
+                                                class="p-error"
+                                                >{{
+                                                    v$.userMSNameEng.required.$message.replace(
+                                                        "Value",
+                                                        "Full Name in English"
+                                                    ) ||
+                                                    v$.userMSNameEng.$params.min
+                                                }}</small
+                                            >
+                                        </div>
+                                    </div>
+                                    <!--Full Name in Latin -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <!-- Name Category -->
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm"
+                                                >Email</label
+                                            >
+                                            <InputText
+                                                id="email_add"
+                                                placeholder="Email"
+                                                type="email"
+                                                class="py-3 border-round-lg text-sm"
+                                                v-model="emailMSUser"
+                                            />
+                                        </div>
+                                    </div>
+                                    <!--Phone number -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <!-- Name Category -->
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm"
+                                                >Phone Number<span
+                                                    class="p-error"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <InputText
+                                                type="number"
+                                                :useGrouping="false"
+                                                :min="0"
+                                                id="product_name"
+                                                placeholder="Phone Number"
+                                                @keypress="inputOnlyNumber"
+                                                class="py-3 border-round-lg text-sm"
+                                                v-model="
+                                                    v$.userMSPhoneNum.$model
+                                                "
+                                                :class="{
+                                                    'p-invalid p-error':
+                                                        v$.userMSPhoneNum
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                            />
+                                            <small
+                                                v-if="
+                                                    (v$.userMSPhoneNum
+                                                        .$invalid &&
+                                                        submitted) ||
+                                                    v$.userMSPhoneNum.$pending
+                                                        .$response
+                                                "
+                                                class="p-error"
+                                                >{{
+                                                    v$.userMSPhoneNum.required.$message.replace(
+                                                        "Value",
+                                                        "Phone Number"
+                                                    ) ||
+                                                    v$.userMSPhoneNum.$params
                                                         .min
                                                 }}
                                             </small>
                                         </div>
                                     </div>
+
+                                    <!-- Date of Birth -->
                                     <div class="col-12 col-lg-4 field">
                                         <div class="field">
-                                            <label
-                                                for="confirmPassword"
-                                                class="text-sm"
-                                                >Confirm Password<span
+                                            <label for="name_en" class="text-sm"
+                                                >Date Of Birth<span
                                                     class="p-error"
                                                     >*</span
                                                 ></label
                                             >
-                                            <Password
-                                                id="confirm_password"
-                                                toggleMask
-                                                placeholder="Confirm Password"
+                                            <Calendar
+                                                placeholder="Date of birth"
                                                 type="text"
-                                                @input="validationConfirmPass"
                                                 class="border-round-lg text-sm"
-                                                v-model="confirmPassword"
+                                                v-model="
+                                                    v$.userDateOfBirth.$model
+                                                "
                                                 :class="{
                                                     'p-invalid p-error':
-                                                        v$.confirmPassword
+                                                        v$.userDateOfBirth
                                                             .$invalid &&
                                                         submitted,
                                                 }"
                                             />
-                                            <div class="flex-column flex">
-                                                <small
-                                                    v-if="
-                                                        (v$.confirmPassword
-                                                            .$invalid &&
-                                                            submitted) ||
-                                                        v$.confirmPassword
-                                                            .$pending.$response
-                                                    "
-                                                    class="p-error"
-                                                    >{{
-                                                        v$.confirmPassword.required.$message.replace(
-                                                            "Value",
-                                                            "Confirm Password"
-                                                        ) ||
-                                                        v$.confirmPassword
-                                                            .$params.min
-                                                    }}
-                                                </small>
-                                                <small
-                                                    class="p-error"
-                                                    v-if="errMessageConfirm"
-                                                >
-                                                    {{ errMessageConfirm }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                        <!-- Date of Birth -->
-                                        <div class="col-12 col-lg-4 field">
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >Date Of Birth<span
-                                                        class="p-error"
-                                                        >*</span
-                                                    ></label
-                                                >
-                                                <Calendar
-                                                    placeholder="Date of birth"
-                                                    type="text"
-                                                    class="border-round-lg text-sm"
-                                                    v-model="
-                                                        v$.userDateOfBirth
-                                                            .$model
-                                                    "
-                                                    :class="{
-                                                        'p-invalid p-error':
-                                                            v$.userDateOfBirth
-                                                                .$invalid &&
-                                                            submitted,
-                                                    }"
-                                                />
-                                                <small
-                                                    v-if="
-                                                        (v$.userDateOfBirth
-                                                            .$invalid &&
-                                                            submitted) ||
-                                                        v$.userDateOfBirth
-                                                            .$pending.$response
-                                                    "
-                                                    class="p-error"
-                                                    >{{
-                                                        v$.userDateOfBirth.required.$message.replace(
-                                                            "Value",
-                                                            "Date of Birth"
-                                                        ) ||
-                                                        v$.userDateOfBirth
-                                                            .$params.min
-                                                    }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <!-- Started Dated -->
-                                        <div class="col-12 col-lg-4 field">
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >Start Date<span
-                                                        class="p-error"
-                                                        >*</span
-                                                    ></label
-                                                >
-                                                <Calendar
-                                                    placeholder="Start Date"
-                                                    type="text"
-                                                    class="border-round-lg text-sm"
-                                                    v-model="
-                                                        v$.userStartDate.$model
-                                                    "
-                                                    :class="{
-                                                        'p-invalid p-error':
-                                                            v$.userStartDate
-                                                                .$invalid &&
-                                                            submitted,
-                                                    }"
-                                                />
-                                                <small
-                                                    v-if="
-                                                        (v$.userStartDate
-                                                            .$invalid &&
-                                                            submitted) ||
-                                                        v$.userStartDate
-                                                            .$pending.$response
-                                                    "
-                                                    class="p-error"
-                                                    >{{
-                                                        v$.userStartDate.required.$message.replace(
-                                                            "Value",
-                                                            "Start Date"
-                                                        ) ||
-                                                        v$.userStartDate.$params
-                                                            .min
-                                                    }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <!-- Gender -->
-                                        <div class="col-12 col-lg-4 field">
-                                            <div class="field">
-                                                <label
-                                                    for="roles"
-                                                    class="text-sm"
-                                                    >Gender<span class="p-error"
-                                                        >*</span
-                                                    ></label
-                                                >
-                                                <div class="flex flex-column">
-                                                    <Dropdown
-                                                        v-model="
-                                                            selectedUserGender
-                                                        "
-                                                        class="border-round-lg text-sm"
-                                                        :options="userGender"
-                                                        optionLabel="name"
-                                                        placeholder="Select a Gender"
-                                                        :class="{
-                                                            'p-invalid p-error':
-                                                                v$
-                                                                    .selectedUserGender
-                                                                    .$invalid &&
-                                                                submitted,
-                                                        }"
-                                                    />
-                                                    <small
-                                                        v-if="
-                                                            (v$
-                                                                .selectedUserGender
-                                                                .$invalid &&
-                                                                submitted) ||
-                                                            v$
-                                                                .selectedUserGender
-                                                                .$pending
-                                                                .$response
-                                                        "
-                                                        class="p-error"
-                                                        >{{
-                                                            v$.selectedUserGender.required.$message.replace(
-                                                                "Value",
-                                                                "Gender"
-                                                            ) ||
-                                                            v$
-                                                                .selectedUserGender
-                                                                .$params.min
-                                                        }}
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--User Roles -->
-                                        <!-- <div class="col-12 col-lg-4 field">
-                                        <div class="field">
-                                            <label for="roles" class="text-sm">Roles<span class="p-error">*</span></label>
-                                            <Dropdown 
-                                                @change="getPermissionCurrent"
-                                                :options="permissionListDropDownView" 
-                                                filter  
-                                                v-model="selectOptValuePermission" 
-                                                inputId="id"
-                                                optionLabel="role_name" 
-                                                placeholder="Select a Role" 
-                                                aria-describedby="dd-error"
-                                                class="w-full border-round-lg text-sm"
-                                                :class="{ 'p-invalid p-error': v$.selectOptValuePermission.$invalid && submitted }"
-                                            >
-                                                    <template #value="slotProps">
-                                                        <div v-if="slotProps.value" class="flex align-items-center">
-                                                            <div>{{ slotProps.value?.role_name }}</div>
-                                                        </div>
-                                                        <span v-else>
-                                                            {{ slotProps.placeholder }}
-                                                        </span>
-                                                    </template>
-                                                    <template #option="slotProps">
-                                                        <div class="flex align-items-center">
-                                                            <div>{{ slotProps.option?.role_name }}</div>
-                                                        </div>
-                                                    </template>
-                                            </Dropdown>
                                             <small
-                                                v-if="(v$.selectOptValuePermission.$invalid && submitted) || v$.selectOptValuePermission.$pending.$response"
-                                                class="p-error">{{ v$.selectOptValuePermission.required.$message.replace('Value',
-                                                    'Role') || v$.selectOptValuePermission.$params.min }}
+                                                v-if="
+                                                    (v$.userDateOfBirth
+                                                        .$invalid &&
+                                                        submitted) ||
+                                                    v$.userDateOfBirth.$pending
+                                                        .$response
+                                                "
+                                                class="p-error"
+                                                >{{
+                                                    v$.userDateOfBirth.required.$message.replace(
+                                                        "Value",
+                                                        "Date of Birth"
+                                                    ) ||
+                                                    v$.userDateOfBirth.$params
+                                                        .min
+                                                }}
                                             </small>
                                         </div>
-                                    </div> -->
-                                        <!--=========User Address===========-->
-                                        <div class="col-12 col-lg-12 field">
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >Address</label
-                                                >
-                                                <Textarea
-                                                    id="userAddress01"
-                                                    placeholder="Address"
-                                                    type="text"
-                                                    class="py-3 border-round-lg text-sm"
-                                                    v-model="userAddress01"
-                                                />
-                                            </div>
+                                    </div>
+                                    <!-- Started Dated -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm"
+                                                >Start Date<span class="p-error"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <Calendar
+                                                placeholder="Start Date"
+                                                type="text"
+                                                class="border-round-lg text-sm"
+                                                v-model="
+                                                    v$.userStartDate.$model
+                                                "
+                                                :class="{
+                                                    'p-invalid p-error':
+                                                        v$.userStartDate
+                                                            .$invalid &&
+                                                        submitted,
+                                                }"
+                                            />
+                                            <small
+                                                v-if="
+                                                    (v$.userStartDate
+                                                        .$invalid &&
+                                                        submitted) ||
+                                                    v$.userStartDate.$pending
+                                                        .$response
+                                                "
+                                                class="p-error"
+                                                >{{
+                                                    v$.userStartDate.required.$message.replace(
+                                                        "Value",
+                                                        "Start Date"
+                                                    ) ||
+                                                    v$.userStartDate.$params.min
+                                                }}
+                                            </small>
                                         </div>
-                                        <!--=========User Address===========-->
-                                        <!-- Upload Profile -->
-                                        <div class="col-12 field">
-                                            <!--Category Logo -->
-                                            <div class="field">
-                                                <label
-                                                    for="name_en"
-                                                    class="text-sm"
-                                                    >Employee Profile<span
-                                                        class="p-error"
-                                                        >*</span
-                                                    >
-                                                </label>
-                                                <!-- Upload Files -->
-                                                <el-upload
-                                                    action="#"
-                                                    list-type="picture-card"
-                                                    :on-preview="
-                                                        handlePictureCardPreview
-                                                    "
-                                                    :on-remove="handleRemove"
-                                                    :auto-upload="false"
-                                                    :on-change="
-                                                        handleChangeUser
-                                                    "
-                                                    :class="objClassUserPer"
-                                                    :file-list="fileList"
-                                                    v-model="file"
-                                                    ref="file"
-                                                    :limit="1"
-                                                    accept=".jpg, .png, .jpeg"
-                                                >
-                                                    <i
-                                                        class="pi pi-cloud-upload"
-                                                        style="font-size: 2rem"
-                                                    ></i>
-                                                </el-upload>
-                                                <div class="flex flex-column">
-                                                    <small
-                                                        class="p-error"
-                                                        v-if="
-                                                            errMessageUploadFile
-                                                        "
-                                                    >
-                                                        {{
-                                                            errMessageUploadFile
-                                                        }}
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--User Noted -->
-                                        <div class="col-12 col-lg-12 field">
-                                            <div class="field">
-                                                <label for=""
-                                                    >Descriptions</label
-                                                >
-                                                <Editor
-                                                    editorStyle="height: 400px"
-                                                    id="userUserDescription"
-                                                    placeholder="Descriptions"
-                                                    type="text"
-                                                    class="py-3 border-round-lg"
-                                                    v-model="
-                                                        userUserDescription
-                                                    "
+                                    </div>
+                                    <!-- Gender -->
+                                    <div class="col-12 col-lg-4 field">
+                                        <div class="field">
+                                            <label for="roles" class="text-sm"
+                                                >Gender<span class="p-error"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <div class="flex flex-column">
+                                                <Dropdown
+                                                    v-model="selectedUserGender"
+                                                    class="border-round-lg text-sm"
+                                                    :options="userGender"
+                                                    optionLabel="name"
+                                                    placeholder="Select a Gender"
+                                                    :class="{
+                                                        'p-invalid p-error':
+                                                            v$
+                                                                .selectedUserGender
+                                                                .$invalid &&
+                                                            submitted,
+                                                    }"
                                                 />
+                                                <small
+                                                    v-if="
+                                                        (v$.selectedUserGender
+                                                            .$invalid &&
+                                                            submitted) ||
+                                                        v$.selectedUserGender
+                                                            .$pending.$response
+                                                    "
+                                                    class="p-error"
+                                                    >{{
+                                                        v$.selectedUserGender.required.$message.replace(
+                                                            "Value",
+                                                            "Gender"
+                                                        ) ||
+                                                        v$.selectedUserGender
+                                                            .$params.min
+                                                    }}
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </TabPanel>
-                    </TabView>
 
-                    <!-- Buttons Submits -->
-                    <div class="col-12 flex justify-content-end">
-                        <!--Buttons-->
-                        <Button
-                            icon="pi pi-check"
-                            type="submit"
-                            :loading="isProcessingSubmit"
-                            :label="
-                                isProcessingSubmit ? 'Loading...' : 'Update'
-                            "
-                            severity="danger"
-                            class="p-button-lg py-4 w-12rem p-button-outlined text-sm"
-                        />
+                                    <!--=========User Address===========-->
+                                    <div class="col-12 col-lg-12 field">
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm"
+                                                >Address</label
+                                            >
+                                            <Textarea
+                                                id="userAddress01"
+                                                placeholder="Address"
+                                                type="text"
+                                                class="py-3 border-round-lg text-sm"
+                                                v-model="userAddress01"
+                                            />
+                                        </div>
+                                    </div>
+                                    <!--=========User Address===========-->
+                                    <!-- Upload Profile -->
+                                    <div class="col-12 field">
+                                        <!--Category Logo -->
+                                        <div class="field">
+                                            <label for="name_en" class="text-sm"
+                                                >Employee Profile<span
+                                                    class="p-error"
+                                                    >*</span
+                                                >
+                                            </label>
+                                            <!-- Upload Files -->
+                                            <el-upload
+                                                action="#"
+                                                list-type="picture-card"
+                                                :on-preview="
+                                                    handlePictureCardPreview
+                                                "
+                                                :on-remove="handleRemove"
+                                                :auto-upload="false"
+                                                :on-change="handleChangeUser"
+                                                :class="objClassUserPer"
+                                                :file-list="fileList"
+                                                v-model="file"
+                                                ref="file"
+                                                :limit="1"
+                                                accept=".jpg, .png, .jpeg"
+                                            >
+                                                <i
+                                                    class="pi pi-cloud-upload"
+                                                    style="font-size: 2rem"
+                                                ></i>
+                                            </el-upload>
+                                            <div class="flex flex-column">
+                                                <small
+                                                    class="p-error"
+                                                    v-if="errMessageUploadFile"
+                                                >
+                                                    {{ errMessageUploadFile }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--User Noted -->
+                                    <div class="col-12 col-lg-12 field">
+                                        <div class="field">
+                                            <label for="">Descriptions</label>
+                                            <Editor
+                                                editorStyle="height: 400px"
+                                                id="userUserDescription"
+                                                placeholder="Descriptions"
+                                                type="text"
+                                                class="py-3 border-round-lg"
+                                                v-model="userUserDescription"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Button Next -->
+                                <div
+                                    class="flex justify-content-end flex-wrap px-4"
+                                >
+                                    <Button
+                                        label="Next"
+                                        icon="pi pi-arrow-circle-right"
+                                        iconPos="left"
+                                        raised
+                                        outlined
+                                        class="text-sm h-2.3rem w-10rem"
+                                    />
+                                </div>
+                            </sections>
+                        </transition>
+                        <!-- Experiences Informational -->
+                        <transition name="slide-fade">
+                            <sections v-show="active === 1">
+                                <div class="grid formgrid my-6 container">
+                                    <PopupAddNewExperience />
+                                </div>
+                                <!-- Button Next -->
+                                <div
+                                    class="flex justify-content-end items-end flex-wrap px-4"
+                                >
+                                    <Button
+                                        label="Back"
+                                        severity="danger"
+                                        outlined
+                                        raised
+                                        icon="pi pi-arrow-circle-left"
+                                        iconPos="left"
+                                        class="text-sm h-2.3rem w-10rem mr-4"
+                                    />
+                                    <Button
+                                        label="Next"
+                                        raised
+                                        outlined
+                                        severity="contrast"
+                                        icon="pi pi-arrow-circle-right"
+                                        iconPos="left"
+                                        class="text-sm h-2.3rem w-10rem"
+                                    />
+                                </div>
+                            </sections>
+                        </transition>
                     </div>
-                </form>
-            </el-tabs>
+                </div>
+            </form>
         </el-card>
     </div>
 </template>
 
-<!-- Scripts Category -->
+<!-- Scripts Employee Admin -->
 <script>
-import { Plus } from "@element-plus/icons-vue";
+// import { Plus } from "@element-plus/icons-vue";
 import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import UserPermissionsMSServices from "../../../../services/vendors/user_permissions/UserPermissionsMSServices";
 import { ElMessage } from "element-plus";
 import addNewEmpUserAdminHelper from "@/mixin/admin_user_management/addNewEmpUserAdminHelper.js";
+
+/**
+ * @Global Add New Employee
+ * */
+import PopupAddNewExperience from "./employee_assign_manage/popup_assign_more_emp/popup_experience_info/AddNewExperienceWork";
 
 export default {
     setup: () => ({ v$: useVuelidate() }),
@@ -662,10 +628,22 @@ export default {
             notifMSGUser: "",
             permissionListDropDownView: [],
             permissionList: "",
+            active: 1,
+            items: [
+                {
+                    label: "Personal Info",
+                },
+                {
+                    label: "Reservation",
+                },
+                {
+                    label: "Review",
+                },
+            ],
         };
     },
-    components() {
-        Plus;
+    components: {
+        PopupAddNewExperience,
     },
     mixins: [addNewEmpUserAdminHelper],
     created() {
@@ -724,31 +702,8 @@ export default {
         };
     },
     methods: {
-        /*
-            Get Permissions
-        */
-        getPermissionCurrent(permissionID) {
-            if (!Array.isArray(permissionID) || !permissionID.length) {
-                this.permissionList = {};
-            }
-            try {
-                this.userMSServices
-                    .editedPermMSByID(permissionID.value?.id)
-                    .then((perMID) => {
-                        if (!perMID) {
-                            this.permissionList = Array.isArray() ?? [];
-                        }
-                        this.permissionList = Array.isArray(perMID)
-                            ? perMID.slice()
-                            : [];
-                    })
-                    .catch((err) => {
-                        ElMessage.error(err.message);
-                        this.permissionList = {};
-                    });
-            } catch (error) {
-                this.permissionList = [];
-            }
+        next() {
+            if (this.active++ > 2) this.active = 0;
         },
         /*
             Input Only Phone Number
