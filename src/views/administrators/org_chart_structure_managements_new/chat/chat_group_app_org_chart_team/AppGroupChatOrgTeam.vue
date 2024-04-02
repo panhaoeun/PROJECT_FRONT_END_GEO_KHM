@@ -669,7 +669,7 @@
                                 </div>
                             </perfect-scrollbar>
                             <!-- Writing messages  -->
-                            <RoomChatMessageFooter />
+                            <RoomChatMessageFooter :show-emojis="showEmojis" />
                         </div>
                     </template>
                 </div>
@@ -700,7 +700,6 @@ import IconShare from "@/components/icons/icon-share.vue";
 import IconMoodSmile from "@/components/icons/icon-mood-smile.vue";
 import IconMessage from "@/components/icons/icon-message.vue";
 
-
 /**
  * Global Functions
  * */
@@ -710,6 +709,10 @@ import RoomChatMessageFooter from "./room_chat_message_footer/RoomChatMessageFoo
 // const store = useAppStore();
 const isShowUserChat = ref(false);
 const isShowChatMenu = ref(false);
+// function castBoolean(val) {
+//     return val === "true" || val === true;
+// }
+
 const loginUser = ref({
     id: 0,
     name: "Alon Smith",

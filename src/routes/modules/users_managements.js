@@ -111,7 +111,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
             permissions: ['users_modules']
         },
         hidden: true,
-        component: () => import("../../views/administrators/user_managements/users/UserMSCreate.vue"),
+        component: () => import("../../views/administrators/user_managements/users/AddNewEmpUserAdmin.vue"),
     },
     {
         path: "/vendor/user/list/crete-user-auth/ui-user-edit/:id",
