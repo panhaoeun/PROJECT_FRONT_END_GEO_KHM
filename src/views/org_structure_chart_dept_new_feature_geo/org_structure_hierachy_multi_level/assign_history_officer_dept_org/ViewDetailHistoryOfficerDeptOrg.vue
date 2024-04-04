@@ -213,7 +213,9 @@
                                                         <div
                                                             class="flex align-content-end flex-wrap cursor-pointer"
                                                             @click.prevent="
-                                                                openLinkViewDetailPdfDocxFile()
+                                                                openLinkViewDetailPdfDocxFile(
+                                                                    file
+                                                                )
                                                             "
                                                         >
                                                             <i
@@ -258,6 +260,25 @@
             </template>
         </pop-over>
     </form>
+    <!-- Dialogs Popup Officer  -->
+
+    <Dialog
+        v-model:visible="visibleOpenDialogOfficer"
+        modal
+        :style="{ width: '60vw', height: '300vh' }"
+        :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+    >
+        <p class="m-0">
+            <iframe
+                :src="urlPDFPathPath"
+                frameBorder="0"
+                scrolling="auto"
+                height="1000px"
+                width="100%"
+                type="application/pdf"
+            ></iframe>
+        </p>
+    </Dialog>
 </template>
 
 <!-- Script of edited projects -->
@@ -270,13 +291,14 @@ import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_
 import manageHistoryWorkJobDeptPosOrgHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageHistoryWorkJobDeptPosOrgHelper";
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
+// import PDFViewer from "pdf-viewer-vue";
 // import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
 import { mapActions } from "vuex";
 export default {
     components: {
         Spinner,
         PopOver,
-        // AjaxButton,
+        // PDFViewer,
     },
 
     props: {
@@ -314,6 +336,8 @@ export default {
             ENV_HOST_PATH_FILE: process.env.VUE_APP_PATH_FILE,
             isLoading: false,
             backupSrcErrorFile: require("@/assets/error.png"),
+            visibleOpenDialogOfficer: false,
+            urlPDFPathPath: null,
         };
     },
     async mounted() {
@@ -389,12 +413,35 @@ export default {
                 return null;
             }
         },
+        getFilePdfURLPreview(path) {
+            if (path !== null || path !== undefined) {
+                const stringData = String(path?.fileName).toString();
+                if (
+                    stringData.includes(".pdf") === true ||
+                    stringData.includes(".pdf") !== false
+                ) {
+                    const getExtensionDeptPdfFile =
+                        this?.ENV_HOST_PATH_FILE +
+                        `uploads/files_org_dept/` +
+                        String(path?.fileName).toString();
+                    this.urlPDFPathPath = getExtensionDeptPdfFile
+                        ? getExtensionDeptPdfFile
+                        : null;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        },
         onErrorPathImageFile(err) {
             err.target.src = this.backupSrcErrorFile;
         },
-        // Open File Pdf
-        openLinkViewDetailPdfDocxFile() {
-            console.log("sadsad");
+        // Open File Pdf or Docx
+        openLinkViewDetailPdfDocxFile(file) {
+            this.visibleOpenDialogOfficer = true;
+            // Get File Path URL
+            this.getFilePdfURLPreview(file);
         },
     },
 };
