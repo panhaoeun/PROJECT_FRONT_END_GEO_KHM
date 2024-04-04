@@ -237,7 +237,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <th>Pdf File</th> -->
                                         </tr>
                                     </tbody>
                                 </table>
