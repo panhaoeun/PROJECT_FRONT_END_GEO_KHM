@@ -202,4 +202,18 @@ export default class ManageOrgChartStructureGeoProjectServices {
            throw Error(error || error.message);
        });
    }
+   async getViewDetailByOfficeEmpPosDeptByEmpId(getHistoryOfficerId, officerHistoryData) {
+       return http.get(`/admin/get-store-history-employee-by-dept-org/get-history-emp-dept-officer-by-dept?getHistoryOfficerId=${getHistoryOfficerId}`, officerHistoryData ? officerHistoryData : {}).then((result) => {
+           if (!result) {
+               return false;
+           }
+           if (result.status == 200) {
+               if (result.data.success == true) {
+                   return result.data.result?.resultStatus;
+               }
+           }
+       }).catch((error) => {
+           throw Error(error || error.message);
+       });
+   }
 }

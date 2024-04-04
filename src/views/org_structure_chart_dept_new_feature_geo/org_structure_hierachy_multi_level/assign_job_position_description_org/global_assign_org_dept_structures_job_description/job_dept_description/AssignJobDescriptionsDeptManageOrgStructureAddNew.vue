@@ -102,7 +102,7 @@
                                                 />
                                             </div>
                                             <!-- Upload Files Department Job Descriptions-->
-                                            <div class="col-12 field">
+                                            <!-- <div class="col-12 field">
                                                 <label> Upload File </label>
                                                 <div>
                                                     <FileUpload
@@ -229,7 +229,6 @@
                                                                                 )
                                                                             }})
                                                                         </div>
-                                                                        <!-- Button remove -->
                                                                         <Button
                                                                             icon="pi pi-times"
                                                                             @click="
@@ -266,7 +265,7 @@
                                                         </template>
                                                     </FileUpload>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!-- Descriptions -->
                                             <div class="col-12 field">
                                                 <label

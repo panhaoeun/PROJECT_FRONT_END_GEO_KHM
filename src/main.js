@@ -88,6 +88,8 @@ import globalComponent from './plugins/global-components';
 import globalDirective from './plugins/global-directive';
 import globalMixin from './plugins/global-mixin';
 import BootstrapVue3 from 'bootstrap-vue-3';
+import Vue3Signature from "vue3-signature";
+
 // PRIMEVUE
 import OrderList from 'primevue/orderlist';
 import OrganizationChart from 'primevue/organizationchart';
@@ -295,6 +297,7 @@ app.use(VueSocialSharing);
 app.component('inner-image-zoom', InnerImageZoom);
 app.component('counter-up', CounterUp);
 app.use(VueCookies);
+app.use(Vue3Signature);
 /**
  * @New Library Front - end
  * */

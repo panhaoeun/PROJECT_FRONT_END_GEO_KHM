@@ -95,6 +95,7 @@
             v-if="openDialogEmpOrgAssignOfficer"
             :orgAssignId="idOrgStructures ? idOrgStructures : 0"
             @close="closeDialogEmpOrgAssignOfficer"
+            :dialog-change-position="openDialogEmpOrgAssignOfficer"
             :departmentName="orgDeptName ? orgDeptName : ''"
         />
         <!-- Popup Assign History to Officer -->
@@ -105,6 +106,28 @@
             :departmentOrgName="orgDeptName ? orgDeptName : ''"
         />
 
+        <!--Popup resign form request by employee -->
+        <ResignationRequestFormAddEmployee
+            :dialog-resign-form="openDialogResignRequestAdd"
+            :orgAssignId="idOrgStructures ? idOrgStructures : 0"
+            :departmentName="orgDeptName ? orgDeptName : ''"
+            @close-dialog="closeDialogFormResignAddRequest()"
+        />
+        <!-- Popup Change Position  -->
+        <EmployeeChangePositionForm
+            :orgAssignId="idOrgStructures ? idOrgStructures : 0"
+            :departmentName="orgDeptName ? orgDeptName : ''"
+            :dialog-change-position-form="openDialogChangePositionEmp"
+            @close-dialog="closeDialogChangePosition()"
+        />
+        <!-- Popup Resign Employee -->
+        <ListResignJobRequestEmployee
+            v-if="openDialogListResign"
+            :orgAssignId="idOrgStructures ? idOrgStructures : 0"
+            :departmentName="orgDeptName ? orgDeptName : ''"
+            :dialog-change-position-form="openDialogChangePositionEmp"
+            @close="closeDialogEmployeeResignOfficer()"
+        />
         <!-- =======Management Dialogs Position========= -->
         <!-- Context Menu Of Organization Chart-Hierarchy Global -->
         <Sidebar
@@ -261,8 +284,9 @@
                             >
                         </a>
                     </li>
-                    <hr />
+
                     <!--============= Human Resources ============-->
+                    <hr />
                     <li>
                         <a
                             v-ripple
@@ -285,6 +309,40 @@
                             <span class="font-medium"
                                 >Assign Position to Officer</span
                             >
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            v-ripple
+                            @click.prevent="openDialogChangePositionToOfficer()"
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-sync mr-2"></i>
+                            <span class="font-medium"
+                                >Employee Position Change</span
+                            >
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            v-ripple
+                            @click.prevent="openDialogEmployeeResignOfficer()"
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-folder-open mr-2"></i>
+                            <span class="font-medium"
+                                >List of Employee Resign</span
+                            >
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            v-ripple
+                            @click.prevent="openDialogResignFormRequest()"
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-eject mr-2"></i>
+                            <span class="font-medium">Resignation Request</span>
                         </a>
                     </li>
                     <li>
@@ -470,6 +528,9 @@ import OpenAssignDeptJobPositionDescription from "./assign_org_dept_positions/As
 import AssignListAllPositionDeptOrg from "./assign_org_dept_positions/AssignListAllPositionDeptOrg";
 import GlobalAddListEmployeeOfMainOrg from "./assign_employee_dept_pos/GlobalAssignEmpDeptAddNewGeoOrg.vue";
 import OpenDialogHistoryOfficerOrgStr from "./assign_history_officer_dept_org/GlobalListAssignHistoryOfficerOrgEmp.vue";
+import ResignationRequestFormAddEmployee from "./resignation_request_employee/ResignAddFormEmployeeRequest";
+import EmployeeChangePositionForm from "./change_position_officer_employee/ChangePositionOfficerEmployee";
+import ListResignJobRequestEmployee from "./resignation_request_employee/GlobalListResignRequestEmployee.vue";
 
 export default {
     components: {
@@ -485,6 +546,9 @@ export default {
         AssignListAllPositionDeptOrg,
         GlobalAddListEmployeeOfMainOrg,
         OpenDialogHistoryOfficerOrgStr,
+        ResignationRequestFormAddEmployee,
+        EmployeeChangePositionForm,
+        ListResignJobRequestEmployee,
     },
     mixins: [
         manageOrgStructureDeptNewFeatures,
@@ -540,6 +604,9 @@ export default {
             dialogDeptOrgDeptListPos: false,
             envFilePath: process.env.VUE_APP_PATH_FILE.replace("https", "http"),
             openDialogEmpOrgAssignOfficer: false,
+            openDialogResignRequestAdd: false,
+            openDialogListResign: false,
+            openDialogChangePositionEmp: false,
             dataOrgStr: {
                 key: "0",
                 type: "person",
@@ -702,6 +769,26 @@ export default {
         openViewHistoryOfficerEmployeeListBaseOrg() {
             this.openDialogHistoryOfficer = true;
             this.isOpenDialogDrawer = false;
+        },
+        openDialogResignFormRequest() {
+            this.openDialogResignRequestAdd = true;
+            this.isOpenDialogDrawer = false;
+        },
+        closeDialogFormResignAddRequest() {
+            this.openDialogResignRequestAdd = false;
+        },
+        openDialogChangePositionToOfficer() {
+            this.openDialogChangePositionEmp = true;
+        },
+        closeDialogChangePosition() {
+            this.openDialogChangePositionEmp = false;
+        },
+        openDialogEmployeeResignOfficer() {
+            this.openDialogListResign = true;
+            this.isOpenDialogDrawer = false;
+        },
+        closeDialogEmployeeResignOfficer() {
+            this.openDialogListResign = false;
         },
         /**
          * Org-Structures Hierarchy Multi-Level Structure Methods

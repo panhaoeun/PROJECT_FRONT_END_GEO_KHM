@@ -76,7 +76,6 @@
                         :rowsPerPageOptions="[5, 10, 25]"
                         :metaKeySelection="false"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} employee records"
-
                     >
                         <!-- Header -->
                         <template #header>
@@ -206,6 +205,7 @@
             v-if="openDialogEmpOrg"
             :orgAssignId="empOrgStrDataId ? empOrgStrDataId : 0"
             @close="closeDialogEmpOrgAssign"
+            :dialog-change-position="openDialogEmpOrg"
             :departmentName="departmentOrgName ? departmentOrgName : ''"
         />
     </form>

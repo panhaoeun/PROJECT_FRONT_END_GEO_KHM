@@ -59,7 +59,10 @@ const getters = {
     // History work 
     getAllHistoryWorkDeptOrgPos: ({
         orgDeptHistoryPosition
-    }) => orgDeptHistoryPosition ? orgDeptHistoryPosition : {}
+    }) => orgDeptHistoryPosition ? orgDeptHistoryPosition : {},
+    getViewDetailHistoryByDept: ({
+        orgViewDetailHistoryWork
+    }) => orgViewDetailHistoryWork ? orgViewDetailHistoryWork : []
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -104,7 +107,10 @@ const mutations = {
     // History work
     SET_HISTORY_WORK_DEPT_EMP_POST_DATA(state,orgHistoryWork){
         state.orgDeptHistoryPosition = orgHistoryWork ? orgHistoryWork : [];
-    }
+    },
+    SET_HISTORY_DETAIL_EMP_WORK_DATA(state, orgViewDetailHistoryWork) {
+        state.orgViewDetailHistoryWork = orgViewDetailHistoryWork ? orgViewDetailHistoryWork : [];
+    },
 }
 const actions = {
     async getAllGeoPositionDeptManageChart({
@@ -291,6 +297,32 @@ const actions = {
                     commit('SET_HISTORY_WORK_DEPT_EMP_POST_DATA', {});
                 } else {
                     commit('SET_HISTORY_WORK_DEPT_EMP_POST_DATA', getAllHistoryWork ? getAllHistoryWork : {})
+                }
+            });
+        } catch (error) {
+            throw Error(error);
+        }
+    },
+    /**
+     * @Data Get Employee History View Details 
+    */
+   async setViewDetailJobHistoryOfficerEmpDeptPosition({
+        commit
+    }, payload) {
+        try {
+            const getHistoryDetailId = payload?.getHistoryDetailId;
+            let getEmpHistoryId;
+            if (getHistoryDetailId !== null || getHistoryDetailId !== '') {
+                getEmpHistoryId = getHistoryDetailId ? getHistoryDetailId : 0;
+            } else {
+                getEmpHistoryId = 0;
+            }
+            geoDeptOrgStrServices.getViewDetailByOfficeEmpPosDeptByEmpId(getEmpHistoryId).then((historyWork) => {
+                const getViewDetailHistoryWork = historyWork ? historyWork : {};
+                if (!getViewDetailHistoryWork) {
+                    commit('SET_HISTORY_DETAIL_EMP_WORK_DATA', {});
+                } else {
+                    commit('SET_HISTORY_DETAIL_EMP_WORK_DATA', getViewDetailHistoryWork ? getViewDetailHistoryWork : {})
                 }
             });
         } catch (error) {

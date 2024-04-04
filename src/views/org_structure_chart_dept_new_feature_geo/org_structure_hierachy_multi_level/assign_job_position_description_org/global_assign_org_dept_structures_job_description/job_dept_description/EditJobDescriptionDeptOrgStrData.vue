@@ -83,7 +83,7 @@
                 </div>
 
                 <!-- Upload Files -->
-                <div class="flex start mlr--5">
+                <!-- <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
                         <label> Upload File </label>
                         <div style="width: 50rem">
@@ -177,7 +177,6 @@
                                                         formatSize(file.size)
                                                     }})
                                                 </div>
-                                                <!-- Button remove -->
                                                 <Button
                                                     icon="pi pi-times"
                                                     @click="
@@ -211,7 +210,7 @@
                             </FileUpload>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
                         <label> Description </label>

@@ -1,6 +1,6 @@
 <template>
     <DataTable
-        v-model:section="selectedHistoryData"
+        v-model:section="selectedEmployeeResign"
         :value="getEmpHistoryWorkOfficer"
         :paginator="true"
         filterDisplay="menu"
@@ -19,7 +19,7 @@
         responsiveLayout="scroll"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 100]"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} history officer of employee"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} employee resign record"
     >
         <!-- Data Table Header -->
         <template #header>
@@ -35,24 +35,24 @@
                     <InputText
                         v-model="filtersDataPositionData['global'].value"
                         class="p-inputtext p-component w-full text-sm"
-                        placeholder="Keyword search history officer..."
+                        placeholder="Keyword search employee resign..."
                     />
                 </span>
             </div>
         </template>
         <!-- Empty Positions -->
         <template #empty
-            >Empty list history of officer employee for org-structure</template
+            >Empty list employee resign record</template
         >
         <!-- Loading Positions -->
         <template #loading>
-            Loading position list history of officer for org-structure data.
+            Loading list employee resign record
             Please wait...
         </template>
         <!--------------Columns----------->
         <Column
             field="positionKhmerName"
-            header="Employee Name"
+            header="Resignation Date"
             sortable
             style="width: 20%"
         >
@@ -118,7 +118,7 @@
         </Column>
         <Column
             field="historyDateWork"
-            header="Hired Date"
+            header="Status"
             sortable
             style="width: 20%"
         >
@@ -146,42 +146,6 @@
             </template>
         </Column>
     </DataTable>
-    <!-- Deleted Dialogs Position Job Descriptions By Id -->
-    <Dialog
-        v-model:visible="deletedGeoDeptPosMgtDialogs"
-        :style="{ width: '550px' }"
-        :header="'Confirm delete  this history to officer'"
-        :modal="true"
-    >
-        <div class="confirmation-content flex">
-            <i
-                class="pi pi-exclamation-triangle mr-3 text-red-500"
-                style="font-size: 2rem"
-            />
-            <span
-                >Are you sure you want to delete this history to officer
-                <b> {{ getNameRemove }} </b></span
-            >
-        </div>
-        <template #footer>
-            <Button
-                label="No"
-                icon="pi pi-times"
-                class="w-10rem"
-                severity="secondary"
-                text
-                @click="deletedGeoDeptPosMgtDialogs = false"
-            />
-            <Button
-                label="Yes"
-                severity="danger"
-                icon="pi pi-check"
-                class="w-10rem"
-                :loading="loadingRemoveDeptPos"
-                @click="confirmRemoveDeptPositionOrgStr()"
-            />
-        </template>
-    </Dialog>
 
     <!-- Dialogs Position Job Descriptions Edited -->
     <view-detail-history-officer
@@ -209,11 +173,10 @@
 import { FilterMatchMode } from "primevue/api";
 import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
 import manageHistoryWorkJobDeptPosOrgHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageHistoryWorkJobDeptPosOrgHelper";
-import ViewDetailHistoryOfficer from "./ViewDetailHistoryOfficerDeptOrg.vue";
-
+// import ViewDetailHistoryOfficer from "./ViewDetailHistoryOfficerDeptOrg.vue";
 export default {
     components: {
-        ViewDetailHistoryOfficer,
+        // ViewDetailHistoryOfficer,
     },
     props: {
         departmentNameOrg: {
@@ -251,7 +214,7 @@ export default {
         return {
             deletedGeoDeptPosMgtDialogs: false,
             loadingRemoveDeptPos: false,
-            selectedHistoryData: false,
+            selectedEmployeeResign: false,
             visibleConfirmRemove: false,
             openedDialogVisiblePos: false,
             loadingAddNewPosition: false,
@@ -316,11 +279,6 @@ export default {
         openDialogHistoryOfficerEmp(history) {
             this.dialogHistoryEmp = true;
             this.dataHistoryOfficerEmp = history ? history : {};
-            // Reload Data View Details History
-            const getOfficerHistoryId = parseInt(history?.empHisId)
-                ? parseInt(history?.empHisId)
-                : 0;
-            this.getAllReloadViewDetailOfficerHistory(getOfficerHistoryId);
         },
         closeHistoryWorkOfficer() {
             this.dialogHistoryEmp = false;

@@ -4610,6 +4610,11 @@ default-gateway@^6.0.3:
   dependencies:
     execa "^5.0.0"
 
+default-passive-events@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/default-passive-events/-/default-passive-events-2.0.0.tgz"
+  integrity sha512-eMtt76GpDVngZQ3ocgvRcNCklUMwID1PaNbCNxfpDXuiOXttSh0HzBbda1HU9SIUsDc02vb7g9+3I5tlqe/qMQ==
+
 defaults@^1.0.3:
   version "1.0.4"
   resolved "https://registry.npmjs.org/defaults/-/defaults-1.0.4.tgz"
@@ -9667,6 +9672,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
+signature_pad@^3.0.0-beta.4:
+  version "3.0.0-beta.4"
+  resolved "https://registry.npmjs.org/signature_pad/-/signature_pad-3.0.0-beta.4.tgz"
+  integrity sha512-cOf2NhVuTiuNqe2X/ycEmizvCDXk0DoemhsEpnkcGnA4kS5iJYTCqZ9As7tFBbsch45Q1EdX61833+6sjJ8rrw==
+
 sirv@^1.0.7:
   version "1.0.19"
   resolved "https://registry.npmjs.org/sirv/-/sirv-1.0.19.tgz"
@@ -10899,7 +10909,7 @@ vue-upload-component@^3.1.8:
   resolved "https://registry.npmjs.org/vue-upload-component/-/vue-upload-component-3.1.8.tgz"
   integrity sha512-8LHCrgmEZPg+1hbkKjQgMce2uasmGLEnIsLE8YG+vNyfNDuaQA71T+5t6kdDSG/szeh+E8mjb26uEd9WkVSFtg==
 
-vue@*, "vue@^2 || ^3.2.13", "vue@^2.0.0 || >=3.0.0", "vue@^2.5.0 || ^3.0.0", vue@^2.5.18, "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.0.0", vue@^3.0.0, "vue@^3.0.0 || ^2.0.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.5, vue@^3.2.0, vue@^3.2.20, vue@^3.2.23, vue@^3.2.25, vue@^3.2.45, vue@^3.3.0, vue@^3.3.4, "vue@>= 3.0.0 < 4", vue@3.3.4:
+vue@*, "vue@^2 || ^3.2.13", "vue@^2.0.0 || >=3.0.0", "vue@^2.5.0 || ^3.0.0", vue@^2.5.18, "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.0.0", vue@^3.0.0, "vue@^3.0.0 || ^2.0.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.5, vue@^3.2.0, vue@^3.2.20, vue@^3.2.23, vue@^3.2.25, vue@^3.2.37, vue@^3.2.45, vue@^3.3.0, vue@^3.3.4, "vue@>= 3.0.0 < 4", vue@3.3.4:
   version "3.3.4"
   resolved "https://registry.npmjs.org/vue/-/vue-3.3.4.tgz"
   integrity sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==
@@ -10959,6 +10969,15 @@ vue3-popper@^1.5.0:
   dependencies:
     "@popperjs/core" "^2.9.2"
     debounce "^1.2.1"
+
+vue3-signature@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.npmjs.org/vue3-signature/-/vue3-signature-0.2.4.tgz"
+  integrity sha512-XFwwFVK9OG3F085pKIq2SlNVqx32WdFH+TXbGEWc5FfEKpx8oMmZuAwZZ50K/pH2FgmJSE8IRwU9DDhrLpd6iA==
+  dependencies:
+    default-passive-events "^2.0.0"
+    signature_pad "^3.0.0-beta.4"
+    vue "^3.2.37"
 
 vuex@^4.0.2:
   version "4.1.0"
