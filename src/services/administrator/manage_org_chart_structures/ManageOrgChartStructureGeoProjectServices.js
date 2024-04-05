@@ -216,4 +216,28 @@ export default class ManageOrgChartStructureGeoProjectServices {
            throw Error(error || error.message);
        });
    }
+    /**
+     * Employee Resign Working
+    * */
+   // Get list employee resigned
+   async getAllEmployeeResignDataByDeptOrgId(empResignId, empResignData) {
+       return http.get(`/admin/get-resign-employee-list-get-dept-org/resign-emp-dept-officer?orgResignDeptOrgId=${empResignId}`, empResignData ? empResignData : {}).then((resign) => {
+           if (!resign) {
+               return false;
+           }
+           if (resign?.status == 200) {
+               if (resign?.data.success == true) {
+                   return resign?.data.result.resultStatus;
+               }
+           }
+       }).catch((error) => {
+           throw Error(error || error.message);
+       });
+   }
+   async addNewEmpResignDataBYDept(orgStrPosId) {
+       return http.post("/admin/get-employee-resign-by-dept-org-add-history-job-working", orgStrPosId ? orgStrPosId : {});
+   }
+   async approvedEmpResignDataBYDept(resignOfficerEmpId, orgStrPosId) {
+       return http.put(`/admin/approved-status-employee-resign-by-dept-org-approved-history-job-working/resignOfficerEmpId/${resignOfficerEmpId}`, orgStrPosId ? orgStrPosId : {});
+   }
 }

@@ -318,9 +318,17 @@
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-sync mr-2"></i>
-                            <span class="font-medium"
-                                >Employee Position Change</span
-                            >
+                            <span class="font-medium">Exchange Position</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            v-ripple
+                            @click.prevent="openDialogResignFormRequest()"  
+                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                        >
+                            <i class="pi pi-eject mr-2"></i>
+                            <span class="font-medium">Resign Officer</span>
                         </a>
                     </li>
                     <li>
@@ -331,20 +339,11 @@
                         >
                             <i class="pi pi-folder-open mr-2"></i>
                             <span class="font-medium"
-                                >List of Employee Resign</span
+                                >List of Resign Officer</span
                             >
                         </a>
                     </li>
-                    <li>
-                        <a
-                            v-ripple
-                            @click.prevent="openDialogResignFormRequest()"
-                            class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
-                        >
-                            <i class="pi pi-eject mr-2"></i>
-                            <span class="font-medium">Resignation Request</span>
-                        </a>
-                    </li>
+
                     <li>
                         <a
                             v-ripple
@@ -402,8 +401,8 @@
                                             null &&
                                         slotProps.node.empOrgStrProfile !== ''
                                     "
-                                    :alt="slotProps.node.empName"
-                                    class="p-avatar p-component p-avatar-circle p-avatar-xl mr-2"
+                                    :alt="slotProps?.node.empName"
+                                    class="p-avatar p-component p-avatar-circle h-4rem w-4rem p-avatar-xl mr-2"
                                     :src="
                                         imageURLEmpOrgStructures(
                                             slotProps.node?.empOrgStrProfile
@@ -412,7 +411,9 @@
                                     @error="pictureLoadingError"
                                 />
                                 <Avatar
-                                    :label="extendedSplit(slotProps.node.label)"
+                                    :label="
+                                        extendedSplit(slotProps?.node.label)
+                                    "
                                     class="mr-2"
                                     size="xlarge"
                                     shape="circle"
@@ -752,6 +753,7 @@ export default {
         },
         openDialogListPositionDeptOrg() {
             this.dialogDeptOrgDeptListPos = true;
+            this.isOpenDialogDrawer = false;
         },
         closeDialogsListPositionDeptOrg() {
             this.dialogDeptOrgDeptListPos = false;

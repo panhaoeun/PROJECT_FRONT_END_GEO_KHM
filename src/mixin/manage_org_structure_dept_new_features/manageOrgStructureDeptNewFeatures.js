@@ -515,19 +515,17 @@ export default {
          * */
         async submittedAssignOrgEmpPosition(){
             try {
-                
                 this.submittingAssignEmpData = true;
-                this.submitted = true;
-
                 setTimeout(async () => {
                     this.submittingAssignEmpData = false;
+                    this.submitted = true;
                     /**
                      * @Validations
                      * */
                     if (
-                        this.selectedAssignPositionOrg !== null 
-                        || this.selectedAssignPositionOrg !== ''
-                        || this.selectedAssignEmp !== null && this.selectedAssignPositionOrg !== null
+                        this.selectedAssignPositionOrg == null 
+                        || this.selectedAssignPositionOrg == ''
+                        || this.selectedAssignEmp == null && this.selectedAssignPositionOrg == null
                     ) {
                         const validation = await this.v$.$validate();
                         if (validation === false) {
@@ -542,16 +540,6 @@ export default {
                             });
                             this.submittingAssignEmpData = false;
                         }
-                    } else {
-                        if (this.v$.$invalid === true) {
-                            this.$toast.add({
-                                severity: "error",
-                                summary: "Error",
-                                detail: "Please fill all required fields",
-                                life: 3000,
-                            });
-                            this.submittingAssignEmpData = false;
-                        }
                     }
                     const selectedOrgId = parseInt(this.orgAssignId) ? parseInt(this.orgAssignId) : 0;
                     if (selectedOrgId < 0 || selectedOrgId  == null || selectedOrgId == '') {
@@ -561,17 +549,18 @@ export default {
                             life: 3000,
                         });
                     }
+                   
+                    // Assign Employee Base Org-Structured Assignment
+                    if (!this.selectedAssignPositionOrg !== null ||
+                       this.selectedAssignPositionOrg !== undefined &&
+                       this.selectedAssignEmp !== null || this.selectedAssignEmp !== undefined
+                    ) {
                     const addNewOrgStrMgtPosDept = {
                         selectedOrgEmpId: this.selectedAssignEmployeeOrg ? this.selectedAssignEmployeeOrg : 0,
                         selectedPositionOrgDeptId: this.getPositionSelectedDeptOrgStrId ? this.getPositionSelectedDeptOrgStrId : 0,
                         addNotedEmpAssignOrg: String(this.assignEmpNoted).toString(),
                         assignFileOrgStrDept: this.fileEmpAssignUploadOrg ? this.fileEmpAssignUploadOrg : []
                     };
-                    // Assign Employee Base Org-Structured Assignment
-                    if (!this.selectedAssignPositionOrg !== null ||
-                       this.selectedAssignPositionOrg !== '' ||
-                       this.selectedAssignEmp !== null
-                    ) {
                      this.getOrgStructFeaturesNew
                         ?.addNewAssignEmployeeOrgStructure(selectedOrgId,
                             addNewOrgStrMgtPosDept ? addNewOrgStrMgtPosDept : []
@@ -595,13 +584,11 @@ export default {
                                     0;
                                 this.getReloadAssignEmpOrgStructure(getEmpOrgStrId);
 
-                                if (!this.hasErrorAssignStrEmp) {
-                                    // Clear Data Input
-                                    this.assignEmpNoted = "";
-                                    this.selectedAssignEmp = "";
-                                    this.selectedAssignPositionOrg = "";
-                                    this.$emit('close')
-                                }
+                                // Clear Data Input
+                                this.assignEmpNoted = "";
+                                this.selectedAssignEmp = "";
+                                this.selectedAssignPositionOrg = "";
+                                this.$emit('close')
                             }
                         })
                         .catch((error) => {

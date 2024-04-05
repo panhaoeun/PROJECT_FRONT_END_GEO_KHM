@@ -70,7 +70,7 @@
                 <!-- Descriptions -->
                 <div class="text-left">
                     <div class="input-wrap mlr-5" style="width: 45rem">
-                        <label> Details </label>
+                        <label> Remark </label>
                         <Textarea
                             v-model="descriptionDetailPosition"
                             autoResize

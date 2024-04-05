@@ -13,7 +13,8 @@ const state = {
     orgPosJobDescProId: [],
     orgDeptEmpDataId: [],
     jobPosJobDescOrg: [],
-    orgDeptHistoryPosition: []
+    orgDeptHistoryPosition: [],
+    resignOfficerWork: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -62,7 +63,11 @@ const getters = {
     }) => orgDeptHistoryPosition ? orgDeptHistoryPosition : {},
     getViewDetailHistoryByDept: ({
         orgViewDetailHistoryWork
-    }) => orgViewDetailHistoryWork ? orgViewDetailHistoryWork : []
+    }) => orgViewDetailHistoryWork ? orgViewDetailHistoryWork : [],
+    getViewAllDataEmployeeResignAll: ({
+        resignOfficerWork
+    }) => resignOfficerWork ? resignOfficerWork : [],
+    
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -111,6 +116,10 @@ const mutations = {
     SET_HISTORY_DETAIL_EMP_WORK_DATA(state, orgViewDetailHistoryWork) {
         state.orgViewDetailHistoryWork = orgViewDetailHistoryWork ? orgViewDetailHistoryWork : [];
     },
+    // Resign 
+    SET_EMPLOYEE_RESIGN_BY_DEPT_ORG_DATA(state, resignOfficerWork){
+        state.resignOfficerWork = resignOfficerWork ? resignOfficerWork : [];
+    }
 }
 const actions = {
     async getAllGeoPositionDeptManageChart({
@@ -232,7 +241,7 @@ const actions = {
    async setJobPositionDescriptionBaseOrgStrId({
            commit
        }, payload) {
-        console.log(payload)
+        // console.log(payload)
         const getPosDesOrgStrId  = payload?.getOrgPosDesStrId;
         let orgStrPosDecId;
         if (getPosDesOrgStrId !== null && !isNaN(Number(getPosDesOrgStrId)) || getPosDesOrgStrId !== '') {
@@ -242,7 +251,7 @@ const actions = {
         }
         geoDeptOrgStrServices.listJobPositionDescriptionBaseOrgStrId(orgStrPosDecId).then((orgDeptStr) => {
             const getAllJobPositionDescription = Array.isArray(orgDeptStr) ? orgDeptStr.slice() : [];
-            console.log(getAllJobPositionDescription)
+            // console.log(getAllJobPositionDescription)
             if (!orgDeptStr) {
                 commit('SET_JOB_POSITION_DESC_DATA_BOARD_DEPARTMENT', []);
             } else {
@@ -306,29 +315,55 @@ const actions = {
     /**
      * @Data Get Employee History View Details 
     */
-   async setViewDetailJobHistoryOfficerEmpDeptPosition({
+    async setViewDetailJobHistoryOfficerEmpDeptPosition({
+            commit
+        }, payload) {
+            try {
+                const getHistoryDetailId = payload?.getHistoryDetailId;
+                let getEmpHistoryId;
+                if (getHistoryDetailId !== null || getHistoryDetailId !== '') {
+                    getEmpHistoryId = getHistoryDetailId ? getHistoryDetailId : 0;
+                } else {
+                    getEmpHistoryId = 0;
+                }
+                geoDeptOrgStrServices.getViewDetailByOfficeEmpPosDeptByEmpId(getEmpHistoryId).then((historyWork) => {
+                    const getViewDetailHistoryWork = historyWork ? historyWork : {};
+                    if (!getViewDetailHistoryWork) {
+                        commit('SET_HISTORY_DETAIL_EMP_WORK_DATA', {});
+                    } else {
+                        commit('SET_HISTORY_DETAIL_EMP_WORK_DATA', getViewDetailHistoryWork ? getViewDetailHistoryWork : {})
+                    }
+                });
+            } catch (error) {
+                throw Error(error);
+            }
+    },
+   /**
+     * @Data Get Employee History View Details 
+    */
+    async setViewDetailEmployeeJobResignPosition({
         commit
     }, payload) {
         try {
-            const getHistoryDetailId = payload?.getHistoryDetailId;
-            let getEmpHistoryId;
-            if (getHistoryDetailId !== null || getHistoryDetailId !== '') {
-                getEmpHistoryId = getHistoryDetailId ? getHistoryDetailId : 0;
+            const getResignEmpOfficerId = payload?.getResignEmpId;
+            let getResignEmpId;
+            if (getResignEmpOfficerId !== null || getResignEmpOfficerId !== '') {
+                getResignEmpId = getResignEmpOfficerId ? getResignEmpOfficerId : 0;
             } else {
-                getEmpHistoryId = 0;
+                getResignEmpId = 0;
             }
-            geoDeptOrgStrServices.getViewDetailByOfficeEmpPosDeptByEmpId(getEmpHistoryId).then((historyWork) => {
-                const getViewDetailHistoryWork = historyWork ? historyWork : {};
-                if (!getViewDetailHistoryWork) {
-                    commit('SET_HISTORY_DETAIL_EMP_WORK_DATA', {});
+            geoDeptOrgStrServices.getAllEmployeeResignDataByDeptOrgId(getResignEmpId).then((resignOfficer) => {
+                const getEmployeeResignJob = resignOfficer ? resignOfficer : {};
+                if (!getEmployeeResignJob) {
+                    commit('SET_EMPLOYEE_RESIGN_BY_DEPT_ORG_DATA', {});
                 } else {
-                    commit('SET_HISTORY_DETAIL_EMP_WORK_DATA', getViewDetailHistoryWork ? getViewDetailHistoryWork : {})
+                    commit('SET_EMPLOYEE_RESIGN_BY_DEPT_ORG_DATA', getEmployeeResignJob ? getEmployeeResignJob : {})
                 }
             });
         } catch (error) {
             throw Error(error);
         }
-    },
+   },
 }
 
 export default {

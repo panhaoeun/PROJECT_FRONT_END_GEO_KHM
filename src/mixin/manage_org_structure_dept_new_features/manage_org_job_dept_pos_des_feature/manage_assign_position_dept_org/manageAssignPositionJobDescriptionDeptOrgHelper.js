@@ -162,9 +162,11 @@ export default {
                 if(this.getPosEditJobDes?.posDesNameEng 
                     && this.getPosEditJobDes?.posDesNameEng !== null
                     && typeof this.getPosEditJobDes !== 'undefined'
+                    && this.getPosEditJobDes?.positionId !== null
+                    || this.getPosEditJobDes?.positionId !== ''
                 ){
                     this.submittingJobDesc = true;
-                    const positionId = this.getPositionSelectedDeptId ? this.getPositionSelectedDeptId : parseInt(this.getPosEditJobDes.positionId);
+                    const positionId = parseInt(this.getPosEditJobDes?.positionId) ? parseInt(this.getPosEditJobDes?.positionId) : 0;
                     const parentJobDesPosId = parseInt(this.getPosEditJobDes?.positionDesId) ? parseInt(this.getPosEditJobDes?.positionDesId) : 0;
                     const editDataJobDescDept = {
                         modifyPositionDeptId: positionId ? positionId : 0,

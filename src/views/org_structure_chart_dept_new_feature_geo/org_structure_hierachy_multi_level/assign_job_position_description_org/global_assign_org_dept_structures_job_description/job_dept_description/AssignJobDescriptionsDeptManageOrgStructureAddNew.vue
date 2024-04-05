@@ -4,7 +4,7 @@
         <Dialog
             v-model:visible="openDialogs"
             modal
-            header="Add New Department Description"
+            header="Add New Dept. Department Descriptions"
             :style="{ width: '60rem' }"
             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
             maximizable

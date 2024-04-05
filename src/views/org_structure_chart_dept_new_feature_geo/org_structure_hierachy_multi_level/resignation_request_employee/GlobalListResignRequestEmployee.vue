@@ -20,8 +20,8 @@
                     <ListResignRequestEmployee
                         :departmentNameOrg="departmentName"
                         :orgStrDeptPosId="orgAssignId ? orgAssignId : 0"
-                        :positionAllDeptOrg="
-                            getPositionBaseDept ? getPositionBaseDept : {}
+                        :get-all-employee-resign="
+                            getAllDataEmpResignOrgDept ? getAllDataEmpResignOrgDept : {}
                         "
                     />
                 </div>
@@ -50,7 +50,7 @@ import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";
 // import AjaxButton from "@/components/ui_component_new_frontend/AjaxButton";
 import ListResignRequestEmployee from "./ListResignRequestEmployee";
-import manageHistoryWorkJobDeptPosOrgHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageHistoryWorkJobDeptPosOrgHelper";
+import manageResignRequestEmployeeHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageResignRequestEmployeeHelper";
 
 export default {
     name: "AssignJobPositionDept",
@@ -100,7 +100,7 @@ export default {
             return this.addressData && this.addressData.id;
         },
     },
-    mixins: [util, validation, manageHistoryWorkJobDeptPosOrgHelper],
+    mixins: [util, validation, manageResignRequestEmployeeHelper],
     methods: {
         async savingAssignPositionDeptSubmitted() {
             await this.assignOrgDeptPositionActions();
@@ -111,7 +111,7 @@ export default {
     },
     async mounted() {
         const parentOrgDeptId = parseInt(this.orgAssignId);
-        this.getAllReloadJobHistoryWorkDeptPositionOrg(parentOrgDeptId);
+        this.getAllReloadEmployeeResignDataByDepartment(parentOrgDeptId);
     },
 };
 </script>

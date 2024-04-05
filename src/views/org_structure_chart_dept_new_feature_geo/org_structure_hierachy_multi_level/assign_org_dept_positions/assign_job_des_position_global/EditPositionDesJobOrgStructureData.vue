@@ -24,7 +24,7 @@
             <!-- Contents -->
             <template v-slot:content>
                 <!-- Position Name -->
-                <div
+                <!-- <div
                     class="flex text-left start mlr--5"
                     :class="{
                         invalid:
@@ -118,7 +118,7 @@
                             }}
                         </span>
                     </div>
-                </div>
+                </div> -->
                 <!-- Position English Name -->
                 <div
                     class="flex text-left start mlr--5"
@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 <!-- Assign Upload Files -->
-                <div class="flex start mlr--5">
+                <!-- <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5 text-left">
                         <label> Upload File</label>
                         <div style="width: 50rem">
@@ -275,7 +275,6 @@
                                                         formatSize(file.size)
                                                     }})
                                                 </div>
-                                                <!-- Button remove -->
                                                 <Button
                                                     icon="pi pi-times"
                                                     @click="
@@ -309,7 +308,7 @@
                             </FileUpload>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="flex start text-left mlr--5">
                     <div class="input-wrap mlr-5">
                         <label> Noted </label>
@@ -421,7 +420,7 @@ export default {
             getPosEditJobDes: null,
             hasJobDescErrors: false,
             submittingJobDesc: false,
-            selectedPositionDesDept: null,
+            // selectedPositionDesDept: null,
             fileUploadEditPosDesOrg: []
         };
     },

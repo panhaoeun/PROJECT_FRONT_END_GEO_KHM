@@ -1,7 +1,7 @@
 <template>
     <DataTable
         v-model:section="selectedEmployeeResign"
-        :value="getEmpHistoryWorkOfficer"
+        :value="getAllEmployeeResign"
         :paginator="true"
         filterDisplay="menu"
         dataKey="id"
@@ -41,17 +41,14 @@
             </div>
         </template>
         <!-- Empty Positions -->
-        <template #empty
-            >Empty list employee resign record</template
-        >
+        <template #empty>Empty list employee resign record</template>
         <!-- Loading Positions -->
         <template #loading>
-            Loading list employee resign record
-            Please wait...
+            Loading list employee resign record Please wait...
         </template>
         <!--------------Columns----------->
         <Column
-            field="positionKhmerName"
+            field="resignationDate"
             header="Resignation Date"
             sortable
             style="width: 20%"
@@ -59,13 +56,11 @@
             <template #body="{ data }">
                 <span
                     v-if="
-                        data.tbl_Employee !== null &&
-                        data.tbl_Employee !== undefined
+                        data.tbl_employee_resignation !== null &&
+                        data.tbl_employee_resignation !== undefined
                     "
                 >
-                    {{
-                        String(data.tbl_Employee.empEngName).toString() || "N/A"
-                    }}</span
+                    {{ formatDate(data.tbl_employee_resignation?.resignationDate) || "N/A" }}</span
                 >
                 <span v-else>N/A</span>
             </template>
@@ -87,7 +82,7 @@
                     {{
                         String(
                             data.tbl_dept_org_structure_geo_fence
-                                .deptOrgEnglishName
+                                ?.deptOrgEnglishName
                         ).toString() || "N/A"
                     }}</span
                 >
@@ -109,7 +104,7 @@
                 >
                     {{
                         String(
-                            data.tbl_org_position_geo_fence.positionNameEng
+                            data.tbl_org_position_geo_fence?.positionNameEng
                         ).toString() || "N/A"
                     }}</span
                 >
@@ -140,7 +135,7 @@
                     rounded
                     class="mr-2"
                     @click.prevent="
-                        openDialogHistoryOfficerEmp(slotProps?.data)
+                            (slotProps?.data)
                     "
                 />
             </template>
@@ -195,7 +190,7 @@ export default {
             required: true,
             default: () => null,
         },
-        positionAllDeptOrg: {
+        getAllEmployeeResign: {
             type: Array,
             required: true,
             default: () => {},

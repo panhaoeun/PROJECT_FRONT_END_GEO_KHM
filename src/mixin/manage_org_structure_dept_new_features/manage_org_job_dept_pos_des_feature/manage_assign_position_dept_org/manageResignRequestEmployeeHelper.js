@@ -1,4 +1,30 @@
+import {
+    mapGetters,
+    mapActions
+} from "vuex";
+import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/manage_org_chart_structures/ManageOrgChartStructureGeoProjectServices";
+
+
 export default {
+    created() {
+        this.geoOrgChartStructureGeoServices = new ManageOrgChartStructureGeoProjectServices();
+    },
+    computed: {
+        ...mapGetters('orgStrDeptPosGeo', ['getAllEmployeeResignDataByDeptOrgId']),
+        getAllDataEmpResignOrgDept() {
+            const getEmpResignDeptData =
+                this.getAllEmployeeResignDataByDeptOrgId ?
+                this.getAllEmployeeResignDataByDeptOrgId: [];
+            if (getEmpResignDeptData !== null ||
+                getEmpResignDeptData !==
+                undefined &&
+                typeof getEmpResignDeptData !== 'string'
+            ) {
+                return getEmpResignDeptData ? getEmpResignDeptData : []
+            }
+            return [];
+        },
+    },
     data() {
         return {
             filesResignForm: [],
@@ -7,6 +33,10 @@ export default {
         }
     },
     methods: {
+        // Hierarchy Org-Structure Level 1 : Country -> Province/ State -> District -> Commune -> Village
+        ...mapActions("orgStrDeptPosGeo", [
+            "setViewDetailEmployeeJobResignPosition",
+        ]),
         /**
          *@Upload File Resign Form  Employees
          * **/
@@ -52,8 +82,8 @@ export default {
             return `${formattedSize}`;
         },
         /**
-         * Submmittted Dataa Resign Form employee
-         ***/
+         * Submitted Data Resign Form employee
+        ***/
         resignAddFormRequestEmployee() {
             try {
                 this.loadingBtnResignBtn = true;
@@ -99,5 +129,32 @@ export default {
                 throw Error(error || error.message);
             }
         },
+        /**
+         * Resign Data List Employee Data
+        ***/
+       async getAllReloadEmployeeResignDataByDepartment(orgDeptResignId) {
+            try {
+                this.fetchingOrgStrDeptPosId = true;
+                setTimeout(async () => {
+                    try {
+                        if (!orgDeptResignId) {
+                            throw Error('Please selected a position department organization');
+                        }
+                        if (orgDeptResignId !== null && !isNaN(Number(orgDeptResignId)) || orgDeptResignId !== '') {
+                            let getResignEmpId = parseInt(orgDeptResignId) ? parseInt(orgDeptResignId) : 0;
+                            const getResignEmpDept = {
+                                getResignEmpId
+                            }
+                            this.setJobPositionDescriptionBaseOrgStrId(getResignEmpDept);
+                        }
+                    } catch (e) {
+                        return Promise.reject(e);
+                    }
+                    this.fetchingOrgStrDeptPosId = false;
+                }, 1000);
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+       }
     },
 }

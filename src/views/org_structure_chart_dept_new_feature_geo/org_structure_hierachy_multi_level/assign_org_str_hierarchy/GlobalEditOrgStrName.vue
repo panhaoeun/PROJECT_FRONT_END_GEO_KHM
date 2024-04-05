@@ -88,7 +88,7 @@
                 <div class="flex start mlr--5">
                     <div class="input-wrap mlr-5">
                         <label> Descriptions </label>
-                        <TextArea
+                        <Textarea
                             class="border-round-lg text-sm w-30rem"
                             v-model="editOrgStrData.descriptionNoted"
                             type="text"

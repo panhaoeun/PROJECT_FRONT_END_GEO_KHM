@@ -13,7 +13,7 @@
         <!-- Popup Dialog Geo Locations Country -->
         <pop-over
             v-if="getPosEditJobDes"
-            :title="`Edit Department Description:` + ' ' + namePosition"
+            :title="`Edit Dept. Department Descriptions:` + ' ' + namePosition"
             @close="$emit('close')"
             elem-id="user-address-pop-over"
             :layer="true"

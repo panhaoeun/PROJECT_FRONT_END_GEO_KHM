@@ -19,14 +19,13 @@
                     <div class="col-12 lg:col-12">
                         <div class="grid formgrid">
                             <!-- Employee -->
-                            <div class="col-6 field">
+                            <div class="col-6 md:col-12 lg:col-12 field">
                                 <div class="field">
                                     <label
                                         :class="{
                                             'p-invalid p-error':
                                                 v$.selectedAssignEmp.$invalid &&
-                                                submitted &&
-                                                hasErrorAssignStrEmp,
+                                                submitted,
                                         }"
                                     >
                                         Employee
@@ -38,8 +37,7 @@
                                         :class="{
                                             'p-invalid p-error':
                                                 v$.selectedAssignEmp.$invalid &&
-                                                submitted &&
-                                                hasErrorAssignStrEmp,
+                                                submitted,
                                         }"
                                         :options="getEmpDataOrgDept"
                                         optionLabel="geo_english_name"
@@ -118,15 +116,13 @@
                                 </div>
                             </div>
                             <!-- Positions -->
-                            <div class="col-6 field">
+                            <div class="col-6 md:col-12 lg:col-12 field">
                                 <div class="field">
                                     <label
                                         :class="{
                                             'p-invalid p-error text-danger':
                                                 v$.selectedAssignPositionOrg
-                                                    .$invalid &&
-                                                submitted &&
-                                                hasErrorAssignStrEmp,
+                                                    .$invalid && submitted,
                                         }"
                                     >
                                         Position
@@ -142,8 +138,7 @@
                                             'p-invalid p-error':
                                                 v$.selectedAssignPositionOrg
                                                     .$invalid &&
-                                                submitted &&
-                                                hasErrorAssignStrEmp,
+                                                submitted
                                         }"
                                         optionLabel="deptPosName"
                                         empty="Empty Position"
@@ -220,50 +215,6 @@
                                                 .min
                                         }}</small
                                     >
-                                </div>
-                            </div>
-                            <!-- Descriptions -->
-                            <div class="col-12 field">
-                                <div class="field">
-                                    <label> Descriptions </label>
-                                    <Editor
-                                        v-model="assignEmpNoted"
-                                        editorStyle="height: 320px;"
-                                        placeholder="Please description of change position to officer"
-                                    >
-                                        <template v-slot:toolbar>
-                                            <span class="ql-formats">
-                                                <!-- Add font size dropdown -->
-                                                <select class="ql-size">
-                                                    <option
-                                                        value="small"
-                                                    ></option>
-                                                    <!-- Note a missing, thus falsy value, is used to reset to default -->
-                                                    <option selected></option>
-                                                    <option
-                                                        value="large"
-                                                    ></option>
-                                                    <option
-                                                        value="huge"
-                                                    ></option>
-                                                </select>
-                                                <button
-                                                    v-tooltip.bottom="'Bold'"
-                                                    class="ql-bold"
-                                                ></button>
-                                                <button
-                                                    v-tooltip.bottom="'Italic'"
-                                                    class="ql-italic"
-                                                ></button>
-                                                <button
-                                                    v-tooltip.bottom="
-                                                        'Underline'
-                                                    "
-                                                    class="ql-underline"
-                                                ></button>
-                                            </span>
-                                        </template>
-                                    </Editor>
                                 </div>
                             </div>
                             <!-- Upload Files Department Job Descriptions-->
@@ -413,6 +364,50 @@
                                     </FileUpload>
                                 </div>
                             </div>
+                            <!-- Descriptions -->
+                            <div class="col-12 field">
+                                <div class="field">
+                                    <label> Descriptions </label>
+                                    <Editor
+                                        v-model="assignEmpNoted"
+                                        editorStyle="height: 320px;"
+                                        placeholder="Please description of change position to officer"
+                                    >
+                                        <template v-slot:toolbar>
+                                            <span class="ql-formats">
+                                                <!-- Add font size dropdown -->
+                                                <select class="ql-size">
+                                                    <option
+                                                        value="small"
+                                                    ></option>
+                                                    <!-- Note a missing, thus falsy value, is used to reset to default -->
+                                                    <option selected></option>
+                                                    <option
+                                                        value="large"
+                                                    ></option>
+                                                    <option
+                                                        value="huge"
+                                                    ></option>
+                                                </select>
+                                                <button
+                                                    v-tooltip.bottom="'Bold'"
+                                                    class="ql-bold"
+                                                ></button>
+                                                <button
+                                                    v-tooltip.bottom="'Italic'"
+                                                    class="ql-italic"
+                                                ></button>
+                                                <button
+                                                    v-tooltip.bottom="
+                                                        'Underline'
+                                                    "
+                                                    class="ql-underline"
+                                                ></button>
+                                            </span>
+                                        </template>
+                                    </Editor>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -550,7 +545,7 @@ export default {
             projectStrGeoData: null,
             hasProvinceErrors: false,
             submittingAssignEmpData: false,
-            assignEmpNoted: null,
+            assignEmpNoted: '',
             selectedAssignEmp: null,
             selectedAssignPositionOrg: null,
             hasErrorAssignStrEmp: false,
@@ -618,6 +613,20 @@ export default {
             this.fileEmpAssignUploadOrg.forEach((file) => {
                 this.totalSize += parseInt(this.formatSize(file.size));
             });
+        },
+        formatSize(bytes) {
+            const k = 1024;
+            const dm = 3;
+            const sizes = this.$primevue.config.locale.fileSizeTypes;
+            if (bytes === 0) {
+                return `0 ${sizes[0]}`;
+            }
+
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            const formattedSize = parseFloat(
+                (bytes / Math.pow(k, i)).toFixed(dm)
+            );
+            return formattedSize + "\n" + "KB";
         },
     },
 };

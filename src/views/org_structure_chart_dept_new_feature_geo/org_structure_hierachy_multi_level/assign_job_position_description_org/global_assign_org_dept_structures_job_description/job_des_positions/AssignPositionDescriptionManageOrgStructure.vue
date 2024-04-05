@@ -427,7 +427,6 @@ export default {
 
     methods: {
         // Upload Files
-
         close() {
             this.$emit("close-dialog");
         },

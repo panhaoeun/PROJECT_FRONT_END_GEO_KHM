@@ -4,7 +4,7 @@
         <Dialog
             v-model:visible="openDialogs"
             modal
-            header="Add New Department Description"
+            header="Add New Dept. Position Job Descriptions"
             :style="{ width: '60rem' }"
             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
             maximizable
@@ -102,7 +102,7 @@
                                                 />
                                             </div>
                                             <!-- Upload Files Department Job Descriptions-->
-                                            <div class="col-12 field">
+                                            <!-- <div class="col-12 field">
                                                 <label> Upload File </label>
                                                 <div>
                                                     <FileUpload
@@ -229,7 +229,6 @@
                                                                                 )
                                                                             }})
                                                                         </div>
-                                                                        <!-- Button remove -->
                                                                         <Button
                                                                             icon="pi pi-times"
                                                                             @click="
@@ -266,7 +265,7 @@
                                                         </template>
                                                     </FileUpload>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!-- Descriptions -->
                                             <div class="col-12 field">
                                                 <label
