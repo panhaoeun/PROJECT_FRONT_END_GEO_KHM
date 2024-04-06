@@ -137,8 +137,7 @@
                                         :class="{
                                             'p-invalid p-error':
                                                 v$.selectedAssignPositionOrg
-                                                    .$invalid &&
-                                                submitted
+                                                    .$invalid && submitted,
                                         }"
                                         optionLabel="deptPosName"
                                         empty="Empty Position"
@@ -545,7 +544,7 @@ export default {
             projectStrGeoData: null,
             hasProvinceErrors: false,
             submittingAssignEmpData: false,
-            assignEmpNoted: '',
+            assignEmpNoted: "",
             selectedAssignEmp: null,
             selectedAssignPositionOrg: null,
             hasErrorAssignStrEmp: false,

@@ -56,11 +56,12 @@
             <template #body="{ data }">
                 <span
                     v-if="
-                        data.tbl_employee_resignation !== null &&
-                        data.tbl_employee_resignation !== undefined
+                        data.resignationDate !== null ||
+                        data?.resignationDate !== undefined
                     "
                 >
-                    {{ formatDate(data.tbl_employee_resignation?.resignationDate) || "N/A" }}</span
+                    {{ data.tbl_employee_resignation }}
+                    {{ formatDate(data?.resignationDate) || "N/A" }}</span
                 >
                 <span v-else>N/A</span>
             </template>
@@ -112,13 +113,17 @@
             </template>
         </Column>
         <Column
-            field="historyDateWork"
+            field="status_resign"
             header="Status"
             sortable
             style="width: 20%"
         >
             <template #body="{ data }">
-                <span> {{ formatDate(data?.historyDateWork) || "N/A" }}</span>
+                <Tag
+                    v-if="data.resignStatus || 'N/A'"
+                    severity="danger"
+                    value="Approved"
+                ></Tag>
             </template>
         </Column>
         <!-- Actions -->
@@ -130,13 +135,17 @@
         >
             <template #body="slotProps">
                 <Button
-                    icon="pi pi-file-pdf"
+                    v-tooltip="{
+                        value: 'Approved Employee Resign',
+                        showDelay: 1000,
+                        hideDelay: 300,
+                    }"
+                    icon="pi pi-eject"
+                    severity="danger"
                     outlined
                     rounded
                     class="mr-2"
-                    @click.prevent="
-                            (slotProps?.data)
-                    "
+                    @click.prevent="openDialogApprovedRejectResignEmployee(slotProps?.data)"
                 />
             </template>
         </Column>
@@ -150,6 +159,7 @@
         :org-history-officer-work="
             dataHistoryOfficerEmp ? dataHistoryOfficerEmp : {}
         "
+        :orgStrDeptPosId="orgStrDeptPosId ? orgStrDeptPosId : 0"
     />
     <!-- Add New Job Positions Descriptions -->
     <!-- <OpenDialogAddNewPositionOrgDept
@@ -236,16 +246,6 @@ export default {
             dataDeletedOrgBoardPosId: 0,
             dialogHistoryEmp: false,
         };
-    },
-    mounted() {
-        const orgStrJobDesPositionId = this.orgStructDeptJobPositionId
-            ? this.orgStructDeptJobPositionId
-            : 0;
-        const orgDeptJobDesPositionType = "Position";
-        this.getJobDescriptionType(
-            orgStrJobDesPositionId,
-            orgDeptJobDesPositionType
-        );
     },
     methods: {
         clingAssignDialog() {

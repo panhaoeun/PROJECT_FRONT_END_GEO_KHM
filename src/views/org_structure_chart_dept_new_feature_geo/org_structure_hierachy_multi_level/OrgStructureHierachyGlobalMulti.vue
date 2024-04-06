@@ -324,7 +324,7 @@
                     <li>
                         <a
                             v-ripple
-                            @click.prevent="openDialogResignFormRequest()"  
+                            @click.prevent="openDialogResignFormRequest()"
                             class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                         >
                             <i class="pi pi-eject mr-2"></i>
@@ -775,6 +775,17 @@ export default {
         openDialogResignFormRequest() {
             this.openDialogResignRequestAdd = true;
             this.isOpenDialogDrawer = false;
+            /**
+             *@Reload Positions All
+            */
+            const parentOrgId = parseInt(this.idOrgStructures);
+            if (
+                (parentOrgId !== null && parentOrgId !== "") ||
+                typeof parentOrgId !== "undefined" ||
+                typeof parentOrgId !== "string"
+            ) {
+                this.getAllReloadPositionDeptOrg(parentOrgId);
+            }
         },
         closeDialogFormResignAddRequest() {
             this.openDialogResignRequestAdd = false;

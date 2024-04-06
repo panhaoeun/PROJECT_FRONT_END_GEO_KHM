@@ -47,7 +47,7 @@
                 <!-- List of dataview- -->
                 <div
                     class="mb-primary border-bottom"
-                    style="width: 90rem"
+                    style="width: 80rem"
                     v-if="
                         getAllDataEmpAssignOrgStr !== null ||
                         (getAllDataEmpAssignOrgStr !== '' &&
@@ -56,7 +56,7 @@
                     "
                 >
                     <DataTable
-                        ref="dt"
+                        ref="empDept"
                         :value="getAllDataEmpAssignOrgStr"
                         v-model:selection="selectedCategoriesList"
                         dataKey="id"
@@ -181,6 +181,67 @@
                                             }}</span>
                                         </div>
                                     </div>
+                                </template>
+                            </Column>
+                            <!-- Actions -->
+                            <Column
+                                :exportable="false"
+                                class="text-md font-medium"
+                                header="Actions"
+                                style="min-width: 8rem"
+                            >
+                                <template #body="slotProps">
+                                    <Button
+                                        icon="pi pi-file-pdf"
+                                        outlined
+                                        severity="info"
+                                        v-tooltip="{
+                                            value: 'View Employee Profile',
+                                            showDelay: 100,
+                                            hideDelay: 300,
+                                        }"
+                                        rounded
+                                        class="mr-2"
+                                        @click.prevent="
+                                            openDialogHistoryOfficerEmp(
+                                                slotProps?.data
+                                            )
+                                        "
+                                    />
+                                    <Button
+                                        icon="pi pi-eject"
+                                        outlined
+                                        severity="warning"
+                                        rounded
+                                        v-tooltip="{
+                                            value: 'Employee Resign Job',
+                                            showDelay: 1000,
+                                            hideDelay: 300,
+                                        }"
+                                        class="mr-2"
+                                        @click.prevent="
+                                            openDialogHistoryOfficerEmp(
+                                                slotProps?.data
+                                            )
+                                        "
+                                    />
+                                    <Button
+                                        severity="secondary"
+                                        icon="pi pi-sync"
+                                        outlined
+                                        rounded
+                                        v-tooltip="{
+                                            value: 'Employee Exchange Position',
+                                            showDelay: 1000,
+                                            hideDelay: 300,
+                                        }"
+                                        class="mr-2"
+                                        @click.prevent="
+                                            openDialogHistoryOfficerEmp(
+                                                slotProps?.data
+                                            )
+                                        "
+                                    />
                                 </template>
                             </Column>
                         </div>

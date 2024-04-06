@@ -109,6 +109,7 @@ import Avatar from 'primevue/avatar';
 import Ripple from 'primevue/ripple';
 import Image from 'primevue/image';
 import Toast from 'primevue/toast';
+import Tooltip from 'primevue/tooltip';
 import ToastService from 'primevue/toastservice';
 import Divider from 'primevue/divider';
 import Message from 'primevue/message';
@@ -289,6 +290,8 @@ app.component('DataViewLayoutOptions', DataViewLayoutOptions);
 app.component('Popper', Popper);
 app.component('ScrollPanel', ScrollPanel);
 app.component('EmojiPicker', EmojiPicker);
+// Tooltip
+app.directive('tooltip', Tooltip);
 /*
     @Front-End Library 
 */

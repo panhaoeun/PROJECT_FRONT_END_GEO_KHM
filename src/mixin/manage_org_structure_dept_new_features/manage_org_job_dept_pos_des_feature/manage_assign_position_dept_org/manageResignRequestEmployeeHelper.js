@@ -10,11 +10,11 @@ export default {
         this.geoOrgChartStructureGeoServices = new ManageOrgChartStructureGeoProjectServices();
     },
     computed: {
-        ...mapGetters('orgStrDeptPosGeo', ['getAllEmployeeResignDataByDeptOrgId']),
+        ...mapGetters('orgStrDeptPosGeo', ['getViewAllDataEmployeeResignAll']),
         getAllDataEmpResignOrgDept() {
             const getEmpResignDeptData =
-                this.getAllEmployeeResignDataByDeptOrgId ?
-                this.getAllEmployeeResignDataByDeptOrgId: [];
+                this.getViewAllDataEmployeeResignAll ?
+                this.getViewAllDataEmployeeResignAll: [];
             if (getEmpResignDeptData !== null ||
                 getEmpResignDeptData !==
                 undefined &&
@@ -23,6 +23,37 @@ export default {
                 return getEmpResignDeptData ? getEmpResignDeptData : []
             }
             return [];
+        },
+        // Selected Employee Resign Data By Id From Table To Show In Modal Edit
+        selectedResignEmployeeJobOrg() {
+            let orgStrEmpId;
+            const getOrgEmpOrgId = this.employeeNameResign
+                ? this.employeeNameResign
+                : null;
+            if (
+                (getOrgEmpOrgId !== null && getOrgEmpOrgId !== "") ||
+                typeof getOrgEmpOrgId !== "undefined" ||
+                typeof orgStrEmpId !== "string"
+            ) {
+                orgStrEmpId = parseInt(getOrgEmpOrgId?.id);
+            }
+            return orgStrEmpId;
+        },
+        selectedResignPositionResignJob() {
+            const orgStrPositionSelected = this.employeeNameResign
+                ? this.employeeNameResign
+                : null;
+            if (
+                orgStrPositionSelected !== null ||
+                (orgStrPositionSelected !== undefined &&
+                    typeof orgStrPositionSelected !== "object" &&
+                    orgStrPositionSelected > 0)
+            ) {
+                return parseInt(orgStrPositionSelected?.position_dept_id)
+                    ? parseInt(orgStrPositionSelected?.position_dept_id)
+                    : 0;
+            }
+            return 0;
         },
     },
     data() {
@@ -37,6 +68,13 @@ export default {
         ...mapActions("orgStrDeptPosGeo", [
             "setViewDetailEmployeeJobResignPosition",
         ]),
+        geoNameToTitleCase(str) {
+            return str
+                .toLowerCase()
+                .replace(/(^|\s|-|')(\w)/g, function (match) {
+                    return match.toUpperCase();
+                });
+        },
         /**
          *@Upload File Resign Form  Employees
          * **/
@@ -124,6 +162,92 @@ export default {
                             });
                         }
                     }
+                    // Insert data value resign employee
+                    const pathFileStore = 'image/png';
+                    const pathBase64FileSignature = this.$refs.fillResignSignature.save(pathFileStore);
+                    if (this.employeeNameResign !== null && this.employeePositionRequest !== null && this.employeeDateEffective !== null) {
+                            const addNewEmployeeResignDeptPosition = {
+                               addEmployeeResignId: this.selectedResignEmployeeJobOrg ? this.selectedResignEmployeeJobOrg : 0,
+                               addPositionResignId: this.selectedResignPositionResignJob ? this.selectedResignPositionResignJob : 0,
+                               addDepartmentOrgResignId: parseInt(this.orgAssignId) ? parseInt(this.orgAssignId) : 0,
+                               addEmployeeResignDated: this.employeeDateEffective ? this.employeeDateEffective : '',
+                               addEmployeeResignReason: String(this.employeeReasonResign).toString() ?? '',
+                               addEmployeeResignRemark: String(this.employeeCommentResign).toString() ?? '',
+                               addNewSingPathURLResignImg: pathBase64FileSignature ? pathBase64FileSignature : '',
+                               addNewResignPathNameImg: '',
+                               assignFileOrgStrDept: this.filesResignForm ? this.filesResignForm : []
+                            };
+                            this.geoOrgChartStructureGeoServices?.addNewEmpResignDataBYDept(
+                                addNewEmployeeResignDeptPosition
+                                ? addNewEmployeeResignDeptPosition
+                                : {}
+                            )
+                            .then(async (resignEmp) => {
+                                if (resignEmp?.data.success === true) {
+                                    this.loadingBtnResignBtn = false;
+                                    this.$toast.add({
+                                        severity: "success",
+                                        summary:
+                                            "Successfully add resign employee request!",
+                                        detail: String(resignEmp.data?.message).toString()
+                                            ? String(resignEmp.data?.message).toString()
+                                            : null,
+                                        life: 3000,
+                                    });
+                                    // Reload Employee Resigned
+                                    const orgDeptResignEmpId = parseInt(resignEmp?.department_id) ?? 0;
+                                    this.getAllReloadEmployeeResignDataByDepartment(orgDeptResignEmpId ? orgDeptResignEmpId: 0);
+                                    // Close Dialogs
+                                    this.$emit("close-dialog");
+                                    // Clear Data Input Position department
+                                    this.employeeNameResign = null;
+                                    this.employeePositionRequest = null;
+                                    this.this.employeeDateEffective = '';
+                                    this.employeeReasonResign = '';
+                                    this.employeeCommentResign = '';
+                                   
+                                }
+                            })
+                            .catch((error) => {
+                                this.loadingBtnResignBtn = false;
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: error?.response.data.error?.message
+                                        ? error?.response.data.error?.message
+                                        : "Please input filed resign employee request have missing value!",
+                                    life: 3000,
+                                });
+                                if (error?.response.data.error.error?.errors) {
+                                    for (
+                                        let index = 0;
+                                        index <
+                                        error.response.data.error.error?.errors
+                                            .length;
+                                        index++
+                                    ) {
+                                        const validationError =
+                                            error.response.data.error.error
+                                                ?.errors[index].message ?? [];
+                                        this.$toast.add({
+                                            severity: "error",
+                                            summary: "Please Fix Below Errors.",
+                                            detail: validationError
+                                                ? validationError
+                                                : "Please input filed resign employee request have missing value!",
+                                            life: 3000,
+                                        });
+                                    }
+                                }
+                            });
+                    }else{
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Error",
+                            detail: "Please fill all required fields",
+                            life: 3000,
+                        });
+                    }
                 }, 1000);
             } catch (error) {
                 throw Error(error || error.message);
@@ -145,7 +269,7 @@ export default {
                             const getResignEmpDept = {
                                 getResignEmpId
                             }
-                            this.setJobPositionDescriptionBaseOrgStrId(getResignEmpDept);
+                            this.setViewDetailEmployeeJobResignPosition(getResignEmpDept);
                         }
                     } catch (e) {
                         return Promise.reject(e);

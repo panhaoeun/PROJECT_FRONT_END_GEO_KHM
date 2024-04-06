@@ -20,23 +20,82 @@
                         <!-- Employee Name -->
                         <div class="col-6 field">
                             <div class="field">
-                                <label for="name_en" class="text-sm"
+                                <label
+                                    for="name_en"
+                                    class="text-sm"
+                                    :class="{
+                                        'p-invalid p-error':
+                                            v$.employeeNameResign.$invalid &&
+                                            submitted,
+                                    }"
                                     >Employee Name<span class="p-error"
                                         >*</span
                                     ></label
                                 >
-                                <InputText
-                                    id="employee_name"
-                                    placeholder="Please enter employee name"
-                                    type="text"
-                                    class="py-3 border-round-lg text-sm"
+                                <Dropdown
+                                    showClear
                                     v-model="v$.employeeNameResign.$model"
                                     :class="{
                                         'p-invalid p-error':
                                             v$.employeeNameResign.$invalid &&
                                             submitted,
                                     }"
-                                />
+                                    :options="getEmpDataOrgDept"
+                                    optionLabel="geo_english_name"
+                                    empty="Empty Employee"
+                                    filter
+                                    placeholder="Select a employee"
+                                    inputId="geo_english_name"
+                                    aria-describedby="dd-error"
+                                    :highlightOnSelect="false"
+                                    class="w-full border-round-lg"
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.value
+                                                                ?.full_kh_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}({{
+                                                    slotProps.value
+                                                        .full_latin_name ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                        <span v-else class="text-sm">
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div
+                                            class="flex align-items-center text-sm"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.option
+                                                                .full_kh_name ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}
+                                                ({{
+                                                    slotProps.option
+                                                        .full_latin_name ?? ""
+                                                }})
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
                                 <small
                                     v-if="
                                         (v$.employeeNameResign.$invalid &&
@@ -49,6 +108,105 @@
                                             "Value",
                                             "Employee Name"
                                         ) || v$.employeeNameResign.$params.min
+                                    }}</small
+                                >
+                            </div>
+                        </div>
+                        <!-- Positions Name -->
+                        <div class="col-6 field">
+                            <div class="field">
+                                <label
+                                    for="name_en"
+                                    class="text-sm"
+                                    :class="{
+                                        'p-invalid p-error text-danger':
+                                            v$.employeePositionRequest
+                                                .$invalid && submitted,
+                                    }"
+                                    >Position<span class="p-error"
+                                        >*</span
+                                    ></label
+                                >
+                                <Dropdown
+                                    showClear
+                                    v-model="v$.employeePositionRequest.$model"
+                                    :class="{
+                                        'p-invalid p-error':
+                                            v$.employeePositionRequest
+                                                .$invalid && submitted,
+                                    }"
+                                    :options="getPositionBaseDept"
+                                    optionLabel="deptPosName"
+                                    empty="Empty Position"
+                                    filter
+                                    placeholder="Select a position"
+                                    inputId="deptPosName"
+                                    aria-describedby="dd-error"
+                                    :highlightOnSelect="false"
+                                    class="w-full border-round-lg"
+                                >
+                                    <template #value="slotProps">
+                                        <div
+                                            v-if="slotProps.value"
+                                            class="flex align-items-center"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.value
+                                                                ?.deptPosName ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}({{
+                                                    slotProps.value
+                                                        .positionKhmerName ??
+                                                    ""
+                                                }})
+                                            </div>
+                                        </div>
+                                        <span v-else class="text-sm">
+                                            {{ slotProps?.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div
+                                            class="flex align-items-center text-sm"
+                                        >
+                                            <div class="text-sm">
+                                                {{
+                                                    geoNameToTitleCase(
+                                                        String(
+                                                            slotProps.option
+                                                                .deptPosName ??
+                                                                ""
+                                                        )
+                                                    )
+                                                }}
+                                                ({{
+                                                    slotProps.option
+                                                        .positionKhmerName ??
+                                                    ""
+                                                }})
+                                            </div>
+                                        </div>
+                                    </template>
+                                </Dropdown>
+                                <small
+                                    v-if="
+                                        (v$.employeePositionRequest.$invalid &&
+                                            submitted) ||
+                                        v$.employeePositionRequest.$pending
+                                            .$response
+                                    "
+                                    class="p-error"
+                                    >{{
+                                        v$.employeePositionRequest.required.$message.replace(
+                                            "Value",
+                                            "Position"
+                                        ) ||
+                                        v$.employeePositionRequest.$params.min
                                     }}</small
                                 >
                             </div>
@@ -136,13 +294,13 @@
                                 <label
                                     for="resignation_resign_noted"
                                     class="text-sm"
-                                    >Comments</label
+                                    >Remark</label
                                 >
                                 <Textarea
                                     id="noted_comment"
                                     showIcon
                                     :showOnFocus="false"
-                                    placeholder="Comment"
+                                    placeholder="Please enter remark"
                                     class="border-round-lg text-sm"
                                     v-model="employeeCommentResign"
                                 />
@@ -348,12 +506,20 @@
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 import manageResignRequestEmployeeHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageResignRequestEmployeeHelper";
+import manageGlobalOrgEmployeeHelper from "@/mixin/manage_geo_org_str/manageGlobalOrgEmployeeHelper";
+import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
 export default {
     components: {},
     setup() {
         return { v$: useVuelidate() };
     },
-    mixins: [manageResignRequestEmployeeHelper],
+    mixins: [
+        manageResignRequestEmployeeHelper,
+        manageGlobalOrgEmployeeHelper,
+        manageOrgStructureDeptNewFeatures,
+        manageOrgDeptPositionStructuresHelper,
+    ],
     data() {
         return {
             count: 0,
@@ -363,7 +529,8 @@ export default {
             },
             disabled: false,
             signatureResignEmployee: null,
-            employeeNameResign: "",
+            employeeNameResign: null,
+            employeePositionRequest: null,
             employeeDateEffective: null,
             employeeReasonResign: null,
             employeeCommentResign: "",
@@ -374,6 +541,7 @@ export default {
     validations() {
         return {
             employeeNameResign: { required, minLength: minLength(3) },
+            employeePositionRequest: { required },
             employeeDateEffective: { required },
             employeeReasonResign: { required },
         };
@@ -394,6 +562,12 @@ export default {
             type: Number,
             required: true,
             default: () => 0,
+        },
+        orgStrDeptPosId: {
+            type: Number,
+            required: true,
+            defaultValue: 0,
+            default: 0,
         },
     },
     computed: {
