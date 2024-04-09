@@ -54,9 +54,13 @@
                                             v-model="value"
                                         />
                                     </div>
-                                    <div class="field col-2">
-                                        <div class="field items-center justify-center">  
-                                            <i class="pi pi-times-circle" style="width: 2rem;"></i>
+                                    <div
+                                        class="field  col-2 flex overflow-hidden flex-wrap"
+                                    >
+                                        <div
+                                            class="align-items-center md:flex-grow-0 flex align-items-center align-content-center font-bold mt-4 border-round"
+                                        >
+                                            ss
                                         </div>
                                     </div>
                                 </div>

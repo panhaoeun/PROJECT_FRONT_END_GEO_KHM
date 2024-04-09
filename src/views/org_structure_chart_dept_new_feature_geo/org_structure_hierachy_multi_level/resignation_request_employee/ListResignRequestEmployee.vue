@@ -1,4 +1,5 @@
 <template>
+    <Toast />
     <DataTable
         v-model:section="selectedEmployeeResign"
         :value="getAllEmployeeResign"
@@ -60,8 +61,28 @@
                         data?.resignationDate !== undefined
                     "
                 >
-                    {{ data.tbl_employee_resignation }}
                     {{ formatDate(data?.resignationDate) || "N/A" }}</span
+                >
+                <span v-else>N/A</span>
+            </template>
+        </Column>
+        <Column
+            field="empEngName"
+            header="Employee"
+            sortable
+            style="width: 20%"
+        >
+            <template #body="{ data }">
+                <span
+                    v-if="
+                        data.tbl_Employee !== null &&
+                        data.tbl_Employee !== undefined
+                    "
+                >
+                    {{
+                        String(data.tbl_Employee?.empEngName).toString() ||
+                        "N/A"
+                    }}</span
                 >
                 <span v-else>N/A</span>
             </template>
@@ -118,12 +139,19 @@
             sortable
             style="width: 20%"
         >
-            <template #body="{ data }">
+            <template #body="slotProps">
                 <Tag
-                    v-if="data.resignStatus || 'N/A'"
-                    severity="danger"
-                    value="Approved"
-                ></Tag>
+                    :value="
+                        geoNameToTitleCase(
+                            slotProps.data?.confirmApprovedStatus
+                        ) ?? ''
+                    "
+                    :severity="
+                        getSeverityResignStatus(
+                            slotProps.data.confirmApprovedStatus
+                        )
+                    "
+                />
             </template>
         </Column>
         <!-- Actions -->
@@ -145,23 +173,172 @@
                     outlined
                     rounded
                     class="mr-2"
-                    @click.prevent="openDialogApprovedRejectResignEmployee(slotProps?.data)"
+                    @click.prevent="
+                        openDialogApprovedRejectResignEmployee(slotProps?.data)
+                    "
                 />
             </template>
         </Column>
     </DataTable>
 
-    <!-- Dialogs Position Job Descriptions Edited -->
-    <view-detail-history-officer
-        v-if="dialogHistoryEmp"
-        @close="closeHistoryWorkOfficer"
-        :department-name="departmentNameOrg"
-        :org-history-officer-work="
-            dataHistoryOfficerEmp ? dataHistoryOfficerEmp : {}
-        "
-        :orgStrDeptPosId="orgStrDeptPosId ? orgStrDeptPosId : 0"
-    />
-    <!-- Add New Job Positions Descriptions -->
+    <!--================================ Dialogs Confirm employee resign============================ -->
+    <Dialog
+        v-model:visible="visibleConfirmDialogRequest"
+        modal
+        header="Confirm Approved Resign Request"
+        :style="{ width: '60rem' }"
+    >
+        <template
+            v-if="
+                dataConfirmRequestResign !== null ||
+                (dataConfirmRequestResign !== '' &&
+                    typeof dataConfirmRequestResign !== 'undefined')
+            "
+        >
+            <span class="p-text-secondary block mb-5"
+                >Resignation Approval Form!</span
+            >
+            <div class="flex align-items-center gap-5 mb-5">
+                <label for="email" class="font-semibold w-10rem"
+                    >Employee Name:
+                    <span class="p-error">*</span>
+                </label>
+                <span
+                    class="pl-4"
+                    v-if="
+                        dataConfirmRequestResign?.tbl_Employee !== null &&
+                        dataConfirmRequestResign?.tbl_Employee !== undefined
+                    "
+                >
+                    {{
+                        String(
+                            dataConfirmRequestResign?.tbl_Employee?.empEngName
+                        ).toString() || "N/A"
+                    }}</span
+                >
+                <span v-else>N/A</span>
+            </div>
+            <div class="flex align-items-center gap-5 mb-5">
+                <label for="username" class="font-semibold w-10rem"
+                    >Resignation Date:
+                    <span class="p-error">*</span>
+                </label>
+                <span
+                    class="pl-4"
+                    v-if="
+                        dataConfirmRequestResign?.resignationDate !== null ||
+                        dataConfirmRequestResign?.resignationDate !== undefined
+                    "
+                >
+                    {{
+                        formatDate(dataConfirmRequestResign?.resignationDate) ||
+                        "N/A"
+                    }}</span
+                >
+                <span class="pl-4" v-else>N/A</span>
+            </div>
+            <div class="flex align-items-center gap-5 mb-5">
+                <label for="email" class="font-semibold w-10rem"
+                    >Department: <span class="p-error">*</span></label
+                >
+                <span
+                    class="pl-4"
+                    v-if="
+                        dataConfirmRequestResign
+                            ?.tbl_dept_org_structure_geo_fence
+                            ?.deptOrgEnglishName !== null ||
+                        dataConfirmRequestResign
+                            ?.tbl_dept_org_structure_geo_fence
+                            ?.deptOrgEnglishName !== undefined
+                    "
+                >
+                    {{
+                        String(
+                            dataConfirmRequestResign
+                                ?.tbl_dept_org_structure_geo_fence
+                                ?.deptOrgEnglishName
+                        ).toString() || "N/A"
+                    }}</span
+                >
+                <span class="pl-4" v-else>N/A</span>
+            </div>
+            <div class="flex align-items-center gap-5 mb-5">
+                <label for="email" class="font-semibold w-10rem"
+                    >Positions: <span class="p-error">*</span></label
+                >
+                <span
+                    class="pl-4"
+                    v-if="
+                        dataConfirmRequestResign?.tbl_org_position_geo_fence !==
+                            null &&
+                        dataConfirmRequestResign?.tbl_org_position_geo_fence !==
+                            undefined
+                    "
+                >
+                    {{
+                        String(
+                            dataConfirmRequestResign?.tbl_org_position_geo_fence
+                                ?.positionNameEng
+                        ).toString() || "N/A"
+                    }}</span
+                >
+                <span class="pl-4" v-else>N/A</span>
+            </div>
+            <div class="flex flex-column gap-3 mb-3">
+                <label for="email" class="font-semibold w-10rem"
+                    >Resign Reason:</label
+                >
+                <span
+                    v-html="dataConfirmRequestResign?.resignationReason ?? ''"
+                ></span>
+            </div>
+            <div class="flex flex-column gap-3 mb-5">
+                <label for="email" class="font-semibold w-10rem">Remark:</label>
+                <span
+                    class="text-medium"
+                    v-html="dataConfirmRequestResign?.resignationReason ?? ''"
+                ></span>
+            </div>
+            <!-- Attachments: -->
+            <div class="flex flex-column gap-3 mb-5">
+                <label for="email" class="font-semibold w-10rem"
+                    >Attachments:</label
+                >
+                <div></div>
+            </div>
+        </template>
+        <template v-else>Employee Resign Not Found!</template>
+
+        <div class="flex justify-content-end gap-2">
+            <Button
+                type="button"
+                label="Cancel"
+                class="w-10rem"
+                severity="info"
+                @click="visibleConfirmDialogRequest = false"
+            ></Button>
+            <Button
+                v-if="
+                    dataConfirmRequestResign?.confirmApprovedStatus !== 'REJECT'
+                "
+                type="button"
+                severity="warning"
+                :loading="loadingRejectedBtn"
+                :label="loadingRejectedBtn ? 'Loading...' : 'Confirm Reject'"
+                class="w-13rem"
+                @click="confirmRequestEmployeeResignRejectsOfficer()"
+            ></Button>
+            <Button
+                type="button"
+                severity="danger"
+                :loading="loadingApprovedBtn"
+                :label="loadingApprovedBtn ? 'Loading...' : 'Confirm Approved'"
+                class="w-13rem"
+                @click="confirmRequestEmployeeResignApprovedOfficer()"
+            ></Button>
+        </div>
+    </Dialog>
+    <!--================================ Dialogs Confirm employee resign============================ -->
     <!-- <OpenDialogAddNewPositionOrgDept
         v-if="openJobDesPosition"
         :dialog="openJobDesPosition"
@@ -178,6 +355,7 @@
 import { FilterMatchMode } from "primevue/api";
 import manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper from "@/mixin/manage_org_structure_dept_new_features/manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper";
 import manageHistoryWorkJobDeptPosOrgHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageHistoryWorkJobDeptPosOrgHelper";
+import manageResignRequestEmployeeHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageResignRequestEmployeeHelper";
 // import ViewDetailHistoryOfficer from "./ViewDetailHistoryOfficerDeptOrg.vue";
 export default {
     components: {
@@ -214,6 +392,7 @@ export default {
     mixins: [
         manageJobPositionDepartmentDescriptionByOrgStrGlobalHelper,
         manageHistoryWorkJobDeptPosOrgHelper,
+        manageResignRequestEmployeeHelper,
     ],
     data() {
         return {
@@ -245,6 +424,10 @@ export default {
             openEditDialogsOrgDes: false,
             dataDeletedOrgBoardPosId: 0,
             dialogHistoryEmp: false,
+            visibleConfirmDialogRequest: false,
+            dataConfirmRequestResign: null,
+            loadingApprovedBtn: false,
+            loadingRejectedBtn: false,
         };
     },
     methods: {

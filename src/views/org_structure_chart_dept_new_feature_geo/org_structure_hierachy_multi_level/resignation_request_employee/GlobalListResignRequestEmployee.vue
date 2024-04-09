@@ -21,7 +21,9 @@
                         :departmentNameOrg="departmentName"
                         :orgStrDeptPosId="orgAssignId ? orgAssignId : 0"
                         :get-all-employee-resign="
-                            getAllDataEmpResignOrgDept ? getAllDataEmpResignOrgDept : {}
+                            getAllDataEmpResignOrgDept
+                                ? getAllDataEmpResignOrgDept
+                                : {}
                         "
                     />
                 </div>

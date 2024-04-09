@@ -127,11 +127,6 @@ export default {
                 this.loadingBtnResignBtn = true;
                 this.submitted = true;
                 setTimeout(async () => {
-                    this.loadingBtnResignBtn = false;
-                    this.v$.$touch();
-                    if (this.v$.$invalid) {
-                        return false;
-                    }
                     /**
                      * @Validations
                      * */
@@ -248,11 +243,42 @@ export default {
                             life: 3000,
                         });
                     }
+                    this.loadingBtnResignBtn = false;
+                    this.v$.$touch();
+                    if (this.v$.$invalid) {
+                        return false;
+                    }
                 }, 1000);
             } catch (error) {
                 throw Error(error || error.message);
             }
         },
+        /*
+        Resign Status
+        */ 
+       getSeverityResignStatus(confirmApprovedStatus) {
+            try {
+               if (confirmApprovedStatus !== null || confirmApprovedStatus !== '') {
+                switch (confirmApprovedStatus) {
+                     case 'Approved':
+                         return 'success';
+
+                     case 'Reject':
+                         return 'warning';
+
+                     case 'Pending':
+                         return 'contrast';
+
+                     default:
+                         return 'No Status';
+                }
+               }else{
+                    return 'No Status';
+               }
+            } catch (error) {
+                throw new Error(error || error.message);
+            }
+       },
         /**
          * Resign Data List Employee Data
         ***/
@@ -279,6 +305,180 @@ export default {
             } catch (error) {
                 throw Error(error || error.message);
             }
+       },
+        /**
+         * @Approved Resign Employee Request
+        */    
+       async openDialogApprovedRejectResignEmployee(resignData) {
+            try {
+                this.visibleConfirmDialogRequest = true;
+                this.dataConfirmRequestResign = resignData ? resignData : null;
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+       },
+        //Approved     
+       async confirmRequestEmployeeResignApprovedOfficer(){
+            try {
+                this.loadingApprovedBtn =true;
+                setTimeout(() => {
+                    this.loadingApprovedBtn = false;
+                    this.$confirm('Are you confirm approval request form employee resignation','Resignation Approval Request', {
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirm Approval Request',
+                        cancelButtonText: 'Cancel',
+                        type: 'error',
+                        class: 'w-30rem', //
+                        roundButton: true,
+                        closeOnPressEscape: true,
+                        cancelButtonClass: 'text-black hover:bg-white font-bold hover:text-pink-400 w-5rem',
+                        confirmButtonClass: 'bg-red-500 text-white border-none font-bold hover:text-white w-15rem',
+                        center: true,
+                        beforeClose: (action, instance, done) => {
+                            if (action === 'confirm') {
+                                instance.confirmButtonLoading = true;
+                                instance.confirmButtonText = 'Loading...';
+                                setTimeout(() => {
+                                    done();
+                                    setTimeout(() => {
+                                    instance.confirmButtonLoading = false;
+                                    }, 300);
+                                }, 1000);
+                            } else {
+                                done();
+                            }
+                        }
+                    }).then(() => {
+                        const approvedEmpResignId = parseInt(this.dataConfirmRequestResign?.resignId) ? parseInt(this.dataConfirmRequestResign?.resignId) : 0;
+                        const approvedResignStatus =  true;
+                        const confirmApprovedStatusResign = 'Approved';
+                        this.employeeEmployeeResignOfficerDept(approvedEmpResignId,approvedResignStatus, confirmApprovedStatusResign);
+                        
+                    }); 
+                },1000);
+                
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+       },
+        //Rejects  
+        async confirmRequestEmployeeResignRejectsOfficer(){
+            try {
+                this.loadingRejectedBtn = true;
+                setTimeout(() => {
+                    this.loadingRejectedBtn = false;
+                    this.$confirm('Are you confirm reject request form employee resignation','Resignation Reject Request', {
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirm Approval Reject',
+                        cancelButtonText: 'Cancel',
+                        type: 'error',
+                        class: 'w-30rem', //
+                        roundButton: true,
+                        closeOnPressEscape: true,
+                        cancelButtonClass: 'text-black hover:bg-white font-bold hover:text-pink-400 w-5rem',
+                        confirmButtonClass: 'bg-red-500 text-white border-none font-bold hover:text-white w-15rem',
+                        center: true,
+                        beforeClose: (action, instance, done) => {
+                            if (action === 'confirm') {
+                                instance.confirmButtonLoading = true;
+                                instance.confirmButtonText = 'Loading...';
+                                setTimeout(() => {
+                                    done();
+                                    setTimeout(() => {
+                                    instance.confirmButtonLoading = false;
+                                    }, 300);
+                                }, 1000);
+                            } else {
+                                done();
+                            }
+                        }
+                    }).then(() => {
+                        const approvedEmpResignId = parseInt(this.dataConfirmRequestResign?.resignId) ? parseInt(this.dataConfirmRequestResign?.resignId) : 0;
+                        const approvedResignStatus =  true;
+                        const confirmApprovedStatusResign = 'Reject';
+                        this.employeeEmployeeResignOfficerDept(approvedEmpResignId,approvedResignStatus, confirmApprovedStatusResign);
+                        
+                    }); 
+                },1000);
+                
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+       },  
+       //Confirm Status Employee Resign Function
+       async employeeEmployeeResignOfficerDept(approvedResignId = 0, approvedResignStatus = false, confirmResignApproved = 'Pending') {
+            try {
+                const confirmResignRequestFormApproved = {
+                    approvedResignStatus: approvedResignStatus ? approvedResignStatus : false,
+                    confirmApprovedStatusResign: confirmResignApproved ? confirmResignApproved : 'Pending'
+                }
+                this.geoOrgChartStructureGeoServices?.approvedEmpResignDataBYDept(approvedResignId,
+                    confirmResignRequestFormApproved
+                    ? confirmResignRequestFormApproved
+                    : {}
+                )
+                .then(async (resignEmp) => {
+                    if (resignEmp?.data.success === true) {
+                        this.loadingBtnResignBtn = false;
+                        this.$toast.add({
+                            severity: "success",
+                            summary:
+                                "Successfully employee resign request!",
+                            detail: String(resignEmp.data?.message).toString()
+                                ? String(resignEmp.data?.message).toString()
+                                : null,
+                            life: 3000,
+                        });
+                        // Reload Employee Resigned
+                        const orgDeptResignEmpId = parseInt(resignEmp?.department_id) ?? 0;
+                        this.getAllReloadEmployeeResignDataByDepartment(orgDeptResignEmpId ? orgDeptResignEmpId: 0);
+                        // Close Dialogs
+                        this.visibleConfirmDialogRequest =false;
+                        // Clear Data Input Position department
+                        this.employeeNameResign = null;
+                        this.employeePositionRequest = null;
+                        this.this.employeeDateEffective = '';
+                        this.employeeReasonResign = '';
+                        this.employeeCommentResign = '';
+                        
+                    }
+                })
+                .catch((error) => {
+                    this.loadingBtnResignBtn = false;
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "Please Fix Below Errors.",
+                        detail: error?.response.data.error?.message
+                            ? error?.response.data.error?.message
+                            : "Please input filed resign employee request have missing value!",
+                        life: 3000,
+                    });
+                    if (error?.response.data.error.error?.errors) {
+                        for (
+                            let index = 0;
+                            index <
+                            error.response.data.error.error?.errors
+                                .length;
+                            index++
+                        ) {
+                            const validationError =
+                                error.response.data.error.error
+                                    ?.errors[index].message ?? [];
+                            this.$toast.add({
+                                severity: "error",
+                                summary: "Please Fix Below Errors.",
+                                detail: validationError
+                                    ? validationError
+                                    : "Please input filed resign employee request have missing value!",
+                                life: 3000,
+                            });
+                        }
+                    }
+                });
+            } catch (error) {
+                throw Error(error || error?.message);
+            }
        }
+
     },
 }

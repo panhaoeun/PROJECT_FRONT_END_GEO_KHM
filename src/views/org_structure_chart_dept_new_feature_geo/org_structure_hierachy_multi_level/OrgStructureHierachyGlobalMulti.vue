@@ -311,7 +311,7 @@
                             >
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a
                             v-ripple
                             @click.prevent="openDialogChangePositionToOfficer()"
@@ -320,7 +320,7 @@
                             <i class="pi pi-sync mr-2"></i>
                             <span class="font-medium">Exchange Position</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a
                             v-ripple
@@ -777,7 +777,7 @@ export default {
             this.isOpenDialogDrawer = false;
             /**
              *@Reload Positions All
-            */
+             */
             const parentOrgId = parseInt(this.idOrgStructures);
             if (
                 (parentOrgId !== null && parentOrgId !== "") ||
@@ -791,6 +791,17 @@ export default {
             this.openDialogResignRequestAdd = false;
         },
         openDialogChangePositionToOfficer() {
+            /**
+             *@Reload Positions All
+             */
+            const parentOrgId = parseInt(this.idOrgStructures);
+            if (
+                (parentOrgId !== null && parentOrgId !== "") ||
+                typeof parentOrgId !== "undefined" ||
+                typeof parentOrgId !== "string"
+            ) {
+                this.getAllReloadPositionDeptOrg(parentOrgId);
+            }
             this.openDialogChangePositionEmp = true;
         },
         closeDialogChangePosition() {

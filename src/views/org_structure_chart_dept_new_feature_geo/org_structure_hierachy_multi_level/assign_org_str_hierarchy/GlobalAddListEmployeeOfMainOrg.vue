@@ -225,23 +225,6 @@
                                             )
                                         "
                                     />
-                                    <Button
-                                        severity="secondary"
-                                        icon="pi pi-sync"
-                                        outlined
-                                        rounded
-                                        v-tooltip="{
-                                            value: 'Employee Exchange Position',
-                                            showDelay: 1000,
-                                            hideDelay: 300,
-                                        }"
-                                        class="mr-2"
-                                        @click.prevent="
-                                            openDialogHistoryOfficerEmp(
-                                                slotProps?.data
-                                            )
-                                        "
-                                    />
                                 </template>
                             </Column>
                         </div>

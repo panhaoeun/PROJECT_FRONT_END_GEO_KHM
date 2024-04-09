@@ -238,13 +238,13 @@ export default class ManageOrgChartStructureGeoProjectServices {
        return httpFormData.post("/admin/get-employee-resign-by-dept-org-add-history-job-working", orgStrPosId ? orgStrPosId : {});
    }
    async approvedEmpResignDataBYDept(resignOfficerEmpId, orgStrPosId) {
-       return http.put(`/admin/approved-status-employee-resign-by-dept-org-approved-history-job-working/resignOfficerEmpId/${resignOfficerEmpId}`, orgStrPosId ? orgStrPosId : {});
+       return http.put(`/admin/approved-status-employee-resign-by-dept-org-approved-history-job-working/${resignOfficerEmpId}`, orgStrPosId ? orgStrPosId : {});
    }
     /**
      * @Change Position 
     */
     //Change Positions
     async employeeChangePositionEmployee(orgStrPosId) {
-        return http.post("/admin/change-position-employee-resign-by-dept-org-add-position-job-working", orgStrPosId ? orgStrPosId : {});
+        return httpFormData.post("/admin/change-position-employee-resign-by-dept-org-add-position-job-working", orgStrPosId ? orgStrPosId : {});
     }
 }
