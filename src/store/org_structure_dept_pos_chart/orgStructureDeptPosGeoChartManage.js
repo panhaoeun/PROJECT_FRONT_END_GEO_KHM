@@ -14,7 +14,9 @@ const state = {
     orgDeptEmpDataId: [],
     jobPosJobDescOrg: [],
     orgDeptHistoryPosition: [],
-    resignOfficerWork: []
+    resignOfficerWork: [],
+    resourceTypeData: [],
+    resourceSubTypeData: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -42,7 +44,6 @@ const getters = {
     allOrgBoardPositionBaseDeptBoardHierarchyStructure: ({
         positionDeptOrgBoardMgt
     }) => positionDeptOrgBoardMgt ? positionDeptOrgBoardMgt : {},
-
     // Job Descriptions
     allOrgJobDescriptionAssignDepartmentAssign: ({
         orgJobDescProId
@@ -67,6 +68,12 @@ const getters = {
     getViewAllDataEmployeeResignAll: ({
         resignOfficerWork
     }) => resignOfficerWork ? resignOfficerWork : [],
+    getReloadResourcesTypGeoOrgAll: ({
+        resourceTypeData
+    }) => resourceTypeData ? resourceTypeData : [],
+    getReloadSubResourcesTypGeoOrgAll: ({
+        resourceSubTypeData
+    }) => resourceSubTypeData ? resourceSubTypeData : [],
     
 }
 const mutations = {
@@ -119,6 +126,13 @@ const mutations = {
     // Resign 
     SET_EMPLOYEE_RESIGN_BY_DEPT_ORG_DATA(state, resignOfficerWork){
         state.resignOfficerWork = resignOfficerWork ? resignOfficerWork : [];
+    },
+    // Resources Type 
+    SET_RELOAD_ORG_RESOURCE_TYPE_DATA(state,resourceTypeData){
+        state.resourceTypeData = resourceTypeData ? resourceTypeData : [];
+    },
+    SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA(state, resourceSubTypeData) {
+        state.resourceSubTypeData = resourceSubTypeData ? resourceSubTypeData : [];
     }
 }
 const actions = {
@@ -364,6 +378,66 @@ const actions = {
             throw Error(error);
         }
    },
+   /**
+    * @Data Get Data All Reload Resource Type 
+    */
+    async setAllReloadOfResourceTypeOrgStrData({
+        commit
+    }, payload) {
+        try {
+            const getDataReloadGeoFenceId = payload?.getResourceTypeId;
+            const superSSNResourceId = payload?.getSuperSSNResourceTypeId;
+            
+            let getResourceGeoFenceId;
+            if (getDataReloadGeoFenceId !== null || getDataReloadGeoFenceId !== '') {
+                getResourceGeoFenceId = getDataReloadGeoFenceId ? getDataReloadGeoFenceId : 0;
+            } else {
+                getResourceGeoFenceId = 0;
+            }
+            geoDeptOrgStrServices.getAllDataResourceTypeGeoFenceLocations(getResourceGeoFenceId, superSSNResourceId).then((resourceTypeData) => {
+                const getEmpResourceType = resourceTypeData ? resourceTypeData : {};
+                if (!getEmpResourceType) {
+                    commit('SET_RELOAD_ORG_RESOURCE_TYPE_DATA', {});
+                } else {
+                    commit('SET_RELOAD_ORG_RESOURCE_TYPE_DATA', getEmpResourceType ? getEmpResourceType : {})
+                }
+            });
+        } catch (error) {
+            throw Error(error);
+        }
+    },
+    async setAllReloadOfSubResourceTypeOrgStrData({
+         commit
+     }, payload) {
+         try {
+             const getDataReloadGeoFenceId = payload?.getResourceTypeId;
+             const superSSNResourceId = payload?.getSuperSSNResourceTypeId;
+
+            let getResourceGeoFenceId;
+            if (getDataReloadGeoFenceId !== null || getDataReloadGeoFenceId !== '') {
+                getResourceGeoFenceId = getDataReloadGeoFenceId ? getDataReloadGeoFenceId : 0;
+            } else {
+                getResourceGeoFenceId = 0;
+            }
+            let getSubResourceGeoFenceId;
+            if (superSSNResourceId !== null || superSSNResourceId !== '') {
+                getSubResourceGeoFenceId = superSSNResourceId ? superSSNResourceId : 0;
+            } else {
+                getSubResourceGeoFenceId = 0;
+            }
+            geoDeptOrgStrServices.getAllDataResourceTypeGeoFenceLocations(getResourceGeoFenceId, getSubResourceGeoFenceId).then((resourceTypeData) => {
+                 const getEmpResourceType = resourceTypeData ? resourceTypeData : {};
+                 if (!getEmpResourceType) {
+                     commit('SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA', {});
+                 } else {
+                     commit('SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA', getEmpResourceType ? getEmpResourceType : {})
+                 }
+             });
+         } catch (error) {
+             throw Error(error);
+         }
+     },
+
 }
 
 export default {

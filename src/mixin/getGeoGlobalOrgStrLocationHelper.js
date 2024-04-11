@@ -157,7 +157,7 @@ export default{
             const getProvince = this.selectedProvinceOptOrgStr || this.selectedProvinceOptOrgStr;
             let getProvinceId;
             if (getProvince !== null) {
-                getProvinceId = Number(getProvince?.id )? Number(getProvince?.id ) : 0;
+                getProvinceId = Number(getProvince?.id)? Number(getProvince?.id ) : 0;
             }
             return getProvinceId;
         },

@@ -247,4 +247,31 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async employeeChangePositionEmployee(orgStrPosId) {
         return httpFormData.post("/admin/change-position-employee-resign-by-dept-org-add-position-job-working", orgStrPosId ? orgStrPosId : {});
     }
+    /**
+     * @Management of resources-types  
+     */
+    async getAllDataResourceTypeGeoFenceLocations(geoFenceId,superSSNResourceType, resourceData) {
+         return http.get(`/admin/org-dept-resource-type-geo-org/get-resource-type-list?geoFenceId=${geoFenceId}&&superSSNResourceType=${superSSNResourceType}`, resourceData ? resourceData : {}).then((resourcesData) => {
+             if (!resourcesData) {
+                 return false;
+             }
+             if (resourcesData?.status == 200) {
+                 if (resourcesData?.data.success == true) {
+                    return resourcesData?.data.result.resultStatus;
+                 }
+             }
+         }).catch((error) => {
+             throw Error(error || error.message);
+         });
+    }
+    async addNewResourceTypeOfGeoFence(resourceTypeData) {
+        return httpFormData.post("/admin/org-dept-resource-type-geo-org/add-new-resource-type", resourceTypeData ? resourceTypeData : {});
+    }
+    async modifyNewResourceTypeOfGeoFence(resourceTypeId, resourceTypeData) {
+        return httpFormData.put(`/admin/org-dept-resource-type-geo-org/modify-resource-type/${resourceTypeId}`, resourceTypeData ? resourceTypeData : {});
+    }
+    async removedResourceTypeOfGeoFence(resourceTypeId, resourceTypeData) {
+        return httpFormData.delete(`/admin/org-dept-resource-type-geo-org/removed-resource-type/${resourceTypeId}`, resourceTypeData ? resourceTypeData : {});
+    }
+
 }

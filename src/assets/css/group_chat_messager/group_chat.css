@@ -1712,16 +1712,6 @@ p,
 pre {
     margin: 0
 }
-
-fieldset {
-    margin: 0
-}
-
-fieldset,
-legend {
-    padding: 0
-}
-
 menu,
 ol,
 ul {

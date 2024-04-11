@@ -50,6 +50,30 @@ const defaultChildRoutesLocationSystemMS = (prefix) => [{
         },
         component: () => import("../../../views/administrators/user_managements/role_permission_module_new/CreatePermissionRole.vue"),
     },
+    // Resources Types
+    {
+        path: "/admin/manage-user-org-chat-geo-khm-add-new-geo-fence/resources-types",
+        name: prefix + '.admin_management_resources_types',
+        meta: {
+            title: "resourcesType",
+            requiresAuth: true,
+            icon: 'setting',
+            permissions: ['location_ms_system_module']
+        },
+        component: () => import("../../../views/org_structure_chart_dept_new_feature_geo/management_resources_types/ResourcesTypeOrgStructuresList.vue"),
+    },
+    {
+        path: "/admin/manage-user-org-chat-geo-khm-add-new-geo-fence/resources-types-add-new",
+        name: prefix + '.admin_management_resources_types_add_new',
+        hidden: true,
+        meta: {
+            title: "resourcesType",
+            requiresAuth: true,
+            icon: 'setting',
+            permissions: ['location_ms_system_module']
+        },
+        component: () => import("../../../views/org_structure_chart_dept_new_feature_geo/management_resources_types/ResourcesTypeOrgStructuresAddNew.vue"),
+    },
     // Message Chart
     {
         path: "/admin/app-chart-org-chart-message-group",

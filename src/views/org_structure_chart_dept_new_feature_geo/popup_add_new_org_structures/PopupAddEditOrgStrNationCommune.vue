@@ -9,13 +9,13 @@
                 class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round text-sm text-white"
                 @click.prevent="openDialogsAddNewOrgStructure()"
             />
-            <Button
+            <!-- <Button
                 icon="pi pi-file-edit"
                 severity="info"
                 label="Edit"
                 @click.prevent="openEditOrgStructureCompany()"
                 class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round text-sm"
-            />
+            /> -->
         </div>
     </div>
     <!-- Dialogs for org-structure and positions -->

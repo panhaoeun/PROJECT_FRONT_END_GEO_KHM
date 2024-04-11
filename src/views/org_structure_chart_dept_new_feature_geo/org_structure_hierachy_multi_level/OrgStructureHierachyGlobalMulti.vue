@@ -441,7 +441,7 @@
                                         }}</span
                                     >
                                     <span
-                                        class="white-space-normal flex flex-row line-height-3 flex"
+                                        class="white-space-normal flex-row line-height-3 flex"
                                         >{{
                                             slotProps.node.department ??
                                             "No Name"

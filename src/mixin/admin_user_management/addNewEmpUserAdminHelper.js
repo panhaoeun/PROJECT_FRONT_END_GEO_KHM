@@ -1,7 +1,32 @@
+import * as yup from "yup";
+
 export default{
+    data(){
+        return{
+            schemas: [
+                yup.object({
+                    perInfoEnglishName: yup.string().label('Please enter english name').required(),
+                    perInfoKhmerName: yup.string().label('Please enter khmer name').required(),
+                    perInfoPhoneNumber: yup.string()
+                                .min(10)
+                                .max(10)
+                                .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, {
+                                    message: 'Please enter valid number.',
+                                    excludeEmptyString: false
+                                })
+                                .label('Please enter phone number')
+                                .required(),
+                }),
+                yup.object({
+                    terms: yup.bool().required().equals([true]),
+                }),
+            ],
+        }
+    },
     methods: {
-           async handleAddNewEmpAdminSubmit(valid) {
+        async handleAddNewEmpAdminSubmit(valid) {
             try {
+                console.log("valid")
                 this.submitted = true;
                 this.isProcessingSubmit = true;
                 setTimeout(() => {

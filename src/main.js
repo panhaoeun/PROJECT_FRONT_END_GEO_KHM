@@ -83,6 +83,7 @@ import "./assets/customer_ecommerce_web_new/js/jquery.menu-aim.js"
    @E-Commerces Dashboard
    @Library E-Commerces Dashboard
 */
+import PanelMenu from 'primevue/panelmenu';
 import "./assets/custom-vue/scss/styles.scss";
 import globalComponent from './plugins/global-components';
 import globalDirective from './plugins/global-directive';
@@ -292,6 +293,7 @@ app.component('ScrollPanel', ScrollPanel);
 app.component('EmojiPicker', EmojiPicker);
 // Tooltip
 app.directive('tooltip', Tooltip);
+app.component('PanelMenu', PanelMenu);
 /*
     @Front-End Library 
 */
