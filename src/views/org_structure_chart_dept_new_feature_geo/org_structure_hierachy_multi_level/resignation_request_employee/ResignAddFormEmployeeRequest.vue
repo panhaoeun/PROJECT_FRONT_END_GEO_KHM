@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <!-- Positions Name -->
-                        <div class="col-6 field">
+                        <!-- <div class="col-6 field">
                             <div class="field">
                                 <label
                                     for="name_en"
@@ -210,7 +210,7 @@
                                     }}</small
                                 >
                             </div>
-                        </div>
+                        </div> -->
                         <!-- I hereby tender my resignation as an employee of the company to be effective on: -->
                         <div class="col-6 field">
                             <div class="field">
@@ -343,7 +343,7 @@
                             <div class="field" style="width: 50rem">
                                 <label> Attachments </label>
                                 <FileUpload
-                                    name="demo[]"
+                                    name="attachments[]"
                                     url="/api/upload"
                                     :multiple="true"
                                     accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps"
@@ -530,7 +530,7 @@ export default {
             disabled: false,
             signatureResignEmployee: null,
             employeeNameResign: null,
-            employeePositionRequest: null,
+            // employeePositionRequest: null,
             employeeDateEffective: null,
             employeeReasonResign: null,
             employeeCommentResign: "",
@@ -541,7 +541,7 @@ export default {
     validations() {
         return {
             employeeNameResign: { required, minLength: minLength(3) },
-            employeePositionRequest: { required },
+            // employeePositionRequest: { required },
             employeeDateEffective: { required },
             employeeReasonResign: { required },
         };

@@ -39,7 +39,7 @@ export default {
             }
             return orgStrEmpId;
         },
-        selectedResignPositionResignJob() {
+        selectedResignPositionResign() {
             const orgStrPositionSelected = this.employeeNameResign
                 ? this.employeeNameResign
                 : null;
@@ -51,6 +51,22 @@ export default {
             ) {
                 return parseInt(orgStrPositionSelected?.position_dept_id)
                     ? parseInt(orgStrPositionSelected?.position_dept_id)
+                    : 0;
+            }
+            return 0;
+        },
+        selectedResignDepartmentsPositionResign() {
+            const orgStrPositionSelected = this.employeeNameResign
+                ? this.employeeNameResign
+                : null;
+            if (
+                orgStrPositionSelected !== null ||
+                (orgStrPositionSelected !== undefined &&
+                    typeof orgStrPositionSelected !== "object" &&
+                    orgStrPositionSelected > 0)
+            ) {
+                return parseInt(orgStrPositionSelected?.org_no)
+                    ? parseInt(orgStrPositionSelected?.org_no)
                     : 0;
             }
             return 0;
@@ -160,17 +176,16 @@ export default {
                     // Insert data value resign employee
                     const pathFileStore = 'image/png';
                     const pathBase64FileSignature = this.$refs.fillResignSignature.save(pathFileStore);
-                    if (this.employeeNameResign !== null && this.employeePositionRequest !== null && this.employeeDateEffective !== null) {
+                    if (this.employeeNameResign !== null && this.employeeDateEffective !== null) {
                             const addNewEmployeeResignDeptPosition = {
-                               addEmployeeResignId: this.selectedResignEmployeeJobOrg ? this.selectedResignEmployeeJobOrg : 0,
-                               addPositionResignId: this.selectedResignPositionResignJob ? this.selectedResignPositionResignJob : 0,
-                               addDepartmentOrgResignId: parseInt(this.orgAssignId) ? parseInt(this.orgAssignId) : 0,
-                               addEmployeeResignDated: this.employeeDateEffective ? this.employeeDateEffective : '',
-                               addEmployeeResignReason: String(this.employeeReasonResign).toString() ?? '',
-                               addEmployeeResignRemark: String(this.employeeCommentResign).toString() ?? '',
-                               addNewSingPathURLResignImg: pathBase64FileSignature ? pathBase64FileSignature : '',
-                               addNewResignPathNameImg: '',
-                               assignFileOrgStrDept: this.filesResignForm ? this.filesResignForm : []
+                                addEmployeeResignId: parseInt(this.selectedResignEmployeeJobOrg) ? parseInt(this.selectedResignEmployeeJobOrg) : 0,
+                                addPositionResignId: parseInt(this.selectedResignPositionResign) ? parseInt(this.selectedResignPositionResign) : 0,
+                                addDepartmentOrgResignId: parseInt(this.selectedResignDepartmentsPositionResign) ? parseInt(this.selectedResignDepartmentsPositionResign) : 0,
+                                addEmployeeResignDated: this.employeeDateEffective ? this.employeeDateEffective : null,
+                                addEmployeeResignReason: String(this.employeeReasonResign) ? String(this.employeeReasonResign) : '',
+                                addEmployeeResignRemark: String(this.employeeCommentResign) ? String(this.employeeCommentResign) : '',
+                                addNewSingPathURLResignImg: pathBase64FileSignature ? pathBase64FileSignature : null,
+                                assignFileOrgStrDept: this.filesResignForm ? this.filesResignForm :  null
                             };
                             this.geoOrgChartStructureGeoServices?.addNewEmpResignDataBYDept(
                                 addNewEmployeeResignDeptPosition
@@ -196,8 +211,8 @@ export default {
                                     this.$emit("close-dialog");
                                     // Clear Data Input Position department
                                     this.employeeNameResign = null;
-                                    this.employeePositionRequest = null;
-                                    this.this.employeeDateEffective = '';
+                                    // this.employeePositionRequest = null;
+                                    this.employeeDateEffective = '';
                                     this.employeeReasonResign = '';
                                     this.employeeCommentResign = '';
                                    
@@ -436,8 +451,8 @@ export default {
                         this.visibleConfirmDialogRequest =false;
                         // Clear Data Input Position department
                         this.employeeNameResign = null;
-                        this.employeePositionRequest = null;
-                        this.this.employeeDateEffective = '';
+                        // this.employeePositionRequest = null;
+                        this.employeeDateEffective = '';
                         this.employeeReasonResign = '';
                         this.employeeCommentResign = '';
                         

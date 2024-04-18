@@ -572,7 +572,7 @@ export default {
                                 this.$toast.add({
                                     severity: "success",
                                     summary:
-                                        "Successfully assign department org-chart to employee.",
+                                        "Successfully assign position org-chart to employee.",
                                     detail: addOrgStr.data?.message
                                         ? addOrgStr.data?.message
                                         : null,
@@ -597,7 +597,7 @@ export default {
                                 summary: "Please Fix Below Errors.",
                                 detail: error?.response.data.error?.message
                                     ? error?.response.data.error?.message
-                                    : "Please input filed add new employee value!",
+                                    : "Please input filed add new assign positions value!",
                                 life: 3000,
                             });
                             if (error?.response.data.error.error?.errors) {
@@ -617,7 +617,7 @@ export default {
                                         summary: "Please Fix Below Errors.",
                                         detail: validationError
                                             ? validationError
-                                            : "Please input add new employee have missing value!",
+                                            : "Please input add new assign position to employee have missing value!",
                                         life: 3000,
                                     });
                                 }
