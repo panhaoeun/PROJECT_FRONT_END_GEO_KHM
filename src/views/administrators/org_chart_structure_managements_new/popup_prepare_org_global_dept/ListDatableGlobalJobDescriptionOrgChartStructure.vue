@@ -22,9 +22,18 @@
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
                 <!-- Search Products -->
-                <p class="justify-content-center font-bold">
-                    List Job Descriptions
-                </p>
+                <div class="justify-content-center font-bold">
+                    <TreeSelect
+                        showClear
+                        inputId="geo_english_name"
+                        aria-describedby="dd-error"
+                        v-model="selectedParentDeptOrStructureJobDeptDes"
+                        :options="orgStrDataTree"
+                        display="comma"
+                        placeholder="Selected Department of Org-Structures"
+                        class="border-round-lg text-sm w-full md:w-25rem"
+                    />
+                </div>
                 <span
                     class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
                 >
@@ -135,6 +144,11 @@ export default {
             required: true,
             default: () => {},
         },
+        orgStrDataTree: {
+            type: Object,
+            required: true,
+            default: () => {},
+        },
     },
     mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
     data() {
@@ -142,6 +156,7 @@ export default {
             positionDataJobDes: null,
             selectedPositionData: false,
             visibleConfirmRemove: false,
+            selectedParentDeptOrStructureJobDeptDes: null,
             dataObjPosition: null,
             filtersDataPositionData: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },

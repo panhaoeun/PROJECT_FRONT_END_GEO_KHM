@@ -260,6 +260,7 @@
 import Spinner from "@/components/ui_component_new_frontend/Spinner";
 import PopOver from "@/components/ui_component_new_frontend/PopOver";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+import manageOrgEmployeeMainHelper from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
 import GlobalAddListEmployeeOfMainOrg from "../assign_employee_dept_pos/GlobalAssignEmpDeptAddNewGeoOrg.vue";
 import util from "@/mixin/util";
@@ -334,6 +335,7 @@ export default {
         util,
         validation,
         manageOrgStructureDeptNewFeatures,
+        manageOrgEmployeeMainHelper,
     ],
     data() {
         return {

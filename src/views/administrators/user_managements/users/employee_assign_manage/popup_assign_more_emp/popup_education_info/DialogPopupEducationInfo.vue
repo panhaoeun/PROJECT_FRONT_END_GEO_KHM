@@ -594,8 +594,8 @@
                                         class="text-sm font-semibold"
                                         :class="{
                                             'p-invalid border-round-lg p-error':
-                                                v$.empEduUniversityAddr.$invalid &&
-                                                submitted,
+                                                v$.empEduUniversityAddr
+                                                    .$invalid && submitted,
                                         }"
                                     >
                                         Address
@@ -607,8 +607,8 @@
                                         v-model="v$.empEduUniversityAddr.$model"
                                         :class="{
                                             'p-invalid border-round-lg p-error':
-                                                v$.empEduUniversityAddr.$invalid &&
-                                                submitted,
+                                                v$.empEduUniversityAddr
+                                                    .$invalid && submitted,
                                         }"
                                         placeholder="Address"
                                     />
@@ -616,7 +616,8 @@
                                         v-if="
                                             (v$.empEduUniversityAddr.$invalid &&
                                                 submitted) ||
-                                            v$.empEduUniversityAddr.$pending.$response
+                                            v$.empEduUniversityAddr.$pending
+                                                .$response
                                         "
                                         class="p-error text-sm"
                                         >{{
@@ -648,7 +649,9 @@
                                         :showOnFocus="true"
                                         class="border-round-lg text-sm"
                                         type="text"
-                                        v-model="v$.empEduUniversityStartDate.$model"
+                                        v-model="
+                                            v$.empEduUniversityStartDate.$model
+                                        "
                                         :class="{
                                             'p-invalid border-round-lg p-error':
                                                 v$.empEduUniversityStartDate
@@ -658,10 +661,11 @@
                                     />
                                     <small
                                         v-if="
-                                            (v$.empEduUniversityStartDate.$invalid &&
+                                            (v$.empEduUniversityStartDate
+                                                .$invalid &&
                                                 submitted) ||
-                                            v$.empEduUniversityStartDate.$pending
-                                                .$response
+                                            v$.empEduUniversityStartDate
+                                                .$pending.$response
                                         "
                                         class="p-error text-sm"
                                         >{{
@@ -681,8 +685,8 @@
                                         class="text-sm font-semibold"
                                         :class="{
                                             'p-invalid border-round-lg p-error':
-                                                v$.empEduUniversityEndDate.$invalid &&
-                                                submitted,
+                                                v$.empEduUniversityEndDate
+                                                    .$invalid && submitted,
                                         }"
                                     >
                                         End Date
@@ -693,17 +697,20 @@
                                         :showOnFocus="true"
                                         class="border-round-lg text-sm"
                                         type="text"
-                                        v-model="v$.empEduUniversityEndDate.$model"
+                                        v-model="
+                                            v$.empEduUniversityEndDate.$model
+                                        "
                                         :class="{
                                             'p-invalid border-round-lg p-error':
-                                                v$.empEduUniversityEndDate.$invalid &&
-                                                submitted,
+                                                v$.empEduUniversityEndDate
+                                                    .$invalid && submitted,
                                         }"
                                         placeholder="End Date"
                                     />
                                     <small
                                         v-if="
-                                            (v$.empEduUniversityEndDate.$invalid &&
+                                            (v$.empEduUniversityEndDate
+                                                .$invalid &&
                                                 submitted) ||
                                             v$.empEduUniversityEndDate.$pending
                                                 .$response
@@ -821,9 +828,9 @@ export default {
             // University
             empEduUniversityNameSchool: { required },
             empEduDegreeUniversityName: { required },
-            empEduUniversityAddr: {required},
-            empEduUniversityStartDate: {required},
-            empEduUniversityEndDate: {required},
+            empEduUniversityAddr: { required },
+            empEduUniversityStartDate: { required },
+            empEduUniversityEndDate: { required },
         };
     },
     props: {

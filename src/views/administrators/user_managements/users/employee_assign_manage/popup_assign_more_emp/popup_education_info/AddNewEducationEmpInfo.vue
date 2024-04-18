@@ -3,7 +3,7 @@
         <div class="flex justify-content-evenly flex-wrap">
             <div class="flex flex-column gap-15 border-round m-2">
                 <h5 class="flex align-items-center justify-content-center">
-                    Experience Information
+                    Educations Information
                 </h5>
                 <!-- Add More Experience Informations -->
                 <Accordion
@@ -22,54 +22,41 @@
                                         <!-- Type Governments -->
                                         <div class="col-4 lg:col-6 field">
                                             <label for="name_en" class="text-sm"
-                                                >Type
+                                                >Education Type
                                                 <span class="p-error">*</span>
                                             </label>
                                             <Dropdown
-                                                v-model="selectedTypeExperience"
-                                                :options="dataExperienceWork"
+                                                v-model="selectedEducationInfo"
+                                                :options="dataEducationsInfo"
                                                 optionLabel="name"
-                                                placeholder="Select a Type Experience"
+                                                placeholder="Select a education type"
                                                 class="w-full border-round-lg text-sm"
                                             />
                                         </div>
                                         <!-- Positions -->
                                         <div class="field col-4">
                                             <label for="name_en" class="text-sm"
-                                                >Position
+                                                >School
                                                 <span class="p-error">*</span>
                                             </label>
                                             <InputText
                                                 type="text"
                                                 v-model="positionEmpExperience"
-                                                placeholder="Software Development"
+                                                placeholder="Royal university of phnom penh (RUPP)"
                                                 class="border-round-lg text-sm h-3rem"
                                             />
                                         </div>
-                                        <!-- Company/Ministry -->
+                                        <!-- Grade -->
                                         <div class="field col-4">
                                             <label for="name_en" class="text-sm"
-                                                >Company/Ministry
+                                                >Grade
                                                 <span class="p-error">*</span>
                                             </label>
                                             <InputText
                                                 type="text"
-                                                placeholder="ABC Company Co ltd"
+                                                placeholder="Royal University Phnom Penh"
                                                 class="border-round-lg text-sm h-3rem"
                                                 v-model="nameOfCompanyMinistry"
-                                            />
-                                        </div>
-                                        <!-- Address -->
-                                        <div class="field col-4">
-                                            <label for="name_en" class="text-sm"
-                                                >Address
-                                                <span class="p-error">*</span>
-                                            </label>
-                                            <InputText
-                                                type="text"
-                                                placeholder="Phnom Penh"
-                                                class="border-round-lg text-sm h-3rem"
-                                                v-model="addressExperiencesWork"
                                             />
                                         </div>
                                         <!-- Start Time -->
@@ -100,20 +87,7 @@
                                                 v-model="selectedEndDate"
                                             />
                                         </div>
-                                        <!-- Employment Type -->
-                                        <div class="field col-4">
-                                            <label for="name_en" class="text-sm"
-                                                >Employment Type
-                                                <span class="p-error">*</span>
-                                            </label>
-                                            <Dropdown
-                                                v-model="selectedEmploymentType"
-                                                :options="dataEmployeeType"
-                                                optionLabel="name"
-                                                placeholder="Select a Type Experience"
-                                                class="w-full border-round-lg text-sm"
-                                            />
-                                        </div>
+
                                         <!-- CHecking Present Day -->
                                         <div class="field col-12">
                                             <div
@@ -143,8 +117,8 @@
                                                 >Descriptions</label
                                             >
                                             <Editor
-                                                v-model="value"
                                                 placeholder="Enter Descriptions"
+                                                v-model="value"
                                                 editorStyle="height: 320px"
                                             />
                                         </div>
@@ -157,7 +131,7 @@
                 <!-- Button Add New Languages -->
                 <div class="items-end justify-items-end flex">
                     <Button
-                        label="Add Experience"
+                        label="Add Education"
                         severity="info"
                         text
                         icon="pi pi-plus-circle"
@@ -175,12 +149,13 @@ export default {
     props: {},
     data() {
         return {
-            selectedTypeExperience: null,
-            dataExperienceWork: [
-                { name: "Educations", code: "EC" },
-                { name: "Civil service", code: "CS" },
-                { name: "Social work", code: "SW" },
-                { name: "Others", code: "OH" },
+            selectedEducationInfo: null,
+            dataEducationsInfo: [
+                { name: "Primary School", code: "EC" },
+                { name: "High School", code: "CS" },
+                { name: "University", code: "SW" },
+                { name: "Institute", code: "IN" },
+                { name: "Other", code: "SW" },
             ],
             positionEmpExperience: "",
             nameOfCompanyMinistry: "",
@@ -195,7 +170,6 @@ export default {
                 { name: "Freelancer", code: "FL" },
                 { name: "Contract", code: "CA" },
                 { name: "Internship", code: "IS" },
-                { name: "Other", code: "OH" },
             ],
         };
     },

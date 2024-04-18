@@ -199,22 +199,30 @@ const defaultChildRoutesUsersMS = (prefix) => [
         },
         component: () => import("../../views/administrators/user_managements/users/manage_new_assign_position_org_str_dept/ListManageOrgPositionAssignNew.vue"),
     },
-    // Job Descriptions 
+    // Manage Dept.Job Descriptions 
     {
-        path: "/admin/admin-job-description-org-structure-dept",
+        path: "/admin/admin-job-dept-description-org-structure-dept",
         name: prefix + '.hrm_assign_employee_job_des_org',
         meta: {
-            title: "jobDescription",
+            title: "jobManageDeptDescription",
             icon: 'file',
             requiresAuth: true,
             permissions: ['users_modules']
         },
-        component: () => import("../../views/administrators/user_managements/users/manage_new_assign_position_org_str_dept/ListManageOrgJobDescriptionAssignNew.vue"),
+        component: () => import("../../views/administrators/user_managements/users/manage_new_assign_position_org_str_dept/ListManageOrgJobDeptDescriptionAssignNew"),
     },
-
-
-
-
+    // Manage Dept.Job Positions Descriptions 
+    {
+        path: "/admin/admin-manage-job-description-position-org-structure-dept",
+        name: prefix + '.hrm_assign_employee_dept_position_job_des_org',
+        meta: {
+            title: "jobManagePositionDeptDescription",
+            icon: 'file',
+            requiresAuth: true,
+            permissions: ['users_modules']
+        },
+        component: () => import("../../views/administrators/user_managements/users/manage_new_assign_position_org_str_dept/ListManageOrgPositionDeptDescriptionAssign"),
+    },
     /**
      * @Role and Permissions Managements
      * **/

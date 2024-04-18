@@ -1,13 +1,16 @@
 <template>
-    <div class="px-2 py-2 gpa-10">
+    <!-- List Position base on org-structure -->
+    <div class="px-2 py-2">
         <!-- Titles -->
         <div class="flex justify-content-between my-4 px-4 py-4">
-            <h1 class="text-2xl text-gray-800 font-medium">Position List</h1>
+            <h1 class="text-2xl text-gray-800 font-medium">
+                Manage Dept. Position Job Descriptions
+            </h1>
             <el-button
                 type="info"
                 size="large"
                 class="btn btn-primary"
-                @click.prevent="openDialogAddNewPosition"
+                @click.prevent="openDialogAddNewJobDes"
             >
                 <div class="button">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
@@ -367,39 +370,31 @@
                 </div>
             </el-card>
         </div>
-        <!-- List of positions -->
-        <div class="gird my-2">
-            <el-card class="box-card text-sm">
-                <!-- Country Data Positions Department -->
-                <ListDatableGlobalPositionOrgChartStructure
-                    :orgStrDataTree="
-                        getOrgDeptNameGlobalDataOrgStructures
-                            ? getOrgDeptNameGlobalDataOrgStructures
-                            : null
-                    "
-                />
+        <div class="gird">
+            <el-card class="box-card py-2 px-2 text-sm my-2">
+                <div class="px-2">
+                    <ListDatableGlobalPositionOrgChartStructure />
+                    <!-- Edited Org-Position -->
+                </div>
             </el-card>
         </div>
     </div>
 </template>
-<!-- Scirpt of Positions Add new -->
+
+<!-- Script of Positions Add new -->
 <script>
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { reactive } from "vue";
-import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalPositionOrgChartStructure.vue";
+import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalJobDescriptionOrgChartStructure.vue";
 // import OpenEditedJobDescriptionOrgStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditJobDescriptionOrgStrData.vue";
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
-import geoLocationVillagesHelper from "@/mixin/geoLocationVillagesHelper";
-import geoGlobalOrgStrLocationHelper from "@/mixin/getGeoGlobalOrgStrLocationHelper";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 export default {
     mixins: [
         managerJobPositionOrgStructureProjectLevelZeroHelper,
         managerPositionOrgStructureProjectLevelZeroHelper,
-        geoLocationVillagesHelper,
-        geoGlobalOrgStrLocationHelper,
         manageOrgStructureDeptNewFeatures,
     ],
     setup: () => {
@@ -429,9 +424,7 @@ export default {
         ListDatableGlobalPositionOrgChartStructure,
         // OpenEditedJobDescriptionOrgStructure,
     },
-    mounted() {
-        this.geoLocationCountryData();
-    },
+    props: {},
     data() {
         return {
             visibleDialogPosition: false,
@@ -442,10 +435,6 @@ export default {
                     editDescriptionProjectOrgStr: "",
                 },
             ],
-            loadingBtnFilter: false,
-            selectedPermissions: null,
-            optProjectDeptOrgStrAll: [],
-            selectedProject: null,
             selectedCountryOptOrgStr: null,
             hideOrgStructureDeptCompany: null,
             selectedProvinceOptOrgStr: null,
@@ -455,42 +444,11 @@ export default {
             hideOrgStructureDeptPos: "",
         };
     },
-    computed: {
-        getOrgDeptNameGlobalDataOrgStructures() {
-            const getOrgDeptOrgGlobalName = this.hideOrgStructureDeptCompany
-                ? this.hideOrgStructureDeptCompany
-                : "T1";
-            let orgStricturesDeptOrg;
-            switch (getOrgDeptOrgGlobalName) {
-                case "T1":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationCongress;
-                    break;
-                case "T2":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationProvinces;
-                    break;
-                case "T3":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationDistrict;
-                    break;
-                case "T4":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationCommune;
-                    break;
-                case "T5":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationVillages;
-                    break;
-                default:
-                    orgStricturesDeptOrg;
-                    break;
-            }
-            return orgStricturesDeptOrg;
-        },
+    mounted() {
+        this.geoLocationCountryData();
     },
     methods: {
-        openDialogAddNewPosition() {
+        openDialogAddNewJobDes() {
             this.visibleDialogPosition = true;
         },
         onClickAddMorePositionOrgStructures() {
@@ -528,7 +486,8 @@ export default {
                 throw Error(error || error.message);
             }
         },
-        // Reload Org-Structures Geo-fence locations
     },
 };
 </script>
+<style scoped></style>
+<style lang="scss" scoped></style>

@@ -9,16 +9,13 @@ export default{
                     perInfoKhmerName: yup.string().label('Please enter khmer name').required(),
                     perInfoPhoneNumber: yup.string()
                                 .min(10)
-                                .max(10)
+                                .max(13)
                                 .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, {
                                     message: 'Please enter valid number.',
                                     excludeEmptyString: false
                                 })
                                 .label('Please enter phone number')
                                 .required(),
-                }),
-                yup.object({
-                    terms: yup.bool().required().equals([true]),
                 }),
             ],
         }

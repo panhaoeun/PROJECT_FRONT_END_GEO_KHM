@@ -443,7 +443,9 @@
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-02'"
                             geoName="Province or State"
-                            :geo-fence-data-filter="allStateCountryOrgStrListData"
+                            :geo-fence-data-filter="
+                                allStateCountryOrgStrListData
+                            "
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-03'"
@@ -453,12 +455,16 @@
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-04'"
                             geoName="Commune"
-                            :geo-fence-data-filter="allCommuneCountryByComListData"
+                            :geo-fence-data-filter="
+                                allCommuneCountryByComListData
+                            "
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-05'"
                             geoName="Villages"
-                            :geo-fence-data-filter="getGeoLocationVillagesListData"
+                            :geo-fence-data-filter="
+                                getGeoLocationVillagesListData
+                            "
                         />
                         <p v-else>Please select geo-fence filter</p>
                     </div>

@@ -105,24 +105,24 @@
                                         field="full_latin_name"
                                         :header="$t('users.userName')"
                                         sortable
-                                        style="min-width: 20rem"
+                                        style="min-width: 10rem"
                                     ></Column>
                                     <Column
                                         field="user_email"
                                         :header="$t('users.userEmail')"
                                         sortable
-                                        style="min-width: 20rem"
+                                        style="min-width: 10rem"
                                     ></Column>
                                     <Column
                                         field="user_phonenumber"
                                         :header="$t('users.userPhone')"
                                         sortable
-                                        style="min-width: 20rem"
+                                        style="min-width: 10rem"
                                     ></Column>
                                     <Column
                                         :exportable="false"
                                         header="Options"
-                                        style="min-width: 8rem"
+                                        style="min-width: 10rem"
                                     >
                                         <template #body="slotProps">
                                             <!-- Admin Account Edited -->

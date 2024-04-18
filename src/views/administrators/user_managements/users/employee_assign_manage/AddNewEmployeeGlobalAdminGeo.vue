@@ -723,7 +723,7 @@ export default {
                                         });
                                     }
                                 }
-                            });
+                        });
                     }
 
                     this.v$.$touch();

@@ -19,15 +19,31 @@
             <div
                 class="flex flex-wrap gap-2 align-items-center justify-content-between"
             >
-                <!-- Search Products -->
-                <p class="justify-content-center font-bold">List Positions</p>
+                <!-- Department of Org-Structures -->
+                <div class="justify-content-center font-bold">
+                    <div class="flex start mlr--5">
+                        <div class="input-wrap mlr-5">
+                            <label> Department of Org-Structures</label>
+                            <TreeSelect
+                                showClear
+                                inputId="geo_english_name"
+                                aria-describedby="dd-error"
+                                v-model="selectedParentDeptOrStructure"
+                                :options="orgStrDataTree"
+                                display="comma"
+                                placeholder="Selected Department of Org-Structures"
+                                class="border-round-lg text-sm w-full md:w-25rem"
+                            />
+                        </div>
+                    </div>
+                </div>
                 <span
                     class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
                 >
                     <i class="pi pi-search" />
                     <InputText
                         v-model="filtersDataPositionData['global'].value"
-                        class="p-inputtext p-component w-full text-sm"
+                        class="border-round-lg text-sm w-full md:w-20rem"
                         placeholder="Search positions..."
                     />
                 </span>
@@ -77,14 +93,6 @@
         >
             <template #body="{ data }">
                 <div class="flex flex-wrap gap-2">
-                    <Button
-                        icon="pi pi-briefcase"
-                        severity="help"
-                        outlined
-                        rounded
-                        class="mr-2"
-                        @click.prevent="openDialogAssignTOR(data)"
-                    />
                     <Button
                         icon="pi pi-pencil"
                         outlined
@@ -156,10 +164,16 @@ import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_ge
 import manageOrgStrMgtPositionHelper from "@/mixin/manage_geo_org_str/manage_org_geo_str_mgt_dept_pos/manage_mgt_pos_org_str/manageOrgStrMgtPositionHelper";
 import OpenEditedPositionsOrgStructure from "../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditPositionOrgStructureData.vue";
 import AssignTermsReferencePositions from "./manage_tor_management_prepare/ManagementTORBasePosition.vue";
+
 export default {
     props: {
         positionData: {
             type: Array,
+            required: true,
+            default: () => {},
+        },
+        orgStrDataTree: {
+            type: Object,
             required: true,
             default: () => {},
         },
@@ -180,6 +194,7 @@ export default {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
             clingAssignTORVisible: false,
+            selectedParentDeptOrStructure: null,
         };
     },
     components: {
