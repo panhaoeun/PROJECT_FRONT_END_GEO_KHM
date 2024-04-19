@@ -2,9 +2,7 @@
     <div class="layout-content">
         <!-- Titles -->
         <div class="flex flex-row justify-content-between pl-2">
-            <h2
-                class="text-black text-xl section section-title:before"
-            >
+            <h2 class="text-black text-xl section section-title:before">
                 View Detail Employee
             </h2>
             <Button

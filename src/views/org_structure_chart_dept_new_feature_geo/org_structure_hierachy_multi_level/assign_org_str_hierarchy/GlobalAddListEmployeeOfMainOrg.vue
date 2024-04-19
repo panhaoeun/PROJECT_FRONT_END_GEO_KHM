@@ -203,7 +203,7 @@
                                         rounded
                                         class="mr-2"
                                         @click.prevent="
-                                            openDialogHistoryOfficerEmp(
+                                            openDialogEmployeeViewDetailJobDept(
                                                 slotProps?.data
                                             )
                                         "
@@ -220,7 +220,7 @@
                                         }"
                                         class="mr-2"
                                         @click.prevent="
-                                            openDialogHistoryOfficerEmp(
+                                            openDialogEmployeeResignJobDept(
                                                 slotProps?.data
                                             )
                                         "
@@ -244,12 +244,28 @@
                 </div>
             </template>
         </pop-over>
-        <!-- Popup Add Employee Assign -->
-        <GlobalAddListEmployeeOfMainOrg
+        <!-- Popup Add Employee Add New Position Change -->
+        <AssignPositionOfficerJobDeptOrg
             v-if="openDialogEmpOrg"
             :orgAssignId="empOrgStrDataId ? empOrgStrDataId : 0"
-            @close="closeDialogEmpOrgAssign"
+            @close="closeDialogAssignPositionOfficer"
             :dialog-change-position="openDialogEmpOrg"
+            :departmentName="departmentOrgName ? departmentOrgName : ''"
+        />
+        <!-- Popup Add Resign Officer To Employee  Job -->
+        <ResignEmployeeOfficerJobDept
+            v-if="assignOfficerPosition"
+            :orgAssignId="empOrgStrDataId ? empOrgStrDataId : 0"
+            @close="closedResignOfficerOrgDept"
+            :dialog-resign-form="assignOfficerPosition"
+            :departmentName="departmentOrgName ? departmentOrgName : ''"
+        />
+        <!-- Popup View Detail Officer Employee Detail -->
+        <ViewDetailsOfficerOrgDeptEmpInfo
+            v-if="viewDetailOfficerEmployee"
+            :orgAssignId="empOrgStrDataId ? empOrgStrDataId : 0"
+            @close="closeDialogViewDetailOrgOfficer"
+            :dialog-resign-form="viewDetailOfficerEmployee"
             :departmentName="departmentOrgName ? departmentOrgName : ''"
         />
     </form>
@@ -262,17 +278,26 @@ import PopOver from "@/components/ui_component_new_frontend/PopOver";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 import manageOrgEmployeeMainHelper from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 import geoDeptOrgProjects from "@/mixin/manage_geo_org_str/manageProjectNameHelper";
-import GlobalAddListEmployeeOfMainOrg from "../assign_employee_dept_pos/GlobalAssignEmpDeptAddNewGeoOrg.vue";
+import AssignPositionOfficerJobDeptOrg from "../assign_employee_dept_pos/GlobalAssignEmpDeptAddNewGeoOrg.vue";
+
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import { mapActions } from "vuex";
 import { FilterMatchMode } from "primevue/api";
+/**
+ * @Resign and Popup View Detail Employee
+ * */
+import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_dept_employee_main/manageOrgEmployeeMainHelper";
+import ResignEmployeeOfficerJobDept from "../assign_employee_org_officer_dept/AssignEmployeeOrgOfficerResignJobDept.vue";
+import ViewDetailsOfficerOrgDeptEmpInfo from "../assign_employee_org_officer_dept/ViewDetailsOfficerOrgDeptEmpInfo";
 
 export default {
     components: {
         Spinner,
         PopOver,
-        GlobalAddListEmployeeOfMainOrg,
+        AssignPositionOfficerJobDeptOrg,
+        ResignEmployeeOfficerJobDept,
+        ViewDetailsOfficerOrgDeptEmpInfo,
     },
     props: {
         departmentOrgName: {
@@ -336,6 +361,7 @@ export default {
         validation,
         manageOrgStructureDeptNewFeatures,
         manageOrgEmployeeMainHelper,
+        manageOrgDeptPositionStructuresHelper,
     ],
     data() {
         return {
@@ -353,6 +379,8 @@ export default {
             filters: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
+            assignOfficerPosition: false,
+            viewDetailOfficerEmployee: false,
         };
     },
     async mounted() {
@@ -399,8 +427,14 @@ export default {
         onAssignEmployeeOrgStructures() {
             this.openDialogEmpOrg = true;
         },
-        closeDialogEmpOrgAssign() {
+        closeDialogAssignPositionOfficer() {
             this.openDialogEmpOrg = false;
+        },
+        closedResignOfficerOrgDept() {
+            this.assignOfficerPosition = false;
+        },
+        closeDialogViewDetailOrgOfficer() {
+            this.viewDetailOfficerEmployee = false;
         },
     },
 };
