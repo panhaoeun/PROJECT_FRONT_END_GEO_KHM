@@ -7,7 +7,7 @@
                 type="info"
                 size="large"
                 class="btn btn-primary"
-                @click.prevent="openDialogAddNewPosition"
+                @click.prevent="openDialogAddNewPositionAssignNew"
             >
                 <div class="button">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
@@ -380,20 +380,29 @@
                 />
             </el-card>
         </div>
+        <!-- Add New Position Dept Org-Structures -->
+        <AddNewAssignPositionDeptOrg
+            v-if="addDialogNewPositionAssign"
+            @close="closeDialogAddNewPositionAssignNew"
+            :dialog-position-form="addDialogNewPositionAssign"
+            :departmentName="departmentOrgName ? departmentOrgName : ''"
+        />
     </div>
 </template>
-<!-- Scirpt of Positions Add new -->
+
+<!-- Scripts of Positions -->
 <script>
-import { required, minLength, helpers } from "@vuelidate/validators";
-import { useVuelidate } from "@vuelidate/core";
-import { reactive } from "vue";
 import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalPositionOrgChartStructure.vue";
-// import OpenEditedJobDescriptionOrgStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditJobDescriptionOrgStrData.vue";
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import geoLocationVillagesHelper from "@/mixin/geoLocationVillagesHelper";
 import geoGlobalOrgStrLocationHelper from "@/mixin/getGeoGlobalOrgStrLocationHelper";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+/**
+ * Open Dialog Positions
+ **/
+import AddNewAssignPositionDeptOrg from "./manage_positions_dept_manage/PopupAddNewPositionDeptOrg.vue";
+
 export default {
     mixins: [
         managerJobPositionOrgStructureProjectLevelZeroHelper,
@@ -402,50 +411,15 @@ export default {
         geoGlobalOrgStrLocationHelper,
         manageOrgStructureDeptNewFeatures,
     ],
-    setup: () => {
-        const rules = {
-            dyNamicAddNewFrm: {
-                $each: helpers.forEach({
-                    editNameEngProjectOrgStr: {
-                        required,
-                        minLength: minLength(3),
-                    },
-                }),
-            },
-        };
-        const state = reactive({
-            dyNamicAddNewFrm: [
-                {
-                    editNameEngProjectOrgStr: "",
-                    editNameKhmerProjectOrgStr: "",
-                    editDescriptionProjectOrgStr: "",
-                },
-            ],
-        });
-        const v$ = useVuelidate(rules, state);
-        return { v$, state };
-    },
     components: {
         ListDatableGlobalPositionOrgChartStructure,
-        // OpenEditedJobDescriptionOrgStructure,
+        AddNewAssignPositionDeptOrg,
     },
     mounted() {
         this.geoLocationCountryData();
     },
     data() {
         return {
-            visibleDialogPosition: false,
-            dyNamicAddNewFrm: [
-                {
-                    editNameEngProjectOrgStr: "",
-                    editNameKhmerProjectOrgStr: "",
-                    editDescriptionProjectOrgStr: "",
-                },
-            ],
-            loadingBtnFilter: false,
-            selectedPermissions: null,
-            optProjectDeptOrgStrAll: [],
-            selectedProject: null,
             selectedCountryOptOrgStr: null,
             hideOrgStructureDeptCompany: null,
             selectedProvinceOptOrgStr: null,
@@ -453,73 +427,10 @@ export default {
             selectedCommuneOptOrgStr: null,
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
+            addDialogNewPositionAssign: false,
         };
     },
-    computed: {
-        getOrgDeptNameGlobalDataOrgStructures() {
-            const getOrgDeptOrgGlobalName = this.hideOrgStructureDeptCompany
-                ? this.hideOrgStructureDeptCompany
-                : "T1";
-            let orgStricturesDeptOrg;
-            switch (getOrgDeptOrgGlobalName) {
-                case "T1":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationCongress;
-                    break;
-                case "T2":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationProvinces;
-                    break;
-                case "T3":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationDistrict;
-                    break;
-                case "T4":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationCommune;
-                    break;
-                case "T5":
-                    orgStricturesDeptOrg =
-                        this.getAllOrgStructuresFeatureGeoNationVillages;
-                    break;
-                default:
-                    orgStricturesDeptOrg;
-                    break;
-            }
-            return orgStricturesDeptOrg;
-        },
-    },
     methods: {
-        openDialogAddNewPosition() {
-            this.visibleDialogPosition = true;
-        },
-        onClickAddMorePositionOrgStructures() {
-            try {
-                this.loadingAddMoreFrom = true;
-                setTimeout(() => {
-                    this.loadingAddMoreFrom = false;
-                    try {
-                        this.state.dyNamicAddNewFrm.push({
-                            editNameEngProjectOrgStr: "",
-                            editNameKhmerProjectOrgStr: "",
-                            editDescriptionProjectOrgStr: "",
-                        });
-                    } catch (error) {
-                        throw Error(error || error.message);
-                    }
-                }, 1000);
-            } catch (error) {
-                throw Error(error || error.message);
-            }
-        },
-        removePositionOrgStructureByKey(index) {
-            this.dyNamicAddNewFrm.splice(index, 1);
-        },
-        resetForm() {
-            (this.state.editNameEngProjectOrgStr = ""),
-                (this.proCategoryNameKh = ""),
-                (this.submitted = false);
-        },
         // Country Data
         geoLocationCountryData() {
             try {
@@ -528,7 +439,12 @@ export default {
                 throw Error(error || error.message);
             }
         },
-        // Reload Org-Structures Geo-fence locations
+        openDialogAddNewPositionAssignNew() {
+            this.addDialogNewPositionAssign = true;
+        },
+        closeDialogAddNewPositionAssignNew() {
+            this.addDialogNewPositionAssign = false;
+        },
     },
 };
 </script>

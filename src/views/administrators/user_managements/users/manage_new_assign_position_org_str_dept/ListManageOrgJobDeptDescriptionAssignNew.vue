@@ -10,7 +10,7 @@
                 type="info"
                 size="large"
                 class="btn btn-primary"
-                @click.prevent="openDialogAddNewJobDes"
+                @click.prevent="openDialogAddNewJobDeptOrgDes"
             >
                 <div class="button">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
@@ -382,6 +382,13 @@
                 />
             </el-card>
         </div>
+        <!-- Add New Job Descritions Org-Structures -->
+        <AddNewDeptJobDesOrgAssign
+            v-if="addDialogNewJobDesAssign"
+            @close="closedDialogAddNewJobDeptOrgDes"
+            :dialog-position-form="addDialogNewJobDesAssign"
+            :departmentName="departmentOrgName ? departmentOrgName : ''"
+        />
     </div>
 </template>
 
@@ -395,6 +402,10 @@ import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_struc
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+/**
+ * Job Org-Structures Description
+ * */
+import AddNewDeptJobDesOrgAssign from "./manage_positions_dept_manage/PopupAddNewJobDeptOrgDescription.vue";
 export default {
     mixins: [
         managerJobPositionOrgStructureProjectLevelZeroHelper,
@@ -426,7 +437,7 @@ export default {
     },
     components: {
         ListDatableGlobalPositionOrgChartStructure,
-        // OpenEditedJobDescriptionOrgStructure,
+        AddNewDeptJobDesOrgAssign,
     },
     data() {
         return {
@@ -445,6 +456,7 @@ export default {
             selectedCommuneOptOrgStr: null,
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
+            addDialogNewJobDesAssign: false
         };
     },
     computed: {
@@ -512,6 +524,12 @@ export default {
                 (this.proCategoryNameKh = ""),
                 (this.submitted = false);
         },
+        openDialogAddNewJobDeptOrgDes(){
+            this.addDialogNewJobDesAssign = true;
+        },
+        closedDialogAddNewJobDeptOrgDes(){
+            this.addDialogNewJobDesAssign = false;
+        }
     },
 };
 </script>

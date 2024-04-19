@@ -259,6 +259,9 @@
             @close="closedResignOfficerOrgDept"
             :dialog-resign-form="assignOfficerPosition"
             :departmentName="departmentOrgName ? departmentOrgName : ''"
+            :open-resign-data-emp-job="
+                resignDataEmpJob ? resignDataEmpJob : null
+            "
         />
         <!-- Popup View Detail Officer Employee Detail -->
         <ViewDetailsOfficerOrgDeptEmpInfo
@@ -381,6 +384,7 @@ export default {
             },
             assignOfficerPosition: false,
             viewDetailOfficerEmployee: false,
+            resignDataEmpJob: null,
         };
     },
     async mounted() {

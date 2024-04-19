@@ -10,7 +10,7 @@
                 type="info"
                 size="large"
                 class="btn btn-primary"
-                @click.prevent="openDialogAddNewJobDes"
+                @click.prevent="openDialogAddNewJobPositionDes"
             >
                 <div class="button">
                     <i class="pi pi-plus" style="font-size: 1rem"></i>
@@ -378,6 +378,13 @@
                 </div>
             </el-card>
         </div>
+        <!-- Add New Position Dept Org-Structures -->
+        <AddNewAssignPositionJobDesDeptOrg
+            v-if="openDialogAddNewJobDesPos"
+            @close="closeDialogAddNewPositionJobDes"
+            :dialog-position-form="openDialogAddNewJobDesPos"
+            :departmentName="departmentOrgName ? departmentOrgName : ''"
+        />
     </div>
 </template>
 
@@ -391,6 +398,10 @@ import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_struc
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
+/**
+ * Open Dialog Positions
+ **/
+import AddNewAssignPositionJobDesDeptOrg from "./manage_positions_dept_manage/PopupAddNewJobDeptPositionDescription.vue";
 export default {
     mixins: [
         managerJobPositionOrgStructureProjectLevelZeroHelper,
@@ -422,7 +433,7 @@ export default {
     },
     components: {
         ListDatableGlobalPositionOrgChartStructure,
-        // OpenEditedJobDescriptionOrgStructure,
+        AddNewAssignPositionJobDesDeptOrg,
     },
     props: {},
     data() {
@@ -442,6 +453,7 @@ export default {
             selectedCommuneOptOrgStr: null,
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
+            openDialogAddNewJobDesPos: false
         };
     },
     mounted() {
@@ -485,6 +497,12 @@ export default {
             } catch (error) {
                 throw Error(error || error.message);
             }
+        },
+        openDialogAddNewJobPositionDes() {
+            this.openDialogAddNewJobDesPos = true;
+        },
+        closeDialogAddNewPositionJobDes() {
+            this.openDialogAddNewJobDesPos = false;
         },
     },
 };

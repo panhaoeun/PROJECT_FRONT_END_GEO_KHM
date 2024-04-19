@@ -4,7 +4,11 @@
     <Dialog
         v-model:visible="openDialogsResignWork"
         modal
-        :header="'Employee Resignation:' + '\n   ' + departmentName"
+        :header="
+            'Employee Resignation:' +
+            '\n   ' +
+            dataResignEmpJobOrg?.empEnglishName
+        "
         :style="{ width: '60rem' }"
         maximizable
     >
@@ -20,197 +24,102 @@
                         <!-- Employee Name -->
                         <div class="col-6 field">
                             <div class="field">
-                                <label
-                                    for="name_en"
-                                    class="text-sm"
-                                    :class="{
-                                        'p-invalid p-error':
-                                            v$.employeeNameResign.$invalid &&
-                                            submitted,
-                                    }"
-                                    >Employee Name<span class="p-error"
+                                <label for="name_en" class="text-sm"
+                                    >English Name<span class="p-error"
                                         >*</span
                                     ></label
                                 >
-                                <Dropdown
-                                    showClear
-                                    v-model="v$.employeeNameResign.$model"
-                                    :class="{
-                                        'p-invalid p-error':
-                                            v$.employeeNameResign.$invalid &&
-                                            submitted,
-                                    }"
-                                    :options="getEmpDataOrgDept"
-                                    optionLabel="geo_english_name"
-                                    empty="Empty Employee"
-                                    filter
-                                    placeholder="Select a employee"
-                                    inputId="geo_english_name"
-                                    aria-describedby="dd-error"
-                                    :highlightOnSelect="false"
-                                    class="w-full border-round-lg"
-                                >
-                                    <template #value="slotProps">
-                                        <div
-                                            v-if="slotProps.value"
-                                            class="flex align-items-center"
-                                        >
-                                            <div class="text-sm">
-                                                {{
-                                                    geoNameToTitleCase(
-                                                        String(
-                                                            slotProps.value
-                                                                ?.full_kh_name ??
-                                                                ""
-                                                        )
-                                                    )
-                                                }}({{
-                                                    slotProps.value
-                                                        .full_latin_name ?? ""
-                                                }})
-                                            </div>
-                                        </div>
-                                        <span v-else class="text-sm">
-                                            {{ slotProps.placeholder }}
-                                        </span>
-                                    </template>
-                                    <template #option="slotProps">
-                                        <div
-                                            class="flex align-items-center text-sm"
-                                        >
-                                            <div class="text-sm">
-                                                {{
-                                                    geoNameToTitleCase(
-                                                        String(
-                                                            slotProps.option
-                                                                .full_kh_name ??
-                                                                ""
-                                                        )
-                                                    )
-                                                }}
-                                                ({{
-                                                    slotProps.option
-                                                        .full_latin_name ?? ""
-                                                }})
-                                            </div>
-                                        </div>
-                                    </template>
-                                </Dropdown>
-                                <small
-                                    v-if="
-                                        (v$.employeeNameResign.$invalid &&
-                                            submitted) ||
-                                        v$.employeeNameResign.$pending.$response
-                                    "
-                                    class="p-error"
-                                    >{{
-                                        v$.employeeNameResign.required.$message.replace(
-                                            "Value",
-                                            "Employee Name"
-                                        ) || v$.employeeNameResign.$params.min
-                                    }}</small
-                                >
+                                <InputText
+                                    id="reason_"
+                                    showIcon
+                                    :showOnFocus="false"
+                                    placeholder="English Name"
+                                    class="border-round-lg text-sm font-bold text-black"
+                                    v-model="dataResignEmpJobOrg.empEnglishName"
+                                    disabled
+                                />
                             </div>
                         </div>
-                        <!-- Positions Name -->
-                        <!-- <div class="col-6 field">
+                        <!-- Khmer Name -->
+                        <div class="col-6 field">
                             <div class="field">
-                                <label
-                                    for="name_en"
-                                    class="text-sm"
-                                    :class="{
-                                        'p-invalid p-error text-danger':
-                                            v$.employeePositionRequest
-                                                .$invalid && submitted,
-                                    }"
+                                <label for="name_en" class="text-sm"
+                                    >Khmer Name<span class="p-error"
+                                        >*</span
+                                    ></label
+                                >
+                                <InputText
+                                    id="reason_"
+                                    showIcon
+                                    :showOnFocus="false"
+                                    placeholder="English Name"
+                                    class="border-round-lg text-sm font-bold text-black"
+                                    v-model="dataResignEmpJobOrg.empKhmerName"
+                                    disabled
+                                />
+                            </div>
+                        </div>
+                        <!-- Departments -->
+                        <div class="col-6 field">
+                            <div class="field">
+                                <label for="name_en" class="text-sm"
+                                    >Department<span class="p-error"
+                                        >*</span
+                                    ></label
+                                >
+                                <InputText
+                                    id="reason_"
+                                    showIcon
+                                    :showOnFocus="false"
+                                    placeholder="English Name"
+                                    class="border-round-lg text-sm font-bold text-black"
+                                    v-model="departmentResignDepartment"
+                                    disabled
+                                />
+                            </div>
+                        </div>
+                        <!-- Positions -->
+                        <div class="col-6 field">
+                            <div class="field">
+                                <label for="name_en" class="text-sm"
                                     >Position<span class="p-error"
                                         >*</span
                                     ></label
                                 >
-                                <Dropdown
-                                    showClear
-                                    v-model="v$.employeePositionRequest.$model"
-                                    :class="{
-                                        'p-invalid p-error':
-                                            v$.employeePositionRequest
-                                                .$invalid && submitted,
-                                    }"
-                                    :options="getPositionBaseDept"
-                                    optionLabel="deptPosName"
-                                    empty="Empty Position"
-                                    filter
-                                    placeholder="Select a position"
-                                    inputId="deptPosName"
-                                    aria-describedby="dd-error"
-                                    :highlightOnSelect="false"
-                                    class="w-full border-round-lg"
-                                >
-                                    <template #value="slotProps">
-                                        <div
-                                            v-if="slotProps.value"
-                                            class="flex align-items-center"
-                                        >
-                                            <div class="text-sm">
-                                                {{
-                                                    geoNameToTitleCase(
-                                                        String(
-                                                            slotProps.value
-                                                                ?.deptPosName ??
-                                                                ""
-                                                        )
-                                                    )
-                                                }}({{
-                                                    slotProps.value
-                                                        .positionKhmerName ??
-                                                    ""
-                                                }})
-                                            </div>
-                                        </div>
-                                        <span v-else class="text-sm">
-                                            {{ slotProps?.placeholder }}
-                                        </span>
-                                    </template>
-                                    <template #option="slotProps">
-                                        <div
-                                            class="flex align-items-center text-sm"
-                                        >
-                                            <div class="text-sm">
-                                                {{
-                                                    geoNameToTitleCase(
-                                                        String(
-                                                            slotProps.option
-                                                                .deptPosName ??
-                                                                ""
-                                                        )
-                                                    )
-                                                }}
-                                                ({{
-                                                    slotProps.option
-                                                        .positionKhmerName ??
-                                                    ""
-                                                }})
-                                            </div>
-                                        </div>
-                                    </template>
-                                </Dropdown>
-                                <small
-                                    v-if="
-                                        (v$.employeePositionRequest.$invalid &&
-                                            submitted) ||
-                                        v$.employeePositionRequest.$pending
-                                            .$response
+                                <InputText
+                                    id="reason_"
+                                    showIcon
+                                    :showOnFocus="false"
+                                    placeholder="English Name"
+                                    class="border-round-lg text-sm font-bold text-black"
+                                    v-model="
+                                        dataResignEmpJobOrg
+                                            .tbl_org_position_geo_fence
+                                            .positionNameEng
                                     "
-                                    class="p-error"
-                                    >{{
-                                        v$.employeePositionRequest.required.$message.replace(
-                                            "Value",
-                                            "Position"
-                                        ) ||
-                                        v$.employeePositionRequest.$params.min
-                                    }}</small
-                                >
+                                    disabled
+                                />
                             </div>
-                        </div> -->
+                        </div>
+                        <!-- Phone Number -->
+                        <div class="col-6 field">
+                            <div class="field">
+                                <label for="name_en" class="text-sm"
+                                    >Phone Number<span class="p-error"
+                                        >*</span
+                                    ></label
+                                >
+                                <InputText
+                                    id="reason_"
+                                    showIcon
+                                    :showOnFocus="false"
+                                    placeholder="English Name"
+                                    class="border-round-lg text-sm font-bold text-black"
+                                    v-model="dataResignEmpJobOrg.phoneNumber"
+                                    disabled
+                                />
+                            </div>
+                        </div>
                         <!-- I hereby tender my resignation as an employee of the company to be effective on: -->
                         <div class="col-6 field">
                             <div class="field">
@@ -494,7 +403,7 @@
                 severity="primary"
                 raised
                 outlined
-                @click.prevent="resignAddFormRequestEmployee(!v$.$invalid)"
+                @click.prevent="submittedEmployeeResignJobDeptOrg(!v$.$invalid)"
                 autofocus
                 :loading="loadingBtnResignBtn"
             />
@@ -504,11 +413,12 @@
 <!-- Script of Dialogs Infor -->
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { minLength, required } from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 import manageResignRequestEmployeeHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageResignRequestEmployeeHelper";
 import manageGlobalOrgEmployeeHelper from "@/mixin/manage_geo_org_str/manageGlobalOrgEmployeeHelper";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
+import manageOrgEmployeeMainHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_dept_employee_main/manageOrgEmployeeMainHelper";
 export default {
     components: {},
     setup() {
@@ -519,6 +429,7 @@ export default {
         manageGlobalOrgEmployeeHelper,
         manageOrgStructureDeptNewFeatures,
         manageOrgDeptPositionStructuresHelper,
+        manageOrgEmployeeMainHelper,
     ],
     data() {
         return {
@@ -536,11 +447,12 @@ export default {
             employeeCommentResign: "",
             fillResignSignature: null,
             loadingBtnResignBtn: false,
+            dataResignEmpJobOrg: null,
         };
     },
     validations() {
         return {
-            employeeNameResign: { required, minLength: minLength(3) },
+            // employeeNameResign: { required, minLength: minLength(3) },
             // employeePositionRequest: { required },
             employeeDateEffective: { required },
             employeeReasonResign: { required },
@@ -563,7 +475,7 @@ export default {
             required: true,
             default: () => 0,
         },
-        orgStrDeptPosId: {
+        openResignDataEmpJob: {
             type: Number,
             required: true,
             defaultValue: 0,
@@ -574,6 +486,35 @@ export default {
         openDialogsResignWork() {
             return this.dialogResignForm || false;
         },
+        departmentResignDepartment() {
+            return this.departmentName || null;
+        },
+    },
+    async mounted() {
+        if (this.openResignDataEmpJob) {
+            this.dataResignEmpJobOrg = {
+                ...this.dataResignEmpJobOrg,
+                ...this.openResignDataEmpJob,
+            };
+        } else {
+            this.dataResignEmpJobOrg = {
+                empId: 0,
+                userId: "",
+                phoneNumber: 0,
+                orgId: 0,
+                empEmailAddress: "",
+                empEnglishName: "",
+                empKhmerName: "",
+                empNoted: "",
+                tbl_org_position_geo_fence: {
+                    positionId: 49,
+                    positionNameEng: "",
+                    positionNameKh: "",
+                    positionStatus: 1,
+                    positionLevel: "",
+                },
+            };
+        }
     },
     methods: {
         closeResignFormEmp() {
