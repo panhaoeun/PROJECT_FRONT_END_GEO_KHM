@@ -1,18 +1,24 @@
 <template>
     <div class="container">
-        <div class="flex justify-content-evenly flex-wrap">
+        <div>
             <div class="flex flex-column gap-15 border-round m-2">
                 <h5 class="flex align-items-center justify-content-center">
                     Educations Information
                 </h5>
                 <!-- Add More Experience Informations -->
                 <Accordion
-                    contentClass="w-30rem border-round-lg"
-                    style="max-width: 70rem; width: 70rem"
+                    contentClass="border-round-lg"
                     class="border-round-lg"
                     selectOnFocus="true"
+                    :multiple="true"
                 >
-                    <AccordionTab header="(Not Specified)">
+                    <AccordionTab
+                        header="(Not Specified)"
+                        v-for="(educations, index) in addMultiEducationInfo"
+                        :key="index"
+                        expandIcon="pi pi-plus"
+                        collapseIcon="pi pi-minus"
+                    >
                         <div class="m-0">
                             <div
                                 class="grid grid-nogutter flex-wrap gap-3 p-fluid"
@@ -26,7 +32,9 @@
                                                 <span class="p-error">*</span>
                                             </label>
                                             <Dropdown
-                                                v-model="selectedEducationInfo"
+                                                v-model="
+                                                    educations.selectedEducationInfo
+                                                "
                                                 :options="dataEducationsInfo"
                                                 optionLabel="name"
                                                 placeholder="Select a education type"
@@ -41,7 +49,9 @@
                                             </label>
                                             <InputText
                                                 type="text"
-                                                v-model="positionEmpExperience"
+                                                v-model="
+                                                    educations.schoolUniversityName
+                                                "
                                                 placeholder="Royal university of phnom penh (RUPP)"
                                                 class="border-round-lg text-sm h-3rem"
                                             />
@@ -54,9 +64,11 @@
                                             </label>
                                             <InputText
                                                 type="text"
-                                                placeholder="Royal University Phnom Penh"
+                                                placeholder="Grade"
                                                 class="border-round-lg text-sm h-3rem"
-                                                v-model="nameOfCompanyMinistry"
+                                                v-model="
+                                                    educations.gradeNumberOfSchool
+                                                "
                                             />
                                         </div>
                                         <!-- Start Time -->
@@ -70,7 +82,9 @@
                                                 iconDisplay="input"
                                                 placeholder="06/12/2022"
                                                 class="border-round-lg text-sm h-3rem"
-                                                v-model="selectedStartDate"
+                                                v-model="
+                                                    educations.selectedStartDate
+                                                "
                                             />
                                         </div>
                                         <!-- End Time -->
@@ -84,7 +98,9 @@
                                                 iconDisplay="input"
                                                 class="border-round-lg text-sm h-3rem"
                                                 placeholder="03/10/2023"
-                                                v-model="selectedEndDate"
+                                                v-model="
+                                                    educations.selectedEndDate
+                                                "
                                             />
                                         </div>
 
@@ -134,6 +150,7 @@
                         label="Add Education"
                         severity="info"
                         text
+                        @click.prevent="onAddNewEducationsEmpInfo()"
                         icon="pi pi-plus-circle"
                         class="w-15rem text-sm border-2 border-dashed border-200 text-black bg-slate-900 border-round-lg"
                     />
@@ -142,14 +159,15 @@
         </div>
     </div>
 </template>
-<!-- experience work -->
+<!-- Educations Emp Info -->
 <script>
+import { formatDateExperienceWork } from "@/utils";
+console.log(formatDateExperienceWork);
 export default {
     components: {},
     props: {},
     data() {
         return {
-            selectedEducationInfo: null,
             dataEducationsInfo: [
                 { name: "Primary School", code: "EC" },
                 { name: "High School", code: "CS" },
@@ -157,12 +175,6 @@ export default {
                 { name: "Institute", code: "IN" },
                 { name: "Other", code: "SW" },
             ],
-            positionEmpExperience: "",
-            nameOfCompanyMinistry: "",
-            selectedStartDate: "",
-            selectedEndDate: "",
-            addressExperiencesWork: "",
-            selectedEmploymentType: null,
             dataEmployeeType: [
                 { name: "Full Time", code: "FT" },
                 { name: "Part Time", code: "PT" },
@@ -171,11 +183,51 @@ export default {
                 { name: "Contract", code: "CA" },
                 { name: "Internship", code: "IS" },
             ],
+            addMultiEducationInfo: [
+                {
+                    selectedEducationInfo: null,
+                    schoolUniversityName: "",
+                    gradeNumberOfSchool: "",
+                    nameOfCompanyMinistry: "",
+                    selectedStartDate: "",
+                    selectedEndDate: "",
+                    addressExperiencesWork: "",
+                    selectedEmploymentType: null,
+                },
+            ],
         };
     },
-    created() {},
-    methods: {},
-    mounted() {},
+    methods: {
+        formatDateEducationWork(date) {
+            if (date !== "" && typeof date !== "undefined") {
+                var d = new Date(date),
+                    month =
+                        "" + d?.toLocaleString("default", { month: "long" }),
+                    day = "" + d?.getDate(),
+                    year = d?.getFullYear();
+                if (month?.length < 2) month = "0" + month;
+                if (day?.length < 2) day = "0" + day;
+                return [month, year].join(" ");
+            }
+            return "";
+        },
+        onAddNewEducationsEmpInfo() {
+            try {
+                this.addMultiEducationInfo.push({
+                    selectedEducationInfo: null,
+                    schoolUniversityName: "",
+                    gradeNumberOfSchool: "",
+                    nameOfCompanyMinistry: "",
+                    selectedStartDate: "",
+                    selectedEndDate: "",
+                    addressExperiencesWork: "",
+                    selectedEmploymentType: null,
+                });
+            } catch (e) {
+                throw Error(e || e.message);
+            }
+        },
+    },
 };
 </script>
 <style scoped></style>

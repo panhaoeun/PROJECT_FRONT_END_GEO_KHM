@@ -72,42 +72,30 @@
                                 title="Experiences"
                                 icon="pi pi-briefcase"
                             >
-                                <div>
-                                    <PersonalExperiences />
-                                </div>
+                                <PersonalExperiences />
                             </TabContent>
                             <!-- Tab contents Educations -->
                             <TabContent title="Educations" icon="pi pi-book">
-                                <div>
-                                    <EducationsInformation />
-                                </div>
+                                <EducationsInformation />
                             </TabContent>
                             <!-- Tab contents Skills -->
                             <TabContent title="Skills" icon="pi pi-database">
-                                <div>
-                                    <SkillsInformation />
-                                </div>
+                                <SkillsInformation />
                             </TabContent>
                             <!-- Tab contents Languages -->
                             <TabContent title="Languages" icon="pi pi-language">
-                                <div>
-                                    <LanguagesInformation />
-                                </div>
+                                <LanguagesInformation />
                             </TabContent>
                             <!-- Tab contents References -->
                             <TabContent
                                 title="Reference"
                                 icon="pi pi-megaphone"
                             >
-                                <div>
-                                    <ReferencesWorkInformation />
-                                </div>
+                                <ReferencesWorkInformation />
                             </TabContent>
                             <!-- Tab contents Hobbies -->
                             <TabContent title="Hobbies" icon="pi pi-compass">
-                                <div>
-                                    <HobbiesPersonalInformation />
-                                </div>
+                                <HobbiesPersonalInformation />
                             </TabContent>
 
                             <!-- Button  next/prev step  -->

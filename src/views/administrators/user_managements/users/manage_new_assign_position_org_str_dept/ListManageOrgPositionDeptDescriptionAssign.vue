@@ -6,6 +6,7 @@
             <h1 class="text-2xl text-gray-800 font-medium">
                 Manage Dept. Position Job Descriptions
             </h1>
+            <!-- v-if="assignOrgDeptJobPosId !== null" -->
             <el-button
                 type="info"
                 size="large"
@@ -373,8 +374,15 @@
         <div class="gird">
             <el-card class="box-card py-2 px-2 text-sm my-2">
                 <div class="px-2">
-                    <ListDatableGlobalPositionOrgChartStructure />
-                    <!-- Edited Org-Position -->
+                    <ListDatableGlobalPositionOrgChartStructure
+                        :orgStrDataTree="
+                            getOrgDeptNameGlobalDataOrgStructures
+                                ? getOrgDeptNameGlobalDataOrgStructures
+                                : null
+                        "
+                        @org-str-dept="selectedDeptOrgDeptJobDesPosition()"
+                        @position-id="selectedDeptPosDesPosition()"
+                    />
                 </div>
             </el-card>
         </div>
@@ -384,6 +392,7 @@
             @close="closeDialogAddNewPositionJobDes"
             :dialog-position-form="openDialogAddNewJobDesPos"
             :departmentName="departmentOrgName ? departmentOrgName : ''"
+            :orgStrDeptPosId="assignOrgDeptJobPositionId"
         />
     </div>
 </template>
@@ -393,7 +402,7 @@
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { reactive } from "vue";
-import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalJobDescriptionOrgChartStructure.vue";
+
 // import OpenEditedJobDescriptionOrgStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditJobDescriptionOrgStrData.vue";
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
@@ -401,6 +410,7 @@ import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept
 /**
  * Open Dialog Positions
  **/
+import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalJobDescriptionOrgChartStructure.vue";
 import AddNewAssignPositionJobDesDeptOrg from "./manage_positions_dept_manage/PopupAddNewJobDeptPositionDescription.vue";
 export default {
     mixins: [
@@ -435,7 +445,6 @@ export default {
         ListDatableGlobalPositionOrgChartStructure,
         AddNewAssignPositionJobDesDeptOrg,
     },
-    props: {},
     data() {
         return {
             visibleDialogPosition: false,
@@ -453,11 +462,48 @@ export default {
             selectedCommuneOptOrgStr: null,
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
-            openDialogAddNewJobDesPos: false
+            openDialogAddNewJobDesPos: false,
+            assignOrgDeptJobPosId: null,
+            positionDeptId: 0,
+            assignOrgDeptJobPositionId: 0
         };
     },
     mounted() {
         this.geoLocationCountryData();
+    },
+    computed: {
+        getOrgDeptNameGlobalDataOrgStructures() {
+            const getOrgDeptOrgGlobalName = this.hideOrgStructureDeptCompany
+                ? this.hideOrgStructureDeptCompany
+                : "T1";
+            let orgStricturesDeptOrg;
+            switch (getOrgDeptOrgGlobalName) {
+                case "T1":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationCongress;
+                    break;
+                case "T2":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationProvinces;
+                    break;
+                case "T3":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationDistrict;
+                    break;
+                case "T4":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationCommune;
+                    break;
+                case "T5":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationVillages;
+                    break;
+                default:
+                    orgStricturesDeptOrg;
+                    break;
+            }
+            return orgStricturesDeptOrg;
+        },
     },
     methods: {
         openDialogAddNewJobDes() {
@@ -503,6 +549,21 @@ export default {
         },
         closeDialogAddNewPositionJobDes() {
             this.openDialogAddNewJobDesPos = false;
+        },
+        // Positions Assign new position
+        selectedDeptOrgDeptJobDesPosition(orgDeptId) {
+            try {
+                this.assignOrgDeptJobPosId = orgDeptId ? orgDeptId : null;
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+        },
+        selectedDeptPosDesPosition(positionId) {
+            try {
+                this.assignOrgDeptJobPositionId = positionId ? positionId : null;
+            } catch (error) {
+                throw Error(error || error.message);
+            }
         },
     },
 };

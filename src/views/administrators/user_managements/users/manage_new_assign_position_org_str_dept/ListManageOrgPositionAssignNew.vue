@@ -4,6 +4,7 @@
         <div class="flex justify-content-between my-4 px-4 py-4">
             <h1 class="text-2xl text-gray-800 font-medium">Position List</h1>
             <el-button
+                v-if="assignOrgDeptAssignId !== null"
                 type="info"
                 size="large"
                 class="btn btn-primary"
@@ -377,6 +378,7 @@
                             ? getOrgDeptNameGlobalDataOrgStructures
                             : null
                     "
+                    @org-str-dept="selectedDeptOrgDeptPositionAssign()"
                 />
             </el-card>
         </div>
@@ -386,6 +388,9 @@
             @close="closeDialogAddNewPositionAssignNew"
             :dialog-position-form="addDialogNewPositionAssign"
             :departmentName="departmentOrgName ? departmentOrgName : ''"
+            :org-str-dept-pos-id="
+                assignOrgDeptAssignId ? assignOrgDeptAssignId : null
+            "
         />
     </div>
 </template>
@@ -393,8 +398,6 @@
 <!-- Scripts of Positions -->
 <script>
 import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalPositionOrgChartStructure.vue";
-import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
-import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import geoLocationVillagesHelper from "@/mixin/geoLocationVillagesHelper";
 import geoGlobalOrgStrLocationHelper from "@/mixin/getGeoGlobalOrgStrLocationHelper";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
@@ -405,8 +408,6 @@ import AddNewAssignPositionDeptOrg from "./manage_positions_dept_manage/PopupAdd
 
 export default {
     mixins: [
-        managerJobPositionOrgStructureProjectLevelZeroHelper,
-        managerPositionOrgStructureProjectLevelZeroHelper,
         geoLocationVillagesHelper,
         geoGlobalOrgStrLocationHelper,
         manageOrgStructureDeptNewFeatures,
@@ -428,7 +429,42 @@ export default {
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
             addDialogNewPositionAssign: false,
+            assignOrgDeptAssignId: null,
         };
+    },
+    computed: {
+        getOrgDeptNameGlobalDataOrgStructures() {
+            const getOrgDeptOrgGlobalName = this.hideOrgStructureDeptCompany
+                ? this.hideOrgStructureDeptCompany
+                : "T1";
+            let orgStricturesDeptOrg;
+            switch (getOrgDeptOrgGlobalName) {
+                case "T1":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationCongress;
+                    break;
+                case "T2":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationProvinces;
+                    break;
+                case "T3":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationDistrict;
+                    break;
+                case "T4":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationCommune;
+                    break;
+                case "T5":
+                    orgStricturesDeptOrg =
+                        this.getAllOrgStructuresFeatureGeoNationVillages;
+                    break;
+                default:
+                    orgStricturesDeptOrg;
+                    break;
+            }
+            return orgStricturesDeptOrg;
+        },
     },
     methods: {
         // Country Data
@@ -444,6 +480,14 @@ export default {
         },
         closeDialogAddNewPositionAssignNew() {
             this.addDialogNewPositionAssign = false;
+        },
+        // Positions Assign new position
+        selectedDeptOrgDeptPositionAssign(orgDeptId) {
+            try {
+                this.assignOrgDeptAssignId = orgDeptId ? orgDeptId : null;
+            } catch (error) {
+                throw Error(error || error.message);
+            }
         },
     },
 };

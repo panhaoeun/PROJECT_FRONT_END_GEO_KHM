@@ -185,7 +185,7 @@ export default {
                                     type: 'success'
                                 });
                                 /**
-                                 * @Relist Get Job Descriptions 
+                                 * @Relist Get Job Department and Position Descriptions 
                                 */ 
                                 await this.getJobDescriptionType(parentJobDesId, jobDesStatus);
                                 if (!this.hasJobDescErrors) {

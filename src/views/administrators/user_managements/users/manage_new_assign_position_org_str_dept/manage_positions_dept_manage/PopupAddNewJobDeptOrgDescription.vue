@@ -4,7 +4,9 @@
     <Dialog
         v-model:visible="openDialogNewPosition"
         modal
-        :header="'Add New Dept. Org Job Descriptions:' + '\n   ' + departmentName"
+        :header="
+            'Add New Dept. Org Job Descriptions:' + '\n   ' + departmentName
+        "
         :style="{ width: '60rem' }"
         maximizable
     >
@@ -34,26 +36,31 @@
                                     :showOnFocus="false"
                                     placeholder="Please enter english name of position"
                                     class="border-round-lg text-sm"
-                                    v-model="v$.positionEnglishName.$model"
+                                    v-model="
+                                        v$.addJobDeptNameEngProjectOrgStr.$model
+                                    "
                                     :class="{
                                         'p-invalid p-error':
-                                            v$.positionEnglishName.$invalid &&
-                                            submitted,
+                                            v$.addJobDeptNameEngProjectOrgStr
+                                                .$invalid && submitted,
                                     }"
                                 />
                                 <small
                                     v-if="
-                                        (v$.positionEnglishName.$invalid &&
+                                        (v$.addJobDeptNameEngProjectOrgStr
+                                            .$invalid &&
                                             submitted) ||
-                                        v$.positionEnglishName.$pending
-                                            .$response
+                                        v$.addJobDeptNameEngProjectOrgStr
+                                            .$pending.$response
                                     "
                                     class="p-error"
                                     >{{
-                                        v$.positionEnglishName.required.$message.replace(
+                                        v$.addJobDeptNameEngProjectOrgStr.required.$message.replace(
                                             "Value",
                                             "English Name"
-                                        ) || v$.positionEnglishName.$params.min
+                                        ) ||
+                                        v$.addJobDeptNameEngProjectOrgStr
+                                            .$params.min
                                     }}</small
                                 >
                             </div>
@@ -70,7 +77,7 @@
                                     :showOnFocus="false"
                                     placeholder="Please enter khmer name of position"
                                     class="border-round-lg text-sm"
-                                    v-model="positionKhmerName"
+                                    v-model="addJobDeptNameKhmerProjectOrgStr"
                                 />
                             </div>
                         </div>
@@ -88,7 +95,7 @@
                                     :showOnFocus="false"
                                     placeholder="Please enter descriptions"
                                     class="border-round-lg text-sm"
-                                    v-model="positionDataEditorHTML"
+                                    v-model="addJobDeptDescriptionProjectOrgStr"
                                     editorStyle="height: 320px"
                                 />
                             </div>
@@ -109,14 +116,14 @@
                 autofocus
             />
             <Button
-                :label="loadingBtnPositionBtn ? 'Confirm Add' : 'Position'"
+                :label="loadingBtnEdit ? 'Confirm Add' : 'Position'"
                 class="w-15rem text-sm"
                 severity="primary"
                 raised
                 outlined
-                @click.prevent="resignAddFormRequestEmployee(!v$.$invalid)"
+                @click.prevent="handleEditJobDescriptionsSubmit(!v$.$invalid)"
                 autofocus
-                :loading="loadingBtnPositionBtn"
+                :loading="loadingBtnEdit"
             />
         </template>
     </Dialog>
@@ -125,12 +132,12 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
-import manageOrgDeptPositionStructuresHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageAssignPositionDeptOrgHelper";
+import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 export default {
     setup() {
         return { v$: useVuelidate() };
     },
-    mixins: [manageOrgDeptPositionStructuresHelper],
+    mixins: [managerJobPositionOrgStructureProjectLevelZeroHelper],
     data() {
         return {
             count: 0,
@@ -139,15 +146,19 @@ export default {
                 backgroundColor: "rgb(255,255,255)",
             },
             disabled: false,
-            positionEnglishName: "",
-            positionKhmerName: "",
-            positionDataEditorHTML: "",
-            loadingBtnPositionBtn: false,
+            addJobDeptNameEngProjectOrgStr: "",
+            addJobDeptNameKhmerProjectOrgStr: "",
+            addJobDeptDescriptionProjectOrgStr: "",
+            loadingBtnEdit: false,
+            addJobDescType: "Department",
         };
     },
     validations() {
         return {
-            positionEnglishName: { required, minLength: minLength(3) },
+            addJobDeptNameEngProjectOrgStr: {
+                required,
+                minLength: minLength(3),
+            },
         };
     },
     props: {
@@ -167,11 +178,10 @@ export default {
             required: true,
             default: () => 0,
         },
-        orgStrDeptPosId: {
-            type: Number,
+        orgStrNameEditedId: {
+            type: Object,
             required: true,
-            defaultValue: 0,
-            default: 0,
+            default: () => {},
         },
     },
     computed: {

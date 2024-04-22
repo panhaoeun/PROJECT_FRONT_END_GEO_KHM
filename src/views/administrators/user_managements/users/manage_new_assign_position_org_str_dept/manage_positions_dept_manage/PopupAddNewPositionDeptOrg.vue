@@ -34,26 +34,26 @@
                                     :showOnFocus="false"
                                     placeholder="Please enter english name of position"
                                     class="border-round-lg text-sm"
-                                    v-model="v$.positionEnglishName.$model"
+                                    v-model="v$.englishNamePositionDeptOrgAssign.$model"
                                     :class="{
                                         'p-invalid p-error':
-                                            v$.positionEnglishName.$invalid &&
+                                            v$.englishNamePositionDeptOrgAssign.$invalid &&
                                             submitted,
                                     }"
                                 />
                                 <small
                                     v-if="
-                                        (v$.positionEnglishName.$invalid &&
+                                        (v$.englishNamePositionDeptOrgAssign.$invalid &&
                                             submitted) ||
-                                        v$.positionEnglishName.$pending
+                                        v$.englishNamePositionDeptOrgAssign.$pending
                                             .$response
                                     "
                                     class="p-error"
                                     >{{
-                                        v$.positionEnglishName.required.$message.replace(
+                                        v$.englishNamePositionDeptOrgAssign.required.$message.replace(
                                             "Value",
                                             "English Name"
-                                        ) || v$.positionEnglishName.$params.min
+                                        ) || v$.englishNamePositionDeptOrgAssign.$params.min
                                     }}</small
                                 >
                             </div>
@@ -70,7 +70,7 @@
                                     :showOnFocus="false"
                                     placeholder="Please enter khmer name of position"
                                     class="border-round-lg text-sm"
-                                    v-model="positionKhmerName"
+                                    v-model="khmerNamePositionDeptOrgAssign"
                                 />
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                     :showOnFocus="false"
                                     placeholder="Please enter descriptions"
                                     class="border-round-lg text-sm"
-                                    v-model="positionDataEditorHTML"
+                                    v-model="descriptionDetailPosition"
                                     editorStyle="height: 320px"
                                 />
                             </div>
@@ -114,7 +114,7 @@
                 severity="primary"
                 raised
                 outlined
-                @click.prevent="resignAddFormRequestEmployee(!v$.$invalid)"
+                @click.prevent="assignOrgDeptPositionActions(!v$.$invalid)"
                 autofocus
                 :loading="loadingBtnPositionBtn"
             />
@@ -139,15 +139,15 @@ export default {
                 backgroundColor: "rgb(255,255,255)",
             },
             disabled: false,
-            positionEnglishName: "",
-            positionKhmerName: "",
-            positionDataEditorHTML: "",
+            englishNamePositionDeptOrgAssign: "",
+            khmerNamePositionDeptOrgAssign: "",
+            descriptionDetailPosition: "",
             loadingBtnPositionBtn: false,
         };
     },
     validations() {
         return {
-            positionEnglishName: { required, minLength: minLength(3) },
+            englishNamePositionDeptOrgAssign: { required, minLength: minLength(3) },
         };
     },
     props: {

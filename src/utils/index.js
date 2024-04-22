@@ -328,14 +328,47 @@ export function createUniqueString() {
 }
 
 /**
- * Check if an element has a class
- * @param {HTMLElement} elm
- * @param {string} cls
- * @returns {boolean}
+ * @returns {Update Experiences}
  */
-export function hasClass(ele, cls) {
-    return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
+export function formatDateExperienceWork(date){
+    if (date !== "" && typeof date !== "undefined") {
+        var d = new Date(date),
+            month =
+            "" + d?.toLocaleString("default", {
+                month: "long"
+            }),
+            day = "" + d?.getDate(),
+            year = d?.getFullYear();
+        if (month?.length < 2) month = "0" + month;
+        if (day?.length < 2) day = "0" + day;
+        return [month, year].join(" ");
+    }
+    return "";
 }
+/**
+ * @returns {Update Experiences}
+*/
+export function truncateLongTextEmp(str, length, useWordBoundary) {
+    if (str.length <= length) {
+        return str;
+    }
+    const subString = str.slice(0, length - 1); // the original check
+    return (
+        (useWordBoundary
+            ? subString.slice(0, subString.lastIndexOf(" "))
+            : subString) + "..."
+    );
+}
+
+    /**
+     * Check if an element has a class
+     * @param {HTMLElement} elm
+     * @param {string} cls
+     * @returns {boolean}
+     */
+    export function hasClass(ele, cls) {
+        return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
+    }
 
 /**
  * Add class to element

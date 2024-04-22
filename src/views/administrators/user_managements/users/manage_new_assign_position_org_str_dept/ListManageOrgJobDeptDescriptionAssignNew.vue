@@ -7,6 +7,7 @@
                 Manage Dept. Job Descriptions
             </h1>
             <el-button
+                v-if="assignOrgDeptAssignId !== null"
                 type="info"
                 size="large"
                 class="btn btn-primary"
@@ -373,16 +374,17 @@
         <!-- DataTable of Position Org-Structures -->
         <div class="gird">
             <el-card class="box-card text-sm my-2">
-                <ListDatableGlobalPositionOrgChartStructure
+                <ListDatableGlobalPositionDesJobOrgChartStructure
                     :orgStrDataTree="
                         getOrgDeptNameGlobalDataOrgStructuresDept
                             ? getOrgDeptNameGlobalDataOrgStructuresDept
                             : null
                     "
+                    @org-str-dept="selectedDeptOrgDeptJobDesAssign()"
                 />
             </el-card>
         </div>
-        <!-- Add New Job Descritions Org-Structures -->
+        <!-- Add New Job Descriptions Org-Structures -->
         <AddNewDeptJobDesOrgAssign
             v-if="addDialogNewJobDesAssign"
             @close="closedDialogAddNewJobDeptOrgDes"
@@ -397,14 +399,13 @@
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { reactive } from "vue";
-import ListDatableGlobalPositionOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalJobDescriptionOrgChartStructure.vue";
-// import OpenEditedJobDescriptionOrgStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/popup_org_project_dept_global/global_prepare_org_str_dept/EditJobDescriptionOrgStrData.vue";
 import managerJobPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/manageJobPositionDescriptionOrgStructureChartProjectLevelZeroHelper";
 import managerPositionOrgStructureProjectLevelZeroHelper from "@/mixin/manage_geo_org_str/manage_org_structure_new_feature_dev/managePositionOrgStructureChartProjectLevelZeroHelper";
 import manageOrgStructureDeptNewFeatures from "@/mixin/manage_org_structure_dept_new_features/manageOrgStructureDeptNewFeatures";
 /**
  * Job Org-Structures Description
- * */
+ **/
+import ListDatableGlobalPositionDesJobOrgChartStructure from "../../../org_chart_structure_managements_new/popup_prepare_org_global_dept/ListDatableGlobalJobDescriptionOrgChartStructure.vue";
 import AddNewDeptJobDesOrgAssign from "./manage_positions_dept_manage/PopupAddNewJobDeptOrgDescription.vue";
 export default {
     mixins: [
@@ -436,7 +437,7 @@ export default {
         return { v$, state };
     },
     components: {
-        ListDatableGlobalPositionOrgChartStructure,
+        ListDatableGlobalPositionDesJobOrgChartStructure,
         AddNewDeptJobDesOrgAssign,
     },
     data() {
@@ -456,7 +457,8 @@ export default {
             selectedCommuneOptOrgStr: null,
             selectedVillagesOptOrgStr: null,
             hideOrgStructureDeptPos: "",
-            addDialogNewJobDesAssign: false
+            addDialogNewJobDesAssign: false,
+            assignOrgDeptAssignId: null,
         };
     },
     computed: {
@@ -524,12 +526,20 @@ export default {
                 (this.proCategoryNameKh = ""),
                 (this.submitted = false);
         },
-        openDialogAddNewJobDeptOrgDes(){
+        openDialogAddNewJobDeptOrgDes() {
             this.addDialogNewJobDesAssign = true;
         },
-        closedDialogAddNewJobDeptOrgDes(){
+        closedDialogAddNewJobDeptOrgDes() {
             this.addDialogNewJobDesAssign = false;
-        }
+        },
+        // Positions Assign Department Selection
+        selectedDeptOrgDeptJobDesAssign(orgDeptId) {
+            try {
+                this.assignOrgDeptAssignId = orgDeptId ? orgDeptId : null;
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+        },
     },
 };
 </script>

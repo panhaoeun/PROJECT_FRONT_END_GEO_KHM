@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="flex justify-content-evenly flex-wrap">
+        <div>
             <div class="flex flex-column gap-15 border-round m-2">
                 <h5 class="align-items-center justify-content-center flex">
                     References Information
@@ -8,7 +8,6 @@
                 <!-- Add More Experience Informations -->
                 <Accordion
                     contentClass="w-30rem border-round-lg"
-                    style="max-width: 70rem; width: 70rem"
                     class="border-round-lg"
                     selectOnFocus="true"
                 >

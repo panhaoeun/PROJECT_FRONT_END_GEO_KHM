@@ -162,6 +162,9 @@ import MazInputTags from 'maz-ui/components/MazInputTags';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import MazStepper from "maz-ui/components/MazStepper";
+// import as component
+import Badge from 'primevue/badge';
+import BadgeDirective from 'primevue/badgedirective';
 
 import VueSocialSharing from 'vue-social-sharing';
 import TreeSelect from 'primevue/treeselect';
@@ -291,9 +294,14 @@ app.component('DataViewLayoutOptions', DataViewLayoutOptions);
 app.component('Popper', Popper);
 app.component('ScrollPanel', ScrollPanel);
 app.component('EmojiPicker', EmojiPicker);
+
 // Tooltip
 app.directive('tooltip', Tooltip);
 app.component('PanelMenu', PanelMenu);
+
+// Badge
+app.component('Badge', Badge);
+app.directive('badge', BadgeDirective);
 /*
     @Front-End Library 
 */
