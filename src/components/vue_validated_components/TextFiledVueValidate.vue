@@ -9,7 +9,7 @@ const props = defineProps({
     },
     value: {
         type: String,
-        default: undefined,
+        default: "",
     },
     name: {
         type: String,
@@ -62,7 +62,10 @@ const {
             class="border-round-lg text-sm"
         />
         <div class="my-4">
-            <small class="help-message mt-15" v-show="errorMessage || meta.valid">
+            <small
+                class="help-message mt-15"
+                v-show="errorMessage || meta.valid"
+            >
                 {{ errorMessage || successMessage }}
             </small>
         </div>

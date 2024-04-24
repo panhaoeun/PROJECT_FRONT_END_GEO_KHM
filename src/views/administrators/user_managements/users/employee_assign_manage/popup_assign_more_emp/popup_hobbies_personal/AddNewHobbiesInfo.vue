@@ -15,10 +15,14 @@
                             Hobbies
                             <span class="p-error">*</span>
                         </label>
-                        <div class="flex gap-2 items-center">
+                        <div
+                            class="flex gap-2 items-center my-2"
+                            v-for="(hobbies, index) in multiAddHobbiesInfo"
+                            :key="index"
+                        >
                             <InputText
                                 type="text"
-                                v-model="positionEmpExperience"
+                                v-model="hobbies.hobbiesInfoName"
                                 placeholder="Enter hobbies"
                                 class="border-round-lg text-sm h-3rem"
                             />
@@ -30,10 +34,17 @@
                                     severity="success"
                                     class="text-sm h-1rem w-1rem border-round"
                                     icon="pi pi-plus-circle"
+                                    @click.prevent="
+                                        onAddNewHobbiesInfoMulti(index)
+                                    "
                                 />
                                 <Button
                                     class="text-sm h-1rem w-1rem border-round"
                                     icon="pi pi-minus-circle"
+                                    v-if="index !== 0"
+                                    @click.prevent="
+                                        confirmRemoveReferInfo(index)
+                                    "
                                     severity="danger"
                                 />
                             </div>
@@ -46,6 +57,7 @@
                                 label="Add Hobbies"
                                 severity="info"
                                 text
+                                @click.prevent="onAddNewHobbiesInfoMulti"
                                 icon="pi pi-plus-circle"
                                 class="w-15rem text-sm border-2 border-dashed border-200 text-black bg-slate-900 border-round-lg"
                             />
@@ -59,17 +71,35 @@
 <!-- experience work -->
 <script>
 export default {
-    components: {},
-    props: {},
+    mounted(){
+        this.$emit('hobbiesInfo', this.multiAddHobbiesInfo);
+    },  
     data() {
         return {
-            hobbiesInfoEditor: null,
+            multiAddHobbiesInfo: [
+                {
+                    hobbiesInfoName: "",
+                },
+            ],
         };
     },
-    created() {},
-    methods: {},
-    mounted() {},
+    methods: {
+        onAddNewHobbiesInfoMulti() {
+            try {
+                this.multiAddHobbiesInfo.push({
+                    hobbiesInfoName: "",
+                });
+            } catch (error) {
+                throw Error(error || error.message);
+            }
+        },
+        confirmRemoveReferInfo(index) {
+            try {
+                this.multiAddHobbiesInfo.splice(index, 1);
+            } catch (error) {
+                return Error(error || error.message);
+            }
+        },
+    },
 };
 </script>
-<style scoped></style>
-<style lang="scss" scoped></style>

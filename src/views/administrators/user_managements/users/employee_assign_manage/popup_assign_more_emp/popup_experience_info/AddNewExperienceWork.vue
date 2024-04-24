@@ -1,11 +1,10 @@
 <template>
     <div class="container">
-        <div>
+        <form>
             <div class="flex flex-column gap-15 border-round m-2">
                 <h5 class="flex align-items-center justify-content-center">
                     Experience Information
                 </h5>
-
                 <!-- Add More Experience Informations -->
                 <Accordion
                     contentClass=" border-round-lg"
@@ -72,9 +71,10 @@
                                         </template>
                                         <template
                                             v-if="
-                                                experience?.selectedStartDate !==
+                                                (experience?.selectedStartDate !==
                                                     '' &&
-                                                endDatePresentCheck == '' ||
+                                                    endDatePresentCheck ==
+                                                        '') ||
                                                 disabledSelectedEndDate == false
                                             "
                                         >
@@ -271,7 +271,9 @@
                                                 >Descriptions</label
                                             >
                                             <Editor
-                                                v-model="descriptionExperiences"
+                                                v-model="
+                                                    experience.descriptionExperiences
+                                                "
                                                 placeholder="Enter Descriptions"
                                                 editorStyle="height: 320px"
                                             />
@@ -294,7 +296,7 @@
                     />
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- Confirm Dialogs Experiences Working -->
     <Dialog
@@ -330,11 +332,11 @@
         </template>
     </Dialog>
 </template>
-<!-- experience work -->
+
+<!-- Experience Work -->
 <script>
 export default {
     components: {},
-    props: {},
     data() {
         return {
             dataEmployeeType: [
@@ -348,6 +350,7 @@ export default {
             ],
             dataExperienceWork: [
                 { name: "Educations", code: "EC" },
+                { name: "Volunteering", code: "VR" },
                 { name: "Civil service", code: "CS" },
                 { name: "Social work", code: "SW" },
                 { name: "Others", code: "OH" },
@@ -355,7 +358,6 @@ export default {
             experienceAddMulti: [
                 {
                     selectedTypeExperience: null,
-
                     positionEmpExperience: "",
                     nameOfCompanyMinistry: "",
                     selectedStartDate: "",
@@ -372,6 +374,9 @@ export default {
             endDatePresentCheck: "",
             disabledSelectedEndDate: false,
         };
+    },
+    mounted() {
+        this.onActiveIndexExpWork();
     },
     methods: {
         truncateLongTextExperiences(str, length, useWordBoundary) {
@@ -444,6 +449,9 @@ export default {
                 this.disabledSelectedEndDate = false;
                 return (this.endDatePresentCheck = endDate);
             }
+        },
+        onActiveIndexExpWork() {
+            this.$emit("experiencesInfo", this.experienceAddMulti);
         },
     },
 };

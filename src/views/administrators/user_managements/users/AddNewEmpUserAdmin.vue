@@ -33,6 +33,7 @@
                     <Form
                         @submit="nextStep"
                         keep-values
+                        :validation-schema="currentSchema"
                         class="custom-form"
                         v-slot="{ values }"
                     >
@@ -43,7 +44,7 @@
                                     :tab="props.tab"
                                     :transition="props.transition"
                                     :index="props.index"
-                                    @click="props.navigateToTab(props.index)"
+                                    @click="props?.navigateToTab(props.index)"
                                 >
                                     <small
                                         style="
@@ -72,34 +73,47 @@
                                 title="Experiences"
                                 icon="pi pi-briefcase"
                             >
-                                <PersonalExperiences />
+                                <PersonalExperiences
+                                    @experiencesInfo="
+                                        experiencesInfoJobWorkInfo
+                                    "
+                                />
                             </TabContent>
                             <!-- Tab contents Educations -->
                             <TabContent title="Educations" icon="pi pi-book">
-                                <EducationsInformation />
+                                <EducationsInformation
+                                    @educationInfo="educationStudyKnowledge"
+                                />
                             </TabContent>
                             <!-- Tab contents Skills -->
                             <TabContent title="Skills" icon="pi pi-database">
-                                <SkillsInformation />
+                                <SkillsInformation
+                                    @skillWorkInfo="skillWorkExpInfo"
+                                />
                             </TabContent>
                             <!-- Tab contents Languages -->
                             <TabContent title="Languages" icon="pi pi-language">
-                                <LanguagesInformation />
+                                <LanguagesInformation
+                                    @languagesInfo="languagesKnowledgeExpInfo"
+                                />
                             </TabContent>
                             <!-- Tab contents References -->
                             <TabContent
                                 title="Reference"
                                 icon="pi pi-megaphone"
                             >
-                                <ReferencesWorkInformation />
+                                <ReferencesWorkInformation
+                                    @referenceInfo="referenceInfoJobExpInfo"
+                                />
                             </TabContent>
                             <!-- Tab contents Hobbies -->
                             <TabContent title="Hobbies" icon="pi pi-compass">
-                                <HobbiesPersonalInformation />
+                                <HobbiesPersonalInformation
+                                    @hobbiesInfo="hobbiesPersonalInfo"
+                                />
                             </TabContent>
 
-                            <!-- Button  next/prev step  -->
-                            <!-- Access footer  directly with all props options -->
+                            <!-- Button Next/Prev Step  -->
                             <!-- You can create custom design and event -->
                             <template v-slot:footer="props">
                                 <div
@@ -108,40 +122,67 @@
                                     <Button
                                         label="Previous"
                                         icon="pi pi-chevron-left"
+                                        iconPos="left"
                                         class="w-10rem border-round-lg"
                                         type="submit"
                                         outlined
                                         v-if="
                                             props.activeTabIndex > 0 &&
-                                            !props.isLastStep
+                                            !props.isLastStep &&
+                                            currentStep !== 0
                                         "
                                         :style="props.fillButtonStyle"
                                         @click.prevent="prevStep"
                                     />
-                                </div>
-                                <div class="wizard-footer-right">
-                                    <Button
-                                        label="Next"
-                                        class="w-10rem border-round-lg"
-                                        icon="pi pi-chevron-right"
-                                        severity="danger"
-                                        outlined
-                                        type="submit"
-                                        :style="props.fillButtonStyle"
-                                        v-if="!props.isLastStep"
-                                        @click.prevent="nextStep"
-                                    />
-                                    <Button
-                                        :label="
-                                            props.isLastStep ? 'Done' : 'Next'
-                                        "
-                                        icon="pi pi-check-circle"
-                                        class="w-10rem border-round-lg"
-                                        type="submit"
-                                        outlined
-                                        v-else
-                                        :style="props.fillButtonStyle"
-                                    />
+                                    <!-- Arrow  Right Icon For Next Step-->
+                                    <div
+                                        class="wizard-footer-right text-right justify-self-end"
+                                    >
+                                        <Button
+                                            label="Next"
+                                            class="w-10rem border-round-lg"
+                                            icon="pi pi-chevron-right"
+                                            severity="danger"
+                                            outlined
+                                            type="submit"
+                                            iconPos="right"
+                                            :style="props.fillButtonStyle"
+                                            v-if="
+                                                !props.isLastStep ||
+                                                currentStep !== stepLength
+                                            "
+                                            @click.prevent="nextStep"
+                                        />
+                                        <Button
+                                            :label="
+                                                props.isLastStep
+                                                    ? 'Done'
+                                                    : 'Next'
+                                            "
+                                            iconPos="left"
+                                            icon="pi pi-check-circle"
+                                            class="w-10rem border-round-lg"
+                                            type="submit"
+                                            outlined
+                                            @click.prevent="
+                                                confirmMethodAddNewEmployeeAdmin(
+                                                    values
+                                                )
+                                            "
+                                            v-else
+                                            :style="props.fillButtonStyle"
+                                        />
+
+                                        <!-- Finish Step Current Admin Employee-->
+                                        <div
+                                            v-if="
+                                                currentStep === 7 &&
+                                                currentStep === stepLengthg
+                                            "
+                                        >
+                                            asdasdasdsad
+                                        </div>
+                                    </div>
                                 </div>
                             </template>
 
@@ -206,10 +247,17 @@ export default {
         return {
             currentStep: 0,
             // step length to control the number of steps
-            stepLength: 6,
+            stepLength: 7,
             // form wizard reference to control the steps
             formWizard: 0,
             // Each step should have its own validation schema
+            experiencesInfo: [],
+            educationInfo: [],
+            skillInfo: [],
+            languagesInfo: [],
+            referenceInfo: [],
+            hobbiesPersonalInfo: [],
+            loadingWizard: false,
         };
     },
     components: {
@@ -241,12 +289,65 @@ export default {
             this.$refs.formWizard?.nextTab();
         },
         prevStep() {
-            // if (this.currentStep <= 0) {
-            //     return;
-            // }
+            if (this.currentStep <= 0) {
+                return;
+            }
             // this.currentStep--;
             // previous step function to move to the previous step
             this.$refs.formWizard?.prevTab();
+        },
+        setLoading: function (value) {
+            this.loadingWizard = value;
+        },
+        experiencesInfoJobWorkInfo(info) {
+            return (this.experiencesInfo = info ? info : []);
+        },
+        educationStudyKnowledge(edu) {
+            return (this.educationInfo = edu ? edu : []);
+        },
+        skillWorkExpInfo(skill) {
+            return (this.skillInfo = skill ? skill : []);
+        },
+        languagesKnowledgeExpInfo(lan) {
+            return (this.languagesInfo = lan ? lan : []);
+        },
+        referenceInfoJobExpInfo(reference) {
+            return (this.referenceInfo = reference ? reference : []);
+        },
+        hobbiesInfoInfoJobExpInfo(hobbiesInfo) {
+            return (this.hobbiesPersonalInfo = hobbiesInfo ? hobbiesInfo : []);
+        },
+        confirmMethodAddNewEmployeeAdmin(formWizard) {
+            try {
+                const expInfo = this.experiencesInfo
+                    ? this.experiencesInfo
+                    : [];
+                const eduInfo = this.educationInfo ? this.educationInfo : [];
+                const skillInfo = this.skillInfo ? this.skillInfo : [];
+                const languagesInfo = this.languagesInfo
+                    ? this.languagesInfo
+                    : [];
+                const referenceInfo = this.referenceInfo
+                    ? this.referenceInfo
+                    : [];
+                const hobbiesPersonalInfo = this.hobbiesPersonalInfo
+                    ? this.hobbiesPersonalInfo
+                    : [];
+                const employeeAdmin = {
+                    formWizard,
+                    expInfo,
+                    eduInfo,
+                    skillInfo,
+                    languagesInfo,
+                    referenceInfo,
+                    hobbiesPersonalInfo,
+                };
+                this.addNewEmployeeAdminEmployee(
+                    employeeAdmin ? employeeAdmin : []
+                );
+            } catch (error) {
+                throw Error(error || error.message);
+            }
         },
     },
 };

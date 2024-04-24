@@ -13,7 +13,7 @@ const props = defineProps({
     },
     value: {
         type: String,
-        default: undefined,
+        default: "",
     },
     name: {
         type: String,
