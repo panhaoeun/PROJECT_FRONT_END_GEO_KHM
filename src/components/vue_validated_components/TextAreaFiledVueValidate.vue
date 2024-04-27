@@ -55,7 +55,7 @@ const {
         :class="{ 'has-error': !!errorMessage, success: meta.valid }"
     >
         <label :for="name">{{ label }}</label>
-        <Textarea
+        <Editor
             :name="name"
             :id="name"
             :type="type"
@@ -65,6 +65,7 @@ const {
             @blur="handleBlur"
             class="border-round-lg text-sm"
             :class="styleClass"
+            editorStyle="height: 320px"
         />
         <div class="my-4">
             <small

@@ -16,7 +16,8 @@ const state = {
     orgDeptHistoryPosition: [],
     resignOfficerWork: [],
     resourceTypeData: [],
-    resourceSubTypeData: []
+    resourceSubTypeData: [],
+    employeeDetailData: []
 }
 const getters = {
     allOrgBoardDeptStructureChart: ({
@@ -74,7 +75,9 @@ const getters = {
     getReloadSubResourcesTypGeoOrgAll: ({
         resourceSubTypeData
     }) => resourceSubTypeData ? resourceSubTypeData : [],
-    
+    getReloadEmployeeOrgDeptProfileAccount: ({
+        employeeDetailData
+    }) => employeeDetailData ? employeeDetailData : []
 }
 const mutations = {
     SET_ORG_STR_GEO_DEPT_POS(state, orgDeptPos) {
@@ -133,6 +136,9 @@ const mutations = {
     },
     SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA(state, resourceSubTypeData) {
         state.resourceSubTypeData = resourceSubTypeData ? resourceSubTypeData : [];
+    },
+    SET_EMPLOYEE_DETAIL_EMP_WORK_DATA_PROFILE(state, employeeDetailData) {
+        state.employeeDetailData = employeeDetailData ? employeeDetailData : [];
     }
 }
 const actions = {
@@ -320,6 +326,30 @@ const actions = {
                     commit('SET_HISTORY_WORK_DEPT_EMP_POST_DATA', {});
                 } else {
                     commit('SET_HISTORY_WORK_DEPT_EMP_POST_DATA', getAllHistoryWork ? getAllHistoryWork : {})
+                }
+            });
+        } catch (error) {
+            throw Error(error);
+        }
+    },
+    // Employee Profile Detail 
+    async setViewEmployeeProfileDeptOrgStructureAccount({
+        commit
+    }, payload) {
+        try {
+            const getEmployeeProId = payload?.getEmpId;
+            let employeeProfileId;
+            if (getEmployeeProId !== null || getEmployeeProId !== '') {
+                employeeProfileId = getEmployeeProId ? getEmployeeProId : 0;
+            } else {
+                employeeProfileId = 0;
+            }
+            geoDeptOrgStrServices.viewDetailOfficerEmp(employeeProfileId).then((employee) => {
+                const getDetailEmployeeDetail = employee ? employee : {};
+                if (!getDetailEmployeeDetail) {
+                    commit('SET_EMPLOYEE_DETAIL_EMP_WORK_DATA_PROFILE', {});
+                } else {
+                    commit('SET_EMPLOYEE_DETAIL_EMP_WORK_DATA_PROFILE', getDetailEmployeeDetail ? getDetailEmployeeDetail : {})
                 }
             });
         } catch (error) {

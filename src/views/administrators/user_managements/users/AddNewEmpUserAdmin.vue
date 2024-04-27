@@ -65,7 +65,11 @@
                                 icon="pi pi-user"
                             >
                                 <div>
-                                    <PersonalInformation />
+                                    <PersonalInformation
+                                        @employeeFile="
+                                            onSelectedFileEmpPersonal
+                                        "
+                                    />
                                 </div>
                             </TabContent>
                             <!-- Tab contents Experiences -->
@@ -112,12 +116,28 @@
                                     @hobbiesInfo="hobbiesPersonalInfo"
                                 />
                             </TabContent>
+                            <!-- Finish Step Current Admin Employee-->
+                            <TabContent
+                                title="Confirm"
+                                icon="pi pi-check-circle"
+                            >
+                                <div
+                                    class="justify-content-center items-center flex"
+                                >
+                                    <el-result
+                                        icon="success"
+                                        title="Confirm the add new"
+                                        sub-title="Successfully add new employee!"
+                                    >
+                                    </el-result>
+                                </div>
+                            </TabContent>
 
                             <!-- Button Next/Prev Step  -->
                             <!-- You can create custom design and event -->
                             <template v-slot:footer="props">
                                 <div
-                                    class="col-12 flex justify-between mt-4 gap-10"
+                                    class="col-12 flex justify-between mt-4 gap-10 items-end"
                                 >
                                     <Button
                                         label="Previous"
@@ -147,20 +167,22 @@
                                             type="submit"
                                             iconPos="right"
                                             :style="props.fillButtonStyle"
-                                            v-if="
-                                                !props.isLastStep ||
-                                                currentStep !== stepLength
-                                            "
+                                            v-if="!props.isLastStep"
                                             @click.prevent="nextStep"
                                         />
                                         <Button
                                             :label="
                                                 props.isLastStep
-                                                    ? 'Done'
+                                                    ? 'Done...'
                                                     : 'Next'
                                             "
+                                            :loading="loadingAddNewEmp"
                                             iconPos="left"
-                                            icon="pi pi-check-circle"
+                                            :icon="
+                                                props.isLastStep
+                                                    ? 'pi pi-check-circle'
+                                                    : 'pi pi-file-export'
+                                            "
                                             class="w-10rem border-round-lg"
                                             type="submit"
                                             outlined
@@ -172,16 +194,6 @@
                                             v-else
                                             :style="props.fillButtonStyle"
                                         />
-
-                                        <!-- Finish Step Current Admin Employee-->
-                                        <div
-                                            v-if="
-                                                currentStep === 7 &&
-                                                currentStep === stepLengthg
-                                            "
-                                        >
-                                            asdasdasdsad
-                                        </div>
                                     </div>
                                 </div>
                             </template>
@@ -217,7 +229,7 @@
                                 />
                             </div> -->
                         </FormWizard>
-                        <pre>{{ values }}</pre>
+                        <!-- <pre>{{ values }}</pre> -->
                     </Form>
                 </div>
             </div>
@@ -258,6 +270,8 @@ export default {
             referenceInfo: [],
             hobbiesPersonalInfo: [],
             loadingWizard: false,
+            profileEmp: null,
+            loadingAddNewEmp: false,
         };
     },
     components: {
@@ -348,6 +362,9 @@ export default {
             } catch (error) {
                 throw Error(error || error.message);
             }
+        },
+        onSelectedFileEmpPersonal(file) {
+            this.profileEmp = file ? file : [];
         },
     },
 };

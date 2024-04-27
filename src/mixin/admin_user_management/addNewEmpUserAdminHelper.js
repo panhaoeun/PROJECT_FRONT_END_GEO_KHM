@@ -1,6 +1,30 @@
+import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/manage_org_chart_structures/ManageOrgChartStructureGeoProjectServices";
+import {
+    mapActions,
+    mapGetters
+} from "vuex";
 import * as yup from "yup";
 
 export default {
+    created() {
+        this.serviceManageStructuresAdmin = new ManageOrgChartStructureGeoProjectServices();
+    },
+    computed: {
+        ...mapGetters('orgStrDeptPosGeo', ['getReloadEmployeeOrgDeptProfileAccount']),
+        getViewDetailEmployeeData() {
+            const getEmpProfile =
+                this.getReloadEmployeeOrgDeptProfileAccount ?
+                this.getReloadEmployeeOrgDeptProfileAccount: [];
+            if (getEmpProfile !== null ||
+                getEmpProfile !==
+                undefined &&
+                typeof getEmpProfile !== 'string'
+            ) {
+                return getEmpProfile ? getEmpProfile : []
+            }
+            return [];
+        },
+    },
     data() {
         return {
             schemas: [
@@ -21,122 +45,239 @@ export default {
         }
     },
     methods: {
-        async handleAddNewEmpAdminSubmit(valid) {
-            try {
-                this.submitted = true;
-                this.isProcessingSubmit = true;
-                setTimeout(() => {
-                    this.isProcessingSubmit = false;
-                    if (
-                        !this.userMSNameEng != "" ||
-                        this.userMSNameEng !== null ||
-                        this.userMSNameKh !== "" ||
-                        this.userMSPhoneNum !== ""
-                    ) {
-                        // Data Response
-                        const dataRes = {
-                            empRoleId: 7,
-                            empNameEng: this.userMSNameEng,
-                            empNameKh: this.userMSNameKh,
-                            empEmail: this.emailMSUser,
-                            empPhone: parseInt(this.userMSPhoneNum),
-                            empPassword: "admin123",
-                            empType: "Admin",
-                            userProfile: this.fileUserMS,
-                            empStatus: "Approved",
-                            orgDepartId: 1,
-                            empStartDate: this.userStartDate,
-                            empDOB: this.userDateOfBirth,
-                            empGender: this.selectedUserGender?.name,
-                            empAddress: this.userAddress01,
-                            empNoted: this.userUserDescription,
-                        };
-                        this.userMSServices
-                            .createEmpAdminAccount(dataRes)
-                            .then((response) => {
-                                if (response.data.success == true) {
-                                    this.isProcessingSubmit = false;
-                                    this.$toast.add({
-                                        severity: 'success',
-                                        summary: 'Successfully create employee account!',
-                                        detail: String(response.data?.message) ?
-                                            String(response.data?.message) :
-                                            "",
-                                        life: 3000
-                                    });
-                                    // Push Router
-                                    this.$router.push(
-                                        "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module"
-                                    );
-                                }
-                            })
-                            .catch((error) => {
-                                this.isProcessingSubmit = false;
-                                this.$toast.add({
-                                    severity: 'error',
-                                    summary: 'Unsuccessfully create employee account!',
-                                    detail: String(error.response.data.error.message) ?
-                                        String(error.response.data.error.message) :
-                                        "",
-                                    life: 3000
-                                });
-                                if (error.response.data.error.error.errors) {
-                                    for (
-                                        let index = 0; index <
-                                        error.response.data.error.error.errors
-                                        .length; index++
-                                    ) {
-                                        const messageValidation =
-                                            error.response.data.error.error
-                                            .errors[index].message ?? "";
-                                        this.$toast.add({
-                                            severity: 'error',
-                                            summary: 'Unsuccessfully create employee account!',
-                                            detail: messageValidation ?
-                                                messageValidation :
-                                                "",
-                                            life: 3000
-                                        });
-                                        this.isProcessingSubmit = false;
-                                    }
-                                }
-                                return false;
-                            });
-
+        ...mapActions('orgStrDeptPosGeo', ['setViewEmployeeProfileDeptOrgStructureAccount']),
+        async getAllReloadJobHistoryWorkDeptPositionOrg(getProfileEmp) {
+            this.fetchingOrgStrDataHistoryWork = true;
+            setTimeout(async () => {
+                try {
+                    if (!getProfileEmp) {
+                        throw Error('Please selected employee profile org-structure id is required');
                     }
-                }, 1000);
-                if (!valid) {
-                    if (this.fileUserMS == null) {
-                        this.$toast.add({
-                            severity: 'error',
-                            summary: 'Please upload employee profile!',
-                            life: 3000
-                        });
-
-                        return false;
+                    if (getProfileEmp !== null && !isNaN(Number(getProfileEmp)) || getProfileEmp !== '') {
+                        let getEmpId = parseInt(getProfileEmp) ? parseInt(getProfileEmp) : 0;
+                        const optSelectedOrgDeptEmpProfile = {
+                            getEmpId
+                        }
+                        this.setViewEmployeeProfileDeptOrgStructureAccount(optSelectedOrgDeptEmpProfile);
                     }
-                    return;
+                } catch (error) {
+                    throw Error(error || error.message)
                 }
-            } catch (error) {
-                throw Error(error || error.message);
-            }
+                this.fetchingOrgStrDataHistoryWork = false;
+            }, 1000);
         },
         /**
          * Store Multiple Admin Users
-         * */
-        async addNewEmployeeAdminEmployee(
+        **/
+        extendedSplit(str) {
+            let splitFirstChart;
+            if (typeof str !== "undefined") {
+                splitFirstChart = String(str)
+                    .split(/\s/)
+                    .reduce(
+                        (response, word) => (response += word.slice(0, 1)),
+                        ""
+                    )
+                    .toUpperCase();
+                return splitFirstChart;
+            }
+            return "PRO";
+        },
+        imageURLEmpOrgProfile(path) {
+            return (
+                this.ENV_HOST_PATH_FILE +
+                `uploads/files_org_dept/` +
+                path
+            );
+        },
+       onSelectedFileEmployeeProfile(event) {
+           this.profileEmp = event.files;
+           
+           this.profileEmp.forEach((file) => {
+               this.totalSize += parseInt(this.formatSize(file.size));
+           });
+            this.$emit("employeeFile", event?.files);
+       },
+        async addNewEmployeeAdminEmployee({
             formWizard = [],
             expInfo = [],
             eduInfo = [],
             skillInfo = [],
             languagesInfo = [],
             referenceInfo = [],
-            hobbiesPersonalInfo = []) {
+            hobbiesPersonalInfo = []
+        }) {
             try {
-                console.log(formWizard, expInfo, eduInfo, skillInfo, languagesInfo, referenceInfo, hobbiesPersonalInfo)
+                const {
+                    perInfoEnglishName,
+                    perInfoKhmerName,
+                    perInfoPhoneNumber,
+                    perInfoEmail,
+                    perInfoAddress,
+                    perInfoNational,
+                    perInfoDescriptions
+                } = formWizard ? formWizard : [];
+                this.loadingAddNewEmp = true;
+                setTimeout(async () => {
+                    this.loadingAddNewEmp = false;
+                    if (
+                        !perInfoEnglishName !== null ||
+                        perInfoEnglishName !== "" ||
+                        perInfoNational !== null
+                    ) {
+                        const addNewEmpOrgDept = {
+                            deptAddNewEmpNameEng: String(perInfoEnglishName).toString() ?? '',
+                            deptAddNewEmpNameKH: String(perInfoKhmerName).toString() ?? '',
+                            deptAddNewEmpPhoneNumber: String(perInfoPhoneNumber) ?? '',
+                            deptAddNewEmpEmailContact: String(perInfoEmail).toString() ?? '',
+                            deptAddNewEmpAddress: String(perInfoAddress).toString() ?? '',
+                            deptAddNewEmpNationalCountry: String(perInfoNational).toString() ?? '',
+                            deptAddNewEmpDescription: String(perInfoDescriptions).toString() ?? '',
+                            deptAddNewEmpDateOfBirth: '',
+                            deptAddNewEmpStartDate: '',
+                            deptAddNewEmpGender: '',
+                            employeeProfile: this.profileEmp ? this.profileEmp : '',
+                            addNewEmpMultiExperienceJobWork: expInfo ? expInfo : [],
+                            addNewEmpMultiEducation: eduInfo ? eduInfo : [],
+                            addNewEmpMultiSkillJobWork: skillInfo ? skillInfo : [],
+                            addNewEmpMultiLanguagesKnowledge: languagesInfo ? languagesInfo : [],
+                            addNewEmpMultiReferenceJob: referenceInfo ? referenceInfo : [],
+                            addNewEmpMultiHobbies: hobbiesPersonalInfo ? hobbiesPersonalInfo : []
+                        };
+                        // Add New Organization 
+                        this.serviceManageStructuresAdmin
+                            ?.createStoreEmpOrg(
+                                addNewEmpOrgDept
+                                    ? addNewEmpOrgDept
+                                    : []
+                            )
+                            .then(async (employee) => {
+                                if (employee?.data.success === true) {   
+                                    this.loadingAddNewEmp = false;
+                                    this.$toast.add({
+                                        severity: "success",
+                                        summary:
+                                            "Successfully add employee profile.",
+                                        detail: employee.data?.message
+                                            ? employee.data?.message
+                                            : null,
+                                        life: 3000,
+                                    });
+                                    this.$router.push(
+                                        "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module"
+                                    );
+                                    // Employee Profiles
+                                    const employeeProfileId = parseInt(employee?.data.result.resultStatus.id) ?? 0;
+                                    this.getAllReloadJobHistoryWorkDeptPositionOrg(employeeProfileId ? employeeProfileId : 0);
+
+                                    // Clear Data Input
+                                    this.orgStrBoardMgtEnglishName = "";
+                                    this.orgStrBoardMgtKhmerName = "";
+                                    this.descriptionOrgStrBoardMgt = "";
+                                }
+                            })
+                            .catch((error) => {
+                                this.loadingSubmittedAddMgtBoardStrOrg = false;
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: error?.response.data.error?.message
+                                        ? error?.response.data.error?.message
+                                        : "Please input filed add new employee value!",
+                                    life: 3000,
+                                });
+                                if (error?.response.data.error.error?.errors) {
+                                    for (
+                                        let index = 0;
+                                        index <
+                                        error.response.data.error.error?.errors
+                                            .length;
+                                        index++
+                                    ) {
+                                        const validationError =
+                                            error.response.data.error.error
+                                                ?.errors[index].message ?? [];
+                                        this.$toast.add({
+                                            severity: "error",
+                                            summary: "Please Fix Below Errors.",
+                                            detail: validationError
+                                                ? validationError
+                                                : "Please input add new employee have missing value!",
+                                            life: 3000,
+                                        });
+                                    }
+                                }
+                        });
+                    }
+                }, 1000);
             } catch (error) {
                 throw Error(error || error.message);
             }
-        }
+        },
+        async confirmRemovedEmployeeAccountProfile() {
+            const getDeleteEmpId = this.usersID ? this.usersID  : 0;
+            this.loadingRemoveEmp = true;
+            setTimeout(async () => {
+                try {
+                    if (getDeleteEmpId !== null &&
+                        getDeleteEmpId !== undefined || 
+                        getDeleteEmpId !== ''
+                    ) {
+                        this.serviceManageStructuresAdmin?.removeEmployeeProfile(getDeleteEmpId).then(async (removedEmp) => {
+                        if (removedEmp?.data.success === true) {
+                            this.loadingRemoveEmp = false;
+                            this.deleteUsersDialog = false;
+                            // Reload Deleted Employee Record List
+                            // this.getAllReloadJobHistoryWorkDeptPositionOrg(getDeleteEmpId ? getDeleteEmpId : 0);
+                            this.$toast.add({
+                                severity: "success",
+                                summary:
+                                    "Successfully remove employee profile account.",
+                                detail: removedEmp.data?.message
+                                    ? removedEmp.data?.message
+                                    : null,
+                                life: 3000,
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        this.deleteUsersDialog = false;
+                        this.loadingRemoveEmp = false;
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Please Fix Below Errors.",
+                            detail: String(error?.response.data.error?.message).toString()
+                                ? String(error?.response.data.error?.message).toString()
+                                : "Error remove employee profile account!",
+                            life: 3000,
+                        });
+                        if (error?.response.data.error.error?.errors) {
+                            for (
+                                let index = 0;
+                                index <
+                                error.response.data.error.error?.errors
+                                    .length;
+                                index++
+                            ) {
+                                const validationError =
+                                    error.response.data.error.error
+                                        ?.errors[index].message ?? [];
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: validationError
+                                        ? validationError
+                                        : "Please input filed employee profile account have missing value!",
+                                    life: 3000,
+                                });
+                            }
+                        }
+                    });
+                    }
+                } catch (error) {
+                    throw Error(error || error.message);
+                }
+            },1000);
+        },
     },
 }

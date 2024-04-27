@@ -144,7 +144,10 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async removeNewOrgStructurePositionJobDesc(jobPosDesId, data) {
         return http.delete(`/admin/geo-location-route/org-chart-structures/remove-position-dept-des/${jobPosDesId}`, data);
     }
-    // Employee
+    /** 
+     * @api {post} 
+     *  @api (Employee Org-structes API endpoints) 
+    */
     async listStoreEmpOrgDept(orgStrPosId) {
         return http.get("/admin/get-employee-list-by-dept-org", orgStrPosId ? orgStrPosId : {}).then((result) => {
             if (!result) {
@@ -160,10 +163,27 @@ export default class ManageOrgChartStructureGeoProjectServices {
         });
     }
     async createStoreEmpOrg(orgStrPosId) {
-        return http.post("/admin/get-employee-add-new-by-dept-org", orgStrPosId ? orgStrPosId : {});
+        return httpFormData.post("/admin/get-employee-add-new-by-dept-org", orgStrPosId ? orgStrPosId : {});
     }
     async removeEmpOrgDept(jobDesId, data) {
         return http.delete(`/admin/geo-location-route/org-chart-structures/remove-job-dec-pos-dept/${jobDesId}`, data);
+    }
+    async viewDetailOfficerEmp(empId, data) {
+        return http.get(`/admin/view-detail-employee-profile-account-new-by-dept-org/${empId}`, data).then((employeeOfficer) => {
+            if (!employeeOfficer) {
+                return false;
+            }
+            if (employeeOfficer?.status == 200) {
+                if (employeeOfficer?.data.success == true) {
+                    return employeeOfficer?.data.result.resultStatus;
+                }
+            }
+        }).catch((error) => {
+            throw Error(error || error.message);
+        });
+    }
+    async removeEmployeeProfile(empId, data){
+        return http.delete(`/admin/get-employee-remove-new-by-dept-org/${empId}`, data);
     }
     /**
      * Assign Employee to the org-chart 

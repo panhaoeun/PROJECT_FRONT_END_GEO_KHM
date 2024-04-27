@@ -71,9 +71,9 @@
 <!-- experience work -->
 <script>
 export default {
-    mounted(){
-        this.$emit('hobbiesInfo', this.multiAddHobbiesInfo);
-    },  
+    mounted() {
+        this.$emit("hobbiesInfo", this.multiAddHobbiesInfo);
+    },
     data() {
         return {
             multiAddHobbiesInfo: [

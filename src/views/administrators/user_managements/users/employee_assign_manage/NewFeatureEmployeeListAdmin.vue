@@ -47,7 +47,7 @@
                             <!-- Data Tables -->
                             <DataTable
                                 ref="dt"
-                                :value="usersListArr"
+                                :value="employeeListOrgDept"
                                 v-model:selection="selectedUserList"
                                 dataKey="id"
                                 :paginator="true"
@@ -85,8 +85,8 @@
                                     </div>
                                 </template>
                                 <!-- Empty Users -->
-                                <template #empty
-                                    >{{ $t("message.noHaveData") }}
+                                <template #empty>
+                                    Empty data employee for org-structures
                                 </template>
                                 <!-- Loading Users -->
                                 <template #loading>
@@ -95,9 +95,9 @@
                                 <!--------------Check Existed Data ----------->
                                 <div
                                     v-if="
-                                        usersListArr &&
-                                        usersListArr.length > 0 &&
-                                        usersListArr != ''
+                                        employeeListOrgDept &&
+                                        employeeListOrgDept.length > 0 &&
+                                        employeeListOrgDept != ''
                                     "
                                 >
                                     <!-- Columns -->
@@ -151,7 +151,13 @@
                                                         class="mr-2"
                                                         @click="
                                                             $router.push({
-                                                                path: `/vendor/user/list/view-detail-user-auth/ui-user-detail-employee/${slotProps.data?.user_id}`,
+                                                                path: `/vendor/user/list/view-detail-user-auth/ui-user-detail-employee/${
+                                                                    parseInt(
+                                                                        slotProps
+                                                                            .data
+                                                                            ?.empId
+                                                                    ) ?? 0
+                                                                }`,
                                                             })
                                                         "
                                                     />
@@ -204,16 +210,19 @@
                         <!-- ===============Dialog Delete Product Category======================= -->
                         <Dialog
                             v-model:visible="deleteUsersDialog"
-                            :style="{ width: '450px' }"
+                            :style="{ width: '500px' }"
                             header="Confirm Delete This Employee"
                             :modal="true"
                         >
-                            <div class="confirmation-content">
+                            <div class="confirmation-content flex">
                                 <i
                                     class="pi pi-exclamation-triangle mr-3"
                                     style="font-size: 2rem"
                                 />
-                                <span>Are you sure you want to delete?</span>
+                                <span
+                                    >Are you sure you want to delete employee
+                                    account profile?</span
+                                >
                             </div>
                             <template #footer>
                                 <Button
@@ -231,7 +240,9 @@
                                             : 'Remove'
                                     "
                                     :loading="loadingRemoveEmp"
-                                    @click="deleteUserMSByID"
+                                    @click="
+                                        confirmRemovedEmployeeAccountProfile
+                                    "
                                 />
                             </template>
                         </Dialog>
@@ -242,19 +253,20 @@
     </div>
 </template>
 
-<!-- Data Tables -->
+<!-- Employee List Features-->
 <script>
-// import { useToast } from 'primevue/usetoast';
 import { FilterMatchMode } from "primevue/api";
 import UserPermissionsMSServices from "@/services/vendors/user_permissions/UserPermissionsMSServices";
 import { isLoggedIn } from "@/utils/auth/auth";
 import { mapGetters } from "vuex";
+import addNewEmpUserAdminHelper from "@/mixin/admin_user_management/addNewEmpUserAdminHelper.js";
 export default {
+    mixins: [addNewEmpUserAdminHelper],
     data() {
         return {
             selectedUserList: null,
-            usersID: "",
-            usersListArr: "",
+            usersID: 0,
+            employeeListOrgDept: "",
             statusUsersSwitch: "",
             deleteUsersDialog: false,
             product: "",
@@ -263,14 +275,14 @@ export default {
             filters: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
+            loadingRemoveEmp: false,
         };
     },
     created() {
-        this.userPerMSServices = new UserPermissionsMSServices();
+        this.employeeManageServices = new UserPermissionsMSServices();
     },
     mounted() {
-        const userPerMSServices = new UserPermissionsMSServices();
-        userPerMSServices.getListUserData().then((users) => {
+        this.employeeManageServices.getListUserData().then((users) => {
             if (!Array.isArray(users) || !users.length > 0) {
                 this.$toast.add({
                     severity: "error",
@@ -283,7 +295,7 @@ export default {
                 users !== undefined ||
                 users !== null
             ) {
-                this.usersListArr = users ? users : "";
+                this.employeeListOrgDept = users ? users : "";
             }
         });
     },
@@ -302,60 +314,6 @@ export default {
         confirmDeleteUserMS(userId) {
             this.usersID = userId;
             this.deleteUsersDialog = true;
-        },
-        changeStatusUsers(userId, statusId, $event) {
-            console.log($event.target);
-            this.usersListArr.find((user) => {
-                if (user.user_id == userId) {
-                    const verifyUserStatus = {
-                        verifyStatus: statusId ? "Active" : "Inactive",
-                    };
-                    this.userPerMSServices
-                        .changeUserStatusVerify(userId, verifyUserStatus)
-                        .then((response) => {
-                            if (response.data.success == true) {
-                                this.$toast.add({
-                                    severity: "success",
-                                    summary:
-                                        "Successful updated user status successfully!",
-                                    detail: String(response.data?.message)
-                                        ? String(response.data?.message)
-                                        : "",
-                                    life: 3000,
-                                });
-                            }
-                        })
-                        .catch((error) => {
-                            this.$toast.add({
-                                severity: "error",
-                                summary: "Unsuccessfully updated user status!",
-                                detail: String(error.response.data?.message)
-                                    ? String(error.response.data?.message)
-                                    : "",
-                                life: 3000,
-                            });
-                        });
-                }
-            });
-        },
-        deleteUserMSByID() {
-            this.loadingRemoveEmp = true;
-            setTimeout(() => {
-                this.userPerMSServices
-                    .deleteUserMS(this.usersID)
-                    .then(() => {
-                        this.$toast.add({
-                            severity: "success",
-                            summary: "Account deleted successfully!",
-                            life: 3000,
-                        });
-                        this.loadingRemoveEmp = false;
-                        window.location.reload();
-                    })
-                    .catch((error) => {
-                        return Promise.reject(error);
-                    });
-            });
         },
     },
 };

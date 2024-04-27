@@ -179,19 +179,19 @@ export default {
         return {
             selectedLevelLan: null,
             dataLevelLanguages: [
-                { name: "Native Speaker", code: "EC" },
-                { name: "Fluent", code: "CS" },
-                { name: "Very Good", code: "SW" },
-                { name: "Basic", code: "OH" },
+                { name: "Native Speaker"},
+                { name: "Fluent"},
+                { name: "Very Good"},
+                { name: "Basic"},
             ],
             dataEmployeeType: [
-                { name: "Full Time", code: "FT" },
-                { name: "Part Time", code: "PT" },
-                { name: "Self-Employed", code: "SE" },
-                { name: "Freelancer", code: "FL" },
-                { name: "Contract", code: "CA" },
-                { name: "Internship", code: "IS" },
-                { name: "Other", code: "OH" },
+                { name: "Full Time"},
+                { name: "Part Time"},
+                { name: "Self-Employed"},
+                { name: "Freelancer"},
+                { name: "Contract"},
+                { name: "Internship"},
+                { name: "Other"},
             ],
             addMultiLanguagesInfo: [
                 {

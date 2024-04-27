@@ -123,7 +123,7 @@
                                             <InputText
                                                 type="text"
                                                 v-model="
-                                                    reference.positionEmpExperience
+                                                    reference.phoneOfManagerReference
                                                 "
                                                 placeholder="Phone number"
                                                 class="border-round-lg text-sm h-3rem"
@@ -186,31 +186,32 @@
 <!-- experience work -->
 <script>
 export default {
-    mounted(){
-        this.$emit('referenceInfo', this.addMultiReferenceInfo);
+    mounted() {
+        this.$emit("referenceInfo", this.addMultiReferenceInfo);
     },
     data() {
         return {
             dataLevelSkills: [
-                { name: "Experts", code: "EC" },
-                { name: "Experienced", code: "CS" },
-                { name: "Beginners", code: "SW" },
-                { name: "None", code: "OH" },
+                { name: "Experts" },
+                { name: "Experienced" },
+                { name: "Beginners" },
+                { name: "None" },
             ],
             dataEmployeeType: [
-                { name: "Full Time", code: "FT" },
-                { name: "Part Time", code: "PT" },
-                { name: "Self-Employed", code: "SE" },
-                { name: "Freelancer", code: "FL" },
-                { name: "Contract", code: "CA" },
-                { name: "Internship", code: "IS" },
-                { name: "Other", code: "OH" },
+                { name: "Full Time" },
+                { name: "Part Time" },
+                { name: "Self-Employed" },
+                { name: "Freelancer" },
+                { name: "Contract" },
+                { name: "Internship" },
+                { name: "Other" },
             ],
             addMultiReferenceInfo: [
                 {
                     referenceFullName: "",
                     companyReferenceName: "",
                     emailOfManagerReference: "",
+                    phoneOfManagerReference: 0,
                 },
             ],
             deleteItemReferInfo: false,

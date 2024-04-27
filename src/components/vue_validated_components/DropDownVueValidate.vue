@@ -59,7 +59,7 @@ const {
             {{ label }}
             <span class="p-error">{{ icon }}</span>
         </label>
-        <InputText
+        <Dropdown
             :name="name"
             :id="name"
             :type="type"

@@ -340,20 +340,20 @@ export default {
     data() {
         return {
             dataEmployeeType: [
-                { name: "Full Time", code: "FT" },
-                { name: "Part Time", code: "PT" },
-                { name: "Self-Employed", code: "SE" },
-                { name: "Freelancer", code: "FL" },
-                { name: "Contract", code: "CA" },
-                { name: "Internship", code: "IS" },
-                { name: "Other", code: "OH" },
+                { name: "Full Time"},
+                { name: "Part Time"},
+                { name: "Self-Employed"},
+                { name: "Freelancer"},
+                { name: "Contract"},
+                { name: "Internship" },
+                { name: "Other"},
             ],
             dataExperienceWork: [
-                { name: "Educations", code: "EC" },
-                { name: "Volunteering", code: "VR" },
-                { name: "Civil service", code: "CS" },
-                { name: "Social work", code: "SW" },
-                { name: "Others", code: "OH" },
+                { name: "Educations"},
+                { name: "Volunteering"},
+                { name: "Civil service"},
+                { name: "Social work"},
+                { name: "Others"},
             ],
             experienceAddMulti: [
                 {
