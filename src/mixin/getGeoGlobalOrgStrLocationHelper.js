@@ -6,7 +6,8 @@ import {
 export default{
     data() {
         return {
-            getTypeGeoFenceFilter: null
+            getTypeGeoFenceFilter: null,
+            
         }
     },
     computed: {
@@ -314,7 +315,7 @@ export default{
                     this.countryProvinceIdOptSelected =
                         ssnSuperCountryCodeLocationGeo
                             ? ssnSuperCountryCodeLocationGeo
-                            : "";
+                            : null;
                     this.getGeoLocationStateByCountryAddNewOrgStr(
                         geoLocationCountryType,
                         ssnSuperCountryCodeLocationGeo

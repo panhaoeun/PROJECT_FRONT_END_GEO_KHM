@@ -458,9 +458,9 @@ const actions = {
             geoDeptOrgStrServices.getAllDataResourceTypeGeoFenceLocations(getResourceGeoFenceId, getSubResourceGeoFenceId).then((resourceTypeData) => {
                  const getEmpResourceType = resourceTypeData ? resourceTypeData : {};
                  if (!getEmpResourceType) {
-                     commit('SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA', {});
+                    commit('SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA', {});
                  } else {
-                     commit('SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA', getEmpResourceType ? getEmpResourceType : {})
+                    commit('SET_RELOAD_ORG_RESOURCE_SUB_TYPE_DATA', getEmpResourceType ? getEmpResourceType : {})
                  }
              });
          } catch (error) {

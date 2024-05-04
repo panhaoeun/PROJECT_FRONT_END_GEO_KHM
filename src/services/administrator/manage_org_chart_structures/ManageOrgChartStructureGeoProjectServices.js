@@ -165,8 +165,8 @@ export default class ManageOrgChartStructureGeoProjectServices {
     async createStoreEmpOrg(orgStrPosId) {
         return httpFormData.post("/admin/get-employee-add-new-by-dept-org", orgStrPosId ? orgStrPosId : {});
     }
-    async removeEmpOrgDept(jobDesId, data) {
-        return http.delete(`/admin/geo-location-route/org-chart-structures/remove-job-dec-pos-dept/${jobDesId}`, data);
+    async updatedStoreEmpOrg(empId, updateEmpId) {
+        return httpFormData.put(`/admin/modify-employee-add-new-by-dept-org/${empId}`, updateEmpId ? updateEmpId : {});
     }
     async viewDetailOfficerEmp(empId, data) {
         return http.get(`/admin/view-detail-employee-profile-account-new-by-dept-org/${empId}`, data).then((employeeOfficer) => {
@@ -182,6 +182,10 @@ export default class ManageOrgChartStructureGeoProjectServices {
             throw Error(error || error.message);
         });
     }
+    async removeEmpOrgDept(jobDesId, data) {
+        return http.delete(`/admin/geo-location-route/org-chart-structures/remove-job-dec-pos-dept/${jobDesId}`, data);
+    }
+  
     async removeEmployeeProfile(empId, data){
         return http.delete(`/admin/get-employee-remove-new-by-dept-org/${empId}`, data);
     }

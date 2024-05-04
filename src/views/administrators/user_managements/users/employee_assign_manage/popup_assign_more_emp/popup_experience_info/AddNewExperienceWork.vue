@@ -4,6 +4,7 @@
             <div class="flex flex-column gap-15 border-round m-2">
                 <h5 class="flex align-items-center justify-content-center">
                     Experience Information
+                    {{ personalInfoExperiences  }}
                 </h5>
                 <!-- Add More Experience Informations -->
                 <Accordion
@@ -336,24 +337,30 @@
 <!-- Experience Work -->
 <script>
 export default {
-    components: {},
+    props: {
+        personalInfoExperiences: {
+            type: Array,
+            required: true,
+            default: () => [],
+        },
+    },
     data() {
         return {
             dataEmployeeType: [
-                { name: "Full Time"},
-                { name: "Part Time"},
-                { name: "Self-Employed"},
-                { name: "Freelancer"},
-                { name: "Contract"},
+                { name: "Full Time" },
+                { name: "Part Time" },
+                { name: "Self-Employed" },
+                { name: "Freelancer" },
+                { name: "Contract" },
                 { name: "Internship" },
-                { name: "Other"},
+                { name: "Other" },
             ],
             dataExperienceWork: [
-                { name: "Educations"},
-                { name: "Volunteering"},
-                { name: "Civil service"},
-                { name: "Social work"},
-                { name: "Others"},
+                { name: "Educations" },
+                { name: "Volunteering" },
+                { name: "Civil service" },
+                { name: "Social work" },
+                { name: "Others" },
             ],
             experienceAddMulti: [
                 {
@@ -368,7 +375,7 @@ export default {
                     descriptionExperiences: "",
                 },
             ],
-            deleteItemExp: false,
+            deleteItemExp: false,gi
             deletedItemIdex: 0,
             deleteItemExpLoading: false,
             endDatePresentCheck: "",
@@ -377,6 +384,8 @@ export default {
     },
     mounted() {
         this.onActiveIndexExpWork();
+        // Reload Data 
+        this.reloadDataExperienceWorkMulti();
     },
     methods: {
         truncateLongTextExperiences(str, length, useWordBoundary) {
@@ -402,6 +411,13 @@ export default {
                 return [month, year].join(" ");
             }
             return "";
+        },
+        reloadDataExperienceWorkMulti(){
+            try{
+                console.log("sdasd")
+            }catch(error){
+                throw Error(error)
+            }
         },
         onClickAddMoreExperienceInformation() {
             try {

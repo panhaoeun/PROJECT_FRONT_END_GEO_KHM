@@ -24,7 +24,17 @@
             <Button
                 icon="pi pi-list"
                 severity="warning"
-                v-tooltip="{ value: 'Management Sub Resource Type' }"
+                v-tooltip="{
+                    value: 'Management Sub Resource Type',
+                    pt: {
+                        arrow: {
+                            style: {
+                                borderBottomColor: 'var(--primary-color)',
+                            },
+                        },
+                        text: 'bg-primary font-medium',
+                    },
+                }"
                 class="ajax-btn primary-btn outline-btn plr-20 mtb-5 border-round-lg text-sm text-white"
                 @click.prevent="openDialogResourcesListSubType()"
             />

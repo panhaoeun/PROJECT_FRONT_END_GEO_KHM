@@ -90,14 +90,17 @@ export default {
                 path
             );
         },
-       onSelectedFileEmployeeProfile(event) {
-           this.profileEmp = event.files;
-           
-           this.profileEmp.forEach((file) => {
-               this.totalSize += parseInt(this.formatSize(file.size));
-           });
-            this.$emit("employeeFile", event?.files);
-       },
+        onSelectedFileEmployeeProfile(event) {
+            this.profileEmp = event.files;
+            
+            this.profileEmp.forEach((file) => {
+                this.totalSize += parseInt(this.formatSize(file.size));
+            });
+                this.$emit("employeeFile", event?.files);
+        },
+        /**
+         * Save Add Multiple Admin Users
+         **/
         async addNewEmployeeAdminEmployee({
             formWizard = [],
             expInfo = [],
@@ -214,6 +217,9 @@ export default {
                 throw Error(error || error.message);
             }
         },
+        /**
+         * Store Updated Modify Admin Users
+        **/
         async confirmRemovedEmployeeAccountProfile() {
             const getDeleteEmpId = this.usersID ? this.usersID  : 0;
             this.loadingRemoveEmp = true;
@@ -279,5 +285,26 @@ export default {
                 }
             },1000);
         },
+        // View Detail of employee details admin
+        async getViewDetailEmployeeDataOfficerOrg(empId){
+            try{
+                this.serviceManageStructuresAdmin.viewDetailOfficerEmp(empId ? empId : 0)
+                .then((viewEmp) => {
+                  if (viewEmp !== null || viewEmp !== '') {
+                    this.empProfilePersonalInfo =  viewEmp?.employeeProfile ?? null;
+                    this.empProfileEducation = viewEmp?.educations ?? [];
+                    this.empProfileExperience = viewEmp?.experience ?? [];
+                    this.empProfileHobbies = viewEmp?.hobbies ?? [];
+                    this.empProfileLanguages = viewEmp?.languages ?? [];
+                    this.empProfileReference = viewEmp?.references ?? [];
+                    this.empProfileSkill = viewEmp?.skill ?? [];
+                  }
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }catch(error){
+                throw Error(error || error?.message);
+            }
+        }
     },
 }

@@ -11,7 +11,7 @@
             </h2>
             <!-- Permissions Modules -->
             <!-- Admin -->
-            <template
+            <template   
                 v-if="
                     currentUserAuth && currentUserAuth[1].typeUser === 'Admin'
                 "
@@ -176,7 +176,7 @@
                                                         class="mr-2"
                                                         @click="
                                                             $router.push({
-                                                                path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data?.user_id}`,
+                                                                path: `/vendor/user/list/crete-user-auth/ui-user-edit/${slotProps.data?.empId}`,
                                                             })
                                                         "
                                                     />

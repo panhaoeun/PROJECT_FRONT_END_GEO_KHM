@@ -14,6 +14,7 @@
                             name="perInfoEnglishName"
                             type="text"
                             icon="*"
+                            :value="personalInfoEmpAssign?.empEnglishName ?? ''"
                             label="English Name"
                             placeholder="Please enter english name"
                         />
@@ -25,6 +26,7 @@
                         <TextFiledVueValidate
                             name="perInfoKhmerName"
                             type="text"
+                            :value="personalInfoEmpAssign?.empKhmerName ?? ''"
                             label="Khmer Name"
                             placeholder="Please enter khmer name"
                         />
@@ -37,6 +39,7 @@
                             name="perInfoPhoneNumber"
                             type="number"
                             icon="*"
+                            :value="personalInfoEmpAssign?.empPhoneNumber ?? 0"
                             label="Phone Number"
                             placeholder="Please enter phone number"
                         />
@@ -49,6 +52,7 @@
                             name="perInfoEmail"
                             type="email"
                             label="Email"
+                            :value="personalInfoEmpAssign?.empEmailAddr ?? ''"
                             placeholder="Please enter email"
                         />
                     </div>
@@ -59,6 +63,7 @@
                         <TextFiledVueValidate
                             name="perInfoAddress"
                             type="text"
+                            :value="personalInfoEmpAssign?.empAddress ?? ''"
                             label="Address"
                             placeholder="Please enter address"
                         />
@@ -71,6 +76,7 @@
                             icon="*"
                             name="perInfoNational"
                             type="text"
+                            :value="personalInfoEmpAssign?.empNationCountry ?? ''"
                             label="Nationality"
                             placeholder="Please enter your nationality"
                         />
@@ -204,6 +210,7 @@
                             type="text"
                             label="Descriptions"
                             styleClass="w-auto"
+                            :value="personalInfoEmpAssign?.empNoted ?? ''"
                             placeholder="Please enter description"
                         />
                     </div>
@@ -223,6 +230,19 @@ export default {
     components: {
         TextFiledVueValidate,
         TextAreaFiledVueValidate,
+    },
+    props: {
+        personalInfoEmp: {
+            type: Array,
+            required: true,
+            default: () => [],
+        },
+    },
+    computed: {
+        personalInfoEmpAssign(){
+            const getEmpInfo = this.personalInfoEmp ? this.personalInfoEmp : [];
+            return getEmpInfo;
+        }
     },
     data() {
         return {

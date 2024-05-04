@@ -122,7 +122,7 @@ const defaultChildRoutesUsersMS = (prefix) => [
             permissions: ['users_modules']
         },
         hidden: true,
-        component: () => import("../../views/administrators/user_managements/users/UserMSCreateUpdated.vue"),
+        component: () => import("../../views/administrators/user_managements/users/UpdatedEmpUserAdmin.vue"),
     },
     {
         path: "/vendor/user/list/view-detail-user-auth/ui-user-detail-employee/:id",

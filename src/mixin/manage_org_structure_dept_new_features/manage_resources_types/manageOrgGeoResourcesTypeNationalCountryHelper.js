@@ -9,8 +9,90 @@ import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/
 
 
 export default {
+    watch:{ 
+        async selectedCountryOptOrgStr(val){
+           const countryNationalId = val ? val : null;
+            if (countryNationalId !== null || (countryNationalId !== undefined && typeof countryNationalId !== "object")) {
+                
+                const getResourceId = parseInt(countryNationalId?.id )
+                    ? parseInt(countryNationalId?.id)
+                    : 0;
+                const getSupperSSNId = 0;
+                await this.getReloadResourcesTypGeoOrgAllDataGlobal(
+                    getResourceId,
+                    getSupperSSNId
+                );
+                // Get Selected Functions of province nation country
+                const getNationCountryProvinceSSNId = this.countryProvinceIdOptSelected ?? null;
+                this.provinceSelectedResourceSSNId = getNationCountryProvinceSSNId ? getNationCountryProvinceSSNId : null;
+                this.getProvinceByCountrySelectedOrgStr(countryNationalId);
+            }
+            return null;
+        },
+        async selectedProvinceOptOrgStr(val) {
+           const provinceNationalId = val ? val : null;
+            if (provinceNationalId !== null || (provinceNationalId !== undefined && typeof provinceNationalId !== "object")) {
+              
+                const getResourceId = parseInt(provinceNationalId?.id )
+                    ? parseInt(provinceNationalId?.id )
+                    : 0;
+                const getSupperSSNId = 0;
+                await this.getReloadResourcesTypGeoOrgAllDataGlobal(
+                    getResourceId,
+                    getSupperSSNId
+                );
+                return null;
+            }
+        },
+        async selectedDistrictOptOrgStr(val) {
+           const districtNationalId = val ? val : null;
+            if (districtNationalId !== null || (districtNationalId !== undefined && typeof districtNationalId !== "object")) {
+              
+                const getResourceId = parseInt(districtNationalId?.id )
+                    ? parseInt(districtNationalId?.id )
+                    : 0;
+                const getSupperSSNId = 0;
+                await this.getReloadResourcesTypGeoOrgAllDataGlobal(
+                    getResourceId,
+                    getSupperSSNId
+                );
+                return null;
+            }
+        },
+        async selectedCommuneOptOrgStr(val) {
+           const communeNationalId = val ? val : null;
+            if (communeNationalId !== null || (communeNationalId !== undefined && typeof communeNationalId !== "object")) {
+              
+                const getResourceId = parseInt(communeNationalId?.id )
+                    ? parseInt(communeNationalId?.id )
+                    : 0;
+                const getSupperSSNId = 0;
+                await this.getReloadResourcesTypGeoOrgAllDataGlobal(
+                    getResourceId,
+                    getSupperSSNId
+                );
+                return null;
+            }
+        },
+        async selectedVillagesOptOrgStr(val) {
+           const communeNationalId = val ? val : null;
+            if (communeNationalId !== null || (communeNationalId !== undefined && typeof communeNationalId !== "object")) {
+              
+                const getResourceId = parseInt(communeNationalId?.id )
+                    ? parseInt(communeNationalId?.id )
+                    : 0;
+                const getSupperSSNId = 0;
+                await this.getReloadResourcesTypGeoOrgAllDataGlobal(
+                    getResourceId,
+                    getSupperSSNId
+                );
+                return null;
+            }
+        }
+    },
     computed: {
         ...mapGetters('orgStrDeptPosGeo', ['getReloadResourcesTypGeoOrgAll', 'getReloadSubResourcesTypGeoOrgAll']),
+        // getAllResourceType
         getAllDataResourceTypeNationalCountry() {
             const resourceDataOrgDept =
                 this.getReloadResourcesTypGeoOrgAll ?
@@ -65,7 +147,7 @@ export default {
             return 0;
         },
         /**
-         * @Reload selected the resource types of geo-fence locations
+         * @Reload base geo-fence location reload data resource type after selected geo-fence locations
         * */
     },
     created() {
@@ -85,9 +167,18 @@ export default {
             },
             listOrgNationResourceType: [],
             selectedResourcesType: null,
+            countryProvinceIdOptSelected: null,
+            provinceSelectedResourceSSNId: null
         }
     },
     methods: {
+        geoNameToTitleCase(str) {
+            return str
+                .toLowerCase()
+                .replace(/(^|\s|-|')(\w)/g, function (match) {
+                    return match.toUpperCase();
+                });
+        },
         ...mapActions("orgStrDeptPosGeo", ["setAllReloadOfResourceTypeOrgStrData", "setAllReloadOfSubResourceTypeOrgStrData"]),
         geoNameToTitleResourceType(strData) {
             return strData?.toLowerCase()
@@ -226,7 +317,7 @@ export default {
                                 /**
                                  * @Relist Get Reload Resources Type Data Org-Dept
                                 */ 
-                                const superSSNResourceTypeId = parseInt(this.editDataResourcesTypeGeo.superIdResourceType) ?? 0;
+                                const superSSNResourceTypeId = parseInt(this.editDataResourcesTypeGeo.ssnResourceType) ?? 0;
                                 const geoFenceLocationId = parseInt(this.editDataResourcesTypeGeo.geoFenceId) ?? 0;
                                 await this.getReloadResourcesTypGeoOrgAllDataGlobal(geoFenceLocationId, superSSNResourceTypeId);
                                 if (!this.hasErrorEditResourceType) {
@@ -391,6 +482,17 @@ export default {
             } catch (error) {
                 throw Error(error || error?.message);
             }
-        }
+        },
+        /**
+         * @Reload list Data of geo-fence location nation 
+        * */ 
+        async onSelectedShowResourceTypeGeoFence() {
+            const getResourceId = 0;
+            const getSupperSSNId = String(this.provinceSelectedResourceSSNId).toString() ?? '';
+            await this.getReloadResourcesTypGeoOrgAllDataGlobal(
+                getResourceId,
+                getSupperSSNId
+            );
+        },
     },
 }

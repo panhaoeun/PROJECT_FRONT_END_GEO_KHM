@@ -408,7 +408,14 @@
                     </el-card>
                     <!-- Reload Data Resources Type Org-Structures -->
                     <el-card class="gap-10 my-4">
-                        <ListOrgGeoFenceResourcesType />
+                        <ListOrgGeoFenceResourcesType
+                            :resource-type="
+                                getAllDataResourceTypeNationalCountry
+                                    ? getAllDataResourceTypeNationalCountry
+                                    : []
+                            "
+                            :sub-resource-type="getSubResourceType"
+                        />
                     </el-card>
                     <!-- Reload Data Resources Type Org-Structures -->
                 </form>
@@ -428,12 +435,12 @@ import getGeoGlobalOrgStrLocationHelper from "@/mixin/getGeoGlobalOrgStrLocation
 import util from "@/mixin/util";
 import validation from "@/mixin/validation";
 import ListOrgGeoFenceResourcesType from "./ListOrgGeoFenceResourcesType.vue";
+import manageOrgGeoResourcesTypeNationalCountryHelper from "@/mixin/manage_org_structure_dept_new_features/manage_resources_types/manageOrgGeoResourcesTypeNationalCountryHelper";
 
 /**
  *
  * @List Detail of Geo-fence
- * */
-
+* */
 export default {
     setup() {
         return { v$: useVuelidate() };
@@ -446,6 +453,7 @@ export default {
         validation,
         geoLocationVillagesHelper,
         getGeoGlobalOrgStrLocationHelper,
+        manageOrgGeoResourcesTypeNationalCountryHelper,
     ],
     mounted() {
         this.geoLocationCountryResourcesClick();
@@ -501,6 +509,8 @@ export default {
             },
             loadingDataListLocation: false,
             loadingBtnSubmitted: false,
+            getResourceTypes: [],
+            getResourceSubType: [],
         };
     },
     created() {
