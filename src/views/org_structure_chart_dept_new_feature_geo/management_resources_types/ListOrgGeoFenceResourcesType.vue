@@ -2,9 +2,12 @@
     <!-- Content -->
     <div class="gird">
         <div class="col-12">
-            {{ getAllDataSubResourcesTypeFilterByMainSubResource }} countryProvinceIdOptSelected
             <DataTable
-                :value="getAllDataSubResourcesTypeFilterByMainSubResource ? getAllDataSubResourcesTypeFilterByMainSubResource : {}"
+                :value="
+                    getAllDataSubResourcesTypeFilterByMainSubResource
+                        ? getAllDataSubResourcesTypeFilterByMainSubResource
+                        : {}
+                "
                 tableStyle="min-width: 50rem"
                 contextMenu
                 filterDisplay="menu"
@@ -131,7 +134,8 @@
                 <template
                     v-if="
                         getAllDataSubResourcesTypeFilterByMainSubResource &&
-                        getAllDataSubResourcesTypeFilterByMainSubResource.length > 0 &&
+                        getAllDataSubResourcesTypeFilterByMainSubResource.length >
+                            0 &&
                         getAllDataSubResourcesTypeFilterByMainSubResource != ''
                     "
                 >
@@ -218,6 +222,11 @@ export default {
             default: () => {
                 return null;
             },
+        },
+        geoFenceId: {
+            type: Number,
+            required: true,
+            default: () => 0,
         },
     },
     computed: {

@@ -4,7 +4,7 @@
             <div class="flex flex-column gap-15 border-round m-2">
                 <h5 class="flex align-items-center justify-content-center">
                     Experience Information
-                    {{ personalInfoExperiences  }}
+                    {{ getExpWorkInfo }} experinceWorkInfo
                 </h5>
                 <!-- Add More Experience Informations -->
                 <Accordion
@@ -14,7 +14,7 @@
                     :multiple="true"
                 >
                     <AccordionTab
-                        v-for="(experience, index) in experienceAddMulti"
+                        v-for="(experience, index) in getExpWorkInfo"
                         :key="index"
                         expandIcon="pi pi-plus"
                         collapseIcon="pi pi-minus"
@@ -30,12 +30,12 @@
                                     <span
                                         class="white-space-nowrap font-semibold"
                                         v-if="
-                                            experience?.positionEmpExperience !==
+                                            experience?.positionName !==
                                             ''
                                         "
                                         >{{
                                             truncateLongTextExperiences(
-                                                experience?.positionEmpExperience,
+                                                experience?.positionName,
                                                 70,
                                                 "\b"
                                             ) ?? "(Not Specified)"
@@ -45,15 +45,15 @@
                                     <!-- Date of present day experience  -->
                                     <small
                                         v-if="
-                                            experience?.selectedStartDate !==
+                                            experience?.startedDateEmp !==
                                                 null ||
-                                            experience?.selectedStartDate !==
+                                            experience?.startedDateEmp !==
                                                 undefined
                                         "
                                     >
                                         {{
                                             formatDateExperienceWork(
-                                                experience?.selectedStartDate
+                                                experience?.startedDateEmp
                                             ) || ""
                                         }}
                                         <!-- End Date or Present day -->
@@ -66,7 +66,7 @@
                                             {{
                                                 "-" + endDatePresentCheck ||
                                                 formatDateExperienceWork(
-                                                    experience?.selectedEndDate
+                                                    experience?.endDateEmp
                                                 )
                                             }}
                                         </template>
@@ -82,7 +82,7 @@
                                             {{
                                                 "-" +
                                                 formatDateExperienceWork(
-                                                    experience?.selectedEndDate
+                                                    experience?.endDateEmp
                                                 )
                                             }}
                                         </template>
@@ -130,7 +130,7 @@
                                             </label>
                                             <Dropdown
                                                 v-model="
-                                                    experience.selectedTypeExperience
+                                                    experience.typeExpWork
                                                 "
                                                 :options="dataExperienceWork"
                                                 optionLabel="name"
@@ -147,7 +147,7 @@
                                             <InputText
                                                 type="text"
                                                 v-model="
-                                                    experience.positionEmpExperience
+                                                    experience.positionName
                                                 "
                                                 placeholder="Software Development"
                                                 class="border-round-lg text-sm h-3rem"
@@ -164,7 +164,7 @@
                                                 placeholder="ABC Company Co ltd"
                                                 class="border-round-lg text-sm h-3rem"
                                                 v-model="
-                                                    experience.nameOfCompanyMinistry
+                                                    experience.companyMinistryName
                                                 "
                                             />
                                         </div>
@@ -179,7 +179,7 @@
                                                 placeholder="Phnom Penh"
                                                 class="border-round-lg text-sm h-3rem"
                                                 v-model="
-                                                    experience.addressExperiencesWork
+                                                    experience.addressWorkExp
                                                 "
                                             />
                                         </div>
@@ -195,7 +195,7 @@
                                                 placeholder="06/12/2024"
                                                 class="border-round-lg text-sm h-3rem"
                                                 v-model="
-                                                    experience.selectedStartDate
+                                                    experience.startedDateEmp
                                                 "
                                             />
                                         </div>
@@ -214,7 +214,7 @@
                                                     disabledSelectedEndDate
                                                 "
                                                 v-model="
-                                                    experience.selectedEndDate
+                                                    experience.endDateEmp
                                                 "
                                             />
                                         </div>
@@ -226,7 +226,7 @@
                                             </label>
                                             <Dropdown
                                                 v-model="
-                                                    experience.selectedEmploymentType
+                                                    experience.empType
                                                 "
                                                 :options="dataEmployeeType"
                                                 optionLabel="name"
@@ -244,7 +244,7 @@
                                                 >
                                                     <Checkbox
                                                         v-model="
-                                                            experience.checkPresentsDay
+                                                            checkPresentsDay
                                                         "
                                                         inputId="present_day"
                                                         name="present_day"
@@ -252,8 +252,8 @@
                                                         value="Present Day"
                                                         @update:modelValue="
                                                             onChangePresentDayCheck(
-                                                                experience?.checkPresentsDay,
-                                                                experience?.selectedEndDate
+                                                                checkPresentsDay,
+                                                                experience?.endDateEmp
                                                             )
                                                         "
                                                     />
@@ -273,7 +273,7 @@
                                             >
                                             <Editor
                                                 v-model="
-                                                    experience.descriptionExperiences
+                                                    experience.descriptionEmpExp
                                                 "
                                                 placeholder="Enter Descriptions"
                                                 editorStyle="height: 320px"
@@ -340,7 +340,7 @@ export default {
     props: {
         personalInfoExperiences: {
             type: Array,
-            required: true,
+            required: false,
             default: () => [],
         },
     },
@@ -368,12 +368,25 @@ export default {
             deleteItemExpLoading: false,
             endDatePresentCheck: "",
             disabledSelectedEndDate: false,
+            experinceWorkInfo: [],
+            checkPresentsDay: null,
         };
     },
+    computed: {
+        getExpWorkInfo() {
+            const expWorkInfo = this.personalInfoExperiences
+                ? this.personalInfoExperiences
+                : [];
+            return expWorkInfo ? expWorkInfo : [];
+        },
+      
+    },
+    
     mounted() {
         this.onActiveIndexExpWork();
-        // Reload Data 
+        // Reload Data
         this.reloadDataExperienceWorkMulti();
+      
     },
     methods: {
         truncateLongTextExperiences(str, length, useWordBoundary) {
@@ -400,11 +413,12 @@ export default {
             }
             return "";
         },
-        reloadDataExperienceWorkMulti(){
-            try{
-               this.experienceAddMulti.push({
+        reloadDataExperienceWorkMulti() {
+            try {
+                console.log(this.getExpWorkInfo, "personalInfoExperiences")
+                this.experienceAddMulti.push({
                     selectedTypeExperience: null,
-                    positionEmpExperience: "",
+                    positionEmpExperience: '',
                     nameOfCompanyMinistry: "asdsad",
                     selectedStartDate: "",
                     selectedEndDate: "",
@@ -412,9 +426,8 @@ export default {
                     checkPresentsDay: null,
                     descriptionExperiences: "",
                 });
-                console.log(this.personalInfoExperiences, "personalInfoExperiences")
-            }catch(error){
-                throw Error(error)
+            } catch (error) {
+                throw Error(error);
             }
         },
         onClickAddMoreExperienceInformation() {

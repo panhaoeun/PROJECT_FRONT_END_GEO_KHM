@@ -9,11 +9,11 @@ import ManageOrgChartStructureGeoProjectServices from "@/services/administrator/
 
 
 export default {
-    watch:{ 
+    watch:{
         async selectedCountryOptOrgStr(val){
            const countryNationalId = val ? val : null;
             if (countryNationalId !== null || (countryNationalId !== undefined && typeof countryNationalId !== "object")) {
-                
+
                 const getResourceId = parseInt(countryNationalId?.id )
                     ? parseInt(countryNationalId?.id)
                     : 0;
@@ -32,7 +32,7 @@ export default {
         async selectedProvinceOptOrgStr(val) {
            const provinceNationalId = val ? val : null;
             if (provinceNationalId !== null || (provinceNationalId !== undefined && typeof provinceNationalId !== "object")) {
-              
+
                 const getResourceId = parseInt(provinceNationalId?.id )
                     ? parseInt(provinceNationalId?.id )
                     : 0;
@@ -47,7 +47,7 @@ export default {
         async selectedDistrictOptOrgStr(val) {
            const districtNationalId = val ? val : null;
             if (districtNationalId !== null || (districtNationalId !== undefined && typeof districtNationalId !== "object")) {
-              
+
                 const getResourceId = parseInt(districtNationalId?.id )
                     ? parseInt(districtNationalId?.id )
                     : 0;
@@ -62,7 +62,7 @@ export default {
         async selectedCommuneOptOrgStr(val) {
            const communeNationalId = val ? val : null;
             if (communeNationalId !== null || (communeNationalId !== undefined && typeof communeNationalId !== "object")) {
-              
+
                 const getResourceId = parseInt(communeNationalId?.id )
                     ? parseInt(communeNationalId?.id )
                     : 0;
@@ -77,7 +77,7 @@ export default {
         async selectedVillagesOptOrgStr(val) {
            const communeNationalId = val ? val : null;
             if (communeNationalId !== null || (communeNationalId !== undefined && typeof communeNationalId !== "object")) {
-              
+
                 const getResourceId = parseInt(communeNationalId?.id )
                     ? parseInt(communeNationalId?.id )
                     : 0;
@@ -147,7 +147,7 @@ export default {
         },
         /**
          * @Reload the resource types of geo-fence locations
-         * */ 
+         * */
         getCountryNationCongressResourceType() {
             const countryNationalId = this.selectedCountryOptOrgStr || this.selectedCountryOptOrgStr;
             if (countryNationalId !== null || (countryNationalId !== undefined && typeof countryNationalId !== "object")) {
@@ -265,7 +265,7 @@ export default {
                                         });
                                         /**
                                          * @Relist Get Reload Resources Type Data Org-Dept
-                                        */ 
+                                        */
                                         const superSSNResourceTypeId = parseInt(this.superSSNResourceSelectedId) ?? 0;
                                         const geoFenceLocationId = parseInt(this.nationalCountryId) ?? 0;
                                         await this.getReloadResourcesTypGeoOrgAllDataGlobal(geoFenceLocationId, superSSNResourceTypeId);
@@ -299,14 +299,14 @@ export default {
         },
         /**
          * @Edit Resources Nations Country
-        */ 
+        */
         async openDialogEditModifyResourcesType(resourceData){
             this.openedEditDataResources = resourceData ? resourceData : null;
             this.dialogResourceTypeEditType = true;
         },
         async submittedResourceTypeSaveModify(){
             try{
-                if(this.editDataResourcesTypeGeo?.englishNameResource 
+                if(this.editDataResourcesTypeGeo?.englishNameResource
                     && this.editDataResourcesTypeGeo?.englishNameResource !== null
                     && typeof this.editDataResourcesTypeGeo?.englishNameResource !== 'undefined'
                 ){
@@ -332,7 +332,7 @@ export default {
                                 });
                                 /**
                                  * @Relist Get Reload Resources Type Data Org-Dept
-                                */ 
+                                */
                                 const superSSNResourceTypeId = parseInt(this.editDataResourcesTypeGeo.ssnResourceType) ?? 0;
                                 const geoFenceLocationId = parseInt(this.editDataResourcesTypeGeo.geoFenceId) ?? 0;
                                 await this.getReloadResourcesTypGeoOrgAllDataGlobal(geoFenceLocationId, superSSNResourceTypeId);
@@ -381,7 +381,7 @@ export default {
                 setTimeout(()=> {
                     this.loadingRemovedResourceType = false;
                     const resourceTypeId =  this.dataDeletedOrgBoardPosId?.resourceTypeId;
-                    
+
                     this.geoDeptOrgStrServicesPosition?.removedResourceTypeOfGeoFence(resourceTypeId).then(async (resources) => {
                         if(resources?.status === 200){
                             this.deletedResourcesTypeNational = false;
@@ -393,7 +393,7 @@ export default {
                             });
                             /**
                              * @Relist Get Reload Resources Type Data Org-Dept
-                            */ 
+                            */
                             const superSSNResourceTypeId = parseInt(this.dataDeletedOrgBoardPosId.superIdResourceType) ?? 0;
                             const geoFenceLocationId = parseInt(this.dataDeletedOrgBoardPosId.geoFenceId) ?? 0;
                             await this.getReloadResourcesTypGeoOrgAllDataGlobal(geoFenceLocationId, superSSNResourceTypeId);
@@ -423,7 +423,7 @@ export default {
                   if (
                     !Array.isArray(resource) ||
                     resource !== undefined ||
-                    resource !== null || 
+                    resource !== null ||
                     typeof resource !== 'undefined'
                 ) {
                     if (resourcesDataNational !== null || resourcesDataNational !== undefined && typeof resourcesDataNational !== 'undefined') {
@@ -437,13 +437,13 @@ export default {
                         this.getReloadSubResourcesTypGeoOrgAllDataGlobal(getResourceGeoFenceId, getSupperSSNId);
                     }
                 }
-               
+
             }catch(error){
-                throw Error(error || error?.message); 
+                throw Error(error || error?.message);
             }
         },
         /**
-        *@Reload Resources Types 
+        *@Reload Resources Types
         */
         async getReloadResourcesTypGeoOrgAllDataGlobal(geoFenceSuperDataId=0,superSSNResourceId=0) {
             try {
@@ -500,16 +500,20 @@ export default {
             }
         },
         /**
-         * @Reload list Data of geo-fence location nation 
-        * */ 
-        async onSelectedShowResourceTypeGeoFence() {
+         * @Reload list Data of geo-fence location nation
+        * */
+        async onSelectedShowResourceTypeGeoFence(resourceTypeId) {
            try{
-                const getResourceId = 0;
-                const getSupperSSNId = String(this.provinceSelectedResourceSSNId).toString() ?? '';
+              const resourceTypeData = resourceTypeId ? resourceTypeId : null;
+              if (resourceTypeData !== null || (resourceTypeData !== undefined && typeof resourceTypeData !== "object")) {
+                const getSupperSSNId = String(resourceTypeData?.ssnResourceType).toString() ?? '';
+                const getResourceId = this.geoFenceId ? this.geoFenceId : 0;
                 await this.getReloadResourcesTypGeoOrgAllDataGlobal(
                     getResourceId,
                     getSupperSSNId
                 );
+              }
+
             } catch (error) {
                 throw Error(error || error?.message);
             }

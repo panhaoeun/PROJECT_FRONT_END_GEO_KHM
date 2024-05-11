@@ -197,7 +197,7 @@
                                         v-model="selectedDistrictOptOrgStr"
                                         :options="allStateDistrictAddNew"
                                         optionLabel="geo_english_name"
-                                        filter
+                                        filter 
                                         @update:modelValue="
                                             getDistrictByProvinceSelectedOrgStr(
                                                 selectedProvinceOptOrgStr
@@ -414,7 +414,7 @@
                                     ? getAllDataResourceTypeNationalCountry
                                     : []
                             "
-                            :sub-resource-type="getSubResourceType"
+                            :geoFenceId="countryProvinceId ? countryProvinceId : 0"
                         />
                     </el-card>
                     <!-- Reload Data Resources Type Org-Structures -->
@@ -511,6 +511,7 @@ export default {
             loadingBtnSubmitted: false,
             getResourceTypes: [],
             getResourceSubType: [],
+            countryProvinceId: 0
         };
     },
     created() {

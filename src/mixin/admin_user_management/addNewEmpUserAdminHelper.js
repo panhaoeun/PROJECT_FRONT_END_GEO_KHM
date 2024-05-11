@@ -413,10 +413,12 @@ export default {
                     this.empProfilePersonalInfo =  viewEmp?.employeeProfile ?? null;
                     this.empProfileEducation = viewEmp?.educations ?? [];
                     this.empProfileExperience = viewEmp?.experience ?? [];
+                    
                     this.empProfileHobbies = viewEmp?.hobbies ?? [];
                     this.empProfileLanguages = viewEmp?.languages ?? [];
                     this.empProfileReference = viewEmp?.references ?? [];
                     this.empProfileSkill = viewEmp?.skill ?? [];
+                
                   }
                 }).catch((error) => {
                     this.$toast.add({

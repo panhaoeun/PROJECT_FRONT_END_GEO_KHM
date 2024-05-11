@@ -7,7 +7,6 @@ export default{
     data() {
         return {
             getTypeGeoFenceFilter: null,
-            
         }
     },
     computed: {
@@ -267,6 +266,7 @@ export default{
                         ? this.selectedCountryOptOrgStr?.geo_ssn_location
                         : "";
                 const geoLocationCountryType = "T2";
+                this.countryProvinceId = parseInt(this.selectedCountryOptOrgStr?.id) ?? 0;
                 this.countryProvinceIdOptSelected =
                     ssnSuperCountryCodeLocationGeo
                         ? ssnSuperCountryCodeLocationGeo
@@ -335,6 +335,7 @@ export default{
                     );
                     // Get District DropDown 
                     const geoLocationProvinceType = "T3";
+                    this.countryProvinceId = parseInt(this.getProvinceOrgStructure?.id) ?? 0;
                     const ssnSuperProvinceCodeLocationGeo =
                         this.selectedProvinceOptOrgStr?.geo_ssn_location
                             ? this.selectedProvinceOptOrgStr?.geo_ssn_location
@@ -373,6 +374,7 @@ export default{
                     provinceParentId?.geo_ssn_location !== null
                 ) {
                     this.getTypeGeoFenceFilter = "GEO-03";
+                    this.countryProvinceId = parseInt(this.provinceParentId?.id) ?? 0;
                     const ssnSuperProvinceCodeLocationGeo =
                         provinceParentId?.geo_ssn_location
                             ? provinceParentId?.geo_ssn_location
@@ -468,6 +470,7 @@ export default{
                     // Get Village Dropdown 
                     const villageTypeCode = "T5";
                     this.getTypeGeoFenceFilter = "GEO-04";
+                    this.countryProvinceId = parseInt(this.districtParentId?.id) ?? 0;
                     const ssnSuperVillageCodeLocationGeo = this.selectedCommuneOptOrgStr?.geo_ssn_location ?
                         this.selectedCommuneOptOrgStr?.geo_ssn_location :
                         null;
