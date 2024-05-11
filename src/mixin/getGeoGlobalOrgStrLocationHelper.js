@@ -35,7 +35,7 @@ export default{
                 getOrgDeptCountryId !== null ||
                 (getOrgDeptCountryId !== undefined && typeof getOrgDeptCountryId !== "object")
             ) {
-                return this.countryAll;
+                return this.provinceAll;
             }
         },
         allStateCountryAddNewOrgStr() {
@@ -55,7 +55,7 @@ export default{
                 getOrgDeptProvinceId !== null ||
                 (getOrgDeptProvinceId !== undefined && typeof getOrgDeptProvinceId !== "object" && geoTypeOrg == 'GEO-02')
             ) {
-                return this.provinceAll || [];
+                return this.districtAll || [];
             }
             return [];
         },
@@ -76,7 +76,7 @@ export default{
                 getOrgDeptDistrictId !== null ||
                 (getOrgDeptDistrictId !== undefined && typeof getOrgDeptDistrictId !== "object" && geoTypeOrg == 'GEO-03')
             ) {
-                return this.districtAll || [];
+                return this.communeAll || [];
             }
             return [];
         },
@@ -97,7 +97,7 @@ export default{
                  getOrgDeptCommuneId !== null ||
                  (getOrgDeptCommuneId !== undefined && typeof getOrgDeptCommuneId !== "object" && geoTypeOrg === "GEO-04")
              ) {
-                 return this.communeAll || [];
+                 return this.getGeoVillageAll || [];
              }
              return [];
          },
@@ -401,14 +401,14 @@ export default{
                 //     );
                     // Get Commune Dropdown 
                     // this.getTypeGeoFenceFilter = "GEO-04";
-                    // const geoLocationCommuneType = "T4";
-                    // const ssnSuperCommuneCodeLocationGeo = this.selectedDistrictOptOrgStr?.geo_ssn_location ?
-                    //     this.selectedDistrictOptOrgStr?.geo_ssn_location :
-                    //     null;
-                    // this.getGeoLocationCommuneCapitalByCountryAddNewOrgStr(
-                    //     geoLocationCommuneType,
-                    //     ssnSuperCommuneCodeLocationGeo
-                    // );
+                    const geoLocationCommuneType = "T4";
+                    const ssnSuperCommuneCodeLocationGeo = this.selectedDistrictOptOrgStr?.geo_ssn_location ?
+                        this.selectedDistrictOptOrgStr?.geo_ssn_location :
+                        null;
+                    this.getGeoLocationCommuneCapitalByCountryAddNewOrgStr(
+                        geoLocationCommuneType,
+                        ssnSuperCommuneCodeLocationGeo
+                    );
                     
                 }
             } catch (error) {
@@ -443,7 +443,7 @@ export default{
                         districtParentId?.geo_ssn_location
                             ? districtParentId?.geo_ssn_location
                             : "";
-                    this.getTypeGeoFenceFilter = "GEO-04";
+                
                     const geoLocationProvinceType = "T4";
                     this.ssnCommuneByVillageCodeId = ssnSuperProvinceCodeLocationGeo
                         ? ssnSuperProvinceCodeLocationGeo
@@ -467,10 +467,11 @@ export default{
                     // );
                     // Get Village Dropdown 
                     const villageTypeCode = "T5";
+                    this.getTypeGeoFenceFilter = "GEO-04";
                     const ssnSuperVillageCodeLocationGeo = this.selectedCommuneOptOrgStr?.geo_ssn_location ?
                         this.selectedCommuneOptOrgStr?.geo_ssn_location :
                         null;
-                    this.geoLocationCommuneVillageListOrgStr(
+                   this.geoLocationCommuneVillageListOrgStr(
                         villageTypeCode,
                         ssnSuperVillageCodeLocationGeo
                     );

@@ -2,9 +2,9 @@
     <!-- Content -->
     <div class="gird">
         <div class="col-12">
-            {{ countryProvinceIdOptSelected }} countryProvinceIdOptSelected
+            {{ getAllDataSubResourcesTypeFilterByMainSubResource }} countryProvinceIdOptSelected
             <DataTable
-                :value="getAllSubResourceType ? getAllSubResourceType : {}"
+                :value="getAllDataSubResourcesTypeFilterByMainSubResource ? getAllDataSubResourcesTypeFilterByMainSubResource : {}"
                 tableStyle="min-width: 50rem"
                 contextMenu
                 filterDisplay="menu"
@@ -130,9 +130,9 @@
                 <!--------------Check Existed Data ----------->
                 <template
                     v-if="
-                        getAllSubResourceType &&
-                        getAllSubResourceType.length > 0 &&
-                        getAllSubResourceType != ''
+                        getAllDataSubResourcesTypeFilterByMainSubResource &&
+                        getAllDataSubResourcesTypeFilterByMainSubResource.length > 0 &&
+                        getAllDataSubResourcesTypeFilterByMainSubResource != ''
                     "
                 >
                     <Column

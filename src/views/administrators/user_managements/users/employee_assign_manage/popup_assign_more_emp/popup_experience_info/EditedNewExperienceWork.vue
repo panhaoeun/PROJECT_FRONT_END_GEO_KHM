@@ -362,19 +362,7 @@ export default {
                 { name: "Social work" },
                 { name: "Others" },
             ],
-            experienceAddMulti: [
-                {
-                    selectedTypeExperience: null,
-                    positionEmpExperience: "",
-                    nameOfCompanyMinistry: "",
-                    selectedStartDate: "",
-                    selectedEndDate: "",
-                    addressExperiencesWork: "",
-                    selectedEmploymentType: null,
-                    checkPresentsDay: null,
-                    descriptionExperiences: "",
-                },
-            ],
+            experienceAddMulti: [],
             deleteItemExp: false,
             deletedItemIdex: 0,
             deleteItemExpLoading: false,
@@ -414,7 +402,17 @@ export default {
         },
         reloadDataExperienceWorkMulti(){
             try{
-                console.log("sdasd")
+               this.experienceAddMulti.push({
+                    selectedTypeExperience: null,
+                    positionEmpExperience: "",
+                    nameOfCompanyMinistry: "asdsad",
+                    selectedStartDate: "",
+                    selectedEndDate: "",
+                    addressExperiencesWork: "",
+                    checkPresentsDay: null,
+                    descriptionExperiences: "",
+                });
+                console.log(this.personalInfoExperiences, "personalInfoExperiences")
             }catch(error){
                 throw Error(error)
             }

@@ -220,6 +220,125 @@ export default {
         /**
          * Store Updated Modify Admin Users
         **/
+       async addUpdatedEmpPersonalInfoMulti({
+        formWizard = [],
+        expInfo = [],
+        eduInfo = [],
+        skillInfo = [],
+        languagesInfo = [],
+        referenceInfo = [],
+        hobbiesPersonalInfo = []
+       }) {
+            try {
+                const {
+                    perInfoEnglishName,
+                    perInfoKhmerName,
+                    perInfoPhoneNumber,
+                    perInfoEmail,
+                    perInfoAddress,
+                    perInfoNational,
+                    perInfoDescriptions
+                } = formWizard ? formWizard : [];
+                    setTimeout(async () => {
+                    this.loadingAddNewEmp = false;
+                    if (
+                        !perInfoEnglishName !== null ||
+                        perInfoPhoneNumber !== "" ||
+                        perInfoNational !== null
+                    ) {
+                        const modifyEmpPersonalInfo = {
+                            modifyPersonalEmpNameEng: String(perInfoEnglishName).toString() ?? '',
+                            modifyPersonalEmpNameKh: String(perInfoKhmerName).toString() ?? '',
+                            modifyPersonalEmpGender: '',
+                            modifyPersonalEmpDOB:'',
+                            modifyPersonalPhoneNumber: '',
+                            modifyPersonalEmpStartDate: '',
+                            modifyPersonalEmpNoted: String(perInfoDescriptions).toString() ?? '',
+                            pathNameEmpProfile: '',
+                            modifyPersonalEmpEmailAddr: String(perInfoEmail).toString() ?? '',
+                            modifyPersonalEmpAddress: String(perInfoAddress).toString() ?? '',
+                            modifyPersonalNationCountry: String(perInfoNational).toString(perInfoNational) ?? '',
+                            // Modify Information Employee
+                            modifyExpInfo: expInfo ? expInfo : [],
+                            modifyEduInfo: eduInfo ? eduInfo : [],
+                            modifySkillInfo: skillInfo ? skillInfo : [],
+                            modifyLanguageInfo: languagesInfo ? languagesInfo : [],
+                            modifyReferInfo: referenceInfo ? referenceInfo : [],
+                            modifyHobbies: hobbiesPersonalInfo ? hobbiesPersonalInfo : []
+                        }
+                        const empIdModify = parseInt(this.$route.params.id)
+                        ? parseInt(this.$route.params.id)
+                        : 0;
+                        this.serviceManageStructuresAdmin
+                            ?.updatedStoreEmpOrg(empIdModify,
+                                modifyEmpPersonalInfo
+                                    ? modifyEmpPersonalInfo
+                                    : []
+                            )
+                            .then(async (employee) => {
+                                if (employee?.data.success === true) {   
+                                    this.loadingAddNewEmp = false;
+                                    this.$toast.add({
+                                        severity: "success",
+                                        summary:
+                                            "Successfully add employee profile.",
+                                        detail: employee.data?.message
+                                            ? employee.data?.message
+                                            : null,
+                                        life: 3000,
+                                    });
+                                    this.$router.push(
+                                        "/admin/admin-management-employee-assign/list-hrm-assign-employee-role-module"
+                                    );
+                                    // Employee Profiles
+                                    const employeeProfileId = parseInt(employee?.data.result.resultStatus.id) ?? 0;
+                                    this.getAllReloadJobHistoryWorkDeptPositionOrg(employeeProfileId ? employeeProfileId : 0);
+
+                                    // Clear Data Input
+                                    this.orgStrBoardMgtEnglishName = "";
+                                    this.orgStrBoardMgtKhmerName = "";
+                                    this.descriptionOrgStrBoardMgt = "";
+                                }
+                            })
+                            .catch((error) => {
+                                this.loadingSubmittedAddMgtBoardStrOrg = false;
+                                this.$toast.add({
+                                    severity: "error",
+                                    summary: "Please Fix Below Errors.",
+                                    detail: error?.response.data.error?.message
+                                        ? error?.response.data.error?.message
+                                        : "Please input filed add new employee value!",
+                                    life: 3000,
+                                });
+                                if (error?.response.data.error.error?.errors) {
+                                    for (
+                                        let index = 0;
+                                        index <
+                                        error.response.data.error.error?.errors
+                                            .length;
+                                        index++
+                                    ) {
+                                        const validationError =
+                                            error.response.data.error.error
+                                                ?.errors[index].message ?? [];
+                                        this.$toast.add({
+                                            severity: "error",
+                                            summary: "Please Fix Below Errors.",
+                                            detail: validationError
+                                                ? validationError
+                                                : "Please input add new employee have missing value!",
+                                            life: 3000,
+                                        });
+                                    }
+                                }
+                        });
+                        console.log(modifyEmpPersonalInfo, "modifyEmpPersonalInfo")
+                    }
+                })
+            } catch (error) {
+                throw Error(error || error?.message);
+            }
+       },
         async confirmRemovedEmployeeAccountProfile() {
             const getDeleteEmpId = this.usersID ? this.usersID  : 0;
             this.loadingRemoveEmp = true;
@@ -300,7 +419,14 @@ export default {
                     this.empProfileSkill = viewEmp?.skill ?? [];
                   }
                 }).catch((error) => {
-                    console.log(error)
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "Error entries view detail employee profile!",
+                        detail: String(error?.response.data.error?.message).toString()
+                            ? String(error?.response.data.error?.message).toString()
+                            : "Error remove employee profile account!",
+                        life: 3000,
+                    });
                 })
             }catch(error){
                 throw Error(error || error?.message);

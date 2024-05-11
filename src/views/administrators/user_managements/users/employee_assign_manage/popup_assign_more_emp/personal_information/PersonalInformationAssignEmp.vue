@@ -14,7 +14,7 @@
                             name="perInfoEnglishName"
                             type="text"
                             icon="*"
-                            :value="personalInfoEmpAssign?.empEnglishName ?? ''"
+                            :value="empEnglishName ? empEnglishName : ''"
                             label="English Name"
                             placeholder="Please enter english name"
                         />
@@ -26,7 +26,7 @@
                         <TextFiledVueValidate
                             name="perInfoKhmerName"
                             type="text"
-                            :value="personalInfoEmpAssign?.empKhmerName ?? ''"
+                            :value="empEnglishName"
                             label="Khmer Name"
                             placeholder="Please enter khmer name"
                         />
@@ -37,7 +37,7 @@
                     <div class="field">
                         <TextFiledVueValidate
                             name="perInfoPhoneNumber"
-                            type="number"
+                            type="text"
                             icon="*"
                             :value="personalInfoEmpAssign?.empPhoneNumber ?? 0"
                             label="Phone Number"
@@ -76,7 +76,9 @@
                             icon="*"
                             name="perInfoNational"
                             type="text"
-                            :value="personalInfoEmpAssign?.empNationCountry ?? ''"
+                            :value="
+                                personalInfoEmpAssign?.empNationCountry ?? ''
+                            "
                             label="Nationality"
                             placeholder="Please enter your nationality"
                         />
@@ -237,17 +239,34 @@ export default {
             required: true,
             default: () => [],
         },
+        empEnglishName: {
+            type: String,
+            required: true,
+            default: () => {
+                return "";
+            },
+        },
     },
     computed: {
-        personalInfoEmpAssign(){
+        personalInfoEmpAssign() {
             const getEmpInfo = this.personalInfoEmp ? this.personalInfoEmp : [];
             return getEmpInfo;
-        }
+        },
+        // empEnglishName(){
+        //     const getEmpInfoEnglishName = this.personalInfoEmp?.empEnglishName ? this.personalInfoEmp?.empEnglishName : '';
+        //     console.log(getEmpInfoEnglishName, "getEmpInfoEnglishName")
+        //     return  getEmpInfoEnglishName ? getEmpInfoEnglishName : '';
+        // },
+        // empKhmerName(){
+        //     const getEmpInfoKhmerName = this.personalInfoEmp?.empKhmerName ? this.personalInfoEmp?.empKhmerName : '';
+        //     return getEmpInfoKhmerName ? getEmpInfoKhmerName : '';
+        // }
     },
     data() {
         return {
             totalSize: 0,
             totalSizePercent: 0,
+            editEnglishNameEmp: "",
         };
     },
     mixins: [manageResignRequestEmployeeHelper, addNewEmpUserAdminHelper],

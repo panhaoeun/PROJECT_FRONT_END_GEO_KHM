@@ -7,7 +7,7 @@
             <h2
                 class="relative text-black text-xl section section-title:before"
             >
-                Manage Employee
+                Manage Employee 
             </h2>
             <!-- Permissions Modules -->
             <!-- Admin -->
@@ -34,7 +34,7 @@
                 >
                     <div class="button">
                         <i class="pi pi-plus" style="font-size: 1rem"></i>
-                        <span class="pl-2">{{ $t("users.addUsers") }}</span>
+                        <span class="pl-2">Add new employee</span>
                     </div>
                 </el-button>
             </template>

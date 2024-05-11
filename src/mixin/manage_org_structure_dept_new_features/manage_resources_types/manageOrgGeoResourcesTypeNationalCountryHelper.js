@@ -122,6 +122,22 @@ export default {
             }
             return [];
         },
+        getAllDataSubResourcesTypeFilterByMainSubResource(){
+            const resourcesDataNational = this.selectedResourcesType || null;
+            if (resourcesDataNational !== null || resourcesDataNational !== undefined){
+                const resourceDataOrgDept =
+                    this.getReloadSubResourcesTypGeoOrgAll ?
+                    this.getReloadSubResourcesTypGeoOrgAll: [];
+                if (resourceDataOrgDept !== null ||
+                    resourceDataOrgDept !==
+                    undefined &&
+                    typeof resourceDataOrgDept !== 'string'
+                ) {
+                    return resourceDataOrgDept ? resourceDataOrgDept : []
+                }
+            }
+            return [];
+        },
         getSuperIdResourceTypesCountryDept() {
             const countryNationalId = this.selectedCountryOptOrgStr || this.selectedCountryOptOrgStr;
             if (countryNationalId !== null || (countryNationalId !== undefined && typeof countryNationalId !== "object")) {
@@ -487,12 +503,16 @@ export default {
          * @Reload list Data of geo-fence location nation 
         * */ 
         async onSelectedShowResourceTypeGeoFence() {
-            const getResourceId = 0;
-            const getSupperSSNId = String(this.provinceSelectedResourceSSNId).toString() ?? '';
-            await this.getReloadResourcesTypGeoOrgAllDataGlobal(
-                getResourceId,
-                getSupperSSNId
-            );
+           try{
+                const getResourceId = 0;
+                const getSupperSSNId = String(this.provinceSelectedResourceSSNId).toString() ?? '';
+                await this.getReloadResourcesTypGeoOrgAllDataGlobal(
+                    getResourceId,
+                    getSupperSSNId
+                );
+            } catch (error) {
+                throw Error(error || error?.message);
+            }
         },
     },
 }

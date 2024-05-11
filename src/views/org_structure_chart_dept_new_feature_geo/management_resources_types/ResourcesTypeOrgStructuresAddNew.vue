@@ -314,7 +314,7 @@
                                     :options="allCommuneCountryByCom"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @before-show="
+                                    @update:modelValue="
                                         getCommuneByDistrictSelectedOrgStr(
                                             selectedDistrictOptOrgStr
                                         )
@@ -402,7 +402,7 @@
                                     :options="getGeoLocationVillagesData"
                                     optionLabel="geo_english_name"
                                     filter
-                                    @before-show="
+                                    @update:modelValue="
                                         getVillagesBySelectedOrgStr(
                                             selectedCommuneOptOrgStr
                                         )

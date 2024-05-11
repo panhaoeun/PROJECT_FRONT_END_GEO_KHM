@@ -6,7 +6,7 @@
             <h2
                 class="relative text-black text-xl section section-title:before"
             >
-                Add New Employee
+                Edit Employee Profile
             </h2>
             <Button
                 label="Back"
@@ -74,6 +74,7 @@
                                                 ? empProfilePersonalInfo
                                                 : null
                                         "
+                                        :empEnglishName="empProfilePersonalInfo?.empEnglishName"
                                     />
                                 </div>
                             </TabContent>
@@ -189,7 +190,7 @@
                                             :loading="loadingAddNewEmp"
                                             iconPos="left"
                                             :icon="
-                                                props.isLastStep
+                                                props?.isLastStep
                                                     ? 'pi pi-check-circle'
                                                     : 'pi pi-file-export'
                                             "
@@ -197,7 +198,7 @@
                                             type="submit"
                                             outlined
                                             @click.prevent="
-                                                confirmMethodAddNewEmployeeAdmin(
+                                                storeModifyAdminUserBaseMultiInfo(
                                                     values
                                                 )
                                             "
@@ -224,7 +225,7 @@ import addNewEmpUserAdminHelper from "@/mixin/admin_user_management/addNewEmpUse
  * @Global Add New Employee
  * */
 import PersonalInformation from "./employee_assign_manage/popup_assign_more_emp/personal_information/PersonalInformationAssignEmp";
-import PersonalExperiences from "./employee_assign_manage/popup_assign_more_emp/popup_experience_info/AddNewExperienceWork";
+import PersonalExperiences from "./employee_assign_manage/popup_assign_more_emp/popup_experience_info/EditedNewExperienceWork";
 import EducationsInformation from "./employee_assign_manage/popup_assign_more_emp/popup_education_info/AddNewEducationEmpInfo.vue";
 import SkillsInformation from "./employee_assign_manage/popup_assign_more_emp/popup_skill_info/AddNewSkillWorkInfo.vue";
 import LanguagesInformation from "./employee_assign_manage/popup_assign_more_emp/popup_languages_info/AddNewLanguagesWorkInfo.vue";
@@ -323,7 +324,7 @@ export default {
         hobbiesInfoInfoJobExpInfo(hobbiesInfo) {
             return (this.hobbiesPersonalInfo = hobbiesInfo ? hobbiesInfo : []);
         },
-        confirmMethodAddNewEmployeeAdmin(formWizard) {
+        storeModifyAdminUserBaseMultiInfo(formWizard) {
             try {
                 const expInfo = this.experiencesInfo
                     ? this.experiencesInfo
@@ -348,7 +349,7 @@ export default {
                     referenceInfo,
                     hobbiesPersonalInfo,
                 };
-                this.addNewEmployeeAdminEmployee(
+                this.addUpdatedEmpPersonalInfoMulti(
                     employeeAdmin ? employeeAdmin : []
                 );
             } catch (error) {

@@ -276,7 +276,7 @@
                                         :options="allCommuneCountryByCom"
                                         optionLabel="geo_english_name"
                                         filter
-                                        @before-show="
+                                        @update:modelValue="
                                             getCommuneByDistrictSelectedOrgStr(
                                                 selectedDistrictOptOrgStr
                                             )
@@ -335,7 +335,7 @@
                                 </div>
                             </div>
                             <!-- Villages -->
-                            <div class="col-4 lg:col-12 xl:col-6 field">
+                            <!-- <div class="col-4 lg:col-12 xl:col-6 field">
                                 <label
                                     for="geo_country_org_str"
                                     class="text-sm font-semibold"
@@ -407,7 +407,7 @@
                                         </template>
                                     </Dropdown>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Filters -->
                             <!-- <div class="col-12 lg:col-12 xl:col-6 field">
                                 <Button
@@ -435,38 +435,31 @@
                         <!-- Check Geo-fence locations-country -->
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-01'"
-                            geoName="Country"
+                            geoName="Province List"
                             :geo-fence-data-filter="
                                 getAllCountryGeoLocationListData
                             "
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-02'"
-                            geoName="Province or State"
+                            geoName="District List"
                             :geo-fence-data-filter="
                                 allStateCountryOrgStrListData
                             "
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-03'"
-                            geoName="District"
+                            geoName="Commune List"
                             :geo-fence-data-filter="allStateDistrictListData"
                         />
                         <global-data-table-geo-fence
                             v-if="getTypeGeoFenceFilter == 'GEO-04'"
-                            geoName="Commune"
+                            geoName="Villages List"
                             :geo-fence-data-filter="
                                 allCommuneCountryByComListData
                             "
                         />
-                        <global-data-table-geo-fence
-                            v-if="getTypeGeoFenceFilter == 'GEO-05'"
-                            geoName="Villages"
-                            :geo-fence-data-filter="
-                                getGeoLocationVillagesListData
-                            "
-                        />
-                        <p v-else>Please select geo-fence filter</p>
+                        <p v-if="!getTypeGeoFenceFilter">Please select geo-fence filter</p>
                     </div>
                 </el-card>
             </div>

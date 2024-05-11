@@ -83,8 +83,8 @@ export default {
         },
         nationalCountryId: {
             type: Number,
-            required: true,
-            default: () => 0,
+                required: true,
+                default: () => 0,
         },
         typeCodeNationGeoFence: {
             type: String,

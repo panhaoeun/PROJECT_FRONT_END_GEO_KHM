@@ -14,64 +14,8 @@
         <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
          <!--Languages Multiple-->
          <Languagesi18N/>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link" id="notification-drop" data-bs-toggle="dropdown">
-              <icon-component type="dual-tone" icon-name="bell"></icon-component>
-              <span class="bg-danger dots"></span>
-            </a>
-            <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="notification-drop">
-              <b-card no-body class="m-0 shadow-none">
-                <div class="py-3 card-header d-flex justify-content-between bg-primary">
-                  <b-card-title>
-                    <h5 class="mb-0 text-white">All Notifications</h5>
-                  </b-card-title>
-                </div>
-                <!-- <b-card-body class="p-0">
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/01.png" alt="" />
-                      <div class="ms-3 w-100">
-                        <h6 class="mb-0">Emma Watson Bni</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <p class="mb-0">95 MB</p>
-                          <small class="float-end font-size-12">Just Now</small>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </b-card-body> -->
-              </b-card>
-            </div>
-          </li>
+          
         
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <icon-component type="dual-tone" icon-name="message"></icon-component>
-              <span class="bg-primary count-mail"></span>
-            </a>
-            <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="mail-drop">
-              <b-card no-body class="m-0 shadow-none">
-                <div class="py-3 card-header d-flex justify-content-between bg-primary">
-                  <b-card-title>
-                    <h5 class="mb-0 text-white">All Message</h5>
-                  </b-card-title>
-                </div>
-                <b-card-body class="p-0">
-                  <a href="#" class="iq-sub-card">
-                    <div class="d-flex align-items-center">
-                      <div class="">
-                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../../../assets/img/shapes/01.png" alt="" />
-                      </div>
-                      <div class="ms-3">
-                        <h6 class="mb-0">Bni Emma Watson</h6>
-                        <small class="float-start font-size-12">13 Jun</small>
-                      </div>
-                    </div>
-                  </a>
-                </b-card-body>
-              </b-card>
-            </div>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="../../../assets/img/avatars/01.png" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded" />
