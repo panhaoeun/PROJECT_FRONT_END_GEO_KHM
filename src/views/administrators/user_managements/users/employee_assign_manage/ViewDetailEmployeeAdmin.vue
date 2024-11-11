@@ -677,6 +677,8 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <!--Not Found Employee-->
+                                <p v-else>Employ of hobbies information</p>
                             </div>
                         </div>
                     </div>

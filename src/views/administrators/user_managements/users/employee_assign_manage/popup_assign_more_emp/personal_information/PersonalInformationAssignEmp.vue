@@ -10,70 +10,130 @@
                 <!-- English Name -->
                 <div class="col-4 lg:col-6 field">
                     <div class="field">
-                        <TextFiledVueValidate
+                        <label for="perInfoKhmerName">English Name <span class="p-error">*</span></label>
+                        <Field
+                            label="English Name"
+                            name="empEnglishName"
+                            class="p-inputtext p-component border-round-lg text-sm"
+                            v-model="personalInfoEmpAssign.empEnglishName"
+                            type="text"
+                            placeholder="Please enter english name"
+                        />
+                        <!-- <TextFiledVueValidate
                             name="perInfoEnglishName"
                             type="text"
                             icon="*"
-                            :value="empEnglishName ? empEnglishName : ''"
+                            v-model="personalInfoEmpAssign.empNationCountry"
+                            :value="
+                                personalInfoEmpAssign?.empEnglishName
+                                    ? personalInfoEmpAssign?.empEnglishName
+                                    : ''
+                            "
                             label="English Name"
                             placeholder="Please enter english name"
-                        />
+                        /> -->
                     </div>
                 </div>
                 <!-- Khmer Name -->
                 <div class="col-4 lg:col-6 field">
                     <div class="field">
-                        <TextFiledVueValidate
+                        <label for="perInfoKhmerName">Khmer Name <span class="p-error">*</span></label>
+                        <Field
                             name="perInfoKhmerName"
-                            type="text"
-                            :value="empEnglishName"
                             label="Khmer Name"
+                            type="text"
+                            class="p-inputtext p-component border-round-lg text-sm"
+                            v-model="personalInfoEmpAssign.empKhmerName"
                             placeholder="Please enter khmer name"
                         />
+                        <!-- <TextFiledVueValidate
+                            name="perInfoKhmerName"
+                            type="text"
+                            :value="
+                                personalInfoEmpAssign?.empKhmerName
+                                    ? personalInfoEmpAssign?.empKhmerName
+                                    : ''
+                            "
+                            label="Khmer Name"
+                            placeholder="Please enter khmer name"
+                        /> -->
                     </div>
                 </div>
                 <!-- Phone Number -->
                 <div class="col-4 lg:col-6 field">
                     <div class="field">
-                        <TextFiledVueValidate
+                        <label for="perInfoKhmerName">Phone Number<span class="p-error">*</span></label>
+                        <Field
+                            name="perInfoPhoneNumber"
+                            label="Phone Number"
+                            type="tel"
+                            class="p-inputtext p-component border-round-lg text-sm"
+                            v-model="personalInfoEmpAssign.empPhoneNumber"
+                            placeholder="Please enter phone number"
+                        />
+                        <!-- <TextFiledVueValidate
                             name="perInfoPhoneNumber"
                             type="text"
                             icon="*"
                             :value="personalInfoEmpAssign?.empPhoneNumber ?? 0"
+                            v-model="personalInfoEmpAssign.empPhoneNumber"
                             label="Phone Number"
                             placeholder="Please enter phone number"
-                        />
+                        /> -->
                     </div>
                 </div>
                 <!-- Email -->
                 <div class="col-4 lg:col-6 field">
                     <div class="field">
-                        <TextFiledVueValidate
+                        <label for="perInfoKhmerName">Email <span class="p-error">*</span></label>
+                        <Field
+                            name="perInfoEmail"
+                            label="Email"
+                            type="text"
+                            class="p-inputtext p-component border-round-lg text-sm"
+                            v-model="personalInfoEmpAssign.empEmailAddr"
+                            placeholder="Please enter email"
+                        />
+                        <!-- <TextFiledVueValidate
                             name="perInfoEmail"
                             type="email"
                             label="Email"
                             :value="personalInfoEmpAssign?.empEmailAddr ?? ''"
                             placeholder="Please enter email"
-                        />
+                        /> -->
                     </div>
                 </div>
                 <!--Address-->
                 <div class="col-4 lg:col-6 field">
                     <div class="field">
-                        <TextFiledVueValidate
+                        <label for="perInfoKhmerName">Address</label>
+                        <Field
                             name="perInfoAddress"
                             type="text"
                             :value="personalInfoEmpAssign?.empAddress ?? ''"
+                            v-model="personalInfoEmpAssign.empAddress"
                             label="Address"
                             placeholder="Please enter address"
+                            class="p-inputtext p-component border-round-lg text-sm"
                         />
                     </div>
                 </div>
                 <!--National-->
                 <div class="col-4 lg:col-6 field">
                     <div class="field">
-                        <TextFiledVueValidate
+                        <label for="perInfoKhmerName">Nationality <span class="p-error">*</span></label>
+                        <Field
+                            name="perInfoNational"
+                            type="text"
+                            :value="personalInfoEmpAssign?.empNationCountry ?? ''"
+                            v-model="personalInfoEmpAssign.empNationCountry"
+                            label="Address"
+                            placeholder="Please enter your nationality"
+                            class="p-inputtext p-component border-round-lg text-sm"
+                        />
+                        <!-- <TextFiledVueValidate
                             icon="*"
+                            v-model="personalInfoEmpAssign.empNationCountry"
                             name="perInfoNational"
                             type="text"
                             :value="
@@ -81,7 +141,7 @@
                             "
                             label="Nationality"
                             placeholder="Please enter your nationality"
-                        />
+                        /> -->
                     </div>
                 </div>
                 <!-- Upload Files Department Job Descriptions-->
@@ -224,14 +284,16 @@
 
 <!-- Personal Informations -->
 <script>
-import TextFiledVueValidate from "@/components/vue_validated_components/TextFiledVueValidate";
+// import TextFiledVueValidate from "@/components/vue_validated_components/TextFiledVueValidate";
 import TextAreaFiledVueValidate from "@/components/vue_validated_components/TextAreaFiledVueValidate";
 import manageResignRequestEmployeeHelper from "@/mixin/manage_org_structure_dept_new_features/manage_org_job_dept_pos_des_feature/manage_assign_position_dept_org/manageResignRequestEmployeeHelper";
 import addNewEmpUserAdminHelper from "@/mixin/admin_user_management/addNewEmpUserAdminHelper.js";
+import { Field } from 'vee-validate';
 export default {
     components: {
-        TextFiledVueValidate,
+        // TextFiledVueValidate,
         TextAreaFiledVueValidate,
+        Field
     },
     props: {
         personalInfoEmp: {

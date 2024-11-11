@@ -4,7 +4,7 @@
             <div class="flex flex-column gap-15 border-round m-2">
                 <h5 class="flex align-items-center justify-content-center">
                     Experience Information
-                    {{ getExpWorkInfo }} experinceWorkInfo
+                
                 </h5>
                 <!-- Add More Experience Informations -->
                 <Accordion

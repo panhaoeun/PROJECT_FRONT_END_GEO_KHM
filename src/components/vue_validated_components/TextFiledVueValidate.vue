@@ -1,6 +1,7 @@
 <script setup>
 import { toRef, defineProps } from "vue";
 import { useField } from "vee-validate";
+import { Field } from 'vee-validate';
 
 const props = defineProps({
     type: {
@@ -59,7 +60,7 @@ const {
             {{ label }}
             <span class="p-error">{{ icon }}</span>
         </label>
-        <InputText
+        <Field
             :name="name"
             :id="name"
             :type="type"
@@ -67,7 +68,7 @@ const {
             :placeholder="placeholder"
             @input="handleChange"
             @blur="handleBlur"
-            class="border-round-lg text-sm"
+            class="p-inputtext p-component border-round-lg text-sm"
         />
         <div class="my-4">
             <small

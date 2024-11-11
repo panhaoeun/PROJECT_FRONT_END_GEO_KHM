@@ -52,4 +52,4 @@ export default{
         }
         return apiClient.get(json.api[api], {params: params})
     },
-}   
+}
